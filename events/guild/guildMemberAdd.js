@@ -9,6 +9,7 @@ module.exports = {
 
   /** @param {GuildMember} member @param {Client} client */
   async execute(member, client) {
+  try {
     const { guild, user } = member;
     let profile = await serverProfile.findOne({ guildID: guild.id });
     if (!profile || !profile?.welomeChannel || !profile?.logChannel) return console.log(chalk.red('No Channel Set'));
@@ -95,5 +96,8 @@ module.exports = {
     await guild.channels.cache.get(logID).send({ embeds: [emLog] });
 
     client.serverStats(client, guild.id);
+  }catch(e) {    
+    console.error(chalk.yellow.bold('Error while running guildMemberAdd event'), e);
+  }
   },
 };

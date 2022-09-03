@@ -27,7 +27,7 @@ module.exports = {
 
       console.log(chalk.yellow(user.tag + ' left the server'));
     } catch (e) {
-      console.error(chalk.yellow.bold('[guildMemberRemove]'), e);
+      console.error(chalk.yellow.bold('Error while running guildMemberAdd event'), e);
     }
   },
 };

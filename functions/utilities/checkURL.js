@@ -6,12 +6,7 @@ module.exports = client => {
         return res !== null;
       } else res;
     } catch (e) {
-      console.error(chalk.yellow.bold('checkURL Error:'), e);
-      return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      console.error(chalk.yellow.bold('Error while runing checkURL'), e);
     }
   };
 };

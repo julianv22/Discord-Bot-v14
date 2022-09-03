@@ -13,7 +13,7 @@ module.exports = {
         snipes.set(author.id, { content: content, author: author, channel: channel });
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('messageDelete event'), e);
+      console.error(chalk.yellow.bold('Error while running messageDelete event'), e);
     }
   },
 };

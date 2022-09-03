@@ -22,11 +22,11 @@ module.exports = client => {
           const { REST } = require('@discordjs/rest');
           const { Routes } = require('discord.js');
           const rest = new REST({ version: 10 }).setToken(process.env.token);
-          // console.log(chalk.green('\nStarted refreshing application (/) commands.\n'));
+          // console.log(chalk.yellow('\nStarted refreshing application (/) commands.\n'));
 
           await rest.put(Routes.applicationCommands(cfg.clientID), { body: slashArray });
 
-          console.log(chalk.green('\nSuccessfully reloaded application (/) commands.\n'));
+          console.log(chalk.yellow('\nSuccessfully reloaded application (/) commands.\n'));
         } catch (e) {
           console.error(chalk.red('Error while reloading application (/) command'), e);
         }
