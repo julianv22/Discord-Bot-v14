@@ -5,8 +5,8 @@ module.exports = client => {
   client.setPresence = async client => {
     const { guilds, user } = client;
     try {
-      const joined = await guilds.cache.map(g => g);
-      const activityText = prefix + `help in ${joined.length} server${joined.length > 1 ? 's' : ''}`;
+      const count = await guilds.cache.map(g => g).length;
+      const activityText = prefix + `help in ${count} server${count > 1 ? 's' : ''}`;
       const [activityTypes, statusTypes] = [
         [ActivityType.Playing, ActivityType.Listening, ActivityType.Watching, ActivityType.Competing],
         ['online', 'dnd', 'idle'],
