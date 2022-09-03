@@ -40,7 +40,7 @@ module.exports = {
       .addFields([
         { name: `ID: ${bot.id}`, value: `\u200b`, inline: false },
         {
-          name: `Slash Commands [${slashCommands.size + subCommands.length}]:`,
+          name: `Slash Commands [${slashCommands.size + subCommands.size}]:`,
           value: `Slash commands: ${slashCommands.size}\nSub commands: ${subCommands.size}`,
           inline: true,
         },

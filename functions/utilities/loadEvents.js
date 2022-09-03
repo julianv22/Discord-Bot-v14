@@ -23,7 +23,7 @@ module.exports = client => {
           else client.on(event.name, (...args) => event.execute(...args, client));
 
           table.addRow('', i++, file.split('.')[0], '✅\u200b');
-          if (event.name !== file.split('.')[0]) table.addRow('', '', `(${event.name})`, '');
+          if (event.name !== file.split('.')[0]) table.addRow('', '', `⤷(${event.name})`, '');
           count++;
         });
       });
