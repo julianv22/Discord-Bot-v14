@@ -17,9 +17,6 @@ module.exports = {
     const time = options.getString('time');
     const results = await thanksProfile.find({ guildID: guild.id }).sort({ thanksCount: -1 }).limit(10);
 
-    if (!results)
-      return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | There are no thanks data in this server!` }], ephemeral: true });
-
     let text = '';
 
     for (let i = 0; i < results.length; i++) {
@@ -27,6 +24,9 @@ module.exports = {
       text += `${i === 0 ? '1️⃣' : i === 1 ? '2️⃣' : i === 2 ? '3️⃣' : '#' + (i + 1)}: <@${userID}> `;
       text += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
     }
+
+    if (!text)
+      return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | There ís no thank data in this server!` }], ephemeral: true });
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

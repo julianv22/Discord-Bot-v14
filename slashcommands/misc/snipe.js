@@ -17,7 +17,7 @@ module.exports = {
 
     if (!snipe)
       return interaction.reply({
-        embeds: [{ color: 16711680, description: `\\❌ | There are nothing to snipe!` }],
+        embeds: [{ color: 16711680, description: `\\❌ | There is nothing to snipe!` }],
         ephemeral: true,
       });
 

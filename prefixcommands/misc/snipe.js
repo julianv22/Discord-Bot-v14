@@ -21,7 +21,7 @@ module.exports = {
     const snipe = snipes.get(user ? user.id : channel.id);
 
     if (!snipe)
-      return message.reply({ embeds: [{ color: 16711680, description: `\\❌ | There are nothing to snipe!` }] }).then(m => {
+      return message.reply({ embeds: [{ color: 16711680, description: `\\❌ | There is nothing to snipe!` }] }).then(m => {
         setTimeout(() => {
           m.delete();
         }, 10000);
