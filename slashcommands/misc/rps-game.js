@@ -4,10 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('rps-game').setDescription('RPS game.'),
   category: 'misc',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('rock-btn').setEmoji('✊').setLabel('Rock').setStyle(ButtonStyle.Danger),

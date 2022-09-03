@@ -5,14 +5,12 @@ module.exports = {
   category: 'context menu',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+  
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { targetMessage: msg } = interaction;
 
-    if (msg.author.id !== clientID)
+    if (msg.author.id !== cfg.clientID)
       return interaction.reply({
         embeds: [{ color: 16711680, description: `\\❌ | This messages does not belong to ${client.user}!` }],
         ephemeral: true,

@@ -4,10 +4,8 @@ const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('welcome-message').setDescription(`Welcome Message`),
   category: 'sub command',
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const welcomeMSG = options.getString('message');

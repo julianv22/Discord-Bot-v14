@@ -7,10 +7,8 @@ module.exports = {
     .addSubcommand(sub => sub.setName('color').setDescription('Select Color')),
   category: 'misc',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const menu = new SelectMenuBuilder()
       .setCustomId('color-mn')

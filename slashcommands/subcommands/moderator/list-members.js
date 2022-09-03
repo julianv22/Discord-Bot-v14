@@ -3,10 +3,8 @@ const { SlashCommandSubcommandBuilder, Client, EmbedBuilder, Interaction, Permis
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('members').setDescription(`List Members`),
   category: 'sub command',
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { options } = interaction;
     const isMod = interaction.member.permissions.has(PermissionFlagsBits.ManageMessages);
@@ -23,7 +21,7 @@ module.exports = {
     const members = await message.guild.roles.cache.get(role.id).members.map(m => m.user);
     const userName = await message.guild.roles.cache.get(role.id).members.map(m => m.user.username);
     const isInline = options.getBoolean('inline');
-    let stInline = isInline === true ? ' | ' : '\n';    
+    let stInline = isInline === true ? ' | ' : '\n';
 
     if (members) {
       const msg = desc || `Danh sách thành viên của ${role}:`;

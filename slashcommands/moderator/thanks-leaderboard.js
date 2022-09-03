@@ -10,10 +10,8 @@ module.exports = {
   category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const time = options.getString('time');

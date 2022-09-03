@@ -4,10 +4,8 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName(`Snipe Message`).setType(ApplicationCommandType.User),
   category: 'context menu',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+  
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user, targetUser: target } = interaction;
     const snipe = await client.snipes.get(target.id); //.map(s => s).filter(s => s.author.id === target.id);

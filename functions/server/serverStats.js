@@ -1,12 +1,8 @@
 const { Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
-/** @param {Client} client */
 module.exports = client => {
-  /**
-   * @param {Client} client
-   * @param {String} guildID
-   */
+  /** @param {Client} client @param {String} guildID */
   client.serverStats = async (client, guildID) => {
     try {
       // Start Server Stats

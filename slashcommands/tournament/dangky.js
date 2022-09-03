@@ -10,10 +10,8 @@ module.exports = {
     .addStringOption(option => option.setName('ingame').setDescription('Tên ingame').setRequired(true)),
   category: 'tournament',
   cooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, member } = interaction;
     const message = await interaction.deferReply({ fetchReply: true, ephemeral: true });

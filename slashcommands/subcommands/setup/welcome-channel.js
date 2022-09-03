@@ -4,10 +4,8 @@ const { SlashCommandSubcommandBuilder, Client, EmbedBuilder, Interaction } = req
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('welcome-channel').setDescription(`setup`),
   category: 'sub command',
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
     const { cache: channels } = client.channels;

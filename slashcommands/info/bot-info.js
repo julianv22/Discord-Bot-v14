@@ -6,10 +6,7 @@ module.exports = {
   category: 'info',
   scooldown: 0,
 
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user: bot, prefixCommands, slashCommands, subCommands } = client;
     const { user: author } = interaction;

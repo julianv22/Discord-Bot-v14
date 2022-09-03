@@ -2,10 +2,8 @@ const { Message, Client } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
-  /**
-   * @param {Message} message
-   * @param {Client} client
-   */
+
+  /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     const { content } = message;
     if (!content.startsWith(prefix)) {

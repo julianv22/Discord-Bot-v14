@@ -1,13 +1,13 @@
-const { Client, Collection, Partials } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 require('dotenv').config();
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
 global.chalk = require('chalk');
-global.cfg = require('./config.json');
+global.cfg = require('./config/config.json');
 global.prefix = cfg.prefix;
 
 const client = new Client({
-  intents: 32767,
+  intents: [32767, GatewayIntentBits.MessageContent],
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
@@ -20,7 +20,7 @@ client.slashArray = [];
 client.buttons = new Collection(); // Buttons Collection
 client.menus = new Collection(); // Menus Collection
 client.modals = new Collection(); // Modals Collection
-// Declare Configs
+// Others
 client.snipes = new Collection(); // Snipe Collection
 
 console.log(chalk.bgYellow('\n-----------------Project is running!-----------------\n'));

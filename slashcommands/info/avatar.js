@@ -7,10 +7,8 @@ module.exports = {
     .addUserOption(opt => opt.setName('user').setDescription('Provide user you wanna show Avatar')),
   category: 'info',
   cooldow: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user: author, options } = interaction;
     const user = options.getUser('user') || author;

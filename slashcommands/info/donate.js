@@ -4,10 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('donate').setDescription('Donate for Julian-V'),
   category: 'info',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user } = interaction;
     const img = 'https://media.discordapp.net/attachments/976364997066231828/997976998527914124/Header.png';

@@ -2,10 +2,8 @@ const { Message, Client } = require('discord.js');
 
 module.exports = {
   name: 'messageDelete',
-  /**
-   * @param {Message} message
-   * @param {Client} client
-   */
+
+  /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     try {
       const { content, channel, author } = message;

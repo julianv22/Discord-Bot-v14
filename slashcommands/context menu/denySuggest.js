@@ -1,18 +1,16 @@
-const { ContextMenuCommandBuilder, EmbedBuilder, Client, Interaction, ApplicationCommandType, PermissionFlagsBits } = require('discord.js');
+const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   data: new ContextMenuCommandBuilder().setDefaultMemberPermissions(8).setName('Deny Suggest').setType(ApplicationCommandType.Message),
   category: 'context menu',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { targetMessage: msg } = interaction;
 
-    if (msg.author.id !== clientID)
+    if (msg.author.id !== cfg.clientID)
       return interaction.reply({
         embeds: [{ color: 16711680, description: `\\❌ | This messages does not belong to ${client.user}!` }],
         ephemeral: true,

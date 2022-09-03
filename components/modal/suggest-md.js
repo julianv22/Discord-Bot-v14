@@ -3,10 +3,8 @@ const { EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
   data: { name: 'suggest-md' },
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id });

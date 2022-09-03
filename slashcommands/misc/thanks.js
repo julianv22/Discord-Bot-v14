@@ -9,10 +9,8 @@ module.exports = {
     .addUserOption(opt => opt.setName('user').setDescription(`Provide someone you would like to thank`).setRequired(true)),
   category: 'misc',
   scooldown: 30,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options, user: author } = interaction;
     const user = options.getUser('user');

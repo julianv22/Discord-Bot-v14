@@ -2,10 +2,8 @@ const { EmbedBuilder, Colors, Client, Interaction } = require('discord.js');
 
 module.exports = {
   data: { name: 'create-embed-md' },
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { checkURL } = client;
     const { user, guild, fields } = interaction;
@@ -23,7 +21,7 @@ module.exports = {
       .setTimestamp()
       .setColor(color == Colors ? color : 'Random')
       .setThumbnail(checkURL(thumbnailURL) ? thumbnailURL : null)
-      .setImage(checkURL(imageURL) ? imageURL : null);    
+      .setImage(checkURL(imageURL) ? imageURL : null);
 
     interaction.reply({ embeds: [embed] });
   },

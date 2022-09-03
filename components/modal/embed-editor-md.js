@@ -1,11 +1,9 @@
 const { EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: { name: 'edit-embed-md' },
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+  data: { name: 'embed-editor-md' },
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { checkURL, user: bot } = client;
     const { fields, channel } = interaction;

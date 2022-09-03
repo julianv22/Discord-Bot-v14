@@ -37,7 +37,7 @@ module.exports = {
         }, 10000);
       });
 
-    if (target.id === clientID)
+    if (target.id === cfg.clientID)
       return message.reply({ embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }] }).then(m => {
         setTimeout(() => {
           m.delete();

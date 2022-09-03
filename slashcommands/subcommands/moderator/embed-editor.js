@@ -11,14 +11,10 @@ const {
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('editor').setDescription(`Edit Embed`),
   category: 'sub command',
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const modal = new ModalBuilder()
-      .setCustomId('embed-editor-md')
-      .setTitle('Edit Embed Message:');
+    const modal = new ModalBuilder().setCustomId('embed-editor-md').setTitle('Edit Embed Message:');
 
     const msgidInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder().setCustomId('msgid').setLabel('Message ID:').setRequired(true).setStyle(TextInputStyle.Short)

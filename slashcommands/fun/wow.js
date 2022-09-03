@@ -4,10 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('wow').setDescription('😍 Wow!'),
   category: 'fun',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user } = interaction;
     const embed = new EmbedBuilder()

@@ -4,10 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Prefix Commands List'),
   category: 'help',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, member } = interaction;
     const { prefixCommands } = client;

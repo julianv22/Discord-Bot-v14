@@ -1,8 +1,6 @@
 const { Client, ActivityType } = require('discord.js');
 
-/** @param {Client} client */
 module.exports = client => {
-  
   /** @param {Client} client */
   client.setPresence = async client => {
     try {

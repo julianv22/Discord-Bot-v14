@@ -4,10 +4,8 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName('Get Avatar').setType(ApplicationCommandType.User),
   category: 'context menu',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { targetUser: user, user: author } = interaction;
     const avtEmbed = new EmbedBuilder()

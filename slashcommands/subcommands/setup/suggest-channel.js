@@ -4,10 +4,8 @@ const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('suggest-channel').setDescription(`Suggestions`),
   category: 'sub command',
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const channel = options.getChannel('schannel');

@@ -10,11 +10,8 @@ module.exports = {
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
   cooldown: 0,
-  /**
-   *
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const verified = options.getBoolean('verified');

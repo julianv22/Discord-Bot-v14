@@ -4,10 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('suggest').setDescription('Send suggestions.'),
   category: 'help',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('suggest-md').setTitle('Server Suggestionns:');
 

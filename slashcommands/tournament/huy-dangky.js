@@ -10,6 +10,7 @@ module.exports = {
   category: 'tournament',
   cooldown: 0,
 
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const message = await interaction.deferReply({
       fetchReply: true,

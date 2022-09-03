@@ -17,20 +17,13 @@ module.exports = {
   category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('notify-md').setTitle('Notification:');
 
     const typeInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('type')
-        .setLabel('Notify =1 / Update = 2')
-        .setValue('1')
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
+      new TextInputBuilder().setCustomId('type').setLabel('Notify =1 / Update = 2').setValue('1').setRequired(true).setStyle(TextInputStyle.Short)
     );
 
     const titleInput = new ActionRowBuilder().addComponents(

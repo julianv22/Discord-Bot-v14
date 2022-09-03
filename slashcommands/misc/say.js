@@ -18,9 +18,8 @@ module.exports = {
     ),
   category: 'misc',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { options } = interaction;
     switch (options.getSubcommand()) {

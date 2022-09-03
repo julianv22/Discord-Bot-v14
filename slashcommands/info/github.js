@@ -9,10 +9,8 @@ module.exports = {
     .addStringOption(opt => opt.setName('user').setDescription('Github Username').setRequired(true)),
   category: 'info',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const user = interaction.options.getString('user');
     const { user: author } = interaction;

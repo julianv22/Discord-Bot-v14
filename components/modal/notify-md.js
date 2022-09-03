@@ -2,10 +2,8 @@ const { EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
   data: { name: 'notify-md' },
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
     const notifytype = fields.getTextInputValue('type');

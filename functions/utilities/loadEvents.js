@@ -2,6 +2,7 @@ const { Client } = require('discord.js');
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
 
+/** @param {Client} client */
 module.exports = client => {
   /** @param {Client} client */
   client.loadEvents = async () => {
@@ -22,7 +23,7 @@ module.exports = client => {
           else client.on(event.name, (...args) => event.execute(...args, client));
 
           table.addRow('', i++, file.split('.')[0], '✅\u200b');
-          if (event.name !== file.split('.')[0]) table.addRow('', '', `(${event.name})`, '✅\u200b');
+          if (event.name !== file.split('.')[0]) table.addRow('', '', `(${event.name})`, '');
           count++;
         });
       });

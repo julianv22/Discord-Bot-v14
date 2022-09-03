@@ -9,10 +9,8 @@ module.exports = {
     .addUserOption(opt => opt.setName('user').setDescription(`Member's Info`)),
   category: 'info',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user: author, options } = interaction;
     const user = options.getUser('user');

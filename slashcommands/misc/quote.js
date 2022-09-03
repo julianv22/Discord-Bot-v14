@@ -15,8 +15,9 @@ module.exports = {
   data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
   category: 'misc',
   scooldown: 10,
-  /** @param {Interaction} interaction */
-  async execute(interaction) {
+
+  /** @param {Interaction} interaction @param {Client} client */
+  async execute(interaction, client) {
     const { user, guild } = interaction;
     getQuote().then(quote => {
       const embed = new EmbedBuilder()

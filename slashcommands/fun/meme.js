@@ -5,10 +5,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('meme').setDescription('Get Meme.'),
   category: 'fun',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild } = interaction;
     //Start

@@ -11,10 +11,8 @@ const {
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('creator').setDescription(`Create Embed`),
   category: 'sub command',
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('create-embed-md').setTitle('Create Embed Message:');
 

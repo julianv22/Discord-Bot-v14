@@ -6,10 +6,8 @@ const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   name: 'guildMemberAdd',
-  /**
-   * @param {GuildMember} member
-   * @param {Client} client
-   */
+
+  /** @param {GuildMember} member @param {Client} client */
   async execute(member, client) {
     const { guild, user } = member;
     let profile = await serverProfile.findOne({ guildID: guild.id });

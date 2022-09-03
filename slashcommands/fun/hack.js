@@ -7,10 +7,8 @@ module.exports = {
     .addUserOption(opt => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
   category: 'fun',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const target = options.getUser('target');
@@ -27,7 +25,7 @@ module.exports = {
         ephemeral: true,
       });
 
-    if (target.id === clientID) return interaction.reply({ embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }], ephemeral: true });
+    if (target.id === cfg.clientID) return interaction.reply({ embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }], ephemeral: true });
 
     let username = target.tag;
     const text = [

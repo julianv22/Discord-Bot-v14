@@ -10,10 +10,8 @@ module.exports = {
   category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { options, channel, user: author } = interaction;
     // const message = await interaction.deferReply({ fetchReply: true });

@@ -1,7 +1,7 @@
 {
   "prefix": ";",
   "clientID": "999393527807082568",
-  "mongodb": "Julian-V",
+  "mongodb": "True-King",
   "adminRole": "〔🅰min〕",
   "modRole": "〔Ⓜ️od〕",
   "supportServer": "🦸〔J-V Bot〕 SUPPORT",
@@ -19,5 +19,5 @@
   "updatePNG": "https://blognhansu.net.vn/wp-content/uploads/2017/01/update-tai-lieu.jpg",
   "thanksPNG": "https://media.discordapp.net/attachments/976364997066231828/1014509346924793926/Top_10.png",
   "suggestPNG": "https://media.discordapp.net/attachments/976364997066231828/995628740782596127/unknown.png",
-  "npm install": "npm i discord.js @napi-rs/canvas ascii-table chalk@4 cross-fetch dotenv moment-timezone mongoose path something-random-on-discord undici"
+  "npm install": "npm i discord.js @napi-rs/canvas ascii-table chalk@4 dotenv moment-timezone mongoose path something-random-on-discord undici"
 }

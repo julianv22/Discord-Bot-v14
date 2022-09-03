@@ -7,10 +7,8 @@ module.exports = {
     .addUserOption(opt => opt.setName('user').setDescription('Provide user you wanna snipe')),
   category: 'misc',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { snipes } = client;
     const { options, channel, user } = interaction;

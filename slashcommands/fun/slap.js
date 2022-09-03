@@ -7,10 +7,8 @@ module.exports = {
     .addUserOption(opt => opt.setName('target').setDescription('Target your victim')),
   category: 'fun',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user, options } = interaction;
     const target = options.getUser('target');

@@ -2,22 +2,15 @@ const { Message, Client } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
-  /**
-   * @param {Message} message
-   * @param {Client} client
-   */
+  /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     try {
-      const { prefixCommands} = client;
-      const { content, guild, channel, author, member } = message;
+      const { prefixCommands } = client;
+      const { content, channel, author, member } = message;
       if (channel.type === 'DM') return;
       if (author.bot) return;
 
       if (content.startsWith(prefix)) {
-        // Check Bot Permissions
-        if (!guild.members.me.permissions.has('SendMessages', 'ManageMessages', 'EmbedLinks', 'AddReactions'))
-          return console.log('\n\n-----------Bot CANT send message!!-----------\n\n');
-
         const args = content.slice(prefix.length).split(/ +/);
         const cmdName = args.shift().toLowerCase();
         const command = prefixCommands.get(cmdName) || prefixCommands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
@@ -45,7 +38,13 @@ module.exports = {
         await command.execute(message, args, client);
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('messageCreate event'), e);
+      const error = `Error while executing commands!`;
+      message.reply({ embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }] }).then(m => {
+        setTimeout(() => {
+          m.delete();
+        }, 5000);
+      });
+      console.error(chalk.yellow.bold(error), e);
     }
   },
 };

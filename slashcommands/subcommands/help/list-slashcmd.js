@@ -11,10 +11,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('slash-command').setDescription('Slash Commands (/) List'),
   category: 'sub command',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user } = interaction;
     const { slashCommands, subCommands } = client;

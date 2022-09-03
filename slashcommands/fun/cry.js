@@ -4,10 +4,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('cry').setDescription('😭'),
   category: 'fun',
   scooldown: 0,
-  /**
-   * @param {Interaction} interaction
-   * @param {Client} client
-   */
+
+  /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user } = interaction;
     const random = require('something-random-on-discord').Random;
