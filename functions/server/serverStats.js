@@ -42,10 +42,13 @@ module.exports = client => {
         return guild.members.cache.filter(m => m.presence?.status === stats).size.toLocaleString();
       }
 
-      const stStatus =
-        `🟢 ${getPressence('online')} ` + `🌙 ${getPressence('idle')} ` + `⛔ ${getPressence('dnd')} ` + `⚫ ${getPressence('offline')}`;
+      const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];
+      let i = 0;
+      ['online', 'idle', 'dnd', 'offline'].forEach(stats => {
+        status.push(`${icon[i++]} ${getPressence(stats)}`);
+      });
 
-      setChannelName(profile?.statsChannel, stStatus);
+      setChannelName(profile?.statsChannel, status.join(' '));
       // End Server Stats
     } catch (e) {
       console.error(chalk.yellow.bold('Error while running serverStats'), e);
