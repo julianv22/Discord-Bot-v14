@@ -1,0 +1,35 @@
+{
+  "name": "discord-bot-v14",
+  "version": "1.0.0",
+  "description": "Discord Bot v14",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianv22/Discord-Bot-v14.git"
+  },
+  "keywords": [
+    "Discord Bot",
+    "discord.js"
+  ],
+  "author": "Julian-V",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julianv22/Discord-Bot-v14/issues"
+  },
+  "homepage": "https://github.com/julianv22/Discord-Bot-v14#readme",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.29",
+    "ascii-table": "^0.0.9",
+    "chalk": "^4.1.2",
+    "cross-fetch": "^3.1.5",
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.2",
+    "moment-timezone": "^0.5.37",
+    "mongoose": "^6.5.4",
+    "path": "^0.12.7",
+    "something-random-on-discord": "^3.4.4"
+  }
+}

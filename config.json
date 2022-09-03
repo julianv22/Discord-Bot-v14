@@ -1,0 +1,23 @@
+{
+  "prefix": ";",
+  "clientID": "999393527807082568",
+  "mongodb": "Julian-V",
+  "adminRole": "〔🅰min〕",
+  "modRole": "〔Ⓜ️od〕",
+  "supportServer": "🦸〔J-V Bot〕 SUPPORT",
+  "supportLink": "https://discord.gg/dyd8DXbrVq",
+  "ownerServerLink": "https://discord.gg/24GPY9CmY4",
+  "ownerID": "566891661616218132",
+  "inviteLink": "https://shorturl.at/jnsV0",
+  "youtube": "https://www.youtube.com/Julian-V",
+  "thumbnailURL": "https://media.discordapp.net/attachments/976364997066231828/997961687091130388/0._Yusei_5.png",
+  "helpPNG": "https://www.pngall.com/wp-content/uploads/5/Help.png",
+  "slashPNG": "https://cdn.discordapp.com/attachments/976364997066231828/1001524699941064745/slash.png",
+  "errorPNG": "https://media.discordapp.net/attachments/997825232205250633/1011526158132715522/error.png",
+  "welcomePNG": "https://media.discordapp.net/attachments/976364997066231828/1011840204484644955/Welcome.png",
+  "thongbaoPNG": "https://ioc.thuathienhue.gov.vn/uploadfiles/TinTuc/2021/6/21/thongbao1.jpg",
+  "updatePNG": "https://blognhansu.net.vn/wp-content/uploads/2017/01/update-tai-lieu.jpg",
+  "thanksPNG": "https://media.discordapp.net/attachments/976364997066231828/1014509346924793926/Top_10.png",
+  "suggestPNG": "https://media.discordapp.net/attachments/976364997066231828/995628740782596127/unknown.png",
+  "npm install": "npm i discord.js @napi-rs/canvas ascii-table chalk@4 cross-fetch dotenv moment-timezone mongoose path something-random-on-discord undici"
+}
