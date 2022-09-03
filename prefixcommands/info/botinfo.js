@@ -38,7 +38,6 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: `${bot.tag}'s Information`, iconURL: bot.displayAvatarURL(true) })
-      .setAuthor({ name: `${bot.tag}'s Information`, iconURL: bot.displayAvatarURL(true) })
       .setDescription(`**Username:** ${bot}`)
       .setThumbnail(bot.displayAvatarURL(true))
       .setColor('Random')

@@ -14,7 +14,7 @@ module.exports = {
       .setAlignCenter(2)
       .addRow('Client Name', `${client.user.tag}\u200b\u200b`, '✅\u200b')
       .addRow('────────────────', '────────────────────────', '')
-      .addRow('Client ID', cfg.clientID, '✅\u200b')
+      .addRow('Client ID', client.user.id, '✅\u200b')
       .addRow('────────────────', '────────────────────────', '')
       .addRow(`Prefix: ${prefix}`, `Node JS: ${process.version}`, '✅\u200b')
       .addRow('────────────────', '────────────────────────', '')
