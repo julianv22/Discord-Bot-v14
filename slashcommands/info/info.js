@@ -40,7 +40,10 @@ module.exports = {
           { name: 'Total Boosts:', value: `${guild.premiumSubscriptionCount}`, inline: true },
           { name: 'Server Region:', value: `${guild.preferredLocale}`, inline: true },
           { name: 'Verification Level:', value: `${guild.verificationLevel}`, inline: true },
-          { name: 'Created at:', value: `${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}` },
+          {
+            name: `Created: <t:${parseInt(guild.createdTimestamp / 1000)}:R>`,
+            value: `${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
+          },
         ]);
       interaction.reply({ embeds: [embed] });
     } else {
@@ -75,8 +78,14 @@ module.exports = {
         .addFields([
           { name: 'User ID:', value: `||${user.id}||`, inline: true },
           { name: 'Thanks count:', value: `${thanks?.thanksCount || 0}`, inline: true },
-          { name: 'Joined at:', value: `${moment(member.joinedAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}` },
-          { name: 'Created at:', value: `${moment(member.user.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}` },
+          {
+            name: `Joined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`,
+            value: `${moment(member.joinedAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
+          },
+          {
+            name: `Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>`,
+            value: `${moment(member.user.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
+          },
           { name: 'Acknowledgements:', value: `${acknowledgements}` },
           //   {name: 'Permissions', value: `\`\`\`fix\n${msg.channel.permissionsFor(member.user.id).toArray().join(' # ')}\`\`\``},
           { name: `Roles [${roles.length}]:`, value: `${roles.join(' ') || 'No role'}` },

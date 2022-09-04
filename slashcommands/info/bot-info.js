@@ -42,7 +42,7 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
       .addFields([
-        { name: `ID: ${bot.id}`, value: `\u200b`, inline: false },
+        { name: `ID: ${bot.id}`, value: `Created: <t:${parseInt(bot.createdTimestamp / 1000)}:R>`, inline: false },
         {
           name: `Slash Commands [${slashCommands.size + subCommands.size}]:`,
           value: `Slash commands: ${slashCommands.size}\nSub commands: ${subCommands.size}`,
