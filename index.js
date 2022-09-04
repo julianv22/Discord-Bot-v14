@@ -1,13 +1,11 @@
-const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 require('dotenv').config();
-const { readdirSync } = require('fs');
-const ascii = require('ascii-table');
 global.chalk = require('chalk');
 global.cfg = require('./config/config.json');
 global.prefix = cfg.prefix;
 
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const client = new Client({
-  intents: [32767, GatewayIntentBits.MessageContent],
+  intents: 65535,
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
