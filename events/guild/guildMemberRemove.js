@@ -25,7 +25,7 @@ module.exports = {
 
       client.serverStats(client, guild.id);
 
-      console.log(chalk.yellow(user.tag + ' left the server'));
+      console.log(chalk.yellow(user.tag + ' left the server'), guild.name);
     } catch (e) {
       console.error(chalk.yellow.bold('Error while running guildMemberAdd event'), e);
     }

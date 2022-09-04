@@ -96,6 +96,7 @@ module.exports = {
     await guild.channels.cache.get(logID).send({ embeds: [emLog] });
 
     client.serverStats(client, guild.id);
+    console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
   }catch(e) {    
     console.error(chalk.yellow.bold('Error while running guildMemberAdd event'), e);
   }
