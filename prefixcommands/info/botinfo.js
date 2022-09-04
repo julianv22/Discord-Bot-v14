@@ -36,6 +36,10 @@ module.exports = {
       new ButtonBuilder().setLabel('Vote!').setURL('https://top.gg/servers/954736697453731850/vote').setStyle('Link')
     );
 
+    const map = Object.entries(package.dependencies)
+      .map(([a, b]) => `${a}: ${b}`)
+      .join('\n');
+
     const embed = new EmbedBuilder()
       .setAuthor({ name: `${bot.tag}'s Information`, iconURL: bot.displayAvatarURL(true) })
       .setDescription(`**Username:** ${bot}`)
@@ -58,7 +62,7 @@ module.exports = {
         { name: `Platform`, value: `${process.platform}`, inline: true },
         { name: `CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
         { name: `Uptime:`, value: `${convertTime()}`, inline: true },
-      { name: `Packages:`, value: `\`\`\`json\n\ ${JSON.stringify(package.dependencies, null, '│')}\`\`\``, inline: false },
+        { name: `Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
       ]);
     message.reply({ embeds: [embed], components: [buttons] });
 
