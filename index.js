@@ -26,7 +26,7 @@ client.snipes = new Collection(); // Snipe Collection
 console.log(chalk.bgYellow('\n-----------------Project is running!-----------------\n'));
 
 // Functions Handle
-const loadFunctons = require(`./functions/loadFunctions`)(client);
+require(`./functions/loadFunctions`)(client);
 client.loadFunctions();
 // Commands Handle
 client.loadCommands();
