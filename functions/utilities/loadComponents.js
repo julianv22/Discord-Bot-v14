@@ -27,6 +27,9 @@ module.exports = client => {
       const componentFolders = await readdirSync(`./components`);
       const table = new ascii().setHeading('Folder', '📝', 'Component Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       const { buttons, menus, modals } = client;
+      await buttons.clear();
+      await menus.clear();
+      await modals.clear();
 
       let count = 0;
       for (const folder of componentFolders) {

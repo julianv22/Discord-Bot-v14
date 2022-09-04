@@ -5,7 +5,7 @@ const ascii = require('ascii-table');
 /** @param {Client} client */
 module.exports = client => {
   /** @param {Client} client */
-  client.loadEvents = async (reload = false) => {
+  client.loadEvents = async () => {
     try {
       const table = new ascii().setHeading('Folder', '📝', 'Event Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let count = 0;
@@ -17,7 +17,7 @@ module.exports = client => {
 
         let i = 1;
         eventFiles.forEach(file => {
-          delete require.cache[require.resolve(`../../events/${folder}/${file}`)];
+          delete require.cache[require.resolve(`../../events/${folder}/${file}`)];          
           const event = require(`../../events/${folder}/${file}`);
           if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
           else client.on(event.name, (...args) => event.execute(...args, client));

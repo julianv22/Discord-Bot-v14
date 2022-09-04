@@ -26,30 +26,8 @@ client.snipes = new Collection(); // Snipe Collection
 console.log(chalk.bgYellow('\n-----------------Project is running!-----------------\n'));
 
 // Functions Handle
-try {
-  const table = new ascii().setHeading('Folder', '📝', 'Function Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
-  let count = 0;
-
-  const functionFolers = readdirSync('functions');
-  functionFolers.forEach(folder => {
-    const functionFiles = readdirSync(`functions/${folder}`).filter(f => f.endsWith('.js'));
-    table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '────────────', '📂');
-
-    let i = 1;
-    functionFiles.forEach(file => {
-      delete require.cache[require.resolve(`./functions/${folder}/${file}`)];
-      require(`./functions/${folder}/${file}`)(client);
-      table.addRow('', i++, file.split('.')[0], '✅\u200b');
-      count++;
-    });
-  });
-  table.setTitle(`Load Functions [${count}]`);
-  console.log(table.toString());
-} catch (e) {
-  console.error(chalk.red('Error while loading functions'), e);
-}
-// End Functions Handle
-
+const loadFunctons = require(`./functions/loadFunctions`)(client);
+client.loadFunctions();
 // Commands Handle
 client.loadCommands();
 // Components Handle
