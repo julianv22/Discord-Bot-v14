@@ -10,7 +10,7 @@ module.exports = client => {
       const table = new ascii().setHeading('Folder', '📝', 'Event Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let count = 0;
 
-      const eventFolders = readdirSync(`./events`);
+      const eventFolders =await readdirSync(`./events`);
       eventFolders.forEach(folder => {
         const eventFiles = readdirSync(`./events/${folder}`).filter(f => f.endsWith('.js'));
         table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '────────────', '📂');

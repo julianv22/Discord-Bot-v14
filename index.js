@@ -3,7 +3,7 @@ global.chalk = require('chalk');
 global.cfg = require('./config/config.json');
 global.prefix = cfg.prefix;
 
-const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, Collection, Partials } = require('discord.js');
 const client = new Client({
   intents: 65535,
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
