@@ -17,7 +17,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: author.username, iconURL: author.displayAvatarURL(true) })
-      .setFooter('😍 Wow!')
+      .setFooter({ text: '😍 Wow!' })
       .setColor('Random')
       .setImage('https://thumbs.gfycat.com/FavoriteBasicBadger-max-1mb.gif');
 
