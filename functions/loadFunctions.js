@@ -12,8 +12,8 @@ module.exports = client => {
 
       const functionFolers = readdirSync('./functions');
       for (const folder of functionFolers) {
-        if (folder === 'loadFunctions.js') continue;
-        
+        if (folder.endsWith('.js')) continue;
+
         const functionFiles = readdirSync(`./functions/${folder}`).filter(f => f.endsWith('.js'));
         table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '────────────', '📂');
 
