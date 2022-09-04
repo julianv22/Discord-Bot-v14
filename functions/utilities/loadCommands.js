@@ -4,33 +4,39 @@ const ascii = require('ascii-table');
 
 /** @param {Client} client */
 module.exports = client => {
-  client.loadCommands = async () => {
+  client.loadCommands = async (reload = false) => {
     try {
       const { prefixCommands, slashCommands, subCommands, slashArray } = client;
+      await prefixCommands.clear();
+      await slashCommands.clear();
+      await subCommands.clear();
+
       // Prefix Commands
-      const prefixCommandFolders =await readdirSync('./prefixcommands');
+      const prefixCommandFolders = await readdirSync('./prefixcommands');
       await LoadCommands('Command', './prefixcommands', prefixCommandFolders);
       // Slash Commands
-      const slashCommandFolders =await readdirSync('./slashcommands');
+      const slashCommandFolders = await readdirSync('./slashcommands');
       await LoadCommands('Slash Command', './slashcommands', slashCommandFolders);
       // Sub Commands
-      const subCommandFolders =await readdirSync('./slashcommands/subcommands');
+      const subCommandFolders = await readdirSync('./slashcommands/subcommands');
       await LoadCommands('Sub Command', './slashcommands/subcommands', subCommandFolders);
 
-      (async () => {
-        try {
-          const { REST } = require('@discordjs/rest');
-          const { Routes } = require('discord.js');
-          const rest = new REST({ version: 10 }).setToken(process.env.token);
-          // console.log(chalk.yellow('\nStarted refreshing application (/) commands.\n'));
+      if (!reload) {
+        (async () => {
+          try {
+            const { REST } = require('@discordjs/rest');
+            const { Routes } = require('discord.js');
+            const rest = new REST({ version: 10 }).setToken(process.env.token);
+            // console.log(chalk.yellow('\nStarted refreshing application (/) commands.\n'));
 
-          await rest.put(Routes.applicationCommands(cfg.clientID), { body: slashArray });
+            await rest.put(Routes.applicationCommands(cfg.clientID), { body: slashArray });
 
-          console.log(chalk.yellow('\nSuccessfully reloaded application (/) commands.\n'));
-        } catch (e) {
-          console.error(chalk.red('Error while reloading application (/) command'), e);
-        }
-      })();
+            console.log(chalk.yellow('\nSuccessfully reloaded application (/) commands.\n'));
+          } catch (e) {
+            console.error(chalk.red('Error while reloading application (/) command'), e);
+          }
+        })();
+      }
 
       /**
        * @param {String} name
@@ -52,7 +58,7 @@ module.exports = client => {
 
           let i = 1;
           commandFiles.forEach(file => {
-            // delete require.cache[require.resolve[file]];
+            delete require.cache[require.resolve(`../../${folderName}/${folder}/${file}`)];
             const command = require(`../../${folderName}/${folder}/${file}`);
 
             if (name === 'Command') prefixCommands.set(command.name, command);

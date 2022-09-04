@@ -10,6 +10,7 @@ const { Collection, Client } = require('discord.js');
 requireComponents = (components, componentFiles, folder) => {
   try {
     for (const file of componentFiles) {
+      delete require.cache[require.resolve(`../../components/${folder}/${file}`)];
       const component = require(`../../components/${folder}/${file}`);
       components.set(component.data.name, component);
     }

@@ -37,7 +37,7 @@ try {
 
     let i = 1;
     functionFiles.forEach(file => {
-      //   delete require.cache[require.resolve[file]];
+      delete require.cache[require.resolve(`./functions/${folder}/${file}`)];
       require(`./functions/${folder}/${file}`)(client);
       table.addRow('', i++, file.split('.')[0], '✅\u200b');
       count++;
