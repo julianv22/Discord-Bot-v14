@@ -6,7 +6,6 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('welcome-info')
     .setDescription(`Setup Welcome Channel. ${cfg.adminRole} only`),
-  // .addSubcommand(sub => sub.setName('welcome-info').setDescription(`Show Welcome's Info. ${cfg.adminRole} only`)),
   category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
