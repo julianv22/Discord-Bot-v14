@@ -23,17 +23,22 @@ module.exports = client => {
           break;
       }
 
+      function rps(move) {
+        return {
+          emoji: move == 1 ? '✊' : move == 2 ? '✋' : '✌',
+          color: win == 0 ? 'Red' : win == 1 ? 'Orange' : 'Green',
+          result: win == 0 ? 'You lost!' : win == 1 ? 'We tied!' : 'You won!',
+          compare: win == 0 ? '<' : win == 1 ? '=' : '>',
+        };
+      }
+
       const embed = new EmbedBuilder()
         .setAuthor({ name: `Hi, ${user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setColor(win == 0 ? 'Red' : win == 1 ? 'Orange' : 'Green')
+        .setColor(rps().color)
         .setThumbnail(user.displayAvatarURL(true))
         .setTimestamp()
-        .setTitle(`${win == 0 ? 'You lost!' : win == 1 ? 'We tied!' : 'You won!'}`)
-        .setDescription(
-          `You chose ${userMove == 1 ? '✊' : userMove == 2 ? '✋' : '✌'} ${win == 0 ? '<' : win == 1 ? '=' : '>'} ${
-            botMove == 1 ? '✊' : botMove == 2 ? '✋' : '✌'
-          } bot chose`
-        );
+        .setTitle(rps().result)
+        .setDescription(`You chose ${rps(userMove).emoji} ${rps().compare} ${rps(botMove).emoji} bot chose`);
 
       await interaction.reply({ embeds: [embed], ephemeral: true });
     } catch (e) {
