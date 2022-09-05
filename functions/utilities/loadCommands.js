@@ -12,13 +12,13 @@ module.exports = client => {
       await subCommands.clear();
 
       // Prefix Commands
-      const prefixCommandFolders = await readdirSync('./prefixcommands');
+      const prefixCommandFolders = readdirSync('./prefixcommands');
       await LoadCommands('Command', './prefixcommands', prefixCommandFolders);
       // Slash Commands
-      const slashCommandFolders = await readdirSync('./slashcommands');
+      const slashCommandFolders = readdirSync('./slashcommands');
       await LoadCommands('Slash Command', './slashcommands', slashCommandFolders);
       // Sub Commands
-      const subCommandFolders = await readdirSync('./slashcommands/subcommands');
+      const subCommandFolders = readdirSync('./slashcommands/subcommands');
       await LoadCommands('Sub Command', './slashcommands/subcommands', subCommandFolders);
 
       if (!reload) {
@@ -53,7 +53,7 @@ module.exports = client => {
         for (const folder of commandFolders) {
           if (folder === 'subcommands') continue;
 
-          const commandFiles = await readdirSync(`./${folderName}/${folder}`).filter(f => f.endsWith('.js'));
+          const commandFiles = readdirSync(`./${folderName}/${folder}`).filter(f => f.endsWith('.js'));
           table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '────────────', '📂');
 
           let i = 1;

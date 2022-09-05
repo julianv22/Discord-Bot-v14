@@ -24,16 +24,16 @@ module.exports = client => {
   client.loadComponents = async () => {
     try {
       // Start Component Handle
-      const componentFolders = await readdirSync(`./components`);
-      const table = new ascii().setHeading('Folder', '📝', 'Component Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
+      const componentFolders = readdirSync(`./components`);      
       const { buttons, menus, modals } = client;
       await buttons.clear();
       await menus.clear();
       await modals.clear();
 
+      const table = new ascii().setHeading('Folder', '📝', 'Component Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let count = 0;
-      componentFolders.forEach(async folder => {
-        const componentFiles = await readdirSync(`./components/${folder}`).filter(f => f.endsWith('.js'));
+      componentFolders.forEach(folder => {
+        const componentFiles = readdirSync(`./components/${folder}`).filter(f => f.endsWith('.js'));
 
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
 
