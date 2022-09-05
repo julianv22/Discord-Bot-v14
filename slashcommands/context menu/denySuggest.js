@@ -1,4 +1,4 @@
-const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, PermissionFlagsBits } = require('discord.js');
+const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new ContextMenuCommandBuilder().setDefaultMemberPermissions(8).setName('Deny Suggest').setType(ApplicationCommandType.Message),
@@ -16,23 +16,19 @@ module.exports = {
         ephemeral: true,
       });
 
-    const suggest = [
-      `\`✅ | Đề xuất đã được chấp nhận!\``,
-      `\`🚫 | Đề xuất không được chấp nhận!\``,
-      `\`❗ | Đề xuất sẽ được xem xét và trả lời sớm nhất!\``,
-    ];
+    const embed = msg.embeds[0];
 
-    if (msg.content === suggest[0] || msg.content === suggest[1] || msg.content === suggest[2]) {
-      msg.edit(suggest[1]);
-      interaction.reply({
-        embeds: [{ color: 16711680, description: `\\🚫 | Suggestion is denied! [[Jump Link](${msg.url})]` }],
-        ephemeral: true,
-      });
-    } else {
-      interaction.reply({
-        embeds: [{ color: 16711680, description: `\\❌ | This message is not Suggest Message` }],
-        ephemeral: true,
-      });
-    }
+    if (!embed) return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | This is not suggest message!` }], ephemeral: true });
+
+    if (embed.title !== `Suggest's content:`)
+      return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | This is not suggest message!` }], ephemeral: true });
+
+    const edit = EmbedBuilder.from(embed).setColor('Red').setFields({ name: '\u200b', value: `\`🚫 Đề xuất không được chấp nhận!\`` });
+    await msg.edit({ embeds: [edit] });
+
+    interaction.reply({
+      embeds: [{ color: 16711680, description: `\\🚫 | Suggestion is denied! [[Jump Link](${msg.url})]` }],
+      ephemeral: true,
+    });
   },
 };

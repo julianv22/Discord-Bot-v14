@@ -26,19 +26,21 @@ module.exports = {
       .setTitle(`Suggest's content:`)
       .setDescription(content)
       .setColor('Yellow')
+      .addFields({ name: '\u200b', value: `\`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!\`` })
       .setThumbnail(cfg.suggestPNG)
       .setTimestamp()
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) });
 
     const msg = await sgtChannel.send({ embeds: [embed] });
-    msg.channel.send(`\`❗ | Đề xuất sẽ được xem xét và trả lời sớm nhất!\``).then(m => {
-      m.react('👍');
-      m.react('👎');
-    });
 
-    await interaction.reply({
-      embeds: [{ color: 65280, description: `\\✅ Your suggestions has been send successfully! [[Jump link](${msg.url})]` }],
-      ephemeral: true,
-    });
+    await interaction
+      .reply({
+        embeds: [{ color: 65280, description: `\\✅ | Your suggestions has been send successfully! [[Jump link](${msg.url})]` }],
+        ephemeral: true,
+      })
+      .then(() => {
+        msg.react('👍');
+        msg.react('👎');
+      });
   },
 };
