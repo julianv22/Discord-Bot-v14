@@ -4,16 +4,16 @@ const { Collection, Client } = require('discord.js');
 
 /**
  * @param {Collection} components
- * @param {String} componentFiles
+ * @param {Array} componentFiles
  * @param {String} folder
  */
 requireComponents = (components, componentFiles, folder) => {
   try {
-    for (const file of componentFiles) {
+    componentFiles.forEach(file => {
       delete require.cache[require.resolve(`../../components/${folder}/${file}`)];
       const component = require(`../../components/${folder}/${file}`);
       components.set(component.data.name, component);
-    }
+    });
   } catch (e) {
     console.error(chalk.yellow('[requireComponents]'), e);
   }
@@ -32,16 +32,16 @@ module.exports = client => {
       await modals.clear();
 
       let count = 0;
-      for (const folder of componentFolders) {
+      componentFolders.forEach(async folder => {
         const componentFiles = await readdirSync(`./components/${folder}`).filter(f => f.endsWith('.js'));
 
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
 
         let i = 1;
-        for (const file of componentFiles) {
+        componentFiles.forEach(file => {
           table.addRow('', i++, file.split('.')[0], '✅\u200b');
           count++;
-        }
+        });
 
         switch (folder) {
           case 'button':
@@ -56,7 +56,7 @@ module.exports = client => {
             requireComponents(modals, componentFiles, folder);
             break;
         }
-      }
+      });
 
       table.setTitle(`Load Components [${count}]`);
       console.log(table.toString());

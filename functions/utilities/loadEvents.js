@@ -9,15 +9,14 @@ module.exports = client => {
     try {
       const table = new ascii().setHeading('Folder', '📝', 'Event Name', '♻').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let count = 0;
-
-      const eventFolders =await readdirSync(`./events`);
-      eventFolders.forEach(folder => {
-        const eventFiles = readdirSync(`./events/${folder}`).filter(f => f.endsWith('.js'));
+      const eventFolders = await readdirSync(`./events`);
+      eventFolders.forEach(async folder => {
+        const eventFiles = await readdirSync(`./events/${folder}`).filter(f => f.endsWith('.js'));
         table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '────────────', '📂');
 
         let i = 1;
         eventFiles.forEach(file => {
-          delete require.cache[require.resolve(`../../events/${folder}/${file}`)];          
+          delete require.cache[require.resolve(`../../events/${folder}/${file}`)];
           const event = require(`../../events/${folder}/${file}`);
           if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
           else client.on(event.name, (...args) => event.execute(...args, client));
