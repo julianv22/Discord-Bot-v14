@@ -26,7 +26,7 @@ module.exports = {
     const { guild, author } = message;
     const member = message.mentions.members.first() || message.member || guild.members.cache.get(args[0]);
 
-    if (!member) client.severInfo(guild, author, null, message);
-    else client.userInfo(guild, member, author, null, message);
+    if (args.join(' ')) client.userInfo(guild, member, author, null, message);
+    else client.serverInfo(guild, author, null, message);
   },
 };

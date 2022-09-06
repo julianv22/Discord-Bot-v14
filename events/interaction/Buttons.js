@@ -1,4 +1,4 @@
-const { Client, Interaction } = require('discord.js');
+const { Client, Interaction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
@@ -6,7 +6,9 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { buttons, executeInteraction } = client;
-    const { customId } = interaction;
+    const { customId, channel } = interaction;
+
+    if (channel.type === ChannelType.DM) return;
 
     if (!interaction.isButton()) return;
     const button = buttons.get(customId);

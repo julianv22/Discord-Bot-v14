@@ -1,4 +1,4 @@
-const { Client, Interaction } = require('discord.js');
+const { Client, Interaction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
@@ -7,7 +7,11 @@ module.exports = {
   async execute(interaction, client) {
     try {
       const { slashCommands, subCommands, executeInteraction } = client;
-      const { guild, member, commandName, options } = interaction;
+      const { guild, member, commandName, options, channel } = interaction;
+
+      if (channel.type === ChannelType.DM)
+        return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | Can not use command here` }], ephemeral: true });
+
       if (interaction.isChatInputCommand()) {
         const command = slashCommands.get(commandName);
         const subcommandName = options.getSubcommand(false);

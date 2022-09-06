@@ -1,4 +1,4 @@
-const { Message, Client } = require('discord.js');
+const { Message, Client, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
@@ -7,7 +7,8 @@ module.exports = {
     try {
       const { prefixCommands } = client;
       const { content, channel, author, member } = message;
-      if (channel.type === 'DM') return;
+
+      if (channel.type === ChannelType.DM) return;
       if (author.bot) return;
 
       if (content.startsWith(prefix)) {

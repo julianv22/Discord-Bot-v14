@@ -1,4 +1,4 @@
-const { Client, Interaction, InteractionType } = require('discord.js');
+const { Client, Interaction, InteractionType, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
@@ -6,7 +6,9 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { modals, executeInteraction } = client;
-    const { customId, type } = interaction;
+    const { customId, type, channel } = interaction;
+
+    if (channel.type === ChannelType.DM) return;
 
     if (type == InteractionType.ModalSubmit) {
       const modal = modals.get(customId);

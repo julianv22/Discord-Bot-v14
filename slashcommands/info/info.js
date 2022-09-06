@@ -14,8 +14,8 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user: author, options } = interaction;
     const user = options.getUser('user');
-    
-    if (!user) client.serverInfo(guild, author, interaction);
-    else client.userInfo(guild, user, author, interaction);
+
+    if (user) client.userInfo(guild, user, author, interaction);
+    else client.serverInfo(guild, author, interaction);
   },
 };
