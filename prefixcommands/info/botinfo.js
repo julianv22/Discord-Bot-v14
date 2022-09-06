@@ -61,7 +61,7 @@ module.exports = {
         { name: `Node Version:`, value: `${process.version}`, inline: true },
         { name: `Platform`, value: `${process.platform}`, inline: true },
         { name: `CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
-        { name: `Uptime:`, value: `${client.convertTime(process.uptime)}`, inline: true },
+        { name: `Uptime:`, value: `${client.convertTime()}`, inline: true },
         { name: `Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
       ]);
     message.reply({ embeds: [embed], components: [buttons] });

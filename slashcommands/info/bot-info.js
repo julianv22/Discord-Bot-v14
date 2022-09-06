@@ -55,30 +55,9 @@ module.exports = {
         { name: `Node Version:`, value: `${process.version}`, inline: true },
         { name: `Platform`, value: `${process.platform}`, inline: true },
         { name: `CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
-        { name: `Uptime:`, value: `${client.convertTime(process.uptime)}`, inline: true },
+        { name: `Uptime:`, value: `${client.convertTime()}`, inline: true },
         { name: `Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
       ]);
     interaction.reply({ embeds: [embed], components: [buttons] });
-
-    // function convertTime() {
-    //   var uptime = process.uptime();
-    //   // console.log('Uptime raw:', uptime);
-    //   const date = new Date(uptime * 1000);
-    //   const days = date.getUTCDate() - 1,
-    //     hours = date.getUTCHours(),
-    //     minutes = date.getUTCMinutes(),
-    //     seconds = date.getUTCSeconds();
-
-    //   let time = [];
-
-    //   if (days > 0) time.push(days + ' day' + (days == 1 ? '' : 's'));
-    //   if (hours > 0) time.push(hours + ' h' + (hours == 1 ? '' : 's'));
-    //   if (minutes > 0) time.push(minutes + ' mn' + (minutes == 1 ? '' : 's'));
-    //   if (seconds > 0) time.push(seconds + ' s'); // + (seconds == 1 ? '' : 's'));
-    //   // if (milliseconds > 0) time.push(milliseconds.toFixed(2) + ' ms' + (seconds == 1 ? '' : 's'));
-    //   const dateString = time.join(', ');
-    //   // console.log('Uptime: ' + dateString);
-    //   return dateString;
-    // }
   },
 };
