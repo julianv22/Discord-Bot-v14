@@ -30,8 +30,8 @@ module.exports = {
       .setDescription(`If you need some help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .setThumbnail(cfg.slashPNG)
-      .addFields({ name: `Total commands: [${listCommands(slashCommands, member).size}]`, value: `Sub commands: [${subCommands.size}]` })
-      .addFields(listCommands(slashCommands, member))
+      .addFields({ name: `Total commands: [${listCommands(slashCommands, member).count}]`, value: `Sub commands: [${subCommands.size}]` })
+      .addFields(listCommands(slashCommands, member).commands)
       .setFooter({ text: `Requested by ${user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
 

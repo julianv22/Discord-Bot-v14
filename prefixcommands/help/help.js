@@ -37,8 +37,8 @@ module.exports = {
       .setDescription(`Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .setThumbnail(cfg.helpPNG)
-      .addFields([{ name: `Tổng số command: [${listCommands(prefixCommands, member).size}]`, value: `Command prefix: \`${prefix}\`` }])
-      .addFields(listCommands(prefixCommands, member))
+      .addFields([{ name: `Tổng số command: [${listCommands(prefixCommands, member).count}]`, value: `Command prefix: \`${prefix}\`` }])
+      .addFields(listCommands(prefixCommands, member).commands)
       .addFields([{ name: `\u200b`, value: `\`${prefix}<command> ?\` để xem hướng dẫn chi tiết của command` }])
       .setFooter({ text: `Requested by ${user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();

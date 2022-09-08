@@ -8,8 +8,8 @@ module.exports = client => {
    */
   client.listCommands = function listCommands(commands, member) {
     try {
-      const isAdmin = member.permissions.has('Administrator');
       var cmds = [];
+      const isAdmin = member.permissions.has('Administrator');
       const Categories = commands.map(cmd => cmd.category);
       const filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
 
@@ -26,7 +26,7 @@ module.exports = client => {
         });
       });
 
-      return cmds;
+      return { commands: cmds, count: count };
     } catch (e) {
       console.error(chalk.yellow.bold('Error while running listCommands'), e);
     }

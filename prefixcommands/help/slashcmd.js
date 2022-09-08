@@ -30,8 +30,8 @@ module.exports = {
       .setDescription(`Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .setThumbnail(cfg.slashPNG)
-      .addFields({ name: `Tổng số command: [${listCommands(slashCommands, member).size}]`, value: `Sub commands: [${subCommands.size}]` })
-      .addFields(listCommands(slashCommands, member))
+      .addFields({ name: `Tổng số command: [${listCommands(slashCommands, member).count}]`, value: `Sub commands: [${subCommands.size}]` })
+      .addFields(listCommands(slashCommands, member).commands)
       .setFooter({ text: `Requested by ${user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
 

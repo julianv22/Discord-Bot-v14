@@ -23,8 +23,8 @@ module.exports = {
       .setDescription(`If you need some help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .setThumbnail(cfg.helpPNG)
-      .addFields([{ name: `Total commands: [${listCommands(prefixCommands,member ).size}]`, value: `Command prefix: \`${prefix}\`` }])
-      .addFields(listCommands(prefixCommands,member ))
+      .addFields([{ name: `Total commands: [${listCommands(prefixCommands,member ).count}]`, value: `Command prefix: \`${prefix}\`` }])
+      .addFields(listCommands(prefixCommands,member ).commands)
       .addFields([{ name: `\u200b`, value: `\`${prefix}<command> ?\` to show more details` }])
       .setFooter({ text: `Requested by ${user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
