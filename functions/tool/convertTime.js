@@ -5,7 +5,7 @@ function number(num) {
 }
 /** @param {Client} client */
 module.exports = client => {
-  client.convertTime = function convertTime(hms) {
+  client.convertTime = function convertTime() {
     try {
       const uptime = process.uptime();
       const date = new Date(uptime * 1000);
