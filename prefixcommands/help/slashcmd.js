@@ -12,29 +12,11 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    const { cmdGuide, slashCommands, subCommands } = client;
+    const { cmdGuide, slashCommands, subCommands, listCommands } = client;
     const { author: user, member, guild } = message;
 
     if (args.join(' ').trim() === '?') return cmdGuide(message, this.name, this.description, this.aliases);
-
-    const isAdmin = member.permissions.has('Administrator');
-
-    let cmds = [];
-    const Categories = slashCommands.map(cmd => cmd.category);
-    const filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
-
-    let count = 0;
-    filters.forEach(category => {
-      let cmd;
-      if (!isAdmin) cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category && cmd.permissions != 8);
-      else cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category);
-      count += cmd.length;
-      cmds.push({
-        name: `📂 ${category.toUpperCase()} [${cmd.length}]`,
-        value: `\`\`\`fix\n${cmd.map(cmd => cmd.data.name).join(' | ') || 'None'}\`\`\``,
-      });
-    });
-
+   
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('yt-link-btn').setLabel('YouTube').setStyle('Danger'),
       new ButtonBuilder().setCustomId('djs-support-btn').setLabel(cfg.supportServer).setStyle('Primary'),
@@ -48,8 +30,8 @@ module.exports = {
       .setDescription(`Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .setThumbnail(cfg.slashPNG)
-      .addFields({ name: `Tổng số command: [${count}]`, value: `Sub commands: [${subCommands.size}]` })
-      .addFields(...cmds)
+      .addFields({ name: `Tổng số command: [${listCommands(slashCommands, member).size}]`, value: `Sub commands: [${subCommands.size}]` })
+      .addFields(listCommands(slashCommands, member))
       .setFooter({ text: `Requested by ${user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
 
