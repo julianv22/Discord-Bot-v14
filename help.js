@@ -12,8 +12,8 @@ module.exports = {
     const { guild, user } = interaction;
     const { slashcmds } = client;
 
-    const cmdCategories = await slashcmds.map(cmd => cmd.category);
-    const filter = await cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
+    const cmdCategories = slashcmds.map(cmd => cmd.category);
+    const filter = cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
 
     let count = 0;
     let cmds = [];
