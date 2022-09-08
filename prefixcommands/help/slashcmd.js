@@ -21,10 +21,10 @@ module.exports = {
 
     let cmds = [];
     const Categories = slashCommands.map(cmd => cmd.category);
-    const Filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
+    const filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
 
     let count = 0;
-    Filters.foEach(category => {
+    filters.forEach(category => {
       let cmd;
       if (!isAdmin) cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category && cmd.permissions != 8);
       else cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category);
