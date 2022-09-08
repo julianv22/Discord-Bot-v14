@@ -20,20 +20,20 @@ module.exports = {
     const isAdmin = member.permissions.has('Administrator');
 
     let cmds = [];
-    const cmdCategories = await slashCommands.map(cmd => cmd.category);
-    const catFilter = await cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
+    const Categories = slashCommands.map(cmd => cmd.category);
+    const Filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
 
     let count = 0;
-    for (const cat of catFilter) {
+    Filters.foEach(category => {
       let cmd;
-      if (!isAdmin) cmd = await slashCommands.map(cmd => cmd).filter(cmd => cmd.category === cat && cmd.permissions != 8);
-      else cmd = await slashCommands.map(cmd => cmd).filter(cmd => cmd.category === cat);
+      if (!isAdmin) cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category && cmd.permissions != 8);
+      else cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category);
       count += cmd.length;
       cmds.push({
-        name: `📂 ${cat.toUpperCase()} [${cmd.length}]`,
+        name: `📂 ${category.toUpperCase()} [${cmd.length}]`,
         value: `\`\`\`fix\n${cmd.map(cmd => cmd.data.name).join(' | ') || 'None'}\`\`\``,
       });
-    }
+    });
 
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('yt-link-btn').setLabel('YouTube').setStyle('Danger'),

@@ -18,11 +18,11 @@ module.exports = {
     const { slashCommands, subCommands } = client;
     const isAdmin = interaction.member.permissions.has('Administrator');
     let cmds = [];
-    const cmdCategories = await slashCommands.map(cmd => cmd.category);
-    const categoryFilter = await cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
+    const Categories = slashCommands.map(cmd => cmd.category);
+    const Filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
 
     let count = 0;
-    categoryFilter.forEach(category => {
+    Filters.forEach(category => {
       let cmd;
       if (!isAdmin) cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category && cmd.permissions != 8);
       else cmd = slashCommands.map(cmd => cmd).filter(cmd => cmd.category === category);
