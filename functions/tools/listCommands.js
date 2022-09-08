@@ -3,7 +3,6 @@ const { Client, Collection, GuildMember } = require('discord.js');
 /** @param {Client} client */
 module.exports = client => {
   /**
-   *
    * @param {Collection} commands
    * @param {GuildMember} member
    */
