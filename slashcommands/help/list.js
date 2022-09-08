@@ -2,7 +2,7 @@ const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = requir
 
 module.exports = {
   data: new SlashCommandBuilder()
-    // .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('list')
     .setDescription(`${cfg.modRole} only`)
     .addSubcommand(sub =>
@@ -13,10 +13,9 @@ module.exports = {
         .addBooleanOption(opt => opt.setName('mention').setDescription('Mentions?').setRequired(true))
         .addStringOption(opt => opt.setName('description').setDescription('Description Config'))
         .addBooleanOption(opt => opt.setName('inline').setDescription('Inline'))
-    )
-    .addSubcommand(sub => sub.setName('slash-command').setDescription(`'Slash Commands (/) List`)),
+    ),
   category: 'help',
-  // permissions: PermissionFlagsBits.ManageMessages,
+  permissions: PermissionFlagsBits.ManageMessages,
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */

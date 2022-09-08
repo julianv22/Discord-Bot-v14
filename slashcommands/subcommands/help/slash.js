@@ -1,14 +1,7 @@
-const {
-  SlashCommandBuilder: SlashCommandSubcommandBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  EmbedBuilder,
-  Client,
-  Interaction,
-} = require('discord.js');
+const { SlashCommandSubcommandBuilder, ActionRowBuilder, ButtonBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('slash-command').setDescription('Slash Commands (/) List'),
+  data: new SlashCommandSubcommandBuilder().setName('slash').setDescription('Slash Commands (/) List'),
   category: 'sub command',
   scooldown: 0,
 
@@ -16,7 +9,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, member } = interaction;
     const { slashCommands, subCommands, listCommands } = client;
-    
+
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('yt-link-btn').setLabel('YouTube').setStyle('Danger'),
       new ButtonBuilder().setCustomId('djs-support-btn').setLabel(cfg.supportServer).setStyle('Primary'),
