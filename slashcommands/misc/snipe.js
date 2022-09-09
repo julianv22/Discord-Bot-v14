@@ -13,7 +13,7 @@ module.exports = {
     const { snipes } = client;
     const { options, channel, user } = interaction;
     const target = options.getUser('user');
-    const snipe = snipes.get(target ? target.id : channel.id);
+    const snipe = await snipes.get(target ? target.id : channel.id);
 
     if (!snipe)
       return interaction.reply({
