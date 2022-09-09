@@ -6,7 +6,7 @@ module.exports = client => {
   client.rpsGame = async (userMove, interaction) => {
     try {
       const { user } = interaction;
-      let botMove = Math.floor(Math.random() * 3) + 1; // 1 = rock; 2 = paper; 3 = scissros
+      let botMove = Math.floor(Math.random() * 3) + 1; // 1 = rock; 2 = paper; 3 = scissors
       let win; // 0 = lose; 1 = tie; 2 = win
 
       switch (userMove) {

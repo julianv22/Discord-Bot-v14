@@ -36,27 +36,27 @@ module.exports = {
 
     embed = new EmbedBuilder()
       .setAuthor({ name: `${bot.tag}'s Information`, iconURL: bot.displayAvatarURL(true) })
-      .setDescription(`**Username:** ${bot}`)
+      .setDescription(`👤 **Username:** ${bot}`)
       .setThumbnail(bot.displayAvatarURL(true))
       .setColor('Random')
       .setTimestamp()
       .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
       .addFields([
-        { name: `ID: ${bot.id}`, value: `Created: <t:${parseInt(bot.createdTimestamp / 1000)}:R>`, inline: false },
+        { name: `🆔: ${bot.id}`, value: `Created: <t:${parseInt(bot.createdTimestamp / 1000)}:R>`, inline: false },
         {
           name: `Slash Commands [${slashCommands.size + subCommands.size}]:`,
           value: `Slash commands: ${slashCommands.size}\nSub commands: ${subCommands.size}`,
           inline: true,
         },
         { name: `Prefix Commands [${prefixCommands.size}]:`, value: `Prefix: \`${prefix}\`\nHelp: \`${prefix}help | /help\``, inline: true },
-        { name: `Server(s) [${guilds.length}]:`, value: `Members: ${totalmembers.toLocaleString()}`, inline: true },
-        { name: `Author:`, value: `<@566891661616218132>`, inline: true },
-        { name: `Version:`, value: `${package.version}`, inline: true },
-        { name: `Node Version:`, value: `${process.version}`, inline: true },
-        { name: `Platform`, value: `${process.platform}`, inline: true },
-        { name: `CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
-        { name: `Uptime:`, value: `${client.convertTime()}`, inline: true },
-        { name: `Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
+        { name: `\\💎 Server(s) [${guilds.length}]:`, value: `Members: ${totalmembers.toLocaleString()}`, inline: true },
+        { name: `\\🔰 Author:`, value: `<@566891661616218132>`, inline: true },
+        { name: `\\♻️ Version:`, value: `${package.version}`, inline: true },
+        { name: `\\📝 Node Version:`, value: `${process.version}`, inline: true },
+        { name: `\\💻 Platform`, value: `${process.platform}`, inline: true },
+        { name: `\\📈 CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
+        { name: `\\⏱️ Uptime:`, value: `${client.convertTime()}`, inline: true },
+        { name: `📦 Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
       ]);
     interaction.reply({ embeds: [embed], components: [buttons] });
   },
