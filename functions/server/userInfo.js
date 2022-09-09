@@ -1,4 +1,4 @@
-const { Client, GuildMember, Interaction, EmbedBuilder, Guild, Message } = require('discord.js');
+const { Client, GuildMember, Interaction, EmbedBuilder, Guild, Message, PermissionFlagsBits } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -14,8 +14,8 @@ module.exports = client => {
    */
   client.userInfo = async (guild, user, author, interaction, message) => {
     const member = guild.members.cache.get(user.id);
-    const isAdmin = member.permissions.has('Administrator');
-    const isMod = member.permissions.has('ManageMessages');
+    const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
+    const isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);
 
     // Acknowledgements
     let acknowledgements = '';
