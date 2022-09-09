@@ -3,39 +3,32 @@ const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('say')
-    .setDescription('Bot say something')
-    .addSubcommand(sub =>
-      sub
-        .setName('smth')
-        .setDescription('Make bot say some thing')
-        .addStringOption(opt => opt.setName('content').setDescription('Content').setRequired(true))
-    )
-    .addSubcommand(sub =>
-      sub
-        .setName('hello')
-        .setDescription('Say hello to someone')
-        .addUserOption(opt => opt.setName('user').setDescription('Provide user you  would like to say hello'))
-    ),
+    .setDescription('Bot say 🗣')
+    .addStringOption(opt => opt.setName('text').setDescription('Make bot say something'))
+    .addUserOption(opt => opt.setName('hello').setDescription('Say "Hello" to someone')),
   category: 'misc',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { options } = interaction;
-    switch (options.getSubcommand()) {
-      case 'smth':
-        interaction.reply(interaction.options.getString('content'));
 
-        break;
+    const toSay = options.getString('text');
+    const target = options.getUser('hello');
 
-      case 'hello':
-        const user = options.getUser('user') || interaction.user;
-        await interaction.reply(`Hello ${user}!`);
-        setTimeout(() => {
-          interaction.followUp('Have a good day!');
-        }, 3000);
+    if (target) {
+      await interaction.reply(`Hello ${target}!`);
+      setTimeout(() => {
+        interaction.followUp('Have a good day!');
+      }, 3000);
+    } else {
+      if (!toSay)
+        return await interaction.reply({
+          embeds: [{ color: 16711680, description: `\\❌ | You have to provide some text for bot!` }],
+          ephemeral: true,
+        });
 
-        break;
+      await interaction.reply(toSay);
     }
   },
 };
