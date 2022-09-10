@@ -8,7 +8,7 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const { user: bot, prefixCommands, slashCommands, subCommands } = client;
+    const { user: bot, prefixCommands, slashCommands, subCommands, convertTime } = client;
     const { user: author } = interaction;
     const guilds = client.guilds.cache.map(g => g);
 
@@ -55,7 +55,7 @@ module.exports = {
         { name: `\\📝 Node Version:`, value: `${process.version}`, inline: true },
         { name: `\\💻 Platform`, value: `${process.platform}`, inline: true },
         { name: `\\📈 CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
-        { name: `\\⏱️ Uptime:`, value: `${client.convertTime()}`, inline: true },
+        { name: `\\⏱️ Uptime:`, value: `${convertTime()}`, inline: true },
         { name: `📦 Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
       ]);
     interaction.reply({ embeds: [embed], components: [buttons] });

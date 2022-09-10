@@ -7,6 +7,7 @@ function number(num) {
 module.exports = client => {
   client.convertTime = function convertTime() {
     try {
+      const { readyTimestamp } = client;
       const uptime = process.uptime();
       const date = new Date(uptime * 1000);
       const days = date.getUTCDate() - 1,
@@ -25,7 +26,9 @@ module.exports = client => {
         time.push(` ${number(hours)}:${number(minutes)}:${number(seconds)}`);
       }
 
-      return days == 0 ? time.join(', ') : time.join(' - ');
+      let stringTime = days == 0 ? time.join(', ') : time.join(' - ');
+
+      return uptime < 60 ? `<t:${parseInt(readyTimestamp / 1000)}:R>` : stringTime;
     } catch (e) {
       console.error(chalk.yellow.bold('Error while running convertTime'), e);
     }

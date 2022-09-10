@@ -15,7 +15,7 @@ module.exports = {
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);
 
-    const { user: bot, prefixCommands, slashCommands, subCommands } = client;
+    const { user: bot, prefixCommands, slashCommands, subCommands, convertTime } = client;
     const { author } = message;
     const guilds = client.guilds.cache.map(g => g);
     let totalmembers = 0;
@@ -61,7 +61,7 @@ module.exports = {
         { name: `\\📝 Node Version:`, value: `${process.version}`, inline: true },
         { name: `\\💻 Platform`, value: `${process.platform}`, inline: true },
         { name: `\\📈 CPU Usage:`, value: `User: ${userUsage.toLocaleString()} MB\nSystem: ${sysUsage.toLocaleString()} MB`, inline: true },
-        { name: `\\⏱️ Uptime:`, value: `${client.convertTime()}`, inline: true },
+        { name: `\\⏱️ Uptime:`, value: `${convertTime()}`, inline: true },
         { name: `📦 Packages:`, value: `\`\`\`yaml\n\n${map}\`\`\`` },
       ]);
     message.reply({ embeds: [embed], components: [buttons] });
