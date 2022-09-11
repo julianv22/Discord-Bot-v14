@@ -1,5 +1,5 @@
-const { Client, GuildMember, Interaction, Message, ActionRowBuilder, ButtonBuilder, EmbedBuilder, UserFlags } = require('discord.js');
-const { connection } = require('mongoose');
+const { Client, GuildMember, Interaction, Message, ActionRowBuilder, ButtonBuilder, EmbedBuilder, UserFlags, version } = require('discord.js');
+const { connection, version: dbver } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
 
@@ -19,7 +19,7 @@ module.exports = client => {
         totalmembers += guild.memberCount;
       });
 
-      const status = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+      const status = ['❌', '✅', '🔄', '🆘'];
       await bot.fetch();
       await application.fetch();
 
@@ -57,13 +57,19 @@ module.exports = client => {
           { name: '⏱️ Uptime', value: convertTime(), inline: true },
           { name: `💎 Server(s) [${guilds.length}]:`, value: `Members: ${totalmembers.toLocaleString()}`, inline: true },
           { name: '☑ Verified:', value: bot.flags & UserFlags.VerifiedBot ? 'Yes' : 'No', inline: true },
-          { name: '♻️ Version:', value: `${package.version}`, inline: true },
-          { name: '📝 Node Version:', value: `${process.version}`, inline: true },
-          { name: '📚 Database:', value: status[connection.readyState], inline: true },
-          { name: '💻 Platform', value: `${process.platform}`, inline: true },
+          { name: `📚 Database:`, value: `Moongose ${dbver} \\${status[connection.readyState]}`, inline: true },
+          { name: '♻️ Version:', value: package.version, inline: true },
+          { name: '📝 Node Version:', value: process.version, inline: true },
+          { name: '⚙️ Discord.js', value: version, inline: true },
+          {
+            name: `💻 Platform: ${process.platform}`,
+            value: `**CPU Usage:** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%`,
+            inline: true,
+          },
           {
             name: '💾 System:',
-            value: `**Model:** ${os.cpus()[0].model}\n**Usage:** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%`,
+            value: os.cpus()[0].model,
+            inline: true,
           },
           { name: '📦 Packages:', value: `\`\`\`yaml\n\n${map}\`\`\`` }
         )
