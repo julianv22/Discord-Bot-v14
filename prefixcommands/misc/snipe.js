@@ -12,12 +12,14 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    if (args.join(' ').trim() === '?')
-      return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ` | ${prefix + this.name} <user>`);
-
+    const { cmdGuide, snipeMessage } = client;
     const { author, mentions, guild } = message;
+
+    if (args.join(' ').trim() === '?')
+      return cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ` | ${prefix + this.name} <user>`);
+
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
 
-    client.snipeMessage(author, target, null, message);
+    snipeMessage(author, target, null, message);
   },
 };
