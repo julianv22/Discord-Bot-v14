@@ -40,8 +40,8 @@ module.exports = client => {
       .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
       .setTimestamp()
       .addFields([
-        { name: '🆔:', value: `||${user.id || user.user.id}||`, inline: true },
-        { name: '💖 Thanks count:', value: `${thanks?.thanksCount || 0}`, inline: true },
+        { name: `🆔: ||${user.id || user.user.id}||`, value: '\u200b', inline: true },
+        { name: `💖 Thanks count: ${thanks?.thanksCount || 0}`, value: '\u200b', inline: true },
         {
           name: `⏰ Joined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`,
           value: `${moment(member.joinedAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
