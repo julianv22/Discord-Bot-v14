@@ -38,7 +38,7 @@ module.exports = client => {
             }, 10000);
         });
 
-      if (user.bot || user.user.bot)
+      if (user.user ? user.user.bot : user.bot)
         return msg.reply({ embeds: [{ color: 16711680, description: `\\❌ | Bot no need to thank 😝!` }], ephemeral: true }).then(m => {
           if (msg == message)
             setTimeout(() => {
