@@ -16,8 +16,8 @@ module.exports = {
       return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ` | ${prefix + this.name} <user>`);
 
     const { author, mentions, guild } = message;
-    const target = mentions.members.first() || guild.members.cache.get(args[0]);    
+    const target = mentions.members.first() || guild.members.cache.get(args[0]);
 
-    client.snipeMessage(author, target, null, message);
+    client.snipeMessage(author, target ? target.user : null, null, message);
   },
 };

@@ -11,7 +11,8 @@ module.exports = client => {
   client.snipeMessage = async (user, target, interaction, message) => {
     try {
       const msg = interaction ? interaction : message;
-      const snipe = await client.snipes.get(target ? target.id : msg.channel.id);
+      const { guildId, channelId } = msg;
+      const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
 
       if (!snipe)
         return msg
@@ -26,7 +27,7 @@ module.exports = client => {
               }, 5000);
           });
 
-      const { author, channel: snpChannel, content } = snipe;
+      const { author, channelId: snpChannel, content, attach } = snipe;
 
       const embed = new EmbedBuilder()
         .setAuthor({
@@ -38,7 +39,7 @@ module.exports = client => {
         .setThumbnail(author.displayAvatarURL(true))
         .setFooter({ text: `Requested by ${user.username}`, iconURL: user.displayAvatarURL(true) })
         .addFields([{ name: 'Author:', value: `${author}`, inline: true }])
-        .addFields({ name: target ? `Channel:` : '\u200b', value: target ? `${snpChannel}` : '\u200b', inline: true })
+        .addFields({ name: target ? `Channel:` : '\u200b', value: target ? `<#${snpChannel}>` : '\u200b', inline: true })
         .addFields([{ name: 'Content:', value: `${content}` }]);
 
       msg.reply({ embeds: [embed] });

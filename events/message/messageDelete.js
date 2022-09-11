@@ -6,11 +6,11 @@ module.exports = {
   /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     try {
-      const { content, channel, author } = message;
+      const { guildId, channelId, author, content } = message;
       if (content) {
         const { snipes } = client;
-        snipes.set(channel.id, { content: content, author: author });
-        snipes.set(author.id, { content: content, author: author, channel: channel });
+        snipes.set(channelId, { author: author, content: content });
+        snipes.set(guildId + '' + author.id, { channelId: channelId, author: author, content: content });
       }
     } catch (e) {
       console.error(chalk.yellow.bold('Error while running messageDelete event'), e);
