@@ -27,11 +27,11 @@ module.exports = client => {
               }, 5000);
           });
 
-      const { author, channelId: snpChannel, content, attach } = snipe;
+      const { author, channelId: snpChannel, content } = snipe;
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: target ? `${user.username} snipped message of ${target.username}` : 'Last deleted message:',
+          name: target ? `${user.username} snipped message of ${target.username || target.user.username}` : 'Last deleted message:',
           iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
         })
         .setColor('DarkVividPink')

@@ -18,6 +18,6 @@ module.exports = {
     const { author, mentions, guild } = message;
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
 
-    client.snipeMessage(author, target ? target.user : null, null, message);
+    client.snipeMessage(author, target, null, message);
   },
 };
