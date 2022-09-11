@@ -19,7 +19,10 @@ module.exports = client => {
         totalmembers += guild.memberCount;
       });
 
-      const status = ['❌', '✅', '🔄', '🆘'];
+      const [status, emoji] = [
+        ['Disconnected ', 'Connected ', 'Connecting ', 'Disconnecting '],
+        ['❌', '✅', '🔄', '🆘'],
+      ];
       await bot.fetch();
       await application.fetch();
 
@@ -57,7 +60,7 @@ module.exports = client => {
           { name: '⏱️ Uptime', value: convertTime(), inline: true },
           { name: `💎 Server(s) [${guilds.length}]:`, value: `Members: ${totalmembers.toLocaleString()}`, inline: true },
           { name: '☑ Verified:', value: bot.flags & UserFlags.VerifiedBot ? 'Yes' : 'No', inline: true },
-          { name: `📚 Database:`, value: `Moongose ${dbver} \\${status[connection.readyState]}`, inline: true },
+          { name: `📚 Database:`, value: status[connection.readyState] + '\\' + emoji[connection.readyState], inline: true },
           { name: '♻️ Version:', value: package.version, inline: true },
           { name: '📝 Node Version:', value: process.version, inline: true },
           { name: '⚙️ Discord.js', value: version, inline: true },
