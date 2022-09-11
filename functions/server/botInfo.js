@@ -6,7 +6,7 @@ const package = require('../../package.json');
 /** @param {Client} client */
 module.exports = client => {
   /**
-   * @param {GuildMember} user
+   * @param {GuildMember} author
    * @param {Interaction} interaction
    * @param {Message} message
    */
