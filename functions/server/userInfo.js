@@ -33,26 +33,26 @@ module.exports = client => {
 
     embed = new EmbedBuilder()
       .setAuthor({ name: user.tag || user.user.tag, iconURL: user.displayAvatarURL(true) })
-      .setTitle('\\⚠️ Member Info \\⚠️')
+      .setTitle('⚠️ Member Info ⚠️')
       .setDescription(`👤 **Username:** ${user}`)
       .setColor('Random')
       .setThumbnail(user.displayAvatarURL(true))
       .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
       .setTimestamp()
       .addFields([
-        { name: '\\🆔:', value: `||${user.id || user.user.id}||`, inline: true },
-        { name: '\\💖 Thanks count:', value: `${thanks?.thanksCount || 0}`, inline: true },
+        { name: '🆔:', value: `||${user.id || user.user.id}||`, inline: true },
+        { name: '💖 Thanks count:', value: `${thanks?.thanksCount || 0}`, inline: true },
         {
-          name: `\\⏰ Joined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`,
+          name: `⏰ Joined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`,
           value: `${moment(member.joinedAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
         },
         {
-          name: `\\⌚ Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>`,
+          name: `📆 Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>`,
           value: `${moment(member.user.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
         },
-        { name: '\\🎖️ Acknowledgements:', value: `${acknowledgements}` },
+        { name: '🎖️ Acknowledgements:', value: `${acknowledgements}` },
         //   {name: 'Permissions', value: `\`\`\`fix\n${msg.channel.permissionsFor(member.user.id).toArray().join(' # ')}\`\`\``},
-        { name: `\\📃 Roles [${roles.length}]:`, value: `${roles.join(' ') || 'No role'}` },
+        { name: `📃 Roles [${roles.length}]:`, value: `${roles.join(' ') || 'No role'}` },
       ]);
 
     interaction ? interaction.reply({ embeds: [embed] }) : message.reply({ embeds: [embed] });
