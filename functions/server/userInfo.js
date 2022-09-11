@@ -55,6 +55,6 @@ module.exports = client => {
         { name: `📃 Roles [${roles.length}]:`, value: `${roles.join(' ') || 'No role'}` },
       ]);
 
-    interaction ? interaction.reply({ embeds: [embed] }) : message.reply({ embeds: [embed] });
+    (interaction ? interaction : message).reply({ embeds: [embed] });
   };
 };

@@ -41,6 +41,6 @@ module.exports = client => {
         },
       ]);
 
-    interaction ? interaction.reply({ embeds: [embed] }) : message.reply({ embeds: [embed] });
+    (interaction ? interaction : message).reply({ embeds: [embed] });
   };
 };
