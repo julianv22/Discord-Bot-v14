@@ -1,6 +1,4 @@
-const serverThanks = require('../../config/thanksProfile');
-const moment = require('moment-timezone');
-const { SlashCommandBuilder, EmbedBuilder, ChannelType } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
