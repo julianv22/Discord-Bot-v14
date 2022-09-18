@@ -28,7 +28,7 @@
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2",
     "moment-timezone": "^0.5.37",
-    "mongoose": "^6.5.4",
+    "mongoose": "^6.6.1",
     "something-random-on-discord": "^3.4.4"
   }
 }

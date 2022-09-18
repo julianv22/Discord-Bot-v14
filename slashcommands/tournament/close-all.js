@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, Interaction, Client } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits } = require('discord.js');
 const tournamenProfile = require('../../config/tournamenProfile');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   cooldown: 0,
 
-  /** @param {Interaction} interaction @param {Client} client */
+  /** @param {ChatInputCommandInteraction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const verified = options.getBoolean('verified');
@@ -39,6 +39,8 @@ module.exports = {
       );
     }
 
-    interaction.reply({ embeds: [{ color: 65280, description: `\\✅ | Đã đóng toàn bộ giải đấu!!` }], ephemeral: true });
+    interaction.reply({ embeds: [{ color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` }], ephemeral: true }).catch(e => {
+      console.error(e);
+    });
   },
 };
