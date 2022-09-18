@@ -57,13 +57,12 @@ module.exports = client => {
             value: `Prefix: \`${prefix}\`\nHelp: \`${prefix}help | /help\``,
             inline: true,
           },
-          { name: '⏱️ Uptime', value: convertTime(), inline: true },
+
           { name: `💎 Server(s) [${guilds.length}]:`, value: `Members: ${totalmembers.toLocaleString()}`, inline: true },
           { name: '☑ Verified:', value: bot.flags & UserFlags.VerifiedBot ? 'Yes' : 'No', inline: true },
-          { name: `📚 Database:`, value: status[connection.readyState] + emoji[connection.readyState], inline: true },
           { name: '♻️ Version:', value: package.version, inline: true },
           { name: '📝 Node Version:', value: process.version, inline: true },
-          { name: '⚙️ Discord.js', value: version, inline: true },
+          { name: `📚 Database:`, value: status[connection.readyState] + emoji[connection.readyState], inline: true },          
           {
             name: `💻 Platform: ${process.platform}`,
             value: `**CPU Usage:** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%`,
@@ -74,6 +73,7 @@ module.exports = client => {
             value: os.cpus()[0].model,
             inline: true,
           },
+          { name: '⏱️ Uptime', value: convertTime() },
           { name: '📦 Packages:', value: `\`\`\`yaml\n\n${map}\`\`\`` }
         )
         .setTimestamp()
