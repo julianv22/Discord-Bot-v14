@@ -39,8 +39,6 @@ module.exports = {
       );
     }
 
-    interaction.reply({ embeds: [{ color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` }], ephemeral: true }).catch(e => {
-      console.error(e);
-    });
+    interaction.reply({ embeds: [{ color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` }], ephemeral: true }).catch(e => console.error(e));
   },
 };
