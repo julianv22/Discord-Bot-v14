@@ -12,7 +12,7 @@ module.exports = client => {
    */
   client.botInfo = async (author, interaction, message) => {
     try {
-      const { convertTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
+      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map(g => g);
       let totalmembers = 0;
       guilds.forEach(guild => {
@@ -73,7 +73,7 @@ module.exports = client => {
             value: os.cpus()[0].model,
             inline: true,
           },
-          { name: '⏱️ Uptime', value: convertTime() },
+          { name: '⏱️ Uptime', value: convertUpTime() },
           { name: '📦 Packages:', value: `\`\`\`yaml\n\n${map}\`\`\`` }
         )
         .setTimestamp()

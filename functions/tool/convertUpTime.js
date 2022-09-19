@@ -5,7 +5,7 @@ function number(num) {
 }
 /** @param {Client} client */
 module.exports = client => {
-  client.convertTime = function convertTime() {
+  client.convertUpTime = function convertUpTime() {
     try {
       const { readyTimestamp } = client;
       const uptime = process.uptime();
@@ -25,7 +25,7 @@ module.exports = client => {
 
       return uptime < 60 ? `<t:${parseInt(readyTimestamp / 1000)}:R>` : stringTime;
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running convertTime'), e);
+      console.error(chalk.yellow.bold('Error while running convertUpTime'), e);
     }
   };
 };
