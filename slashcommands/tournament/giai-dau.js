@@ -88,7 +88,7 @@ module.exports = {
 
         let memberList = await tournamenProfile.find({ guild: guild.id, status: true });
         if (memberList.length == 0)
-          return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | Chưa có thành viên nào đăng kí giải` }], ephemeral: true });
+          return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | Chưa có thành viên nào đăng kí giải!` }], ephemeral: true });
 
         const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
 
