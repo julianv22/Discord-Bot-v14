@@ -23,7 +23,7 @@ async function setTournament(interaction, getRole, isOpen, stStatus) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('giai-dau')
+    .setName('tournament')
     .setDescription(`Cài đặt giải đấu. \n${cfg.adminRole} only`)
     .addSubcommand(sub =>
       sub
