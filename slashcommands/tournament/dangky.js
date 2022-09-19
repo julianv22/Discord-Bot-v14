@@ -13,27 +13,21 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const { guild, member } = interaction;
-    const message = await interaction.deferReply({ fetchReply: true, ephemeral: true });
+    const { guild, user, options } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id });
     let register;
     if (!profile || !profile?.tourStatus) register = false;
     else register = profile.tourStatus;
     if (register === false)
-      return interaction.editReply({ embeds: [{ color: 16711680, description: `\\❌ | Hiện không có giải đấu nào diễn ra!` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return interaction.reply({ embeds: [{ color: 16711680, description: `\\❌ | Hiện không có giải đấu nào diễn ra!` }], ephemeral: true });
 
     // Interaction Reply
     const roleID = profile?.tourID;
-    const stIngame = interaction.options.getString('ingame');
-    const role = message.guild.roles.cache.get(roleID);
-    const user = message.guild.members.cache.get(interaction.member.user.id);
-    await message.channel.send({
-      embeds: [{ color: 65280, description: `\\🏆 | ${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**` }],
-    });
+    const stIngame = options.getString('ingame');
+    const role = guild.roles.cache.get(roleID);
+
+    await interaction.reply({ embeds: [{ color: 65280, description: `\\🏆 | ${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**` }] });
+
     await interaction.followUp({
       embeds: [{ color: 65280, description: `\\✅ | Chúc mừng ${user} đã đăng kí thành công giải ${role}!` }],
       ephemeral: true,
@@ -41,13 +35,13 @@ module.exports = {
 
     if (role) {
       // Add Tournament Profile
-      let tourProfile = await tournamenProfile.findOne({ guildID: interaction.guild.id, userID: interaction.member.user.id });
+      let tourProfile = await tournamenProfile.findOne({ guildID: guild.id, userID: user.id });
       if (!tourProfile) {
         let createOne = await tournamenProfile.create({
           guildID: guild.id,
           guildName: guild.name,
-          userID: member.user.id,
-          usertag: member.user.tag,
+          userID: user.id,
+          usertag: user.tag,
           ingame: stIngame,
           decklist: 'none',
           status: true,
@@ -55,10 +49,10 @@ module.exports = {
         createOne.save();
       } else {
         await tournamenProfile.findOneAndUpdate(
-          { guildID: guild.id, userID: member.user.id },
+          { guildID: guild.id, userID: user.id },
           {
             guildName: guild.name,
-            usertag: member.user.tag,
+            usertag: user.tag,
             ingame: stIngame,
             decklist: 'none',
             status: true,
@@ -66,8 +60,8 @@ module.exports = {
         );
       }
 
-      // Add Role
-      return await user.roles.add(role).catch(e => console.log(e));
+      // Add Role      
+      await guild.members.cache.get(user.id).roles.add(role).catch(e => console.error(e));      
     }
   },
 };
