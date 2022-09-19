@@ -1,6 +1,6 @@
 const serverProfile = require('../../config/serverProfile');
 const tournamenProfile = require('../../config/tournamenProfile');
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Role, Client } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Role, Client, messageLink } = require('discord.js');
 /**
  * @param {Interaction} interaction
  * @param {Role} getRole
@@ -87,22 +87,31 @@ module.exports = {
           });
 
         let memberList = await tournamenProfile.find({ guild: guild.id, status: true });
+        const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
+
         const embed = new EmbedBuilder()
-          // .setAuthor({ name: , iconURL: interaction.guild.iconURL(true) })
-          .setTitle(`Danh sách thành viên tham gia giải đấu`)
-          .setDescription(
-            `**Tên giải:** \`${profile.tourName}\` \`\`\`fix\n❗ Các thành viên hãy kiểm tra lại tên ingame của mình một lần nữa.\`\`\``
-          )
+          .setAuthor({ name: `Danh sách thành viên tham gia giải đấu`, iconURL: guild.iconURL(true) })
+          .setDescription(tengiai)
           .setColor('Random')
           .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
           .setTimestamp()
           .setFooter({ text: `Tổng số đăng ký: [${memberList.length}]` });
 
-        for (const member of memberList) {
-          embed.addFields([{ name: `\u200b`, value: `<@${member.userID}>\nIngame: **${member.ingame}**`, inline: true }]);
-        }
+        let msg = [];
+        memberList.forEach(member => {
+          if (memberList.length < 26) {
+            embed.addFields([{ name: `\u200b`, value: `<@${member.userID}> (${member.ingame})`, inline: true }]);
+          } else {
+            msg.push(`<@${member.userID}> (${member.ingame})`);
+          }
+        });
 
-        await interaction.reply({ embeds: [embed] });
+        const desc = tengiai + `\n\n${msg.join('\n')}`;
+        if (memberList.length > 25 && desc.length < 1950) embed.setDescription(desc);
+
+        interaction.reply({ embeds: [embed] }).then(() => {
+          if (desc.length > 1950) interaction.followUp(msg.join('\n'));
+        });
         break;
     }
   },
