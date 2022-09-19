@@ -60,8 +60,11 @@ module.exports = {
         );
       }
 
-      // Add Role      
-      await guild.members.cache.get(user.id).roles.add(role).catch(e => console.error(e));      
+      // Add Role
+      await guild.members.cache
+        .get(user.id)
+        .roles.add(role)
+        .catch(e => console.error(e));
     }
   },
 };
