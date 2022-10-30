@@ -1,0 +1,121 @@
+:root {
+  --gradient-dir1: to top right;
+  --gradient-dir2: to bottom left;
+  --gradient-dir3: to right top;
+  --gradient-dir4: to left bottom;
+  --gradient-dir5: to top left;
+  --size: 5px;
+}
+
+.mtki {
+  font-style: italic;
+}
+
+.mtk15 {
+  color: transparent;
+  background-image: linear-gradient(to top, #ffb90f, #ffcc00, #ffff00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px;
+  font-family: "Consolas", "Courier New";
+}
+
+.mtk32 {
+  color: transparent;
+  background-image: linear-gradient(to top, #ffcc00, white);
+  text-shadow: 0.5px 0.5px 0.25px #ff79c6;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px;
+  font-family: "Consolas", "Courier New";
+}
+
+.mtk38 {
+  color: transparent;
+  background-image: linear-gradient(to top, #c61ffd, #d049fd, #eebcff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px;
+  font-family: "Consolas", "Courier New";
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .action-item.checked .active-item-indicator:before {
+  border: 0;
+  width: 3px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(45deg, #fc6c8f, #ff2ced);
+}
+
+.monaco-workbench .activitybar>.content :not(.monaco-menu)>.monaco-action-bar .badge .badge-content {
+  background-image: linear-gradient(45deg, #fc6c8f, #ff2ced);
+}
+
+.monaco-editor .cursors-layer .cursor {
+  background-image: linear-gradient(to top, #6a5af9, #d66efd, #fc6c8f, #ffff66);
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active.tab-border-top>.tab-border-top-container {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active.tab-border-top>.tab-border-top-container:before,
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active.tab-border-top>.tab-border-top-container:after {
+  content: "";
+  width: var(--size);
+  height: var(--size);
+  position: absolute;
+  border: 2px solid;
+  border-image-slice: 1;
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active.tab-border-top>.tab-border-top-container:before {
+  top: 0;
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-image-source: linear-gradient(-45deg, #4dd78a, #20e3b2);
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active.tab-border-top>.tab-border-top-container:after {
+  right: 0;
+  bottom: 0;
+  border-top: 0;
+  border-left: 0;
+  border-image-source: linear-gradient(-45deg, #6a5af9, #d66efd);
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active:before,
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active:after {
+  content: "";
+  width: var(--size);
+  height: var(--size);
+  position: absolute;
+  border: 2px solid;
+  border-image-slice: 1;
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active:before {
+  left: 0;
+  bottom: 0;
+  border-top: 0;
+  border-right: 0;
+  border-image-source: linear-gradient(-45deg, #fc6c8f, #ffb86c);
+}
+
+.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active:after {
+  top: 0;
+  right: 0;
+  border-left: 0;
+  border-bottom: 0;
+  border-image-source: linear-gradient(-45deg, #098dff, #2cccff);
+}
