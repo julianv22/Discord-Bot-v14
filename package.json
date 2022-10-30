@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/julianv22/Discord-Bot-v14#readme",
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.30",
     "ascii-table": "^0.0.9",
     "chalk": "^4.1.2",
     "cross-fetch": "^3.1.5",
@@ -29,7 +28,6 @@
     "dotenv": "^16.0.3",
     "moment-timezone": "^0.5.38",
     "mongoose": "^6.7.0",
-    "something-random-on-discord": "^3.4.4",
-    "undici": "^5.12.0"
+    "something-random-on-discord": "^3.4.4"
   }
 }
