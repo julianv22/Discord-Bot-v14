@@ -21,14 +21,15 @@
   },
   "homepage": "https://github.com/julianv22/Discord-Bot-v14#readme",
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.29",
+    "@napi-rs/canvas": "^0.1.30",
     "ascii-table": "^0.0.9",
     "chalk": "^4.1.2",
     "cross-fetch": "^3.1.5",
-    "discord.js": "^14.3.0",
-    "dotenv": "^16.0.2",
-    "moment-timezone": "^0.5.37",
-    "mongoose": "^6.6.1",
-    "something-random-on-discord": "^3.4.4"
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3",
+    "moment-timezone": "^0.5.38",
+    "mongoose": "^6.7.0",
+    "something-random-on-discord": "^3.4.4",
+    "undici": "^5.12.0"
   }
 }
