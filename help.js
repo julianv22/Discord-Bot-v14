@@ -1,54 +1,42 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, ChannelType, UserFlags, version, Interaction } = require('discord.js');
-const { connection } = require('mongoose');
-const os = require('os');
+require('dotenv').config();
+global.chalk = require('chalk');
+global.cfg = require('./config/config.json');
+global.prefix = cfg.prefix;
 
-module.exports = {
-  data: new SlashCommandBuilder().setName('status').setDescription('Displays the status of the client and database.'),
-  category: 'info',
-  scooldown: 0,
+const { Client, Collection, Partials } = require('discord.js');
+const client = new Client({
+  intents: 65535,
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
+});
 
-  /** @param {Interaction} interaction @param {Client} client */
-  async execute(interaction, client) {
-    const status = ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'];
+// Commands Collection
+client.prefixCommands = new Collection(); // Prefix Commands
+client.slashCommands = new Collection(); // Slash Commands
+client.subCommands = new Collection(); // Sub Commands
+client.slashArray = [];
+// Components Declare
+client.buttons = new Collection(); // Buttons Collection
+client.menus = new Collection(); // Menus Collection
+client.modals = new Collection(); // Modals Collection
+// Others
+client.snipes = new Collection(); // Snipe Collection
 
-    await client.user.fetch();
-    await client.application.fetch();
+console.log(chalk.bgYellow('\n-----------------Project is running!-----------------\n'));
 
-    const getChannelTypeSize = type => client.channels.cache.filter(channel => type.includes(channel.type)).size;
+// Functions Handle
+require(`./functions/loadFunctions`)(client);
+client.loadFunctions();
+// Commands Handle
+client.loadCommands();
+// Components Handle
+client.loadComponents();
+// Events Handle
+client.loadEvents();
 
-    interaction.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setColor('Random')
-          .setTitle(`🤖 ${client.user.username} Status`)
-          .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-          .setDescription(client.application.description || null)
-          .addFields(
-            { name: '👩🏻‍🔧 Client', value: client.user.tag, inline: true },
-            { name: '📆 Created', value: `<t:${parseInt(client.user.createdTimestamp / 1000)}:R>`, inline: true },
-            { name: '☑ Verified', value: client.user.flags & UserFlags.VerifiedBot ? 'Yes' : 'No', inline: true },
-            { name: '👩🏻‍💻 Owner', value: `${client.application.owner.tag || 'None'}`, inline: true },
-            { name: '📚 Database', value: status[connection.readyState], inline: true },
-            { name: '🖥 System', value: os.type().replace('Windows_NT', 'Windows').replace('Darwin', 'macOS'), inline: true },
-            { name: '🧠 CPU Model', value: `${os.cpus()[0].model}`, inline: true },
-            { name: '💾 CPU Usage', value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%`, inline: true },
-            { name: '⏰ Up Since', value: `<t:${parseInt(client.readyTimestamp / 1000)}:R>`, inline: true },
-            { name: '👩🏻‍🔧 Node.js', value: process.version, inline: true },
-            { name: '🛠 Discord.js', value: version, inline: true },
-            { name: '🏓 Ping', value: `${client.ws.ping}ms`, inline: true },
-            { name: '🤹🏻‍♀️ Commands', value: `${client.commands.size}`, inline: true },
-            { name: '🌍 Servers', value: `${client.guilds.cache.size}`, inline: true },
-            { name: '👨‍👩‍👧‍👦 Users', value: `${client.users.cache.size}`, inline: true },
-            { name: '💬 Text Channels', value: `${getChannelTypeSize([ChannelType.GuildText, ChannelType.GuildNews])}`, inline: true },
-            { name: '🎤 Voice Channels', value: `${getChannelTypeSize([ChannelType.GuildVoice, ChannelType.GuildStageVoice])}`, inline: true },
-            {
-              name: '🧵 Threads',
-              value: `${getChannelTypeSize([ChannelType.GuildPublicThread, ChannelType.GuildPrivateThread, ChannelType.GuildNewsThread])}`,
-              inline: true,
-            }
-          ),
-      ],
-      ephemeral: true,
-    });
-  },
-};
+// Connections
+require('mongoose').connect(process.env.mongodb, e => {
+  console.error(chalk.green.bold('✅ Connected to mongodb') + chalk.red.bold('\nError:'), e || 0);
+});
+client.login(process.env.token).catch(e => {
+  console.error(e);
+});
