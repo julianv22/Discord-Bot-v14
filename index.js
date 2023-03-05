@@ -45,9 +45,19 @@ client.loadComponents();
 client.loadEvents();
 
 // Connections
-require('mongoose').connect(process.env.mongodb, e => {
-  console.error(chalk.green.bold('✅ Connected to mongodb') + chalk.red.bold('\nError:'), e || 0);
-});
+require('mongoose')
+  .connect(process.env.mongodb)
+  .then(
+    () => {
+      console.log(chalk.green.bold('✅ Connected to mongodb'));
+    },
+    err => {
+      console.error(chalk.red.bold('Error!'), err);
+    }
+  );
+// require('mongoose').connect(process.env.mongodb, e => {
+//   console.error(chalk.green.bold('✅ Connected to mongodb') + chalk.red.bold('\nError:'), e || 0);
+// });
 client.login(process.env.token).catch(e => {
   console.error(e);
 });

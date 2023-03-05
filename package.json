@@ -29,8 +29,9 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "moment-timezone": "^0.5.41",
-    "mongoose": "^6.10.0",
-    "node-fetch": "^3.3.0",
-    "something-random-on-discord": "^3.4.4"
+    "mongoose": "^7.0.0",
+    "node-fetch": "^2.6.9",
+    "something-random-on-discord": "^3.4.4",
+    "undici": "^5.20.0"
   }
 }
