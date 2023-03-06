@@ -74,7 +74,7 @@ module.exports = {
           });
         if (!profile?.tourStatus)
           return interaction.reply({
-            embeds: [{ color: 16711680, description: `\\❌ | Giải \`${profile?.tourName}\` đã được đÓng trước đó rồi!` }],
+            embeds: [{ color: 16711680, description: `\\❌ | Giải \`${profile?.tourName}\` đã được đóng trước đó rồi!` }],
             ephemeral: true,
           });
         setTournament(interaction, getRole, false, 'đóng');
