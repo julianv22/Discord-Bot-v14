@@ -36,7 +36,7 @@ module.exports = {
         .setTitle('\\✅ Edit message successfully!')
         .setDescription(`**Message ID:** [\`${msgid}\`](${msgEdit.url})`)
         .setColor('Green')
-        .setThumbnail('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png')
+        .setThumbnail('https://maki.gg/emoji/pencil.png')
         .addFields([{ name: 'Edited content:', value: '> ' + content }])
         .setTimestamp()
         .setFooter({ text: `Edited by ${user.username}`, iconURL: user.displayAvatarURL(true) });

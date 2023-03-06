@@ -52,7 +52,7 @@ module.exports = {
       .setColor('Green')
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('\\✅ Server stats set up successfully!')
-      .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')
+      .setThumbnail('https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif')
       .setTimestamp()
       .addFields(
         { name: 'Total Count Channel:', value: `${totalChannel}` },
