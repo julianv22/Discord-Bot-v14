@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits } = require('discord.js');
 const tournamenProfile = require('../../config/tournamenProfile');
+const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -38,6 +39,7 @@ module.exports = {
         { status: false }
       );
     }
+    await serverProfile.findOneAndUpdate({ guildID: guild.id }, { tourStatus: false });
 
     interaction.reply({ embeds: [{ color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` }], ephemeral: true }).catch(e => console.error(e));
   },
