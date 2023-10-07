@@ -1,4 +1,5 @@
 .env
 .replit
+.github
 replit.nix
 node_modules
