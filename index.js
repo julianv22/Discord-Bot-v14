@@ -1,13 +1,19 @@
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello Julian-V! Have a good day 🥰')
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello Julian-V! Have a good day 🥰')
+// });
 
-app.listen(3000, () => {
-  console.log('Express app started!');
-});
+// app.listen(3000, () => {
+//   console.log('Express app started!');
+// });
+
+const http = require("http");
+http.createServer(function(_, res) {
+  res.write("Hello Julian-V! Have a good day 🥰 ");
+  res.end("Here we go!");
+}).listen(8080);
 
 // require('dotenv').config();
 global.chalk = require('chalk');
