@@ -1,11 +1,11 @@
-const alive = require('./alive.js'); // Keep Alive
+const alive = require("./alive.js"); // Keep Alive
 
 // require('dotenv').config();
-global.chalk = require('chalk');
-global.cfg = require('./config/config.json');
+global.chalk = require("chalk");
+global.cfg = require("./config/config.json");
 global.prefix = cfg.prefix;
 
-const { Client, Collection, Partials } = require('discord.js');
+const { Client, Collection, Partials } = require("discord.js");
 const client = new Client({
   intents: 65535,
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
@@ -23,7 +23,9 @@ client.modals = new Collection(); // Modals Collection
 // Others
 client.snipes = new Collection(); // Snipe Collection
 
-console.log(chalk.bgYellow('\n-----------------Project is running!-----------------\n'));
+console.log(
+  chalk.bgYellow("\n-----------------Project is running!-----------------\n"),
+);
 
 // Functions Handle
 require(`./functions/loadFunctions`)(client);
@@ -36,19 +38,17 @@ client.loadComponents();
 client.loadEvents();
 
 // Connections
-require('mongoose')
+require("mongoose")
   .connect(process.env.mongodb)
   .then(
     () => {
-      console.log(chalk.green.bold('✅ Connected to mongodb'));
+      console.log(chalk.green.bold("✅ Connected to mongodb"));
     },
-    err => {
-      console.error(chalk.red.bold('Error!'), err);
-    }
+    (err) => {
+      console.error(chalk.red.bold("Error!"), err);
+    },
   );
-// require('mongoose').connect(process.env.mongodb, e => {
-//   console.error(chalk.green.bold('✅ Connected to mongodb') + chalk.red.bold('\nError:'), e || 0);
-// });
-client.login(process.env.token).catch(e => {
+
+client.login(process.env.token).catch((e) => {
   console.error(e);
 });
