@@ -4,7 +4,7 @@ module.exports = {
   name: 'react',
   aliases: [],
   description: 'Cool! 😎',
-  category: 'fun',
+  category: 'misc',
   cooldown: 0,
   /**
    * @param {Message} message

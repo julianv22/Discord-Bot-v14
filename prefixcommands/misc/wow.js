@@ -4,7 +4,7 @@ module.exports = {
   name: "wow",
   aliases: [],
   description: "😍 Wow!",
-  category: "fun",
+  category: "misc",
   cooldown: 0,
   /**
    * @param {Message} message

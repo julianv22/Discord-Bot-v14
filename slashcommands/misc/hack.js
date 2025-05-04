@@ -5,7 +5,7 @@ module.exports = {
     .setName('hack')
     .setDescription('Hack ai đó! J4F 😝')
     .addUserOption(opt => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
-  category: 'fun',
+  category: 'misc',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */

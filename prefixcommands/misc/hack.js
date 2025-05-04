@@ -4,7 +4,7 @@ module.exports = {
   name: 'hack',
   aliases: [],
   description: 'Hack ai đó! J4F 😝',
-  category: 'fun',
+  category: 'misc',
   cooldown: 0,
   /**
    * @param {Message} message

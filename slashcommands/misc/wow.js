@@ -7,7 +7,7 @@ const {
 
 module.exports = {
   data: new SlashCommandBuilder().setName("wow").setDescription("😍 Wow!"),
-  category: "fun",
+  category: "misc",
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
