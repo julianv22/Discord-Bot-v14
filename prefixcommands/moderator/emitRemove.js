@@ -1,10 +1,10 @@
-const { Message, Client, PermissionFlagsBits } = require('discord.js');
+const { Message, Client, PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
-  name: 'emitRemove',
-  aliases: ['rmv'],
-  description: 'Emit Revmove Member\n' + cfg.adminRole + 'only',
-  category: 'moderator',
+  name: "emitRemove",
+  aliases: ["rmv"],
+  description: "Emit Revmove Member\n" + cfg.adminRole + "only",
+  category: "moderator",
   cooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   /**
@@ -15,6 +15,6 @@ module.exports = {
   async execute(message, args, client) {
     const { member: user, mentions } = message;
     const member = mentions.members.first() || user;
-    client.emit('guildMemberRemove', member);
+    client.emit("guildMemberRemove", member);
   },
 };

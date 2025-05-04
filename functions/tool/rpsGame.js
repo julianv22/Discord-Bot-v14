@@ -1,7 +1,7 @@
-const { EmbedBuilder, Interaction, Client } = require('discord.js');
+const { EmbedBuilder, Interaction, Client } = require("discord.js");
 
 /** @param {Client} client */
-module.exports = client => {
+module.exports = (client) => {
   /** @param {Number} userMove @param {Interaction} interaction */
   client.rpsGame = async (userMove, interaction) => {
     try {
@@ -25,24 +25,31 @@ module.exports = client => {
 
       function rps(move) {
         return {
-          emoji: move == 1 ? '✊' : move == 2 ? '✋' : '✌',
-          color: win == 0 ? 'Red' : win == 1 ? 'Orange' : 'Green',
-          result: win == 0 ? 'You lost!' : win == 1 ? 'We tied!' : 'You won!',
-          compare: win == 0 ? '<' : win == 1 ? '=' : '>',
+          emoji: move == 1 ? "✊" : move == 2 ? "✋" : "✌",
+          color: win == 0 ? "Red" : win == 1 ? "Orange" : "Green",
+          result: win == 0 ? "You lost!" : win == 1 ? "We tied!" : "You won!",
+          compare: win == 0 ? "<" : win == 1 ? "=" : ">",
         };
       }
 
       const embed = new EmbedBuilder()
-        .setAuthor({ name: `Hi, ${user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({
+          name: `Hi, ${user.username}`,
+          iconURL: user.displayAvatarURL(true),
+        })
         .setColor(rps().color)
         .setThumbnail(user.displayAvatarURL(true))
         .setTimestamp()
         .setTitle(rps().result)
-        .setDescription(`You chose ${rps(userMove).emoji} ${rps().compare} ${rps(botMove).emoji} bot chose`);
+        .setDescription(
+          `You chose ${rps(userMove).emoji} ${rps().compare} ${
+            rps(botMove).emoji
+          } bot chose`
+        );
 
       await interaction.reply({ embeds: [embed], ephemeral: true });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running rpsGame'), e);
+      console.error(chalk.yellow.bold("Error while running rpsGame"), e);
     }
   };
 };

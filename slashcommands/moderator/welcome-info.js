@@ -1,12 +1,16 @@
-const serverProfile = require('../../config/serverProfile');
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const serverProfile = require("../../config/serverProfile");
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  PermissionFlagsBits,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('welcome-info')
+    .setName("welcome-info")
     .setDescription(`Setup Welcome Channel. ${cfg.adminRole} only`),
-  category: 'moderator',
+  category: "moderator",
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
 
@@ -16,7 +20,10 @@ module.exports = {
     let profile = await serverProfile.findOne({ guildID: guild.id });
 
     if (!profile) {
-      let createOne = await serverProfile.create({ guildID: guild.id, guildName: guild.name });
+      let createOne = await serverProfile.create({
+        guildID: guild.id,
+        guildName: guild.name,
+      });
       createOne.save();
     }
     const welcomeInfo = await client.channels.cache.get(profile?.welomeChannel);
@@ -25,22 +32,23 @@ module.exports = {
 
     const fieldValues = [];
     if (welcomeInfo) fieldValues.push(welcomeInfo.toString());
-    else fieldValues.push('`undefined`');
+    else fieldValues.push("`undefined`");
 
     if (logInfo) fieldValues.push(logInfo.toString());
-    else fieldValues.push('`undefined`');
+    else fieldValues.push("`undefined`");
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.username, iconURL: user.displayAvatarURL(true) })
       .setTitle(`Welcome's setup information`)
-      .setColor('Aqua')
+      .setColor("Aqua")
       .setTimestamp()
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
       .addFields([
-        { name: 'Welcome channel:', value: fieldValues[0], inline: true },
-        { name: 'Log channel:', value: fieldValues[1], inline: true },
+        { name: "Welcome channel:", value: fieldValues[0], inline: true },
+        { name: "Log channel:", value: fieldValues[1], inline: true },
       ]);
-    if (msgInfo) embed.addFields([{ name: `Server's Information:`, value: msgInfo }]);
+    if (msgInfo)
+      embed.addFields([{ name: `Server's Information:`, value: msgInfo }]);
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   },

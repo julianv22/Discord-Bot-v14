@@ -1,31 +1,50 @@
-const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
+const { SlashCommandBuilder, Interaction, Client } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('hack')
-    .setDescription('Hack ai đó! J4F 😝')
-    .addUserOption(opt => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
-  category: 'misc',
+    .setName("hack")
+    .setDescription("Hack ai đó! J4F 😝")
+    .addUserOption((opt) =>
+      opt
+        .setName("target")
+        .setDescription("Đối tượng muốn hack!")
+        .setRequired(true)
+    ),
+  category: "misc",
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
-    const target = options.getUser('target');
+    const target = options.getUser("target");
 
     if (target.id === user.id)
       return interaction.reply({
-        embeds: [{ color: 16711680, description: `\\❌ | Ngu dốt! Không thể hack chính mình 😅!` }],
+        embeds: [
+          {
+            color: 16711680,
+            description: `\\❌ | Ngu dốt! Không thể hack chính mình 😅!`,
+          },
+        ],
         ephemeral: true,
       });
 
     if (target.id === guild.ownerId)
       return interaction.reply({
-        embeds: [{ color: 16711680, description: `\\❌ | Không động được vào thằng này đâu nhá! \\🎭` }],
+        embeds: [
+          {
+            color: 16711680,
+            description: `\\❌ | Không động được vào thằng này đâu nhá! \\🎭`,
+          },
+        ],
         ephemeral: true,
       });
 
-    if (target.id === cfg.clientID) return interaction.reply({ embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }], ephemeral: true });
+    if (target.id === cfg.clientID)
+      return interaction.reply({
+        embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }],
+        ephemeral: true,
+      });
 
     let username = target.tag;
     const text = [

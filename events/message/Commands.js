@@ -1,7 +1,7 @@
-const { Message, Client, ChannelType } = require('discord.js');
+const { Message, Client, ChannelType } = require("discord.js");
 
 module.exports = {
-  name: 'messageCreate',
+  name: "messageCreate",
   /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     try {
@@ -14,12 +14,25 @@ module.exports = {
       if (content.startsWith(prefix)) {
         const args = content.slice(prefix.length).split(/ +/);
         const cmdName = args.shift().toLowerCase();
-        const command = prefixCommands.get(cmdName) || prefixCommands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+        const command =
+          prefixCommands.get(cmdName) ||
+          prefixCommands.find(
+            (cmd) => cmd.aliases && cmd.aliases.includes(cmdName)
+          );
 
         if (!command)
           return message
-            .reply({ embeds: [{ color: 16711680, description: `\\❌ | Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!` }] })
-            .then(m => {
+            .reply({
+              embeds: [
+                {
+                  color: 16711680,
+                  description: `\\❌ | Command \`${
+                    prefix + cmdName
+                  }\` không chính xác hoặc không tồn tại!`,
+                },
+              ],
+            })
+            .then((m) => {
               setTimeout(() => {
                 m.delete();
               }, 5000);
@@ -28,9 +41,14 @@ module.exports = {
         if (command.permissions && !member.permissions.has(command.permissions))
           return message
             .reply({
-              embeds: [{ color: 16711680, description: `\\❌ | Bạn không được cấp quyền để sử dụng command này!` }],
+              embeds: [
+                {
+                  color: 16711680,
+                  description: `\\❌ | Bạn không được cấp quyền để sử dụng command này!`,
+                },
+              ],
             })
-            .then(m => {
+            .then((m) => {
               setTimeout(() => {
                 m.delete();
               }, 5000);
@@ -40,11 +58,17 @@ module.exports = {
       }
     } catch (e) {
       const error = `Error while executing commands!`;
-      message.reply({ embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 5000);
-      });
+      message
+        .reply({
+          embeds: [
+            { color: 16711680, title: `\❌ ` + error, description: `${e}` },
+          ],
+        })
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 5000);
+        });
       console.error(chalk.yellow.bold(error), e);
     }
   },

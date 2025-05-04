@@ -1,10 +1,10 @@
-const { Message, Client } = require('discord.js');
+const { Message, Client } = require("discord.js");
 
 module.exports = {
-  name: 'hack',
+  name: "hack",
   aliases: [],
-  description: 'Hack ai đó! J4F 😝',
-  category: 'misc',
+  description: "Hack ai đó! J4F 😝",
+  category: "misc",
   cooldown: 0,
   /**
    * @param {Message} message
@@ -13,36 +13,74 @@ module.exports = {
    */
   async execute(message, args, client) {
     const { mentions, guild, author } = message;
-    if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, null, prefix + this.name + ' <user>');
+    if (args.join(" ").trim() === "?")
+      return client.cmdGuide(
+        message,
+        this.name,
+        this.description,
+        null,
+        prefix + this.name + " <user>"
+      );
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
-      return message.reply({ embeds: [{ color: 16711680, description: `\\❌ | Phải @ đến nạn nhân để hack 🤣!` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return message
+        .reply({
+          embeds: [
+            {
+              color: 16711680,
+              description: `\\❌ | Phải @ đến nạn nhân để hack 🤣!`,
+            },
+          ],
+        })
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
     if (target.id === author.id)
-      return message.reply({ embeds: [{ color: 16711680, description: `\\❌ | Ngu dốt! Không thể hack chính mình 😅!` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return message
+        .reply({
+          embeds: [
+            {
+              color: 16711680,
+              description: `\\❌ | Ngu dốt! Không thể hack chính mình 😅!`,
+            },
+          ],
+        })
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
     if (target.id === guild.ownerId)
-      return message.reply({ embeds: [{ color: 16711680, description: `\\❌ | Không động được vào thằng này đâu nhá! \\🎭` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return message
+        .reply({
+          embeds: [
+            {
+              color: 16711680,
+              description: `\\❌ | Không động được vào thằng này đâu nhá! \\🎭`,
+            },
+          ],
+        })
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
     if (target.id === cfg.clientID)
-      return message.reply({ embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return message
+        .reply({
+          embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }],
+        })
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
     let username = target.user.tag;
     const text = [

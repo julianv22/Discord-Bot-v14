@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const thanksProfile = new mongoose.Schema({
   guildID: { type: String, required: true },
   guildName: { type: String },
@@ -8,4 +8,8 @@ const thanksProfile = new mongoose.Schema({
   lastThanks: { type: Date },
 });
 
-module.exports = mongoose.model('thanksProfile', thanksProfile, `thanksProfile [${cfg.mongodb}] - ${cfg.clientID}`);
+module.exports = mongoose.model(
+  "thanksProfile",
+  thanksProfile,
+  `thanksProfile [${cfg.mongodb}] - ${cfg.clientID}`
+);

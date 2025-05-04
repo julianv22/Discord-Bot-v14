@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const serverProfile = new mongoose.Schema({
   guildID: { type: String, required: true, unique: true },
@@ -21,4 +21,8 @@ const serverProfile = new mongoose.Schema({
   statsChannel: { type: String },
 });
 
-module.exports = mongoose.model('serverProfile', serverProfile, `serverProfile [${cfg.mongodb}] - ${cfg.clientID}`);
+module.exports = mongoose.model(
+  "serverProfile",
+  serverProfile,
+  `serverProfile [${cfg.mongodb}] - ${cfg.clientID}`
+);

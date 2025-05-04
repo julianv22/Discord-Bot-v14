@@ -24,7 +24,7 @@ client.modals = new Collection(); // Modals Collection
 client.snipes = new Collection(); // Snipe Collection
 
 console.log(
-  chalk.bgYellow("\n-----------------Project is running!-----------------\n"),
+  chalk.bgYellow("\n-----------------Project is running!-----------------\n")
 );
 
 // Functions Handle
@@ -46,7 +46,7 @@ require("mongoose")
     },
     (err) => {
       console.error(chalk.red.bold("Error!"), err);
-    },
+    }
   );
 
 client.login(process.env.token).catch((e) => {

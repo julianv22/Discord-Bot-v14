@@ -47,7 +47,7 @@ module.exports = (client) => {
           name: `📊 Members [${guild.memberCount.toLocaleString()}]:`,
           value: `${(
             guild.memberCount - bots
-          ).toLocaleString()} Members | ${bots} Bots`,
+          ).toLocaleString()} Members\n${bots} Bots`,
           inline: true,
         },
         {

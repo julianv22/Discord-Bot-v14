@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const tournamenProfile = new mongoose.Schema({
   guildID: { type: String, required: true },
   guildName: { type: String },
@@ -9,4 +9,8 @@ const tournamenProfile = new mongoose.Schema({
   status: { type: Boolean },
 });
 
-module.exports = mongoose.model('tournamenProfile', tournamenProfile, `tournamenProfile [${cfg.mongodb}] - ${cfg.clientID}`);
+module.exports = mongoose.model(
+  "tournamenProfile",
+  tournamenProfile,
+  `tournamenProfile [${cfg.mongodb}] - ${cfg.clientID}`
+);

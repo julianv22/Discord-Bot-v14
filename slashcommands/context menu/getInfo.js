@@ -1,10 +1,17 @@
-const serverThanks = require('../../config/thanksProfile');
-const moment = require('moment-timezone');
-const { ContextMenuCommandBuilder, EmbedBuilder, Client, Interaction, ApplicationCommandType } = require('discord.js');
+const serverThanks = require("../../config/thanksProfile");
+const moment = require("moment-timezone");
+const {
+  ContextMenuCommandBuilder,
+  Client,
+  Interaction,
+  ApplicationCommandType,
+} = require("discord.js");
 
 module.exports = {
-  data: new ContextMenuCommandBuilder().setName(`Get Info`).setType(ApplicationCommandType.User),
-  category: 'context menu',
+  data: new ContextMenuCommandBuilder()
+    .setName(`Get Info`)
+    .setType(ApplicationCommandType.User),
+  category: "context menu",
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */

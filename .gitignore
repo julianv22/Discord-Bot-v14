@@ -1,5 +1,5 @@
 .env
+.idx
 .replit
 replit.nix
-.idx
 node_modules

@@ -1,8 +1,8 @@
-const serverProfile = require('../../config/serverProfile');
-const { EmbedBuilder, Client, Interaction } = require('discord.js');
+const serverProfile = require("../../config/serverProfile");
+const { EmbedBuilder, Client, Interaction } = require("discord.js");
 
 module.exports = {
-  data: { name: 'suggest-md' },
+  data: { name: "suggest-md" },
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
@@ -20,13 +20,19 @@ module.exports = {
       });
 
     const sgtChannel = await client.channels.cache.get(profile?.suggestChannel);
-    const content = interaction.fields.getTextInputValue('content');
+    const content = interaction.fields.getTextInputValue("content");
     const embed = new EmbedBuilder()
-      .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({
+        name: `${user.tag}'s suggestions`,
+        iconURL: user.displayAvatarURL(true),
+      })
       .setTitle(`Suggest's content:`)
       .setDescription(content)
-      .setColor('Yellow')
-      .addFields({ name: '\u200b', value: `\`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!\`` })
+      .setColor("Yellow")
+      .addFields({
+        name: "\u200b",
+        value: `\`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!\``,
+      })
       .setThumbnail(cfg.suggestPNG)
       .setTimestamp()
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) });
@@ -35,12 +41,17 @@ module.exports = {
 
     await interaction
       .reply({
-        embeds: [{ color: 65280, description: `\\✅ | Your suggestions has been send successfully! [[Jump link](${msg.url})]` }],
+        embeds: [
+          {
+            color: 65280,
+            description: `\\✅ | Your suggestions has been send successfully! [[Jump link](${msg.url})]`,
+          },
+        ],
         ephemeral: true,
       })
       .then(() => {
-        msg.react('👍');
-        msg.react('👎');
+        msg.react("👍");
+        msg.react("👎");
       });
   },
 };

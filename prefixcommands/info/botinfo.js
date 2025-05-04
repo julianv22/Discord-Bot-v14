@@ -1,10 +1,10 @@
-const { Message, Client } = require('discord.js');
+const { Message, Client } = require("discord.js");
 
 module.exports = {
-  name: 'botinfo',
-  aliases: ['bot'],
+  name: "botinfo",
+  aliases: ["bot"],
   description: `Bot's Information`,
-  category: 'info',
+  category: "info",
   cooldown: 0,
   /**
    * @param {Message} message
@@ -12,7 +12,13 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);
+    if (args.join(" ").trim() === "?")
+      return client.cmdGuide(
+        message,
+        this.name,
+        this.description,
+        this.aliases
+      );
 
     client.botInfo(message.author, null, message);
   },
