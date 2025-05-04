@@ -10,7 +10,7 @@ module.exports = {
 
     if (channel.type === ChannelType.DM) return;
 
-    if (interaction.isSelectMenu()) {
+    if (interaction.isStringSelectMenu()) {
       const menu = menus.get(customId);
       if (menu) executeInteraction(menu, interaction);
     }
