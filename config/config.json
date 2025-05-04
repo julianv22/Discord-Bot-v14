@@ -19,5 +19,5 @@
   "updatePNG": "https://blognhansu.net.vn/wp-content/uploads/2017/01/update-tai-lieu.jpg",
   "thanksPNG": "https://media.discordapp.net/attachments/976364997066231828/1014509346924793926/Top_10.png",
   "suggestPNG": "https://media.discordapp.net/attachments/976364997066231828/995628740782596127/unknown.png",
-  "npm install": "npm i discord.js @napi-rs/canvas ascii-table chalk@4 moment-timezone mongoose undici"
+  "npm install": "npm i discord.js @discordjs/rest @napi-rs/canvas ascii-table chalk@4 node-fetch moment-timezone mongoose undici"
 }
