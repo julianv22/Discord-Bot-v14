@@ -59,7 +59,7 @@ module.exports = client => {
           },
 
           { name: `💎 Server(s) [${guilds.length}]:`, value: `Members: ${totalmembers.toLocaleString()}`, inline: true },
-          { name: '☑ Verified:', value: bot.flags & UserFlags.VerifiedBot ? 'Yes' : 'No', inline: true },
+          { name: '✅ Verified:', value: bot.flags & UserFlags.VerifiedBot ? 'Yes' : 'No', inline: true },
           { name: '♻️ Version:', value: package.version, inline: true },
           { name: '📝 Node Version:', value: process.version, inline: true },
           { name: `📚 Database:`, value: status[connection.readyState] + emoji[connection.readyState], inline: true },          
