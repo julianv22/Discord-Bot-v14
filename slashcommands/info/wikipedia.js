@@ -17,6 +17,10 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    function capitalize(s) {
+      return s && String(s[0]).toUpperCase() + String(s).slice(1);
+    }
+
     const user = interaction.options.getString("keyword");
     const { user: author } = interaction;
 
@@ -34,10 +38,16 @@ module.exports = {
             ephemeral: true,
           });
 
-        let { title, thumbnail, content_urls, extract } = body;
+        let { title, description, thumbnail, content_urls, extract } = body;
         const embed = new EmbedBuilder()
           .setColor("Random")
-          .setTitle(title)
+          .setAuthor({
+            name: title,
+            iconURL:
+              "https://vi.wikipedia.org/static/images/icons/wikipedia.png",
+            url: content_urls.desktop.page,
+          })
+          .setTitle(capitalize(description))
           .setThumbnail(thumbnail.source)
           .setURL(content_urls.desktop.page)
           .setDescription(extract)
