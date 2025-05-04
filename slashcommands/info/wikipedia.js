@@ -48,7 +48,6 @@ module.exports = {
             url: content_urls.desktop.page,
           })
           .setTitle(capitalize(description))
-          .setThumbnail(thumbnail.source)
           .setURL(content_urls.desktop.page)
           .setDescription(extract)
           .setFooter({
@@ -56,6 +55,7 @@ module.exports = {
             iconURL: author.displayAvatarURL(true),
           })
           .setTimestamp();
+        if (thumbnail) embed.setThumbnail(thumbnail.source);
 
         interaction.reply({ embeds: [embed] });
       });
