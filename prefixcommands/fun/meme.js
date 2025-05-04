@@ -1,11 +1,11 @@
-const fetch = require('node-fetch');
-const { EmbedBuilder, Message, Client } = require('discord.js');
+const { EmbedBuilder, Message, Client } = require("discord.js");
+const got = require("got");
 
 module.exports = {
-  name: 'meme',
+  name: "meme",
   aliases: [],
-  description: 'Gửi một meme.',
-  category: 'fun',
+  description: "Gửi một meme.",
+  category: "fun",
   cooldown: 30,
   /**
    * @param {Message} message
@@ -14,32 +14,31 @@ module.exports = {
    */
   async execute(message, args, client) {
     const { guild, channel } = message;
-    if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
+    if (args.join(" ").trim() === "?")
+      return client.cmdGuide(message, this.name, this.description);
 
     //Start
-    const Reds = ['memes', 'me_irl', 'dankmemes', 'comedyheaven', 'Animemes'];
+    const Embed = new EmbedBuilder();
+    got("https://www.reddit.com/r/memes/random/.json")
+      .then((response) => {
+        const [list] = JSON.parse(response.body);
+        const [post] = list.data.children;
+        const permalink = post.data.permalink;
+        const memeUrl = `https://reddit.com${permalink}`;
+        const memeImage = post.data.url;
+        const memeTitle = post.data.title;
+        const memeUpvotes = post.data.ups;
+        const memeNumComments = post.data.num_comments;
 
-    const Rads = Reds[Math.floor(Math.random() * Reds.length)];
-    const res = await fetch(`https://www.reddit.com/r/${Rads}/random/.json`);
-    const json = await res.json();
-
-    if (!json[0])
-      return channel.send({ embeds: [{ color: 16711680, description: `\\❌ | Đồn như lời!` }] }).then(m => {
-        setTimeout(() => {
-          m.delete();
-        }, 5000);
-      });
-
-    const data = json[0].data.children[0].data;
-    const Embed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setColor('Random')
-      .setURL(`https://reddit.com${data.permalink}`)
-      .setTitle(data.title)
-      .setDescription(`Tác giả: **${data.author}**`)
-      .setImage(data.url)
-      .setFooter({ text: `${data.ups || 0} 👍 | ${data.downs || 0} 👎 | ${data.num_comments || 0} 💬` });
-
+        Embed.setColor("Random");
+        Embed.setTitle(`${memeTitle}`);
+        Embed.setURL(`${memeUrl}`);
+        Embed.setImage(`${memeImage}`);
+        Embed.setAuthor({ name: guild.name, iconURL: guild.iconURL(true) });
+        Embed.setTimestamp();
+        Embed.setFooter({ text: `${memeUpvotes} 👍 | ${memeNumComments} 💬` });
+      })
+      .catch(console.error);
     channel.send({ embeds: [Embed] }).then(() => message.delete());
     //End
   },
