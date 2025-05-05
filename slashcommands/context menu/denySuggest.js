@@ -5,14 +5,14 @@ const {
   ApplicationCommandType,
   PermissionFlagsBits,
   EmbedBuilder,
-} = require("discord.js");
+} = require('discord.js');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName("Deny Suggest")
+    .setName('Deny Suggest')
     .setType(ApplicationCommandType.Message),
-  category: "context menu",
+  category: 'context menu',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
 
@@ -56,15 +56,10 @@ module.exports = {
         ephemeral: true,
       });
 
-    const edit = EmbedBuilder.from(embed)
-      .setColor("Red")
-      .spliceFields(0, 1)
-      .setTimestamp()
-      .setFooter({
-        text: `Đề xuất không được chấp nhận`,
-        iconURL:
-          "https://emoji-uc.akamaized.net/orig/91/688d0305a605a283b2e17e04834192.png",
-      });
+    const edit = EmbedBuilder.from(embed).setColor('Red').spliceFields(0, 1).setTimestamp().setFooter({
+      text: `Đề xuất không được chấp nhận`,
+      iconURL: 'https://emoji-uc.akamaized.net/orig/91/688d0305a605a283b2e17e04834192.png',
+    });
     await msg.edit({ embeds: [edit] });
 
     interaction.reply({
@@ -77,22 +72,19 @@ module.exports = {
       ephemeral: true,
     });
 
-    const author = users.cache.find(
-      (u) => u.tag === embed.author.name.split(`'s`)[0]
-    );
+    const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 
     author
       .send({
         embeds: [
           new EmbedBuilder()
             .setAuthor({
-              name: "Deny suggestion",
-              iconURL:
-                "https://emoji-uc.akamaized.net/orig/91/688d0305a605a283b2e17e04834192.png",
+              name: 'Deny suggestion',
+              iconURL: 'https://emoji-uc.akamaized.net/orig/91/688d0305a605a283b2e17e04834192.png',
             })
             .setTitle(`Your suggestion has been denied by ${user.username}!`)
             .setDescription(`[Jump Link](${msg.url})`)
-            .setColor("Red")
+            .setColor('Red')
             .setThumbnail(user.displayAvatarURL(true))
             .setTimestamp()
             .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),

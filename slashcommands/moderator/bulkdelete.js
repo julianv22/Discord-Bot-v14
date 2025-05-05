@@ -1,25 +1,15 @@
-const {
-  SlashCommandBuilder,
-  Client,
-  Interaction,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName("bulk-delete")
+    .setName('bulk-delete')
     .setDescription(`Bulk-Delete Messages. ${cfg.adminRole} only`)
     .addIntegerOption((opt) =>
-      opt
-        .setName("amount")
-        .setDescription("Number of messages between [1 - 100]")
-        .setRequired(true)
+      opt.setName('amount').setDescription('Number of messages between [1 - 100]').setRequired(true),
     )
-    .addUserOption((opt) =>
-      opt.setName("user").setDescription("Filter by user")
-    ),
-  category: "moderator",
+    .addUserOption((opt) => opt.setName('user').setDescription('Filter by user')),
+  category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
 
@@ -27,8 +17,8 @@ module.exports = {
   async execute(interaction, client) {
     const { options, channel, user: author } = interaction;
     // const message = await interaction.deferReply({ fetchReply: true });
-    const amount = options.getInteger("amount");
-    const user = options.getUser("user");
+    const amount = options.getInteger('amount');
+    const user = options.getUser('user');
 
     if (amount < 0 || amount > 100)
       return interaction.reply({
@@ -60,9 +50,7 @@ module.exports = {
         embeds: [
           {
             color: 65280,
-            description:
-              `\\✅ | Deleted ${amount} messages!` +
-              (user ? ` of ${user}` : ""),
+            description: `\\✅ | Deleted ${amount} messages!` + (user ? ` of ${user}` : ''),
           },
         ],
         ephemeral: true,
@@ -77,7 +65,7 @@ module.exports = {
         ],
         ephemeral: true,
       });
-      console.error("BulkDelete Message", e);
+      console.error('BulkDelete Message', e);
     }
   },
 };

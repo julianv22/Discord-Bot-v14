@@ -1,8 +1,8 @@
-const serverProfile = require("../../config/serverProfile");
-const { EmbedBuilder, Client, Interaction } = require("discord.js");
+const serverProfile = require('../../config/serverProfile');
+const { EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: { name: "suggest-md" },
+  data: { name: 'suggest-md' },
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
@@ -20,7 +20,7 @@ module.exports = {
       });
 
     const sgtChannel = await client.channels.cache.get(profile?.suggestChannel);
-    const content = interaction.fields.getTextInputValue("content");
+    const content = interaction.fields.getTextInputValue('content');
     const embed = new EmbedBuilder()
       .setAuthor({
         name: `${user.tag}'s suggestions`,
@@ -28,9 +28,9 @@ module.exports = {
       })
       .setTitle(`Suggest's content:`)
       .setDescription(content)
-      .setColor("Yellow")
+      .setColor('Yellow')
       .addFields({
-        name: "\u200b",
+        name: '\u200b',
         value: `\`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!\``,
       })
       .setThumbnail(cfg.suggestPNG)
@@ -50,8 +50,8 @@ module.exports = {
         ephemeral: true,
       })
       .then(() => {
-        msg.react("👍");
-        msg.react("👎");
+        msg.react('👍');
+        msg.react('👎');
       });
   },
 };

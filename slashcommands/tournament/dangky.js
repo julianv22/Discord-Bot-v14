@@ -1,16 +1,14 @@
-const serverProfile = require("../../config/serverProfile");
-const tournamenProfile = require("../../config/tournamenProfile");
+const serverProfile = require('../../config/serverProfile');
+const tournamenProfile = require('../../config/tournamenProfile');
 
-const { SlashCommandBuilder, Interaction, Client } = require("discord.js");
+const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("dang-ky")
-    .setDescription("Đăng ký đấu giải!")
-    .addStringOption((option) =>
-      option.setName("ingame").setDescription("Tên ingame").setRequired(true)
-    ),
-  category: "tournament",
+    .setName('dang-ky')
+    .setDescription('Đăng ký đấu giải!')
+    .addStringOption((option) => option.setName('ingame').setDescription('Tên ingame').setRequired(true)),
+  category: 'tournament',
   cooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
@@ -33,7 +31,7 @@ module.exports = {
 
     // Interaction Reply
     const roleID = profile?.tourID;
-    const stIngame = options.getString("ingame");
+    const stIngame = options.getString('ingame');
     const role = guild.roles.cache.get(roleID);
 
     await interaction.reply({
@@ -68,7 +66,7 @@ module.exports = {
           userID: user.id,
           usertag: user.tag,
           ingame: stIngame,
-          decklist: "none",
+          decklist: 'none',
           status: true,
         });
         createOne.save();
@@ -79,9 +77,9 @@ module.exports = {
             guildName: guild.name,
             usertag: user.tag,
             ingame: stIngame,
-            decklist: "none",
+            decklist: 'none',
             status: true,
-          }
+          },
         );
       }
 

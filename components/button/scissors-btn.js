@@ -1,7 +1,7 @@
-const { Client, Interaction } = require("discord.js");
+const { Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: { name: "scissors-btn" },
+  data: { name: 'scissors-btn' },
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

@@ -1,4 +1,4 @@
-const { EmbedBuilder, Message, Client } = require("discord.js");
+const { EmbedBuilder, Message, Client } = require('discord.js');
 
 /** @param {Client} client */
 module.exports = (client) => {
@@ -10,17 +10,10 @@ module.exports = (client) => {
    * @param {String} usage
    * @param {String} footer
    */
-  client.cmdGuide = (
-    message,
-    commandname,
-    description,
-    alias,
-    usage,
-    footer
-  ) => {
+  client.cmdGuide = (message, commandname, description, alias, usage, footer) => {
     try {
       const { guild, author } = message;
-      let stDesc = "⤷" + description;
+      let stDesc = '⤷' + description;
       if (alias) stDesc += `\n\nAlias: \`${alias}\``;
 
       if (!usage) usage = prefix + commandname;
@@ -29,8 +22,8 @@ module.exports = (client) => {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`Huớng dẫn sử dụng command [${commandname}]`)
         .setDescription(stDesc)
-        .addFields([{ name: "Cách dùng:", value: `\`\`\`fix\n${usage}\`\`\`` }])
-        .setColor("Aqua")
+        .addFields([{ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` }])
+        .setColor('Aqua')
         .setTimestamp()
         .setThumbnail(cfg.helpPNG);
       if (footer)
@@ -46,14 +39,12 @@ module.exports = (client) => {
 
       message.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.yellow.bold("Error while running cmdGuide"), e);
-      return message.channel
-        .send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+      console.error(chalk.yellow.bold('Error while running cmdGuide'), e);
+      return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 10000);
+      });
     }
   };
 };

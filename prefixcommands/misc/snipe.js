@@ -1,10 +1,10 @@
-const { Message, Client } = require("discord.js");
+const { Message, Client } = require('discord.js');
 
 module.exports = {
-  name: "snipe",
-  aliases: ["snp"],
-  description: "Bắn tỉa tin nhắn đã bị xoá.",
-  category: "misc",
+  name: 'snipe',
+  aliases: ['snp'],
+  description: 'Bắn tỉa tin nhắn đã bị xoá.',
+  category: 'misc',
   cooldown: 0,
   /**
    * @param {Message} message
@@ -15,13 +15,13 @@ module.exports = {
     const { cmdGuide, snipeMessage } = client;
     const { author, mentions, guild } = message;
 
-    if (args.join(" ").trim() === "?")
+    if (args.join(' ').trim() === '?')
       return cmdGuide(
         message,
         this.name,
         this.description,
         this.aliases,
-        prefix + this.name + ` | ${prefix + this.name} <user>`
+        prefix + this.name + ` | ${prefix + this.name} <user>`,
       );
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);

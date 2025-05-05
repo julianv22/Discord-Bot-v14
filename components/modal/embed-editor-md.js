@@ -1,17 +1,17 @@
-const { EmbedBuilder, Client, Interaction } = require("discord.js");
+const { EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: { name: "embed-editor-md" },
+  data: { name: 'embed-editor-md' },
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { checkURL, user: bot } = client;
     const { fields, channel } = interaction;
-    const msgid = fields.getTextInputValue("msgid");
-    const title = fields.getTextInputValue("title");
-    const description = fields.getTextInputValue("description");
-    const thumbnailURL = fields.getTextInputValue("thumbnailURL");
-    const imageURL = fields.getTextInputValue("imageURL");
+    const msgid = fields.getTextInputValue('msgid');
+    const title = fields.getTextInputValue('title');
+    const description = fields.getTextInputValue('description');
+    const thumbnailURL = fields.getTextInputValue('thumbnailURL');
+    const imageURL = fields.getTextInputValue('imageURL');
     let msgEdit = await channel.messages.fetch(msgid).catch(() => undefined);
 
     if (msgEdit === undefined)

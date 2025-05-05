@@ -1,13 +1,5 @@
-const {
-  Client,
-  GuildMember,
-  Interaction,
-  EmbedBuilder,
-  ChannelType,
-  Guild,
-  Message,
-} = require("discord.js");
-const moment = require("moment-timezone");
+const { Client, GuildMember, Interaction, EmbedBuilder, ChannelType, Guild, Message } = require('discord.js');
+const moment = require('moment-timezone');
 
 /** @param {Client} client */
 module.exports = (client) => {
@@ -19,20 +11,14 @@ module.exports = (client) => {
    */
   client.serverInfo = async (guild, author, interaction, message) => {
     const bots = guild.members.cache.filter((m) => m.user.bot).size;
-    const channels = guild.channels.cache.filter(
-      (c) => c.type === ChannelType.GuildText
-    ).size;
-    const voices = guild.channels.cache.filter(
-      (c) => c.type === ChannelType.GuildVoice
-    ).size;
-    const categories = guild.channels.cache.filter(
-      (c) => c.type === ChannelType.GuildCategory
-    ).size;
+    const channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size;
+    const voices = guild.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size;
+    const categories = guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size;
 
     var embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle("⚠️ Server Info ⚠️")
-      .setColor("Random")
+      .setTitle('⚠️ Server Info ⚠️')
+      .setColor('Random')
       .setThumbnail(guild.iconURL(true))
       .setFooter({
         text: `Requested by ${author.username}`,
@@ -40,14 +26,12 @@ module.exports = (client) => {
       })
       .setTimestamp()
       .addFields([
-        { name: "💎 Server Name:", value: `${guild.name}`, inline: true },
-        { name: "🆔:", value: `||${guild.id}||`, inline: true },
-        { name: "👑 Server Owner:", value: `<@${guild.ownerId}>` },
+        { name: '💎 Server Name:', value: `${guild.name}`, inline: true },
+        { name: '🆔:', value: `||${guild.id}||`, inline: true },
+        { name: '👑 Server Owner:', value: `<@${guild.ownerId}>` },
         {
           name: `📊 Members [${guild.memberCount.toLocaleString()}]:`,
-          value: `${(
-            guild.memberCount - bots
-          ).toLocaleString()} Members\n${bots} Bots`,
+          value: `${(guild.memberCount - bots).toLocaleString()} Members\n${bots} Bots`,
           inline: true,
         },
         {
@@ -61,25 +45,23 @@ module.exports = (client) => {
           inline: true,
         },
         {
-          name: "🚀 Total Boosts:",
+          name: '🚀 Total Boosts:',
           value: `${guild.premiumSubscriptionCount}`,
           inline: true,
         },
         {
-          name: "🌏 Server Region:",
+          name: '🌏 Server Region:',
           value: `${guild.preferredLocale}`,
           inline: true,
         },
         {
-          name: "☑️ Verification Level:",
+          name: '☑️ Verification Level:',
           value: `${guild.verificationLevel}`,
           inline: true,
         },
         {
           name: `📆 Created: <t:${parseInt(guild.createdTimestamp / 1000)}:R>`,
-          value: `${moment(guild.createdAt)
-            .tz("Asia/Ho_Chi_Minh")
-            .format("HH:mm ddd, Do MMMM YYYY")}`,
+          value: `${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
         },
       ]);
 

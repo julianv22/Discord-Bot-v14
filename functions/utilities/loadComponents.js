@@ -1,6 +1,6 @@
-const { readdirSync } = require("fs");
-const ascii = require("ascii-table");
-const { Collection, Client } = require("discord.js");
+const { readdirSync } = require('fs');
+const ascii = require('ascii-table');
+const { Collection, Client } = require('discord.js');
 
 /**
  * @param {Collection} components
@@ -10,14 +10,12 @@ const { Collection, Client } = require("discord.js");
 requireComponents = (components, componentFiles, folder) => {
   try {
     componentFiles.forEach((file) => {
-      delete require.cache[
-        require.resolve(`../../components/${folder}/${file}`)
-      ];
+      delete require.cache[require.resolve(`../../components/${folder}/${file}`)];
       const component = require(`../../components/${folder}/${file}`);
       components.set(component.data.name, component);
     });
   } catch (e) {
-    console.error(chalk.yellow("[requireComponents]"), e);
+    console.error(chalk.yellow('[requireComponents]'), e);
   }
 };
 
@@ -33,38 +31,31 @@ module.exports = (client) => {
       await modals.clear();
 
       const table = new ascii()
-        .setHeading("Folder", "📝", "Component Name", "♻")
+        .setHeading('Folder', '📝', 'Component Name', '♻')
         .setAlignCenter(1)
-        .setBorder("│", "─", "✧", "✧");
+        .setBorder('│', '─', '✧', '✧');
       let count = 0;
       componentFolders.forEach((folder) => {
-        const componentFiles = readdirSync(`./components/${folder}`).filter(
-          (f) => f.endsWith(".js")
-        );
+        const componentFiles = readdirSync(`./components/${folder}`).filter((f) => f.endsWith('.js'));
 
-        table.addRow(
-          `📂 ${folder.toUpperCase()} [${componentFiles.length}]`,
-          "─",
-          "────────────",
-          "📂"
-        );
+        table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
 
         let i = 1;
         componentFiles.forEach((file) => {
-          table.addRow("", i++, file.split(".")[0], "✅\u200b");
+          table.addRow('', i++, file.split('.')[0], '✅\u200b');
           count++;
         });
 
         switch (folder) {
-          case "button":
+          case 'button':
             requireComponents(buttons, componentFiles, folder);
             break;
 
-          case "menu":
+          case 'menu':
             requireComponents(menus, componentFiles, folder);
             break;
 
-          case "modal":
+          case 'modal':
             requireComponents(modals, componentFiles, folder);
             break;
         }
@@ -74,7 +65,7 @@ module.exports = (client) => {
       console.log(table.toString());
       // End Component Handle
     } catch (e) {
-      console.error(chalk.red("Error while loading components"), e);
+      console.error(chalk.red('Error while loading components'), e);
     }
   };
 };

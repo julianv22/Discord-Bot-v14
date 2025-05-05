@@ -1,18 +1,15 @@
-const serverProfile = require("../../config/serverProfile");
-const tournamenProfile = require("../../config/tournamenProfile");
-const { SlashCommandBuilder, Interaction } = require("discord.js");
+const serverProfile = require('../../config/serverProfile');
+const tournamenProfile = require('../../config/tournamenProfile');
+const { SlashCommandBuilder, Interaction } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("huy-dang-ky")
-    .setDescription("Huỷ đăng ký đấu giải!")
+    .setName('huy-dang-ky')
+    .setDescription('Huỷ đăng ký đấu giải!')
     .addBooleanOption((option) =>
-      option
-        .setName("xacnhan")
-        .setDescription("HÃY CHẮC CHẮN VỚI ĐIỀU BẠN SẮP LÀM!")
-        .setRequired(true)
+      option.setName('xacnhan').setDescription('HÃY CHẮC CHẮN VỚI ĐIỀU BẠN SẮP LÀM!').setRequired(true),
     ),
-  category: "tournament",
+  category: 'tournament',
   cooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
@@ -36,7 +33,7 @@ module.exports = {
       });
 
     // Verified
-    if (options.getBoolean("xacnhan") === false)
+    if (options.getBoolean('xacnhan') === false)
       return interaction.reply({
         embeds: [
           {
@@ -75,10 +72,7 @@ module.exports = {
     });
 
     // Set Tournament's Status
-    await tournamenProfile.findOneAndUpdate(
-      { guildID: guild.id, userID: user.id },
-      { status: false }
-    );
+    await tournamenProfile.findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false });
 
     // Remove Role
     if (role)

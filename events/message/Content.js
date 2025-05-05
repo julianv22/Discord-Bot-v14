@@ -1,13 +1,13 @@
-const { Message, Client, ChannelType, EmbedBuilder } = require("discord.js");
+const { Message, Client, ChannelType, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  name: "messageCreate",
+  name: 'messageCreate',
 
   /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     const { author, channel, content } = message;
 
-    if ((channel.type === ChannelType.DM) & content.includes("help")) {
+    if ((channel.type === ChannelType.DM) & content.includes('help')) {
       message.reply({
         embeds: [
           new EmbedBuilder()
@@ -15,10 +15,10 @@ module.exports = {
               name: `Hi, ${author.username}`,
               iconURL: author.displayAvatarURL(true),
             })
-            .setTitle("You can not use command here.")
+            .setTitle('You can not use command here.')
             .setDescription(`Please use command in server that I joined!`)
             .setThumbnail(author.displayAvatarURL(true))
-            .setColor("Orange"),
+            .setColor('Orange'),
         ],
       });
     }
@@ -33,16 +33,16 @@ module.exports = {
         ],
       };
 
-      if (content.toLowerCase().includes("cảm ơn"))
+      if (content.toLowerCase().includes('cảm ơn'))
         return message.reply(hint).then((m) => {
           setTimeout(() => {
             m.delete();
           }, 10000);
         });
 
-      const thanks = ["thank", "ty", "thanks"];
+      const thanks = ['thank', 'ty', 'thanks'];
       thanks.forEach((thank) => {
-        if (content.toLowerCase().split(" ").includes(thank)) {
+        if (content.toLowerCase().split(' ').includes(thank)) {
           return message.reply(hint).then((m) => {
             setTimeout(() => {
               m.delete();

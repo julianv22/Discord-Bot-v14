@@ -7,54 +7,48 @@ const {
   Interaction,
   TextInputStyle,
   PermissionFlagsBits,
-} = require("discord.js");
+} = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName("notification")
+    .setName('notification')
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
-  category: "moderator",
+  category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const modal = new ModalBuilder()
-      .setCustomId("notify-md")
-      .setTitle("Notification:");
+    const modal = new ModalBuilder().setCustomId('notify-md').setTitle('Notification:');
 
     const typeInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
-        .setCustomId("type")
-        .setLabel("Notify =1 / Update = 2")
-        .setValue("1")
+        .setCustomId('type')
+        .setLabel('Notify =1 / Update = 2')
+        .setValue('1')
         .setRequired(true)
-        .setStyle(TextInputStyle.Short)
+        .setStyle(TextInputStyle.Short),
     );
 
     const titleInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId("title")
-        .setLabel(`Title:`)
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
+      new TextInputBuilder().setCustomId('title').setLabel(`Title:`).setRequired(true).setStyle(TextInputStyle.Short),
     );
 
     const descriptionInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
-        .setCustomId("description")
+        .setCustomId('description')
         .setLabel(`Description:`)
         .setRequired(true)
-        .setStyle(TextInputStyle.Paragraph)
+        .setStyle(TextInputStyle.Paragraph),
     );
 
     const imageInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
-        .setCustomId("imageURL")
-        .setLabel("Image URL")
+        .setCustomId('imageURL')
+        .setLabel('Image URL')
         .setRequired(false)
-        .setStyle(TextInputStyle.Short)
+        .setStyle(TextInputStyle.Short),
     );
 
     modal.addComponents(typeInput, titleInput, descriptionInput, imageInput);

@@ -1,10 +1,10 @@
-const { Message, Client } = require("discord.js");
+const { Message, Client } = require('discord.js');
 
 module.exports = {
-  name: "react",
+  name: 'react',
   aliases: [],
-  description: "Cool! 😎",
-  category: "misc",
+  description: 'Cool! 😎',
+  category: 'misc',
   cooldown: 0,
   /**
    * @param {Message} message
@@ -12,16 +12,15 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    if (args.join(" ").trim() === "?")
-      return client.cmdGuide(message, this.name, this.description);
+    if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
 
     let stReact = [
-      ["Cool!", "😎"],
-      ["Greet!", "👍"],
-      ["Perfect!", "🥳"],
-      ["Wonderful!", "😍"],
-      ["Amazing!", "😮"],
-      ["Holy!", "😱"],
+      ['Cool!', '😎'],
+      ['Greet!', '👍'],
+      ['Perfect!', '🥳'],
+      ['Wonderful!', '😍'],
+      ['Amazing!', '😮'],
+      ['Holy!', '😱'],
     ];
 
     message.delete();

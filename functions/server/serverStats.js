@@ -1,5 +1,5 @@
-const { Client } = require("discord.js");
-const serverProfile = require("../../config/serverProfile");
+const { Client } = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
 
 module.exports = (client) => {
   /** @param {Client} client @param {String} guildID */
@@ -25,15 +25,11 @@ module.exports = (client) => {
       }
 
       const memberRole = await guild.roles.cache.get(profile?.memberRole);
-      const memberCount = await memberRole.members
-        .map((m) => m.user)
-        .length.toLocaleString(); // -> count members by memberRole
+      const memberCount = await memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
       // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
 
       const botRole = await guild.roles.cache.get(profile?.botRole).name;
-      const botCount = await guild.members.cache
-        .filter((m) => m.user.bot)
-        .size.toLocaleString();
+      const botCount = await guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
 
       const statsChannels = [
         {
@@ -52,21 +48,19 @@ module.exports = (client) => {
       });
       // Set Status Channel Function
       function getPressence(stats) {
-        return guild.members.cache
-          .filter((m) => m.presence?.status === stats)
-          .size.toLocaleString();
+        return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
       }
 
-      const [icon, status] = [["🟢", "🌙", "⛔", "⚫"], []];
+      const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];
       let i = 0;
-      ["online", "idle", "dnd", "offline"].forEach((stats) => {
+      ['online', 'idle', 'dnd', 'offline'].forEach((stats) => {
         status.push(`${icon[i++]} ${getPressence(stats)}`);
       });
 
-      setChannelName(profile?.statsChannel, status.join(" "));
+      setChannelName(profile?.statsChannel, status.join(' '));
       // End Server Stats
     } catch (e) {
-      console.error(chalk.yellow.bold("Error while running serverStats"), e);
+      console.error(chalk.yellow.bold('Error while running serverStats'), e);
     }
   };
 };

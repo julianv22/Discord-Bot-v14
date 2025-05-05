@@ -1,4 +1,4 @@
-const { EmbedBuilder, Colors, Message, Client } = require("discord.js");
+const { EmbedBuilder, Colors, Message, Client } = require('discord.js');
 /**
  * @param {String} name
  * @param {String} value
@@ -36,7 +36,7 @@ module.exports = (client) => {
     footer,
     thumbnail,
     image,
-    fieldArray
+    fieldArray,
   ) {
     try {
       const { checkURL } = client;
@@ -48,18 +48,15 @@ module.exports = (client) => {
         })
         .setTitle(title)
         .setDescription(description)
-        .setColor(color == Colors ? color : "Random")
+        .setColor(color == Colors ? color : 'Random')
         .setThumbnail(checkURL(thumbnail) ? thumbnail : null)
         .setImage(checkURL(image) ? image : null);
-      if (footer)
-        embed
-          .setFooter({ text: footer, iconURL: guild.iconURL(true) })
-          .setTimestamp();
+      if (footer) embed.setFooter({ text: footer, iconURL: guild.iconURL(true) }).setTimestamp();
 
       if (fieldArray) {
         // addFields
-        const arrays = fieldArray.split(" # ");
-        const fields = arrays.map((f) => f.split(" ^ "));
+        const arrays = fieldArray.split(' # ');
+        const fields = arrays.map((f) => f.split(' ^ '));
         let objFields = [];
         for (const field of fields) {
           const f = new addFields({
@@ -73,28 +70,26 @@ module.exports = (client) => {
       }
 
       switch (method) {
-        case "send":
+        case 'send':
           channel.send({ embeds: [embed] });
           break;
 
-        case "edit":
+        case 'edit':
           message.edit({ embeds: [embed] });
           if (message.author.bot) return;
           break;
 
-        case "reply":
+        case 'reply':
           message.reply({ embeds: [embed] });
           break;
       }
     } catch (e) {
-      console.error(chalk.yellow.bold("Error while running genEmbed"), e);
-      return message.channel
-        .send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+      console.error(chalk.yellow.bold('Error while running genEmbed'), e);
+      return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 10000);
+      });
     }
   };
 };

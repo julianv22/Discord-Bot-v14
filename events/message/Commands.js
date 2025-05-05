@@ -1,7 +1,7 @@
-const { Message, Client, ChannelType } = require("discord.js");
+const { Message, Client, ChannelType } = require('discord.js');
 
 module.exports = {
-  name: "messageCreate",
+  name: 'messageCreate',
   /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     try {
@@ -15,10 +15,7 @@ module.exports = {
         const args = content.slice(prefix.length).split(/ +/);
         const cmdName = args.shift().toLowerCase();
         const command =
-          prefixCommands.get(cmdName) ||
-          prefixCommands.find(
-            (cmd) => cmd.aliases && cmd.aliases.includes(cmdName)
-          );
+          prefixCommands.get(cmdName) || prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(cmdName));
 
         if (!command)
           return message
@@ -26,9 +23,7 @@ module.exports = {
               embeds: [
                 {
                   color: 16711680,
-                  description: `\\❌ | Command \`${
-                    prefix + cmdName
-                  }\` không chính xác hoặc không tồn tại!`,
+                  description: `\\❌ | Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`,
                 },
               ],
             })
@@ -60,9 +55,7 @@ module.exports = {
       const error = `Error while executing commands!`;
       message
         .reply({
-          embeds: [
-            { color: 16711680, title: `\❌ ` + error, description: `${e}` },
-          ],
+          embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }],
         })
         .then((m) => {
           setTimeout(() => {

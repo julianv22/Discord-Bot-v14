@@ -1,31 +1,27 @@
-const ascii = require("ascii-table");
-const { Client } = require("discord.js");
+const ascii = require('ascii-table');
+const { Client } = require('discord.js');
 
 module.exports = {
-  name: "ready",
+  name: 'ready',
   once: true,
 
   /** @param {Client} client */
   async execute(client) {
     const { setPresence, serverStats } = client;
     const table = new ascii()
-      .setBorder("│", "─", "✧", "✧")
-      .setTitle("Client Login")
+      .setBorder('│', '─', '✧', '✧')
+      .setTitle('Client Login')
       .setAlignCenter(2)
-      .addRow("Client Name", `${client.user.tag}\u200b\u200b`, "✅\u200b")
-      .addRow("────────────────", "────────────────────────", "")
-      .addRow("Client ID", client.user.id, "✅\u200b")
-      .addRow("────────────────", "────────────────────────", "")
-      .addRow(`Prefix: ${prefix}`, `Node JS: ${process.version}`, "✅\u200b")
-      .addRow("────────────────", "────────────────────────", "")
-      .addRow(`Author: Julian-V`, "Client Ready!", "✅\u200b");
+      .addRow('Client Name', `${client.user.tag}\u200b\u200b`, '✅\u200b')
+      .addRow('────────────────', '────────────────────────', '')
+      .addRow('Client ID', client.user.id, '✅\u200b')
+      .addRow('────────────────', '────────────────────────', '')
+      .addRow(`Prefix: ${prefix}`, `Node JS: ${process.version}`, '✅\u200b')
+      .addRow('────────────────', '────────────────────────', '')
+      .addRow(`Author: Julian-V`, 'Client Ready!', '✅\u200b');
 
     console.log(table.toString());
-    console.log(
-      chalk.bgYellow(
-        "\n-----------------Project is started!-----------------\n"
-      )
-    );
+    console.log(chalk.bgYellow('\n-----------------Project is started!-----------------\n'));
 
     // Set Client's Pressence
     setPresence(client);
@@ -36,10 +32,8 @@ module.exports = {
     // Server Stats
     const guilds = client.guilds.cache.map((g) => g);
     console.log(
-      chalk.magenta.bold(
-        `Working in ${guilds.length} server${guilds.length > 1 ? "s" : ""}:`
-      ),
-      guilds.map((g) => g.name)
+      chalk.magenta.bold(`Working in ${guilds.length} server${guilds.length > 1 ? 's' : ''}:`),
+      guilds.map((g) => g.name),
     );
 
     guilds.forEach((guild) => {

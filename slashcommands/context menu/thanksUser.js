@@ -1,15 +1,8 @@
-const {
-  ContextMenuCommandBuilder,
-  Client,
-  Interaction,
-  ApplicationCommandType,
-} = require("discord.js");
+const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType } = require('discord.js');
 
 module.exports = {
-  data: new ContextMenuCommandBuilder()
-    .setName(`Thanks`)
-    .setType(ApplicationCommandType.User),
-  category: "context menu",
+  data: new ContextMenuCommandBuilder().setName(`Thanks`).setType(ApplicationCommandType.User),
+  category: 'context menu',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */

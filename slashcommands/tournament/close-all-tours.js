@@ -1,30 +1,22 @@
-const {
-  SlashCommandBuilder,
-  Client,
-  ChatInputCommandInteraction,
-  PermissionFlagsBits,
-} = require("discord.js");
-const tournamenProfile = require("../../config/tournamenProfile");
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits } = require('discord.js');
+const tournamenProfile = require('../../config/tournamenProfile');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName("close-all-tours")
+    .setName('close-all-tours')
     .setDescription(`Đóng toàn bộ giải đấu. \n${cfg.adminRole} only`)
     .addBooleanOption((opt) =>
-      opt
-        .setName("verified")
-        .setDescription("Xác nhận đóng toàn bộ giải đấu")
-        .setRequired(true)
+      opt.setName('verified').setDescription('Xác nhận đóng toàn bộ giải đấu').setRequired(true),
     ),
-  category: "tournament",
+  category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
   cooldown: 0,
 
   /** @param {ChatInputCommandInteraction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    const verified = options.getBoolean("verified");
+    const verified = options.getBoolean('verified');
     if (!verified)
       return interaction.reply({
         embeds: [
@@ -55,15 +47,13 @@ module.exports = {
           guildName: member.guildName,
           userID: member.userID,
         },
-        { status: false }
+        { status: false },
       );
     }
 
     interaction
       .reply({
-        embeds: [
-          { color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` },
-        ],
+        embeds: [{ color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` }],
         ephemeral: true,
       })
       .catch((e) => console.error(e));

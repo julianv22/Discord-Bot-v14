@@ -1,4 +1,4 @@
-const { Client, Message } = require("discord.js");
+const { Client, Message } = require('discord.js');
 
 /** @param {Client} client */
 module.exports = (client) => {
@@ -24,7 +24,7 @@ module.exports = (client) => {
           }, // Set Author
           title: args[0], // Set Tittle
           description: args[1], // Set Description
-          color: "Random", // Set Color
+          color: 'Random', // Set Color
           thumbnail: checkURL(args[3]) ? args[3] : null, // Set Thumbnail
           image: checkURL(args[4]) ? args[4] : null, // Set Image
         },
@@ -40,8 +40,8 @@ module.exports = (client) => {
 
       // addFields
       if (args[5]) {
-        const arrays = args[5].split(" # ");
-        const fields = arrays.map((f) => f.split(" ^ "));
+        const arrays = args[5].split(' # ');
+        const fields = arrays.map((f) => f.split(' ^ '));
         let objFields = [];
         for (const field of fields) {
           const f = new addFields(field[0], field[1], field[2]);
@@ -51,14 +51,12 @@ module.exports = (client) => {
       }
       return res;
     } catch (e) {
-      console.error(chalk.yellow.bold("Error while running embedArray"), e);
-      return message.channel
-        .send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+      console.error(chalk.yellow.bold('Error while running embedArray'), e);
+      return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 10000);
+      });
     }
   };
 };

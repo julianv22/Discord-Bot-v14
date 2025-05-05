@@ -1,4 +1,4 @@
-const { EmbedBuilder, Message, Client } = require("discord.js");
+const { EmbedBuilder, Message, Client } = require('discord.js');
 /**
  * @param {String} name
  * @param {String} value
@@ -38,19 +38,16 @@ module.exports = (client) => {
         })
         .setTitle(args[0])
         .setDescription(args[1])
-        .setColor("Random")
+        .setColor('Random')
         .setImage(checkURL(args[4]) ? args[4] : null);
-      if (args[2])
-        embed
-          .setFooter({ text: args[2], iconURL: guild.iconURL(true) })
-          .setTimestamp();
+      if (args[2]) embed.setFooter({ text: args[2], iconURL: guild.iconURL(true) }).setTimestamp();
 
       /* genEmbedField Function
       E.x: Field 1 ^ Value 1 # Field 2 ^ Value 2 # Field 3 ^ Value 3 ^ 1 # Field 4 ^ Value 4 ^ 1
       */
       if (args[5]) {
-        const arrays = args[5].split(" # ");
-        const fields = arrays.map((f) => f.split(" ^ "));
+        const arrays = args[5].split(' # ');
+        const fields = arrays.map((f) => f.split(' ^ '));
         let objFields = [];
         for (const field of fields) {
           const f = new genEmbedField(field[0], field[1], field[2]);
@@ -61,26 +58,24 @@ module.exports = (client) => {
       }
 
       switch (method) {
-        case "send":
+        case 'send':
           channel.send({ embeds: [embed] });
           break;
-        case "edit":
+        case 'edit':
           message.edit({ embeds: [embed] });
           if (author.bot) return;
-        case "reply":
+        case 'reply':
           message.reply({ embeds: [embed] });
         default:
           break;
       }
     } catch (e) {
-      console.error(chalk.yellow.bold("Error while running createEmbed"), e);
-      return message.channel
-        .send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+      console.error(chalk.yellow.bold('Error while running createEmbed'), e);
+      return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 10000);
+      });
     }
   };
 };

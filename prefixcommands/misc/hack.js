@@ -1,10 +1,10 @@
-const { Message, Client } = require("discord.js");
+const { Message, Client } = require('discord.js');
 
 module.exports = {
-  name: "hack",
+  name: 'hack',
   aliases: [],
-  description: "Hack ai đó! J4F 😝",
-  category: "misc",
+  description: 'Hack ai đó! J4F 😝',
+  category: 'misc',
   cooldown: 0,
   /**
    * @param {Message} message
@@ -13,14 +13,8 @@ module.exports = {
    */
   async execute(message, args, client) {
     const { mentions, guild, author } = message;
-    if (args.join(" ").trim() === "?")
-      return client.cmdGuide(
-        message,
-        this.name,
-        this.description,
-        null,
-        prefix + this.name + " <user>"
-      );
+    if (args.join(' ').trim() === '?')
+      return client.cmdGuide(message, this.name, this.description, null, prefix + this.name + ' <user>');
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)

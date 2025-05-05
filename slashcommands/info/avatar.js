@@ -1,27 +1,20 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  Client,
-  Interaction,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("avatar")
-    .setDescription("Get Avatar")
-    .addUserOption((opt) =>
-      opt.setName("user").setDescription("Provide user you wanna show Avatar")
-    ),
-  category: "info",
+    .setName('avatar')
+    .setDescription('Get Avatar')
+    .addUserOption((opt) => opt.setName('user').setDescription('Provide user you wanna show Avatar')),
+  category: 'info',
   cooldow: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user: author, options } = interaction;
-    const user = options.getUser("user") || author;
+    const user = options.getUser('user') || author;
 
     const avtEmbed = new EmbedBuilder()
-      .setColor("Random")
+      .setColor('Random')
       .setTimestamp()
       .setDescription(`${user}'s Avatar:`)
       .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))

@@ -1,4 +1,4 @@
-const { Client, ActivityType } = require("discord.js");
+const { Client, ActivityType } = require('discord.js');
 
 module.exports = (client) => {
   /** @param {Client} client */
@@ -6,16 +6,10 @@ module.exports = (client) => {
     const { guilds, user } = client;
     try {
       const count = await guilds.cache.map((g) => g).length;
-      const activityText =
-        prefix + `help in ${count} server${count > 1 ? "s" : ""}`;
+      const activityText = prefix + `help in ${count} server${count > 1 ? 's' : ''}`;
       const [activityTypes, statusTypes] = [
-        [
-          ActivityType.Playing,
-          ActivityType.Listening,
-          ActivityType.Watching,
-          ActivityType.Competing,
-        ],
-        ["online", "dnd", "idle"],
+        [ActivityType.Playing, ActivityType.Listening, ActivityType.Watching, ActivityType.Competing],
+        ['online', 'dnd', 'idle'],
       ];
       let t_id = Math.floor(Math.random() * activityTypes.length);
       let s_id = Math.floor(Math.random() * statusTypes.length);
@@ -27,7 +21,7 @@ module.exports = (client) => {
 
       user.setPresence({ activities: [activities], status: statusTypes[s_id] });
     } catch (e) {
-      console.error(chalk.yellow.bold("Error while running setPresence"), e);
+      console.error(chalk.yellow.bold('Error while running setPresence'), e);
     }
   };
 };

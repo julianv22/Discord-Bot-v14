@@ -1,7 +1,7 @@
-const { Client, Interaction, ChannelType } = require("discord.js");
+const { Client, Interaction, ChannelType } = require('discord.js');
 
 module.exports = {
-  name: "interactionCreate",
+  name: 'interactionCreate',
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
@@ -11,9 +11,7 @@ module.exports = {
 
       if (channel.type === ChannelType.DM)
         return interaction.reply({
-          embeds: [
-            { color: 16711680, description: `\\❌ | Can not use command here` },
-          ],
+          embeds: [{ color: 16711680, description: `\\❌ | Can not use command here` }],
           ephemeral: true,
         });
 
@@ -24,14 +22,11 @@ module.exports = {
 
         if (command.ownerOnly && member.id !== guild.ownerId)
           return interaction.reply({
-            embeds: [
-              { color: 16711680, description: `\\❌ | You are not the Owner` },
-            ],
+            embeds: [{ color: 16711680, description: `\\❌ | You are not the Owner` }],
             ephemeral: true,
           });
 
-        if (subcommandName)
-          executeInteraction(subcommand || command, interaction);
+        if (subcommandName) executeInteraction(subcommand || command, interaction);
         else executeInteraction(command, interaction);
       }
 
@@ -42,9 +37,7 @@ module.exports = {
     } catch (e) {
       const error = `Error while executing command [${interaction.commandName}]`;
       interaction.reply({
-        embeds: [
-          { color: 16711680, title: `\❌ ` + error, description: `${e}` },
-        ],
+        embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }],
         ephemeral: true,
       });
       console.error(chalk.yellow.bold(error), e);

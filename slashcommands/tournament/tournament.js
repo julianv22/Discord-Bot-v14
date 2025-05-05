@@ -1,5 +1,5 @@
-const serverProfile = require("../../config/serverProfile");
-const tournamenProfile = require("../../config/tournamenProfile");
+const serverProfile = require('../../config/serverProfile');
+const tournamenProfile = require('../../config/tournamenProfile');
 const {
   SlashCommandBuilder,
   EmbedBuilder,
@@ -8,7 +8,7 @@ const {
   Role,
   Client,
   messageLink,
-} = require("discord.js");
+} = require('discord.js');
 /**
  * @param {Interaction} interaction
  * @param {Role} getRole
@@ -31,45 +31,31 @@ async function setTournament(interaction, getRole, isOpen, stStatus) {
       tourID: getRole.id,
       tourName: getRole.name,
       tourStatus: isOpen,
-    }
+    },
   );
 }
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName("tournament")
+    .setName('tournament')
     .setDescription(`Cài đặt giải đấu. \n${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
-        .setName("open")
+        .setName('open')
         .setDescription(`Mở đăng ký giải đấu. \n${cfg.adminRole} only`)
-        .addRoleOption((opt) =>
-          opt
-            .setName("ten-giai")
-            .setDescription("Chọn tên giải đấu")
-            .setRequired(true)
-        )
+        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn tên giải đấu').setRequired(true)),
     )
     .addSubcommand((sub) =>
       sub
-        .setName("close")
+        .setName('close')
         .setDescription(`Đóng đăng ký giải đấu. \n${cfg.adminRole} only`)
-        .addRoleOption((opt) =>
-          opt
-            .setName("ten-giai")
-            .setDescription("Chọn tên giải đấu")
-            .setRequired(true)
-        )
+        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn tên giải đấu').setRequired(true)),
     )
     .addSubcommand((sub) =>
-      sub
-        .setName("list")
-        .setDescription(
-          `List danh sách thành viên tham gia giải đấu. \n${cfg.adminRole} only`
-        )
+      sub.setName('list').setDescription(`List danh sách thành viên tham gia giải đấu. \n${cfg.adminRole} only`),
     ),
-  category: "tournament",
+  category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
   cooldown: 0,
 
@@ -84,10 +70,10 @@ module.exports = {
       });
       createOne.save();
     }
-    const getRole = options.getRole("ten-giai");
+    const getRole = options.getRole('ten-giai');
 
     switch (options.getSubcommand()) {
-      case "open":
+      case 'open':
         if (getRole.id !== profile?.tourID && profile?.tourStatus)
           return interaction.reply({
             embeds: [
@@ -108,9 +94,9 @@ module.exports = {
             ],
             ephemeral: true,
           });
-        setTournament(interaction, getRole, true, "mở");
+        setTournament(interaction, getRole, true, 'mở');
         break;
-      case "close":
+      case 'close':
         if (profile?.tourID && getRole.id !== profile?.tourID)
           return interaction.reply({
             embeds: [
@@ -131,9 +117,9 @@ module.exports = {
             ],
             ephemeral: true,
           });
-        setTournament(interaction, getRole, false, "đóng");
+        setTournament(interaction, getRole, false, 'đóng');
         break;
-      case "list":
+      case 'list':
         if (!profile?.tourStatus)
           return interaction.reply({
             embeds: [
@@ -160,9 +146,7 @@ module.exports = {
             ephemeral: true,
           });
 
-        const tengiai = `**Tên giải:** ${guild.roles.cache.get(
-          profile.tourID
-        )}`;
+        const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
 
         const embed = new EmbedBuilder()
           .setAuthor({
@@ -170,10 +154,8 @@ module.exports = {
             iconURL: guild.iconURL(true),
           })
           .setDescription(tengiai)
-          .setColor("Random")
-          .setThumbnail(
-            "https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg"
-          )
+          .setColor('Random')
+          .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
           .setTimestamp()
           .setFooter({ text: `Tổng số đăng ký: [${memberList.length}]` });
 
@@ -192,12 +174,11 @@ module.exports = {
           }
         });
 
-        const desc = tengiai + `\n\n${msg.join("\n")}`;
-        if (memberList.length > 25 && desc.length < 1950)
-          embed.setDescription(desc);
+        const desc = tengiai + `\n\n${msg.join('\n')}`;
+        if (memberList.length > 25 && desc.length < 1950) embed.setDescription(desc);
 
         interaction.reply({ embeds: [embed] }).then(() => {
-          if (desc.length > 1950) interaction.followUp(msg.join("\n"));
+          if (desc.length > 1950) interaction.followUp(msg.join('\n'));
         });
         break;
     }
