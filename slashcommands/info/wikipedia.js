@@ -46,8 +46,12 @@ module.exports = {
             text: `Requested by ${author.username}`,
             iconURL: author.displayAvatarURL(true),
           })
+          .setThumbnail(
+            thumbnail
+              ? thumbnail.source
+              : 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png',
+          )
           .setTimestamp();
-        if (thumbnail) embed.setThumbnail(thumbnail.source);
 
         interaction.reply({ embeds: [embed] });
       });
