@@ -1,5 +1,6 @@
 .env
 .idx
 .replit
+.vscode
 replit.nix
 node_modules
