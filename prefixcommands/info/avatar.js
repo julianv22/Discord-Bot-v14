@@ -23,7 +23,7 @@ module.exports = {
       .setDescription(`Avatar của ${user}`)
       .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))
       .setFooter({
-        text: `Requested by ${author.username}`,
+        text: `Requested by ${author.displayName}`,
         iconURL: author.displayAvatarURL(true),
       });
 

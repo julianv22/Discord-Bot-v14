@@ -18,7 +18,7 @@ module.exports = {
       .setColor('Red')
       .setThumbnail(cfg.thongbaoPNG)
       .setFooter({
-        text: 'Sent by ' + user.username,
+        text: 'Sent by ' + user.displayName,
         iconURL: user.displayAvatarURL(true),
       })
       .setTimestamp()

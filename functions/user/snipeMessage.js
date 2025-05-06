@@ -37,7 +37,7 @@ module.exports = (client) => {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: target
-            ? `${user.username} snipped message of ${target.username || target.user.username}`
+            ? `${user.displayName} snipped message of ${target.displayName || target.user.displayName}`
             : 'Last deleted message:',
           iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
         })
@@ -45,7 +45,7 @@ module.exports = (client) => {
         .setTimestamp()
         .setThumbnail(author.displayAvatarURL(true))
         .setFooter({
-          text: `Requested by ${user.username}`,
+          text: `Requested by ${user.displayName}`,
           iconURL: user.displayAvatarURL(true),
         })
         .addFields([{ name: 'Author:', value: `${author}`, inline: true }])

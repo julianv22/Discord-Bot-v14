@@ -34,7 +34,7 @@ module.exports = (client) => {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `Hi, ${user.username}`,
+          name: `Hi, ${user.displayName}`,
           iconURL: user.displayAvatarURL(true),
         })
         .setColor(rps().color)

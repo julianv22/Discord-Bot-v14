@@ -50,7 +50,7 @@ module.exports = {
       // Create Text
       ctx.textAlign = 'center';
       ctx.fillStyle = '#ffff60';
-      addContext(`${user.username}`, c.w / 2, c.h / 2, 75);
+      addContext(`${user.displayName}`, c.w / 2, c.h / 2, 75);
       addContext(`#${user.discriminator}`, c.w / 2, c.h / 2 + 40, 36);
       ctx.fillStyle = '#FFF';
       addContext(`You are ${guild.memberCount}th member!`, c.w / 2, c.h - 140, 32);

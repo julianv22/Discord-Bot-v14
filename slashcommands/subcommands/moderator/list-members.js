@@ -24,7 +24,7 @@ module.exports = {
     const desc = options.getString('description');
     const role = options.getRole('role');
     const members = await message.guild.roles.cache.get(role.id).members.map((m) => m.user);
-    const userName = await message.guild.roles.cache.get(role.id).members.map((m) => m.user.username);
+    const userName = await message.guild.roles.cache.get(role.id).members.map((m) => m.user.displayName);
     const isInline = options.getBoolean('inline');
     let stInline = isInline === true ? ' | ' : '\n';
 

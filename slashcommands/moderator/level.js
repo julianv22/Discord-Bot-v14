@@ -35,7 +35,7 @@ module.exports = {
       });
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: user.username, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
       .setTitle('Bảng xếp hạng level tuần #' + week)
       .setDescription(
         'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)',

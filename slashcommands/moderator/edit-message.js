@@ -52,7 +52,7 @@ module.exports = {
         .addFields([{ name: 'Edited content:', value: '> ' + content }])
         .setTimestamp()
         .setFooter({
-          text: `Edited by ${user.username}`,
+          text: `Edited by ${user.displayName}`,
           iconURL: user.displayAvatarURL(true),
         });
 

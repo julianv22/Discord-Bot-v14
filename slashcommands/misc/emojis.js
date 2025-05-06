@@ -27,7 +27,7 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: 'Requested by ' + user.username,
+            text: 'Requested by ' + user.displayName,
             iconURL: user.displayAvatarURL(true),
           }),
       ],

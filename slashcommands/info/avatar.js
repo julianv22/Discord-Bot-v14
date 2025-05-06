@@ -19,7 +19,7 @@ module.exports = {
       .setDescription(`${user}'s Avatar:`)
       .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))
       .setFooter({
-        text: `Requested by ${author.username}`,
+        text: `Requested by ${author.displayName}`,
         iconURL: author.displayAvatarURL(true),
       });
 

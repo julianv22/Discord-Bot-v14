@@ -9,7 +9,7 @@ module.exports = {
   async execute(interaction, client) {
     const { user } = interaction;
     const embed = new EmbedBuilder()
-      .setAuthor({ name: user.username, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
       .setFooter({ text: '😍 Wow!' })
       .setColor('Random')
       .setImage(

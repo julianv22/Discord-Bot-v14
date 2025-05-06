@@ -19,7 +19,7 @@ module.exports = (client) => {
       let res = [
         {
           author: {
-            name: author.username,
+            name: author.displayName,
             icon_url: author.displayAvatarURL(true),
           }, // Set Author
           title: args[0], // Set Tittle

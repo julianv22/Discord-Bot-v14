@@ -106,7 +106,7 @@ module.exports = (client) => {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: author.username,
+          name: author.displayName,
           iconURL: author.displayAvatarURL(true),
         })
         .setTitle('💖 | Special Thanks!')

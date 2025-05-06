@@ -12,7 +12,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setAuthor({
-              name: `Hi, ${author.username}`,
+              name: `Hi, ${author.displayName}`,
               iconURL: author.displayAvatarURL(true),
             })
             .setTitle('You can not use command here.')
