@@ -6,6 +6,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   EmbedBuilder,
+  AttachmentBuilder,
   UserFlags,
   version,
 } = require('discord.js');
