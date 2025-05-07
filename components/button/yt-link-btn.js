@@ -6,7 +6,7 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     await interaction.reply({
-      content: `Hãy like, share và subscrible để ủng hộ cho Julian-V nhé! 😘\n` + cfg.youtube,
+      content: `Hãy like, share và subscrible để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`,
       ephemeral: true,
     });
   },
