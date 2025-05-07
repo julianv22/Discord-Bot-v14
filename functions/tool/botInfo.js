@@ -47,6 +47,7 @@ module.exports = (client) => {
         new ButtonBuilder().setLabel('Vote!').setURL('https://top.gg/servers/954736697453731850/vote').setStyle('Link'),
       );
 
+      const attachment = new AttachmentBuilder('./config/discord_QR.png', { name: 'discord_QR.png' });
       const embed = new EmbedBuilder()
         .setColor('Random')
         .setAuthor({
@@ -55,7 +56,7 @@ module.exports = (client) => {
         })
         .setTitle('Description:')
         .setDescription(application.description || null)
-        .setThumbnail(bot.displayAvatarURL({ dynamic: true }))
+        .setThumbnail(`attachment://${attachment.name}`)
         .addFields(
           { name: '👤 Username:', value: `${bot}`, inline: true },
           {
@@ -117,6 +118,7 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({
         embeds: [embed],
+        files: [attachment],
         components: [buttons],
       });
     } catch (e) {
