@@ -58,7 +58,7 @@ module.exports = {
 
     const edit = EmbedBuilder.from(embed).setColor('Red').spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất không được chấp nhận`,
-      iconURL: 'https://emoji-uc.akamaized.net/orig/91/688d0305a605a283b2e17e04834192.png',
+      iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
     });
     await msg.edit({ embeds: [edit] });
 
@@ -80,7 +80,7 @@ module.exports = {
           new EmbedBuilder()
             .setAuthor({
               name: 'Deny suggestion',
-              iconURL: 'https://emoji-uc.akamaized.net/orig/91/688d0305a605a283b2e17e04834192.png',
+              iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
             })
             .setTitle(`Your suggestion has been denied by ${user.displayName}!`)
             .setDescription(`[Jump Link](${msg.url})`)
