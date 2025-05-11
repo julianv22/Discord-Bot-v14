@@ -19,7 +19,7 @@ module.exports = {
       .setDescription(description)
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
       .setTimestamp()
-      .setColor(color == Colors ? color : 'Random')
+      .setColor(color || 'Random')
       .setThumbnail(checkURL(thumbnailURL) ? thumbnailURL : null)
       .setImage(checkURL(imageURL) ? imageURL : null);
 

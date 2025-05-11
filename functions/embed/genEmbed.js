@@ -48,7 +48,7 @@ module.exports = (client) => {
         })
         .setTitle(title)
         .setDescription(description)
-        .setColor(color == Colors ? color : 'Random')
+        .setColor(color || 'Random')
         .setThumbnail(checkURL(thumbnail) ? thumbnail : null)
         .setImage(checkURL(image) ? image : null);
       if (footer) embed.setFooter({ text: footer, iconURL: guild.iconURL(true) }).setTimestamp();
