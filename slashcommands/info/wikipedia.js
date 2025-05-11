@@ -11,13 +11,17 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     function capitalize(s) {
-      return s && String(s[0]).toUpperCase() + String(s).slice(1);
+      try {
+        return s && String(s[0]).toUpperCase() + String(s).slice(1);
+      } catch (e) {
+        console.log(e);
+      }
     }
 
-    const user = interaction.options.getString('keyword');
+    const keyword = interaction.options.getString('keyword');
     const { user: author } = interaction;
 
-    fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${user}`)
+    fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${keyword}`)
       .then((res) => res.json())
       .then((body) => {
         if (body.status === 404)
@@ -31,25 +35,32 @@ module.exports = {
             ephemeral: true,
           });
 
-        let { title, description, thumbnail, content_urls, extract } = body;
+        let {
+          title,
+          description,
+          thumbnail,
+          content_urls: {
+            desktop: { page: page_url },
+          },
+          extract,
+        } = body;
         const embed = new EmbedBuilder()
           .setColor('Random')
           .setAuthor({
             name: title,
             iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
-            url: content_urls.desktop.page,
+            url: page_url,
           })
           .setTitle(capitalize(description))
-          .setURL(content_urls.desktop.page)
+          .setURL(page_url)
           .setDescription(extract)
           .setFooter({
             text: `Requested by ${author.displayName}`,
             iconURL: author.displayAvatarURL(true),
           })
           .setThumbnail(
-            thumbnail
-              ? thumbnail.source
-              : 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png',
+            thumbnail?.source ||
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png',
           )
           .setTimestamp();
 
