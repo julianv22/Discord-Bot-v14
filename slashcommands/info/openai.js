@@ -26,7 +26,9 @@ module.exports = {
       });
       let reply = res?.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(res);
       if (typeof reply === 'object') reply = JSON.stringify(reply, null, 2);
-      await interaction.editReply({ content: reply.length > 2000 ? reply.slice(0, 1997) + '...' : reply });
+      for (let i = 0; i < reply.length; i += 2000) {
+        await interaction.followUp({ content: reply.slice(i, i + 2000) });
+      }
     } catch (error) {
       console.error('Error communicating with Gemini AI:', error);
       await interaction.editReply({ content: 'There was an error communicating with Gemini AI.' });
