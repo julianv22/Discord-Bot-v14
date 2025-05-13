@@ -12,6 +12,9 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
+    function errorEmbed(content) {
+      return { embeds: [{ color: 16711680, description: `\\❌ | ${content}` }], ephemeral: true };
+    }
     const { mentions, guild, author } = message;
     if (args.join(' ').trim() === '?')
       return client.cmdGuide(message, this.name, this.description, null, prefix + this.name + ' <user>');
@@ -19,64 +22,25 @@ module.exports = {
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
       return message
-        .reply({
-          embeds: [
-            {
-              color: 16711680,
-              description: `\\❌ | Phải @ đến nạn nhân để hack 🤣!`,
-            },
-          ],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+        .reply(errorEmbed('Phải @ đến nạn nhân để hack 🤣!'))
+        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === author.id)
       return message
-        .reply({
-          embeds: [
-            {
-              color: 16711680,
-              description: `\\❌ | Ngu dốt! Không thể hack chính mình 😅!`,
-            },
-          ],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+        .reply(errorEmbed('Ngu dốt! Không thể hack chính mình 😅!'))
+        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === guild.ownerId)
       return message
-        .reply({
-          embeds: [
-            {
-              color: 16711680,
-              description: `\\❌ | Không động được vào thằng này đâu nhá! \\🎭`,
-            },
-          ],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+        .reply(errorEmbed('Không động được vào thằng này đâu nhá! 🎭'))
+        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === cfg.clientID)
       return message
-        .reply({
-          embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+        .reply(errorEmbed('Are you sure 🤔'))
+        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
-    let username = target.user.tag;
+    let username = target.displayName || target.user?.tag || target.id;
     const text = [
       `\`\`\`diff\n+ Hacking ${username}...\n\`\`\``,
       `\`\`\`diff\n+ Getting ${username}'s token...\n\`\`\``,
@@ -108,22 +72,22 @@ module.exports = {
     const randomProcess3 = Math.floor(Math.random() * process3.length);
     const msg = await message.reply(text[randomText]);
     setTimeout(() => {
-      msg.edit(process1[randomProcess1]);
+      msg.edit(process1[randomProcess1]).catch(() => {});
     }, 1500);
     setTimeout(() => {
-      msg.edit(process2[randomProcess2]);
+      msg.edit(process2[randomProcess2]).catch(() => {});
     }, 2500);
     setTimeout(() => {
-      msg.edit(process3[randomProcess3]);
+      msg.edit(process3[randomProcess3]).catch(() => {});
     }, 3500);
     setTimeout(() => {
-      msg.edit(processEnd);
+      msg.edit(processEnd).catch(() => {});
     }, 4500);
     setTimeout(() => {
-      msg.edit(endText);
+      msg.edit(endText).catch(() => {});
     }, 5500);
     setTimeout(() => {
-      msg.edit(result);
+      msg.edit(result).catch(() => {});
     }, 6000);
   },
 };

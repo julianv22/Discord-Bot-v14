@@ -10,38 +10,20 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    function errorEmbed(content) {
+      return { embeds: [{ color: 16711680, description: `\\❌ | ${content}` }], ephemeral: true };
+    }
     const { guild, user, options } = interaction;
     const target = options.getUser('target');
 
-    if (target.id === user.id)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Ngu dốt! Không thể hack chính mình 😅!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    // Validate context
+    if (!target) return interaction.reply(errorEmbed('Target user not found!'));
+    if (!guild) return interaction.reply(errorEmbed('Lệnh này chỉ dùng trong server!'));
+    if (target.id === user.id) return interaction.reply(errorEmbed('Ngu dốt! Không thể hack chính mình 😅!'));
+    if (target.id === guild.ownerId) return interaction.reply(errorEmbed('Không động được vào thằng này đâu nhá!'));
+    if (target.id === cfg.clientID) return interaction.reply(errorEmbed('Are you sure 🤔⁉️'));
 
-    if (target.id === guild.ownerId)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Không động được vào thằng này đâu nhá! \\🎭`,
-          },
-        ],
-        ephemeral: true,
-      });
-
-    if (target.id === cfg.clientID)
-      return interaction.reply({
-        embeds: [{ color: 16711680, description: `⁉️ | Are you sure 🤔` }],
-        ephemeral: true,
-      });
-
-    let username = target.tag;
+    let username = target.displayName || target.tag || 'Unknown';
     const text = [
       `\`\`\`diff\n+ Hacking ${username}...\n\`\`\``,
       `\`\`\`diff\n+ Getting ${username}'s token...\n\`\`\``,
@@ -74,22 +56,22 @@ module.exports = {
 
     await interaction.reply(text[randomText]);
     setTimeout(() => {
-      interaction.editReply(process1[randomProcess1]);
+      interaction.editReply(process1[randomProcess1]).catch(() => {});
     }, 1500);
     setTimeout(() => {
-      interaction.editReply(process2[randomProcess2]);
+      interaction.editReply(process2[randomProcess2]).catch(() => {});
     }, 2500);
     setTimeout(() => {
-      interaction.editReply(process3[randomProcess3]);
+      interaction.editReply(process3[randomProcess3]).catch(() => {});
     }, 3500);
     setTimeout(() => {
-      interaction.editReply(processEnd);
+      interaction.editReply(processEnd).catch(() => {});
     }, 4500);
     setTimeout(() => {
-      interaction.editReply(endText);
+      interaction.editReply(endText).catch(() => {});
     }, 5500);
     setTimeout(() => {
-      interaction.editReply(result);
+      interaction.editReply(result).catch(() => {});
     }, 6000);
   },
 };
