@@ -19,7 +19,9 @@ module.exports = {
     fetch(`https://api.github.com/users/${user}`)
       .then((res) => res.json())
       .then((body) => {
-        if (body.message) return interaction.reply(errorEmbed(true, 'Can not find this user!'));
+        if (!body || body.message === 'Not Found' || !body.login)
+          return interaction.reply(errorEmbed(true, 'Can not find this user!'));
+
         let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
           body;
 

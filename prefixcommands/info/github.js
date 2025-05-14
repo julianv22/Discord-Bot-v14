@@ -29,7 +29,7 @@ module.exports = {
     fetch(`https://api.github.com/users/${args.join('-')}`)
       .then((res) => res.json())
       .then((body) => {
-        if (body.message)
+        if (!body || body.message === 'Not Found' || !body.login)
           return channel.send(errorEmbed(true, 'Không tìm thấy người dùng, hãy nhập chính xác username!')).then((m) => {
             setTimeout(() => {
               m.delete();
