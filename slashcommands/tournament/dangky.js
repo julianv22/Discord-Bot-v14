@@ -76,7 +76,7 @@ module.exports = {
         .get(user.id)
         .roles.add(role)
         .catch((e) => {
-          interaction.followUp(errorEmbed(true, 'Bot không thể gán role cho bạn. Vui lòng liên hệ quản trị viên!'));
+          interaction.followUp(errorEmbed(true, 'Bot không thể gán role cho bạn. Vui lòng liên hệ quản trị viên!', e));
           console.error(e);
         });
     }

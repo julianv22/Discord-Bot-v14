@@ -47,10 +47,23 @@ module.exports = {
     await tournamenProfile.findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false });
 
     // Remove Role
-    if (role)
-      await guild.members.cache
-        .get(user.id)
-        .roles.remove(role)
-        .catch((e) => console.error(e));
+    const botMember = guild.members.me || (await guild.members.fetch(client.user.id));
+    if (!botMember.permissions.has('ManageRoles')) {
+      await interaction.followUp(errorEmbed(true, 'Bot cần quyền Manage Roles để gán vai trò!'));
+      return;
+    }
+    if (botMember.roles.highest.position <= role.position) {
+      await interaction.followUp(
+        errorEmbed(true, 'Bot không thể gỡ role này vì role đó cao hơn hoặc bằng role của bot!'),
+      );
+      return;
+    }
+    await guild.members.cache
+      .get(user.id)
+      .roles.remove(role)
+      .catch((e) => {
+        interaction.followUp(errorEmbed(true, 'Bot không thể gỡ role cho bạn. Vui lòng liên hệ quản trị viên!', e));
+        console.error(e);
+      });
   },
 };
