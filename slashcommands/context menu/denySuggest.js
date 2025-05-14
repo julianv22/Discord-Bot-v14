@@ -37,7 +37,7 @@ module.exports = {
     });
     await msg.edit({ embeds: [edit] });
 
-    interaction.reply(errorEmbed(`\\🚫 |`, `Suggestion has been denied! [[Jump Link](${msg.url})]`));
+    interaction.reply(errorEmbed(`\\🚫 | `, `Suggestion has been denied! [[Jump Link](${msg.url})]`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 

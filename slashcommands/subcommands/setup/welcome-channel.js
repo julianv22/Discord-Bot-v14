@@ -33,7 +33,7 @@ module.exports = {
       { guildID: guild.id },
       {
         guildName: guild.name,
-        welomeChannel: options.getChannel('welcome').id,
+        welcomeChannel: options.getChannel('welcome').id,
         logChannel: options.getChannel('log').id,
       },
     );

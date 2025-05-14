@@ -28,6 +28,6 @@ module.exports = {
       ],
       ephemeral: true,
     });
-    await serverProfile.findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, welomeMessage: welcomeMSG });
+    await serverProfile.findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, welcomeMessage: welcomeMSG });
   },
 };
