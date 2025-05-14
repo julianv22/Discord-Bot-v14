@@ -26,7 +26,7 @@ module.exports = {
         }, 10000);
       });
 
-    fetch(`https://api.github.com/users/${args.join('-')}`)
+    fetch(`https://api.github.com/users/${args[0]}`)
       .then((res) => res.json())
       .then((body) => {
         if (!body || body.message === 'Not Found' || !body.login)

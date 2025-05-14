@@ -6,17 +6,17 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('github')
     .setDescription(`Github's Information`)
-    .addStringOption((opt) => opt.setName('user').setDescription('Github Username').setRequired(true)),
+    .addStringOption((opt) => opt.setName('username').setDescription('Github Username').setRequired(true)),
   category: 'info',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const user = interaction.options.getString('user');
+    const gitUsername = interaction.options.getString('username');
     const { user: author } = interaction;
 
-    fetch(`https://api.github.com/users/${user}`)
+    fetch(`https://api.github.com/users/${gitUsername}`)
       .then((res) => res.json())
       .then((body) => {
         if (!body || body.message === 'Not Found' || !body.login)
