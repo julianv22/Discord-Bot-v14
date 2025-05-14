@@ -13,11 +13,11 @@ module.exports = {
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
-    const { errrorEmbed } = client;
+    const { errorEmbed } = client;
     let toSay = args.join(' ');
 
     if (!toSay)
-      return message.reply(errrorEmbed(true, 'Vui lòng nhập nội dung cần bot nói!')).then((m) => {
+      return message.reply(errorEmbed(true, 'Vui lòng nhập nội dung cần bot nói!')).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 10000);
