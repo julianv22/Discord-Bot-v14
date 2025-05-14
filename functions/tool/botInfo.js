@@ -23,7 +23,7 @@ module.exports = (client) => {
    */
   client.botInfo = async (author, interaction, message) => {
     try {
-      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application, prefix, cfg } = client;
+      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
       guilds.forEach((guild) => {
@@ -79,6 +79,7 @@ module.exports = (client) => {
             value: `Prefix: \`${prefix}\`\nHelp: \`${prefix}help | /help\``,
             inline: true,
           },
+
           {
             name: `💎 Server(s) [${guilds.length}]:`,
             value: `Members: ${totalmembers.toLocaleString()}`,
