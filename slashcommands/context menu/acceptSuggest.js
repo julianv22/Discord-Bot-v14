@@ -39,6 +39,7 @@ module.exports = {
     interaction.reply(errorEmbed(false, `Suggestion has been accepted! [[Jump Link](${msg.url}]`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
+    if (!author) return interaction.followUp?.(errorEmbed(true, 'Không tìm thấy user để gửi DM!')).catch(() => {});
 
     author
       .send({
