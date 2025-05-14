@@ -6,7 +6,7 @@ module.exports = (client) => {
    * @param {String} strError
    */
   client.errorEmbed = function errorEmbed(isError, strInput, strError) {
-    const strJoin = isError;
+    let strJoin = isError;
     if (typeof strJoin === 'boolean') {
       strJoin = isError ? '\\❌ | ' : '\\✅ | ';
     }
