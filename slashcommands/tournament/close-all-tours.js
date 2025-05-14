@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits } = require('discord.js');
-const tournamenProfile = require('../../config/tournamenProfile');
+const tournamentProfile = require('../../config/tournamentProfile');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,14 +21,14 @@ module.exports = {
     if (!verified) return interaction.reply(errorEmbed(`\\❗ `, 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
     // Set Tournament Status for member
-    const tourList = await tournamenProfile.find({ guildName: guild.name });
+    const tourList = await tournamentProfile.find({ guildName: guild.name });
     if (!tourList)
       return interaction.reply(
         errorEmbed(`\\🏆 | `, 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!'),
       );
 
     for (const member of tourList) {
-      await tournamenProfile.findOneAndUpdate(
+      await tournamentProfile.findOneAndUpdate(
         {
           guildName: member.guildName,
           userID: member.userID,

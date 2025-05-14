@@ -1,5 +1,5 @@
 const serverProfile = require('../../config/serverProfile');
-const tournamenProfile = require('../../config/tournamenProfile');
+const tournamentProfile = require('../../config/tournamentProfile');
 const {
   SlashCommandBuilder,
   EmbedBuilder,
@@ -81,23 +81,24 @@ module.exports = {
           );
         if (profile?.tourStatus)
           return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đang diễn ra rồi!`));
-        setTournament(interaction, getRole, true, 'mở');
+        await setTournament(interaction, getRole, true, 'mở');
         break;
       case 'close':
         if (profile?.tourID && getRole.id !== profile?.tourID)
           return interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile?.tourName}\``));
         if (!profile?.tourStatus)
-          return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đã được đÓng trước đó rồi!`));
-        setTournament(interaction, getRole, false, 'đóng');
+          return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đã được đóng trước đó rồi!`));
+        await setTournament(interaction, getRole, false, 'đóng');
         break;
       case 'list':
         if (!profile?.tourStatus)
           return interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
 
-        let memberList = await tournamenProfile.find({
-          guild: guild.id,
+        let memberList = await tournamentProfile.find({
+          guildID: guild.id,
           status: true,
         });
+
         if (memberList.length == 0) return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
 
         const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
@@ -131,7 +132,7 @@ module.exports = {
         const desc = tengiai + `\n\n${msg.join('\n')}`;
         if (memberList.length > 25 && desc.length < 1950) embed.setDescription(desc);
 
-        interaction.reply({ embeds: [embed] }).then(() => {
+        await interaction.reply({ embeds: [embed] }).then(() => {
           if (desc.length > 1950) interaction.followUp(msg.join('\n'));
         });
         break;

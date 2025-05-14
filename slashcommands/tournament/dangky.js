@@ -1,5 +1,5 @@
 const serverProfile = require('../../config/serverProfile');
-const tournamenProfile = require('../../config/tournamenProfile');
+const tournamentProfile = require('../../config/tournamentProfile');
 
 const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
 
@@ -28,16 +28,14 @@ module.exports = {
 
     await interaction.reply(errorEmbed(`\\🏆 | `, `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`));
 
-    await interaction.followUp(errorEmbed(false, `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`));
-
     if (role) {
       // Add Tournament Profile
-      let tourProfile = await tournamenProfile.findOne({
+      let tourProfile = await tournamentProfile.findOne({
         guildID: guild.id,
         userID: user.id,
       });
       if (!tourProfile) {
-        let createOne = await tournamenProfile.create({
+        let createOne = await tournamentProfile.create({
           guildID: guild.id,
           guildName: guild.name,
           userID: user.id,
@@ -48,7 +46,7 @@ module.exports = {
         });
         createOne.save();
       } else {
-        await tournamenProfile.findOneAndUpdate(
+        await tournamentProfile.findOneAndUpdate(
           { guildID: guild.id, userID: user.id },
           {
             guildName: guild.name,
@@ -72,13 +70,15 @@ module.exports = {
         );
         return;
       }
-      await guild.members.cache
-        .get(user.id)
-        .roles.add(role)
-        .catch((e) => {
-          interaction.followUp(errorEmbed(true, 'Bot không thể gán role cho bạn. Vui lòng liên hệ quản trị viên!', e));
-          console.error(e);
-        });
+      try {
+        await guild.members.cache.get(user.id).roles.add(role);
+        await interaction.followUp(errorEmbed(false, `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`));
+      } catch (e) {
+        await interaction.followUp(
+          errorEmbed(true, `Bot không thể gán role cho bạn. Vui lòng liên hệ quản trị viên!\n${e}`),
+        );
+        console.error(e);
+      }
     }
   },
 };

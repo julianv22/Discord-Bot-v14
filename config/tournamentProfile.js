@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const tournamenProfile = new mongoose.Schema({
+const tournamentProfile = new mongoose.Schema({
   guildID: { type: String, required: true },
   guildName: { type: String },
   userID: { type: String, required: true },
@@ -10,7 +10,7 @@ const tournamenProfile = new mongoose.Schema({
 });
 
 module.exports = mongoose.model(
-  'tournamenProfile',
-  tournamenProfile,
-  `tournamenProfile [${cfg.mongodb}] - ${cfg.clientID}`,
+  'tournamentProfile',
+  tournamentProfile,
+  `tournamentProfile [${cfg.mongodb}] - ${cfg.clientID}`,
 );

@@ -1,5 +1,5 @@
 const serverProfile = require('../../config/serverProfile');
-const tournamenProfile = require('../../config/tournamenProfile');
+const tournamentProfile = require('../../config/tournamentProfile');
 const { SlashCommandBuilder, Interaction } = require('discord.js');
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
       return interaction.reply(errorEmbed('❗ ', 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
     // Check Tournament's Status
-    let tourProfile = await tournamenProfile.findOne({
+    let tourProfile = await tournamentProfile.findOne({
       guildID: guild.id,
       userID: user.id,
     });
@@ -44,7 +44,7 @@ module.exports = {
     await interaction.reply(errorEmbed(`\\🏆 | `, `${user} huỷ đăng ký giải ${role}!!`));
 
     // Set Tournament's Status
-    await tournamenProfile.findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false });
+    await tournamentProfile.findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false });
 
     // Remove Role
     const botMember = guild.members.me || (await guild.members.fetch(client.user.id));
