@@ -19,17 +19,17 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
-    const { errroEmbed, users, user: bot } = client;
+    const { errorEmbed, users, user: bot } = client;
 
     if (msg.author.id !== cfg.clientID)
-      return interaction.reply(errroEmbed(true, `This messages does not belong to ${bot}!`));
+      return interaction.reply(errorEmbed(true, `This messages does not belong to ${bot}!`));
 
     const embed = msg.embeds[0];
 
-    if (!embed) return interaction.reply(errroEmbed(true, 'This is not suggest message!'));
+    if (!embed) return interaction.reply(errorEmbed(true, 'This is not suggest message!'));
 
     if (embed.title !== `Suggest's content:`)
-      return interaction.reply(errroEmbed(true, 'This is not suggest message!'));
+      return interaction.reply(errorEmbed(true, 'This is not suggest message!'));
 
     const edit = EmbedBuilder.from(embed).setColor('Red').spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất không được chấp nhận`,
@@ -37,7 +37,7 @@ module.exports = {
     });
     await msg.edit({ embeds: [edit] });
 
-    interaction.reply(errroEmbed(`\\🚫 |`, `Suggestion has been denied! [[Jump Link](${msg.url})]`));
+    interaction.reply(errorEmbed(`\\🚫 |`, `Suggestion has been denied! [[Jump Link](${msg.url})]`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 
