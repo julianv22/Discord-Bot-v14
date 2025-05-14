@@ -61,10 +61,24 @@ module.exports = {
       }
 
       // Add Role
+      const botMember = guild.members.me || (await guild.members.fetch(client.user.id));
+      if (!botMember.permissions.has('ManageRoles')) {
+        await interaction.followUp(errorEmbed(true, 'Bot cần quyền Manage Roles để gán vai trò!'));
+        return;
+      }
+      if (botMember.roles.highest.position <= role.position) {
+        await interaction.followUp(
+          errorEmbed(true, 'Bot không thể gán role này vì role đó cao hơn hoặc bằng role của bot!'),
+        );
+        return;
+      }
       await guild.members.cache
         .get(user.id)
         .roles.add(role)
-        .catch((e) => console.error(e));
+        .catch((e) => {
+          interaction.followUp(errorEmbed(true, 'Bot không thể gán role cho bạn. Vui lòng liên hệ quản trị viên!'));
+          console.error(e);
+        });
     }
   },
 };

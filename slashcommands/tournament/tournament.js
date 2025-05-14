@@ -61,6 +61,7 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, options } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id });
     if (!profile) {
@@ -75,76 +76,29 @@ module.exports = {
     switch (options.getSubcommand()) {
       case 'open':
         if (getRole.id !== profile?.tourID && profile?.tourStatus)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Đang có giải đấu \`${profile?.tourName}\` diễn ra. Vui lòng đóng giải này trước!`,
-              },
-            ],
-            ephemeral: true,
-          });
+          return interaction.reply(
+            errorEmbed(true, `Đang có giải đấu \`${profile?.tourName}\` diễn ra. Vui lòng đóng giải này trước!`),
+          );
         if (profile?.tourStatus)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Giải \`${profile?.tourName}\` đang diễn ra rồi!`,
-              },
-            ],
-            ephemeral: true,
-          });
+          return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đang diễn ra rồi!`));
         setTournament(interaction, getRole, true, 'mở');
         break;
       case 'close':
         if (profile?.tourID && getRole.id !== profile?.tourID)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Chưa chọn đúng giải đấu: \`${profile?.tourName}\``,
-              },
-            ],
-            ephemeral: true,
-          });
+          return interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile?.tourName}\``));
         if (!profile?.tourStatus)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Giải \`${profile?.tourName}\` đã được đÓng trước đó rồi!`,
-              },
-            ],
-            ephemeral: true,
-          });
+          return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đã được đÓng trước đó rồi!`));
         setTournament(interaction, getRole, false, 'đóng');
         break;
       case 'list':
         if (!profile?.tourStatus)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\🏆 | Hiện không có giải đấu nào đang diễn ra!`,
-              },
-            ],
-            ephemeral: true,
-          });
+          return interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
 
         let memberList = await tournamenProfile.find({
           guild: guild.id,
           status: true,
         });
-        if (memberList.length == 0)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Chưa có thành viên nào đăng kí giải!`,
-              },
-            ],
-            ephemeral: true,
-          });
+        if (memberList.length == 0) return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
 
         const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
 
