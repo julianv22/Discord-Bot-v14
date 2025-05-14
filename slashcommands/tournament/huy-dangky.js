@@ -14,6 +14,7 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
 
     let profile = await serverProfile.findOne({ guildID: guild.id });
@@ -22,27 +23,13 @@ module.exports = {
     else register = profile.tourStatus;
 
     if (register === false)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\🏆 | Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(
+        errorEmbed(`\\🏆 | `, 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!'),
+      );
 
     // Verified
     if (options.getBoolean('xacnhan') === false)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16763904,
-            description: `❗ Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errorEmbed('❗ ', 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
     // Check Tournament's Status
     let tourProfile = await tournamenProfile.findOne({
@@ -50,26 +37,11 @@ module.exports = {
       userID: user.id,
     });
     if (!tourProfile || !tourProfile?.status)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | ${user} chưa đăng ký giải đấu!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errorEmbed(true, `${user} chưa đăng ký giải đấu!`));
 
     // Interaction Reply
     const role = guild.roles.cache.get(profile?.tourID);
-    await interaction.reply({
-      embeds: [
-        {
-          color: 16711680,
-          description: `\\🏆 | ${user} huỷ đăng ký giải ${role}!!`,
-        },
-      ],
-    });
+    await interaction.reply(errorEmbed(`\\🏆 | `, `${user} huỷ đăng ký giải ${role}!!`));
 
     // Set Tournament's Status
     await tournamenProfile.findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false });

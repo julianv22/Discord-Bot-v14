@@ -19,19 +19,23 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
-    getQuote().then((quote) => {
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setDescription(quote)
-        .setColor('Random')
-        .setThumbnail(cfg.thumbnailURL)
-        .setFooter({
-          text: `Requested by ${user.displayName}`,
-          iconURL: user.displayAvatarURL(true),
-        })
-        .setTimestamp();
+    getQuote()
+      .then((quote) => {
+        const embed = new EmbedBuilder()
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setDescription(quote)
+          .setColor('Random')
+          .setThumbnail(cfg.thumbnailURL)
+          .setFooter({
+            text: `Requested by ${user.displayName}`,
+            iconURL: user.displayAvatarURL(true),
+          })
+          .setTimestamp();
 
-      interaction.reply({ embeds: [embed] });
-    });
+        interaction.reply({ embeds: [embed] });
+      })
+      .catch((e) => {
+        client.errorEmbed(true, 'Đã xảy ra lỗi khi lấy quote!', e);
+      });
   },
 };

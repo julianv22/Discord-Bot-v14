@@ -6,18 +6,13 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, user } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id });
     if (!profile || !profile?.suggestChannel)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(
+        errorEmbed(true, `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`),
+      );
 
     const sgtChannel = await client.channels.cache.get(profile?.suggestChannel);
     const content = interaction.fields.getTextInputValue('content');
@@ -40,15 +35,7 @@ module.exports = {
     const msg = await sgtChannel.send({ embeds: [embed] });
 
     await interaction
-      .reply({
-        embeds: [
-          {
-            color: 65280,
-            description: `\\✅ | Your suggestions has been send successfully! [[Jump link](${msg.url})]`,
-          },
-        ],
-        ephemeral: true,
-      })
+      .reply(errorEmbed(false, `Your suggestions has been send successfully! [[Jump link](${msg.url})]`))
       .then(() => {
         msg.react('👍');
         msg.react('👎');

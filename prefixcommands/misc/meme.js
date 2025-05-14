@@ -14,15 +14,13 @@ module.exports = {
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);
-    function errorEmbed(content) {
-      return { embeds: [{ color: 16711680, description: `\\❌ | ${content}` }], ephemeral: true };
-    }
+    const { errorEmbed } = client;
     const { author } = message;
     try {
       const response = await fetch('https://meme-api.com/gimme');
       const data = await response.json();
       if (!data || !data.url) {
-        return message.reply(errorEmbed('Không lấy được meme, thử lại sau!'));
+        return message.reply(errorEmbed(true, 'Không lấy được meme, thử lại sau!'));
       }
       const embed = new EmbedBuilder()
         .setAuthor({ name: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
@@ -36,7 +34,7 @@ module.exports = {
       await message.reply({ embeds: [embed] });
     } catch (e) {
       console.error('Lỗi lấy meme:', e);
-      await message.reply(errorEmbed(`Đã xảy ra lỗi khi lấy meme.\n${e}`));
+      await message.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy meme.', e));
     }
   },
 };

@@ -12,23 +12,39 @@ module.exports = (client) => {
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
-      const eventFolders = readdirSync(`./events`);
-      eventFolders.forEach(async (folder) => {
-        const eventFiles = readdirSync(`./events/${folder}`).filter((f) => f.endsWith('.js'));
+      let eventFolders = [];
+      try {
+        eventFolders = readdirSync(`./events`);
+      } catch (e) {
+        console.error(chalk.red('Không thể đọc folder ./events'), e);
+        return;
+      }
+      for (const folder of eventFolders) {
+        let eventFiles = [];
+        try {
+          eventFiles = readdirSync(`./events/${folder}`).filter((f) => f.endsWith('.js'));
+        } catch (e) {
+          console.error(chalk.red(`Không thể đọc folder ./events/${folder}`), e);
+          continue;
+        }
         table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '────────────', '📂');
 
         let i = 1;
-        eventFiles.forEach((file) => {
-          delete require.cache[require.resolve(`../../events/${folder}/${file}`)];
-          const event = require(`../../events/${folder}/${file}`);
-          if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
-          else client.on(event.name, (...args) => event.execute(...args, client));
+        for (const file of eventFiles) {
+          try {
+            delete require.cache[require.resolve(`../../events/${folder}/${file}`)];
+            const event = require(`../../events/${folder}/${file}`);
+            if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
+            else client.on(event.name, (...args) => event.execute(...args, client));
 
-          table.addRow('', i++, file.split('.')[0], '✅\u200b');
-          if (event.name !== file.split('.')[0]) table.addRow('', '', `⤷(${event.name})`, '');
-          count++;
-        });
-      });
+            table.addRow('', i++, file.split('.')[0], '✅\u200b');
+            if (event.name !== file.split('.')[0]) table.addRow('', '', `⤷(${event.name})`, '');
+            count++;
+          } catch (e) {
+            console.error(chalk.red(`Lỗi khi load event file: ./events/${folder}/${file}`), e);
+          }
+        }
+      }
       table.setTitle(`Load Events [${count}]`);
       console.log(table.toString());
     } catch (e) {

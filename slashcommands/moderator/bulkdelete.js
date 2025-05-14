@@ -15,21 +15,14 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { options, channel, user: author } = interaction;
     // const message = await interaction.deferReply({ fetchReply: true });
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
 
     if (amount < 0 || amount > 100)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Number of messages between \`[1 - 100]\`!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errorEmbed(true, `Number of messages between \`[1 - 100]\``));
 
     try {
       const messages = await channel.messages.fetch({ limit: amount });
@@ -45,26 +38,9 @@ module.exports = {
       }
 
       await channel.bulkDelete(user ? filtered : amount, user ? null : true);
-
-      await interaction.reply({
-        embeds: [
-          {
-            color: 65280,
-            description: `\\✅ | Deleted ${amount} messages!` + (user ? ` of ${user}` : ''),
-          },
-        ],
-        ephemeral: true,
-      });
+      await interaction.reply(errorEmbed(false, `Deleted ${amount} messages!` + (user ? ` of ${user}` : '')));
     } catch (e) {
-      interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Sơmething wrong when bulk deleting messages.\n\`\`\`fix\n${e}\`\`\``,
-          },
-        ],
-        ephemeral: true,
-      });
+      interaction.reply(errorEmbed(true, 'Something wrong when bulk deleting messages', e));
       console.error('BulkDelete Message', e);
     }
   },

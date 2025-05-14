@@ -26,13 +26,16 @@ module.exports = {
           { name: 'UserID:', value: `||${user.id}||`, inline: true },
         );
 
-      await guild.channels.cache.get(logID).send({ embeds: [emLog] });
+      const logChannel = guild.channels.cache.get(logID);
+      if (logChannel) {
+        await logChannel.send({ embeds: [emLog] });
+      }
 
       client.serverStats(client, guild.id);
 
       console.log(chalk.yellow(user.tag + ' left the server'), guild.name);
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running guildMemberAdd event'), e);
+      console.error(chalk.yellow.bold('Error while running guildMemberRemove event'), e);
     }
   },
 };

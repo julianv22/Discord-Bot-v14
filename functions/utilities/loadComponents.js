@@ -7,7 +7,7 @@ const { Collection, Client } = require('discord.js');
  * @param {Array} componentFiles
  * @param {String} folder
  */
-requireComponents = (components, componentFiles, folder) => {
+const requireComponents = (components, componentFiles, folder) => {
   try {
     componentFiles.forEach((file) => {
       delete require.cache[require.resolve(`../../components/${folder}/${file}`)];
@@ -36,8 +36,13 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
       componentFolders.forEach((folder) => {
-        const componentFiles = readdirSync(`./components/${folder}`).filter((f) => f.endsWith('.js'));
-
+        let componentFiles = [];
+        try {
+          componentFiles = readdirSync(`./components/${folder}`).filter((f) => f.endsWith('.js'));
+        } catch (e) {
+          console.error(chalk.red(`Không thể đọc folder: ./components/${folder}`), e);
+          return;
+        }
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
 
         let i = 1;

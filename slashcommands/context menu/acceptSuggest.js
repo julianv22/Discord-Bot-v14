@@ -19,42 +19,16 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
-    const { users, user: bot } = client;
+    const { errorEmbed, users, user: bot } = client;
 
-    if (msg.author.id !== cfg.clientID)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This messages does not belong to ${bot}!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (msg.author.id !== cfg.clientID) return interaction.reply(errorEmbed(true, `\\❌ | This is not my message!`));
 
     const embed = msg.embeds[0];
 
-    if (!embed)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This is not suggest message!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (!embed) return interaction.reply(errorEmbed(true, `\\❌ | This is not suggest message!`));
 
     if (embed.title !== `Suggest's content:`)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This is not suggest message!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errorEmbed(true, `\\❌ | This is not suggest message!`));
 
     const edit = EmbedBuilder.from(embed).setColor('Green').spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất đã được chấp nhận`,
@@ -62,15 +36,7 @@ module.exports = {
     });
     await msg.edit({ embeds: [edit] });
 
-    interaction.reply({
-      embeds: [
-        {
-          color: 65280,
-          description: `\\✅ | Suggestion has been accepted! [[Jump Link](${msg.url})]`,
-        },
-      ],
-      ephemeral: true,
-    });
+    interaction.reply(errorEmbed(false, `Suggestion has been accepted! [[Jump Link](${msg.url}`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 

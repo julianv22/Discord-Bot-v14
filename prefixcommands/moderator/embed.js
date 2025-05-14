@@ -1,4 +1,14 @@
 const { EmbedBuilder, Message, Client, PermissionFlagsBits } = require('discord.js');
+let cfg, prefix;
+try {
+  cfg = require('../../../config/config.json');
+} catch {
+  cfg = {
+    errorPNG: 'https://cdn-icons-png.flaticon.com/512/463/463612.png',
+    helpPNG: 'https://cdn-icons-png.flaticon.com/512/1828/1828817.png',
+    modRole: 'Mod',
+  };
+}
 
 module.exports = {
   name: 'embed',
@@ -14,7 +24,7 @@ module.exports = {
    */
   async execute(message, args, client) {
     const { guild } = message;
-    const { user: bot, createEmbed } = client;
+    const { user: bot, createEmbed, errorEmbed } = client;
     const isMod = message.member.permissions.has(PermissionFlagsBits.ManageMessages);
 
     const embedGuide = new EmbedBuilder()
@@ -66,36 +76,18 @@ module.exports = {
       const embedEdit = args.slice(2).join(' ').split(' | ');
 
       if (msgEdit === undefined || !argEdit[1])
-        return message
-          .reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Message ID \`${args[1]}\` không chính xác!`,
-              },
-            ],
-          })
-          .then((m) => {
-            setTimeout(() => {
-              m.delete();
-            }, 10000);
-          });
+        return message.reply(errorEmbed(true, `Vui lòng nhập ID tin nhắn muốn edit!`)).then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
       if (msgEdit.author.id !== bot.id)
-        return message
-          .reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Tin nhắn [\`${args[1]}\`](${msgEdit.url}) không phải tin nhắn của ${bot}`,
-              },
-            ],
-          })
-          .then((m) => {
-            setTimeout(() => {
-              m.delete();
-            }, 10000);
-          });
+        return message.reply(errorEmbed(true, `Tin nhắn không phải của bot!`)).then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
       if (!embedEdit[0] || !embedEdit[1])
         return message
@@ -107,7 +99,7 @@ module.exports = {
                 description: `\`\`\`fix\n${prefix + this.name} Tiêu đề | Nội dung\`\`\` \n\`${
                   prefix + this.name
                 } ?\` để xem hướng dẫn chi tiết.`,
-                thumbnail: { url: cfg.errorPNG },
+                thumbnail: { url: cfg.errorPNG || 'https://cdn-icons-png.flaticon.com/512/463/463612.png' },
               },
             ],
           })
@@ -116,18 +108,11 @@ module.exports = {
               m.delete();
             }, 10000);
           });
-
-      message.delete();
+      if (message.deletable) message.delete().catch(() => {});
       await createEmbed(msgEdit, embedEdit, 'edit');
-
-      const report = await message.channel.send({
-        embeds: [
-          {
-            color: 65280,
-            description: `\\✅ | Edit Embed [\`${argEdit[1]}\`](${msgEdit.url}) thành công!`,
-          },
-        ],
-      });
+      const report = await message.channel.send(
+        errorEmbed(false, `Edit Embed [\`${argEdit[1]}\`](${msgEdit.url}) thành công!`),
+      );
       setTimeout(() => {
         report.delete();
       }, 10000);
@@ -143,7 +128,7 @@ module.exports = {
                 description: `\`\`\`fix\n${prefix + this.name} Tiêu đề | Nội dung\`\`\` \n\`${
                   prefix + this.name
                 } ?\` để xem hướng dẫn chi tiết.`,
-                thumbnail: { url: cfg.errorPNG },
+                thumbnail: { url: cfg.errorPNG || 'https://cdn-icons-png.flaticon.com/512/463/463612.png' },
               },
             ],
           })
@@ -152,9 +137,8 @@ module.exports = {
               m.delete();
             }, 10000);
           });
-
-      message.delete();
-      createEmbed(message, argEmbed, 'send');
+      if (message.deletable) message.delete().catch(() => {});
+      await createEmbed(message, argEmbed, 'send');
     }
   },
 };

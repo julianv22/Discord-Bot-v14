@@ -10,18 +10,17 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    function errorEmbed(content) {
-      return { embeds: [{ color: 16711680, description: `\\❌ | ${content}` }], ephemeral: true };
-    }
+    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
     const target = options.getUser('target');
 
     // Validate context
-    if (!target) return interaction.reply(errorEmbed('Target user not found!'));
-    if (!guild) return interaction.reply(errorEmbed('Lệnh này chỉ dùng trong server!'));
-    if (target.id === user.id) return interaction.reply(errorEmbed('Ngu dốt! Không thể hack chính mình 😅!'));
-    if (target.id === guild.ownerId) return interaction.reply(errorEmbed('Không động được vào thằng này đâu nhá!'));
-    if (target.id === cfg.clientID) return interaction.reply(errorEmbed('Are you sure 🤔⁉️'));
+    if (!target) return interaction.reply(errorEmbed(true, 'Target user not found!'));
+    if (!guild) return interaction.reply(errorEmbed(true, 'Lệnh này chỉ dùng trong server!'));
+    if (target.id === user.id) return interaction.reply(errorEmbed(true, 'Ngu dốt! Không thể hack chính mình 😅!'));
+    if (target.id === guild.ownerId)
+      return interaction.reply(errorEmbed(true, 'Không động được vào thằng này đâu nhá!'));
+    if (target.id === cfg.clientID) return interaction.reply(errorEmbed(true, 'Are you sure 🤔⁉️'));
 
     let username = target.displayName || target.tag || 'Unknown';
     const text = [

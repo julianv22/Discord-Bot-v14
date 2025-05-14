@@ -7,9 +7,10 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed, channels } = client;
     const { guild, options } = interaction;
     const channel = options.getChannel('schannel');
-    const sgtChannel = await client.channels.cache.get(channel.id);
+    const sgtChannel = await channels.cache.get(channel.id);
     let profile = await serverProfile.findOne({ guildID: guild.id });
     if (!profile) {
       let createOne = await serverProfile.create({
@@ -19,15 +20,7 @@ module.exports = {
       createOne.save;
     }
 
-    interaction.reply({
-      embeds: [
-        {
-          color: 65280,
-          description: `\\✅ | Channel to send suggestions has been changed to ${channel}!`,
-        },
-      ],
-      ephemeral: true,
-    });
+    interaction.reply(errorEmbed(false, `Channel to send suggestions has been changed to ${channel}!`));
 
     await serverProfile.findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, suggestChannel: sgtChannel });
   },

@@ -12,9 +12,7 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
-    function errorEmbed(content) {
-      return { embeds: [{ color: 16711680, description: `\\❌ | ${content}` }], ephemeral: true };
-    }
+    const { errorEmbed } = client;
     const { mentions, guild, author } = message;
     if (args.join(' ').trim() === '?')
       return client.cmdGuide(message, this.name, this.description, null, prefix + this.name + ' <user>');
@@ -22,22 +20,22 @@ module.exports = {
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
       return message
-        .reply(errorEmbed('Phải @ đến nạn nhân để hack 🤣!'))
+        .reply(errorEmbed(true, 'Phải @ đến nạn nhân để hack 🤣!'))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === author.id)
       return message
-        .reply(errorEmbed('Ngu dốt! Không thể hack chính mình 😅!'))
+        .reply(errorEmbed(true, 'Ngu dốt! Không thể hack chính mình 😅!'))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === guild.ownerId)
       return message
-        .reply(errorEmbed('Không động được vào thằng này đâu nhá! 🎭'))
+        .reply(errorEmbed(true, 'Không động được vào thằng này đâu nhá! 🎭'))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === cfg.clientID)
       return message
-        .reply(errorEmbed('Are you sure 🤔'))
+        .reply(errorEmbed(true, 'Are you sure 🤔'))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     let username = target.displayName || target.user?.tag || target.id;

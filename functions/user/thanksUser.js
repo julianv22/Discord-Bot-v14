@@ -88,6 +88,7 @@ module.exports = (client) => {
         guildID: guild.id,
         userID: user.id,
       });
+      let thanksCount = 1;
       if (!thanks) {
         let createOne = await serverThanks.create({
           guildID: guild.id,
@@ -97,10 +98,12 @@ module.exports = (client) => {
           thanksCount: 1,
           lastThanks: Date.now(),
         });
-        createOne.save();
+        thanksCount = 1;
+      } else {
+        thanksCount = thanks.thanksCount + 1;
       }
 
-      const lastThanks = moment(thanks?.lastThanks || Date.now())
+      const lastThanks = moment((thanks && thanks.lastThanks) || Date.now())
         .tz('Asia/Ho_Chi_Minh')
         .format('HH:mm ddd, Do MMMM YYYY');
 
@@ -114,7 +117,7 @@ module.exports = (client) => {
         .setColor('Random')
         .addFields([
           {
-            name: `Thanks count: [${thanks?.thanksCount + 1 || 1}]`,
+            name: `Thanks count: [${thanksCount}]`,
             value: `\u200b`,
             inline: true,
           },
@@ -135,11 +138,25 @@ module.exports = (client) => {
         {
           guildName: guild.name,
           usertag: user.tag,
-          thanksCount: thanks?.thanksCount + 1 || 1,
+          thanksCount: thanksCount,
           lastThanks: Date.now(),
         },
       );
     } catch (e) {
+      if (interaction && typeof interaction.reply === 'function') {
+        interaction
+          .reply({
+            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
+            ephemeral: true,
+          })
+          .catch(() => {});
+      } else if (message && typeof message.reply === 'function') {
+        message
+          .reply({
+            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
+          })
+          .catch(() => {});
+      }
       console.error(chalk.yellow.bold('Error while running thanksUser'), e);
     }
   };

@@ -14,22 +14,27 @@ module.exports = {
   async execute(interaction, client) {
     const user = interaction.options.getString('user');
     const { user: author } = interaction;
+    const { errorEmbed } = client;
 
     fetch(`https://api.github.com/users/${user}`)
       .then((res) => res.json())
       .then((body) => {
-        if (body.message)
-          return interaction.reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\\❌ | Can not find this user!`,
-              },
-            ],
-            ephemeral: true,
-          });
+        if (body.message) return interaction.reply(errorEmbed(true, 'Can not find this user!')).catch(() => {});
         let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
           body;
+
+        // Fallback nếu thiếu dữ liệu
+        login = login || 'Unknown';
+        avatar_url = avatar_url || 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
+        name = name || 'Unknown';
+        id = id ? id.toString() : 'Unknown';
+        html_url = html_url || 'https://github.com';
+        public_repos = typeof public_repos === 'number' ? public_repos : 'None';
+        followers = typeof followers === 'number' ? followers : '0';
+        following = typeof following === 'number' ? following : '0';
+        location = location || 'No Location';
+        created_at = created_at || new Date().toISOString();
+        bio = bio || 'No bio';
 
         const embed = new EmbedBuilder()
           .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
@@ -46,14 +51,14 @@ module.exports = {
             },
             {
               name: 'Public Repositories',
-              value: `${public_repos || 'None'}`,
+              value: `${public_repos}`,
               inline: true,
             },
             { name: 'Followers', value: `${followers}`, inline: true },
             { name: 'Following', value: `${following}`, inline: true },
             {
               name: 'Location',
-              value: `${location || 'No Location'}`,
+              value: `${location}`,
               inline: true,
             },
             {
@@ -68,7 +73,11 @@ module.exports = {
           })
           .setTimestamp();
 
-        interaction.reply({ embeds: [embed] });
+        interaction.reply({ embeds: [embed] }).catch(() => {});
+      })
+      .catch((e) => {
+        interaction.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy thông tin Github!')).catch(() => {});
+        console.error('[slashcommands/info/github.js] Error fetching Github API:', e);
       });
   },
 };

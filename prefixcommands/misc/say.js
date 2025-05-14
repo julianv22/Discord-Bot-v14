@@ -17,20 +17,11 @@ module.exports = {
     let toSay = args.join(' ');
 
     if (!toSay)
-      return message
-        .reply({
-          embeds: [
-            {
-              color: 16711680,
-              description: `\\❌ | Nhập nội dung bạn muốn nói!`,
-            },
-          ],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+      return message.reply(client.errrorEmbed(true, 'Vui lòng nhập nội dung cần bot nói!')).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 10000);
+      });
 
     message.delete().then(() => message.channel.send(toSay));
   },

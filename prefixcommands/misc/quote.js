@@ -40,6 +40,12 @@ module.exports = {
           .setTimestamp();
         message.channel.send({ embeds: [embed] });
       })
-      .then(() => message.delete());
+      .then(() => {
+        if (message.deletable) message.delete().catch(() => {});
+      })
+      .catch((e) => {
+        message.channel.send('Đã xảy ra lỗi khi lấy quote!').catch(() => {});
+        console.error('[quote.js] Error fetching quote:', e);
+      });
   },
 };

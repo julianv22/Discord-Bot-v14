@@ -6,14 +6,12 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     try {
-      const { slashCommands, subCommands, executeInteraction } = client;
+      const { slashCommands, subCommands, executeInteraction, errorEmbed } = client;
       const { guild, member, commandName, options, channel } = interaction;
 
       if (channel.type === ChannelType.DM)
-        return interaction.reply({
-          embeds: [{ color: 16711680, description: `\\❌ | Can not use command here` }],
-          ephemeral: true,
-        });
+        return interaction.reply(errorEmbed(true, 'This command is not available in DMs'));
+      if (!guild) return interaction.reply(errorEmbed(true, 'This command is not available in DMs'));
 
       if (interaction.isChatInputCommand()) {
         const command = slashCommands.get(commandName);
@@ -21,10 +19,7 @@ module.exports = {
         const subcommand = subCommands.get(subcommandName);
 
         if (command.ownerOnly && member.id !== guild.ownerId)
-          return interaction.reply({
-            embeds: [{ color: 16711680, description: `\\❌ | You are not the Owner` }],
-            ephemeral: true,
-          });
+          return interaction.reply(errorEmbed(true, 'You are not the Owner'));
 
         if (subcommandName) executeInteraction(subcommand || command, interaction);
         else executeInteraction(command, interaction);
@@ -36,10 +31,21 @@ module.exports = {
       }
     } catch (e) {
       const error = `Error while executing command [${interaction.commandName}]`;
-      interaction.reply({
-        embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }],
-        ephemeral: true,
-      });
+      if (interaction.replied || interaction.deferred) {
+        interaction
+          .followUp({
+            embeds: [{ color: 16711680, title: `❌ ` + error, description: `${e}` }],
+            ephemeral: true,
+          })
+          .catch(() => {});
+      } else {
+        interaction
+          .reply({
+            embeds: [{ color: 16711680, title: `❌ ` + error, description: `${e}` }],
+            ephemeral: true,
+          })
+          .catch(() => {});
+      }
       console.error(chalk.yellow.bold(error), e);
     }
   },

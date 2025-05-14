@@ -1,4 +1,4 @@
-const { Client, Collection, GuildMember } = require('discord.js');
+const { Client, Collection, GuildMember, PermissionFlagsBits } = require('discord.js');
 
 /** @param {Client} client */
 module.exports = (client) => {
@@ -9,7 +9,7 @@ module.exports = (client) => {
   client.listCommands = function listCommands(commands, member) {
     try {
       var cmds = [];
-      const isAdmin = member.permissions.has('Administrator');
+      const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
       const Categories = commands.map((cmd) => cmd.category);
       const filters = Categories.filter((item, index) => Categories.indexOf(item) === index);
 
@@ -17,7 +17,9 @@ module.exports = (client) => {
       filters.forEach((category) => {
         let cmd;
         if (!isAdmin)
-          cmd = commands.map((cmd) => cmd).filter((cmd) => cmd.category === category && cmd.permissions != 8);
+          cmd = commands
+            .map((cmd) => cmd)
+            .filter((cmd) => cmd.category === category && cmd.permissions !== PermissionFlagsBits.Administrator);
         else cmd = commands.map((cmd) => cmd).filter((cmd) => cmd.category === category);
 
         count += cmd.length;

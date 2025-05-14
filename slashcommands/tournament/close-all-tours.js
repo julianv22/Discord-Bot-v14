@@ -15,31 +15,17 @@ module.exports = {
 
   /** @param {ChatInputCommandInteraction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, options } = interaction;
     const verified = options.getBoolean('verified');
-    if (!verified)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❗ Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (!verified) return interaction.reply(errorEmbed(`\\❗ `, 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
     // Set Tournament Status for member
     const tourList = await tournamenProfile.find({ guildName: guild.name });
     if (!tourList)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\🏆 | Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(
+        errorEmbed(`\\🏆 | `, 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!'),
+      );
 
     for (const member of tourList) {
       await tournamenProfile.findOneAndUpdate(
@@ -51,11 +37,6 @@ module.exports = {
       );
     }
 
-    interaction
-      .reply({
-        embeds: [{ color: 65280, description: `\\🏆 | Đã đóng toàn bộ giải đấu!!` }],
-        ephemeral: true,
-      })
-      .catch((e) => console.error(e));
+    interaction.reply(errorEmbed(`\\🏆 | `, 'Đã đóng toàn bộ giải đấu!!')).catch((e) => console.error(e));
   },
 };

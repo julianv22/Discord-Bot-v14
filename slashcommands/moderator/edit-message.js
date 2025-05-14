@@ -13,32 +13,18 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
     const msgid = options.getString('message-id');
     const content = options.getString('content');
     let msgEdit = await interaction.channel.messages.fetch(msgid).catch(() => undefined);
 
-    if (msgEdit === undefined)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Message ID \`${msgid}\` is incorrect!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (msgEdit === undefined) return interaction.reply(errorEmbed(true, `Message ID \`${msgid}\` is incorrect!`));
 
     if (msgEdit.author.id !== client.user.id)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This message [\`${msgid}\`](${msgEdit.url}) does not belong to ${client.user}!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(
+        errorEmbed(true, `This message [\`${msgid}\`](${msgEdit.url}) does not belong to ${client.user}!`),
+      );
 
     await msgEdit.edit(content).then(() => {
       const embed = new EmbedBuilder()

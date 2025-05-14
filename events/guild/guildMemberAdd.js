@@ -9,11 +9,16 @@ module.exports = {
 
   /** @param {GuildMember} member @param {Client} client */
   async execute(member, client) {
+    // Đặt hàm addContext ngoài try
+    function addContext(text, x, y, size) {
+      ctx.font = `${text.length < 25 ? size : 40}px Consolas`;
+      ctx.fillText(text, x, y);
+    }
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id });
-      if (!profile || !profile?.welomeChannel || !profile?.logChannel) return console.log(chalk.red('No Channel Set'));
-      const { welomeChannel: welcomeID, logChannel: logID } = profile;
+      if (!profile || !profile?.welcomeChannel || !profile?.logChannel) return console.log(chalk.red('No Channel Set'));
+      const { welcomeChannel: welcomeID, logChannel: logID } = profile;
 
       // Create Background
       const bgUrl = path.join(__dirname, '../../config/bg.png');
@@ -39,7 +44,6 @@ module.exports = {
       ctx.beginPath();
       ctx.lineWidth = 5;
       ctx.strokeStyle = gradient;
-      ctx.str;
       ctx.arc(c.w / 2, 80, 75, 0, Math.PI * 2, true);
       ctx.stroke();
       ctx.closePath();
@@ -60,11 +64,6 @@ module.exports = {
       if (guild.name.length > 40) ctx.font = '26px Consolas';
       ctx.fillText(`${guild.name}'s Server`, c.w / 2, c.h - 40);
 
-      function addContext(text, x, y, size) {
-        ctx.font = `${text.length < 25 ? size : 40}px Consolas`;
-        ctx.fillText(text, x, y);
-      }
-
       const embWelcome = new EmbedBuilder()
         .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL(true) })
         .setTitle('Welcome 👋')
@@ -80,17 +79,18 @@ module.exports = {
         .setImage(cfg.welcomePNG)
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
         .setTimestamp();
-      if (profile?.welomeMessage)
-        embWelcome.addFields([{ name: `Server's Information:`, value: profile?.welomeMessage }]);
+      if (profile?.welcomeMessage)
+        embWelcome.addFields([{ name: `Server's Information:`, value: profile?.welcomeMessage }]);
 
       const attachment = new AttachmentBuilder(await canvas.encode('png'), {
         name: 'welcome.png',
       });
 
-      const channel = await guild.channels.cache.get(welcomeID);
-      channel.send({ embeds: [embWelcome] }).then(() => {
-        channel.send({ files: [attachment] });
-      });
+      const channel = guild.channels.cache.get(welcomeID);
+      if (channel) {
+        await channel.send({ embeds: [embWelcome] });
+        await channel.send({ files: [attachment] });
+      }
 
       const emLog = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -106,7 +106,10 @@ module.exports = {
           { name: 'ID:', value: `||${user.id}||`, inline: true },
         );
 
-      await guild.channels.cache.get(logID).send({ embeds: [emLog] });
+      const logChannel = guild.channels.cache.get(logID);
+      if (logChannel) {
+        await logChannel.send({ embeds: [emLog] });
+      }
 
       client.serverStats(client, guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);

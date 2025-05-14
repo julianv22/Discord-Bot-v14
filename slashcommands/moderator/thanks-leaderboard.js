@@ -13,6 +13,7 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
     const time = options.getString('time');
     const results = await thanksProfile.find({ guildID: guild.id }).sort({ thanksCount: -1 }).limit(10);
@@ -25,16 +26,7 @@ module.exports = {
       text += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
     }
 
-    if (!text)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | There ís no thank data in this server!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (!text) return interaction.reply(errorEmbed(true, 'There is no thanks data in this server!'));
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

@@ -15,11 +15,13 @@ module.exports = {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
 
     const ping = client.ws.ping;
-    const delay = Date.now() - message.createdTimestamp;
+    const delay = Math.abs(Date.now() - message.createdTimestamp); // Đảm bảo luôn dương
     let color = ping < 101 ? 'Green' : ping > 300 ? 'Red' : 'Orange';
 
     const embed = new EmbedBuilder().setColor(color).setDescription(`**⏱ | Ping:** ${ping} / *${delay}ms*`);
 
-    await message.reply({ embeds: [embed] });
+    await message.reply({ embeds: [embed] }).catch((e) => {
+      console.error('[ping.js] Error replying with ping embed:', e);
+    });
   },
 };

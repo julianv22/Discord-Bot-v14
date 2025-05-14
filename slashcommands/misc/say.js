@@ -11,6 +11,7 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { options } = interaction;
 
     const toSay = options.getString('text');
@@ -22,16 +23,7 @@ module.exports = {
         interaction.followUp('Have a good day!');
       }, 3000);
     } else {
-      if (!toSay)
-        return await interaction.reply({
-          embeds: [
-            {
-              color: 16711680,
-              description: `\\❌ | You have to provide some text for bot!`,
-            },
-          ],
-          ephemeral: true,
-        });
+      if (!toSay) return await interaction.reply(errorEmbed(true, 'You have to provide some text for bot!'));
 
       await interaction.reply(toSay);
     }

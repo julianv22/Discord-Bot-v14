@@ -19,42 +19,17 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
-    const { users, user: bot } = client;
+    const { errroEmbed, users, user: bot } = client;
 
     if (msg.author.id !== cfg.clientID)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This messages does not belong to ${bot}!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errroEmbed(true, `This messages does not belong to ${bot}!`));
 
     const embed = msg.embeds[0];
 
-    if (!embed)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This is not suggest message!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (!embed) return interaction.reply(errroEmbed(true, 'This is not suggest message!'));
 
     if (embed.title !== `Suggest's content:`)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | This is not suggest message!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errroEmbed(true, 'This is not suggest message!'));
 
     const edit = EmbedBuilder.from(embed).setColor('Red').spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất không được chấp nhận`,
@@ -62,15 +37,7 @@ module.exports = {
     });
     await msg.edit({ embeds: [edit] });
 
-    interaction.reply({
-      embeds: [
-        {
-          color: 16711680,
-          description: `\\🚫 | Suggestion has been denied! [[Jump Link](${msg.url})]`,
-        },
-      ],
-      ephemeral: true,
-    });
+    interaction.reply(errroEmbed(`\\🚫 |`, `Suggestion has been denied! [[Jump Link](${msg.url})]`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 

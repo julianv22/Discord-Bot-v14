@@ -14,64 +14,61 @@ module.exports = {
    * @param {Client} client
    */
   async execute(message, args, client) {
+    const { errorEmbed } = client;
     const { channel, guild, author } = message;
     if (args.join(' ').trim() === '?')
       return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <username>');
 
     if (!args[0])
-      return channel
-        .send({
-          embeds: [{ color: 16711680, description: `\\❌ | Hãy nhập username!` }],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
+      return channel.send(errorEmbed(true, `Vui lòng nhập username Github!`)).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 10000);
+      });
 
-    fetch(`https://api.github.com/users/${args.join('-')}`)
+    fetch(`https://api.github.com/users/${user}`)
       .then((res) => res.json())
       .then((body) => {
-        if (body.message)
-          return channel
-            .send({
-              embeds: [
-                {
-                  color: 16711680,
-                  description: `\\❌ | Không tìm thấy người dùng, hãy nhập chính xác username!`,
-                },
-              ],
-            })
-            .then((m) => {
-              setTimeout(() => {
-                m.delete();
-              }, 10000);
-            });
+        if (body.message) return interaction.reply(errorEmbed(true, 'Can not find this user!')).catch(() => {});
         let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
           body;
 
+        // Fallback nếu thiếu dữ liệu
+        login = login || 'Unknown';
+        avatar_url = avatar_url || 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
+        name = name || 'Unknown';
+        id = id ? id.toString() : 'Unknown';
+        html_url = html_url || 'https://github.com';
+        public_repos = typeof public_repos === 'number' ? public_repos : 'None';
+        followers = typeof followers === 'number' ? followers : '0';
+        following = typeof following === 'number' ? following : '0';
+        location = location || 'No Location';
+        created_at = created_at || new Date().toISOString();
+        bio = bio || 'No bio';
+
         const embed = new EmbedBuilder()
-          .setAuthor({
-            name: 'Github Information!',
-            iconURL: guild.iconURL(true),
-          })
+          .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
           .setColor('Random')
           .setThumbnail(avatar_url)
           .addFields([
             { name: 'Username', value: `${login}`, inline: true },
             { name: 'ID', value: `${id}`, inline: true },
             { name: 'Bio', value: `${bio}`, inline: true },
-            { name: 'Name', value: `[${name}](${html_url})`, inline: true },
+            {
+              name: 'Github',
+              value: `[${name || login}](${html_url})`,
+              inline: true,
+            },
             {
               name: 'Public Repositories',
-              value: `${public_repos || 'None'}`,
+              value: `${public_repos}`,
               inline: true,
             },
             { name: 'Followers', value: `${followers}`, inline: true },
             { name: 'Following', value: `${following}`, inline: true },
             {
               name: 'Location',
-              value: `${location || 'No Location'}`,
+              value: `${location}`,
               inline: true,
             },
             {
@@ -86,7 +83,11 @@ module.exports = {
           })
           .setTimestamp();
 
-        channel.send({ embeds: [embed] });
+        interaction.reply({ embeds: [embed] }).catch(() => {});
+      })
+      .catch((e) => {
+        interaction.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy thông tin Github!')).catch(() => {});
+        console.error('[slashcommands/info/github.js] Error fetching Github API:', e);
       });
   },
 };

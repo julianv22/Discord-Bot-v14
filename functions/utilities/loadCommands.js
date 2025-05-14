@@ -29,6 +29,7 @@ module.exports = (client) => {
             const rest = new REST({ version: 10 }).setToken(process.env.token);
             // console.log(chalk.yellow('\nStarted refreshing application (/) commands.\n'));
 
+            if (!cfg.clientID) throw new Error('clientID is missing in config!');
             await rest.put(Routes.applicationCommands(cfg.clientID), {
               body: slashArray,
             });
@@ -54,8 +55,13 @@ module.exports = (client) => {
 
         for (const folder of commandFolders) {
           if (folder === 'subcommands') continue;
-
-          const commandFiles = readdirSync(`./${folderName}/${folder}`).filter((f) => f.endsWith('.js'));
+          let commandFiles = [];
+          try {
+            commandFiles = readdirSync(`./${folderName}/${folder}`).filter((f) => f.endsWith('.js'));
+          } catch (e) {
+            console.error(chalk.red(`Không thể đọc folder: ./${folderName}/${folder}`), e);
+            continue;
+          }
           table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '────────────', '📂');
 
           let i = 1;

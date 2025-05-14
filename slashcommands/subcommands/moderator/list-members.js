@@ -6,18 +6,11 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { options } = interaction;
     const isMod = interaction.member.permissions.has(PermissionFlagsBits.ManageMessages);
     if (!isMod)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | You do not have \`${cfg.modRole}\` permissions to use this command!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      return interaction.reply(errorEmbed(true, `You do not have \`${cfg.modRole}\` permissions to use this command!`));
 
     const message = await interaction.deferReply({ fetchReply: true });
     const isMention = options.getBoolean('mention');
@@ -43,15 +36,7 @@ module.exports = {
 
       await interaction.editReply({ embeds: [embed] });
     } else {
-      await interaction.editReply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\❌ | Can not find members or role is incorrect!`,
-          },
-        ],
-        ephemeral: true,
-      });
+      await interaction.editReply(errorEmbed(true, 'Can not find members or role is incorrect!'));
     }
   },
 };

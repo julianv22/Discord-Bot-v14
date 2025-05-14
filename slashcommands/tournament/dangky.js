@@ -13,45 +13,22 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id });
     let register;
     if (!profile || !profile?.tourStatus) register = false;
     else register = profile.tourStatus;
-    if (register === false)
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Hiện không có giải đấu nào diễn ra!`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (register === false) return interaction.reply(errorEmbed(true, 'Hiện không có giải đấu nào diễn ra!'));
 
     // Interaction Reply
     const roleID = profile?.tourID;
     const stIngame = options.getString('ingame');
     const role = guild.roles.cache.get(roleID);
 
-    await interaction.reply({
-      embeds: [
-        {
-          color: 65280,
-          description: `\\🏆 | ${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
-        },
-      ],
-    });
+    await interaction.reply(errorEmbed(`\\🏆 | `, `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`));
 
-    await interaction.followUp({
-      embeds: [
-        {
-          color: 65280,
-          description: `\\✅ | Chúc mừng ${user} đã đăng kí thành công giải ${role}!`,
-        },
-      ],
-      ephemeral: true,
-    });
+    await interaction.followUp(errorEmbed(false, `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`));
 
     if (role) {
       // Add Tournament Profile

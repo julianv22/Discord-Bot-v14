@@ -37,7 +37,9 @@ module.exports = (client) => {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: target
-            ? `${user.displayName} snipped message of ${target.displayName || target.user.displayName}`
+            ? `${user.displayName} snipped message of ${
+                target.displayName || (target.user && target.user.displayName) || 'Unknown'
+              }`
             : 'Last deleted message:',
           iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
         })
@@ -58,6 +60,20 @@ module.exports = (client) => {
 
       msg.reply({ embeds: [embed] });
     } catch (e) {
+      if (interaction && typeof interaction.reply === 'function') {
+        interaction
+          .reply({
+            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
+            ephemeral: true,
+          })
+          .catch(() => {});
+      } else if (message && typeof message.reply === 'function') {
+        message
+          .reply({
+            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
+          })
+          .catch(() => {});
+      }
       console.error(chalk.yellow.bold('Error while running snipeMessage'), e);
     }
   };

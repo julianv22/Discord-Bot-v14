@@ -5,7 +5,7 @@ module.exports = {
   /** @param {Message} message @param {Client} client */
   async execute(message, client) {
     try {
-      const { prefixCommands } = client;
+      const { prefixCommands, errorEmbed } = client;
       const { content, channel, author, member } = message;
 
       if (channel.type === ChannelType.DM) return;
@@ -19,14 +19,7 @@ module.exports = {
 
         if (!command)
           return message
-            .reply({
-              embeds: [
-                {
-                  color: 16711680,
-                  description: `\\❌ | Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`,
-                },
-              ],
-            })
+            .reply(errorEmbed(true, `Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`))
             .then((m) => {
               setTimeout(() => {
                 m.delete();
@@ -35,14 +28,7 @@ module.exports = {
 
         if (command.permissions && !member.permissions.has(command.permissions))
           return message
-            .reply({
-              embeds: [
-                {
-                  color: 16711680,
-                  description: `\\❌ | Bạn không được cấp quyền để sử dụng command này!`,
-                },
-              ],
-            })
+            .reply(errorEmbed(true, `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`))
             .then((m) => {
               setTimeout(() => {
                 m.delete();

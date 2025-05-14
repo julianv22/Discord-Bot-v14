@@ -13,26 +13,13 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed, checkURL } = client;
     const { guild, user, options } = interaction;
     const week = options.getInteger('week');
     const imgURL = options.getString('image');
 
-    if (week < 1)
-      return interaction.reply({
-        embeds: [{ color: 16711680, description: `\\❌ | Số tuần phải lớn hơn 0` }],
-        ephemeral: true,
-      });
-
-    if (!client.checkURL(imgURL))
-      return interaction.reply({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Vui lòng nhập chính xác Image URL`,
-          },
-        ],
-        ephemeral: true,
-      });
+    if (week < 1) return interaction.reply(errorEmbed(true, 'Số tuần phải lớn hơn 0'));
+    if (!checkURL(imgURL)) return interaction.reply(errorEmbed(true, 'Vui lòng nhập chính xác Image URL'));
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })

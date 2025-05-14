@@ -23,7 +23,7 @@ module.exports = (client) => {
    */
   client.botInfo = async (author, interaction, message) => {
     try {
-      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
+      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application, prefix, cfg } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
       guilds.forEach((guild) => {
@@ -66,7 +66,7 @@ module.exports = (client) => {
           },
           {
             name: '👑 Owner:',
-            value: `<@${application.owner.id}>`,
+            value: application.owner ? `<@${application.owner.id}>` : 'Unknown',
             inline: false,
           },
           {
@@ -79,7 +79,6 @@ module.exports = (client) => {
             value: `Prefix: \`${prefix}\`\nHelp: \`${prefix}help | /help\``,
             inline: true,
           },
-
           {
             name: `💎 Server(s) [${guilds.length}]:`,
             value: `Members: ${totalmembers.toLocaleString()}`,
@@ -121,6 +120,14 @@ module.exports = (client) => {
         components: [buttons],
       });
     } catch (e) {
+      const errorEmbed = {
+        embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
+      };
+      if (interaction && typeof interaction.reply === 'function') {
+        interaction.reply({ ...errorEmbed, ephemeral: true }).catch(() => {});
+      } else if (message && typeof message.reply === 'function') {
+        message.reply(errorEmbed).catch(() => {});
+      }
       console.error(chalk.yellow.bold('Error while running botInfo'), e);
     }
   };

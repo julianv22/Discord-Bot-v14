@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const { readdirSync } = require('fs');
+const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 
 /** @param {Client} client */
@@ -13,20 +13,34 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
 
-      const functionFolers = readdirSync('./functions');
-      for (const folder of functionFolers) {
-        if (folder.endsWith('.js')) continue;
-
-        const functionFiles = readdirSync(`./functions/${folder}`).filter((f) => f.endsWith('.js'));
+      const functionFolders = readdirSync('./functions').filter((f) => {
+        try {
+          return statSync(`./functions/${f}`).isDirectory();
+        } catch {
+          return false;
+        }
+      });
+      for (const folder of functionFolders) {
+        let functionFiles = [];
+        try {
+          functionFiles = readdirSync(`./functions/${folder}`).filter((f) => f.endsWith('.js'));
+        } catch (e) {
+          console.error(chalk.red(`Không thể đọc folder ./functions/${folder}`), e);
+          continue;
+        }
         table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '────────────', '📂');
 
         let i = 1;
-        functionFiles.forEach((file) => {
-          delete require.cache[require.resolve(`../functions/${folder}/${file}`)];
-          require(`../functions/${folder}/${file}`)(client);
-          table.addRow('', i++, file.split('.')[0], '✅\u200b');
-          count++;
-        });
+        for (const file of functionFiles) {
+          try {
+            delete require.cache[require.resolve(`../functions/${folder}/${file}`)];
+            require(`../functions/${folder}/${file}`)(client);
+            table.addRow('', i++, file.split('.')[0], '✅\u200b');
+            count++;
+          } catch (e) {
+            console.error(chalk.red(`Lỗi khi load function file: ./functions/${folder}/${file}`), e);
+          }
+        }
       }
       table.setTitle(`Load Functions [${count}]`);
       console.log(table.toString());
