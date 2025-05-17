@@ -24,7 +24,7 @@ module.exports = {
 
       await interaction.reply(errorEmbed(false, `Đã thiết lập kênh thông báo video YouTube: ${notifyChannel}`));
     } catch (e) {
-      console.error('Lỗi setup yt-notify', e);
+      console.error(chalk.red.bold('Lỗi setup yt-notify', e));
       return interaction.reply(errorEmbed(true, 'Có lỗi xảy ra khi thiết lập kênh thông báo Youtube', e));
     }
   },

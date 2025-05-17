@@ -23,6 +23,12 @@ module.exports = {
     console.log(table.toString());
     console.log(chalk.bgYellow('\n-----------------Project is started!-----------------\n'));
 
+    // Lastest youtube videos
+    await checkVideos();
+    setInterval(() => {
+      checkVideos();
+    }, 30 * 60 * 1000);
+
     // Set Client's Pressence
     setPresence(client);
     setInterval(() => {

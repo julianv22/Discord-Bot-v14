@@ -49,7 +49,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error('Lỗi hiển thị danh sách kênh Youtube', e);
+      console.error(chalk.red.bold('Lỗi hiển thị danh sách kênh Youtube', e));
       return interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
     }
   },

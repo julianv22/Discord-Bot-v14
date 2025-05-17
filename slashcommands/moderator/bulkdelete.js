@@ -41,7 +41,7 @@ module.exports = {
       await interaction.reply(errorEmbed(false, `Deleted ${amount} messages!` + (user ? ` of ${user}` : '')));
     } catch (e) {
       interaction.reply(errorEmbed(true, 'Something wrong when bulk deleting messages', e));
-      console.error('BulkDelete Message', e);
+      console.error(chalk.red.bold('BulkDelete Message', e));
     }
   },
 };

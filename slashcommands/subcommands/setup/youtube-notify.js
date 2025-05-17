@@ -37,7 +37,7 @@ module.exports = {
         ephemeral: true,
       });
     } catch (e) {
-      console.error('Lỗi setup youtube notify:', e);
+      console.error(chalk.red.bold('Lỗi setup youtube notify:', e));
       await interaction.reply({
         embeds: [errorEmbed(true, 'Có lỗi xảy ra khi thiết lập kênh thông báo.', e)],
         ephemeral: true,
