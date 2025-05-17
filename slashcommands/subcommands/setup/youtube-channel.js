@@ -1,54 +1,56 @@
 const serverProfile = require('../../../config/serverProfile');
-const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
+const fetch = require('node-fetch');
+
+async function getChannelTitle(channelId, apiKey) {
+  const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if (data.items && data.items.length > 0) {
+    return data.items[0].snippet.title;
+  }
+  return channelId;
+}
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder()
-    .setName('youtube-channel')
-    .setDescription('Thêm hoặc xóa kênh YouTube cần theo dõi'),
+  data: new SlashCommandSubcommandBuilder().setName('youtube-channels'),
   category: 'sub command',
+  parent: 'list',
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const { options, guildId } = interaction;
-    const youtubeInput = options.getString('channel_id');
-    const action = options.getString('action');
-    const youtubeChannelId = youtubeInput.trim();
-    if (!youtubeChannelId) {
-      return interaction.reply(errorEmbed('Bạn phải nhập ID kênh YouTube.'));
-    }
+    const { guild, user, guildId } = interaction;
     try {
       let profile = await serverProfile.findOne({ guildID: guildId });
-      if (!profile) {
-        if (action === 'remove') return interaction.reply(errorEmbed(true, 'Server chưa có kênh YouTube nào để xóa.'));
-        profile = await serverProfile.create({
-          guildID: guildId,
-          youtubeChannelIds: [youtubeChannelId],
-          lastVideoIds: [undefined],
-        });
-      } else {
-        let changed = false;
-        if (!Array.isArray(profile.youtubeChannelIds)) profile.youtubeChannelIds = [];
-        if (!Array.isArray(profile.lastVideoIds)) profile.lastVideoIds = [];
-        if (action === 'add') {
-          if (!profile.youtubeChannelIds.includes(youtubeChannelId)) {
-            profile.youtubeChannelIds.push(youtubeChannelId);
-            profile.lastVideoIds.push(undefined);
-            changed = true;
-          }
-        } else if (action === 'remove') {
-          const idx = profile.youtubeChannelIds.indexOf(youtubeChannelId);
-          if (idx !== -1) {
-            profile.youtubeChannelIds.splice(idx, 1);
-            profile.lastVideoIds.splice(idx, 1);
-            changed = true;
-          }
-        }
-        if (changed) await profile.save();
-      }
-      await interaction.reply(errorEmbed(false, 'Đã cập nhật danh sách kênh YouTube theo dõi cho server.'));
+      if (!profile || profile.youtubeChannelIds.length == 0)
+        return interaction.reply(errorEmbed(true, 'Danh sách kênh Youtube trống!'));
+
+      const channelList = await Promise.all(
+        profile.youtubeChannelIds.map(async (id, idx) => {
+          const title = await getChannelTitle(id, process.env.YT_API_KEY);
+          return `${idx + 1}. [${title}](https://www.youtube.com/channel/${id}) - \`${id}\``;
+        }),
+      );
+
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setThumbnail(
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
+        )
+        .setTitle('Danh sách kênh Youtube đã đăng ký:')
+        .setDescription(channelList.join('\n'))
+        .addFields({
+          name: 'Kênh thông báo video mới:',
+          value: profile.youtubeNotifyChannel ? `<#${profile.youtubeNotifyChannel}>` : `\\❌ None`,
+        })
+        .setColor('Random')
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) });
+
+      await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error('Lỗi setup youtube channel:', e);
-      await interaction.reply(errorEmbed(true, 'Có lỗi xảy ra khi thiết lập kênh YouTube.', e));
+      console.error('Lỗi hiển thị danh sách kênh Youtube', e);
+      return interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
     }
   },
 };
