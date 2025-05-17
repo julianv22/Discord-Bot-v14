@@ -7,7 +7,7 @@ module.exports = {
 
   /** @param {Client} client */
   async execute(client) {
-    const { setPresence, serverStats } = client;
+    const { setPresence, serverStats, checkVideos } = client;
     const table = new ascii()
       .setBorder('│', '─', '✧', '✧')
       .setTitle('Client Login')
