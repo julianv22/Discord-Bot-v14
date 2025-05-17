@@ -14,6 +14,7 @@ module.exports = {
   async execute(message, args, client) {
     const { cmdGuide, slashCommands, subCommands, listCommands } = client;
     const { author: user, member, guild } = message;
+    const { commands, count: cmdcount } = listCommands(slashCommands, member);
 
     if (args.join(' ').trim() === '?') return cmdGuide(message, this.name, this.description, this.aliases);
 
@@ -31,10 +32,10 @@ module.exports = {
       .setColor('Random')
       .setThumbnail(cfg.slashPNG)
       .addFields({
-        name: `Tổng số command: [${listCommands(slashCommands, member).count}]`,
+        name: `Tổng số command: [${cmdcount}]`,
         value: `Sub commands: [${subCommands.size}]`,
       })
-      .addFields(listCommands(slashCommands, member).commands)
+      .addFields(commands)
       .setFooter({
         text: `Requested by ${user.displayName}`,
         iconURL: user.displayAvatarURL(true),

@@ -10,12 +10,14 @@ const {
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('prefix').setDescription(`Prefix Commands (${prefix}) List`),
   category: 'sub command',
+  parent: 'help',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, member } = interaction;
     const { prefixCommands, listCommands } = client;
+    const { commands, count: cmdcount } = listCommands(prefixCommands, member);
 
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('yt-link-btn').setLabel('YouTube').setStyle('Danger'),
@@ -32,11 +34,11 @@ module.exports = {
       .setThumbnail(cfg.helpPNG)
       .addFields([
         {
-          name: `Total commands: [${listCommands(prefixCommands, member).count}]`,
+          name: `Total commands: [${cmdcount}]`,
           value: `Command prefix: \`${prefix}\``,
         },
       ])
-      .addFields(listCommands(prefixCommands, member).commands)
+      .addFields(commands)
       .addFields([
         {
           name: `\u200b`,

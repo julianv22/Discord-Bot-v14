@@ -26,6 +26,27 @@ module.exports = {
         .setName('welcome-message')
         .setDescription('Setup Welcome message. ' + `${cfg.adminRole} only`)
         .addStringOption((opt) => opt.setName('message').setDescription(`Welcome message's content`)),
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('youtube')
+        .setDescription('Add/Remove youtube channel. ' + `${cfg.adminRole} only`)
+        .addStringOption((opt) => opt.setName('yt-channel-id').setDescription('Youtube Channel ID').setRequired(true))
+        .addStringOption((opt) =>
+          opt
+            .setName('action')
+            .setDescription('Add or Remove channel')
+            .setRequired(true)
+            .addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' }),
+        ),
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('yt-notify')
+        .setDescription('Set notify channel for Youtube. ' + `${cfg.adminRole} only`)
+        .addChannelOption((opt) =>
+          opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true),
+        ),
     ),
   category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,

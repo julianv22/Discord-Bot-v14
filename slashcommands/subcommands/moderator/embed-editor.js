@@ -11,6 +11,7 @@ const {
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('editor').setDescription(`Edit Embed`),
   category: 'sub command',
+  parent: 'embed',
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

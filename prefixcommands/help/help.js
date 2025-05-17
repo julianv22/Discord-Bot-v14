@@ -14,6 +14,7 @@ module.exports = {
   async execute(message, args, client) {
     const { cmdGuide, prefixCommands, listCommands } = client;
     const { author: user, member, guild } = message;
+    const { commands, count: cmdcount } = listCommands(prefixCommands, member);
 
     if (args.join(' ').trim() === '?')
       return cmdGuide(
@@ -41,11 +42,11 @@ module.exports = {
       .setThumbnail(cfg.helpPNG)
       .addFields([
         {
-          name: `Tổng số command: [${listCommands(prefixCommands, member).count}]`,
+          name: `Tổng số command: [${cmdcount}]`,
           value: `Command prefix: \`${prefix}\``,
         },
       ])
-      .addFields(listCommands(prefixCommands, member).commands)
+      .addFields(commands)
       .addFields([
         {
           name: `\u200b`,

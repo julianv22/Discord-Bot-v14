@@ -3,6 +3,7 @@ const { SlashCommandSubcommandBuilder, Client, EmbedBuilder, Interaction, Permis
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('members').setDescription(`List Members`),
   category: 'sub command',
+  parent: 'list',
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

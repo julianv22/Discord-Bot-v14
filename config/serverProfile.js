@@ -7,8 +7,9 @@ const serverProfile = new mongoose.Schema({
   reportChannel: { type: String },
   updateChannel: { type: String },
   suggestChannel: { type: String },
-  welcomeChannel: { type: String },
-  welcomeMessage: { type: String },
+  welomeChannel: { type: String },
+  welomeMessage: { type: String },
+  youtubeNotifyChannel: { type: String },
   logChannel: { type: String },
   tourID: { type: String },
   tourName: { type: String },
@@ -19,6 +20,8 @@ const serverProfile = new mongoose.Schema({
   botsChannel: { type: String },
   botRole: { type: String },
   statsChannel: { type: String },
+  youtubeChannelIds: { type: Array },
+  lastVideoIds: { type: Array },
 });
 
 module.exports = mongoose.model('serverProfile', serverProfile, `serverProfile [${cfg.mongodb}] - ${cfg.clientID}`);

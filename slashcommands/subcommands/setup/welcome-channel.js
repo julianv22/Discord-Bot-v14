@@ -4,6 +4,7 @@ const { SlashCommandSubcommandBuilder, Client, EmbedBuilder, Interaction } = req
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('welcome-channel').setDescription(`setup`),
   category: 'sub command',
+  parent: 'setup',
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

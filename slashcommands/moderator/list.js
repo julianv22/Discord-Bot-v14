@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,6 +14,11 @@ module.exports = {
         .addBooleanOption((opt) => opt.setName('mention').setDescription('Mentions?').setRequired(true))
         .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))
         .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline')),
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('youtube-channels')
+        .setDescription('List Youtube Channels has been following ' + `${cfg.modRole} only`),
     ),
   category: 'help',
   permissions: PermissionFlagsBits.ManageMessages,

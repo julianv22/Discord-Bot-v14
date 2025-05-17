@@ -10,12 +10,14 @@ const {
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('slash').setDescription('Slash Commands (/) List'),
   category: 'sub command',
+  parent: 'help',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, user, member } = interaction;
     const { slashCommands, subCommands, listCommands } = client;
+    const { commands, count: cmdcount } = listCommands(slashCommands, member);
 
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('yt-link-btn').setLabel('YouTube').setStyle('Danger'),
@@ -31,10 +33,10 @@ module.exports = {
       .setColor('Random')
       .setThumbnail(cfg.slashPNG)
       .addFields({
-        name: `Total commands: [${listCommands(slashCommands, member).count}]`,
+        name: `Total commands: [${cmdcount}]`,
         value: `Sub commands: [${subCommands.size}]`,
       })
-      .addFields(listCommands(slashCommands, member).commands)
+      .addFields(commands)
       .setFooter({
         text: `Requested by ${user.displayName}`,
         iconURL: user.displayAvatarURL(true),
