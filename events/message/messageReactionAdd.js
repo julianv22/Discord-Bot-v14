@@ -40,17 +40,25 @@ module.exports = {
       // Nếu là embed thì gửi lại embed tương tự
       if (message.embeds && message.embeds.length > 0) {
         for (const embed of message.embeds) {
-          // Chuyển embed sang EmbedBuilder để gửi lại
-          const rebuilt = EmbedBuilder.from(embed);
+          const rebuilt = EmbedBuilder.from(embed)
+            .addFields({
+              name: 'Source',
+              value: `[Jump link](${message.url})`,
+              inline: false,
+            })
+            .setFooter({
+              text: message.guild.name,
+              iconURL: message.guild.iconURL(true),
+            });
           await starboardChannel.send({
-            content: `⭐ **${count}** | <#${message.channel.id}> [Jump to message](${message.url})`,
+            content: `**${count}** \\⭐ in <#${message.channel.id}>`,
             embeds: [rebuilt],
           });
         }
       } else {
         // Nếu là message thường
         await starboardChannel.send({
-          content: `⭐ **${count}** | <#${message.channel.id}> [Jump to message](${message.url})`,
+          content: `**${count}** \\⭐ in <#${message.channel.id}>`,
           embeds: [
             new EmbedBuilder()
               .setColor('Random')
@@ -59,6 +67,15 @@ module.exports = {
                 iconURL: message.author.displayAvatarURL(true),
               })
               .setDescription(message.content || 'No content')
+              .addFields({
+                name: 'Source',
+                value: `[Jump link](${message.url})`,
+                inline: false,
+              })
+              .setFooter({
+                text: message.guild.name,
+                iconURL: message.guild.iconURL(true),
+              })
               .setTimestamp(),
           ],
         });
