@@ -31,6 +31,15 @@ module.exports = (client) => {
 
             if (!cfg.clientID) throw new Error('clientID is missing in config!');
 
+            // Lấy danh sách lệnh hiện tại
+            const currentCommands = await rest.get(Routes.applicationCommands(cfg.clientID));
+            // Xoá từng lệnh một
+            for (const cmd of currentCommands) {
+              await rest.delete(Routes.applicationCommand(cfg.clientID, cmd.id));
+              // console.log(`Đã xoá lệnh: ${cmd.name}`);
+            }
+
+            // Đăng ký lại các lệnh mới
             await rest.put(Routes.applicationCommands(cfg.clientID), {
               body: slashArray,
             });
