@@ -47,6 +47,15 @@ module.exports = {
         .addChannelOption((opt) =>
           opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true),
         ),
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('starboard')
+        .setDescription(`Starboard System`)
+        .addChannelOption((opt) =>
+          opt.setName('starboard-channel').setDescription('Select Starboard Channel').setRequired(true),
+        )
+        .addIntegerOption((opt) => opt.setName('starnum').setDescription('Number of star').setRequired(true)),
     ),
   category: 'moderator',
   permissions: PermissionFlagsBits.Administrator,

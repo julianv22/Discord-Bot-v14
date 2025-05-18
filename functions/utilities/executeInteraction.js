@@ -12,7 +12,7 @@ module.exports = (client) => {
         embeds: [{ color: 16711680, title: `\\❌ ` + error, description: `${e}` }],
         ephemeral: true,
       });
-      console.error(chalk.red(error), e);
+      console.error(chalk.yellow(error), e);
     }
   };
 };

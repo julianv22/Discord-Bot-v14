@@ -40,7 +40,7 @@ module.exports = (client) => {
         try {
           componentFiles = readdirSync(`./components/${folder}`).filter((f) => f.endsWith('.js'));
         } catch (e) {
-          console.error(chalk.red(`Không thể đọc folder: ./components/${folder}`), e);
+          console.error(chalk.yellow(`Không thể đọc folder: ./components/${folder}`), e);
           return;
         }
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
@@ -70,7 +70,7 @@ module.exports = (client) => {
       console.log(table.toString());
       // End Component Handle
     } catch (e) {
-      console.error(chalk.red('Error while loading components'), e);
+      console.error(chalk.yellow('Error while loading components'), e);
     }
   };
 };

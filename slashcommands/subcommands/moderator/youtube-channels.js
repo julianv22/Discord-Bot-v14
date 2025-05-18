@@ -39,13 +39,17 @@ module.exports = {
         )
         .setTitle('Danh sách kênh Youtube đã đăng ký:')
         .setDescription(channelList.join('\n'))
+        .addFields({
+          name: 'Kênh thông báo video mới:',
+          value: profile.youtubeNotifyChannel ? `<#${profile.youtubeNotifyChannel}>` : `\\❌ None`,
+        })
         .setColor('Random')
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) });
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red.bold('Lỗi hiển thị danh sách kênh Youtube', e));
+      console.error(chalk.yellow.bold('Lỗi hiển thị danh sách kênh Youtube', e));
       return interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
     }
   },

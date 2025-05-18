@@ -45,7 +45,7 @@ module.exports = {
         await interaction.followUp({ content: reply.slice(i, i + 2000) });
       }
     } catch (error) {
-      console.error(chalk.red.bold('Error communicating with Gemini AI:', error));
+      console.error(chalk.yellow.bold('Error communicating with Gemini AI:', error));
       await interaction.editReply({ content: 'There was an error communicating with Gemini AI.' });
     }
   },

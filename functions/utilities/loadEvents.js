@@ -16,7 +16,7 @@ module.exports = (client) => {
       try {
         eventFolders = readdirSync(`./events`);
       } catch (e) {
-        console.error(chalk.red('Không thể đọc folder ./events'), e);
+        console.error(chalk.yellow('Không thể đọc folder ./events'), e);
         return;
       }
       for (const folder of eventFolders) {
@@ -24,7 +24,7 @@ module.exports = (client) => {
         try {
           eventFiles = readdirSync(`./events/${folder}`).filter((f) => f.endsWith('.js'));
         } catch (e) {
-          console.error(chalk.red(`Không thể đọc folder ./events/${folder}`), e);
+          console.error(chalk.yellow(`Không thể đọc folder ./events/${folder}`), e);
           continue;
         }
         table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '────────────', '📂');
@@ -41,14 +41,14 @@ module.exports = (client) => {
             if (event.name !== file.split('.')[0]) table.addRow('', '', `⤷(${event.name})`, '');
             count++;
           } catch (e) {
-            console.error(chalk.red(`Lỗi khi load event file: ./events/${folder}/${file}`), e);
+            console.error(chalk.yellow(`Lỗi khi load event file: ./events/${folder}/${file}`), e);
           }
         }
       }
       table.setTitle(`Load Events [${count}]`);
       console.log(table.toString());
     } catch (e) {
-      console.error(chalk.red('Error while loading events'), e);
+      console.error(chalk.yellow('Error while loading events'), e);
     }
   };
 };

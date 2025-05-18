@@ -25,7 +25,7 @@ module.exports = (client) => {
         try {
           functionFiles = readdirSync(`./functions/${folder}`).filter((f) => f.endsWith('.js'));
         } catch (e) {
-          console.error(chalk.red(`Không thể đọc folder ./functions/${folder}`), e);
+          console.error(chalk.yellow(`Không thể đọc folder ./functions/${folder}`), e);
           continue;
         }
         table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '────────────', '📂');
@@ -38,14 +38,14 @@ module.exports = (client) => {
             table.addRow('', i++, file.split('.')[0], '✅\u200b');
             count++;
           } catch (e) {
-            console.error(chalk.red(`Lỗi khi load function file: ./functions/${folder}/${file}`), e);
+            console.error(chalk.yellow(`Lỗi khi load function file: ./functions/${folder}/${file}`), e);
           }
         }
       }
       table.setTitle(`Load Functions [${count}]`);
       console.log(table.toString());
     } catch (e) {
-      console.error(chalk.red('Error while loading functions'), e);
+      console.error(chalk.yellow('Error while loading functions'), e);
     }
   };
 };
