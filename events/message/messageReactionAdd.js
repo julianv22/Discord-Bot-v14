@@ -1,5 +1,5 @@
 const serverProfile = require('../../config/serverProfile');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
   name: 'messageReactionAdd',
@@ -37,22 +37,22 @@ module.exports = {
       // Nếu có attachment thì bỏ qua
       if (message.attachments && message.attachments.size > 0) return;
 
+      // Jump link button
+      const jumpButton = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setLabel('Go to message').setStyle(ButtonStyle.Link).setURL(message.url),
+      );
+
       // Nếu là embed thì gửi lại embed tương tự
       if (message.embeds && message.embeds.length > 0) {
         for (const embed of message.embeds) {
-          const rebuilt = EmbedBuilder.from(embed)
-            .addFields({
-              name: 'Source',
-              value: `[Jump link](${message.url})`,
-              inline: false,
-            })
-            .setFooter({
-              text: message.guild.name,
-              iconURL: message.guild.iconURL(true),
-            });
+          const rebuilt = EmbedBuilder.from(embed).setFooter({
+            text: message.guild.name,
+            iconURL: message.guild.iconURL(true),
+          });
           await starboardChannel.send({
-            content: `**${count}** \\⭐ in <#${message.channel.id}>`,
+            content: `**${count}** \\⭐ in <#${message.channel.id}>` + (message.content ? `\n${message.content}` : ''),
             embeds: [rebuilt],
+            components: [jumpButton],
           });
         }
       } else {
@@ -67,17 +67,13 @@ module.exports = {
                 iconURL: message.author.displayAvatarURL(true),
               })
               .setDescription(message.content || 'No content')
-              .addFields({
-                name: 'Source',
-                value: `[Jump link](${message.url})`,
-                inline: false,
-              })
               .setFooter({
                 text: message.guild.name,
                 iconURL: message.guild.iconURL(true),
               })
               .setTimestamp(),
           ],
+          components: [jumpButton],
         });
       }
     } catch (e) {
