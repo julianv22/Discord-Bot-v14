@@ -42,37 +42,40 @@ module.exports = {
         new ButtonBuilder().setLabel('Go to message').setStyle(ButtonStyle.Link).setURL(message.url),
       );
 
-      // Nếu là embed thì gửi lại embed tương tự
+      // Chuẩn bị embeds nếu có
+      let embeds = [];
       if (message.embeds && message.embeds.length > 0) {
-        for (const embed of message.embeds) {
-          const rebuilt = EmbedBuilder.from(embed).setFooter({
+        embeds = message.embeds.map((embed) =>
+          EmbedBuilder.from(embed).setFooter({
             text: message.guild.name,
             iconURL: message.guild.iconURL(true),
-          });
-          await starboardChannel.send({
-            content: `**${count}** \\⭐ in <#${message.channel.id}>` + (message.content ? `\n${message.content}` : ''),
-            embeds: [rebuilt],
-            components: [jumpButton],
-          });
-        }
-      } else {
-        // Nếu là message thường
+          }),
+        );
+      }
+
+      // Nếu là message thường (chỉ có content)
+      if (embeds.length === 0 && message.content) {
+        embeds = [
+          new EmbedBuilder()
+            .setColor('Random')
+            .setAuthor({
+              name: message.member?.displayName || message.author.username,
+              iconURL: message.author.displayAvatarURL(true),
+            })
+            .setDescription(message.content)
+            .setFooter({
+              text: message.guild.name,
+              iconURL: message.guild.iconURL(true),
+            })
+            .setTimestamp(),
+        ];
+      }
+
+      // Nếu có content hoặc embed
+      if (embeds.length > 0) {
         await starboardChannel.send({
           content: `**${count}** \\⭐ in <#${message.channel.id}>`,
-          embeds: [
-            new EmbedBuilder()
-              .setColor('Random')
-              .setAuthor({
-                name: message.member?.displayName || message.author.username,
-                iconURL: message.author.displayAvatarURL(true),
-              })
-              .setDescription(message.content || 'No content')
-              .setFooter({
-                text: message.guild.name,
-                iconURL: message.guild.iconURL(true),
-              })
-              .setTimestamp(),
-          ],
+          embeds: embeds,
           components: [jumpButton],
         });
       }
