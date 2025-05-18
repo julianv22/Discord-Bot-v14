@@ -56,7 +56,7 @@ module.exports = (client) => {
         })
         .setTitle('Description:')
         .setDescription(application.description || null)
-        .setThumbnail('https://media.discordapp.net/attachments/1000496632510545982/1369685756624371804/discord_QR.png')
+        .setThumbnail(cfg.discordQR_PNG)
         .addFields(
           { name: '👤 Username:', value: `${bot}`, inline: true },
           {
