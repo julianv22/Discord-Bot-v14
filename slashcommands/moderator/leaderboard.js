@@ -18,7 +18,7 @@ module.exports = {
         .setDescription('Show thanks leaderboard')
         .addStringOption((opt) => opt.setName('time').setDescription('Time to thanks calculate')),
     ),
-  category: '',
+  category: 'moderator',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
