@@ -6,47 +6,59 @@ global.cfg = require('./config/config.json');
 global.prefix = cfg.prefix;
 
 const { Client, Collection, Partials } = require('discord.js');
+const mongoose = require('mongoose');
+
 const client = new Client({
   intents: 65535,
   partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 // Commands Collection
-client.prefixCommands = new Collection(); // Prefix Commands
-client.slashCommands = new Collection(); // Slash Commands
-client.subCommands = new Collection(); // Sub Commands
+client.prefixCommands = new Collection();
+client.slashCommands = new Collection();
+client.subCommands = new Collection();
 client.slashArray = [];
-// Components Declare
-client.buttons = new Collection(); // Buttons Collection
-client.menus = new Collection(); // Menus Collection
-client.modals = new Collection(); // Modals Collection
-// Others
-client.snipes = new Collection(); // Snipe Collection
+client.buttons = new Collection();
+client.menus = new Collection();
+client.modals = new Collection();
+client.snipes = new Collection();
 
 console.log(chalk.bgYellow('\n-----------------Project is running!-----------------\n'));
 
-// Functions Handle
-require(`./functions/loadFunctions`)(client);
-client.loadFunctions();
-// Commands Handle
-client.loadCommands();
-// Components Handle
-client.loadComponents();
-// Events Handle
-client.loadEvents();
+// Kiểm tra biến môi trường
+if (!process.env.mongodb) {
+  console.error(chalk.red.bold('❌ MISSING MONGODB URI!'));
+  process.exit(1);
+}
+if (!process.env.token) {
+  console.error(chalk.red.bold('❌ MISSING DISCORD TOKEN!'));
+  process.exit(1);
+}
 
-// Connections
-require('mongoose')
+// Kết nối MongoDB
+mongoose
   .connect(process.env.mongodb)
-  .then(
-    () => {
-      console.log(chalk.green.bold('✅ Connected to mongodb'));
-    },
-    (err) => {
-      console.error(chalk.red.bold('Error!'), err);
-    },
-  );
+  .then(() => {
+    console.log(chalk.green.bold('✅ Connected to mongodb'));
 
-client.login(process.env.token).catch((e) => {
-  console.error(e);
+    require(`./functions/loadFunctions`)(client);
+    client.loadFunctions();
+    client.loadCommands();
+    client.loadComponents();
+    client.loadEvents();
+    client.login(process.env.token).catch((e) => {
+      console.error(e);
+    });
+  })
+  .catch((e) => {
+    console.error(chalk.red.bold('Error connecting to MongoDB!'), e);
+    process.exit(1);
+  });
+
+// Bắt lỗi toàn cục
+process.on('unhandledRejection', (reason, p) => {
+  console.error(chalk.red('Unhandled Rejection at:'), p, reason);
+});
+process.on('uncaughtException', (e) => {
+  console.error(chalk.red('Uncaught Exception thrown:'), e);
 });
