@@ -10,7 +10,7 @@ module.exports = (client) => {
       await prefixCommands.clear();
       await slashCommands.clear();
       await subCommands.clear();
-      await slashArray.clear();
+      slashArray.length = 0;
 
       // Prefix Commands
       const prefixCommandFolders = readdirSync('./prefixcommands');
