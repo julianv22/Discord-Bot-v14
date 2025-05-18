@@ -41,12 +41,12 @@ module.exports = {
         )
         .addFields({
           name: 'Welcome channel',
-          value: `${welcomeChannel || '\\⚠️ `/setup welcome-channel`'}`,
+          value: `${welcomeChannel || '\\⚠️ `/setup welcome`'}`,
           inline: true,
         })
         .addFields({
           name: 'Welcome message',
-          value: `${welcomeMessage || '\\⚠️ `/setup welcome-message`'}`,
+          value: `${welcomeMessage || '\\⚠️ `/setup welcome`'}`,
           inline: true,
         })
         .addFields({ name: 'Log channel', value: `${logChannel || '\\⚠️ Not set'}`, inline: true })
@@ -57,7 +57,7 @@ module.exports = {
         })
         .addFields({
           name: 'Suggest channel',
-          value: `${suggestChannel || '\\⚠️ `/setup suggest-channel`'}`,
+          value: `${suggestChannel || '\\⚠️ `/setup suggest`'}`,
           inline: false,
         })
         .addFields({

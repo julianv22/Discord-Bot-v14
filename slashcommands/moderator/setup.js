@@ -9,7 +9,7 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('info').setDescription(`Show all setup info. ${cfg.adminRole} only`))
     .addSubcommand((sub) =>
       sub
-        .setName('suggest-channel')
+        .setName('suggest')
         .setDescription(`Setup Suggest Channel. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
           opt.setName('schannel').setDescription('Select channel to send suggestions').setRequired(true),
@@ -17,15 +17,10 @@ module.exports = {
     )
     .addSubcommand((sub) =>
       sub
-        .setName('welcome-channel')
+        .setName('welcome')
         .setDescription('Setup Welcome Channel and Log Channel')
         .addChannelOption((opt) => opt.setName('welcome').setDescription('Welcome Channel').setRequired(true))
-        .addChannelOption((opt) => opt.setName('log').setDescription('Log Channel').setRequired(true)),
-    )
-    .addSubcommand((sub) =>
-      sub
-        .setName('welcome-message')
-        .setDescription('Setup Welcome message')
+        .addChannelOption((opt) => opt.setName('log').setDescription('Log Channel').setRequired(true))
         .addStringOption((opt) => opt.setName('message').setDescription(`Welcome message's content`)),
     )
     .addSubcommand((sub) =>

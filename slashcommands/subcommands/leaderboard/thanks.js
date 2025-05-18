@@ -6,7 +6,6 @@ module.exports = {
   category: 'moderator',
   parent: 'leaderboard',
   scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
