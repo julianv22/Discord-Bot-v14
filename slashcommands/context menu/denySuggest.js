@@ -13,8 +13,8 @@ module.exports = {
     .setName('Deny Suggest')
     .setType(ApplicationCommandType.Message),
   category: 'context menu',
-  permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

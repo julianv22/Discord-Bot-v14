@@ -13,16 +13,15 @@ async function validateYoutubeChannel(channelId, apiKey) {
 }
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder()
-    .setName('youtube')
-    .setDescription('Thêm hoặc xóa kênh YouTube cần theo dõi'),
+  data: new SlashCommandSubcommandBuilder().setName('youtube'),
   category: 'sub command',
-  parent: 'setup',
-  /** @param {Interaction} interaction @param {Client} client */
-  async execute(interaction, client) {
+  parent: 'youtube',
+  scooldown: 0,
+
+  /** @param {Interaction} interaction @param {Client} client */ async execute(interaction, client) {
     const { errorEmbed } = client;
     const { options, guildId } = interaction;
-    const yt_channel = options.getString('yt-channel-id');
+    const yt_channel = options.getString('channel-id');
     const action = options.getString('action');
 
     try {

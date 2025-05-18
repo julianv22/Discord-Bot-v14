@@ -6,7 +6,7 @@ module.exports = {
     .setDescription('Get Avatar')
     .addUserOption((opt) => opt.setName('user').setDescription('Provide user you wanna show Avatar')),
   category: 'info',
-  cooldow: 0,
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

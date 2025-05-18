@@ -2,9 +2,10 @@ const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('suggest-channel').setDescription(`Suggestions`),
+  data: new SlashCommandSubcommandBuilder().setName('suggest-channel'),
   category: 'sub command',
   parent: 'setup',
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

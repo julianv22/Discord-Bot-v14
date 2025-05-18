@@ -8,7 +8,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('slash').setDescription('Slash Commands (/) List'),
+  data: new SlashCommandSubcommandBuilder().setName('slash'),
   category: 'sub command',
   parent: 'help',
   scooldown: 0,

@@ -1,9 +1,10 @@
 const { SlashCommandSubcommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('members').setDescription(`List Members`),
+  data: new SlashCommandSubcommandBuilder().setName('members'),
   category: 'sub command',
   parent: 'list',
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

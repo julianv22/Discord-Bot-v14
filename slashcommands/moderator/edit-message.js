@@ -8,8 +8,8 @@ module.exports = {
     .addStringOption((opt) => opt.setName('message-id').setDescription('Message ID').setRequired(true))
     .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
   category: 'moderator',
-  permissions: PermissionFlagsBits.ManageMessages,
   scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

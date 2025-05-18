@@ -2,9 +2,10 @@ const serverProfile = require(`../../../config/serverProfile`);
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('welcome-message').setDescription(`Welcome Message`),
+  data: new SlashCommandSubcommandBuilder().setName('welcome-message'),
   category: 'sub command',
   parent: 'setup',
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

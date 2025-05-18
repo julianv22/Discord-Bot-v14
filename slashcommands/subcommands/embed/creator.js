@@ -9,9 +9,10 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('creator').setDescription(`Create Embed`),
+  data: new SlashCommandSubcommandBuilder().setName('creator'),
   category: 'sub command',
   parent: 'embed',
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

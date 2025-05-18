@@ -2,9 +2,11 @@ const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('yt-notify'),
+  data: new SlashCommandSubcommandBuilder().setName('notify'),
   category: 'sub command',
-  parent: 'setup',
+  parent: 'youtube',
+  scooldown: 0,
+
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { errorEmbed } = client;

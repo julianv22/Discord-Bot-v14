@@ -15,8 +15,8 @@ module.exports = {
     .setName('notification')
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
   category: 'moderator',
-  permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

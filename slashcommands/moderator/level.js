@@ -8,8 +8,8 @@ module.exports = {
     .addIntegerOption((opt) => opt.setName('week').setDescription('Tuần').setRequired(true))
     .addStringOption((opt) => opt.setName('image').setDescription('Image URL').setRequired(true)),
   category: 'moderator',
-  permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

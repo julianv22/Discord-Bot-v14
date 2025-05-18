@@ -4,7 +4,6 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('starboard')
     .setDescription(`Starboard System. ${cfg.adminRole} only`)
-    .addSubcommand((sub) => sub.setName('status').setDescription('Starboard status'))
     .addSubcommand((sub) =>
       sub
         .setName('disable')

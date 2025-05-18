@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('meme').setDescription('Lấy một meme ngẫu nhiên từ Reddit'),
   category: 'misc',
   scooldown: 0,
+
   /** @param {import('discord.js').Interaction} interaction */
   async execute(interaction, client) {
     const { errorEmbed } = client;

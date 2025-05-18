@@ -9,20 +9,15 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('members')
-        .setDescription('List members of a role. ' + `${cfg.modRole} only`)
+        .setDescription('List members of a role')
         .addRoleOption((opt) => opt.setName('role').setDescription('Selct role you wanna list').setRequired(true))
         .addBooleanOption((opt) => opt.setName('mention').setDescription('Mentions?').setRequired(true))
         .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))
         .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline')),
-    )
-    .addSubcommand((sub) =>
-      sub
-        .setName('youtube-channels')
-        .setDescription('List Youtube Channels has been following ' + `${cfg.modRole} only`),
     ),
   category: 'help',
-  permissions: PermissionFlagsBits.ManageMessages,
   scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {},

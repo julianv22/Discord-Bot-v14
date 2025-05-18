@@ -2,10 +2,11 @@ const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder()
-    .setName('starboard')
-    .setDescription(`Setup starboard system. ${cfg.adminRole} only`),
+  data: new SlashCommandSubcommandBuilder().setName('starboard'),
   category: 'starboard',
+  parent: 'setup',
+  scooldown: 0,
+
   /**
    * @param {Interaction} interaction
    * @param {Client} client

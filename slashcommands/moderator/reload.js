@@ -9,9 +9,9 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('events').setDescription(`Reload all events ${cfg.adminRole} only`))
     .addSubcommand((sub) => sub.setName('functions').setDescription(`Reload all functions ${cfg.adminRole} only`)),
   category: 'moderator',
+  scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   // ownerOnly: true,
-  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

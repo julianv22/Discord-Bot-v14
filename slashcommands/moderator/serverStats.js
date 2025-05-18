@@ -19,8 +19,8 @@ module.exports = {
       opt.setName('presences-count-channel').setDescription('Presences Count Channel').setRequired(true),
     ),
   category: 'moderator',
-  permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

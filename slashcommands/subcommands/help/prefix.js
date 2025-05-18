@@ -8,7 +8,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('prefix').setDescription(`Prefix Commands (${prefix}) List`),
+  data: new SlashCommandSubcommandBuilder().setName('prefix'),
   category: 'sub command',
   parent: 'help',
   scooldown: 0,

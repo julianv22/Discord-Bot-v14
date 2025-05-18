@@ -13,9 +13,11 @@ async function getChannelTitle(channelId, apiKey) {
 }
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('youtube-channels'),
+  data: new SlashCommandSubcommandBuilder().setName('list-channels'),
   category: 'sub command',
-  parent: 'list',
+  parent: 'youtube',
+  scooldown: 0,
+
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { errorEmbed } = client;
@@ -41,7 +43,9 @@ module.exports = {
         .setDescription(channelList.join('\n'))
         .addFields({
           name: 'Kênh thông báo video mới:',
-          value: profile.youtubeNotifyChannel ? `<#${profile.youtubeNotifyChannel}>` : `\\❌ None`,
+          value: profile.youtubeNotifyChannel
+            ? `<#${profile.youtubeNotifyChannel}>`
+            : `\\⚠️ Vui lòng sử dụng \`/youtube notify\` để thiết lập \\⚠️`,
         })
         .setColor('Random')
         .setTimestamp()
