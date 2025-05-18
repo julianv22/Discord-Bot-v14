@@ -8,14 +8,14 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('level')
-        .setDescription(`Show level's leaderboard`)
+        .setDescription(`Show level's leaderboard. ` + `${cfg.adminRole} only`)
         .addIntegerOption((opt) => opt.setName('week').setDescription('Tuần').setRequired(true))
         .addStringOption((opt) => opt.setName('image').setDescription('Image URL').setRequired(true)),
     )
     .addSubcommand((sub) =>
       sub
         .setName('thanks')
-        .setDescription('Show thanks leaderboard')
+        .setDescription('Show thanks leaderboard. ' + `${cfg.adminRole} only`)
         .addStringOption((opt) => opt.setName('time').setDescription('Time to thanks calculate')),
     ),
   category: 'moderator',

@@ -18,7 +18,7 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('welcome')
-        .setDescription('Setup Welcome Channel and Log Channel')
+        .setDescription(`Setup Welcome Channel and Log Channel. ${cfg.adminRole} only`)
         .addChannelOption((opt) => opt.setName('welcome').setDescription('Welcome Channel').setRequired(true))
         .addChannelOption((opt) => opt.setName('log').setDescription('Log Channel').setRequired(true))
         .addStringOption((opt) => opt.setName('message').setDescription(`Welcome message's content`)),
@@ -26,7 +26,7 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('youtube')
-        .setDescription('Add/Remove youtube channel')
+        .setDescription(`Add/Remove youtube channel. ${cfg.adminRole} only`)
         .addStringOption((opt) => opt.setName('channel-id').setDescription('Youtube Channel ID').setRequired(true))
         .addStringOption((opt) =>
           opt
@@ -39,7 +39,7 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('starboard')
-        .setDescription(`Starboard System`)
+        .setDescription(`Starboard System. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
           opt.setName('starboard-channel').setDescription('Select Starboard Channel').setRequired(true),
         )

@@ -9,7 +9,7 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('members')
-        .setDescription('List members of a role')
+        .setDescription('List members of a role.' + `${cfg.modRole} only`)
         .addRoleOption((opt) => opt.setName('role').setDescription('Selct role you wanna list').setRequired(true))
         .addBooleanOption((opt) => opt.setName('mention').setDescription('Mentions?').setRequired(true))
         .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))

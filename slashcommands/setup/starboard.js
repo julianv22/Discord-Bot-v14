@@ -8,7 +8,7 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('disable')
-        .setDescription('Disable Starboard System')
+        .setDescription(`Disable Starboard System. ${cfg.adminRole} only`)
         .addBooleanOption((opt) =>
           opt.setName('disable-confirm').setDescription('Xác nhận disable Starboard System').setRequired(true),
         ),

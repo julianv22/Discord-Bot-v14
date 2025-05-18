@@ -8,7 +8,7 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('notify')
-        .setDescription('Set notify channel for Youtube')
+        .setDescription(`Set notify channel for Youtube. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
           opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true),
         ),
