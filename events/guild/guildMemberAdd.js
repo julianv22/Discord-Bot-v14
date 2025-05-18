@@ -9,11 +9,6 @@ module.exports = {
 
   /** @param {GuildMember} member @param {Client} client */
   async execute(member, client) {
-    // Đặt hàm addContext ngoài try
-    function addContext(text, x, y, size) {
-      ctx.font = `${text.length < 25 ? size : 40}px Consolas`;
-      ctx.fillText(text, x, y);
-    }
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id });
@@ -27,6 +22,11 @@ module.exports = {
       const c = { h: canvas.height, w: canvas.width };
       const background = await Canvas.loadImage(bgUrl);
       ctx.drawImage(background, 0, 0, c.w, c.h);
+
+      function addContext(text, x, y, size) {
+        ctx.font = `${text.length < 25 ? size : 40}px Consolas`;
+        ctx.fillText(text, x, y);
+      }
 
       var gradient = ctx.createLinearGradient(c.w / 2, 155, c.w / 2, 0);
       gradient.addColorStop(0, 'white');
