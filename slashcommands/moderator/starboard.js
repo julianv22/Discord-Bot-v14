@@ -2,6 +2,7 @@ const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = requir
 
 module.exports = {
   data: new SlashCommandBuilder()
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('starboard')
     .setDescription(`Starboard System. ${cfg.adminRole} only`)
     .addSubcommand((sub) =>

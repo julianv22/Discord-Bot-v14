@@ -2,7 +2,7 @@ const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('info').setDescription('Show all setup info'),
+  data: new SlashCommandSubcommandBuilder().setName('info'),
   category: 'setup',
   parent: 'setup',
   scooldown: 0,
