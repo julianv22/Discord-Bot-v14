@@ -1,13 +1,9 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('level-board')
-    .setDescription('Level leaderboard')
-    .addIntegerOption((opt) => opt.setName('week').setDescription('Tuần').setRequired(true))
-    .addStringOption((opt) => opt.setName('image').setDescription('Image URL').setRequired(true)),
+  data: new SlashCommandSubcommandBuilder().setName('level'),
   category: 'moderator',
+  parent: 'leaderboard',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
 

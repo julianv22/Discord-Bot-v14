@@ -1,13 +1,10 @@
-const thanksProfile = require('../../config/thanksProfile');
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const thanksProfile = require('../../../config/thanksProfile');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('thanks-leaderboard')
-    .setDescription(`Thanks leaderboard. ${cfg.adminRole} only`)
-    .addStringOption((opt) => opt.setName('time').setDescription('Time to thanks calculate')),
+  data: new SlashCommandSubcommandBuilder().setName('thanks'),
   category: 'moderator',
+  parent: 'leaderboard',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
 
