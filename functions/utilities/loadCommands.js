@@ -73,7 +73,9 @@ module.exports = (client) => {
             else if (name === 'Sub Command') subCommands.set(command.data.name, command);
             else {
               slashCommands.set(command.data.name, command);
-              slashArray.push(command.data.toJSON());
+              if (!slashArray.some((cmd) => cmd.name === command.data.name)) {
+                slashArray.push(command.data.toJSON());
+              }
             }
 
             table.addRow('', i++, command.data ? command.data.name : command.name, '✅\u200b');
