@@ -22,9 +22,9 @@ module.exports = {
       });
       createOne.save();
     }
-    const welcomeInfo = await client.channels.cache.get(profile?.welomeChannel);
+    const welcomeInfo = await client.channels.cache.get(profile?.welcomeChannel);
     const logInfo = await client.channels.cache.get(profile?.logChannel);
-    const msgInfo = profile?.welomeMessage;
+    const msgInfo = profile?.welcomeMessage;
 
     const fieldValues = [];
     if (welcomeInfo) fieldValues.push(welcomeInfo.toString());
