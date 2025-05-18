@@ -13,7 +13,7 @@ module.exports = {
           opt.setName('disable-confirm').setDescription('Xác nhận disable Starboard System').setRequired(true),
         ),
     ),
-  category: 'moderator',
+  category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
 

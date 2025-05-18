@@ -18,7 +18,7 @@ module.exports = {
     .addChannelOption((opt) =>
       opt.setName('presences-count-channel').setDescription('Presences Count Channel').setRequired(true),
     ),
-  category: 'moderator',
+  category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
 

@@ -45,7 +45,7 @@ module.exports = {
         )
         .addIntegerOption((opt) => opt.setName('starnum').setDescription('Number of star').setRequired(true)),
     ),
-  category: 'moderator',
+  category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
 
