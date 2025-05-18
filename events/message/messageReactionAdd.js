@@ -74,7 +74,7 @@ module.exports = {
       // Nếu có content hoặc embed
       if (embeds.length > 0) {
         await starboardChannel.send({
-          content: `**${count}** \\⭐ in <#${message.channel.id}>:\n${message.content || ' '}`,
+          content: `**${count}** \\⭐ in <#${message.channel.id}>:}`,
           embeds: embeds,
           components: [jumpButton],
         });
