@@ -27,9 +27,14 @@ module.exports = (client) => {
             const { REST } = require('@discordjs/rest');
             const { Routes } = require('discord.js');
             const rest = new REST({ version: 10 }).setToken(process.env.token);
-            // console.log(chalk.yellow('\nStarted refreshing application (/) commands.\n'));
 
             if (!cfg.clientID) throw new Error('clientID is missing in config!');
+            // Thêm dòng này để kiểm tra danh sách lệnh
+            console.log(
+              'Slash commands sẽ đăng ký:',
+              slashArray.map((cmd) => cmd.name),
+            );
+
             await rest.put(Routes.applicationCommands(cfg.clientID), {
               body: slashArray,
             });
