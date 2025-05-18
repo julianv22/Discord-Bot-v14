@@ -10,6 +10,7 @@ module.exports = (client) => {
       await prefixCommands.clear();
       await slashCommands.clear();
       await subCommands.clear();
+      await slashArray.clear();
 
       // Prefix Commands
       const prefixCommandFolders = readdirSync('./prefixcommands');
@@ -29,11 +30,6 @@ module.exports = (client) => {
             const rest = new REST({ version: 10 }).setToken(process.env.token);
 
             if (!cfg.clientID) throw new Error('clientID is missing in config!');
-            // Thêm dòng này để kiểm tra danh sách lệnh
-            console.log(
-              'Slash commands sẽ đăng ký:',
-              slashArray.map((cmd) => cmd.name),
-            );
 
             await rest.put(Routes.applicationCommands(cfg.clientID), {
               body: slashArray,
