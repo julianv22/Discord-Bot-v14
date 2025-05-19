@@ -3,7 +3,7 @@ const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('hack')
-    .setDescription('Hack ai đó! J4F 😝')
+    .setDescription('Hacking someone! J4F 😝')
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
   category: 'misc',
   scooldown: 0,

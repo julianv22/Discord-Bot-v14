@@ -5,10 +5,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('close-all-tours')
-    .setDescription(`Đóng toàn bộ giải đấu. \n${cfg.adminRole} only`)
-    .addBooleanOption((opt) =>
-      opt.setName('verified').setDescription('Xác nhận đóng toàn bộ giải đấu').setRequired(true),
-    ),
+    .setDescription(`Close all Tournaments. \n${cfg.adminRole} only`)
+    .addBooleanOption((opt) => opt.setName('verified').setDescription('Close confirm').setRequired(true)),
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
   cooldown: 0,

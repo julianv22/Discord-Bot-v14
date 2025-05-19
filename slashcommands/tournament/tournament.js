@@ -39,22 +39,20 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('tournament')
-    .setDescription(`Cài đặt giải đấu. \n${cfg.adminRole} only`)
+    .setDescription(`Setup Tournament. \n${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('open')
-        .setDescription(`Mở đăng ký giải đấu. \n${cfg.adminRole} only`)
-        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn tên giải đấu').setRequired(true)),
+        .setDescription(`Open Tournament register. \n${cfg.adminRole} only`)
+        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Select Tournament').setRequired(true)),
     )
     .addSubcommand((sub) =>
       sub
         .setName('close')
-        .setDescription(`Đóng đăng ký giải đấu. \n${cfg.adminRole} only`)
-        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn tên giải đấu').setRequired(true)),
+        .setDescription(`Close Tournament register. \n${cfg.adminRole} only`)
+        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Select Tournament').setRequired(true)),
     )
-    .addSubcommand((sub) =>
-      sub.setName('list').setDescription(`List danh sách thành viên tham gia giải đấu. \n${cfg.adminRole} only`),
-    ),
+    .addSubcommand((sub) => sub.setName('list').setDescription(`List members in Tournament. \n${cfg.adminRole} only`)),
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
   cooldown: 0,

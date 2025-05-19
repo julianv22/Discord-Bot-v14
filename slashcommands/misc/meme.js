@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
-  data: new SlashCommandBuilder().setName('meme').setDescription('Lấy một meme ngẫu nhiên từ Reddit'),
+  data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
   category: 'misc',
   scooldown: 0,
 

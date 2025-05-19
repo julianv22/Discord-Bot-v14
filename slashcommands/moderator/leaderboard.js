@@ -9,7 +9,7 @@ module.exports = {
       sub
         .setName('level')
         .setDescription(`Show level's leaderboard. ${cfg.adminRole} only`)
-        .addIntegerOption((opt) => opt.setName('week').setDescription('Tuần').setRequired(true))
+        .addIntegerOption((opt) => opt.setName('week').setDescription('Weak').setRequired(true))
         .addStringOption((opt) => opt.setName('image').setDescription('Image URL').setRequired(true)),
     )
     .addSubcommand((sub) =>

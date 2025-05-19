@@ -22,7 +22,7 @@ module.exports = {
         .setName('disable')
         .setDescription(`Disable new Youtube videos notify ${cfg.adminRole} only`)
         .addBooleanOption((opt) =>
-          opt.setName('confirm').setDescription('Xác nhận ngừng thông báo video mới từ Youtube?').setRequired(true),
+          opt.setName('confirm').setDescription('Disable Youtube notify confirm').setRequired(true),
         ),
     ),
   category: 'setup',

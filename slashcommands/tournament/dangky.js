@@ -6,8 +6,8 @@ const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('dang-ky')
-    .setDescription('Đăng ký đấu giải!')
-    .addStringOption((option) => option.setName('ingame').setDescription('Tên ingame').setRequired(true)),
+    .setDescription('Register Tournament!')
+    .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
   category: 'tournament',
   cooldown: 0,
 

@@ -5,9 +5,9 @@ const { SlashCommandBuilder, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('huy-dang-ky')
-    .setDescription('Huỷ đăng ký đấu giải!')
+    .setDescription('Unregister Tournament!')
     .addBooleanOption((option) =>
-      option.setName('xacnhan').setDescription('HÃY CHẮC CHẮN VỚI ĐIỀU BẠN SẮP LÀM!').setRequired(true),
+      option.setName('xacnhan').setDescription('MAKE SURE WHAT ARE YOU DOING!').setRequired(true),
     ),
   category: 'tournament',
   cooldown: 0,
