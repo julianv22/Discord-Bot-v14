@@ -15,7 +15,7 @@ module.exports = {
         .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))
         .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline')),
     ),
-  category: 'help',
+  category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.ManageMessages,
 
