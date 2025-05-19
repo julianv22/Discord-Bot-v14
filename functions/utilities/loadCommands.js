@@ -14,7 +14,7 @@ module.exports = (client) => {
 
       // Prefix Commands
       const prefixCommandFolders = readdirSync('./prefixcommands');
-      await LoadCommands('Command', './prefixcommands', prefixCommandFolders);
+      await LoadCommands('Prefix Command', './prefixcommands', prefixCommandFolders);
       // Slash Commands
       const slashCommandFolders = readdirSync('./slashcommands');
       await LoadCommands('Slash Command', './slashcommands', slashCommandFolders);
@@ -49,7 +49,7 @@ module.exports = (client) => {
        */
       async function LoadCommands(name, folderName, commandFolders) {
         const table = new ascii()
-          .setHeading('Folder', '📝', name + ' Name', '♻')
+          .setHeading('Folder', '📝', 'Command Name', '♻')
           .setAlignCenter(1)
           .setBorder('│', '─', '✧', '✧');
         let count = 0;
@@ -70,7 +70,7 @@ module.exports = (client) => {
             delete require.cache[require.resolve(`../../${folderName}/${folder}/${file}`)];
             const command = require(`../../${folderName}/${folder}/${file}`);
 
-            if (name === 'Command') prefixCommands.set(command.name, command);
+            if (name === 'Prefix Command') prefixCommands.set(command.name, command);
             else if (name === 'Sub Command') subCommands.set(command.data.name, command);
             else {
               slashCommands.set(command.data.name, command);
