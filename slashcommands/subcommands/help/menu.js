@@ -25,7 +25,7 @@ module.exports = {
     await interaction.reply({
       content: '**Select command category \\📂:**',
       components: [new ActionRowBuilder().addComponents(menu)],
-      // ephemeral: true,
+      ephemeral: true,
     });
   },
 };
