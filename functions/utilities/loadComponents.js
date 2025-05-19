@@ -31,7 +31,7 @@ module.exports = (client) => {
       await modals.clear();
 
       const table = new ascii()
-        .setHeading('Folder', '📝', 'Component Name', '♻')
+        .setHeading('Folder', '🔢', 'Component Name', '♻')
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
@@ -47,7 +47,7 @@ module.exports = (client) => {
 
         let i = 1;
         componentFiles.forEach((file) => {
-          table.addRow('', i++, file.split('.')[0], '✅\u200b');
+          table.addRow('', i++, file.split('.')[0], '📝');
           count++;
         });
 

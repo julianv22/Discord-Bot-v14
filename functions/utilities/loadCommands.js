@@ -49,7 +49,7 @@ module.exports = (client) => {
        */
       async function LoadCommands(name, folderName, commandFolders) {
         const table = new ascii()
-          .setHeading('Folder', '📝', 'Command Name', '♻')
+          .setHeading('Folder', '🔢', 'Command Name', '♻')
           .setAlignCenter(1)
           .setBorder('│', '─', '✧', '✧');
         let count = 0;
@@ -79,7 +79,7 @@ module.exports = (client) => {
               }
             }
 
-            table.addRow('', i++, command.data ? command.data.name : command.name, '✅\u200b');
+            table.addRow('', i++, command.data ? command.data.name : command.name, '📝');
             count++;
           });
         }

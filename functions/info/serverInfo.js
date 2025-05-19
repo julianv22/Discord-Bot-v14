@@ -15,6 +15,7 @@ module.exports = (client) => {
       const channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size;
       const voices = guild.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size;
       const categories = guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size;
+      const owner = await guild.fetchOwner();
 
       var embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -29,7 +30,7 @@ module.exports = (client) => {
         .addFields([
           { name: '💎 Server Name:', value: `${guild.name}`, inline: true },
           { name: '🆔:', value: `||${guild.id}||`, inline: true },
-          { name: '👑 Server Owner:', value: `<@${guild.ownerId}>` },
+          { name: '👑 Server Owner:', value: `${owner}` },
           {
             name: `📊 Members [${guild.memberCount.toLocaleString()}]:`,
             value: `${(guild.memberCount - bots).toLocaleString()} Members\n${bots} Bots`,

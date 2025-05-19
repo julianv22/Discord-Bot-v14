@@ -8,7 +8,7 @@ module.exports = (client) => {
   client.loadFunctions = async () => {
     try {
       const table = new ascii()
-        .setHeading('Folder', '📝', 'Function Name', '♻')
+        .setHeading('Folder', '🔢', 'Function Name', '♻')
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
@@ -35,7 +35,7 @@ module.exports = (client) => {
           try {
             delete require.cache[require.resolve(`../functions/${folder}/${file}`)];
             require(`../functions/${folder}/${file}`)(client);
-            table.addRow('', i++, file.split('.')[0], '✅\u200b');
+            table.addRow('', i++, file.split('.')[0], '📝');
             count++;
           } catch (e) {
             console.error(chalk.yellow(`Lỗi khi load function file: ./functions/${folder}/${file}`), e);
