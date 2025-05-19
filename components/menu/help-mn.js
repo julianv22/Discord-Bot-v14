@@ -1,36 +1,48 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   data: { name: 'help-mn' },
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const { guild, user, values } = interaction;
+    const {
+      guild,
+      user,
+      member: { permissions },
+      values,
+    } = interaction;
     const { slashCommands, subCommands } = client;
     const select = values[0];
+    const isAdmin = permissions.has(PermissionFlagsBits.Administrator);
 
     let embed;
     if (select !== 'subcommands') {
-      const commands = Array.from(slashCommands.values())
-        .filter((cmd) => cmd.category && cmd.category.toLowerCase() === select.toLowerCase())
-        .map((cmd) => ({
-          name: cmd.data?.name || cmd.name,
-          description: cmd.data?.description || 'No description',
-        }));
+      let commands = Array.from(slashCommands.values()).filter(
+        (cmd) => cmd.category && cmd.category.toLowerCase() === select.toLowerCase(),
+      );
+
+      if (!isAdmin) {
+        commands = commands.filter((cmd) => !cmd.permissions);
+      }
+
+      const cmds = commands.map((c) => ({
+        name: c.data?.name || c.name,
+        description: c.data?.description || 'No description',
+      }));
 
       embed = new EmbedBuilder()
         .setTitle(`\\📂 ${select.toUpperCase()} Commands [${commands.length}]:`)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setColor('Random')
         .addFields(
-          commands.length
-            ? commands.map((cmd) => ({
+          cmds.length
+            ? cmds.map((cmd) => ({
                 name: `/${cmd.name}`,
                 value: `\`\`\`fix\n${cmd.description}\`\`\``,
               }))
-            : [{ name: 'No commands found in this category.', value: '\u200b' }],
+            : [{ name: '\\❌ No commands found in this category or has not enough permission.', value: '\u200b' }],
         )
-        .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) })
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp();
     } else {
       // Gom các subcommand theo parent
@@ -53,7 +65,9 @@ module.exports = {
         .setTitle(`\\📂 SUBCOMMANDS [${total}]:`)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setColor('Random')
-        .addFields(fields.length ? fields : [{ name: 'No subcommands found.', value: '\u200b' }])
+        .addFields(
+          fields.length ? fields : [{ name: '\\❌ No subcommands found has not enough permission.', value: '\u200b' }],
+        )
         .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp();
     }
