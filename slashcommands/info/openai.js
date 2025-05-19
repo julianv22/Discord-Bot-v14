@@ -1,13 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js');
-let GoogleGenAI;
-try {
-  GoogleGenAI = require('@google/genai').GoogleGenAI || require('@google/genai').default;
-} catch (e) {
-  // Nếu require không được, thử import động (chỉ Node >= 14+)
-  GoogleGenAI = async () => (await import('@google/genai')).default;
-}
-
-const gemini = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 // Lưu lịch sử chat tạm thời theo userId
 const chatHistories = new Map();
 
@@ -27,15 +18,17 @@ module.exports = {
       return interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', ephemeral: true });
     }
     const userId = interaction.user.id;
-    // Lấy lịch sử chat của user (tối đa 10 tin nhắn gần nhất)
     let history = chatHistories.get(userId) || [];
-    // Thêm prompt mới vào lịch sử
     history.push({ role: 'user', text: prompt });
-    // Giữ tối đa 10 tin nhắn gần nhất
     if (history.length > 10) history = history.slice(history.length - 10);
     try {
       await interaction.deferReply();
-      // Tạo nội dung gửi cho Gemini: nối các tin nhắn trước đó
+
+      // Import động ESM module
+      const mod = await import('@google/genai');
+      const GoogleGenAI = mod.GoogleGenAI || mod.default;
+      const gemini = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+
       const contents = history.map((msg) => msg.text).join('\n');
       const res = await gemini.models.generateContent({
         model: 'gemini-2.0-flash',
@@ -43,7 +36,6 @@ module.exports = {
       });
       let reply = res?.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(res);
       if (typeof reply === 'object') reply = JSON.stringify(reply, null, 2);
-      // Lưu phản hồi của AI vào lịch sử
       history.push({ role: 'assistant', text: reply });
       if (history.length > 10) history = history.slice(history.length - 10);
       chatHistories.set(userId, history);
