@@ -1,5 +1,11 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { GoogleGenAI } = require('@google/genai');
+let GoogleGenAI;
+try {
+  GoogleGenAI = require('@google/genai').GoogleGenAI || require('@google/genai').default;
+} catch (e) {
+  // Nếu require không được, thử import động (chỉ Node >= 14+)
+  GoogleGenAI = async () => (await import('@google/genai')).default;
+}
 
 const gemini = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 // Lưu lịch sử chat tạm thời theo userId
