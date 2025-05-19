@@ -64,78 +64,85 @@ module.exports = {
     const { errorEmbed } = client;
     const { guild, options } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id });
-    if (!profile) {
-      let createOne = await serverProfile.create({
-        guildID: guild.id,
-        guildName: guild.name,
-      });
-      createOne.save();
-    }
-    const getRole = options.getRole('ten-giai');
 
-    switch (options.getSubcommand()) {
-      case 'open':
-        if (getRole.id !== profile?.tourID && profile?.tourStatus)
-          return interaction.reply(
-            errorEmbed(true, `Đang có giải đấu \`${profile?.tourName}\` diễn ra. Vui lòng đóng giải này trước!`),
-          );
-        if (profile?.tourStatus)
-          return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đang diễn ra rồi!`));
-        await setTournament(interaction, getRole, true, 'mở');
-        break;
-      case 'close':
-        if (profile?.tourID && getRole.id !== profile?.tourID)
-          return interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile?.tourName}\``));
-        if (!profile?.tourStatus)
-          return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đã được đóng trước đó rồi!`));
-        await setTournament(interaction, getRole, false, 'đóng');
-        break;
-      case 'list':
-        if (!profile?.tourStatus)
-          return interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
-
-        let memberList = await tournamentProfile.find({
+    try {
+      if (!profile) {
+        let createOne = await serverProfile.create({
           guildID: guild.id,
-          status: true,
+          guildName: guild.name,
         });
+        createOne.save();
+      }
+      const getRole = options.getRole('ten-giai');
 
-        if (memberList.length == 0) return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
+      switch (options.getSubcommand()) {
+        case 'open':
+          if (getRole.id !== profile?.tourID && profile?.tourStatus)
+            return interaction.reply(
+              errorEmbed(true, `Đang có giải đấu \`${profile?.tourName}\` diễn ra. Vui lòng đóng giải này trước!`),
+            );
+          if (profile?.tourStatus)
+            return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đang diễn ra rồi!`));
+          await setTournament(interaction, getRole, true, 'mở');
+          break;
+        case 'close':
+          if (profile?.tourID && getRole.id !== profile?.tourID)
+            return interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile?.tourName}\``));
+          if (!profile?.tourStatus)
+            return interaction.reply(errorEmbed(true, `Giải \`${profile?.tourName}\` đã được đóng trước đó rồi!`));
+          await setTournament(interaction, getRole, false, 'đóng');
+          break;
+        case 'list':
+          if (!profile?.tourStatus)
+            return interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
 
-        const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
+          let memberList = await tournamentProfile.find({
+            guildID: guild.id,
+            status: true,
+          });
 
-        const embed = new EmbedBuilder()
-          .setAuthor({
-            name: `Danh sách thành viên tham gia giải đấu`,
-            iconURL: guild.iconURL(true),
-          })
-          .setDescription(tengiai)
-          .setColor('Random')
-          .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
-          .setTimestamp()
-          .setFooter({ text: `Tổng số đăng ký: [${memberList.length}]` });
+          if (memberList.length == 0)
+            return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
 
-        let msg = [];
-        memberList.forEach((member) => {
-          if (memberList.length < 26) {
-            embed.addFields([
-              {
-                name: `\u200b`,
-                value: `<@${member.userID}> (${member.ingame})`,
-                inline: true,
-              },
-            ]);
-          } else {
-            msg.push(`<@${member.userID}> (${member.ingame})`);
-          }
-        });
+          const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
 
-        const desc = tengiai + `\n\n${msg.join('\n')}`;
-        if (memberList.length > 25 && desc.length < 1950) embed.setDescription(desc);
+          const embed = new EmbedBuilder()
+            .setAuthor({
+              name: `Danh sách thành viên tham gia giải đấu`,
+              iconURL: guild.iconURL(true),
+            })
+            .setDescription(tengiai)
+            .setColor('Random')
+            .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
+            .setTimestamp()
+            .setFooter({ text: `Tổng số đăng ký: [${memberList.length}]` });
 
-        await interaction.reply({ embeds: [embed] }).then(() => {
-          if (desc.length > 1950) interaction.followUp(msg.join('\n'));
-        });
-        break;
+          let msg = [];
+          memberList.forEach((member) => {
+            if (memberList.length < 26) {
+              embed.addFields([
+                {
+                  name: `\u200b`,
+                  value: `<@${member.userID}> (${member.ingame})`,
+                  inline: true,
+                },
+              ]);
+            } else {
+              msg.push(`<@${member.userID}> (${member.ingame})`);
+            }
+          });
+
+          const desc = tengiai + `\n\n${msg.join('\n')}`;
+          if (memberList.length > 25 && desc.length < 1950) embed.setDescription(desc);
+
+          await interaction.reply({ embeds: [embed] }).then(() => {
+            if (desc.length > 1950) interaction.followUp(msg.join('\n'));
+          });
+          break;
+      }
+    } catch (e) {
+      console.error(chalk.yellow.bold('Error (/tournament):', e));
+      return interaction.reply(errorEmbed(true, 'Tournament command error:', e));
     }
   },
 };

@@ -19,16 +19,20 @@ module.exports = {
     if (!isConfirm) return interaction.reply(errorEmbed(true, 'Hãy chắc chắn với điều bạn đang làm!'));
 
     let profile = await serverProfile.findOne({ guildID: guildId });
-
-    if (profile.starCount === 0) {
-      return interaction.reply(
-        errorEmbed(true, 'Starboard System chưa được setup. Sử dụng `/setup starboard` để cài đặt'),
-      );
-    } else {
-      profile.starboardChannel = null;
-      profile.starCount = 0;
-      await profile.save();
-      await interaction.reply(errorEmbed(false, 'Disable Starboard System successfully!'));
+    try {
+      if (profile.starCount === 0) {
+        return interaction.reply(
+          errorEmbed(true, 'Starboard System chưa được setup. Sử dụng `/setup starboard` để cài đặt'),
+        );
+      } else {
+        profile.starboardChannel = null;
+        profile.starCount = 0;
+        await profile.save();
+        await interaction.reply(errorEmbed(false, 'Disable Starboard System successfully!'));
+      }
+    } catch (e) {
+      console.error(chalk.yellow.bold('Error (/starboard disable):', e));
+      return interaction.reply(errorEmbed(true, 'Lỗi disable starboard:', e));
     }
   },
 };

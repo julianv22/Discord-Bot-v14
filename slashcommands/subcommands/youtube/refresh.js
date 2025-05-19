@@ -10,6 +10,6 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed, checkVideos } = client;
     await checkVideos();
-    interaction.reply(errorEmbed(false, 'Refesh successfull!'));
+    await interaction.reply(errorEmbed(false, 'Refesh successfull!'));
   },
 };

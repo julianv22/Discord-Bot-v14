@@ -16,38 +16,43 @@ module.exports = {
     const gitUsername = interaction.options.getString('username');
     const { user: author } = interaction;
 
-    fetch(`https://api.github.com/users/${gitUsername}`)
-      .then((res) => res.json())
-      .then((body) => {
-        if (!body || body.message === 'Not Found')
-          return interaction.reply(errorEmbed(true, 'Can not find this user!'));
+    try {
+      fetch(`https://api.github.com/users/${gitUsername}`)
+        .then((res) => res.json())
+        .then((body) => {
+          if (!body || body.message === 'Not Found')
+            return interaction.reply(errorEmbed(true, 'Can not find this user!'));
 
-        let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
-          body;
+          let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
+            body;
 
-        const embed = new EmbedBuilder()
-          .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
-          .setColor('Random')
-          .setThumbnail(avatar_url)
-          .addFields([
-            { name: 'Username', value: `${login}`, inline: true },
-            { name: 'ID', value: `${id}`, inline: true },
-            { name: 'Bio', value: `${bio}`, inline: true },
-            { name: 'Github', value: `[${name || login}](${html_url})`, inline: true },
-            { name: 'Public Repositories', value: `${public_repos || 'None'}`, inline: true },
-            { name: 'Followers', value: `${followers}`, inline: true },
-            { name: 'Following', value: `${following}`, inline: true },
-            { name: 'Location', value: `${location || 'No Location'}`, inline: true },
-            {
-              name: 'Account Created',
-              value: moment.utc(created_at).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY'),
-              inline: true,
-            },
-          ])
-          .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
-          .setTimestamp();
+          const embed = new EmbedBuilder()
+            .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
+            .setColor('Random')
+            .setThumbnail(avatar_url)
+            .addFields([
+              { name: 'Username', value: `${login}`, inline: true },
+              { name: 'ID', value: `${id}`, inline: true },
+              { name: 'Bio', value: `${bio}`, inline: true },
+              { name: 'Github', value: `[${name || login}](${html_url})`, inline: true },
+              { name: 'Public Repositories', value: `${public_repos || 'None'}`, inline: true },
+              { name: 'Followers', value: `${followers}`, inline: true },
+              { name: 'Following', value: `${following}`, inline: true },
+              { name: 'Location', value: `${location || 'No Location'}`, inline: true },
+              {
+                name: 'Account Created',
+                value: moment.utc(created_at).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY'),
+                inline: true,
+              },
+            ])
+            .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
+            .setTimestamp();
 
-        interaction.reply({ embeds: [embed] });
-      });
+          interaction.reply({ embeds: [embed] });
+        });
+    } catch (e) {
+      console.error(chalk.yellow.bold('Error (/github):', e));
+      return interaction.reply(errorEmbed(true, 'Error github command:', e));
+    }
   },
 };

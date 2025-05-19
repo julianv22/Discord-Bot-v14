@@ -38,8 +38,8 @@ module.exports = {
         );
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('Lỗi setup starboard command', e));
-      return interaction.reply(errorEmbed(true, 'Lỗi setup starboard command', e));
+      console.error(chalk.yellow.bold('Error (/setup starboard):', e));
+      return interaction.reply(errorEmbed(true, 'Error when setup starboard channel:', e));
     }
   },
 };

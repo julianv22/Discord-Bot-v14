@@ -13,8 +13,18 @@ module.exports = {
           opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true),
         ),
     )
-    .addSubcommand((sub) => sub.setName('refresh').setDescription('Refresh Youtube notify'))
-    .addSubcommand((sub) => sub.setName('list-channels').setDescription('List Youtube channels has been register')),
+    .addSubcommand((sub) => sub.setName('refresh').setDescription(`Refresh Youtube notify ${cfg.adminRole} only`))
+    .addSubcommand((sub) =>
+      sub.setName('list-channels').setDescription(`List Youtube channels has been register ${cfg.adminRole} only`),
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName('disable')
+        .setDescription(`Disable new Youtube videos notify ${cfg.adminRole} only`)
+        .addBooleanOption((opt) =>
+          opt.setName('confirm').setDescription('Xác nhận ngừng thông báo video mới từ Youtube?').setRequired(true),
+        ),
+    ),
   category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,

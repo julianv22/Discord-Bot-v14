@@ -13,21 +13,26 @@ module.exports = {
     const week = options.getInteger('week');
     const imgURL = options.getString('image');
 
-    if (week < 1) return interaction.reply(errorEmbed(true, 'Số tuần phải lớn hơn 0'));
-    if (!checkURL(imgURL)) return interaction.reply(errorEmbed(true, 'Vui lòng nhập chính xác Image URL'));
+    try {
+      if (week < 1) return interaction.reply(errorEmbed(true, 'Số tuần phải lớn hơn 0'));
+      if (!checkURL(imgURL)) return interaction.reply(errorEmbed(true, 'Vui lòng nhập chính xác Image URL'));
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
-      .setTitle('Bảng xếp hạng level tuần #' + week)
-      .setDescription(
-        'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)',
-      )
-      .setColor('Random')
-      .setThumbnail(cfg.thumbnailURL)
-      .setImage(imgURL)
-      .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
-      .setTimestamp();
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
+        .setTitle('Bảng xếp hạng level tuần #' + week)
+        .setDescription(
+          'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)',
+        )
+        .setColor('Random')
+        .setThumbnail(cfg.thumbnailURL)
+        .setImage(imgURL)
+        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+        .setTimestamp();
 
-    interaction.reply({ embeds: [embed] });
+      await interaction.reply({ embeds: [embed] });
+    } catch (e) {
+      console.error(chalk.yellow.bold('Error (/leaderboard level):', e));
+      return interaction.reply(errorEmbed(true, 'Error level leaderboard:', e));
+    }
   },
 };

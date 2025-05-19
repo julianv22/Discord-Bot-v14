@@ -26,6 +26,6 @@ module.exports = {
     );
 
     modal.addComponents(contentInput);
-    interaction.showModal(modal);
+    await interaction.showModal(modal);
   },
 };

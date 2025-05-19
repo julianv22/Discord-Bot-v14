@@ -36,7 +36,7 @@ module.exports = {
     });
     await msg.edit({ embeds: [edit] });
 
-    interaction.reply(errorEmbed(false, `Suggestion has been accepted! [[Jump Link](${msg.url}]`));
+    await interaction.reply(errorEmbed(false, `Suggestion has been accepted! [[Jump Link](${msg.url}]`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
     if (!author) return interaction.followUp?.(errorEmbed(true, 'Không tìm thấy user để gửi DM!')).catch(() => {});
@@ -58,7 +58,7 @@ module.exports = {
         ],
       })
       .catch((e) => {
-        return console.error(e);
+        return console.error(chalk.yellow.bold('Error (Context menu/Accept Suggest):', e));
       });
   },
 };

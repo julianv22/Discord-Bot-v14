@@ -78,8 +78,8 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.log(chalk.yellow.bold('Error when getting setup info', e));
-      return interaction.reply(errorEmbed(true, 'Có lỗi khi lấy thông tin setup info', e));
+      console.error(chalk.yellow.bold('Error (/setup info):', e));
+      return interaction.reply(errorEmbed(true, 'Lỗi khi lấy thông tin setup info', e));
     }
   },
 };

@@ -19,38 +19,43 @@ module.exports = {
     const { options } = interaction;
     const embed = new EmbedBuilder().setColor('Green');
 
-    switch (options.getSubcommand()) {
-      case 'commands':
-        await loadCommands(true);
-        await loadComponents();
-        interaction.reply({
-          embeds: [embed.setDescription(`\\✅ | Reloading commands, please wait...`)],
-          ephemeral: true,
-        });
-        break;
+    try {
+      switch (options.getSubcommand()) {
+        case 'commands':
+          await loadCommands(true);
+          await loadComponents();
+          await interaction.reply({
+            embeds: [embed.setDescription(`\\✅ | Reloading commands, please wait...`)],
+            ephemeral: true,
+          });
+          break;
 
-      case 'events':
-        await loadEvents();
-        interaction.reply({
-          embeds: [embed.setDescription(`\\✅ | Reloading events, please wait...`)],
-          ephemeral: true,
-        });
-        break;
+        case 'events':
+          await loadEvents();
+          await interaction.reply({
+            embeds: [embed.setDescription(`\\✅ | Reloading events, please wait...`)],
+            ephemeral: true,
+          });
+          break;
 
-      case 'functions':
-        await loadFunctions();
-        interaction.reply({
-          embeds: [embed.setDescription(`\\✅ | Reloading functions, please wait...`)],
+        case 'functions':
+          await loadFunctions();
+          await interaction.reply({
+            embeds: [embed.setDescription(`\\✅ | Reloading functions, please wait...`)],
+            ephemeral: true,
+          });
+          break;
+      }
+
+      setTimeout(() => {
+        interaction.editReply({
+          embeds: [embed.setDescription(`\\✅ | Successfully reloaded application ${options.getSubcommand()}!`)],
           ephemeral: true,
         });
-        break;
+      }, 2500);
+    } catch (e) {
+      console.error(chalk.yellow.bold('Error (/reload):', e));
+      return interaction.reply(errorEmbed(true, 'Reload command error:', e));
     }
-
-    setTimeout(() => {
-      interaction.editReply({
-        embeds: [embed.setDescription(`\\✅ | Successfully reloaded application ${options.getSubcommand()}!`)],
-        ephemeral: true,
-      });
-    }, 2500);
   },
 };

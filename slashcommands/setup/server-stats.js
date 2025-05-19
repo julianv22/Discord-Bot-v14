@@ -25,53 +25,58 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-
     let profile = await serverProfile.findOne({ guildID: guild.id });
-    if (!profile) {
-      let createOne = await serverProfile.create({
-        guildID: guild.id,
-        guildName: guild.name,
-      });
-      createOne.save();
-    }
 
-    const totalChannel = options.getChannel('total-count-channel');
-    const membersChannel = options.getChannel('members-count-channel');
-    const memberrole = options.getRole('member-role');
-    const botsChannel = options.getChannel('bots-count-channel');
-    const botrole = options.getRole('bot-role');
-    const presencesChannel = options.getChannel('presences-count-channel');
+    try {
+      if (!profile) {
+        let createOne = await serverProfile.create({
+          guildID: guild.id,
+          guildName: guild.name,
+        });
+        createOne.save();
+      }
 
-    await serverProfile.findOneAndUpdate(
-      { guildID: guild.id },
-      {
-        guildName: guild.name,
-        totalChannel: totalChannel.id,
-        membersChannel: membersChannel.id,
-        memberRole: memberrole.id,
-        botsChannel: botsChannel.id,
-        botRole: botrole.id,
-        statsChannel: presencesChannel.id,
-      },
-    );
+      const totalChannel = options.getChannel('total-count-channel');
+      const membersChannel = options.getChannel('members-count-channel');
+      const memberrole = options.getRole('member-role');
+      const botsChannel = options.getChannel('bots-count-channel');
+      const botrole = options.getRole('bot-role');
+      const presencesChannel = options.getChannel('presences-count-channel');
 
-    client.serverStats(client, guild.id);
-
-    const embed = new EmbedBuilder()
-      .setColor('Green')
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('\\✅ Server stats set up successfully!')
-      .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')
-      .setTimestamp()
-      .addFields(
-        { name: 'Total Count Channel:', value: `${totalChannel}` },
-        { name: 'Members Count Channel:', value: `${membersChannel}` },
-        { name: 'Member Role:', value: `${memberrole}` },
-        { name: 'Bots Count Channel:', value: `${botsChannel}` },
-        { name: 'Bot Role:', value: `${botrole}` },
-        { name: 'Preseneces Count Channel:', value: `${presencesChannel}` },
+      await serverProfile.findOneAndUpdate(
+        { guildID: guild.id },
+        {
+          guildName: guild.name,
+          totalChannel: totalChannel.id,
+          membersChannel: membersChannel.id,
+          memberRole: memberrole.id,
+          botsChannel: botsChannel.id,
+          botRole: botrole.id,
+          statsChannel: presencesChannel.id,
+        },
       );
 
-    await interaction.reply({ embeds: [embed], ephemeral: true });
+      client.serverStats(client, guild.id);
+
+      const embed = new EmbedBuilder()
+        .setColor('Green')
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle('\\✅ Server stats set up successfully!')
+        .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')
+        .setTimestamp()
+        .addFields(
+          { name: 'Total Count Channel:', value: `${totalChannel}` },
+          { name: 'Members Count Channel:', value: `${membersChannel}` },
+          { name: 'Member Role:', value: `${memberrole}` },
+          { name: 'Bots Count Channel:', value: `${botsChannel}` },
+          { name: 'Bot Role:', value: `${botrole}` },
+          { name: 'Preseneces Count Channel:', value: `${presencesChannel}` },
+        );
+
+      await interaction.reply({ embeds: [embed], ephemeral: true });
+    } catch (e) {
+      console.error(chalk.yellow.bold('Error (/setup server-stats):', e));
+      return interaction.reply(errorEmbed(true, 'Error:', e));
+    }
   },
 };

@@ -53,7 +53,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.yellow.bold('Lỗi hiển thị danh sách kênh Youtube', e));
+      console.error(chalk.yellow.bold('Error (/youtube list-channels):', e));
       return interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
     }
   },

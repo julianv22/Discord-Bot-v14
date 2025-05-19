@@ -28,7 +28,7 @@ module.exports = {
         { label: 'Yellow', value: 'Yellow' },
       );
 
-    interaction.reply({
+    await interaction.reply({
       content: 'Select Color:',
       components: [new ActionRowBuilder().addComponents(menu)],
     });
