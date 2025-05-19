@@ -16,14 +16,6 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('refresh').setDescription(`Refresh Youtube notify ${cfg.adminRole} only`))
     .addSubcommand((sub) =>
       sub.setName('list-channels').setDescription(`List Youtube channels has been register ${cfg.adminRole} only`),
-    )
-    .addSubcommand((sub) =>
-      sub
-        .setName('disable')
-        .setDescription(`Disable new Youtube videos notify ${cfg.adminRole} only`)
-        .addBooleanOption((opt) =>
-          opt.setName('confirm').setDescription('Disable Youtube notify confirm').setRequired(true),
-        ),
     ),
   category: 'setup',
   scooldown: 0,

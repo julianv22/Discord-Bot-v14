@@ -44,7 +44,8 @@ module.exports = {
           opt.setName('starboard-channel').setDescription('Select Starboard Channel').setRequired(true),
         )
         .addIntegerOption((opt) => opt.setName('starnum').setDescription('Number of star').setRequired(true)),
-    ),
+    )
+    .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable Server's Feature. ${cfg.adminRole} only`)),
   category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
