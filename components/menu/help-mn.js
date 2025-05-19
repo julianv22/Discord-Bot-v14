@@ -68,7 +68,7 @@ module.exports = {
         .addFields(
           fields.length ? fields : [{ name: '\\❌ No subcommands found has not enough permission.', value: '\u200b' }],
         )
-        .addFields({ name: '\u200b', value: '**Note:** *Some commands are require right permission!*' })
+        .addFields({ name: '\u200b', value: '**Note:** *Some commands require proper permissions!*' })
         .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp();
     }
