@@ -15,7 +15,7 @@ async function validateYoutubeChannel(channelId, apiKey) {
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('youtube'),
   category: 'sub command',
-  parent: 'youtube',
+  parent: 'setup',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */ async execute(interaction, client) {
