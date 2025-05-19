@@ -2,7 +2,7 @@ const { SlashCommandSubcommandBuilder, Client, Interaction, PermissionFlagsBits,
 
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('level'),
-  category: 'moderator',
+  category: 'sub command',
   parent: 'leaderboard',
   scooldown: 0,
 

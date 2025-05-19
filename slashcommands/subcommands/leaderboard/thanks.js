@@ -3,7 +3,7 @@ const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Permis
 
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('thanks'),
-  category: 'moderator',
+  category: 'sub command',
   parent: 'leaderboard',
   scooldown: 0,
 

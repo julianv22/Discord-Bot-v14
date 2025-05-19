@@ -3,7 +3,7 @@ const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = req
 
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('starboard'),
-  category: 'starboard',
+  category: 'sub command',
   parent: 'setup',
   scooldown: 0,
 
