@@ -55,7 +55,7 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('list').setDescription(`List members in Tournament. \n${cfg.adminRole} only`)),
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
-  cooldown: 0,
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
@@ -65,11 +65,7 @@ module.exports = {
 
     try {
       if (!profile) {
-        let createOne = await serverProfile.create({
-          guildID: guild.id,
-          guildName: guild.name,
-        });
-        createOne.save();
+        await serverProfile.create({ guildID: guild.id, guildName: guild.name });
       }
       const getRole = options.getRole('ten-giai');
 
@@ -102,7 +98,7 @@ module.exports = {
           if (memberList.length == 0)
             return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
 
-          const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID)}`;
+          const tengiai = `**Tên giải:** ${guild.roles.cache.get(profile.tourID) || 'Không có tên'}.`;
 
           const embed = new EmbedBuilder()
             .setAuthor({

@@ -36,7 +36,7 @@ module.exports = (client) => {
             embeds: [
               {
                 color: 16711680,
-                description: `\\❌ | You have to mention someone!`,
+                description: `\❌ | You must mention someone!`,
               },
             ],
             ephemeral: true,
@@ -54,7 +54,7 @@ module.exports = (client) => {
             embeds: [
               {
                 color: 16711680,
-                description: `\\❌ | Bot no need to thank 😝!`,
+                description: `\❌ | Bots do not need to be thanked! 😝`,
               },
             ],
             ephemeral: true,
@@ -72,7 +72,7 @@ module.exports = (client) => {
             embeds: [
               {
                 color: 16711680,
-                description: `\\❌ | You can not thank yourself 😅!`,
+                description: `\❌ | You cannot thank yourself! 😅`,
               },
             ],
             ephemeral: true,
@@ -125,7 +125,7 @@ module.exports = (client) => {
         ])
         .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
         .setFooter({
-          text: `Use /thanks to thank someone`,
+          text: `Use /thanks to thank someone.`,
           iconURL: guild.iconURL(true),
         })
         .setTimestamp();

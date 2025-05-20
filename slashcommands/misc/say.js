@@ -3,8 +3,8 @@ const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('say')
-    .setDescription('Bot say 🗣')
-    .addStringOption((opt) => opt.setName('text').setDescription('Make bot say something'))
+    .setDescription('Make the bot say something 🗣')
+    .addStringOption((opt) => opt.setName('text').setDescription('Text for the bot to say'))
     .addUserOption((opt) => opt.setName('hello').setDescription('Say "Hello" to someone')),
   category: 'misc',
   scooldown: 0,
@@ -23,7 +23,7 @@ module.exports = {
         interaction.followUp('Have a good day!');
       }, 3000);
     } else {
-      if (!toSay) return await interaction.reply(errorEmbed(true, 'You have to provide some text for bot!'));
+      if (!toSay) return await interaction.reply(errorEmbed(true, 'You must provide some text for the bot to say!'));
 
       await interaction.reply(toSay);
     }

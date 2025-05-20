@@ -4,7 +4,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('edit-message')
-    .setDescription(`Edit Message. ${cfg.modRole} only`)
+    .setDescription(`Edit a message. ${cfg.modRole} only`)
     .addStringOption((opt) => opt.setName('message-id').setDescription('Message ID').setRequired(true))
     .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
   category: 'moderator',
@@ -30,7 +30,7 @@ module.exports = {
       await msgEdit.edit(content).then(() => {
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
-          .setTitle('\\✅ Edit message successfully!')
+          .setTitle('✅ Message edited successfully!')
           .setDescription(`**Message ID:** [\`${msgid}\`](${msgEdit.url})`)
           .setColor('Green')
           .setThumbnail(
@@ -39,7 +39,7 @@ module.exports = {
           .addFields([{ name: 'Edited content:', value: '> ' + content }])
           .setTimestamp()
           .setFooter({
-            text: `Edited by ${user.displayName}`,
+            text: `Edited by ${user.displayName || user.username}`,
             iconURL: user.displayAvatarURL(true),
           });
 
@@ -47,7 +47,7 @@ module.exports = {
       });
     } catch (e) {
       console.error(chalk.yellow.bold('Error (/edit-message):', e));
-      return interaction.reply(errorEmbed(true, 'Edit message error:', e));
+      return interaction.reply(errorEmbed(true, 'Error editing message:', e));
     }
   },
 };

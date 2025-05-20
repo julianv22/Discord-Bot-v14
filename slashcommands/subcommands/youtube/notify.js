@@ -7,23 +7,24 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
 
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * @param {import('discord.js').Interaction} interaction
+   * @param {import('discord.js').Client} client
+   * @returns {Promise<void>}
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { options, guildId } = interaction;
     const notifyChannel = options.getChannel('notify-channel');
+    if (!notifyChannel) {
+      return interaction.reply(errorEmbed(true, 'Kênh thông báo không hợp lệ'));
+    }
     try {
-      let profile = await serverProfile.findOne({ guildID: guildId });
-      if (!profile) {
-        profile = await serverProfile.create({
-          guildID: guildId,
-          youtubeNotifyChannel: notifyChannel.id,
-        });
-      } else {
-        profile.youtubeNotifyChannel = notifyChannel.id;
-        await profile.save();
-      }
-
+      const profile = await serverProfile.findOneAndUpdate(
+        { guildID: guildId },
+        { $set: { youtubeNotifyChannel: notifyChannel.id } },
+        { new: true, upsert: true },
+      );
       await interaction.reply(
         errorEmbed(false, `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`),
       );

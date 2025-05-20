@@ -49,7 +49,7 @@ module.exports = {
               name: 'Accept suggestion',
               iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
             })
-            .setTitle(`Your suggestion has been accepted by ${user.displayName}!`)
+            .setTitle(`Your suggestion has been accepted by ${user.displayName || user.username}!`)
             .setDescription(`[Jump Link](${msg.url})`)
             .setColor('Green')
             .setThumbnail(user.displayAvatarURL(true))

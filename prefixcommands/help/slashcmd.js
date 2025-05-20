@@ -37,7 +37,7 @@ module.exports = {
       })
       .addFields(commands)
       .setFooter({
-        text: `Requested by ${user.displayName}`,
+        text: `Requested by ${user.displayName || user.username}`,
         iconURL: user.displayAvatarURL(true),
       })
       .setTimestamp();

@@ -3,7 +3,7 @@ const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('snipe')
-    .setDescription('Snipe the message has been deleted')
+    .setDescription('Snipe a deleted message')
     .addUserOption((opt) => opt.setName('user').setDescription('Provide user you wanna snipe')),
   category: 'misc',
   scooldown: 0,

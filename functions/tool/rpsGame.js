@@ -4,44 +4,60 @@ const { EmbedBuilder, Interaction, Client } = require('discord.js');
 module.exports = (client) => {
   /** @param {Number} userMove @param {Interaction} interaction */
   client.rpsGame = async (userMove, interaction) => {
+    const { user } = interaction;
+    let botMove = Math.floor(Math.random() * 3);
+
+    const RPS_CONFIG = {
+      Emojis: { 0: '🔨', 1: '📄', 2: '✂️' },
+      Results: { Lose: 0, Tie: 1, Win: 2 },
+      Compares: { 0: '<', 1: '=', 2: '>' },
+      ResultStrings: { 0: `Lose \\🏳️`, 1: `Tie \\🤝`, 2: `Win \\🎉` },
+      Colors: { 0: 'Red', 1: 'Orange', 2: 'Green' },
+    };
+
+    const {
+      Emojis,
+      Results: { Tie, Win, Lose },
+      Compares,
+      ResultStrings,
+      Colors,
+    } = RPS_CONFIG;
+
+    const resultMatrix = [
+      [Tie, Lose, Win],
+      [Win, Tie, Lose],
+      [Lose, Win, Tie],
+    ];
+
+    /**
+     * Tính toán kết quả của trò chơi kéo búa bao
+     * @param {Number} userMove - Nước đi của người dùng (0: Rock, 1: Paper, 2: Scissors)
+     * @param {Number} botMove - Nước đi của bot (0: Rock, 1: Paper, 2: Scissors)
+     * @returns {Object} Kết quả trò chơi với thông tin hiển thị
+     */
+    function rpsResult(userMove, botMove) {
+      const res = resultMatrix[userMove][botMove];
+
+      return {
+        result: ResultStrings[res],
+        color: Colors[res],
+        description: `〔You ${Emojis[userMove]}〕 ${Compares[res]} 〔Bot ${Emojis[botMove]}〕`,
+      };
+    }
+
     try {
-      const { user } = interaction;
-      let botMove = Math.floor(Math.random() * 3) + 1; // 1 = rock; 2 = paper; 3 = scissors
-      let win; // 0 = lose; 1 = tie; 2 = win
-
-      switch (userMove) {
-        case 1:
-          win = botMove == 2 ? 0 : botMove == 1 ? 1 : 2;
-          break;
-
-        case 2:
-          win = botMove == 3 ? 0 : botMove == 2 ? 1 : 2;
-          break;
-
-        case 3:
-          win = botMove == 1 ? 0 : botMove == 3 ? 1 : 2;
-          break;
-      }
-
-      function rps(move) {
-        return {
-          emoji: move == 1 ? '✊' : move == 2 ? '✋' : '✌',
-          color: win == 0 ? 'Red' : win == 1 ? 'Orange' : 'Green',
-          result: win == 0 ? 'You lost!' : win == 1 ? 'We tied!' : 'You won!',
-          compare: win == 0 ? '<' : win == 1 ? '=' : '>',
-        };
-      }
+      const rps = rpsResult(userMove, botMove);
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: `Hi, ${user.displayName}`,
+          name: `Hi, ${user.displayName || user.username}`,
           iconURL: user.displayAvatarURL(true),
         })
-        .setColor(rps().color)
+        .setColor(rps.color)
         .setThumbnail(user.displayAvatarURL(true))
         .setTimestamp()
-        .setTitle(rps().result)
-        .setDescription(`You chose ${rps(userMove).emoji} ${rps().compare} ${rps(botMove).emoji} bot chose`);
+        .setTitle('You ' + rps.result)
+        .setDescription(rps.description);
 
       await interaction.reply({ embeds: [embed], ephemeral: true });
     } catch (e) {

@@ -3,7 +3,7 @@ const { EmbedBuilder, Message } = require('discord.js');
 module.exports = {
   name: 'ping',
   aliases: [],
-  description: 'Ping pong!',
+  description: "Check the bot's latency!",
   category: 'info',
   cooldown: 0,
   /**

@@ -3,7 +3,7 @@ const { Message, Client, EmbedBuilder } = require('discord.js');
 module.exports = {
   name: 'wikipedia',
   aliases: ['wiki'],
-  description: 'Tra cứu thông tin trên Wikipedia.',
+  description: 'Search for information on Wikipedia.',
   category: 'info',
   cooldown: 0,
   /**

@@ -18,20 +18,21 @@ module.exports = {
 
       for (let i = 0; i < results.length; i++) {
         const { userID, thanksCount } = results[i];
-        text += `${i === 0 ? '1️⃣' : i === 1 ? '2️⃣' : i === 2 ? '3️⃣' : '#' + (i + 1)}: <@${userID}> `;
+        const emojis = ['1️⃣', '2️⃣', '3️⃣'];
+        text += `${i < 3 ? emojis[i] : `**${i + 1}.**`} <@${userID}> `;
         text += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
       }
 
       if (!text) return interaction.reply(errorEmbed(true, 'There is no thanks data in this server!'));
 
       const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
         .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
         .setDescription(text)
         .setColor('Gold')
         .setThumbnail(cfg.thanksPNG)
         .setFooter({
-          text: `Requested by ${user.displayName}`,
+          text: `Requested by ${user.displayName || user.username}`,
           iconURL: user.displayAvatarURL(true),
         })
         .setTimestamp();

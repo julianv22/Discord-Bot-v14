@@ -40,7 +40,12 @@ module.exports = {
                 name: `/${cmd.name}`,
                 value: `\`\`\`fix\n${cmd.description}\`\`\``,
               }))
-            : [{ name: '\\❌ No commands found in this category or has not enough permission.', value: '\u200b' }],
+            : [
+                {
+                  name: '❌ No commands found in this category or you do not have enough permissions.',
+                  value: '\u200b',
+                },
+              ],
         )
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp();
@@ -66,10 +71,12 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setColor('Random')
         .addFields(
-          fields.length ? fields : [{ name: '\\❌ No subcommands found has not enough permission.', value: '\u200b' }],
+          fields.length
+            ? fields
+            : [{ name: '❌ No subcommands found or you do not have enough permissions.', value: '\u200b' }],
         )
-        .addFields({ name: '\u200b', value: '**Note:** *Some commands require proper permissions!*' })
-        .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) })
+        .addFields({ name: '\u200b', value: '**Note:** *Some commands require proper permissions❗*' })
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp();
     }
 

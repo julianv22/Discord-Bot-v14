@@ -3,7 +3,7 @@ const { Message, Client } = require('discord.js');
 module.exports = {
   name: 'say',
   aliases: [],
-  description: '🗣️ Bot chat',
+  description: 'Make the bot say something 🗣️',
   category: 'misc',
   cooldown: 0,
   /**
@@ -17,7 +17,7 @@ module.exports = {
     let toSay = args.join(' ');
 
     if (!toSay)
-      return message.reply(errorEmbed(true, 'Vui lòng nhập nội dung cần bot nói!')).then((m) => {
+      return message.reply(errorEmbed(true, 'Please enter the content you want the bot to say!')).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 10000);

@@ -3,7 +3,7 @@ const { Message, Client } = require('discord.js');
 module.exports = {
   name: 'botinfo',
   aliases: ['bot'],
-  description: `Bot's Information`,
+  description: 'Bot Information',
   category: 'info',
   cooldown: 0,
   /**

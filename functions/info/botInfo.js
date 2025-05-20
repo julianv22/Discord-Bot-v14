@@ -51,7 +51,7 @@ module.exports = (client) => {
       const embed = new EmbedBuilder()
         .setColor('Random')
         .setAuthor({
-          name: bot.tag + `'s Infomation`,
+          name: bot.tag + ' Information',
           iconURL: bot.displayAvatarURL(true),
         })
         .setTitle('Description:')

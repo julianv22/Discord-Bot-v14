@@ -49,7 +49,7 @@ module.exports = {
         })
         .setColor('Random')
         .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) });
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {

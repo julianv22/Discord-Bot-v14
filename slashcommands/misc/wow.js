@@ -9,7 +9,7 @@ module.exports = {
   async execute(interaction, client) {
     const { user } = interaction;
     const embed = new EmbedBuilder()
-      .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
       .setFooter({ text: '😍 Wow!' })
       .setColor('Random')
       .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png');

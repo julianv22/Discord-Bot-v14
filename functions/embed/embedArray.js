@@ -22,7 +22,7 @@ module.exports = (client) => {
             name: author.displayName,
             icon_url: author.displayAvatarURL(true),
           }, // Set Author
-          title: args[0], // Set Tittle
+          title: args[0], // Set Title
           description: args[1], // Set Description
           color: 'Random', // Set Color
           thumbnail: checkURL(args[3]) ? args[3] : null, // Set Thumbnail

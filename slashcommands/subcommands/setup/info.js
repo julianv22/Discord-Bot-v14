@@ -72,7 +72,7 @@ module.exports = {
         })
         .addFields({ name: 'Tournament', value: tourName, inline: true })
         .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) });
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
       if (profile?.tourName) embed.addFields({ name: 'Tournament status', value: tourStatus, inline: true });
 

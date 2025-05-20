@@ -8,15 +8,18 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('level')
-        .setDescription(`Show level's leaderboard. ${cfg.adminRole} only`)
+        .setDescription(`Show Level Leaderboard. ${cfg.adminRole} only`)
         .addIntegerOption((opt) => opt.setName('week').setDescription('Weak').setRequired(true))
         .addStringOption((opt) => opt.setName('image').setDescription('Image URL').setRequired(true)),
     )
     .addSubcommand((sub) =>
       sub
         .setName('thanks')
-        .setDescription('Show thanks leaderboard. ' + `${cfg.adminRole} only`)
-        .addStringOption((opt) => opt.setName('time').setDescription('Time to thanks calculate')),
+        .setDescription('Show Thanks Leaderboard. ' + `${cfg.adminRole} only`)
+        .addStringOption((opt) => opt.setName('time').setDescription('Time to calculate thanks')),
+    )
+    .addSubcommand((sub) =>
+      sub.setName('economy').setDescription('Show Economy Leaderboard (top coin, streak, max streak)'),
     ),
   category: 'moderator',
   scooldown: 0,

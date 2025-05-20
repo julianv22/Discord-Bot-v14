@@ -20,7 +20,7 @@ module.exports = (client) => {
             embeds: [
               {
                 color: 16711680,
-                description: `\\❌ | There is nothing to snipe!`,
+                description: `\❌ | There is nothing to snipe.`,
               },
             ],
             ephemeral: true,
@@ -37,7 +37,7 @@ module.exports = (client) => {
       const embed = new EmbedBuilder()
         .setAuthor({
           name: target
-            ? `${user.displayName} snipped message of ${
+            ? `${user.displayName || user.username} snipped message of ${
                 target.displayName || (target.user && target.user.displayName) || 'Unknown'
               }`
             : 'Last deleted message:',
@@ -47,7 +47,7 @@ module.exports = (client) => {
         .setTimestamp()
         .setThumbnail(author.displayAvatarURL(true))
         .setFooter({
-          text: `Requested by ${user.displayName}`,
+          text: `Requested by ${user.displayName || user.username}`,
           iconURL: user.displayAvatarURL(true),
         })
         .addFields([{ name: 'Author:', value: `${author}`, inline: true }])

@@ -27,7 +27,7 @@ module.exports = {
           .setColor('Random')
           .setThumbnail(cfg.thumbnailURL)
           .setFooter({
-            text: `Requested by ${user.displayName}`,
+            text: `Requested by ${user.displayName || user.username}`,
             iconURL: user.displayAvatarURL(true),
           })
           .setTimestamp();

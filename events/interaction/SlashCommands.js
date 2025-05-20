@@ -19,7 +19,7 @@ module.exports = {
         const subcommand = subCommands.get(subcommandName);
 
         if (command.ownerOnly && member.id !== guild.ownerId)
-          return interaction.reply(errorEmbed(true, 'You are not the Owner'));
+          return interaction.reply(errorEmbed(true, 'You are not the owner.'));
 
         if (subcommandName) executeInteraction(subcommand || command, interaction);
         else executeInteraction(command, interaction);

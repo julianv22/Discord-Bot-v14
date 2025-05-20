@@ -14,7 +14,7 @@ function getQuote() {
 module.exports = {
   name: 'quote',
   aliases: ['qt'],
-  description: 'Trích dẫn 1 câu trên [zenquotes](https://zenquotes.io)',
+  description: 'Get a random quote from [zenquotes](https://zenquotes.io)',
   category: 'misc',
   cooldown: 10,
   /**

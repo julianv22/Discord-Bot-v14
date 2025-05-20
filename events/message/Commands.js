@@ -38,7 +38,7 @@ module.exports = {
         await command.execute(message, args, client);
       }
     } catch (e) {
-      const error = `Error while executing commands!`;
+      const error = `An error occurred while executing the command!`;
       message
         .reply({
           embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }],

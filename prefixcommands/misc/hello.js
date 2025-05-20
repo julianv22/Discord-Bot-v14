@@ -15,7 +15,7 @@ module.exports = {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);
 
     const { author } = message;
-    const msg = await message.reply(`What's your name?`);
+    const msg = await message.reply(`What is your name?`);
 
     await msg.channel
       .awaitMessages({
@@ -25,7 +25,7 @@ module.exports = {
       })
       .then((m) => {
         console.log(m.first().content);
-        message.reply('Hello ' + m.first().content) + '!';
+        message.reply('Hello ' + m.first().content + '!');
       })
       .catch((e) => console.log('Collector time out'));
   },

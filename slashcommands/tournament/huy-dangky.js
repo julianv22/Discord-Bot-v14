@@ -10,7 +10,7 @@ module.exports = {
       option.setName('xacnhan').setDescription('MAKE SURE WHAT ARE YOU DOING!').setRequired(true),
     ),
   category: 'tournament',
-  cooldown: 0,
+  scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {

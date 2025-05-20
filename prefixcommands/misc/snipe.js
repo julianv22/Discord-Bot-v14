@@ -3,7 +3,7 @@ const { Message, Client } = require('discord.js');
 module.exports = {
   name: 'snipe',
   aliases: ['snp'],
-  description: 'Bắn tỉa tin nhắn đã bị xoá.',
+  description: 'Snipe deleted messages.',
   category: 'misc',
   cooldown: 0,
   /**

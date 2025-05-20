@@ -83,7 +83,7 @@ module.exports = (client) => {
           //   {name: 'Permissions', value: `\`\`\`fix\n${msg.channel.permissionsFor(member.user.id).toArray().join(' # ')}\`\`\``},
           {
             name: `📃 Roles [${roles.length}]:`,
-            value: `${roles.join(' ') || 'No role'}`,
+            value: `${roles.join(' ') || 'No roles'}`,
           },
         ]);
 

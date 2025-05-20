@@ -26,7 +26,7 @@ module.exports = {
       );
 
       const embed = new EmbedBuilder()
-        .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle(`Welcome's setup information`)
         .setColor('Aqua')
         .setTimestamp()

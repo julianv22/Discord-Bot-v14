@@ -3,7 +3,7 @@ const { Message, Client } = require('discord.js');
 module.exports = {
   name: 'react',
   aliases: [],
-  description: 'Cool! 😎',
+  description: 'React with something cool! 😎',
   category: 'misc',
   cooldown: 0,
   /**
@@ -16,11 +16,11 @@ module.exports = {
 
     let stReact = [
       ['Cool!', '😎'],
-      ['Greet!', '👍'],
-      ['Perfect!', '🥳'],
-      ['Wonderful!', '😍'],
-      ['Amazing!', '😮'],
-      ['Holy!', '😱'],
+      ['Greet', '👍'],
+      ['Perfect', '🥳'],
+      ['Wonderful', '😍'],
+      ['Amazing', '😮'],
+      ['Holy', '😱'],
     ];
 
     message.delete();

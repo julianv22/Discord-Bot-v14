@@ -3,7 +3,7 @@ const { EmbedBuilder, Message, Client } = require('discord.js');
 module.exports = {
   name: 'wow',
   aliases: [],
-  description: '😍 Wow!',
+  description: 'Wow! 😍',
   category: 'misc',
   cooldown: 0,
   /**
@@ -20,7 +20,7 @@ module.exports = {
         name: author.displayName,
         iconURL: author.displayAvatarURL(true),
       })
-      .setFooter({ text: '😍 Wow!' })
+      .setFooter({ text: 'Wow! 😍' })
       .setColor('Random')
       .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png');
 

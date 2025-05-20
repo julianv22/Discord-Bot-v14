@@ -14,7 +14,7 @@ module.exports = {
     const imageURL = fields.getTextInputValue('imageURL');
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: user.displayName, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
       .setTitle(title)
       .setDescription(description)
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })

@@ -17,33 +17,31 @@ module.exports = {
     let feature = '';
 
     try {
-      switch (select) {
-        case 'starboard':
+      const disableActions = {
+        starboard: () => {
           profile.starboardChannel = '';
           profile.starCount = 0;
-          feature = 'Starboard System';
-          change = true;
-          break;
-        case 'suggest':
+          return 'Starboard System';
+        },
+        suggest: () => {
           profile.suggestChannel = '';
-          feature = 'Suggest Channel';
-          change = true;
-          break;
-        case 'youtube':
+          return 'Suggest Channel';
+        },
+        youtube: () => {
           profile.youtubeNotifyChannel = '';
-          feature = 'Youtube Notify';
-          change = true;
-          break;
-        case 'welcome':
+          return 'Youtube Notify';
+        },
+        welcome: () => {
           profile.welcomeChannel = '';
           profile.welcomeMessage = '';
           profile.logChannel = '';
-          feature = 'Welcome System';
-          change = true;
-          break;
-        default:
-          change = false;
-          break;
+          return 'Welcome System';
+        },
+      };
+
+      if (disableActions[select]) {
+        feature = disableActions[select]();
+        change = true;
       }
 
       if (change) await profile.save();
@@ -51,7 +49,7 @@ module.exports = {
         embeds: [
           {
             color: 5763719,
-            title: `\\✅ Disable **${feature}** successfully!`,
+            title: `\✅ Disabled **${feature}** successfully!`,
             description: `Vui lòng kiểm tra trong \`/setup info\``,
           },
         ],

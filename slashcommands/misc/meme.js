@@ -18,7 +18,7 @@ module.exports = {
         return interaction.editReply(errorEmbed(true, 'Could not fetch meme, please try again later!'));
       }
       const embed = new EmbedBuilder()
-        .setAuthor({ name: `Requested by ${user.displayName}`, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTitle(data.title || 'Meme')
         .setImage(data.url)
         .setURL(data.postLink)

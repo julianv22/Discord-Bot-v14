@@ -1,0 +1,24 @@
+{
+  "streak": {
+    "7": {
+      "name": "Bảy ngày liên tiếp",
+      "reward": 2000
+    },
+    "30": {
+      "name": "Một tháng chăm chỉ",
+      "reward": 10000
+    },
+    "90": {
+      "name": "Ba tháng cần cù",
+      "reward": 30000
+    },
+    "180": {
+      "name": "Nửa năm thành Thần",
+      "reward": 70000
+    },
+    "365": {
+      "name": "Một năm thành Thánh",
+      "reward": 200000
+    }
+  }
+}

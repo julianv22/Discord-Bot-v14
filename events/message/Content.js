@@ -15,8 +15,8 @@ module.exports = {
               name: `Hi, ${author.displayName}`,
               iconURL: author.displayAvatarURL(true),
             })
-            .setTitle('You can not use command here.')
-            .setDescription(`Please use command in server that I joined!`)
+            .setTitle('You cannot use commands here.')
+            .setDescription(`Please use commands in a server I have joined!`)
             .setThumbnail(author.displayAvatarURL(true))
             .setColor('Orange'),
         ],

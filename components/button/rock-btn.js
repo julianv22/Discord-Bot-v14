@@ -5,6 +5,6 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    client.rpsGame(1, interaction);
+    client.rpsGame(0, interaction);
   },
 };

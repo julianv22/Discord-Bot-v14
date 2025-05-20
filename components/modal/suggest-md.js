@@ -35,7 +35,7 @@ module.exports = {
     const msg = await sgtChannel.send({ embeds: [embed] });
 
     await interaction
-      .reply(errorEmbed(false, `Your suggestions has been send successfully! [[Jump link](${msg.url})]`))
+      .reply(errorEmbed(false, `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`))
       .then(() => {
         msg.react('👍');
         msg.react('👎');

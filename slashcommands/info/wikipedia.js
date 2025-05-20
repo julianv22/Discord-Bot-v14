@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('disc
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('wikipedia')
-    .setDescription('Search Wikipedia')
+    .setDescription('Search Vietnamese Wikipedia articles by keyword')
     .addStringOption((opt) => opt.setName('keyword').setDescription('Keyword').setRequired(true)),
   category: 'info',
   scooldown: 0,

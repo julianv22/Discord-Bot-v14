@@ -9,7 +9,7 @@ module.exports = {
     .addBooleanOption((opt) => opt.setName('verified').setDescription('Close confirm').setRequired(true)),
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
-  cooldown: 0,
+  scooldown: 0,
 
   /** @param {ChatInputCommandInteraction} interaction @param {Client} client */
   async execute(interaction, client) {
@@ -23,19 +23,24 @@ module.exports = {
 
       // Set Tournament Status for member
       const tourList = await tournamentProfile.find({ guildName: guild.name });
-      if (!tourList)
+      if (!tourList || tourList.length == 0)
         return interaction.reply(
           errorEmbed(`\\🏆 | `, 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!'),
         );
 
       for (const member of tourList) {
-        await tournamentProfile.findOneAndUpdate(
-          {
-            guildName: member.guildName,
-            userID: member.userID,
-          },
-          { status: false },
-        );
+        try {
+          await tournamentProfile.findOneAndUpdate(
+            {
+              guildName: member.guildName,
+              userID: member.userID,
+            },
+            { status: false },
+          );
+        } catch (e) {
+          console.error(chalk.yellow.bold(`Error update tournament status of user:`, e));
+          continue;
+        }
       }
 
       await interaction.reply(errorEmbed(`\\🏆 | `, 'Đã đóng toàn bộ giải đấu!!')).catch((e) => console.error(e));

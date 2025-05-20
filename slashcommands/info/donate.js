@@ -40,7 +40,7 @@ module.exports = {
         },
       ])
       .setFooter({
-        text: 'Requested by ' + user.displayName,
+        text: 'Requested by ' + (user.displayName || user.username),
         iconURL: user.displayAvatarURL(true),
       })
       .setTimestamp();

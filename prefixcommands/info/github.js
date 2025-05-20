@@ -30,7 +30,7 @@ module.exports = {
       .then((res) => res.json())
       .then((body) => {
         if (!body || body.message === 'Not Found')
-          return channel.send(errorEmbed(true, 'Không tìm thấy người dùng, hãy nhập chính xác username!')).then((m) => {
+          return channel.send(errorEmbed(true, 'User not found, please enter the correct username!')).then((m) => {
             setTimeout(() => {
               m.delete();
             }, 10000);
@@ -39,7 +39,7 @@ module.exports = {
           body;
 
         const embed = new EmbedBuilder()
-          .setAuthor({ name: 'Github Information!', iconURL: guild.iconURL(true) })
+          .setAuthor({ name: 'GitHub Information!', iconURL: guild.iconURL(true) })
           .setColor('Random')
           .setThumbnail(avatar_url)
           .addFields([
@@ -50,7 +50,7 @@ module.exports = {
             { name: 'Public Repositories', value: `${public_repos || 'None'}`, inline: true },
             { name: 'Followers', value: `${followers}`, inline: true },
             { name: 'Following', value: `${following}`, inline: true },
-            { name: 'Location', value: `${location || 'No Location'}`, inline: true },
+            { name: 'Location', value: `${location || 'No location'}`, inline: true },
             {
               name: 'Account Created',
               value: moment.utc(created_at).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY'),

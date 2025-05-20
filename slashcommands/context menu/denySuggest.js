@@ -50,7 +50,7 @@ module.exports = {
               name: 'Deny suggestion',
               iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
             })
-            .setTitle(`Your suggestion has been denied by ${user.displayName}!`)
+            .setTitle(`Your suggestion has been denied by ${user.displayName || user.username}!`)
             .setDescription(`[Jump Link](${msg.url})`)
             .setColor('Red')
             .setThumbnail(user.displayAvatarURL(true))

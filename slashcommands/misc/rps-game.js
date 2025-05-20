@@ -16,20 +16,19 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const buttons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId('rock-btn').setEmoji('✊').setLabel('Rock').setStyle(ButtonStyle.Danger),
-      new ButtonBuilder().setCustomId('paper-btn').setEmoji('✋').setLabel('Paper').setStyle(ButtonStyle.Success),
-      new ButtonBuilder().setCustomId('scissors-btn').setEmoji('✌').setLabel('Scissors').setStyle(ButtonStyle.Primary),
+      new ButtonBuilder().setCustomId('rock-btn').setEmoji('🔨').setLabel('Rock').setStyle(ButtonStyle.Danger),
+      new ButtonBuilder().setCustomId('paper-btn').setEmoji('📄').setLabel('Paper').setStyle(ButtonStyle.Success),
+      new ButtonBuilder().setCustomId('scissors-btn').setEmoji('✂️').setLabel('Scissors').setStyle(ButtonStyle.Primary),
     );
 
     const embed = new EmbedBuilder()
       .setTitle('Rock - Paper - Scissors Game')
-      .setDescription('Choose your hand sign!')
+      .setDescription('Choose your hand sign! \\🔨-\\📄-\\✂️')
       .setColor('Random')
       .setImage(
-        'https://static.vecteezy.com/system/resources/previews/000/691/497/original/rock-paper-scissors-neon-icons-vector.jpg',
-      )
-      .setFooter({ text: '✊-✋-✌' });
+        'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png',
+      );
 
-    await interaction.reply({ embeds: [embed], components: [buttons] });
+    await interaction.reply({ embeds: [embed], components: [buttons], ephemeral: true });
   },
 };
