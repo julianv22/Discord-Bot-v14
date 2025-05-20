@@ -19,8 +19,8 @@ module.exports = {
       )
       .addFields(
         { name: '/daily', value: `\`\`\`Nhận coin miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.\`\`\`` },
-        { name: '/balance', value: `\`\`\`Xem số dư coin hiện tại của bạn.\`\`\`` },
-        { name: '/work', value: `\`\`\`Làm việc để kiếm thêm coin (cooldown).\`\`\`` },
+        { name: '/balance', value: `\`\`\`Xem số dư coin, streak, bank, inventory, achievements.\`\`\`` },
+        { name: '/job', value: `\`\`\`Nhận công việc ngẫu nhiên, làm việc và nhận coin (cooldown).\`\`\`` },
         { name: '/rob', value: `\`\`\`Cướp coin của người khác (có rủi ro và cooldown).\`\`\`` },
         { name: '/leaderboard', value: `\`\`\`Xem bảng xếp hạng top giàu nhất.\`\`\`` },
         { name: '/shop', value: `\`\`\`Mua vật phẩm bằng coin.\`\`\`` },

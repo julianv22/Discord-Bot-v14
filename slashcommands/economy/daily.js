@@ -126,7 +126,7 @@ module.exports = {
         `Bạn đã nhận thành công **${dailyAmount.toLocaleString()}** :coin: coin cho ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toLocaleString()}** :coin: coin.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
       )
       .setColor('Random')
-      .setFooter({ text: `Chúc bạn may mắn!`, iconURL: user.displayAvatarURL() })
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
 
     return interaction.reply({ embeds: [embed], ephemeral: true });

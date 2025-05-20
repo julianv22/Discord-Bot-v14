@@ -89,7 +89,7 @@ module.exports = {
         },
       )
       .setColor(isSuccess ? 'Green' : 'Red')
-      .setFooter({ text: `Chúc bạn may mắn lần sau!`, iconURL: user.displayAvatarURL() })
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
 
     return interaction.reply({ embeds: [embed], ephemeral: true });
