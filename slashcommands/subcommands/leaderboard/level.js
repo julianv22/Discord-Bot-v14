@@ -14,7 +14,6 @@ module.exports = {
     const imgURL = options.getString('image');
 
     try {
-      if (week < 1) return interaction.reply(errorEmbed(true, 'Số tuần phải lớn hơn 0'));
       if (!checkURL(imgURL)) return interaction.reply(errorEmbed(true, 'Vui lòng nhập chính xác Image URL'));
 
       const embed = new EmbedBuilder()

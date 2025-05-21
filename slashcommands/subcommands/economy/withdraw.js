@@ -19,8 +19,6 @@ module.exports = {
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
       );
 
-    if (amount < 100) return interaction.reply(errorEmbed(true, `Số \\💲 rút phải lớn hơn 100!`));
-
     if (amount > profile.bank)
       return interaction.reply(errorEmbed(true, `Số \\💲 rút không được lớn hơn số tiền hiện có!`));
 

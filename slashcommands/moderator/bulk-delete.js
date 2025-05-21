@@ -6,7 +6,12 @@ module.exports = {
     .setName('bulk-delete')
     .setDescription(`Bulk delete messages. ${cfg.adminRole} only`)
     .addIntegerOption((opt) =>
-      opt.setName('amount').setDescription('Number of messages (between 1 and 100)').setRequired(true),
+      opt
+        .setName('amount')
+        .setDescription('Number of messages (between 1 and 100)')
+        .setMinValue(1)
+        .setMaxValue(100)
+        .setRequired(true),
     )
     .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
   category: 'moderator',
@@ -17,12 +22,8 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { options, channel, user: author } = interaction;
-    // const message = await interaction.deferReply({ fetchReply: true });
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
-
-    if (amount < 1 || amount > 100)
-      return interaction.reply(errorEmbed(true, `Number of messages must be between \`1 and 100\``));
 
     try {
       const messages = await channel.messages.fetch({ limit: amount });

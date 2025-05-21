@@ -5,7 +5,8 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const [, button] = interaction.customId.split(':');
-    client.rpsGame(parseInt(button, 10), interaction);
+    const [, button, betStr] = interaction.customId.split(':');
+    const bet = parseInt(betStr, 10);
+    client.rpsGame(parseInt(button, 10), bet, interaction);
   },
 };

@@ -17,9 +17,6 @@ module.exports = {
     const channel = options.getChannel('starboard-channel');
     const number = options.getInteger('starnum');
 
-    if (number < 0 || number > 20)
-      return interaction.reply(errorEmbed(true, 'Số star \\⭐ không thể nhỏ hơn 0 hoặc lớn hơn 20'));
-
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 

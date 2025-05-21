@@ -41,7 +41,7 @@ module.exports = {
         { name: `Tổng số \\💲 đã chi tiêu`, value: `${totalSpent}\\💲`, inline: true },
         {
           name: `\u200b`,
-          value: `\`\`\`Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob) hoặc chơi minigame (/minigame)\`\`\``,
+          value: `\`\`\`Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)\`\`\``,
           inline: false,
         },
         { name: `\\💼 Job`, value: work, inline: false },

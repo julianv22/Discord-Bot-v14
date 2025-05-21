@@ -28,9 +28,6 @@ module.exports = {
         ),
       );
 
-    if (amount < 1000 || amount > 1000000)
-      return interaction.reply(errorEmbed(true, `Số \\💲 gửi phải từ 1 nghìn đến 1 triệu!`));
-
     profile.balance -= amount;
     profile.bank += amount;
     await profile.save().catch(() => {});

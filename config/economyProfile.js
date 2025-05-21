@@ -19,6 +19,8 @@ const economyProfile = new mongoose.Schema({
   maxStreak: { type: Number, default: 0 },
   lastDaily: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now },
+  lastPlayRPS: { type: Date, default: null },
+  rpsCount: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('economyProfile', economyProfile, `economyProfile [${cfg.mongodb}] - ${cfg.clientID}`);
