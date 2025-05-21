@@ -12,6 +12,7 @@ const economyProfile = new mongoose.Schema({
   dailyCooldown: { type: Date, default: null },
   lastWork: { type: String },
   lastRob: { type: Date, default: null },
+  lastJob: { type: Date, default: null },
   totalEarned: { type: Number, default: 0 },
   totalSpent: { type: Number, default: 0 },
   streak: { type: Number, default: 0 },
