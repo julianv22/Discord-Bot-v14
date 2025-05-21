@@ -14,7 +14,7 @@ module.exports = {
     const { errorEmbed, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
     if (amount <= 0) return interaction.reply(errorEmbed(true, `Số \\💲 gửi phải lớn hơn 0!`));
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
 
     if (!profile)
       return interaction.reply(
@@ -33,7 +33,7 @@ module.exports = {
 
     profile.balance -= amount;
     profile.bank += amount;
-    await profile.save();
+    await profile.save().catch(() => {});
 
     return interaction.reply({
       embeds: [

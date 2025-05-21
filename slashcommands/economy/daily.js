@@ -14,7 +14,7 @@ module.exports = {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
+    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     if (!profile) {
       profile = await economyProfile.create({
         guildID: guild.id,
@@ -98,7 +98,7 @@ module.exports = {
     profile.maxStreak = maxStreak;
     profile.lastDaily = today;
 
-    await profile.save();
+    await profile.save().catch(() => {});
 
     // Nếu bị reset streak và streak cũ > 7, gửi DM
     if (resetStreak) {

@@ -22,7 +22,7 @@ module.exports = (client) => {
   client.checkVideos = async function checkVideos() {
     try {
       // console.log(chalk.yellow.bold('Checking videos...'));
-      const servers = await serverProfile.find({});
+      const servers = await serverProfile.find({}).catch(() => {});
       for (const server of servers) {
         const { youtubeChannelIds = [], lastVideoIds = [], youtubeNotifyChannel, guildID } = server;
         if (!youtubeChannelIds.length || !youtubeNotifyChannel) continue;
@@ -65,7 +65,7 @@ module.exports = (client) => {
         // Lưu lại nếu có cập nhật
         if (updated) {
           server.lastVideoIds = lastVideoIds;
-          await server.save();
+          await server.save().catch(() => {});
         }
       }
     } catch (e) {

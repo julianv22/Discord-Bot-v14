@@ -15,15 +15,17 @@ module.exports = {
     const logChannel = await channels.get(options.getChannel('log').id);
     const welcomeMsg = options.getString('message');
     try {
-      await serverProfile.findOneAndUpdate(
-        { guildID: guild.id },
-        {
-          guildName: guild.name,
-          welcomeChannel: options.getChannel('welcome').id,
-          logChannel: options.getChannel('log').id,
-          welcomeMessage: welcomeMsg,
-        },
-      );
+      await serverProfile
+        .findOneAndUpdate(
+          { guildID: guild.id },
+          {
+            guildName: guild.name,
+            welcomeChannel: options.getChannel('welcome').id,
+            logChannel: options.getChannel('log').id,
+            welcomeMessage: welcomeMsg,
+          },
+        )
+        .catch(() => {});
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

@@ -25,7 +25,7 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id });
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
 
     try {
       if (!profile) {
@@ -33,7 +33,7 @@ module.exports = {
           guildID: guild.id,
           guildName: guild.name,
         });
-        createOne.save();
+        createOne.save().catch(() => {});
       }
 
       const totalChannel = options.getChannel('total-count-channel');
@@ -43,18 +43,20 @@ module.exports = {
       const botrole = options.getRole('bot-role');
       const presencesChannel = options.getChannel('presences-count-channel');
 
-      await serverProfile.findOneAndUpdate(
-        { guildID: guild.id },
-        {
-          guildName: guild.name,
-          totalChannel: totalChannel.id,
-          membersChannel: membersChannel.id,
-          memberRole: memberrole.id,
-          botsChannel: botsChannel.id,
-          botRole: botrole.id,
-          statsChannel: presencesChannel.id,
-        },
-      );
+      await serverProfile
+        .findOneAndUpdate(
+          { guildID: guild.id },
+          {
+            guildName: guild.name,
+            totalChannel: totalChannel.id,
+            membersChannel: membersChannel.id,
+            memberRole: memberrole.id,
+            botsChannel: botsChannel.id,
+            botRole: botrole.id,
+            statsChannel: presencesChannel.id,
+          },
+        )
+        .catch(() => {});
 
       client.serverStats(client, guild.id);
 

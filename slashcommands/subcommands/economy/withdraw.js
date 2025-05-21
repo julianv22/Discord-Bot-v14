@@ -12,7 +12,7 @@ module.exports = {
     const { user, guild, guildId } = interaction;
     const { errorEmbed, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
 
     if (!profile)
       return interaction.reply(
@@ -27,7 +27,7 @@ module.exports = {
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01).toLocaleString();
     profile.balance += amount - fee;
-    await profile.save();
+    await profile.save().catch(() => {});
 
     return interaction.reply({
       embeds: [

@@ -11,7 +11,7 @@ module.exports = {
   async execute(member, client) {
     try {
       const { guild, user } = member;
-      let profile = await serverProfile.findOne({ guildID: guild.id });
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
       if (!profile || !profile?.welcomeChannel || !profile?.logChannel) return console.log(chalk.red('No Channel Set'));
       const { welcomeChannel: welcomeID, logChannel: logID } = profile;
 

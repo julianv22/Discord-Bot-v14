@@ -20,11 +20,13 @@ module.exports = {
       return interaction.reply(errorEmbed(true, 'Kênh thông báo không hợp lệ'));
     }
     try {
-      const profile = await serverProfile.findOneAndUpdate(
-        { guildID: guildId },
-        { $set: { youtubeNotifyChannel: notifyChannel.id } },
-        { new: true, upsert: true },
-      );
+      const profile = await serverProfile
+        .findOneAndUpdate(
+          { guildID: guildId },
+          { $set: { youtubeNotifyChannel: notifyChannel.id } },
+          { new: true, upsert: true },
+        )
+        .catch(() => {});
       await interaction.reply(
         errorEmbed(false, `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`),
       );

@@ -29,8 +29,8 @@ module.exports = {
     }
 
     // Lấy profile của user và target
-    let profile = await economyProfile.findOne({ guildID, userID });
-    let targetProfile = await economyProfile.findOne({ guildID, userID: targetUser.id });
+    let profile = await economyProfile.findOne({ guildID, userID }).catch(() => {});
+    let targetProfile = await economyProfile.findOne({ guildID, userID: targetUser.id }).catch(() => {});
 
     if (!profile || !targetProfile)
       return interaction.reply(
@@ -82,8 +82,8 @@ module.exports = {
       ).toLocaleString()}**\\💲!`;
     }
     profile.lastRob = now;
-    await profile.save();
-    await targetProfile.save();
+    await profile.save().catch(() => {});
+    await targetProfile.save().catch(() => {});
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

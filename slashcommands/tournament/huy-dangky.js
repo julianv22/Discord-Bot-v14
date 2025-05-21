@@ -20,7 +20,7 @@ module.exports = {
     if (options.getBoolean('confirm') === false)
       return interaction.reply(errorEmbed('❗ ', 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
-    let profile = await serverProfile.findOne({ guildID: guild.id });
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     let register = !profile || !profile?.tourStatus ? false : profile.tourStatus;
 
     try {
@@ -29,10 +29,12 @@ module.exports = {
           errorEmbed(`\\🏆 | `, 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!'),
         );
       // Check Tournament's Status
-      let tourProfile = await tournamentProfile.findOne({
-        guildID: guild.id,
-        userID: user.id,
-      });
+      let tourProfile = await tournamentProfile
+        .findOne({
+          guildID: guild.id,
+          userID: user.id,
+        })
+        .catch(() => {});
 
       if (!tourProfile || !tourProfile?.status)
         return interaction.reply(errorEmbed(true, `${user} chưa đăng ký giải đấu!`));
@@ -41,7 +43,9 @@ module.exports = {
       if (!role) return interaction.reply(errorEmbed(true, `Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!`));
 
       // Set Tournament's Status
-      await tournamentProfile.findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false });
+      await tournamentProfile
+        .findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false })
+        .catch(() => {});
 
       // Remove Role
       const bot = guild.members.me || (await guild.members.fetch(client.user.id));

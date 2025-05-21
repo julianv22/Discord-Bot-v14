@@ -8,15 +8,17 @@ module.exports = (client) => {
       // Start Server Stats
       const guild = client.guilds.cache.get(guildID);
 
-      let profile = await serverProfile.findOne({
-        guildID: guild.id,
-      });
+      let profile = await serverProfile
+        .findOne({
+          guildID: guild.id,
+        })
+        .catch(() => {});
       if (!profile) {
         let createOne = await serverProfile.create({
           guildID: guild.id,
           guildName: guild.name,
         });
-        createOne.save();
+        createOne.save().catch(() => {});
       }
       if (!profile?.totalChannel || !profile?.statsChannel) return;
       // Set Channel Name Function

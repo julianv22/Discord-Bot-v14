@@ -21,7 +21,7 @@ module.exports = {
       return interaction.reply(errorEmbed(true, 'Số star \\⭐ không thể nhỏ hơn 0 hoặc lớn hơn 20'));
 
     try {
-      let profile = await serverProfile.findOne({ guildID: guildId });
+      let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 
       if (!profile) {
         profile = await serverProfile.create({
@@ -32,7 +32,7 @@ module.exports = {
       } else {
         profile.starboardChannel = channel.id;
         profile.starCount = number;
-        await profile.save();
+        await profile.save().catch(() => {});
         await interaction.reply(
           errorEmbed(false, `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`),
         );

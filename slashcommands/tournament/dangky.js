@@ -15,7 +15,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, user, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id });
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     let register;
     if (!profile || !profile?.tourStatus) register = false;
     else register = profile.tourStatus;
@@ -29,31 +29,37 @@ module.exports = {
     try {
       if (role) {
         // Add Tournament Profile
-        let tourProfile = await tournamentProfile.findOne({
-          guildID: guild.id,
-          userID: user.id,
-        });
-        if (!tourProfile) {
-          await tournamentProfile.create({
+        let tourProfile = await tournamentProfile
+          .findOne({
             guildID: guild.id,
-            guildName: guild.name,
             userID: user.id,
-            usertag: user.tag,
-            ingame: stIngame,
-            decklist: 'none',
-            status: true,
-          });
-        } else {
-          await tournamentProfile.findOneAndUpdate(
-            { guildID: guild.id, userID: user.id },
-            {
+          })
+          .catch(() => {});
+        if (!tourProfile) {
+          await tournamentProfile
+            .create({
+              guildID: guild.id,
               guildName: guild.name,
+              userID: user.id,
               usertag: user.tag,
               ingame: stIngame,
               decklist: 'none',
               status: true,
-            },
-          );
+            })
+            .catch(() => {});
+        } else {
+          await tournamentProfile
+            .findOneAndUpdate(
+              { guildID: guild.id, userID: user.id },
+              {
+                guildName: guild.name,
+                usertag: user.tag,
+                ingame: stIngame,
+                decklist: 'none',
+                status: true,
+              },
+            )
+            .catch(() => {});
         }
 
         await interaction.reply({

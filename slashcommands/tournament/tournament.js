@@ -36,7 +36,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id });
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
 
     // Đảm bảo profile luôn tồn tại
     if (!profile) profile = await serverProfile.create({ guildID: guild.id, guildName: guild.name });
@@ -57,14 +57,16 @@ module.exports = {
         if (profile.tourStatus)
           return interaction.reply(errorEmbed(true, `Giải \`${profile.tourName}\` đang diễn ra rồi!`));
 
-        await serverProfile.findOneAndUpdate(
-          { guildID: guild.id },
-          {
-            tourStatus: true,
-            tourID: getRole.id,
-            tourName: getRole.name,
-          },
-        );
+        await serverProfile
+          .findOneAndUpdate(
+            { guildID: guild.id },
+            {
+              tourStatus: true,
+              tourID: getRole.id,
+              tourName: getRole.name,
+            },
+          )
+          .catch(() => {});
 
         await interaction.reply({
           embeds: [
@@ -84,14 +86,16 @@ module.exports = {
         if (!profile.tourStatus)
           return interaction.reply(errorEmbed(true, `Giải \`${profile.tourName}\` đã được đóng trước đó rồi!`));
 
-        await serverProfile.findOneAndUpdate(
-          { guildID: guild.id },
-          {
-            tourStatus: false,
-            tourID: null,
-            tourName: null,
-          },
-        );
+        await serverProfile
+          .findOneAndUpdate(
+            { guildID: guild.id },
+            {
+              tourStatus: false,
+              tourID: null,
+              tourName: null,
+            },
+          )
+          .catch(() => {});
 
         await interaction.reply({
           embeds: [
@@ -106,10 +110,12 @@ module.exports = {
         if (!profile.tourStatus)
           return interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
 
-        let memberList = await tournamentProfile.find({
-          guildID: guild.id,
-          status: true,
-        });
+        let memberList = await tournamentProfile
+          .find({
+            guildID: guild.id,
+            status: true,
+          })
+          .catch(() => {});
 
         if (!memberList || memberList.length === 0)
           return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
@@ -160,7 +166,7 @@ module.exports = {
       },
       'close-all': async () => {
         const verified = options.getBoolean('confirm');
-        const tourList = await tournamentProfile.find({ guildID: guild.id });
+        const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(() => {});
 
         if (!verified)
           return interaction.reply(errorEmbed(`\\❗ `, 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
@@ -172,10 +178,10 @@ module.exports = {
 
         tourList.forEach(async (tour) => {
           tour.status = false;
-          await tour.save();
+          await tour.save().catch(() => {});
         });
 
-        await serverProfile.findOneAndUpdate({ guildID: guild.id }, { tourStatus: false });
+        await serverProfile.findOneAndUpdate({ guildID: guild.id }, { tourStatus: false }).catch(() => {});
         await interaction.reply(errorEmbed(`\\🏆 | `, 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!'));
       },
     };

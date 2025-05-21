@@ -12,7 +12,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { user, guild, guildId } = interaction;
 
-    let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id });
+    let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
     if (!profile)
       return interaction.reply(
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
@@ -38,7 +38,7 @@ module.exports = {
     profile.lastJob = now;
     profile.lastRob = now;
     profile.lastWork = jobName;
-    await profile.save();
+    await profile.save().catch(() => {});
 
     // Hiển thị thời gian làm việc
     const workTimeStr =
@@ -68,12 +68,12 @@ module.exports = {
           }`,
         );
       } catch {}
-      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id });
+      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
       if (p) {
         p.balance += reward;
         p.totalEarned += reward;
         p.lastRob = null;
-        await p.save();
+        await p.save().catch(() => {});
       }
     }, workMinutes * 60 * 1000);
 

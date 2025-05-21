@@ -13,24 +13,20 @@ module.exports = {
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
     if (targetUser.bot) return interaction.reply(errorEmbed(true, `Không thể giật \\💲 của bot!`));
-
     if (targetUser.id === user.id)
       return interaction.reply(errorEmbed(true, `Không thể giật \\💲 của chính bản thân mình!`));
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
-    let targetProfile = await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id });
+    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
+    let targetProfile = await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(() => {});
 
     if (!profile || !targetProfile)
       return interaction.reply(
         errorEmbed(true, !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`),
       );
-
     if (profile.balance < 200) return interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
-
     if (targetProfile.balance < 100) {
       return interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
     }
-
     // Cooldown
     if (profile.lastRob && new Date() - profile.lastRob < cooldownMs) {
       const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
@@ -68,8 +64,8 @@ module.exports = {
       ).toLocaleString()}**\\💲!`;
     }
     profile.lastRob = new Date();
-    await profile.save();
-    await targetProfile.save();
+    await profile.save().catch(() => {});
+    await targetProfile.save().catch(() => {});
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

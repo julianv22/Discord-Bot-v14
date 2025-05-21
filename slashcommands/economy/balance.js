@@ -12,7 +12,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild } = interaction;
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     if (!profile) {
       return interaction.reply(
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),

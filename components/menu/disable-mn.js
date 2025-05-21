@@ -9,7 +9,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { guildId, values } = interaction;
     const select = values[0];
-    let profile = await serverProfile.findOne({ guildID: guildId });
+    let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 
     if (!profile) return interaction.reply(errorEmbed(true, 'No database!'));
 
@@ -44,7 +44,7 @@ module.exports = {
         change = true;
       }
 
-      if (change) await profile.save();
+      if (change) await profile.save().catch(() => {});
       await interaction.reply({
         embeds: [
           {

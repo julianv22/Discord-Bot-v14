@@ -29,7 +29,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true });
 
     // let profile = await serverProfile.find({});
-    let profile = await serverProfile.findOne({ guildID: guildId });
+    let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 
     if (!profile) return interaction.reply(errorEmbed(true, 'No database!'));
 
