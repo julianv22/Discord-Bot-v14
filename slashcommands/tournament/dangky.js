@@ -1,7 +1,7 @@
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
-const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
+const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -35,7 +35,7 @@ module.exports = {
         userID: user.id,
       });
       if (!tourProfile) {
-        let createOne = await tournamentProfile.create({
+        await tournamentProfile.create({
           guildID: guild.id,
           guildName: guild.name,
           userID: user.id,
@@ -44,7 +44,6 @@ module.exports = {
           decklist: 'none',
           status: true,
         });
-        createOne.save();
       } else {
         await tournamentProfile.findOneAndUpdate(
           { guildID: guild.id, userID: user.id },
@@ -59,25 +58,28 @@ module.exports = {
       }
 
       // Add Role
-      const botMember = guild.members.me || (await guild.members.fetch(client.user.id));
-      if (!botMember.permissions.has('ManageRoles')) {
-        await interaction.followUp(errorEmbed(true, 'Bot cần quyền Manage Roles để gán vai trò!'));
-        return;
-      }
-      if (botMember.roles.highest.position <= role.position) {
-        await interaction.followUp(
-          errorEmbed(true, 'Bot không thể gán role này vì role đó cao hơn hoặc bằng role của bot!'),
-        );
-        return;
-      }
-      try {
-        await guild.members.cache.get(user.id).roles.add(role);
-        await interaction.followUp(errorEmbed(false, `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`));
-      } catch (e) {
-        await interaction.followUp(
-          errorEmbed(true, `Bot không thể gán role cho bạn. Vui lòng liên hệ quản trị viên!\n${e}`),
-        );
-        console.error(e);
+      const bot = guild.members.me || (await guild.members.fetch(client.user.id));
+      if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
+          await interaction.followUp(errorEmbed(true, `Bot cần quyền \`Manage Roles\` để gán role ${role}!`));
+          return;
+        }
+        if (bot.roles.highest.position <= role.position) {
+          await interaction.followUp(
+            errorEmbed(true, `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`),
+          );
+          return;
+        }
+      } else {
+        try {
+          await guild.members.cache.get(user.id).roles.add(role);
+          await interaction.followUp(errorEmbed(false, `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`));
+        } catch (e) {
+          console.error('Error while adding role to user:', e);
+          return interaction.followUp(
+            errorEmbed(true, `Bot không thể gán role ${role} cho bạn. Vui lòng liên hệ quản trị viên!\n${e}`),
+          );
+        }
       }
     }
   },
