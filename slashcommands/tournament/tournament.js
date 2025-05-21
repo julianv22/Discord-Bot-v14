@@ -112,13 +112,21 @@ module.exports = {
         const role = guild.roles.cache.get(profile.tourID);
         const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
 
-        // Chia nhỏ thành nhiều embed nếu quá dài hoặc quá nhiều thành viên
+        // Tạo danh sách thành viên, mỗi dòng 1 người
+        const memberLines = memberList.map((member, idx) => `${idx + 1}. <@${member.userID}> (${member.ingame})`);
+        const maxDescLength = 4000;
         const embeds = [];
-        const chunkSize = 25;
-        let total = memberList.length;
         let page = 0;
-        for (let i = 0; i < total; i += chunkSize) {
-          const chunk = memberList.slice(i, i + chunkSize);
+        let current = 0;
+        while (current < memberLines.length) {
+          let desc = '';
+          // Nếu là embed đầu tiên, thêm tên giải ở đầu
+          if (current === 0) desc += tengiai + '\n\n';
+          // Thêm từng dòng cho đến khi gần đạt giới hạn
+          while (current < memberLines.length && (desc + memberLines[current] + '\n').length <= maxDescLength) {
+            desc += memberLines[current] + '\n';
+            current++;
+          }
           const embed = new EmbedBuilder()
             .setAuthor({
               name: `🏆 Danh sách thành viên tham gia giải đấu`,
@@ -130,24 +138,10 @@ module.exports = {
             .setFooter({
               text: `Trang ${++page} | Tổng số đăng ký: [${memberList.length}]`,
               iconURL: client.user.displayAvatarURL(),
-            });
-
-          // Nếu là embed đầu tiên, thêm tên giải vào description
-          if (i === 0) embed.setDescription(tengiai);
-
-          chunk.forEach((member) => {
-            embed.addFields([
-              {
-                name: `\u200b`,
-                value: `<@${member.userID}> (${member.ingame})`,
-                inline: true,
-              },
-            ]);
-          });
-
+            })
+            .setDescription(desc);
           embeds.push(embed);
         }
-
         // Gửi lần lượt các embed
         for (let i = 0; i < embeds.length; i++) {
           if (i === 0) {

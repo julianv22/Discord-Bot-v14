@@ -28,7 +28,7 @@ module.exports = {
     const totalSpent = (profile.totalSpent || 0).toLocaleString();
     const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : `\\🚫`;
     const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : `\\🚫`;
-    const work = profile.lastWork || `\\❌ Chưa nhận (\`job\` để nhận)`;
+    const work = profile.lastWork || `\\❌ Chưa nhận (\`/job\` để nhận)`;
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
