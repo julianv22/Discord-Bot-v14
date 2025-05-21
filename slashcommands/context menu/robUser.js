@@ -1,52 +1,38 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('rob')
-    .setDescription('Rob 💲 from others (has risk and cooldown)')
-    .addUserOption((option) =>
-      option.setName('target').setDescription('The user you want to rob 💲 from').setRequired(true),
-    ),
-  category: 'economy',
+  data: new ContextMenuCommandBuilder().setName(`Rob money`).setType(ApplicationCommandType.User),
+  category: 'context menu',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { errorEmbed, user: bot } = client;
-    const { user, guild, options } = interaction;
-    const userID = user.id;
-    const guildID = guild.id;
-    const targetUser = options.getUser('target');
-    const now = new Date();
+    const { guild, targetUser, user } = interaction;
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
-    if (targetUser.bot) {
-      return interaction.reply(errorEmbed(true, `Bạn không thể giật \\💲 của bot!`));
-    }
-    if (targetUser.id === userID) {
-      return interaction.reply(errorEmbed(true, `Bạn không thể tự giật \\💲 của chính mình!`));
-    }
+    if (targetUser.bot) return interaction.reply(errorEmbed(true, `Không thể giật \\💲 của bot!`));
 
-    // Lấy profile của user và target
-    let profile = await economyProfile.findOne({ guildID, userID });
-    let targetProfile = await economyProfile.findOne({ guildID, userID: targetUser.id });
+    if (targetUser.id === user.id)
+      return interaction.reply(errorEmbed(true, `Không thể giật \\💲 của chính bản thân mình!`));
+
+    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
+    let targetProfile = await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id });
 
     if (!profile || !targetProfile)
       return interaction.reply(
         errorEmbed(true, !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`),
       );
 
-    if (profile.balance < 200) {
-      return interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
-    }
+    if (profile.balance < 200) return interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
 
     if (targetProfile.balance < 100) {
       return interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
     }
 
     // Cooldown
-    if (profile.lastRob && now - profile.lastRob < cooldownMs) {
+    if (profile.lastRob && new Date() - profile.lastRob < cooldownMs) {
       const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
       const timeleft = Math.floor(nextRob.getTime() / 1000);
       return interaction.reply(errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`));
@@ -58,7 +44,7 @@ module.exports = {
     const guildOwnerId = guild.ownerId;
     if (targetUser.id === guildOwnerId) successRate = 0.1;
     // Nếu target có role cao hơn
-    const member = await guild.members.fetch(userID);
+    const member = await guild.members.fetch(user.id);
     const targetMember = await guild.members.fetch(targetUser.id);
     if (targetMember.roles.highest.comparePositionTo(member.roles.highest) > 0) successRate = 0.4;
 
@@ -81,7 +67,7 @@ module.exports = {
         amount / 2,
       ).toLocaleString()}**\\💲!`;
     }
-    profile.lastRob = now;
+    profile.lastRob = new Date();
     await profile.save();
     await targetProfile.save();
 
