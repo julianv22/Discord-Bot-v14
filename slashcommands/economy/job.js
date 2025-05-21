@@ -77,6 +77,6 @@ module.exports = {
       }
     }, workMinutes * 60 * 1000);
 
-    return interaction.reply({ embeds: [embed], ephemeral: true });
+    await interaction.reply({ embeds: [embed], ephemeral: true });
   },
 };
