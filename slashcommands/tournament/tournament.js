@@ -118,7 +118,9 @@ module.exports = {
         const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
 
         // Tạo danh sách thành viên, mỗi dòng 1 người
-        const memberLines = memberList.map((member, idx) => `${idx + 1}. <@${member.userID}> (${member.ingame})`);
+        const memberLines = memberList.map(
+          (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`,
+        );
         const maxDescLength = 4000;
         const embeds = [];
         let page = 0;
@@ -173,7 +175,8 @@ module.exports = {
           await tour.save();
         });
 
-        await interaction.reply(errorEmbed(`\\🏆 | `, 'Đã huỷ đăng ký của tất cả thành viên trong guild'));
+        await serverProfile.findOneAndUpdate({ guildID: guild.id }, { tourStatus: false });
+        await interaction.reply(errorEmbed(`\\🏆 | `, 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!'));
       },
     };
 
