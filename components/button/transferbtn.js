@@ -1,0 +1,84 @@
+const economyProfile = require('../../config/economyProfile');
+const { EmbedBuilder } = require('discord.js');
+
+module.exports = {
+  data: { name: 'transferbtn' },
+
+  /** @param {Interaction} interaction @param {Client} client */
+  async execute(interaction, client) {
+    const { errorEmbed } = client;
+    const { user, guild, customId } = interaction;
+    // Tách customId lấy amount, fee, targetId
+    const [prefix, amountStr, feeStr, targetId] = customId.split(':');
+    const amount = parseInt(amountStr, 10);
+    const fee = parseInt(feeStr, 10);
+    const total = amount + fee;
+
+    // Lấy profile của người chuyển và người nhận
+    const [profile, targetProfile] = await Promise.all([
+      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
+      economyProfile.findOne({ guildID: guild.id, userID: targetId }).catch(() => {}),
+    ]);
+
+    // Kiểm tra lại dữ liệu
+    if (!profile) return interaction.update(errorEmbed(true, 'Không kết nối được với database'));
+    if (!targetProfile)
+      await economyProfile.create({
+        guildID: guild.id,
+        guildName: guild.name,
+        userID: targetId,
+        bank: 0,
+      });
+    if (amount > profile.bank) return interaction.update(errorEmbed(true, 'Bạn không có đủ \\💲 để chuyển'));
+
+    // Trừ tiền người chuyển, cộng tiền người nhận
+    profile.bank -= total;
+    targetProfile.bank += amount;
+
+    await profile.save().catch(() => {});
+    await targetProfile.save().catch(() => {});
+
+    // Tạo embed thông báo cho người chuyển
+    const embedSender = new EmbedBuilder()
+      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setTitle('\\✅ Chuyển tiền thành công!')
+      .setDescription(
+        `\\♻️ Bạn đã chuyển **${amount.toLocaleString()}\\💲** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toLocaleString()}\\💲**\n\n\\💸 Tổng trừ: **${total.toLocaleString()}\\💲**\n\n\\🏦 Số dư còn lại: **${profile.bank.toLocaleString()}\\💲**`,
+      )
+      .setColor('Green')
+      .setThumbnail(cfg.economyPNG)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
+
+    // Tạo embed thông báo cho người nhận
+    const embedReceiver = new EmbedBuilder()
+      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setTitle('Bạn vừa nhận được tiền!')
+      .setDescription(
+        `Bạn vừa nhận được **${amount.toLocaleString()}\\💲** từ <@${user.id}> trong guild ${
+          guild.name
+        }.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toLocaleString()}\\💲**`,
+      )
+      .setColor('Green')
+      .setThumbnail(cfg.economyPNG)
+      .setTimestamp()
+      .setFooter({
+        text: client.user.displayName || client.user.username,
+        iconURL: client.user.displayAvatarURL(true),
+      });
+
+    // Gửi thông báo cho người nhận (nếu có thể)
+    try {
+      const member = await guild.members.fetch(targetId);
+      await member.send({ embeds: [embedReceiver] });
+    } catch (e) {
+      // Nếu không gửi được DM thì bỏ qua
+    }
+
+    // Cập nhật lại interaction cho người chuyển
+    return interaction.update({
+      embeds: [embedSender],
+      components: [],
+    });
+  },
+};

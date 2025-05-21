@@ -16,8 +16,10 @@ module.exports = {
     if (targetUser.id === user.id)
       return interaction.reply(errorEmbed(true, `Không thể giật \\💲 của chính bản thân mình!`));
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
-    let targetProfile = await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(() => {});
+    let [profile, targetProfile] = await Promise.all([
+      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
+      economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(() => {}),
+    ]);
 
     if (!profile || !targetProfile)
       return interaction.reply(
@@ -65,7 +67,7 @@ module.exports = {
     }
     profile.lastRob = new Date();
     await profile.save().catch(() => {});
-    await targetProfile.save().catch(() => {});
+    await targetProfile.save();
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

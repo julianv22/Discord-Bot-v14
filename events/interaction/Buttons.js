@@ -11,7 +11,8 @@ module.exports = {
     if (channel.type === ChannelType.DM) return;
 
     if (!interaction.isButton()) return;
-    const button = buttons.get(customId);
+    const prefix = customId.split(':')[0];
+    const button = buttons.get(prefix);
     if (button) executeInteraction(button, interaction);
   },
 };
