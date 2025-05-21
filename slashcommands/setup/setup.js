@@ -5,33 +5,33 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
-    .setDescription(`Setup Server's Information. ${cfg.adminRole} only`)
-    .addSubcommand((sub) => sub.setName('info').setDescription(`Show all setup info. ${cfg.adminRole} only`))
+    .setDescription(`Set up server information. ${cfg.adminRole} only`)
+    .addSubcommand((sub) => sub.setName('info').setDescription(`Show all setup information. ${cfg.adminRole} only`))
     .addSubcommand((sub) =>
       sub
         .setName('suggest')
-        .setDescription(`Setup Suggest Channel. ${cfg.adminRole} only`)
+        .setDescription(`Set up suggestion channel. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
-          opt.setName('schannel').setDescription('Select channel to send suggestions').setRequired(true),
+          opt.setName('schannel').setDescription('Select the channel to send suggestions to').setRequired(true),
         ),
     )
     .addSubcommand((sub) =>
       sub
         .setName('welcome')
-        .setDescription(`Setup Welcome Channel and Log Channel. ${cfg.adminRole} only`)
-        .addChannelOption((opt) => opt.setName('welcome').setDescription('Welcome Channel').setRequired(true))
-        .addChannelOption((opt) => opt.setName('log').setDescription('Log Channel').setRequired(true))
-        .addStringOption((opt) => opt.setName('message').setDescription(`Welcome message's content`)),
+        .setDescription(`Set up welcome and log channels. ${cfg.adminRole} only`)
+        .addChannelOption((opt) => opt.setName('welcome').setDescription('Welcome channel').setRequired(true))
+        .addChannelOption((opt) => opt.setName('log').setDescription('Log channel').setRequired(true))
+        .addStringOption((opt) => opt.setName('message').setDescription('Welcome message content')),
     )
     .addSubcommand((sub) =>
       sub
         .setName('youtube')
-        .setDescription(`Add/Remove youtube channel. ${cfg.adminRole} only`)
-        .addStringOption((opt) => opt.setName('channel-id').setDescription('Youtube Channel ID').setRequired(true))
+        .setDescription(`Add or remove a YouTube channel. ${cfg.adminRole} only`)
+        .addStringOption((opt) => opt.setName('channel-id').setDescription('YouTube channel ID').setRequired(true))
         .addStringOption((opt) =>
           opt
             .setName('action')
-            .setDescription('Add or Remove channel')
+            .setDescription('Add or remove channel')
             .setRequired(true)
             .addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' }),
         ),
@@ -39,13 +39,13 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('starboard')
-        .setDescription(`Starboard System. ${cfg.adminRole} only`)
+        .setDescription(`Set up starboard system. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
-          opt.setName('starboard-channel').setDescription('Select Starboard Channel').setRequired(true),
+          opt.setName('starboard-channel').setDescription('Select the starboard channel').setRequired(true),
         )
-        .addIntegerOption((opt) => opt.setName('starnum').setDescription('Number of star').setRequired(true)),
+        .addIntegerOption((opt) => opt.setName('starnum').setDescription('Number of stars').setRequired(true)),
     )
-    .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable Server's Feature. ${cfg.adminRole} only`)),
+    .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`)),
   category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,

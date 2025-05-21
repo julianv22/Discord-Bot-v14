@@ -15,7 +15,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('querydb')
     .setDescription(`\⭕wner only`),
-  category: '',
+  category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
 

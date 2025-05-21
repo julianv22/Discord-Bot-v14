@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const achievementsConfig = require('../../config/economyAchievements.json');
+const achievementsConfig = require('../../config/economy/economyAchievements.json');
 
 module.exports = {
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
@@ -11,20 +11,16 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild } = interaction;
-    const userID = user.id;
-    const usertag = user.tag;
-    const guildID = guild.id;
-    const guildName = guild.name;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile.findOne({ guildID, userID });
+    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
     if (!profile) {
       profile = await economyProfile.create({
-        guildID,
-        guildName,
-        userID,
-        usertag,
+        guildID: guild.id,
+        guildName: guild.name,
+        userID: user.id,
+        usertag: user.tag,
         balance: 0,
         bank: 0,
         inventory: [],
@@ -122,6 +118,7 @@ module.exports = {
         `Bạn đã nhận thành công **${dailyAmount.toLocaleString()}**\\💲 ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toLocaleString()}**\\💲.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
       )
       .setColor('Random')
+      .setThumbnail(cfg.economyPNG)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
 

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const jobs = require('../../config/economyJobs.json');
+const jobs = require('../../config/economy/economyJobs.json');
 
 module.exports = {
   data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
@@ -13,7 +13,10 @@ module.exports = {
     const { user, guild, guildId } = interaction;
 
     let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id });
-    if (!profile) return interaction.reply(errorEmbed(true, 'Bạn chưa có tài khoản Economy!'));
+    if (!profile)
+      return interaction.reply(
+        errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
+      );
 
     // Cooldown cố định 6 tiếng
     const now = new Date();
@@ -50,6 +53,7 @@ module.exports = {
         `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toLocaleString()}**\\💲!\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
       )
       .setColor('Random')
+      .setThumbnail(cfg.economyPNG)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
 

@@ -10,10 +10,13 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
+    const { errorEmbed } = client;
     const { user, guild } = interaction;
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id });
     if (!profile) {
-      return interaction.reply(errorEmbed(true, 'Bạn chưa có tài khoản Economy!'));
+      return interaction.reply(
+        errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
+      );
     }
 
     // Lấy thông tin
@@ -21,22 +24,32 @@ module.exports = {
     const bank = (profile.bank || 0).toLocaleString();
     const streak = (profile.streak || 0).toLocaleString();
     const maxStreak = (profile.maxStreak || 0).toLocaleString();
-    const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : 'None';
-    const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : `\\❌`;
-    const work = profile.work || `\\❌`;
+    const totalEarned = (profile.totalEarned || 0).toLocaleString();
+    const totalSpent = (profile.totalSpent || 0).toLocaleString();
+    const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : `\\🚫`;
+    const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : `\\🚫`;
+    const work = profile.lastWork || `\\❌ Chưa nhận (\`job\` để nhận)`;
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-      .setTitle(`\\💳 Thông tin tài khoản Economy`)
+      .setTitle(`\\💳 Economy Information`)
       .addFields(
-        { name: `\\💰 Số dư`, value: `${balance} \\💲`, inline: true },
-        { name: `\\🏦 Ngân hàng`, value: `${bank} \\💲`, inline: true },
+        { name: `\\💰 Balance`, value: `${balance}\\💲`, inline: true },
+        { name: `\\🏦 Bank`, value: `${bank}\\💲`, inline: true },
         { name: `\\🔥 Streak`, value: `${streak} / (max: ${maxStreak})`, inline: true },
-        { name: `\\💼 Công việc`, value: work, inline: true },
+        { name: `Tổng số \\💲 đã kiếm được`, value: `${totalEarned}\\💲`, inline: true },
+        { name: `Tổng số \\💲 đã chi tiêu`, value: `${totalSpent}\\💲`, inline: true },
+        {
+          name: `\u200b`,
+          value: `\`\`\`Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob) hoặc chơi minigame (/minigame)\`\`\``,
+          inline: false,
+        },
+        { name: `\\💼 Job`, value: work, inline: false },
         { name: `\\📦 Inventory`, value: inventory, inline: false },
-        { name: `\\🏆 Thành tựu`, value: achievements, inline: false },
+        { name: `\\🏆 Achievements`, value: achievements, inline: false },
       )
       .setColor('Random')
+      .setThumbnail(cfg.economyPNG)
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
       .setTimestamp();
 

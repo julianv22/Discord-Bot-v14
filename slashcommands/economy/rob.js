@@ -13,7 +13,7 @@ module.exports = {
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
+    const { errorEmbed, user: bot } = client;
     const { user, guild, options } = interaction;
     const userID = user.id;
     const guildID = guild.id;
@@ -44,6 +44,7 @@ module.exports = {
       const timeleft = Math.floor(nextRob.getTime() / 1000);
       return interaction.reply(errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`));
     }
+
     // Tính tỉ lệ thành công
     let successRate = 0.5; // 50%
     // Nếu target là chủ guild
@@ -63,15 +64,15 @@ module.exports = {
       amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có
       profile.balance += amount;
       targetProfile.balance -= amount;
-      resultMsg = `\\💸 Bạn đã giật thành công **${amount.toLocaleString()}**\\💲 từ **<@${targetUser.id}>**!`;
+      resultMsg = `\\💸 Đã giật thành công **${amount.toLocaleString()}**\\💲!`;
     } else {
       amount = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
       amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
       profile.balance -= amount;
       targetProfile.balance += Math.round(amount / 2);
-      resultMsg = `\\❌ Bạn đã thất bại và bị mất **${amount.toLocaleString()}**\\💲, **<@${
-        targetUser.id
-      }>** đã nhận được **${Math.round(amount / 2).toLocaleString()}**\\💲!`;
+      resultMsg = `\\❌ Thất bại và bị mất **${amount.toLocaleString()}**\\💲, đối phương nhận được **${Math.round(
+        amount / 2,
+      ).toLocaleString()}**\\💲!`;
     }
     profile.lastRob = now;
     await profile.save();
@@ -79,20 +80,27 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('Giật \\💲')
-      .setDescription(resultMsg)
+      .setDescription(`**${user}** vừa giật \\💲 của **${targetUser}**\n\n` + resultMsg)
       .addFields(
-        { name: 'Số dư của bạn', value: `${profile.balance.toLocaleString()}\\💲`, inline: true },
         {
-          name: `Số dư của <@${targetUser.id}>`,
-          value: `${targetProfile.balance.toLocaleString()}x\\💲`,
+          name: `Số dư của ${user.displayName || user.username}`,
+          value: `${profile.balance.toLocaleString()}\\💲`,
+          inline: true,
+        },
+        {
+          name: `Số dư của ${targetUser.displayName || targetUser.username}`,
+          value: `${targetProfile.balance.toLocaleString()}\\💲`,
           inline: true,
         },
       )
       .setColor(isSuccess ? 'Green' : 'Red')
-      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
+      .setThumbnail(cfg.economyPNG)
+      .setFooter({
+        text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
+        iconURL: bot.displayAvatarURL(),
+      })
       .setTimestamp();
 
-    return interaction.reply({ embeds: [embed], ephemeral: true });
+    return interaction.reply({ embeds: [embed] });
   },
 };

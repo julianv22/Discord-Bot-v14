@@ -4,10 +4,10 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('reload')
-    .setDescription(`Reload all commands/events ${cfg.adminRole} only`)
-    .addSubcommand((sub) => sub.setName('commands').setDescription(`Reload all commands ${cfg.adminRole} only`))
-    .addSubcommand((sub) => sub.setName('events').setDescription(`Reload all events ${cfg.adminRole} only`))
-    .addSubcommand((sub) => sub.setName('functions').setDescription(`Reload all functions ${cfg.adminRole} only`)),
+    .setDescription(`Reload all commands and events. ${cfg.adminRole} only`)
+    .addSubcommand((sub) => sub.setName('commands').setDescription(`Reload all commands. ${cfg.adminRole} only`))
+    .addSubcommand((sub) => sub.setName('events').setDescription(`Reload all events. ${cfg.adminRole} only`))
+    .addSubcommand((sub) => sub.setName('functions').setDescription(`Reload all functions. ${cfg.adminRole} only`)),
   category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,

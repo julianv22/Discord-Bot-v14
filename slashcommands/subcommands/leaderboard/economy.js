@@ -22,18 +22,20 @@ module.exports = {
     const leaderboard = topUsers
       .map((user, i) => {
         const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
-        return `${rank} <@${user.userID}> \\💰 ${user.balance.toLocaleString()} | \\🔥 ${(
-          user.streak || 0
-        ).toLocaleString()} (max: ${(user.maxStreak || 0).toLocaleString()})`;
+        return `${rank} <@${
+          user.userID
+        }> \\💰: ${user.balance.toLocaleString()}\\💲 | \\🏦: ${user.bank.toLocaleString()}\\💲`;
       })
       .join('\n');
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
-      .setTitle(`Top 10 richest users in ${interaction.guild.name}`)
+      .setTitle(`Top \\🔟 richest users in ${interaction.guild.name}`)
       .setDescription(leaderboard)
       .setColor('Gold')
-      .setThumbnail(cfg.economyPNG)
+      .setThumbnail(
+        'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg',
+      )
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
 
