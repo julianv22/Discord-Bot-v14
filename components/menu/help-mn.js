@@ -18,7 +18,15 @@ module.exports = {
     const select = values[0];
     const isAdmin = permissions.has(PermissionFlagsBits.Administrator);
 
-    let embed;
+    function paginateFields(fields, pageSize = 25) {
+      const pages = [];
+      for (let i = 0; i < fields.length; i += pageSize) {
+        pages.push(fields.slice(i, i + pageSize));
+      }
+      return pages;
+    }
+
+    let embeds = [];
     if (select !== 'subcommands') {
       let commands = Array.from(slashCommands.values()).filter(
         (cmd) => cmd.category && cmd.category.toLowerCase() === select.toLowerCase(),
@@ -33,25 +41,35 @@ module.exports = {
         description: c.data?.description || 'No description',
       }));
 
-      embed = new EmbedBuilder()
-        .setTitle(`\\📂 ${select.toUpperCase()} Commands [${commands.length}]:`)
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setColor('Random')
-        .addFields(
-          cmds.length
-            ? cmds.map((cmd) => ({
-                name: `/${cmd.name}`,
-                value: `\`\`\`fix\n${cmd.description}\`\`\``,
-              }))
-            : [
-                {
-                  name: '❌ No commands found in this category or you do not have enough permissions.',
-                  value: '\u200b',
-                },
-              ],
-        )
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTimestamp();
+      const fields = cmds.length
+        ? cmds.map((cmd) => ({
+            name: `/${cmd.name}`,
+            value: `\`\`\`fix\n${cmd.description}\n\`\`\``,
+          }))
+        : [
+            {
+              name: '❌ No commands found in this category or you do not have enough permissions.',
+              value: '\u200b',
+            },
+          ];
+
+      const pages = paginateFields(fields, 25);
+      embeds = pages.map((fieldsPage, idx) =>
+        new EmbedBuilder()
+          .setTitle(
+            `\\📂 ${select.toUpperCase()} Commands [${commands.length}]${
+              pages.length > 1 ? ` (Trang ${idx + 1}/${pages.length})` : ''
+            }:`,
+          )
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setColor('Random')
+          .addFields(fieldsPage)
+          .setFooter({
+            text: `Requested by ${user.displayName || user.username}`,
+            iconURL: user.displayAvatarURL(true),
+          })
+          .setTimestamp(),
+      );
     } else {
       // Gom các subcommand theo parent
       const parentMap = {};
@@ -66,21 +84,23 @@ module.exports = {
 
       const fields = Object.entries(parentMap).map(([parent, subs]) => ({
         name: `/${parent}`,
-        value: `\`\`\`fix\n${subs.join(' | ')}\`\`\``,
+        value: `\`\`\`fix\n${subs.join(' | ')}\n\`\`\``,
       }));
 
-      embed = new EmbedBuilder()
-        .setTitle(`\\📂 SUBCOMMANDS [${total}]:`)
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setColor('Random')
-        .addFields(
-          fields.length
-            ? fields
-            : [{ name: '❌ No subcommands found or you do not have enough permissions.', value: '\u200b' }],
-        )
-        .addFields({ name: '\u200b', value: '**Note:** *Some commands require proper permissions❗*' })
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTimestamp();
+      const pages = paginateFields(fields, 25);
+      embeds = pages.map((fieldsPage, idx) =>
+        new EmbedBuilder()
+          .setTitle(`\\📂 SUBCOMMANDS [${total}]${pages.length > 1 ? ` (Trang ${idx + 1}/${pages.length})` : ''}:`)
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setColor('Random')
+          .addFields(fieldsPage)
+          .addFields({ name: '\u200b', value: '**Note:** *Some commands require proper permissions❗*' })
+          .setFooter({
+            text: `Requested by ${user.displayName || user.username}`,
+            iconURL: user.displayAvatarURL(true),
+          })
+          .setTimestamp(),
+      );
     }
 
     const menu = new StringSelectMenuBuilder()
@@ -90,7 +110,7 @@ module.exports = {
       .addOptions(folders.split(',').map((f) => ({ label: `\📂 ${f.toUpperCase()}`, value: f })));
 
     return interaction.update({
-      embeds: [embed],
+      embeds: embeds.slice(0, 10), // chỉ gửi tối đa 10 embed
       components: [new ActionRowBuilder().addComponents(menu)],
       ephemeral: true,
     });
