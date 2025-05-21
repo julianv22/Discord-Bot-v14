@@ -10,7 +10,7 @@ const economyProfile = new mongoose.Schema({
   inventory: { type: Array, default: [] },
   achievements: { type: Array, default: [] },
   dailyCooldown: { type: Date, default: null },
-  lastWork: { type: Date, default: null },
+  lastWork: { type: String },
   lastRob: { type: Date, default: null },
   totalEarned: { type: Number, default: 0 },
   totalSpent: { type: Number, default: 0 },

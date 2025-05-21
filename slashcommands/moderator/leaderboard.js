@@ -19,7 +19,7 @@ module.exports = {
         .addStringOption((opt) => opt.setName('time').setDescription('Time to calculate thanks')),
     )
     .addSubcommand((sub) =>
-      sub.setName('economy').setDescription('Show Economy Leaderboard (top coin, streak, max streak)'),
+      sub.setName('economy').setDescription('Show Economy Leaderboard (top 💲, streak, max streak)'),
     ),
   category: 'moderator',
   scooldown: 0,

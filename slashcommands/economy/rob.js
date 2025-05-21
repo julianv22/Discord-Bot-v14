@@ -4,9 +4,9 @@ const economyProfile = require('../../config/economyProfile');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('rob')
-    .setDescription('Rob :coin: coins from others (has risk and cooldown)')
+    .setDescription('Rob 💲 from others (has risk and cooldown)')
     .addUserOption((option) =>
-      option.setName('target').setDescription('The user you want to rob :coin: coins from').setRequired(true),
+      option.setName('target').setDescription('The user you want to rob 💲 from').setRequired(true),
     ),
   category: 'economy',
   scooldown: 0,
@@ -42,7 +42,7 @@ module.exports = {
     if (profile.lastRob && now - profile.lastRob < cooldownMs) {
       const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
       const timeleft = Math.floor(nextRob.getTime() / 1000);
-      return interaction.reply(errorEmbed(true, `Bạn vừa giật gần đây! Hãy quay lại sau: <t:${timeleft}:R>`));
+      return interaction.reply(errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`));
     }
     // Tính tỉ lệ thành công
     let successRate = 0.5; // 50%
@@ -63,17 +63,15 @@ module.exports = {
       amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có
       profile.balance += amount;
       targetProfile.balance -= amount;
-      resultMsg = `\\💸 Bạn đã giật thành công **${amount.toLocaleString()}**\\💲 từ **${
-        targetUser.displayName || targetUser.username
-      }**!`;
+      resultMsg = `\\💸 Bạn đã giật thành công **${amount.toLocaleString()}**\\💲 từ **<@${targetUser.id}>**!`;
     } else {
       amount = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
       amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
       profile.balance -= amount;
       targetProfile.balance += Math.round(amount / 2);
-      resultMsg = `\\❌ Bạn đã thất bại và bị mất **${amount.toLocaleString()}**\\💲, **${
-        targetUser.displayName || targetUser.username
-      }** đã nhận được **${Math.round(amount / 2).toLocaleString()}**\\💲!`;
+      resultMsg = `\\❌ Bạn đã thất bại và bị mất **${amount.toLocaleString()}**\\💲, **<@${
+        targetUser.id
+      }>** đã nhận được **${Math.round(amount / 2).toLocaleString()}**\\💲!`;
     }
     profile.lastRob = now;
     await profile.save();
@@ -81,12 +79,12 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('Giật :coin: coin')
+      .setTitle('Giật \\💲')
       .setDescription(resultMsg)
       .addFields(
         { name: 'Số dư của bạn', value: `${profile.balance.toLocaleString()}\\💲`, inline: true },
         {
-          name: `Số dư của ${targetUser.displayName || targetUser.username}`,
+          name: `Số dư của <@${targetUser.id}>`,
           value: `${targetProfile.balance.toLocaleString()}x\\💲`,
           inline: true,
         },

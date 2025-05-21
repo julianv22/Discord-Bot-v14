@@ -3,9 +3,7 @@ const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economyAchievements.json');
 
 module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('daily')
-    .setDescription('Claim your daily :coin: coins from the economy system!'),
+  data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
   category: 'economy',
   scooldown: 0,
 
@@ -47,9 +45,7 @@ module.exports = {
       const nextDaily = new Date();
       nextDaily.setHours(24, 0, 0, 0);
       const timeleft = Math.floor(nextDaily.getTime() / 1000);
-      return interaction.reply(
-        errorEmbed(true, `Bạn vừa nhận :coin: coin hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`),
-      );
+      return interaction.reply(errorEmbed(true, `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`));
     }
 
     // Số \\💲 daily, random từ 500 tới 1000, ưu tiên gần 1000
@@ -121,7 +117,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('Nhận :coin: coin hằng ngày!')
+      .setTitle('Nhận \\💲 hằng ngày!')
       .setDescription(
         `Bạn đã nhận thành công **${dailyAmount.toLocaleString()}**\\💲 ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toLocaleString()}**\\💲.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
       )

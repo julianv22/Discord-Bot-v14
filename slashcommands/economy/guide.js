@@ -18,14 +18,14 @@ module.exports = {
         }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`,
       )
       .addFields(
-        { name: '/daily', value: `\`\`\`Nhận :coin: coin miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.\`\`\`` },
-        { name: '/balance', value: `\`\`\`Xem số dư :coin:, streak, bank, inventory, achievements.\`\`\`` },
-        { name: '/job', value: `\`\`\`Nhận công việc ngẫu nhiên, làm việc và nhận :coin: coin (cooldown).\`\`\`` },
-        { name: '/rob', value: `\`\`\`Cướp :coin: coin của người khác (có rủi ro và cooldown).\`\`\`` },
+        { name: '/daily', value: `\`\`\`Nhận \\💲 miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.\`\`\`` },
+        { name: '/balance', value: `\`\`\`Xem số dư, streak, bank, inventory, achievements.\`\`\`` },
+        { name: '/job', value: `\`\`\`Nhận công việc ngẫu nhiên, làm việc và nhận \\💲 (cooldown).\`\`\`` },
+        { name: '/rob', value: `\`\`\`Giật \\💲 của người khác (có rủi ro và cooldown).\`\`\`` },
         { name: '/leaderboard', value: `\`\`\`Xem bảng xếp hạng top giàu nhất.\`\`\`` },
-        { name: '/shop', value: `\`\`\`Mua vật phẩm bằng :coin: coin.\`\`\`` },
+        { name: '/shop', value: `\`\`\`Mua vật phẩm bằng \\💲.\`\`\`` },
         { name: '/inventory', value: `\`\`\`Xem kho đồ/vật phẩm bạn sở hữu.\`\`\`` },
-        { name: '/transfer', value: `\`\`\`Chuyển :coin: coin cho người khác.\`\`\`` },
+        { name: '/transfer', value: `\`\`\`Chuyển \\💲 cho người khác.\`\`\`` },
         {
           name: '\u200b',
           value: `**Lưu ý:** \`Các lệnh sẽ được cập nhật thêm trong tương lai. Hãy chăm chỉ nhận daily và tham gia các hoạt động để làm giàu nhé❗\``,

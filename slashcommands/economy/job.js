@@ -3,17 +3,16 @@ const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economyJobs.json');
 
 module.exports = {
-  data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn money!'),
+  data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
   category: 'economy',
   scooldown: 0,
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const { user, guild } = interaction;
-    const userID = user.id;
-    const guildID = guild.id;
-    let profile = await economyProfile.findOne({ guildID, userID });
+    const { user, guild, guildId } = interaction;
+
+    let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id });
     if (!profile) return interaction.reply(errorEmbed(true, 'Bạn chưa có tài khoản Economy!'));
 
     // Cooldown cố định 6 tiếng
@@ -48,7 +47,7 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Bạn đã nhận một công việc mới!')
       .setDescription(
-        `\\🧑‍💼 Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toLocaleString()}**\\💲!\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
+        `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toLocaleString()}**\\💲!\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
       )
       .setColor('Random')
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
@@ -65,7 +64,7 @@ module.exports = {
           }`,
         );
       } catch {}
-      let p = await economyProfile.findOne({ guildID, userID });
+      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id });
       if (p) {
         p.balance += reward;
         p.totalEarned += reward;
