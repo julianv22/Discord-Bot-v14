@@ -80,7 +80,7 @@ module.exports = {
         });
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('Error in messageReactionAdd:'), e);
+      console.error(chalk.red('Error in messageReactionAdd:'), e);
     }
   },
 };

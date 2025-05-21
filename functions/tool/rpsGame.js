@@ -59,9 +59,9 @@ module.exports = (client) => {
         .setTitle('You ' + rps.result)
         .setDescription(rps.description);
 
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      return interaction.update({ embeds: [embed], ephemeral: true });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running rpsGame'), e);
+      console.error(chalk.red('Error while running rpsGame'), e);
     }
   };
 };

@@ -76,9 +76,6 @@ module.exports = {
     }
 
     // Cập nhật lại interaction cho người chuyển
-    return interaction.update({
-      embeds: [embedSender],
-      components: [],
-    });
+    return interaction.update({ embeds: [embedSender], components: [] });
   },
 };

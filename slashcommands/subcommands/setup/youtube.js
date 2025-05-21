@@ -65,7 +65,7 @@ module.exports = {
         ),
       );
     } catch (e) {
-      console.error(chalk.yellow.bold('Error ():', e));
+      console.error(chalk.red('Error ():', e));
       return interaction.reply(errorEmbed(true, 'Lỗi setup Youtube channel:', e));
     }
   },

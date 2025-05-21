@@ -31,7 +31,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/leaderboard level):', e));
+      console.error(chalk.red('Error (/leaderboard level):', e));
       return interaction.reply(errorEmbed(true, 'Error level leaderboard:', e));
     }
   },

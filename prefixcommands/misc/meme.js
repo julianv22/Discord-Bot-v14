@@ -33,7 +33,7 @@ module.exports = {
         });
       await message.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.yellow.bold('Lỗi lấy meme:', e));
+      console.error(chalk.red('Lỗi lấy meme:', e));
       await message.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy meme.', e));
     }
   },

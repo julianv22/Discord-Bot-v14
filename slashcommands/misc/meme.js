@@ -28,7 +28,7 @@ module.exports = {
         });
       await interaction.editReply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error fetching meme:', e));
+      console.error(chalk.red('Error fetching meme:', e));
       await interaction.editReply(errorEmbed(true, 'An error occurred while fetching meme', e));
     }
   },

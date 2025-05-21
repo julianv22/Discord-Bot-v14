@@ -51,7 +51,7 @@ module.exports = {
           interaction.reply({ embeds: [embed] });
         });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/github):', e));
+      console.error(chalk.red('Error (/github):', e));
       return interaction.reply(errorEmbed(true, 'Error github command:', e));
     }
   },

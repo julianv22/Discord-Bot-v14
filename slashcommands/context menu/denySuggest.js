@@ -59,7 +59,7 @@ module.exports = {
         ],
       })
       .catch((e) => {
-        return console.error(chalk.yellow.bold('Error (Context menu/Deny Suggest):', e));
+        return console.error(chalk.red('Error (Context menu/Deny Suggest):', e));
       });
   },
 };

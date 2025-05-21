@@ -1,5 +1,5 @@
 const serverProfile = require('../../config/serverProfile');
-const { EmbedBuilder, Client, Interaction } = require('discord.js');
+const { EmbedBuilder, Client, Interaction, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 
 module.exports = {
   data: { name: 'disable-mn' },
@@ -45,19 +45,53 @@ module.exports = {
       }
 
       if (change) await profile.save().catch(() => {});
-      await interaction.reply({
+      const features = [
+        {
+          label: '⭐ Disable Starboard System',
+          value: 'starboard',
+          description: 'Tắt chức năng Starboard System',
+        },
+        {
+          label: '💡 Disable Suggest Channel',
+          value: 'suggest',
+          description: 'Tắt chức năng Suggestion',
+        },
+        {
+          label: '🎬 Disable Youtube Notify',
+          value: 'youtube',
+          description: 'Tắt thông báo video mới trên Youtube',
+        },
+        {
+          label: '🎉 Disable Welcome System',
+          value: 'welcome',
+          description: 'Tắt chức năng chào mừng thành viên mới',
+        },
+      ];
+      await interaction.update({
         embeds: [
           {
             color: 5763719,
-            title: `\✅ Disabled **${feature}** successfully!`,
-            description: `Vui lòng kiểm tra trong \`/setup info\``,
+            description: `\\✅ Disabled **${feature}** successfully!\n\nVui lòng kiểm tra trong \`/setup info\``,
           },
+          {
+            color: 15844367,
+            title: '**\\⚠️ Select feature to disabe \\⚠️**',
+          },
+        ],
+        components: [
+          new ActionRowBuilder().addComponents(
+            new StringSelectMenuBuilder()
+              .setCustomId('disable-mn')
+              .setMinValues(1)
+              .setMaxValues(1)
+              .addOptions(features.map((ft) => ({ label: ft.label, value: ft.value, description: ft.description }))),
+          ),
         ],
         ephemeral: true,
       });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/setup disable):', e));
-      return interaction.reply(errorEmbed(true, 'Disable menu error:', e));
+      console.error(chalk.red('Error while running disable menu):', e));
+      return interaction.reply(errorEmbed(true, 'Error while running disable menu:', e));
     }
   },
 };

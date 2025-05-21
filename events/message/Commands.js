@@ -48,7 +48,7 @@ module.exports = {
             m.delete();
           }, 5000);
         });
-      console.error(chalk.yellow.bold(error), e);
+      console.error(chalk.red(error), e);
     }
   },
 };

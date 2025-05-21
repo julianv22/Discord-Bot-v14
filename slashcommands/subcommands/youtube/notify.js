@@ -31,7 +31,7 @@ module.exports = {
         errorEmbed(false, `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`),
       );
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/setup youtube):', e));
+      console.error(chalk.red('Error (/setup youtube):', e));
       return interaction.reply(
         errorEmbed(true, 'Có lỗi xảy ra khi thiết lập kênh thông báo video mới trên Youtube', e),
       );

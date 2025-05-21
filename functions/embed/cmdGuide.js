@@ -39,7 +39,7 @@ module.exports = (client) => {
 
       message.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running cmdGuide'), e);
+      console.error(chalk.red('Error while running cmdGuide'), e);
       return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
         setTimeout(() => {
           m.delete();

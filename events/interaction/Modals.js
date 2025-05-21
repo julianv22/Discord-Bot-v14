@@ -11,7 +11,8 @@ module.exports = {
     if (channel.type === ChannelType.DM) return;
 
     if (type == InteractionType.ModalSubmit) {
-      const modal = modals.get(customId);
+      const prefix = customId.split(':')[0];
+      const modal = modals.get(prefix);
       if (modal) executeInteraction(modal, interaction);
     }
   },

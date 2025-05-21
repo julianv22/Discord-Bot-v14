@@ -21,7 +21,7 @@ async function getLatestVideoId(channelId) {
 module.exports = (client) => {
   client.checkVideos = async function checkVideos() {
     try {
-      // console.log(chalk.yellow.bold('Checking videos...'));
+      // console.log(chalk.red('Checking videos...'));
       const servers = await serverProfile.find({}).catch(() => {});
       for (const server of servers) {
         const { youtubeChannelIds = [], lastVideoIds = [], youtubeNotifyChannel, guildID } = server;
@@ -69,7 +69,7 @@ module.exports = (client) => {
         }
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running checkVideos'), e);
+      console.error(chalk.red('Error while running checkVideos'), e);
     }
   };
 };

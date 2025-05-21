@@ -70,7 +70,7 @@ module.exports = {
         ],
       });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running command (/huy-dang-ky):', e));
+      console.error(chalk.red('Error while running command (/huy-dang-ky):', e));
       return interaction.reply(errorEmbed(true, 'Error while running command (/huy-dang-ky):', e));
     }
   },

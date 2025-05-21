@@ -75,7 +75,7 @@ module.exports = {
           // interaction.followUp?.({ content: `\`\`\`json\n${JSON.stringify(profile, null, 2)}\`\`\``, ephemeral: true });
         })
         .catch((e) => {
-          console.error(chalk.yellow.bold('Error (querydb):', e));
+          console.error(chalk.red('Error (querydb):', e));
         });
     } else await sendMessage(`\\❌ Can not parse sourcebin now. Try again later!`);
   },

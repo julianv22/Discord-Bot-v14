@@ -47,7 +47,7 @@ module.exports = {
         await interaction.editReply(errorEmbed(true, 'Can not find members or role is incorrect!'));
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/list members):', e));
+      console.error(chalk.red('Error (/list members):', e));
       return interaction.reply(errorEmbed(true, 'Errro when list members:', e));
     }
   },

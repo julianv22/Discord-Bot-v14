@@ -11,7 +11,8 @@ module.exports = {
     if (channel.type === ChannelType.DM) return;
 
     if (interaction.isStringSelectMenu()) {
-      const menu = menus.get(customId);
+      const prefix = customId.split(':')[0];
+      const menu = menus.get(prefix);
       if (menu) executeInteraction(menu, interaction);
     }
   },

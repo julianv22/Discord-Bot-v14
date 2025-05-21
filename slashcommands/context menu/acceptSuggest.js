@@ -58,7 +58,7 @@ module.exports = {
         ],
       })
       .catch((e) => {
-        return console.error(chalk.yellow.bold('Error (Context menu/Accept Suggest):', e));
+        return console.error(chalk.red('Error (Context menu/Accept Suggest):', e));
       });
   },
 };

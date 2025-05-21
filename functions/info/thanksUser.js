@@ -157,7 +157,7 @@ module.exports = (client) => {
           })
           .catch(() => {});
       }
-      console.error(chalk.yellow.bold('Error while running thanksUser'), e);
+      console.error(chalk.red('Error while running thanksUser'), e);
     }
   };
 };

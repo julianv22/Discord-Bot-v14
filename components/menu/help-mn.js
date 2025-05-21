@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
   data: { name: 'help-mn' },
@@ -9,9 +9,12 @@ module.exports = {
       guild,
       user,
       member: { permissions },
+      customId,
       values,
     } = interaction;
     const { slashCommands, subCommands } = client;
+    const [prefix, folders] = customId.split(':');
+
     const select = values[0];
     const isAdmin = permissions.has(PermissionFlagsBits.Administrator);
 
@@ -80,9 +83,16 @@ module.exports = {
         .setTimestamp();
     }
 
-    if (!interaction.deferred && !interaction.replied) {
-      await interaction.deferReply({ ephemeral: true });
-    }
-    await interaction.editReply({ embeds: [embed], ephemeral: true });
+    const menu = new StringSelectMenuBuilder()
+      .setCustomId(`help-mn:${folders}`)
+      .setMinValues(1)
+      .setMaxValues(1)
+      .addOptions(folders.split(',').map((f) => ({ label: `\📂 ${f.toUpperCase()}`, value: f })));
+
+    return interaction.update({
+      embeds: [embed],
+      components: [new ActionRowBuilder().addComponents(menu)],
+      ephemeral: true,
+    });
   },
 };

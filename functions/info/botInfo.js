@@ -129,7 +129,7 @@ module.exports = (client) => {
       } else if (message && typeof message.reply === 'function') {
         message.reply(errorEmbed).catch(() => {});
       }
-      console.error(chalk.yellow.bold('Error while running botInfo'), e);
+      console.error(chalk.red('Error while running botInfo'), e);
     }
   };
 };

@@ -54,7 +54,7 @@ module.exports = {
         });
       }, 2500);
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/reload):', e));
+      console.error(chalk.red('Error (/reload):', e));
       return interaction.reply(errorEmbed(true, 'Reload command error:', e));
     }
   },

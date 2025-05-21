@@ -17,7 +17,7 @@ module.exports = {
   async execute(interaction, client) {
     const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
     const menu = new StringSelectMenuBuilder()
-      .setCustomId('help-mn')
+      .setCustomId(`help-mn:${folders}`)
       .setMinValues(1)
       .setMaxValues(1)
       .addOptions(folders.map((f) => ({ label: `\📂 ${f.toUpperCase()}`, value: f })));

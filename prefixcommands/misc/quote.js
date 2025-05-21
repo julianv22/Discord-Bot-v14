@@ -45,7 +45,7 @@ module.exports = {
       })
       .catch((e) => {
         message.channel.send('Đã xảy ra lỗi khi lấy quote!').catch(() => {});
-        console.error(chalk.yellow.bold('[quote.js] Error fetching quote:', e));
+        console.error(chalk.red('[quote.js] Error fetching quote:', e));
       });
   },
 };

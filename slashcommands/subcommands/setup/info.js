@@ -78,7 +78,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed], ephemeral: true });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/setup info):', e));
+      console.error(chalk.red('Error (/setup info):', e));
       return interaction.reply(errorEmbed(true, 'Lỗi khi lấy thông tin setup info', e));
     }
   },

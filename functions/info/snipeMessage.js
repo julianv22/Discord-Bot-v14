@@ -74,7 +74,7 @@ module.exports = (client) => {
           })
           .catch(() => {});
       }
-      console.error(chalk.yellow.bold('Error while running snipeMessage'), e);
+      console.error(chalk.red('Error while running snipeMessage'), e);
     }
   };
 };

@@ -51,7 +51,7 @@ module.exports = (client) => {
       }
       return res;
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running embedArray'), e);
+      console.error(chalk.red('Error while running embedArray'), e);
       return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
         setTimeout(() => {
           m.delete();

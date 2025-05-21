@@ -31,7 +31,7 @@ module.exports = (client) => {
 
       return { commands: cmds, count: count };
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running listCommands'), e);
+      console.error(chalk.red('Error while running listCommands'), e);
     }
   };
 };

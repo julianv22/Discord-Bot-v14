@@ -193,7 +193,7 @@ module.exports = {
         return interaction.reply(errorEmbed(true, 'Subcommand không hợp lệ!'));
       }
     } catch (e) {
-      console.error(chalk.yellow.bold(`Error while running tournament command [${tourCommand}]:`, e));
+      console.error(chalk.red(`Error while running tournament command [${tourCommand}]:`, e));
       return interaction.reply(errorEmbed(true, `Error while running tournament command [${tourCommand}]:`, e));
     }
   },

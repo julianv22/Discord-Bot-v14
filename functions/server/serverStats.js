@@ -62,7 +62,7 @@ module.exports = (client) => {
       setChannelName(profile?.statsChannel, status.join(' '));
       // End Server Stats
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running serverStats'), e);
+      console.error(chalk.red('Error while running serverStats'), e);
     }
   };
 };

@@ -84,7 +84,7 @@ module.exports = (client) => {
           break;
       }
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running genEmbed'), e);
+      console.error(chalk.red('Error while running genEmbed'), e);
       return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
         setTimeout(() => {
           m.delete();

@@ -29,7 +29,7 @@ module.exports = {
         .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, suggestChannel: sgtChannel })
         .catch(() => {});
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/setup suggest):', e));
+      console.error(chalk.red('Error (/setup suggest):', e));
       return interaction.reply(errorEmbed(true, 'Error when setup suggest channel:', e));
     }
   },

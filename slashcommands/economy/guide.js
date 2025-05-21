@@ -26,10 +26,6 @@ module.exports = {
         { name: '/inventory', value: `\`\`\`Xem kho đồ/vật phẩm bạn sở hữu.\`\`\`` },
         { name: '/bank', value: `\`\`\`Gửi/rút 💲 vào ngân hàng.\`\`\`` },
         { name: '/transfer', value: `\`\`\`Chuyển 💲 cho người khác.\`\`\`` },
-        {
-          name: '\u200b',
-          value: `**Lưu ý:** \`Các lệnh sẽ được cập nhật thêm trong tương lai. Hãy chăm chỉ nhận daily và tham gia các hoạt động để làm giàu nhé❗\``,
-        },
       )
       .setColor('Random')
       .setThumbnail(cfg.economyPNG)

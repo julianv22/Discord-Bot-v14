@@ -8,7 +8,7 @@ module.exports = (client) => {
         return res !== null;
       } else res;
     } catch (e) {
-      console.error(chalk.yellow.bold('Error while running checkURL'), e);
+      console.error(chalk.red('Error while running checkURL'), e);
     }
   };
 };

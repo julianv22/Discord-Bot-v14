@@ -62,7 +62,7 @@ module.exports = {
       })
       .catch((e) => {
         message.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy thông tin Wikipedia!')).catch(() => {});
-        console.error(chalk.yellow.bold('[wikipedia.js] Error fetching Wikipedia API:', e));
+        console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
       });
   },
 };

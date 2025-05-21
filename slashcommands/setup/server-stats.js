@@ -77,7 +77,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed], ephemeral: true });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/setup server-stats):', e));
+      console.error(chalk.red('Error (/setup server-stats):', e));
       return interaction.reply(errorEmbed(true, 'Error:', e));
     }
   },

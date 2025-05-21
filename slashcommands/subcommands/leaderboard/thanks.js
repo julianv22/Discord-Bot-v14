@@ -38,7 +38,7 @@ module.exports = {
         .setTimestamp();
       await interaction.reply({ embeds: [embed], ephemeral: false });
     } catch (e) {
-      console.error(chalk.yellow.bold('Error (/leaderboard thanks):', e));
+      console.error(chalk.red('Error (/leaderboard thanks):', e));
       return interaction.reply(errorEmbed(true, 'Error thanks leaderboard:', e));
     }
   },
