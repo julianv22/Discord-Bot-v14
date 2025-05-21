@@ -22,20 +22,20 @@ module.exports = {
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
     if (targetUser.bot) {
-      return interaction.reply(errorEmbed(true, `Bạn không thể giật :coin: coin của bot!`));
+      return interaction.reply(errorEmbed(true, `Bạn không thể giật \\💲 của bot!`));
     }
     if (targetUser.id === userID) {
-      return interaction.reply(errorEmbed(true, `Bạn không thể tự giật :coin: coin của chính mình!`));
+      return interaction.reply(errorEmbed(true, `Bạn không thể tự giật \\💲 của chính mình!`));
     }
 
     // Lấy profile của user và target
     let profile = await economyProfile.findOne({ guildID, userID });
     let targetProfile = await economyProfile.findOne({ guildID, userID: targetUser.id });
     if (!profile || profile.balance < 200) {
-      return interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200 :coin: coin để thực hiện giật!`));
+      return interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
     }
     if (!targetProfile || targetProfile.balance < 100) {
-      return interaction.reply(errorEmbed(true, `Người này không đủ :coin: coin để bị giật!`));
+      return interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
     }
 
     // Cooldown
@@ -60,17 +60,20 @@ module.exports = {
     let resultMsg = '';
     if (isSuccess) {
       amount = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
-      amount = Math.min(amount, targetProfile.balance); // Không giật quá số :coin: coin họ có
+      amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có
       profile.balance += amount;
       targetProfile.balance -= amount;
-      resultMsg = `\\💸 Bạn đã giật thành công **${amount.toLocaleString()}** :coin: coin từ **${
+      resultMsg = `\\💸 Bạn đã giật thành công **${amount.toLocaleString()}**\\💲 từ **${
         targetUser.displayName || targetUser.username
       }**!`;
     } else {
       amount = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
-      amount = Math.min(amount, profile.balance); // Không bị trừ quá số :coin: coin mình có
+      amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
       profile.balance -= amount;
-      resultMsg = `\\❌ Bạn đã thất bại và bị mất **${amount.toLocaleString()}** :coin: coin!`;
+      targetProfile.balance += Math.round(amount / 2);
+      resultMsg = `\\❌ Bạn đã thất bại và bị mất **${amount.toLocaleString()}**\\💲, **${
+        targetUser.displayName || targetUser.username
+      }** đã nhận được **${Math.round(amount / 2).toLocaleString()}**\\💲!`;
     }
     profile.lastRob = now;
     await profile.save();
@@ -81,10 +84,10 @@ module.exports = {
       .setTitle('Giật :coin: coin')
       .setDescription(resultMsg)
       .addFields(
-        { name: 'Số dư của bạn', value: `${profile.balance.toLocaleString()} \\💲`, inline: true },
+        { name: 'Số dư của bạn', value: `${profile.balance.toLocaleString()}\\💲`, inline: true },
         {
           name: `Số dư của ${targetUser.displayName || targetUser.username}`,
-          value: `${targetProfile.balance.toLocaleString()} \\💲`,
+          value: `${targetProfile.balance.toLocaleString()}x\\💲`,
           inline: true,
         },
       )

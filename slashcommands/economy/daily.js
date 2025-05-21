@@ -52,7 +52,7 @@ module.exports = {
       );
     }
 
-    // Số :coin: coin daily, random từ 500 tới 1000, ưu tiên gần 1000
+    // Số \\💲 daily, random từ 500 tới 1000, ưu tiên gần 1000
     // Sử dụng phân phối bình phương để tăng xác suất số lớn
     const min = 500;
     const max = 1000;
@@ -123,7 +123,7 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Nhận :coin: coin hằng ngày!')
       .setDescription(
-        `Bạn đã nhận thành công **${dailyAmount.toLocaleString()}** :coin: coin cho ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toLocaleString()}** :coin: coin.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
+        `Bạn đã nhận thành công **${dailyAmount.toLocaleString()}**\\💲 ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toLocaleString()}**\\💲.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
       )
       .setColor('Random')
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })

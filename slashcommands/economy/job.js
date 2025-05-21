@@ -48,7 +48,7 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Bạn đã nhận một công việc mới!')
       .setDescription(
-        `\\🧑‍💼 Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toLocaleString()}** :coin: coin!\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
+        `\\🧑‍💼 Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toLocaleString()}**\\💲!\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
       )
       .setColor('Random')
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
@@ -60,7 +60,7 @@ module.exports = {
       if (lucky) reward *= 2;
       try {
         await user.send(
-          `\\🎉 Bạn đã hoàn thành công việc **${jobName}** và nhận được **${reward.toLocaleString()}** :coin: coin!${
+          `\\🎉 Bạn đã hoàn thành công việc **${jobName}** và nhận được **${reward.toLocaleString()}**\\💲!${
             lucky ? '\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
           }`,
         );
