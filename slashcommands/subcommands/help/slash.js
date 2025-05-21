@@ -20,8 +20,8 @@ module.exports = {
     const { commands, count: cmdcount } = listCommands(slashCommands, member);
 
     const buttons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId('yt-link-btn').setLabel('YouTube').setStyle('Danger'),
-      new ButtonBuilder().setCustomId('djs-support-btn').setLabel(cfg.supportServer).setStyle('Primary'),
+      new ButtonBuilder().setCustomId('support-btn:youtube').setLabel('YouTube').setStyle('Danger'),
+      new ButtonBuilder().setCustomId('support-btn:server').setLabel(cfg.supportServer).setStyle('Primary'),
       new ButtonBuilder().setLabel('Invite Me!').setURL(cfg.inviteLink).setStyle('Link'),
       new ButtonBuilder().setLabel('Vote!').setStyle('Link').setURL('https://top.gg/servers/954736697453731850/vote'),
     );

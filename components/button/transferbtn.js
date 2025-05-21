@@ -9,7 +9,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { user, guild, customId } = interaction;
     // Tách customId lấy amount, fee, targetId
-    const [prefix, amountStr, feeStr, targetId] = customId.split(':');
+    const [, amountStr, feeStr, targetId] = customId.split(':');
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
     const total = amount + fee;

@@ -16,9 +16,9 @@ module.exports = {
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
     const buttons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId('rock-btn').setEmoji('🔨').setLabel('Rock').setStyle(ButtonStyle.Danger),
-      new ButtonBuilder().setCustomId('paper-btn').setEmoji('📄').setLabel('Paper').setStyle(ButtonStyle.Success),
-      new ButtonBuilder().setCustomId('scissors-btn').setEmoji('✂️').setLabel('Scissors').setStyle(ButtonStyle.Primary),
+      new ButtonBuilder().setCustomId('rps-btn:0').setEmoji('🔨').setLabel('Rock').setStyle(ButtonStyle.Danger),
+      new ButtonBuilder().setCustomId('rps-btn:1').setEmoji('📄').setLabel('Paper').setStyle(ButtonStyle.Success),
+      new ButtonBuilder().setCustomId('rps-btn:2').setEmoji('✂️').setLabel('Scissors').setStyle(ButtonStyle.Primary),
     );
 
     const embed = new EmbedBuilder()

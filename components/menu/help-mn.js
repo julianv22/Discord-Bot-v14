@@ -13,7 +13,7 @@ module.exports = {
       values,
     } = interaction;
     const { slashCommands, subCommands } = client;
-    const [prefix, folders] = customId.split(':');
+    const [, folders] = customId.split(':');
 
     const select = values[0];
     const isAdmin = permissions.has(PermissionFlagsBits.Administrator);

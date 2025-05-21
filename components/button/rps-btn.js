@@ -1,10 +1,11 @@
 const { Client, Interaction } = require('discord.js');
 
 module.exports = {
-  data: { name: 'scissors-btn' },
+  data: { name: 'rps-btn' },
 
   /** @param {Interaction} interaction @param {Client} client */
   async execute(interaction, client) {
-    client.rpsGame(2, interaction);
+    const [, button] = interaction.customId.split(':');
+    client.rpsGame(parseInt(button, 10), interaction);
   },
 };
