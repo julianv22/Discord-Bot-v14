@@ -14,7 +14,7 @@ module.exports = (client) => {
       .setMaxValues(1)
       .addOptions({
         emoji: { name: `🗯` },
-        label: `Prefix Commands`,
+        label: `Prefix Commands [${client.prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${cfg.prefix}) Commands`,
       })

@@ -17,14 +17,20 @@ module.exports = {
    * @param {Client} client - Đối tượng client
    */
   async execute(interaction, client) {
+    const { prefixCommands, slashCommands } = client;
     const menus = [
       {
         emoji: { name: `🗯` },
-        label: `Prefix Commands`,
+        label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${cfg.prefix}) Commands`,
       },
-      { emoji: { name: `📝` }, label: `Slash Commands`, value: 'slash', description: `List Slash (/) Commands` },
+      {
+        emoji: { name: `📝` },
+        label: `Slash Commands [${slashCommands.size}]`,
+        value: 'slash',
+        description: `List Slash (/) Commands`,
+      },
     ];
 
     const buttons = [
