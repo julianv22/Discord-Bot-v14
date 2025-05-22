@@ -27,14 +27,12 @@ module.exports = {
         label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${cfg.prefix}) Commands`,
-        disabled: false,
       },
       {
         emoji: { name: `📝` },
         label: `Slash Commands [${slashCommands.size}]`,
         value: 'slash',
         description: `List Slash (/) Commands`,
-        disabled: true,
       },
     ];
 
@@ -64,7 +62,6 @@ module.exports = {
                 label: menu.label,
                 value: menu.value,
                 description: menu.description,
-                disabled: menu.disabled,
               })),
             )
             .addOptions(folders.map((f) => ({ label: `📂 ${f.toUpperCase()}`, value: f }))),

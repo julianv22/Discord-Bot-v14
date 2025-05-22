@@ -1,3 +1,4 @@
+const { Client, Interaction } = require('discord.js');
 module.exports = {
   data: { name: 'help-menu' },
   /**
@@ -7,11 +8,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { helpPrefix, helpSlash } = client;
-    const {
-      message: { components },
-      values,
-    } = interaction;
-    const selected = values[0];
+    const selected = interaction.values[0];
     const help = {
       prefix: () => {
         helpPrefix(interaction);
