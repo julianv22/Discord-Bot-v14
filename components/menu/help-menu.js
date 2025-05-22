@@ -7,15 +7,29 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { helpPrefix, helpSlash } = client;
-    const select = interaction.values[0];
+    const {
+      message: { components },
+      values,
+    } = interaction;
+    const selected = values[0];
     const help = {
       prefix: () => {
         helpPrefix(interaction);
       },
       slash: () => {
-        helpSlash(interaction);
+        return interaction.update({
+          embeds: [
+            {
+              author: { name: `Select Slash Command Category ⤵️`, iconURL: cfg.slashPNG },
+              color: Math.floor(Math.random() * 0xffffff),
+            },
+          ],
+        });
+      },
+      default: () => {
+        helpSlash(selected, interaction);
       },
     };
-    help[select]();
+    (help[selected] || help.default)(selected);
   },
 };

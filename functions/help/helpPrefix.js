@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 /**
  * Hiển thị danh sách command prefix.
  * @param {Interaction} interaction - Đối tượng interaction.

@@ -1,3 +1,4 @@
+const { readdirSync } = require('fs');
 const {
   Client,
   Interaction,
@@ -18,18 +19,22 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { prefixCommands, slashCommands } = client;
+    const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
+
     const menus = [
       {
         emoji: { name: `🗯` },
         label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${cfg.prefix}) Commands`,
+        disabled: false,
       },
       {
         emoji: { name: `📝` },
         label: `Slash Commands [${slashCommands.size}]`,
         value: 'slash',
         description: `List Slash (/) Commands`,
+        disabled: true,
       },
     ];
 
@@ -43,7 +48,7 @@ module.exports = {
     await interaction.reply({
       embeds: [
         {
-          author: { name: `Select Command Type!`, iconURL: cfg.helpPNG },
+          author: { name: `Select Command Category ⤵️`, iconURL: cfg.helpPNG },
           color: Math.floor(Math.random() * 0xffffff),
         },
       ],
@@ -54,8 +59,15 @@ module.exports = {
             .setMinValues(1)
             .setMaxValues(1)
             .setOptions(
-              menus.map((m) => ({ emoji: m.emoji, label: m.label, value: m.value, description: m.description })),
-            ),
+              menus.map((menu) => ({
+                emoji: menu.emoji,
+                label: menu.label,
+                value: menu.value,
+                description: menu.description,
+                disabled: menu.disabled,
+              })),
+            )
+            .addOptions(folders.map((f) => ({ label: `📂 ${f.toUpperCase()}`, value: f }))),
         ),
         new ActionRowBuilder().addComponents(
           buttons.map((data) => {

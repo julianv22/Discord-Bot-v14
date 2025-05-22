@@ -1,50 +1,57 @@
-const { readdirSync } = require('fs');
-const { StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 /**
- * Hiển thị danh sách command prefix.
+ * Hiển thị danh sách command slash.
+ * @param {string} selected - Tên command được chọn.
  * @param {Interaction} interaction - Đối tượng interaction.
- * @param {Client} client - Đối tượng client.
+ * @param {Collection} components - Đối tượng components.
  */
 module.exports = (client) => {
-  client.helpSlash = async (interaction) => {
-    const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
-    const menu = new StringSelectMenuBuilder()
-      .setCustomId(`slash-menu:${folders}`)
-      .setMinValues(1)
-      .setMaxValues(1)
-      .addOptions({
-        emoji: { name: `🗯` },
-        label: `Prefix Commands [${client.prefixCommands.size}]`,
-        value: 'prefix',
-        description: `List Prefix (${cfg.prefix}) Commands`,
-      })
-      .addOptions(folders.map((f) => ({ emoji: { name: `📂` }, label: `${f.toUpperCase()}`, value: f })));
+  client.helpSlash = async (selected, interaction) => {
+    const { slashCommands, subCommands, listCommands } = client;
+    const { guild, user } = interaction;
+    let commands = [];
+    const embed = (commandName, commands, count) => {
+      return new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle(`\\📂 Danh sách ${commandName} [${count}]`)
+        .setColor('Random')
+        .setThumbnail(cfg.slashPNG)
+        .setTimestamp()
+        .setFooter({
+          text: `Requested by ${user.displayName || user.username}`,
+          iconURL: user.displayAvatarURL(true),
+        })
+        .addFields(commands);
+    };
+    const SelectCommand = {
+      subcommands: () => {
+        let parents = Array.from(subCommands.values()).map((sub) => sub.parent);
+        parents = parents.filter((item, index) => parents.indexOf(item) === index);
 
-    const buttons = [
-      { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
-      { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
-      { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
-      { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
-    ];
-
-    return interaction.update({
-      embeds: [
-        {
-          author: { name: `Select Slash Command Category!`, iconURL: cfg.helpPNG },
-          color: Math.floor(Math.random() * 0xffffff),
-        },
-      ],
-      components: [
-        new ActionRowBuilder().addComponents(menu),
-        new ActionRowBuilder().addComponents(
-          buttons.map((data) => {
-            const button = new ButtonBuilder().setLabel(data.label).setStyle(data.style);
-            if (data.customId) button.setCustomId(data.customId);
-            if (data.url) button.setURL(data.url);
-            return button;
-          }),
-        ),
-      ],
-    });
+        let count = 0;
+        parents.forEach((parent) => {
+          const command = subCommands.filter((sub) => sub.parent === parent);
+          commands.push({
+            name: `/${parent} [${command.size}]`,
+            value: `\`\`\`fix\n${command.map((cmd) => `${cmd.data?.name || cmd.name}`).join(' | ')}\`\`\``,
+          });
+          count += command.size;
+        });
+        return interaction.update({ embeds: [embed(selected, commands, count)] });
+      },
+      default: () => {
+        commands = Array.from(slashCommands.values()).filter(
+          (cmd) => cmd.category.toLowerCase() === selected.toLowerCase(),
+        );
+        commands = commands.map((cmd) => ({
+          name: `/${cmd.data?.name || cmd.name}`,
+          value: `\`\`\`fix\n${cmd.data?.description || cmd.description}\`\`\``,
+        }));
+        return interaction.update({
+          embeds: [embed(selected, commands, commands.length)],
+        });
+      },
+    };
+    (SelectCommand[selected] || SelectCommand.default)(selected);
   };
 };
