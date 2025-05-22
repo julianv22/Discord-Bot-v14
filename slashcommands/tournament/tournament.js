@@ -38,10 +38,9 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-
-    // Đảm bảo profile luôn tồn tại
-    if (!profile) profile = await serverProfile.create({ guildID: guild.id, guildName: guild.name });
+    let profile =
+      (await serverProfile.findOne({ guildID: guild.id })).catch(() => {}) ||
+      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
 
     const getRole = options.getRole('ten-giai');
     const tourCommand = options.getSubcommand();

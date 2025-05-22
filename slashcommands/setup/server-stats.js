@@ -27,17 +27,11 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile =
+      (await serverProfile.findOne({ guildID: guild.id })).catch(() => {}) ||
+      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
 
     try {
-      if (!profile) {
-        let createOne = await serverProfile.create({
-          guildID: guild.id,
-          guildName: guild.name,
-        });
-        createOne.save().catch(() => {});
-      }
-
       const totalChannel = options.getChannel('total-count-channel');
       const membersChannel = options.getChannel('members-count-channel');
       const memberrole = options.getRole('member-role');

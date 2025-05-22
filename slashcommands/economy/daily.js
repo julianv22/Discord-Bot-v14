@@ -18,22 +18,24 @@ module.exports = {
 
     let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     if (!profile) {
-      profile = await economyProfile.create({
-        guildID: guild.id,
-        guildName: guild.name,
-        userID: user.id,
-        usertag: user.tag,
-        balance: 0,
-        bank: 0,
-        inventory: [],
-        achievements: [],
-        dailyCooldown: null,
-        lastWork: null,
-        lastRob: null,
-        totalEarned: 0,
-        totalSpent: 0,
-        createdAt: new Date(),
-      });
+      profile = await economyProfile
+        .create({
+          guildID: guild.id,
+          guildName: guild.name,
+          userID: user.id,
+          usertag: user.tag,
+          balance: 0,
+          bank: 0,
+          inventory: [],
+          achievements: [],
+          dailyCooldown: null,
+          lastWork: null,
+          lastRob: null,
+          totalEarned: 0,
+          totalSpent: 0,
+          createdAt: new Date(),
+        })
+        .catch(() => {});
     }
 
     // Kiểm tra cooldown: chỉ cần qua 0h là nhận được

@@ -17,22 +17,16 @@ module.exports = {
     const number = options.getInteger('starnum');
 
     try {
-      let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
+      let profile =
+        (await serverProfile.findOne({ guildID: guildId }).catch(() => {})) ||
+        new serverProfile({ guildID: guildId, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
 
-      if (!profile) {
-        profile = await serverProfile.create({
-          guildID: guildId,
-          starboardChannel: channel.id,
-          starCount: number,
-        });
-      } else {
-        profile.starboardChannel = channel.id;
-        profile.starCount = number;
-        await profile.save().catch(() => {});
-        await interaction.reply(
-          errorEmbed(false, `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`),
-        );
-      }
+      profile.starboardChannel = channel.id;
+      profile.starCount = number;
+      await profile.save().catch(() => {});
+      await interaction.reply(
+        errorEmbed(false, `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`),
+      );
     } catch (e) {
       console.error(chalk.red('Error (/setup starboard):', e));
       return interaction.reply(errorEmbed(true, 'Error when setup starboard channel:', e));

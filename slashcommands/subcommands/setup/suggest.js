@@ -16,14 +16,10 @@ module.exports = {
     const channel = options.getChannel('schannel');
     const sgtChannel = await channels.cache.get(channel.id);
     try {
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile) {
-        let createOne = await serverProfile.create({
-          guildID: guild.id,
-          guildName: guild.name,
-        });
-        createOne.save;
-      }
+      if (await serverProfile.findOne({ guildID: guild.id }))
+        serverProfile
+          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, suggestChannel: sgtChannel })
+          .catch(() => {});
 
       await interaction.reply(errorEmbed(false, `Channel to send suggestions has been changed to ${channel}!`));
 
