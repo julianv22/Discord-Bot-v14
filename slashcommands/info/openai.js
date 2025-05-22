@@ -41,7 +41,9 @@ module.exports = {
       history.push({ role: 'assistant', text: reply });
       if (history.length > 10) history = history.slice(history.length - 10);
       chatHistories.set(userId, history);
+
       for (let i = 0; i < reply.length; i += 2000) {
+        await interaction.editReply(prompt);
         await interaction.followUp({ content: reply.slice(i, i + 2000) });
       }
     } catch (error) {

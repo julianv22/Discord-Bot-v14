@@ -9,7 +9,7 @@ module.exports = {
   async execute(message, client) {
     const { author, channel, content } = message;
 
-    if ((channel.type === ChannelType.DM) & content.includes('help')) {
+    if (channel && channel.type === ChannelType.DM && content.includes('help')) {
       message.reply({
         embeds: [
           new EmbedBuilder()
@@ -34,24 +34,26 @@ module.exports = {
           },
         ],
       };
-
-      if (content.toLowerCase().includes('cảm ơn'))
-        return message.reply(hint).then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 10000);
-        });
-
-      const thanks = ['thank', 'ty', 'thanks'];
-      thanks.forEach((thank) => {
-        if (content.toLowerCase().split(' ').includes(thank)) {
+      if (author.bot) return;
+      else {
+        if (content.toLowerCase().includes('cảm ơn'))
           return message.reply(hint).then((m) => {
             setTimeout(() => {
               m.delete();
             }, 10000);
           });
-        }
-      });
+
+        const thanks = ['thank', 'ty', 'thanks'];
+        thanks.forEach((thank) => {
+          if (content.toLowerCase().split(' ').includes(thank)) {
+            return message.reply(hint).then((m) => {
+              setTimeout(() => {
+                m.delete();
+              }, 10000);
+            });
+          }
+        });
+      }
     }
   },
 };
