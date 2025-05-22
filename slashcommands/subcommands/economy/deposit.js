@@ -1,14 +1,16 @@
-const { SlashCommandSubcommandBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 const { EmbedBuilder } = require('@discordjs/builders');
-
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('deposit'),
   category: 'sub command',
   scooldown: 0,
   parent: 'economy',
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Deposit money
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { errorEmbed, user: bot } = client;

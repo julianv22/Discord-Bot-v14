@@ -1,15 +1,14 @@
 const serverProfile = require('../../../config/serverProfile');
-const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
-
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('info'),
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
-
   /**
-   * @param {Interaction} interaction
-   * @param {Client} client
+   * Get setup information
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
    */
   async execute(interaction, client) {
     const { errorEmbed, channels } = client;

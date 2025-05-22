@@ -2,12 +2,12 @@ const economyProfile = require('../../config/economyProfile');
 const {
   SlashCommandBuilder,
   Interaction,
+  Client,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('transfer')
@@ -16,8 +16,11 @@ module.exports = {
     .addIntegerOption((opt) => opt.setName('amount').setDescription('Amount of 💲 to transfer').setRequired(true)),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Transfer 💲 to other users
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild, options } = interaction;
@@ -59,20 +62,33 @@ module.exports = {
       .setThumbnail(cfg.economyPNG)
       .setFooter({ text: `Requested bye ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
+    const buttons = [
+      {
+        customId: `transferbtn:${amount}:${fee}:${targetUser.id}`,
+        label: 'Tiếp tục',
+        style: ButtonStyle.Success,
+        disabled: false,
+      },
+      {
+        customId: 'cancel',
+        label: 'Click vào Dismiss để huỷ bỏ',
+        style: ButtonStyle.Danger,
+        disabled: true,
+      },
+    ];
+
     await interaction.reply({
       embeds: [embed],
       components: [
-        new ActionRowBuilder().addComponents([
-          new ButtonBuilder()
-            .setCustomId(`transferbtn:${amount}:${fee}:${targetUser.id}`)
-            .setLabel('Tiếp tục')
-            .setStyle(ButtonStyle.Success),
-          new ButtonBuilder()
-            .setCustomId('cancel')
-            .setLabel('Click vào Dismiss để huỷ bỏ')
-            .setStyle(ButtonStyle.Danger)
-            .setDisabled(true),
-        ]),
+        new ActionRowBuilder().addComponents(
+          buttons.map((data) =>
+            new ButtonBuilder()
+              .setCustomId(data.customId)
+              .setLabel(data.label)
+              .setStyle(data.style)
+              .setDisabled(data.disabled),
+          ),
+        ),
       ],
       ephemeral: true,
     });

@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('hack')
@@ -7,8 +6,11 @@ module.exports = {
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
   category: 'misc',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Hack someone! J4F 😝
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, user, options } = interaction;

@@ -1,9 +1,11 @@
 const { EmbedBuilder, Colors, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: { name: 'create-embed-md' },
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Tạo embed
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { checkURL } = client;
     const { user, guild, fields } = interaction;

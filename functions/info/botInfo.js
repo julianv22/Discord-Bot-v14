@@ -6,20 +6,20 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   EmbedBuilder,
-  AttachmentBuilder,
   UserFlags,
-  version,
 } = require('discord.js');
-const { connection, version: dbver } = require('mongoose');
+const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
-
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
   /**
-   * @param {GuildMember} author
-   * @param {Interaction} interaction
-   * @param {Message} message
+   * Thông tin bot
+   * @param {GuildMember} author - Đối tượng author
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Message} message - Đối tượng message
    */
   client.botInfo = async (author, interaction, message) => {
     try {
@@ -40,13 +40,6 @@ module.exports = (client) => {
       const map = Object.entries(package.dependencies)
         .map(([a, b]) => `${a}: ${b}`)
         .join('\n');
-
-      const buttons = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('support-btn:youtube').setLabel('YouTube').setStyle('Danger'),
-        new ButtonBuilder().setCustomId('support-btn:server').setLabel(cfg.supportServer).setStyle('Primary'),
-        new ButtonBuilder().setLabel('Invite Me!').setURL(cfg.inviteLink).setStyle('Link'),
-        new ButtonBuilder().setLabel('Vote!').setURL('https://top.gg/servers/954736697453731850/vote').setStyle('Link'),
-      );
 
       const embed = new EmbedBuilder()
         .setColor('Random')
@@ -116,9 +109,25 @@ module.exports = (client) => {
           iconURL: author.displayAvatarURL(true),
         });
 
+      const buttons = [
+        { customId: 'support-btn:youtube', label: 'YouTube', style: ButtonStyle.Danger },
+        { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
+        { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
+        { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
+      ];
+
       (interaction ? interaction : message).reply({
         embeds: [embed],
-        components: [buttons],
+        components: [
+          new ActionRowBuilder().addComponents(
+            buttons.map((data) => {
+              const button = new ButtonBuilder().setLabel(data.label).setStyle(data.style);
+              if (data.customId) button.setCustomId(data.customId);
+              if (data.url) button.setURL(data.url);
+              return button;
+            }),
+          ),
+        ],
       });
     } catch (e) {
       const errorEmbed = {

@@ -1,15 +1,17 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
-
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('withdraw'),
   category: 'sub command',
   scooldown: 0,
   parent: 'economy',
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Withdraw money
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
-    const { user, guild, guildId } = interaction;
+    const { user, guild } = interaction;
     const { errorEmbed, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});

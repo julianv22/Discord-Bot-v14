@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('thanks')
@@ -9,8 +8,11 @@ module.exports = {
     ),
   category: 'misc',
   scooldown: 30,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Thanks someone
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     client.thanksUser(interaction.options.getUser('user'), interaction.user, interaction);
   },

@@ -3,11 +3,13 @@ const path = require('path');
 const Canvas = require('@napi-rs/canvas');
 const { request } = require('undici');
 const serverProfile = require('../../config/serverProfile');
-
 module.exports = {
   name: 'guildMemberAdd',
-
-  /** @param {GuildMember} member @param {Client} client */
+  /**
+   * Thành viên tham gia server
+   * @param {GuildMember} member - Đối tượng member
+   * @param {Client} client - Đối tượng client
+   */
   async execute(member, client) {
     try {
       const { guild, user } = member;
@@ -23,6 +25,13 @@ module.exports = {
       const background = await Canvas.loadImage(bgUrl);
       ctx.drawImage(background, 0, 0, c.w, c.h);
 
+      /**
+       * Thêm text vào canvas
+       * @param {String} text - Chuỗi cần hiển thị
+       * @param {Number} x - Tọa độ x
+       * @param {Number} y - Tọa độ y
+       * @param {Number} size - Kích thước
+       */
       function addContext(text, x, y, size) {
         ctx.font = `${text.length < 25 ? size : 40}px Consolas`;
         ctx.fillText(text, x, y);

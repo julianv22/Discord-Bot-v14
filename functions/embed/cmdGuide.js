@@ -1,14 +1,16 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
-
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
   /**
-   * @param {Message} message
-   * @param {String} commandname
-   * @param {String} description
-   * @param {Array} alias
-   * @param {String} usage
-   * @param {String} footer
+   * Hướng dẫn sử dụng command
+   * @param {Message} message - Đối tượng message
+   * @param {String} commandname - Tên command
+   * @param {String} description - Mô tả command
+   * @param {Array} alias - Alias command
+   * @param {String} usage - Cách dùng command
+   * @param {String} footer - Footer command
    */
   client.cmdGuide = (message, commandname, description, alias, usage, footer) => {
     try {

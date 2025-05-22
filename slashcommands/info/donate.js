@@ -1,11 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('donate').setDescription('Donate for Julian-V'),
   category: 'info',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Donate for Julian-V
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { user } = interaction;
     const img = 'https://media.discordapp.net/attachments/976364997066231828/997976998527914124/Header.png';

@@ -1,5 +1,4 @@
 const { Message, Client, EmbedBuilder } = require('discord.js');
-
 module.exports = {
   name: 'wikipedia',
   aliases: ['wiki'],
@@ -7,11 +6,17 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Tìm kiếm thông tin trên Wikipedia
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
+    /**
+     * Chuyển đổi chữ cái đầu tiên thành chữ hoa
+     * @param {string} s - Chuỗi cần chuyển đổi
+     * @returns {string} - Chuỗi đã chuyển đổi
+     */
     function capitalize(s) {
       try {
         return s && String(s[0]).toUpperCase() + String(s).slice(1);

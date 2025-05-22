@@ -1,13 +1,15 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Nhận \\💲 hằng ngày
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild } = interaction;

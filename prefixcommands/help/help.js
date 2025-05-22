@@ -1,5 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, Message, Client } = require('discord.js');
-
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, Message, Client, ButtonStyle } = require('discord.js');
 module.exports = {
   name: 'help',
   aliases: ['h'],
@@ -7,9 +6,9 @@ module.exports = {
   category: 'help',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng các argument
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     const { cmdGuide, prefixCommands, listCommands } = client;
@@ -27,12 +26,12 @@ module.exports = {
         }`,
       );
 
-    const buttons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId('support-btn:youtube').setLabel('YouTube').setStyle('Danger'),
-      new ButtonBuilder().setCustomId('support-btn:server').setLabel(cfg.supportServer).setStyle('Primary'),
-      new ButtonBuilder().setLabel('Invite Me!').setURL(cfg.inviteLink).setStyle('Link'),
-      new ButtonBuilder().setLabel('Vote!').setStyle('Link').setURL('https://top.gg/servers/954736697453731850/vote'),
-    );
+    const buttons = [
+      { customId: 'support-btn:youtube', label: 'YouTube', style: ButtonStyle.Danger },
+      { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
+      { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
+      { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
+    ];
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -59,6 +58,20 @@ module.exports = {
       })
       .setTimestamp();
 
-    message.delete().then(() => message.channel.send({ embeds: [embed], components: [buttons] }));
+    message.delete().then(() =>
+      message.channel.send({
+        embeds: [embed],
+        components: [
+          new ActionRowBuilder().addComponents(
+            buttons.map((data) => {
+              const button = new ButtonBuilder().setLabel(data.label).setStyle(data.style);
+              if (data.customId) button.setCustomId(data.customId);
+              if (data.url) button.setURL(data.url);
+              return button;
+            }),
+          ),
+        ],
+      }),
+    );
   },
 };

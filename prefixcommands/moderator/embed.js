@@ -1,15 +1,4 @@
 const { EmbedBuilder, Message, Client, PermissionFlagsBits } = require('discord.js');
-let cfg, prefix;
-try {
-  cfg = require('../../../config/config.json');
-} catch {
-  cfg = {
-    errorPNG: 'https://cdn-icons-png.flaticon.com/512/463/463612.png',
-    helpPNG: 'https://cdn-icons-png.flaticon.com/512/1828/1828817.png',
-    modRole: 'Mod',
-  };
-}
-
 module.exports = {
   name: 'embed',
   aliases: ['eb'],
@@ -18,9 +7,10 @@ module.exports = {
   cooldown: 0,
   permissions: PermissionFlagsBits.ManageMessages,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Tạo Embed Message
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     const { guild } = message;

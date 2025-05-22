@@ -1,41 +1,43 @@
 const {
   SlashCommandSubcommandBuilder,
-  Client,
-  Interaction,
   StringSelectMenuBuilder,
   ActionRowBuilder,
+  Client,
+  Interaction,
 } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('disable'),
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
-
   /**
-   * @param {Interaction} interaction
-   * @param {Client} client
+   * Disable a feature
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
    */
-
   async execute(interaction, client) {
     const features = [
       {
-        label: '⭐ Disable Starboard System',
+        emoji: { name: `⭐` },
+        label: 'Disable Starboard System',
         value: 'starboard',
         description: 'Tắt chức năng Starboard System',
       },
       {
-        label: '💡 Disable Suggest Channel',
+        emoji: { name: `💡` },
+        label: 'Disable Suggest Channel',
         value: 'suggest',
         description: 'Tắt chức năng Suggestion',
       },
       {
-        label: '🎬 Disable Youtube Notify',
+        emoji: { name: `🎬` },
+        label: 'Disable Youtube Notify',
         value: 'youtube',
         description: 'Tắt thông báo video mới trên Youtube',
       },
       {
-        label: '🎉 Disable Welcome System',
+        emoji: { name: `🎉` },
+        label: 'Disable Welcome System',
         value: 'welcome',
         description: 'Tắt chức năng chào mừng thành viên mới',
       },
@@ -54,7 +56,14 @@ module.exports = {
             .setCustomId('disable-mn')
             .setMinValues(1)
             .setMaxValues(1)
-            .addOptions(features.map((ft) => ({ label: ft.label, value: ft.value, description: ft.description }))),
+            .addOptions(
+              features.map((f) => ({
+                emoji: f.emoji,
+                label: f.label,
+                value: f.value,
+                description: f.description,
+              })),
+            ),
         ),
       ],
       ephemeral: true,

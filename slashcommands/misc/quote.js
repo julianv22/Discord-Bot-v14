@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
-const { EmbedBuilder, SlashCommandBuilder, Interaction } = require('discord.js');
-
+const { EmbedBuilder, SlashCommandBuilder, Client, Interaction } = require('discord.js');
+/** @returns {Promise<string>} */
 function getQuote() {
   return fetch('https://zenquotes.io/api/random')
     .then((res) => {
@@ -10,13 +10,15 @@ function getQuote() {
       return '❝ **' + data[0]['q'] + '** ❞\n\n- ' + data[0]['a'] + ' -';
     });
 }
-
 module.exports = {
   data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
   category: 'misc',
   scooldown: 10,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Get a random quote from ZenQuotes
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     getQuote()

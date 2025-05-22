@@ -1,7 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
-// Lưu lịch sử chat tạm thời theo userId
+const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 const chatHistories = new Map();
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('gemini')
@@ -11,7 +9,11 @@ module.exports = {
     ),
   category: 'info',
   scooldown: 0,
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Chat with Gemini AI (Google GenAI)
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const prompt = interaction.options.getString('prompt');
     if (!prompt) {

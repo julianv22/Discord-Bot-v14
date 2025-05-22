@@ -1,11 +1,10 @@
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
 const { Collection, Client } = require('discord.js');
-
 /**
- * @param {Collection} components
- * @param {Array} componentFiles
- * @param {String} folder
+ * @param {Collection} components - Đối tượng components
+ * @param {Array} componentFiles - Mảng các file component
+ * @param {String} folder - Tên folder
  */
 const requireComponents = (components, componentFiles, folder) => {
   try {
@@ -18,9 +17,14 @@ const requireComponents = (components, componentFiles, folder) => {
     console.error(chalk.yellow('[requireComponents]'), e);
   }
 };
-
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
+  /**
+   * Load các component từ folder ./components
+   * @returns {Promise<void>}
+   */
   client.loadComponents = async () => {
     try {
       // Start Component Handle

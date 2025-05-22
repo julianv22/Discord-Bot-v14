@@ -7,7 +7,6 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('rps-game')
@@ -17,23 +16,34 @@ module.exports = {
     ),
   category: 'misc',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Play RPS game
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const bet = interaction.options.getInteger('bet');
-    const buttons = new ActionRowBuilder().addComponents(
-      new ButtonBuilder().setCustomId(`rps-btn:0:${bet}`).setEmoji('🔨').setLabel('Rock').setStyle(ButtonStyle.Danger),
-      new ButtonBuilder()
-        .setCustomId(`rps-btn:1:${bet}`)
-        .setEmoji('📄')
-        .setLabel('Paper')
-        .setStyle(ButtonStyle.Success),
-      new ButtonBuilder()
-        .setCustomId(`rps-btn:2:${bet}`)
-        .setEmoji('✂️')
-        .setLabel('Scissors')
-        .setStyle(ButtonStyle.Primary),
-    );
+
+    const buttons = [
+      {
+        customId: `rps-btn:0:${bet}`,
+        emoji: '🔨',
+        label: 'Rock',
+        style: ButtonStyle.Danger,
+      },
+      {
+        customId: `rps-btn:1:${bet}`,
+        emoji: '📄',
+        label: 'Paper',
+        style: ButtonStyle.Success,
+      },
+      {
+        customId: `rps-btn:2:${bet}`,
+        emoji: '✂️',
+        label: 'Scissors',
+        style: ButtonStyle.Primary,
+      },
+    ];
 
     const embed = new EmbedBuilder()
       .setTitle('Rock - Paper - Scissors Game')
@@ -45,6 +55,20 @@ module.exports = {
         'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png',
       );
 
-    await interaction.reply({ embeds: [embed], components: [buttons], ephemeral: true });
+    await interaction.reply({
+      embeds: [embed],
+      components: [
+        new ActionRowBuilder().addComponents(
+          buttons.map((data) =>
+            new ButtonBuilder()
+              .setCustomId(data.customId)
+              .setEmoji(data.emoji)
+              .setLabel(data.label)
+              .setStyle(data.style),
+          ),
+        ),
+      ],
+      ephemeral: true,
+    });
   },
 };

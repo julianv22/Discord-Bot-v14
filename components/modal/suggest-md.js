@@ -1,10 +1,12 @@
 const serverProfile = require('../../config/serverProfile');
 const { EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: { name: 'suggest-md' },
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Đề xuất
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, user } = interaction;

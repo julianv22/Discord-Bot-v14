@@ -1,6 +1,4 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
-const serverProfile = require('../../config/serverProfile');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
@@ -20,7 +18,10 @@ module.exports = {
   category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.ManageMessages,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * List members of a role
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {},
 };

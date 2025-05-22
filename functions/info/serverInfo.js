@@ -1,13 +1,15 @@
 const { Client, GuildMember, Interaction, EmbedBuilder, ChannelType, Guild, Message } = require('discord.js');
 const moment = require('moment-timezone');
-
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
   /**
-   * @param {Guild} guild
-   * @param {GuildMember} author
-   * @param {Interaction} interaction
-   * @param {Message} message
+   * Thông tin server
+   * @param {Guild} guild - Đối tượng guild
+   * @param {GuildMember} author - Đối tượng author
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Message} message - Đối tượng message
    */
   client.serverInfo = async (guild, author, interaction, message) => {
     try {

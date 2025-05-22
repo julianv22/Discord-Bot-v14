@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('wikipedia')
@@ -7,8 +6,11 @@ module.exports = {
     .addStringOption((opt) => opt.setName('keyword').setDescription('Keyword').setRequired(true)),
   category: 'info',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Search Vietnamese Wikipedia articles by keyword
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     function capitalize(s) {
       try {

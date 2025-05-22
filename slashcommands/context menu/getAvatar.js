@@ -1,11 +1,13 @@
 const { ContextMenuCommandBuilder, EmbedBuilder, Client, Interaction, ApplicationCommandType } = require('discord.js');
-
 module.exports = {
   data: new ContextMenuCommandBuilder().setName('Get Avatar').setType(ApplicationCommandType.User),
   category: 'context menu',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Lấy avatar của user
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { targetUser: user, user: author } = interaction;
     const avtEmbed = new EmbedBuilder()

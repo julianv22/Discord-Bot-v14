@@ -1,9 +1,11 @@
 const { Client, Interaction, ChannelType } = require('discord.js');
-
 module.exports = {
   name: 'interactionCreate',
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Lệnh interaction
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     try {
       const { slashCommands, subCommands, executeInteraction, errorEmbed } = client;

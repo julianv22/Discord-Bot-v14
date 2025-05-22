@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
@@ -12,8 +11,11 @@ module.exports = {
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   // ownerOnly: true,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Reload all commands and events
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { loadCommands, loadComponents, loadEvents, loadFunctions } = client;
     const { options } = interaction;

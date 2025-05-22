@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
-
+const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('bank')
@@ -27,7 +26,10 @@ module.exports = {
     ),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Gửi tiền từ balance sang bank hoặc rút tiền từ bank sang balance
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {},
 };

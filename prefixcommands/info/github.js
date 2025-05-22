@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 const moment = require('moment-timezone');
 const { EmbedBuilder, Message, Client } = require('discord.js');
-
 module.exports = {
   name: 'github',
   aliases: ['git'],
@@ -9,9 +8,10 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Xem thông tin tài khoản Github
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     const { errorEmbed } = client;

@@ -1,7 +1,11 @@
 const fetch = require('node-fetch');
 const serverProfile = require('../../config/serverProfile');
 const { EmbedBuilder } = require('discord.js');
-
+/**
+ * Lấy video mới nhất của kênh YouTube
+ * @param {String} channelId - ID của channel
+ * @returns {Object} - Trả về videoId, channelTitle, videoTitle
+ */
 async function getLatestVideoId(channelId) {
   try {
     const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -17,8 +21,14 @@ async function getLatestVideoId(channelId) {
     return { videoId: null, channelTitle: null, videoTitle: null };
   }
 }
-
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
+  /**
+   * Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo
+   * @returns {Promise<void>}
+   */
   client.checkVideos = async function checkVideos() {
     try {
       // console.log(chalk.red('Checking videos...'));

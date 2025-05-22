@@ -1,7 +1,12 @@
 const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 const fetch = require('node-fetch');
-
+/**
+ * Validate Youtube channel
+ * @param {string} channelId - ID of the Youtube channel
+ * @param {string} apiKey - API key for Youtube
+ * @returns {Promise<{ valid: boolean, title: string | null }>}
+ */
 async function validateYoutubeChannel(channelId, apiKey) {
   const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
   const res = await fetch(url);
@@ -17,8 +22,12 @@ module.exports = {
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */ async execute(interaction, client) {
+  /**
+   * Setup Youtube channel
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
+  async execute(interaction, client) {
     const { errorEmbed } = client;
     const { options, guildId } = interaction;
     const yt_channel = options.getString('channel-id');

@@ -1,15 +1,14 @@
 const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('notify'),
   category: 'sub command',
   parent: 'youtube',
   scooldown: 0,
-
   /**
-   * @param {import('discord.js').Interaction} interaction
-   * @param {import('discord.js').Client} client
+   * Setup Youtube notify channel
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
    * @returns {Promise<void>}
    */
   async execute(interaction, client) {

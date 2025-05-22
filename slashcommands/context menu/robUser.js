@@ -1,12 +1,14 @@
 const economyProfile = require('../../config/economyProfile');
 const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, EmbedBuilder } = require('discord.js');
-
 module.exports = {
   data: new ContextMenuCommandBuilder().setName(`Rob money`).setType(ApplicationCommandType.User),
   category: 'context menu',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Rob money
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed, user: bot } = client;
     const { guild, targetUser, user } = interaction;

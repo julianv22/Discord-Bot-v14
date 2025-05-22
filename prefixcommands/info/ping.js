@@ -1,5 +1,4 @@
 const { EmbedBuilder, Message } = require('discord.js');
-
 module.exports = {
   name: 'ping',
   aliases: [],
@@ -7,9 +6,10 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Kiểm tra ping của bot
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);

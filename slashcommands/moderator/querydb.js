@@ -9,7 +9,6 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
@@ -18,8 +17,11 @@ module.exports = {
   category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Query database
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed, user } = client;
     const { guild, guildId } = interaction;
@@ -32,7 +34,11 @@ module.exports = {
     let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 
     if (!profile) return interaction.reply(errorEmbed(true, 'No database!'));
-
+    /**
+     * Send a message
+     * @param {string} message - Nội dung message
+     * @param {string} key - Key của sourcebin
+     */
     async function sendMessage(message, key) {
       const embed = new EmbedBuilder().setColor('Random').setDescription(message);
 

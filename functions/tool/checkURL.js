@@ -1,4 +1,9 @@
 module.exports = (client) => {
+  /**
+   * Kiểm tra xem đối tượng strInput có phải là URL hay không
+   * @param {String} strInput - Đối tượng strInput
+   * @returns {Boolean} - Trả về true nếu đối tượng strInput là URL, ngược lại trả về false
+   */
   client.checkURL = function checkURL(strInput) {
     try {
       if (strInput) {

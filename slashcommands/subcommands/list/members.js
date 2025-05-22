@@ -1,12 +1,14 @@
-const { SlashCommandSubcommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits } = require('discord.js');
-
+const { SlashCommandSubcommandBuilder, EmbedBuilder, PermissionFlagsBits, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('members'),
   category: 'sub command',
   parent: 'list',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Get members of a role
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { options } = interaction;

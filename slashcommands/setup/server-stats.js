@@ -1,6 +1,5 @@
 const serverProfile = require('../../config/serverProfile');
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
@@ -21,8 +20,11 @@ module.exports = {
   category: 'setup',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Setup server statistics
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { guild, options } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});

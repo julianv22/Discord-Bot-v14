@@ -1,5 +1,4 @@
 const { Client, Message } = require('discord.js');
-
 module.exports = {
   name: 'info',
   aliases: ['serverinfo'],
@@ -7,9 +6,10 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Xem thông tin server/thành viên
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?')

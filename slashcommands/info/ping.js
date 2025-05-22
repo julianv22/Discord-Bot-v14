@@ -1,11 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('ping').setDescription(`Ping pong!`),
   category: 'info',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Show bot's ping
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const sent = await interaction.deferReply({ fetchReply: true });
     const ping = client.ws.ping;

@@ -1,11 +1,12 @@
 const ascii = require('ascii-table');
 const { Client } = require('discord.js');
-
 module.exports = {
   name: 'ready',
   once: true,
-
-  /** @param {Client} client */
+  /**
+   * Khi bot đã sẵn sàng
+   * @param {Client} client - Đối tượng client
+   */
   async execute(client) {
     const { setPresence, serverStats, checkVideos } = client;
     const table = new ascii()

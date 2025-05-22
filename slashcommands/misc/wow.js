@@ -1,11 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('wow').setDescription('😍 Wow!'),
   category: 'misc',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Wow!
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { user } = interaction;
     const embed = new EmbedBuilder()

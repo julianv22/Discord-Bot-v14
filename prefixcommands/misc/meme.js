@@ -1,6 +1,5 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
 const fetch = require('node-fetch');
-
 module.exports = {
   name: 'meme',
   aliases: [],
@@ -8,9 +7,10 @@ module.exports = {
   category: 'misc',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Lấy meme ngẫu nhiên từ Reddit
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);

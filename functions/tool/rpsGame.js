@@ -1,9 +1,13 @@
 const { EmbedBuilder, Interaction, Client } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-
-/** @param {Client} client */
+/** @param {Client} client - Đối tượng client */
 module.exports = (client) => {
-  /** @param {Number} userMove @param {Interaction} interaction @param {Number} bet */
+  /**
+   * Trò chơi kéo búa bao
+   * @param {Number} userMove - Nước đi của người dùng
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Number} bet - Số tiền cược
+   */
   client.rpsGame = async (userMove, bet, interaction) => {
     const { errorEmbed } = client;
     const { user, guild } = interaction;

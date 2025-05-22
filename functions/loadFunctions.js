@@ -1,10 +1,14 @@
 const { Client } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
-
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
-  /** @param {Client} client */
+  /**
+   * Load các function từ folder ./functions
+   * @returns {Promise<void>} - Trả về promise void
+   */
   client.loadFunctions = async () => {
     try {
       const table = new ascii()

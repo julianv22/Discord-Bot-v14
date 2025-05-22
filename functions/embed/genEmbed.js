@@ -1,8 +1,9 @@
 const { EmbedBuilder, Colors, Message, Client } = require('discord.js');
 /**
- * @param {String} name
- * @param {String} value
- * @param {Boolean} inline
+ * Tạo trường cho embed
+ * @param {String} name - Tên của trường
+ * @param {String} value - Giá trị của trường
+ * @param {Boolean} inline - Có inline hay không
  */
 function addFields(name, value, inline) {
   this.name = name;
@@ -14,18 +15,20 @@ function addFields(name, value, inline) {
   }
 }
 
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
   /**
-   * @param {Message} message
-   * @param {String} method
-   * @param {String} title
-   * @param {String} description
-   * @param {Colors} color
-   * @param {String} footer
-   * @param {URL} thumbnail
-   * @param {URL} image
-   * @param {Class} fieldArray
+   * @param {Message} message - Đối tượng message
+   * @param {String} method - Phương thức gửi embed
+   * @param {String} title - Tiêu đề
+   * @param {String} description - Mô tả
+   * @param {Colors} color - Màu sắc
+   * @param {String} footer - Footer
+   * @param {URL} thumbnail - Thumbnail
+   * @param {URL} image - Image
+   * @param {Class} fieldArray - Fields
    */
   client.genEmbed = function genEmbed(
     message,

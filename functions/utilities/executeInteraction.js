@@ -1,8 +1,13 @@
 const { Client, Interaction } = require('discord.js');
-
-/** @param {Client} client */
+/**
+ * @param {Client} client - Đối tượng client
+ */
 module.exports = (client) => {
-  /** @param {Interaction} interaction */
+  /**
+   * Thực thi lệnh interaction
+   * @param {String} type - Loại interaction
+   * @param {Interaction} interaction - Đối tượng interaction
+   */
   client.executeInteraction = async (type, interaction) => {
     try {
       await type.execute(interaction, client);

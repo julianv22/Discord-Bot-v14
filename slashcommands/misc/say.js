@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('say')
@@ -8,8 +7,11 @@ module.exports = {
     .addUserOption((opt) => opt.setName('hello').setDescription('Say "Hello" to someone')),
   category: 'misc',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Make the bot say something
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { options } = interaction;

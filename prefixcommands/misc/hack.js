@@ -1,5 +1,4 @@
 const { Message, Client } = require('discord.js');
-
 module.exports = {
   name: 'hack',
   aliases: [],
@@ -7,9 +6,10 @@ module.exports = {
   category: 'misc',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Hack ai đó
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     const { errorEmbed } = client;

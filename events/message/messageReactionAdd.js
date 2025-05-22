@@ -1,9 +1,12 @@
 const serverProfile = require('../../config/serverProfile');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
-
 module.exports = {
   name: 'messageReactionAdd',
-  /** @param {MessageReaction} reaction @param {User} user */
+  /**
+   * Thêm reaction vào message
+   * @param {MessageReaction} reaction - Đối tượng reaction
+   * @param {User} user - Đối tượng user
+   */
   async execute(reaction, user) {
     try {
       // Bỏ qua nếu là bot

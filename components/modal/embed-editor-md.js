@@ -1,9 +1,11 @@
 const { EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: { name: 'embed-editor-md' },
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Chỉnh sửa embed
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed, checkURL, user: bot } = client;
     const { fields, channel } = interaction;

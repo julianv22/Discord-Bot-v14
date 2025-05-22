@@ -1,13 +1,15 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Get a random job and earn 💲!
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild, guildId } = interaction;
@@ -63,8 +65,10 @@ module.exports = {
       if (lucky) reward *= 2;
       try {
         await user.send(
-          `\\🎉 Bạn đã hoàn thành công việc **${jobName}** và nhận được **${reward.toLocaleString()}**\\💲!${
-            lucky ? '\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
+          `\\🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
+            guild.name
+          }**\n\n\\💰 Bạn đã nhận được **${reward.toLocaleString()}**\\💲!${
+            lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
           }`,
         );
       } catch {}

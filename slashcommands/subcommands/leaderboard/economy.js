@@ -1,13 +1,15 @@
-const { EmbedBuilder, SlashCommandSubcommandBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandSubcommandBuilder, Interaction, Client } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
-
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('economy'),
   category: 'sub command',
   parent: 'leaderboard',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Get economy leaderboard
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild, guildId } = interaction;

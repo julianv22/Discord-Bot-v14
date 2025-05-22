@@ -1,10 +1,12 @@
 const { EmbedBuilder, Client, GuildMember } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-
 module.exports = {
   name: 'guildMemberRemove',
-
-  /** @param {GuildMember} member @param {Client} client */
+  /**
+   * Thành viên rời khỏi server
+   * @param {GuildMember} member - Đối tượng member
+   * @param {Client} client - Đối tượng client
+   */
   async execute(member, client) {
     try {
       const { guild, user } = member;

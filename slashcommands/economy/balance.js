@@ -1,14 +1,16 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('balance')
     .setDescription('View your balance, streak, bank, inventory and achievements'),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Xem số dư, độ dài chuỗi, số tiền gửi, hàng hóa và thành tích của người dùng
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild } = interaction;

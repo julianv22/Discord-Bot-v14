@@ -6,7 +6,6 @@ const {
   PermissionFlagsBits,
   EmbedBuilder,
 } = require('discord.js');
-
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
@@ -15,8 +14,11 @@ module.exports = {
   category: 'context menu',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Chấp nhận đề xuất
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
     const { errorEmbed, users, user: bot } = client;

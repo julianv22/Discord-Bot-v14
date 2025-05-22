@@ -1,12 +1,14 @@
 const { Client, ActivityType } = require('discord.js');
-
 module.exports = (client) => {
-  /** @param {Client} client */
+  /**
+   * Thiết lập trạng thái và hoạt động của bot
+   * @param {Client} client - Đối tượng client
+   */
   client.setPresence = async (client) => {
     const { guilds, user } = client;
     try {
       const count = await guilds.cache.map((g) => g).length;
-      const activityText = prefix + `help in ${count} server${count > 1 ? 's' : ''}`;
+      const activityText = `/help in ${count} server${count > 1 ? 's' : ''}`;
       const [activityTypes, statusTypes] = [
         [ActivityType.Playing, ActivityType.Listening, ActivityType.Watching, ActivityType.Competing],
         ['online', 'dnd', 'idle'],

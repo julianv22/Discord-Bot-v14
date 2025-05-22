@@ -1,5 +1,4 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
-
 module.exports = {
   name: 'avatar',
   aliases: ['avt'],
@@ -7,9 +6,10 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Hàm thực thi lệnh avatar
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng các argument
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     const { author, guild, mentions } = message;

@@ -7,14 +7,16 @@ const {
   TextInputStyle,
   Interaction,
 } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('editor'),
   category: 'sub command',
   parent: 'embed',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Edit an embed message
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('embed-editor-md').setTitle('Edit Embed Message:');
 

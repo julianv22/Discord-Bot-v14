@@ -1,12 +1,14 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
-
+const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('level'),
   category: 'sub command',
   parent: 'leaderboard',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Get level leaderboard
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed, checkURL } = client;
     const { guild, user, options } = interaction;

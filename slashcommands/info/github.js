@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 const moment = require('moment-timezone');
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('github')
@@ -9,8 +8,11 @@ module.exports = {
     .addStringOption((opt) => opt.setName('username').setDescription('Github Username').setRequired(true)),
   category: 'info',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Show Github's information
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const gitUsername = interaction.options.getString('username');

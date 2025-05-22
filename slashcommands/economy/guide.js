@@ -1,11 +1,14 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder().setName('economy-guide').setDescription('Guide to the economy system'),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Get economy guide
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const embed = new EmbedBuilder()

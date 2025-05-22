@@ -1,12 +1,14 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const fetch = require('node-fetch');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
   category: 'misc',
   scooldown: 0,
-
-  /** @param {import('discord.js').Interaction} interaction */
+  /**
+   * Get random meme from Reddit
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user } = interaction;

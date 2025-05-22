@@ -1,5 +1,4 @@
 const { Message, Client } = require('discord.js');
-
 module.exports = {
   name: 'thanks',
   aliases: ['ty'],
@@ -7,9 +6,10 @@ module.exports = {
   category: 'misc',
   cooldown: 30,
   /**
-   * @param {Message} message
-   * @param {Array} args
-   * @param {Client} client
+   * Gửi lời cảm ơn tới một ai đó
+   * @param {Message} message - Đối tượng message
+   * @param {Array} args - Mảng args
+   * @param {Client} client - Đối tượng client
    */
   async execute(message, args, client) {
     const { cmdGuide, thanksUser } = client;

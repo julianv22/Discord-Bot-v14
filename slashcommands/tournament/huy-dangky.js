@@ -1,7 +1,6 @@
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
-const { SlashCommandBuilder, Interaction, PermissionFlagsBits } = require('discord.js');
-
+const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('huy-dang-ky')
@@ -11,8 +10,11 @@ module.exports = {
     ),
   category: 'tournament',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Unregister for a tournament
+   * @param {Interaction} interaction - The interaction object
+   * @param {Client} client - The client object
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, user, options } = interaction;

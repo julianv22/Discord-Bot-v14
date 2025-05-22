@@ -1,7 +1,6 @@
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Role, Client } = require('discord.js');
-
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
@@ -31,8 +30,11 @@ module.exports = {
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Execute the tournament command
+   * @param {Interaction} interaction - The interaction object
+   * @param {Client} client - The client object
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, options } = interaction;

@@ -1,6 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('rob')
@@ -10,8 +9,11 @@ module.exports = {
     ),
   category: 'economy',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Rob \\💲 from others (has risk and cooldown)
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed, user: bot } = client;
     const { user, guild, options } = interaction;

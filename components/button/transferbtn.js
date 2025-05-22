@@ -1,10 +1,12 @@
 const economyProfile = require('../../config/economyProfile');
 const { EmbedBuilder } = require('discord.js');
-
 module.exports = {
   data: { name: 'transferbtn' },
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Chuyển tiền
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild, customId } = interaction;

@@ -7,13 +7,15 @@ const {
   Interaction,
   TextInputStyle,
 } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions to this server'),
   category: 'help',
   scooldown: 0,
-
-  /** @param {Interaction} interaction @param {Client} client */
+  /**
+   * Send suggestions to this server
+   * @param {Interaction} interaction - Đối tượng interaction
+   * @param {Client} client - Đối tượng client
+   */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('suggest-md').setTitle('Server Suggestions:');
 

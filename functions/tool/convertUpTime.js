@@ -1,10 +1,10 @@
 const { Client } = require('discord.js');
-
-function number(num) {
-  return num < 10 ? '0' + num : num;
-}
-/** @param {Client} client */
+/** @param {Client} client - Đối tượng client */
 module.exports = (client) => {
+  /**
+   * Chuyển đổi thời gian uptime thành định dạng Discord
+   * @returns {String} - Trả về thời gian uptime đã chuyển đổi
+   */
   client.convertUpTime = function convertUpTime() {
     try {
       const { readyTimestamp } = client;
