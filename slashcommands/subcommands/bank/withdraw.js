@@ -4,7 +4,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('withdraw'),
   category: 'sub command',
   scooldown: 0,
-  parent: 'economy',
+  parent: 'bank',
   /**
    * Withdraw money
    * @param {Interaction} interaction - Đối tượng interaction
