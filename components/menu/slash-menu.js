@@ -16,6 +16,7 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`\\📂 Danh sách ${commandName} [${count}]`)
         .setColor('Random')
+        .setThumbnail(cfg.slashPNG)
         .setTimestamp()
         .setFooter({
           text: `Requested by ${user.displayName || user.username}`,
