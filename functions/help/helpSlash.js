@@ -1,15 +1,14 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
-/**
- * Show slash commands list.
- * @param {string} selected - Selected command name.
- * @param {Interaction} interaction - Interaction object.
- * @param {Collection} components - Components object.
- */
+/** @param {Client} client - Client object. */
 module.exports = (client) => {
-  client.helpSlash = async (selected, interaction) => {
+  /**
+   * Show slash commands list.
+   * @param {string} CommandType - Command type.
+   * @param {Interaction} interaction - Interaction object.
+   */
+  client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands, subCommands } = client;
     const { guild, user } = interaction;
-    let commands = [];
     /**
      * Help Embed
      * @param {String} commandName - Name of the command
@@ -30,7 +29,8 @@ module.exports = (client) => {
         })
         .addFields(commands);
     };
-    const SelectCommand = {
+    let commands = [];
+    const ShowCommand = {
       subcommands: () => {
         let parents = Array.from(subCommands.values()).map((sub) => sub.parent);
         parents = parents.filter((item, index) => parents.indexOf(item) === index);
@@ -44,21 +44,21 @@ module.exports = (client) => {
           });
           count += command.size;
         });
-        return interaction.update({ embeds: [helpEmbed(selected, commands, count)] });
+        return interaction.update({ embeds: [helpEmbed(CommandType, commands, count)] });
       },
       default: () => {
         commands = Array.from(slashCommands.values()).filter(
-          (cmd) => cmd.category.toLowerCase() === selected.toLowerCase(),
+          (cmd) => cmd.category.toLowerCase() === CommandType.toLowerCase(),
         );
         commands = commands.map((cmd) => ({
           name: `/${cmd.data?.name || cmd.name}`,
           value: `\`\`\`fix\n${cmd.data?.description || cmd.description}\`\`\``,
         }));
         return interaction.update({
-          embeds: [helpEmbed(selected, commands, commands.length)],
+          embeds: [helpEmbed(CommandType, commands, commands.length)],
         });
       },
     };
-    (SelectCommand[selected] || SelectCommand.default)(selected);
+    (ShowCommand[CommandType] || ShowCommand.default)(CommandType);
   };
 };

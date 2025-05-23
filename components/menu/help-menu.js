@@ -7,11 +7,11 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { slashCommands, subCommands, helpPrefix, helpSlash, user: bot } = client;
+    const { slashCommands, subCommands, helpPrefix, helpSlash } = client;
     const { guild } = interaction;
-    const selected = interaction.values[0];
-    const help = {
-      default: () => helpSlash(selected, interaction),
+    const CommandType = interaction.values[0];
+    const ShowHelp = {
+      default: () => helpSlash(CommandType, interaction),
       prefix: () => helpPrefix(interaction),
       slash: () => {
         return interaction.update({
@@ -30,6 +30,6 @@ module.exports = {
         });
       },
     };
-    (help[selected] || help.default)(selected);
+    (ShowHelp[CommandType] || ShowHelp.default)(CommandType);
   },
 };
