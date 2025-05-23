@@ -1,4 +1,4 @@
-const { Client, Interaction } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 module.exports = {
   data: { name: 'help-menu' },
   /**
@@ -7,7 +7,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { helpPrefix, helpSlash } = client;
+    const { slashCommands, subCommands, helpPrefix, helpSlash, user: bot } = client;
+    const { guild } = interaction;
     const selected = interaction.values[0];
     const help = {
       default: () => helpSlash(selected, interaction),
@@ -15,10 +16,16 @@ module.exports = {
       slash: () => {
         return interaction.update({
           embeds: [
-            {
-              author: { name: `Select Slash Command Category ⤵️`, iconURL: cfg.slashPNG },
-              color: Math.floor(Math.random() * 0xffffff),
-            },
+            new EmbedBuilder()
+              .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+              .setTitle(`Thống kê Slash Command & Sub Command`)
+              .addFields([
+                { name: `\u200b`, value: `Slash Command: **${slashCommands.size}**`, inline: true },
+                { name: `\u200b`, value: `Sub Command: **${subCommands.size}**`, inline: true },
+                { name: `\u200b`, value: `Select Slash Command Category \\⤵️`, inline: false },
+              ])
+              .setColor('Random')
+              .setTimestamp(),
           ],
         });
       },

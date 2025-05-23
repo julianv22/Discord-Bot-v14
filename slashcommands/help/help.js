@@ -18,7 +18,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { prefixCommands, slashCommands } = client;
+    const { prefixCommands, slashCommands, subCommands } = client;
     const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
 
     const menus = [
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         emoji: { name: `📝` },
-        label: `Slash Commands [${slashCommands.size}]`,
+        label: `Slash Commands [${slashCommands.size + subCommands.size}]`,
         value: 'slash',
         description: `List Slash (/) Commands`,
       },

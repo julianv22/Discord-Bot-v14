@@ -2,7 +2,7 @@ const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('info')
-    .setDescription(`Get informations of...`)
+    .setDescription(`Get informations of bot/server/user`)
     .addSubcommand((sub) => sub.setName('bot').setDescription(`Get bot's info`))
     .addSubcommand((sub) => sub.setName('server').setDescription(`Get server's info`))
     .addSubcommand((sub) =>
@@ -18,5 +18,15 @@ module.exports = {
    * @param {Interaction} interaction - Interaction object
    * @param {Client} client - Client object
    */
-  async execute(interaction, client) {},
+  async execute(interaction, client) {
+    const { botInfo, serverInfo, userInfo } = client;
+    const { guild, user, options } = interaction;
+    const subCommand = options.getSubcommand();
+    const showInfo = {
+      bot: () => botInfo(user, interaction),
+      server: () => serverInfo(guild, user, interaction),
+      user: () => userInfo(guild, options.getUser('user'), user, interaction),
+    };
+    showInfo[subCommand]();
+  },
 };
