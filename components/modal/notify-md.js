@@ -27,6 +27,6 @@ module.exports = {
       .setThumbnail(notifytype === '2' ? cfg.updatePNG : cfg.thongbaoPNG)
       .setImage(client.checkURL(imageURL) ? imageURL : null);
 
-    interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
   },
 };

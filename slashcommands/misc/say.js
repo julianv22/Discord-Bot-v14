@@ -21,8 +21,8 @@ module.exports = {
 
     if (target) {
       await interaction.reply(`Hello ${target}!`);
-      setTimeout(() => {
-        interaction.followUp('Have a good day!');
+      setTimeout(async () => {
+        await interaction.followUp('Have a good day!');
       }, 3000);
     } else {
       if (!toSay) return await interaction.reply(errorEmbed(true, 'You must provide some text for the bot to say!'));

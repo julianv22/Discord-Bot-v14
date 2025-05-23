@@ -57,23 +57,23 @@ module.exports = {
     const randomProcess3 = Math.floor(Math.random() * process3.length);
 
     await interaction.reply(text[randomText]);
-    setTimeout(() => {
-      interaction.editReply(process1[randomProcess1]).catch(() => {});
+    setTimeout(async () => {
+      await interaction.editReply(process1[randomProcess1]).catch(() => {});
     }, 1500);
-    setTimeout(() => {
-      interaction.editReply(process2[randomProcess2]).catch(() => {});
+    setTimeout(async () => {
+      await interaction.editReply(process2[randomProcess2]).catch(() => {});
     }, 2500);
-    setTimeout(() => {
-      interaction.editReply(process3[randomProcess3]).catch(() => {});
+    setTimeout(async () => {
+      await interaction.editReply(process3[randomProcess3]).catch(() => {});
     }, 3500);
-    setTimeout(() => {
-      interaction.editReply(processEnd).catch(() => {});
+    setTimeout(async () => {
+      await interaction.editReply(processEnd).catch(() => {});
     }, 4500);
-    setTimeout(() => {
-      interaction.editReply(endText).catch(() => {});
+    setTimeout(async () => {
+      await interaction.editReply(endText).catch(() => {});
     }, 5500);
-    setTimeout(() => {
-      interaction.editReply(result).catch(() => {});
+    setTimeout(async () => {
+      await interaction.editReply(result).catch(() => {});
     }, 6000);
   },
 };

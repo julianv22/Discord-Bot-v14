@@ -55,10 +55,10 @@ module.exports = {
 
       if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
         if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
-          return interaction.followUp(errorEmbed(true, `Bot cần quyền \`Manage Roles\` để gán role ${role}!`));
+          return await interaction.followUp(errorEmbed(true, `Bot cần quyền \`Manage Roles\` để gán role ${role}!`));
         }
         if (bot.roles.highest.position <= role.position) {
-          return interaction.followUp(
+          return await interaction.followUp(
             errorEmbed(true, `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`),
           );
         }

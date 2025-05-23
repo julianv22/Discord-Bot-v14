@@ -22,7 +22,7 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild } = interaction;
     getQuote()
-      .then((quote) => {
+      .then(async (quote) => {
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
           .setDescription(quote)
@@ -34,7 +34,7 @@ module.exports = {
           })
           .setTimestamp();
 
-        interaction.reply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
         client.errorEmbed(true, 'Đã xảy ra lỗi khi lấy quote!', e);

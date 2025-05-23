@@ -48,8 +48,8 @@ module.exports = {
       };
       await CommandsType[options.getSubcommand()]();
 
-      setTimeout(() => {
-        interaction.editReply({
+      setTimeout(async () => {
+        await interaction.editReply({
           embeds: [embed.setDescription(`\\✅ | Successfully reloaded application ${options.getSubcommand()}!`)],
           ephemeral: true,
         });

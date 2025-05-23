@@ -31,8 +31,8 @@ module.exports = {
       .setThumbnail(checkURL(thumbnailURL) ? thumbnailURL : null)
       .setImage(checkURL(imageURL) ? imageURL : null);
 
-    await msgEdit.edit({ embeds: [embedEdit] }).then(() => {
-      interaction.reply(errorEmbed(false, `Embed edited [\`${msgid}\`](${msgEdit.url}) successfully!`));
+    await msgEdit.edit({ embeds: [embedEdit] }).then(async () => {
+      await interaction.reply(errorEmbed(false, `Embed edited [\`${msgid}\`](${msgEdit.url}) successfully!`));
     });
   },
 };

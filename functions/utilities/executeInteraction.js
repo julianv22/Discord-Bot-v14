@@ -11,7 +11,7 @@ module.exports = (client) => {
       await type.execute(interaction, client);
     } catch (e) {
       const error = `Error while executing interaction [${type.data.name}]`;
-      interaction.reply({
+      await interaction.reply({
         embeds: [{ color: 16711680, title: `\\❌ ` + error, description: `${e}` }],
         ephemeral: true,
       });

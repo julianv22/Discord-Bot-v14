@@ -50,7 +50,7 @@ module.exports = {
             .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
             .setTimestamp();
 
-          interaction.reply({ embeds: [embed] });
+          await interaction.reply({ embeds: [embed] });
         });
     } catch (e) {
       console.error(chalk.red('Error (/github):', e));

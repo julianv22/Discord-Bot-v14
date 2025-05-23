@@ -74,9 +74,9 @@ module.exports = {
     if (bin.ok) {
       let { key } = await bin.json();
       await sendMessage(`\\✅ Parse ${guild.name}'s Database Successfully!`, key)
-        .then(() => {
+        .then(async () => {
           for (let i = 0; i < db.length; i += 2000) {
-            interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, ephemeral: true });
+            await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, ephemeral: true });
           }
           // interaction.followUp?.({ content: `\`\`\`json\n${JSON.stringify(profile, null, 2)}\`\`\``, ephemeral: true });
         })

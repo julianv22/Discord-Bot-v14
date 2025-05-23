@@ -17,7 +17,7 @@ module.exports = {
       const response = await fetch('https://meme-api.com/gimme');
       const data = await response.json();
       if (!data || !data.url) {
-        return interaction.editReply(errorEmbed(true, 'Could not fetch meme, please try again later!'));
+        return await interaction.editReply(errorEmbed(true, 'Could not fetch meme, please try again later!'));
       }
       const embed = new EmbedBuilder()
         .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
