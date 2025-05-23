@@ -5,8 +5,8 @@ const {
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
-  ButtonBuilder,
   ButtonStyle,
+  ComponentType,
 } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
@@ -18,7 +18,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { prefixCommands, slashCommands, subCommands } = client;
+    const { prefixCommands, slashCommands, subCommands, getOptions } = client;
     const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
 
     const menus = [
@@ -56,24 +56,10 @@ module.exports = {
             .setCustomId('help-menu')
             .setMinValues(1)
             .setMaxValues(1)
-            .setOptions(
-              menus.map((menu) => ({
-                emoji: menu.emoji,
-                label: menu.label,
-                value: menu.value,
-                description: menu.description,
-              })),
-            )
+            .setOptions(getOptions(menus, ComponentType.StringSelect))
             .addOptions(folders.map((f) => ({ label: `📂 ${f.toUpperCase()}`, value: f }))),
         ),
-        new ActionRowBuilder().addComponents(
-          buttons.map((data) => {
-            const button = new ButtonBuilder().setLabel(data.label).setStyle(data.style);
-            if (data.customId) button.setCustomId(data.customId);
-            if (data.url) button.setURL(data.url);
-            return button;
-          }),
-        ),
+        new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button)),
       ],
       ephemeral: true,
     });

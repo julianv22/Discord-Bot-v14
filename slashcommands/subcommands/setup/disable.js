@@ -3,9 +3,9 @@ const {
   ActionRowBuilder,
   Client,
   Interaction,
-  ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
+  ComponentType,
 } = require('discord.js');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('disable'),
@@ -18,6 +18,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    const { getOptions } = client;
     const { guild, user } = interaction;
     const buttons1 = [
       {
@@ -62,16 +63,8 @@ module.exports = {
     await interaction.reply({
       embeds: [embed],
       components: [
-        new ActionRowBuilder().addComponents(
-          buttons1.map((data) =>
-            new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style),
-          ),
-        ),
-        new ActionRowBuilder().addComponents(
-          buttons2.map((data) =>
-            new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style),
-          ),
-        ),
+        new ActionRowBuilder().addComponents(getOptions(buttons1, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(getOptions(buttons2, ComponentType.Button)),
       ],
       ephemeral: true,
     });

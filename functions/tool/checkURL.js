@@ -1,5 +1,5 @@
-const chalk = require('chalk');
-
+const { Client } = require('discord.js');
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Check if the strInput object is a URL

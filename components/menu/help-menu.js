@@ -24,6 +24,7 @@ module.exports = {
                 { name: `\u200b`, value: `Sub Command: **${subCommands.size}**`, inline: true },
                 { name: `\u200b`, value: `Select Slash Command Category \\⤵️`, inline: false },
               ])
+              .setThumbnail(cfg.slashPNG)
               .setColor('Random')
               .setTimestamp(),
           ],

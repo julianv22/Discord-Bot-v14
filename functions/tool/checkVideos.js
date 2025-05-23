@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const serverProfile = require('../../config/serverProfile');
-const { EmbedBuilder } = require('discord.js');
+const { Client, EmbedBuilder } = require('discord.js');
 /**
  * Get the latest video of the YouTube channel
  * @param {String} channelId - Channel ID
@@ -21,9 +21,7 @@ async function getLatestVideoId(channelId) {
     return { videoId: null, channelTitle: null, videoTitle: null };
   }
 }
-/**
- * @param {Client} client - Client object
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo

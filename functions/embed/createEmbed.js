@@ -15,9 +15,7 @@ function genEmbedField(name, value, inline) {
   }
 }
 
-/**
- * @param {Client} client - Đối tượng client
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Create Embed

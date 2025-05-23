@@ -15,9 +15,7 @@ function addFields(name, value, inline) {
   }
 }
 
-/**
- * @param {Client} client - Client object
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Generate embed

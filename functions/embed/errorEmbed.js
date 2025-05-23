@@ -1,6 +1,4 @@
-/**
- * @param {Client} client - Client object
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Tạo embed thông báo lỗi hoặc thành công.

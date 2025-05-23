@@ -4,8 +4,8 @@ const {
   Interaction,
   EmbedBuilder,
   ActionRowBuilder,
-  ButtonBuilder,
   ButtonStyle,
+  ComponentType,
 } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,6 +22,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    const { getOptions } = client;
     const bet = interaction.options.getInteger('bet');
 
     const buttons = [
@@ -57,17 +58,7 @@ module.exports = {
 
     await interaction.reply({
       embeds: [embed],
-      components: [
-        new ActionRowBuilder().addComponents(
-          buttons.map((data) =>
-            new ButtonBuilder()
-              .setCustomId(data.customId)
-              .setEmoji(data.emoji)
-              .setLabel(data.label)
-              .setStyle(data.style),
-          ),
-        ),
-      ],
+      components: [new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button))],
       ephemeral: true,
     });
   },

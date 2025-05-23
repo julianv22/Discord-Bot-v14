@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, Message, Client, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, Message, Client, ButtonStyle, ComponentType } = require('discord.js');
 module.exports = {
   name: 'help',
   aliases: ['h'],
@@ -11,7 +11,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(message, args, client) {
-    const { cmdGuide, prefixCommands, listCommands } = client;
+    const { cmdGuide, prefixCommands, listCommands, getOptions } = client;
     const { author: user, guild } = message;
     const { commands, count } = listCommands(prefixCommands);
 
@@ -61,16 +61,7 @@ module.exports = {
     message.delete().then(() =>
       message.channel.send({
         embeds: [embed],
-        components: [
-          new ActionRowBuilder().addComponents(
-            buttons.map((data) => {
-              const button = new ButtonBuilder().setLabel(data.label).setStyle(data.style);
-              if (data.customId) button.setCustomId(data.customId);
-              if (data.url) button.setURL(data.url);
-              return button;
-            }),
-          ),
-        ],
+        components: [new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button))],
       }),
     );
   },

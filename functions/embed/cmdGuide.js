@@ -1,7 +1,5 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
-/**
- * @param {Client} client - Client object
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Command Guide

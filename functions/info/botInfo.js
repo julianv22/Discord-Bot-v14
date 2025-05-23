@@ -4,10 +4,10 @@ const {
   Interaction,
   Message,
   ActionRowBuilder,
-  ButtonBuilder,
   EmbedBuilder,
   UserFlags,
   ButtonStyle,
+  ComponentType,
 } = require('discord.js');
 const { connection } = require('mongoose');
 const os = require('os');
@@ -22,7 +22,7 @@ module.exports = (client) => {
    */
   client.botInfo = async (author, interaction, message) => {
     try {
-      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
+      const { convertUpTime, getOptions, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
       guilds.forEach((guild) => {
@@ -117,16 +117,7 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({
         embeds: [embed],
-        components: [
-          new ActionRowBuilder().addComponents(
-            buttons.map((data) => {
-              const button = new ButtonBuilder().setLabel(data.label).setStyle(data.style);
-              if (data.customId) button.setCustomId(data.customId);
-              if (data.url) button.setURL(data.url);
-              return button;
-            }),
-          ),
-        ],
+        components: [new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button))],
       });
     } catch (e) {
       const errorEmbed = {
