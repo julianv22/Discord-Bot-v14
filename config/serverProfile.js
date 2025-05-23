@@ -24,6 +24,7 @@ const serverProfile = new mongoose.Schema({
   lastVideoIds: { type: Array },
   starboardChannel: { type: String },
   starCount: { type: Number },
+  starboardMessages: { type: Object, default: {} },
 });
 
 module.exports = mongoose.model('serverProfile', serverProfile, `serverProfile [${cfg.mongodb}] - ${cfg.clientID}`);

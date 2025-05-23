@@ -76,11 +76,15 @@ module.exports = {
 
       // Nếu có content hoặc embed
       if (embeds.length > 0) {
-        await starboardChannel.send({
+        const sentMsg = await starboardChannel.send({
           content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
           embeds: embeds,
           components: [jumpButton],
         });
+        // Lưu messageId vào profile
+        if (!profile.starboardMessages) profile.starboardMessages = {};
+        profile.starboardMessages[message.id] = sentMsg.id;
+        await profile.save();
       }
     } catch (e) {
       console.error(chalk.red('Error in messageReactionAdd:'), e);
