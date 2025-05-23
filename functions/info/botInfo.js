@@ -22,7 +22,15 @@ module.exports = (client) => {
    */
   client.botInfo = async (author, interaction, message) => {
     try {
-      const { convertUpTime, getOptions, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
+      const {
+        convertUpTime,
+        setRowComponent,
+        slashCommands,
+        subCommands,
+        prefixCommands,
+        user: bot,
+        application,
+      } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
       guilds.forEach((guild) => {
@@ -117,7 +125,7 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({
         embeds: [embed],
-        components: [new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button))],
+        components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],
       });
     } catch (e) {
       const errorEmbed = {

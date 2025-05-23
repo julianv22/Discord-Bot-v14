@@ -23,7 +23,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;
-    const { getOptions } = client;
+    const { setRowComponent } = client;
     const createEmbed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Enter the embed title')
@@ -43,14 +43,14 @@ module.exports = {
       { customId: 'create-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
       { customId: 'create-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
     ];
-    let guildeEmbed = `Danh sách màu sắc: \`\`\`'Red', 'Blue', 'Green', 'Yellow', 'LuminousVividPink', 'Fuchsia', 'Gold', 'Orange', 'Purple', 'DarkAqua', 'DarkGreen', 'DarkBlue', 'DarkPurple', 'DarkVividPink', 'DarkGold', 'DarkOrange', 'DarkRed', 'DarkGrey', 'Navy', 'Aqua', 'Blurple', 'Greyple', 'DarkButNotBlack', 'NotQuiteBlack', 'White', 'Default', 'Random'\`\`\`\n`;
-    guildeEmbed += `Click vào \`⛔Disable Footer\` để tắt footer, sau đó \`✅Enable Footer\` để thể thiết lập footer mới.\nCác biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.`;
+    let guildeContent = `Danh sách màu sắc: \`\`\`'Red', 'Blue', 'Green', 'Yellow', 'LuminousVividPink', 'Fuchsia', 'Gold', 'Orange', 'Purple', 'DarkAqua', 'DarkGreen', 'DarkBlue', 'DarkPurple', 'DarkVividPink', 'DarkGold', 'DarkOrange', 'DarkRed', 'DarkGrey', 'Navy', 'Aqua', 'Blurple', 'Greyple', 'DarkButNotBlack', 'NotQuiteBlack', 'White', 'Default', 'Random'\`\`\`\n`;
+    guildeContent += `Click vào \`⛔Disable Footer\` để tắt footer, sau đó \`✅Enable Footer\` để thể thiết lập footer mới.\nCác biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.`;
     await interaction.reply({
-      content: guildeEmbed,
+      content: guildeContent,
       embeds: [createEmbed],
       components: [
-        new ActionRowBuilder().addComponents(getOptions(button1, ComponentType.Button)),
-        new ActionRowBuilder().addComponents(getOptions(button2, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(setRowComponent(button2, ComponentType.Button)),
       ],
       ephemeral: true,
     });

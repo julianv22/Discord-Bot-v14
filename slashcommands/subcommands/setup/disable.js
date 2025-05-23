@@ -18,7 +18,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { getOptions } = client;
+    const { setRowComponent } = client;
     const { guild, user } = interaction;
     const buttons1 = [
       {
@@ -63,8 +63,8 @@ module.exports = {
     await interaction.reply({
       embeds: [embed],
       components: [
-        new ActionRowBuilder().addComponents(getOptions(buttons1, ComponentType.Button)),
-        new ActionRowBuilder().addComponents(getOptions(buttons2, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(setRowComponent(buttons1, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(setRowComponent(buttons2, ComponentType.Button)),
       ],
       ephemeral: true,
     });

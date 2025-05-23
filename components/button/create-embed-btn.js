@@ -16,41 +16,21 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
+    const { errorEmbed, setTextInputComponent } = client;
     const { customId, message } = interaction;
-    const [, button] = customId.split(':');
     if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
+    const [, button] = customId.split(':');
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
-    /**
-     * Create a text input
-     * @param {Object} options - Options object
-     * @param {string} options.id - The id of the text input
-     * @param {string} options.label - The label of the text input
-     * @param {string} options.style - The style of the text input
-     * @param {string} options.placeholder - The placeholder of the text input
-     * @param {boolean} options.required - Whether the text input is required
-     */
-    const textInput = ({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) => {
-      return new ActionRowBuilder().addComponents(
-        new TextInputBuilder()
-          .setCustomId(id)
-          .setLabel(label)
-          .setValue('')
-          .setStyle(style)
-          .setPlaceholder(placeholder)
-          .setRequired(required),
-      );
-    };
     const Selected = {
       title: async () => {
         const modal = new ModalBuilder()
-          .setCustomId('create-embed-md:titleInput')
+          .setCustomId('create-embed-md:title')
           .setTitle('Embed Create')
           .addComponents(
-            textInput({
-              id: 'titleInput',
+            setTextInputComponent({
+              id: 'title',
               label: 'Title',
               style: TextInputStyle.Short,
               placeholder: 'Nhập title cho embed',
@@ -61,11 +41,11 @@ module.exports = {
       },
       description: async () => {
         const modal = new ModalBuilder()
-          .setCustomId('create-embed-md:descriptionInput')
+          .setCustomId('create-embed-md:description')
           .setTitle('Embed Create')
           .addComponents(
-            textInput({
-              id: 'descriptionInput',
+            setTextInputComponent({
+              id: 'description',
               label: 'Description',
               style: TextInputStyle.Paragraph,
               placeholder: 'Nhập description cho embed',
@@ -76,11 +56,11 @@ module.exports = {
       },
       color: async () => {
         const modal = new ModalBuilder()
-          .setCustomId('create-embed-md:colorInput')
+          .setCustomId('create-embed-md:color')
           .setTitle('Embed Create')
           .addComponents(
-            textInput({
-              id: 'colorInput',
+            setTextInputComponent({
+              id: 'color',
               label: 'Color',
               placeholder: 'Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...',
               required: true,
@@ -90,11 +70,11 @@ module.exports = {
       },
       image: async () => {
         const modal = new ModalBuilder()
-          .setCustomId('create-embed-md:imageInput')
+          .setCustomId('create-embed-md:image')
           .setTitle('Embed Create')
           .addComponents(
-            textInput({
-              id: 'imageInput',
+            setTextInputComponent({
+              id: 'image',
               label: 'Image',
               placeholder: 'Nhập image cho embed, bỏ trống để xoá',
             }),
@@ -103,11 +83,11 @@ module.exports = {
       },
       thumbnail: async () => {
         const modal = new ModalBuilder()
-          .setCustomId('create-embed-md:thumbnailInput')
+          .setCustomId('create-embed-md:thumbnail')
           .setTitle('Embed Create')
           .addComponents(
-            textInput({
-              id: 'thumbnailInput',
+            setTextInputComponent({
+              id: 'thumbnail',
               label: 'Thumbnail',
               placeholder: 'Nhập thumbnail cho embed, bỏ trống để xoá',
             }),
@@ -125,17 +105,17 @@ module.exports = {
           });
         } else {
           const modal = new ModalBuilder()
-            .setCustomId('create-embed-md:footerInput')
+            .setCustomId('create-embed-md:footer')
             .setTitle('Embed Create')
             .addComponents(
-              textInput({
-                id: 'footerInput',
+              setTextInputComponent({
+                id: 'footer',
                 label: 'Footer',
                 placeholder: '{user} = Username',
               }),
             )
             .addComponents(
-              textInput({
+              setTextInputComponent({
                 id: 'footerIcon',
                 label: 'Footer Icon Url',
                 placeholder: '{avatar} or link (*.webp)',

@@ -11,7 +11,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(message, args, client) {
-    const { cmdGuide, prefixCommands, listCommands, getOptions } = client;
+    const { cmdGuide, prefixCommands, listCommands, setRowComponent } = client;
     const { author: user, guild } = message;
     const { commands, count } = listCommands(prefixCommands);
 
@@ -61,7 +61,7 @@ module.exports = {
     message.delete().then(() =>
       message.channel.send({
         embeds: [embed],
-        components: [new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button))],
+        components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],
       }),
     );
   },

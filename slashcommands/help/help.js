@@ -18,7 +18,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { prefixCommands, slashCommands, subCommands, getOptions } = client;
+    const { prefixCommands, slashCommands, subCommands, setRowComponent } = client;
     const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
 
     const menus = [
@@ -56,10 +56,10 @@ module.exports = {
             .setCustomId('help-menu')
             .setMinValues(1)
             .setMaxValues(1)
-            .setOptions(getOptions(menus, ComponentType.StringSelect))
+            .setOptions(setRowComponent(menus, ComponentType.StringSelect))
             .addOptions(folders.map((f) => ({ label: `📂 ${f.toUpperCase()}`, value: f }))),
         ),
-        new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button)),
       ],
       ephemeral: true,
     });

@@ -3,15 +3,15 @@ const { ButtonBuilder, ComponentType } = require('discord.js');
 module.exports = (client) => {
   /**
    * Get components from a object.
-   * @param {Object} components - Object.
+   * @param {Object} options - Object.
    * @param {ComponentType} type - Type of components.
    * @returns {Array} - Array of components.
    */
-  client.getOptions = function getOptions(components, type) {
-    const getOptions = {
+  client.setRowComponent = function setRowComponent(options, type) {
+    const setRowComponent = {
       // Return StringSelectMenuBuilder options
       [ComponentType.StringSelect]: () => {
-        return components.map((com) => {
+        return options.map((com) => {
           const options = {
             label: com.label ?? '',
             value: com.value ?? '',
@@ -24,7 +24,7 @@ module.exports = (client) => {
       },
       // Return ButtonBuilder options
       [ComponentType.Button]: () => {
-        return components.map((com) => {
+        return options.map((com) => {
           const button = new ButtonBuilder().setLabel(com.label).setStyle(com.style);
           if (com.emoji) button.setEmoji(com.emoji);
           if (com.customId) button.setCustomId(com.customId);
@@ -34,7 +34,7 @@ module.exports = (client) => {
         });
       },
     };
-    if (!getOptions[type]) throw new Error(`Invalid component type: ${type}`);
-    return getOptions[type]();
+    if (!setRowComponent[type]) throw new Error(`Invalid component type: ${type}`);
+    return setRowComponent[type]();
   };
 };

@@ -22,7 +22,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { getOptions } = client;
+    const { setRowComponent } = client;
     const bet = interaction.options.getInteger('bet');
 
     const buttons = [
@@ -58,7 +58,7 @@ module.exports = {
 
     await interaction.reply({
       embeds: [embed],
-      components: [new ActionRowBuilder().addComponents(getOptions(buttons, ComponentType.Button))],
+      components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],
       ephemeral: true,
     });
   },

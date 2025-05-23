@@ -9,30 +9,31 @@ module.exports = {
   async execute(interaction, client) {
     const { checkURL, getEmbedColor } = client;
     const { customId, fields, message, user } = interaction;
-    const [, type] = customId.split(':');
+    if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
+    const [, part] = customId.split(':');
+    const strInput = fields.getTextInputValue(part);
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
-    const strInput = fields.getTextInputValue(type);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
     const editEmbed = {
-      titleInput: () => {
+      title: () => {
         getEmbeds.setTitle(strInput);
       },
-      descriptionInput: () => {
+      description: () => {
         getEmbeds.setDescription(strInput);
       },
-      colorInput: () => {
+      color: () => {
         getEmbeds.setColor(getEmbedColor(strInput));
       },
-      imageInput: () => {
+      image: () => {
         if (!strInput) getEmbeds.setImage(null);
         else if (checkURL(strInput)) getEmbeds.setImage(strInput);
       },
-      thumbnailInput: () => {
+      thumbnail: () => {
         if (!strInput) getEmbeds.setThumbnail(null);
         else if (checkURL(strInput)) getEmbeds.setThumbnail(strInput);
       },
-      footerInput: async () => {
+      footer: async () => {
         const iconURL = fields.getTextInputValue('footerIcon');
         const userName = replaceVar(strInput, user.displayName || user.username, 'user');
         const userAvt = replaceVar(iconURL, user.avatarURL(), 'avt');
@@ -43,17 +44,8 @@ module.exports = {
         Button1.components[0].setLabel('⛔Disable Footer').setStyle(ButtonStyle.Danger);
       },
     };
-    await editEmbed[type]();
+    await editEmbed[part]();
     return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });
-    /**
-     * Capitalize a string
-     * @param {String} str - String to capitalize
-     * @returns {String} - Capitalized string
-     */
-    function capitalize(str) {
-      if (!str) return ''; // Handle empty or undefined string
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
     /**
      * Replace variables in a string
      * @param {string} str - The string to replace variables in
