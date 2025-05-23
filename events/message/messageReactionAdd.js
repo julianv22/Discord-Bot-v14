@@ -42,7 +42,7 @@ module.exports = {
 
       // Jump link button
       const jumpButton = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setLabel('Go to message').setStyle(ButtonStyle.Link).setURL(message.url),
+        new ButtonBuilder().setLabel('🔗Go to message').setStyle(ButtonStyle.Link).setURL(message.url),
       );
 
       // Chuẩn bị embeds nếu có

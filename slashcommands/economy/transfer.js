@@ -64,7 +64,7 @@ module.exports = {
 
     const buttons = [
       {
-        customId: `transferbtn:${amount}:${fee}:${targetUser.id}`,
+        customId: `transfer-btn:${amount}:${fee}:${targetUser.id}`,
         label: 'Tiếp tục',
         style: ButtonStyle.Success,
         disabled: false,
