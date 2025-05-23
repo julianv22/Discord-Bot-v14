@@ -110,7 +110,9 @@ module.exports = {
     if (resetStreak) {
       try {
         await user.send(
-          `Bạn vừa bỏ lỡ chuỗi điểm danh liên tiếp **${prevStreak.toLocaleString()} ngày**! Chuỗi đã bị reset về 1. Hãy cố gắng duy trì streak lần sau nhé!`,
+          `Bạn vừa bỏ lỡ chuỗi điểm danh liên tiếp **${prevStreak.toLocaleString()} ngày**! Chuỗi đã bị reset về 1. Hãy cố gắng duy trì streak lần sau nhé!\n\nFrom: ${
+            guild.name
+          }`,
         );
       } catch (e) {
         // Không gửi được DM (có thể user tắt DM)

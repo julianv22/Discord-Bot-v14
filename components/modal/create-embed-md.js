@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 module.exports = {
   data: { name: 'create-embed-md' },
   /**
@@ -8,10 +8,12 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { checkURL, errorEmbed } = client;
-    const { customId, fields, message } = interaction;
+    const { customId, fields, message, user } = interaction;
     const [, type] = customId.split(':');
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const strInput = fields.getTextInputValue(type);
+    const Button0 = ActionRowBuilder.from(message.components[0]);
+    const Button1 = ActionRowBuilder.from(message.components[1]);
     const embedColors = [
       'Red',
       'Blue',
@@ -61,9 +63,19 @@ module.exports = {
         if (!strInput) getEmbeds.setThumbnail(null);
         else if (checkURL(strInput)) getEmbeds.setThumbnail(strInput);
       },
+      footerInput: async () => {
+        const iconURL = fields.getTextInputValue('footerIcon');
+        const userName = replaceVar(strInput, user.displayName || user.username, 'user');
+        const userAvt = replaceVar(iconURL, user.avatarURL(), 'avt');
+        getEmbeds.setFooter({
+          text: userName || null,
+          iconURL: checkURL(userAvt) ? userAvt : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp',
+        });
+        Button1.components[0].setLabel('⛔Disable Footer').setStyle(ButtonStyle.Danger);
+      },
     };
     await editEmbed[type]();
-    return await interaction.update({ embeds: [getEmbeds] });
+    return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });
     /**
      * Capitalize a string
      * @param {String} str - String to capitalize
@@ -72,6 +84,18 @@ module.exports = {
     function capitalize(str) {
       if (!str) return ''; // Handle empty or undefined string
       return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    /**
+     * Replace variables in a string
+     * @param {string} str - The string to replace variables in
+     * @param {string} replace - The string to replace the variables with
+     * @returns {string} - The string with the variables replaced
+     */
+    function replaceVar(str, replace, key) {
+      let regex = '';
+      if (key === 'user') regex = /\{user\}/g;
+      else if (key === 'avt') regex = /\{avatar\}/g;
+      return str.replace(regex, replace);
     }
   },
 };

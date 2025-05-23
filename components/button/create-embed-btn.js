@@ -45,75 +45,114 @@ module.exports = {
     };
     const Selected = {
       title: async () => {
-        const modal = new ModalBuilder().setCustomId('create-embed-md:titleInput').setTitle('Embed Create');
-        modal.addComponents(
-          textInput({
-            id: 'titleInput',
-            label: 'Title',
-            style: TextInputStyle.Short,
-            placeholder: 'Nhập title cho embed',
-            required: true,
-          }),
-        );
+        const modal = new ModalBuilder()
+          .setCustomId('create-embed-md:titleInput')
+          .setTitle('Embed Create')
+          .addComponents(
+            textInput({
+              id: 'titleInput',
+              label: 'Title',
+              style: TextInputStyle.Short,
+              placeholder: 'Nhập title cho embed',
+              required: true,
+            }),
+          );
         return await interaction.showModal(modal);
       },
       description: async () => {
-        const modal = new ModalBuilder().setCustomId('create-embed-md:descriptionInput').setTitle('Embed Create');
-        modal.addComponents(
-          textInput({
-            id: 'descriptionInput',
-            label: 'Description',
-            style: TextInputStyle.Paragraph,
-            placeholder: 'Nhập description cho embed',
-            required: true,
-          }),
-        );
+        const modal = new ModalBuilder()
+          .setCustomId('create-embed-md:descriptionInput')
+          .setTitle('Embed Create')
+          .addComponents(
+            textInput({
+              id: 'descriptionInput',
+              label: 'Description',
+              style: TextInputStyle.Paragraph,
+              placeholder: 'Nhập description cho embed',
+              required: true,
+            }),
+          );
         return await interaction.showModal(modal);
       },
       color: async () => {
-        const modal = new ModalBuilder().setCustomId('create-embed-md:colorInput').setTitle('Embed Create');
-        modal.addComponents(
-          textInput({
-            id: 'colorInput',
-            label: 'Color',
-            placeholder: 'Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...',
-            required: true,
-          }),
-        );
+        const modal = new ModalBuilder()
+          .setCustomId('create-embed-md:colorInput')
+          .setTitle('Embed Create')
+          .addComponents(
+            textInput({
+              id: 'colorInput',
+              label: 'Color',
+              placeholder: 'Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...',
+              required: true,
+            }),
+          );
         return await interaction.showModal(modal);
       },
       image: async () => {
-        const modal = new ModalBuilder().setCustomId('create-embed-md:imageInput').setTitle('Embed Create');
-        modal.addComponents(
-          textInput({
-            id: 'imageInput',
-            label: 'Image',
-            placeholder: 'Nhập image cho embed, bỏ trống để xoá',
-          }),
-        );
+        const modal = new ModalBuilder()
+          .setCustomId('create-embed-md:imageInput')
+          .setTitle('Embed Create')
+          .addComponents(
+            textInput({
+              id: 'imageInput',
+              label: 'Image',
+              placeholder: 'Nhập image cho embed, bỏ trống để xoá',
+            }),
+          );
         return await interaction.showModal(modal);
       },
       thumbnail: async () => {
-        const modal = new ModalBuilder().setCustomId('create-embed-md:thumbnailInput').setTitle('Embed Create');
-        modal.addComponents(
-          textInput({
-            id: 'thumbnailInput',
-            label: 'Thumbnail',
-            placeholder: 'Nhập thumbnail cho embed, bỏ trống để xoá',
-          }),
-        );
+        const modal = new ModalBuilder()
+          .setCustomId('create-embed-md:thumbnailInput')
+          .setTitle('Embed Create')
+          .addComponents(
+            textInput({
+              id: 'thumbnailInput',
+              label: 'Thumbnail',
+              placeholder: 'Nhập thumbnail cho embed, bỏ trống để xoá',
+            }),
+          );
         return await interaction.showModal(modal);
       },
-      timestamp: async () => {
+      footer: async () => {
         if (Button1.components[0].data.style === ButtonStyle.Danger) {
+          getEmbeds.setFooter({ text: null });
+          Button1.components[0].setLabel('✅Enable Footer').setStyle(ButtonStyle.Success);
+          return await interaction.update({
+            embeds: [getEmbeds],
+            components: [Button0, Button1],
+            ephemeral: true,
+          });
+        } else {
+          const modal = new ModalBuilder()
+            .setCustomId('create-embed-md:footerInput')
+            .setTitle('Embed Create')
+            .addComponents(
+              textInput({
+                id: 'footerInput',
+                label: 'Footer',
+                placeholder: '{user} = Username',
+              }),
+            )
+            .addComponents(
+              textInput({
+                id: 'footerIcon',
+                label: 'Footer Icon Url',
+                placeholder: '{avatar} or link (*.webp)',
+              }),
+            );
+          return await interaction.showModal(modal);
+        }
+      },
+      timestamp: async () => {
+        if (Button1.components[1].data.style === ButtonStyle.Danger) {
           getEmbeds.setTimestamp(null);
-          Button1.components[0].setLabel('✅Enable Timestamp').setStyle(ButtonStyle.Success);
+          Button1.components[1].setLabel('✅Enable Timestamp').setStyle(ButtonStyle.Success);
         } else {
           getEmbeds.setTimestamp();
-          Button1.components[0].setLabel('⛔Disable Timestamp').setStyle(ButtonStyle.Danger);
+          Button1.components[1].setLabel('⛔Disable Timestamp').setStyle(ButtonStyle.Danger);
         }
         return await interaction.update({
-          content: 'test',
           embeds: [getEmbeds],
           components: [Button0, Button1],
           ephemeral: true,

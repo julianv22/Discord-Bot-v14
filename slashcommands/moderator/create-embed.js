@@ -45,7 +45,7 @@ const embedColors = [
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('create-embed')
-    .setDescription('Create a embed')
+    .setDescription(`Create a embed. ${cfg.modRole} only`)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   category: 'moderator',
   scooldown: 0,
@@ -73,6 +73,7 @@ module.exports = {
       { customId: 'create-embed-btn:image', label: '🖼️Image', style: ButtonStyle.Secondary },
     ];
     const button2 = [
+      { customId: 'create-embed-btn:footer', label: '⛔DisableFooter', style: ButtonStyle.Danger },
       { customId: 'create-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
       { customId: 'create-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
     ];
