@@ -17,7 +17,7 @@ module.exports = {
     const topUsers = await economyProfile.find({ guildID: guildId }).sort({ balance: -1 }).limit(10).lean();
 
     if (!topUsers.length) {
-      return interaction.reply(errorEmbed(true, 'No economy data found for this guild!'));
+      return await interaction.reply(errorEmbed(true, 'No economy data found for this guild!'));
     }
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
@@ -41,6 +41,6 @@ module.exports = {
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
 
-    return interaction.reply({ embeds: [embed] });
+    return await interaction.reply({ embeds: [embed] });
   },
 };

@@ -48,7 +48,7 @@ module.exports = {
       await interaction.reply({ embeds: [embed], ephemeral: true });
     } catch (e) {
       console.error(chalk.red('Error (/setup welcome):', e));
-      return interaction.reply(errorEmbed(true, 'Error setup welcome'), e);
+      return await interaction.reply(errorEmbed(true, 'Error setup welcome'), e);
     }
   },
 };

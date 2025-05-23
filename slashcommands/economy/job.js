@@ -16,7 +16,7 @@ module.exports = {
 
     let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
     if (!profile)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
       );
 
@@ -26,7 +26,7 @@ module.exports = {
     if (profile.lastJob && now - new Date(profile.lastJob) < cooldownMs) {
       const finishTime = new Date(new Date(profile.lastJob).getTime() + cooldownMs);
       const timeleft = Math.floor(finishTime.getTime() / 1000);
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`),
       );
     }

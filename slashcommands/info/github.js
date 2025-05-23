@@ -21,9 +21,9 @@ module.exports = {
     try {
       fetch(`https://api.github.com/users/${gitUsername}`)
         .then((res) => res.json())
-        .then((body) => {
+        .then(async (body) => {
           if (!body || body.message === 'Not Found')
-            return interaction.reply(errorEmbed(true, 'Can not find this user!'));
+            return await interaction.reply(errorEmbed(true, 'Can not find this user!'));
 
           let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
             body;
@@ -54,7 +54,7 @@ module.exports = {
         });
     } catch (e) {
       console.error(chalk.red('Error (/github):', e));
-      return interaction.reply(errorEmbed(true, 'Error github command:', e));
+      return await interaction.reply(errorEmbed(true, 'Error github command:', e));
     }
   },
 };

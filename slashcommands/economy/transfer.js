@@ -27,9 +27,9 @@ module.exports = {
     const targetUser = options.getUser('target');
     const amount = options.getInteger('amount');
 
-    if (targetUser.bot) return interaction.reply(errorEmbed(true, `Bạn không thể chuyển \\💲 cho bot!`));
+    if (targetUser.bot) return await interaction.reply(errorEmbed(true, `Bạn không thể chuyển \\💲 cho bot!`));
     if (targetUser.id === user.id)
-      return interaction.reply(errorEmbed(true, `Bạn không thể chuyển \\💲 cho chính mình!`));
+      return await interaction.reply(errorEmbed(true, `Bạn không thể chuyển \\💲 cho chính mình!`));
 
     let [profile, targetProfile] = await Promise.all([
       economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
@@ -37,7 +37,7 @@ module.exports = {
     ]);
 
     if (!profile || !targetProfile)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(
           true,
           !profile
@@ -46,7 +46,7 @@ module.exports = {
         ),
       );
     if (amount < 99 || amount > profile.bank)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, amount < 99 ? `Số \\💲 phải tối thiểu là 100\\💲` : `Bạn không có đủ \\💲 để chuyển!`),
       );
     const fee = Math.round(amount * 0.01);

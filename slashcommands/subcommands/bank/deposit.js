@@ -15,15 +15,15 @@ module.exports = {
     const { user, guild } = interaction;
     const { errorEmbed, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
-    if (amount <= 0) return interaction.reply(errorEmbed(true, `Số \\💲 gửi phải lớn hơn 0!`));
+    if (amount <= 0) return await interaction.reply(errorEmbed(true, `Số \\💲 gửi phải lớn hơn 0!`));
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
 
     if (!profile)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
       );
     if (amount > profile.balance)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(
           true,
           `Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng \`/balance\` để kiểm tra số 💲 hiện có`,
@@ -34,7 +34,7 @@ module.exports = {
     profile.bank += amount;
     await profile.save().catch(() => {});
 
-    return interaction.reply({
+    return await interaction.reply({
       embeds: [
         new EmbedBuilder()
           .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

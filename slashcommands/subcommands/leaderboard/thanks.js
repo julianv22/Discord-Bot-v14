@@ -25,7 +25,7 @@ module.exports = {
         text += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
       }
 
-      if (!text) return interaction.reply(errorEmbed(true, 'There is no thanks data in this server!'));
+      if (!text) return await interaction.reply(errorEmbed(true, 'There is no thanks data in this server!'));
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
@@ -41,7 +41,7 @@ module.exports = {
       await interaction.reply({ embeds: [embed], ephemeral: false });
     } catch (e) {
       console.error(chalk.red('Error (/leaderboard thanks):', e));
-      return interaction.reply(errorEmbed(true, 'Error thanks leaderboard:', e));
+      return await interaction.reply(errorEmbed(true, 'Error thanks leaderboard:', e));
     }
   },
 };

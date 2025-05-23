@@ -28,9 +28,9 @@ module.exports = {
 
     fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${keyword}`)
       .then((res) => res.json())
-      .then((body) => {
+      .then(async (body) => {
         if (body.status === 404)
-          return interaction.reply(errorEmbed(true, `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`));
+          return await interaction.reply(errorEmbed(true, `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`));
 
         // Fallback nếu thiếu dữ liệu
         let title = body.title || keyword;

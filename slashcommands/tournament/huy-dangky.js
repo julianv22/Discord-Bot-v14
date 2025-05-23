@@ -20,14 +20,14 @@ module.exports = {
     const { guild, user, options } = interaction;
     // Verified
     if (options.getBoolean('confirm') === false)
-      return interaction.reply(errorEmbed('❗ ', 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
+      return await interaction.reply(errorEmbed('❗ ', 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     let register = !profile || !profile?.tourStatus ? false : profile.tourStatus;
 
     try {
       if (register === false)
-        return interaction.reply(
+        return await interaction.reply(
           errorEmbed(`\\🏆 | `, 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!'),
         );
       // Check Tournament's Status
@@ -39,10 +39,11 @@ module.exports = {
         .catch(() => {});
 
       if (!tourProfile || !tourProfile?.status)
-        return interaction.reply(errorEmbed(true, `${user} chưa đăng ký giải đấu!`));
+        return await interaction.reply(errorEmbed(true, `${user} chưa đăng ký giải đấu!`));
 
       const role = guild.roles.cache.get(profile?.tourID);
-      if (!role) return interaction.reply(errorEmbed(true, `Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!`));
+      if (!role)
+        return await interaction.reply(errorEmbed(true, `Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!`));
 
       // Set Tournament's Status
       await tournamentProfile
@@ -73,7 +74,7 @@ module.exports = {
       });
     } catch (e) {
       console.error(chalk.red('Error while running command (/huy-dang-ky):', e));
-      return interaction.reply(errorEmbed(true, 'Error while running command (/huy-dang-ky):', e));
+      return await interaction.reply(errorEmbed(true, 'Error while running command (/huy-dang-ky):', e));
     }
   },
 };

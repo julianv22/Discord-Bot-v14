@@ -16,7 +16,7 @@ module.exports = {
 
     try {
       if (!isMod)
-        return interaction.reply(
+        return await interaction.reply(
           errorEmbed(true, `You do not have \`${cfg.modRole}\` permissions to use this command!`),
         );
 
@@ -50,7 +50,7 @@ module.exports = {
       }
     } catch (e) {
       console.error(chalk.red('Error (/list members):', e));
-      return interaction.reply(errorEmbed(true, 'Errro when list members:', e));
+      return await interaction.reply(errorEmbed(true, 'Errro when list members:', e));
     }
   },
 };

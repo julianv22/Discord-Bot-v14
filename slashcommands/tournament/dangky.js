@@ -20,7 +20,7 @@ module.exports = {
     let register;
     if (!profile || !profile?.tourStatus) register = false;
     else register = profile.tourStatus;
-    if (register === false) return interaction.reply(errorEmbed(true, 'Hiện không có giải đấu nào diễn ra!'));
+    if (register === false) return await interaction.reply(errorEmbed(true, 'Hiện không có giải đấu nào diễn ra!'));
 
     // Interaction Reply
     const roleID = profile?.tourID;
@@ -77,10 +77,10 @@ module.exports = {
         const bot = guild.members.me || (await guild.members.fetch(client.user.id));
         if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
           if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
-            return interaction.followUp(errorEmbed(true, `Bot cần quyền \`Manage Roles\` để gán role ${role}!`));
+            return await interaction.followUp(errorEmbed(true, `Bot cần quyền \`Manage Roles\` để gán role ${role}!`));
           }
           if (bot.roles.highest.position <= role.position) {
-            return interaction.followUp(
+            return await interaction.followUp(
               errorEmbed(true, `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`),
             );
           }
@@ -88,7 +88,7 @@ module.exports = {
       }
     } catch (e) {
       console.error(chalk.red('Error while running command (/dang-ky):', e));
-      return interaction.reply(errorEmbed(true, 'Error while running command (/dang-ky):', e));
+      return await interaction.reply(errorEmbed(true, 'Error while running command (/dang-ky):', e));
     }
   },
 };

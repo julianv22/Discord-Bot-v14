@@ -16,10 +16,11 @@ module.exports = {
     const imageURL = fields.getTextInputValue('imageURL');
     let msgEdit = await channel.messages.fetch(msgid).catch(() => undefined);
 
-    if (msgEdit === undefined) return interaction.reply(errorEmbed(true, `Message ID \`${msgid}\` is incorrect!`));
+    if (msgEdit === undefined)
+      return await interaction.reply(errorEmbed(true, `Message ID \`${msgid}\` is incorrect!`));
 
     if (msgEdit.author.id !== bot.id)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `This message [\`${msgid}\`](${msgEdit.url}) does not belong to ${bot}!`),
       );
 

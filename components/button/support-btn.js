@@ -17,6 +17,6 @@ module.exports = {
       },
     };
 
-    return interaction.reply({ content: types[button](), ephemeral: true });
+    return await interaction.reply({ content: types[button](), ephemeral: true });
   },
 };

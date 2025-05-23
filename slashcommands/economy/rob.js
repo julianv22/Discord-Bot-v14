@@ -24,10 +24,10 @@ module.exports = {
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
     if (targetUser.bot) {
-      return interaction.reply(errorEmbed(true, `Bạn không thể giật \\💲 của bot!`));
+      return await interaction.reply(errorEmbed(true, `Bạn không thể giật \\💲 của bot!`));
     }
     if (targetUser.id === userID) {
-      return interaction.reply(errorEmbed(true, `Bạn không thể tự giật \\💲 của chính mình!`));
+      return await interaction.reply(errorEmbed(true, `Bạn không thể tự giật \\💲 của chính mình!`));
     }
 
     // Lấy profile của user và target
@@ -35,23 +35,25 @@ module.exports = {
     let targetProfile = await economyProfile.findOne({ guildID, userID: targetUser.id }).catch(() => {});
 
     if (!profile || !targetProfile)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`),
       );
 
     if (profile.balance < 200) {
-      return interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
+      return await interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
     }
 
     if (targetProfile.balance < 100) {
-      return interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
+      return await interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
     }
 
     // Cooldown
     if (profile.lastRob && now - profile.lastRob < cooldownMs) {
       const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
       const timeleft = Math.floor(nextRob.getTime() / 1000);
-      return interaction.reply(errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`));
+      return await interaction.reply(
+        errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`),
+      );
     }
 
     // Tính tỉ lệ thành công
@@ -110,6 +112,6 @@ module.exports = {
       })
       .setTimestamp();
 
-    return interaction.reply({ embeds: [embed] });
+    return await interaction.reply({ embeds: [embed] });
   },
 };

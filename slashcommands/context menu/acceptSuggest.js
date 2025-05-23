@@ -23,14 +23,15 @@ module.exports = {
     const { targetMessage: msg, user, guild } = interaction;
     const { errorEmbed, users, user: bot } = client;
 
-    if (msg.author.id !== cfg.clientID) return interaction.reply(errorEmbed(true, `\\❌ | This is not my message!`));
+    if (msg.author.id !== cfg.clientID)
+      return await interaction.reply(errorEmbed(true, `\\❌ | This is not my message!`));
 
     const embed = msg.embeds[0];
 
-    if (!embed) return interaction.reply(errorEmbed(true, `\\❌ | This is not suggest message!`));
+    if (!embed) return await interaction.reply(errorEmbed(true, `\\❌ | This is not suggest message!`));
 
     if (embed.title !== `Suggest's content:`)
-      return interaction.reply(errorEmbed(true, `\\❌ | This is not suggest message!`));
+      return await interaction.reply(errorEmbed(true, `\\❌ | This is not suggest message!`));
 
     const edit = EmbedBuilder.from(embed).setColor('Green').spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất đã được chấp nhận`,

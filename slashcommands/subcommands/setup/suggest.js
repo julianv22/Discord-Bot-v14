@@ -28,7 +28,7 @@ module.exports = {
         .catch(() => {});
     } catch (e) {
       console.error(chalk.red('Error (/setup suggest):', e));
-      return interaction.reply(errorEmbed(true, 'Error when setup suggest channel:', e));
+      return await interaction.reply(errorEmbed(true, 'Error when setup suggest channel:', e));
     }
   },
 };

@@ -22,14 +22,15 @@ module.exports = {
     let msgEdit = await interaction.channel.messages.fetch(msgid).catch(() => undefined);
 
     try {
-      if (msgEdit === undefined) return interaction.reply(errorEmbed(true, `Message ID \`${msgid}\` is incorrect!`));
+      if (msgEdit === undefined)
+        return await interaction.reply(errorEmbed(true, `Message ID \`${msgid}\` is incorrect!`));
 
       if (msgEdit.author.id !== client.user.id)
-        return interaction.reply(
+        return await interaction.reply(
           errorEmbed(true, `This message [\`${msgid}\`](${msgEdit.url}) does not belong to ${client.user}!`),
         );
 
-      await msgEdit.edit(content).then(() => {
+      await msgEdit.edit(content).then(async () => {
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
           .setTitle('✅ Message edited successfully!')
@@ -45,11 +46,11 @@ module.exports = {
             iconURL: user.displayAvatarURL(true),
           });
 
-        interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: true });
       });
     } catch (e) {
       console.error(chalk.red('Error (/edit-message):', e));
-      return interaction.reply(errorEmbed(true, 'Error editing message:', e));
+      return await interaction.reply(errorEmbed(true, 'Error editing message:', e));
     }
   },
 };

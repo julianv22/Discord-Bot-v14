@@ -16,7 +16,7 @@ module.exports = {
     const { user, guild } = interaction;
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     if (!profile) {
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
       );
     }
@@ -55,6 +55,6 @@ module.exports = {
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
       .setTimestamp();
 
-    return interaction.reply({ embeds: [embed], ephemeral: true });
+    return await interaction.reply({ embeds: [embed], ephemeral: true });
   },
 };

@@ -37,12 +37,12 @@ module.exports = {
       // Xác thực channel ID và lấy tên kênh
       const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
       if (!valid) {
-        return interaction.reply(errorEmbed(true, 'ID kênh Youtube không hợp lệ hoặc không tồn tại!'));
+        return await interaction.reply(errorEmbed(true, 'ID kênh Youtube không hợp lệ hoặc không tồn tại!'));
       }
 
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
       if (!profile) {
-        if (action === 'remove') return interaction.reply(errorEmbed(true, 'Server chưa có kênh Youtube nào!'));
+        if (action === 'remove') return await interaction.reply(errorEmbed(true, 'Server chưa có kênh Youtube nào!'));
         profile = await serverProfile.create({
           guildID: guildId,
           youtubeChannelIds: [yt_channel],
@@ -75,7 +75,7 @@ module.exports = {
       );
     } catch (e) {
       console.error(chalk.red('Error ():', e));
-      return interaction.reply(errorEmbed(true, 'Lỗi setup Youtube channel:', e));
+      return await interaction.reply(errorEmbed(true, 'Lỗi setup Youtube channel:', e));
     }
   },
 };

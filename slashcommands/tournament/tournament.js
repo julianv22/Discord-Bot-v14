@@ -48,15 +48,15 @@ module.exports = {
     // Gom các logic xử lý vào object
     const tourActions = {
       open: async () => {
-        if (!getRole) return interaction.reply(errorEmbed(true, 'Bạn chưa chọn role giải đấu!'));
+        if (!getRole) return await interaction.reply(errorEmbed(true, 'Bạn chưa chọn role giải đấu!'));
 
         if (profile.tourStatus && getRole.id !== profile.tourID)
-          return interaction.reply(
+          return await interaction.reply(
             errorEmbed(true, `Đang có giải đấu \`${profile.tourName}\` diễn ra. Vui lòng đóng giải này trước!`),
           );
 
         if (profile.tourStatus)
-          return interaction.reply(errorEmbed(true, `Giải \`${profile.tourName}\` đang diễn ra rồi!`));
+          return await interaction.reply(errorEmbed(true, `Giải \`${profile.tourName}\` đang diễn ra rồi!`));
 
         await serverProfile
           .findOneAndUpdate(
@@ -79,13 +79,13 @@ module.exports = {
         });
       },
       close: async () => {
-        if (!getRole) return interaction.reply(errorEmbed(true, 'Bạn chưa chọn role giải đấu!'));
+        if (!getRole) return await interaction.reply(errorEmbed(true, 'Bạn chưa chọn role giải đấu!'));
 
         if (profile.tourID && getRole.id !== profile.tourID)
-          return interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile.tourName}\``));
+          return await interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile.tourName}\``));
 
         if (!profile.tourStatus)
-          return interaction.reply(errorEmbed(true, `Giải \`${profile.tourName}\` đã được đóng trước đó rồi!`));
+          return await interaction.reply(errorEmbed(true, `Giải \`${profile.tourName}\` đã được đóng trước đó rồi!`));
 
         await serverProfile
           .findOneAndUpdate(
@@ -109,7 +109,7 @@ module.exports = {
       },
       list: async () => {
         if (!profile.tourStatus)
-          return interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
+          return await interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
 
         let memberList = await tournamentProfile
           .find({
@@ -119,7 +119,7 @@ module.exports = {
           .catch(() => {});
 
         if (!memberList || memberList.length === 0)
-          return interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
+          return await interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
 
         const role = guild.roles.cache.get(profile.tourID);
         const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
@@ -170,10 +170,10 @@ module.exports = {
         const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(() => {});
 
         if (!verified)
-          return interaction.reply(errorEmbed(`\\❗ `, 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
+          return await interaction.reply(errorEmbed(`\\❗ `, 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
         if (!tourList || tourList.length === 0)
-          return interaction.reply(
+          return await interaction.reply(
             errorEmbed(true, 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!'),
           );
 
@@ -191,11 +191,11 @@ module.exports = {
       if (tourActions[tourCommand]) {
         await tourActions[tourCommand]();
       } else {
-        return interaction.reply(errorEmbed(true, 'Subcommand không hợp lệ!'));
+        return await interaction.reply(errorEmbed(true, 'Subcommand không hợp lệ!'));
       }
     } catch (e) {
       console.error(chalk.red(`Error while running tournament command [${tourCommand}]:`, e));
-      return interaction.reply(errorEmbed(true, `Error while running tournament command [${tourCommand}]:`, e));
+      return await interaction.reply(errorEmbed(true, `Error while running tournament command [${tourCommand}]:`, e));
     }
   },
 };

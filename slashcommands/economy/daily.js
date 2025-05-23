@@ -45,7 +45,9 @@ module.exports = {
       const nextDaily = new Date();
       nextDaily.setHours(24, 0, 0, 0);
       const timeleft = Math.floor(nextDaily.getTime() / 1000);
-      return interaction.reply(errorEmbed(true, `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`));
+      return await interaction.reply(
+        errorEmbed(true, `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`),
+      );
     }
 
     // Số \\💲 daily, random từ 500 tới 1000, ưu tiên gần 1000
@@ -126,6 +128,6 @@ module.exports = {
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
 
-    return interaction.reply({ embeds: [embed], ephemeral: true });
+    return await interaction.reply({ embeds: [embed], ephemeral: true });
   },
 };

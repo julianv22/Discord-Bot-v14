@@ -29,7 +29,7 @@ module.exports = {
       );
     } catch (e) {
       console.error(chalk.red('Error (/setup starboard):', e));
-      return interaction.reply(errorEmbed(true, 'Error when setup starboard channel:', e));
+      return await interaction.reply(errorEmbed(true, 'Error when setup starboard channel:', e));
     }
   },
 };

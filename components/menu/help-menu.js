@@ -13,8 +13,8 @@ module.exports = {
     const ShowHelp = {
       default: () => helpSlash(CommandType, interaction),
       prefix: () => helpPrefix(interaction),
-      slash: () => {
-        return interaction.update({
+      slash: async () => {
+        return await interaction.update({
           embeds: [
             new EmbedBuilder()
               .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

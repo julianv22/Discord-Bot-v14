@@ -17,19 +17,19 @@ module.exports = {
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
 
     if (!profile)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
       );
 
     if (amount > profile.bank)
-      return interaction.reply(errorEmbed(true, `Số \\💲 rút không được lớn hơn số tiền hiện có!`));
+      return await interaction.reply(errorEmbed(true, `Số \\💲 rút không được lớn hơn số tiền hiện có!`));
 
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01).toLocaleString();
     profile.balance += amount - fee;
     await profile.save().catch(() => {});
 
-    return interaction.reply({
+    return await interaction.reply({
       embeds: [
         new EmbedBuilder()
           .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

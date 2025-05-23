@@ -29,6 +29,6 @@ module.exports = (client) => {
       ])
       .setThumbnail(cfg.helpPNG)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
-    return interaction.update({ embeds: [embed] });
+    return await interaction.update({ embeds: [embed] });
   };
 };

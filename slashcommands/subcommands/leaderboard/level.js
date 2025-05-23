@@ -16,7 +16,7 @@ module.exports = {
     const imgURL = options.getString('image');
 
     try {
-      if (!checkURL(imgURL)) return interaction.reply(errorEmbed(true, 'Vui lòng nhập chính xác Image URL'));
+      if (!checkURL(imgURL)) return await interaction.reply(errorEmbed(true, 'Vui lòng nhập chính xác Image URL'));
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })
@@ -33,7 +33,7 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error (/leaderboard level):', e));
-      return interaction.reply(errorEmbed(true, 'Error level leaderboard:', e));
+      return await interaction.reply(errorEmbed(true, 'Error level leaderboard:', e));
     }
   },
 };

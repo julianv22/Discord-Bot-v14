@@ -25,14 +25,14 @@ module.exports = {
     const { errorEmbed, users, user: bot } = client;
 
     if (msg.author.id !== cfg.clientID)
-      return interaction.reply(errorEmbed(true, `This messages does not belong to ${bot}!`));
+      return await interaction.reply(errorEmbed(true, `This messages does not belong to ${bot}!`));
 
     const embed = msg.embeds[0];
 
-    if (!embed) return interaction.reply(errorEmbed(true, 'This is not suggest message!'));
+    if (!embed) return await interaction.reply(errorEmbed(true, 'This is not suggest message!'));
 
     if (embed.title !== `Suggest's content:`)
-      return interaction.reply(errorEmbed(true, 'This is not suggest message!'));
+      return await interaction.reply(errorEmbed(true, 'This is not suggest message!'));
 
     const edit = EmbedBuilder.from(embed).setColor('Red').spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất không được chấp nhận`,
@@ -43,7 +43,8 @@ module.exports = {
     await interaction.reply(errorEmbed(`\\🚫 | `, `Suggestion has been denied! [[Jump Link](${msg.url})]`));
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
-    if (!author) return interaction.followUp?.(errorEmbed(true, 'Không tìm thấy user để gửi DM!')).catch(() => {});
+    if (!author)
+      return await interaction.followUp?.(errorEmbed(true, 'Không tìm thấy user để gửi DM!')).catch(() => {});
 
     author
       .send({

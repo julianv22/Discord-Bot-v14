@@ -33,7 +33,7 @@ module.exports = {
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
       if (!profile || profile.youtubeChannelIds.length == 0)
-        return interaction.reply(errorEmbed(true, 'Danh sách kênh Youtube trống!'));
+        return await interaction.reply(errorEmbed(true, 'Danh sách kênh Youtube trống!'));
 
       const channelList = await Promise.all(
         profile.youtubeChannelIds.map(async (id, idx) => {
@@ -62,7 +62,7 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error (/youtube list-channels):', e));
-      return interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
+      return await interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
     }
   },
 };

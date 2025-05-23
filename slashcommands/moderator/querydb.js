@@ -26,14 +26,14 @@ module.exports = {
     const { errorEmbed, user } = client;
     const { guild, guildId } = interaction;
 
-    // if (user.id !== cfg.ownerID) return interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
+    if (user.id !== cfg.ownerID) return await interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
 
     await interaction.deferReply({ ephemeral: true });
 
     // let profile = await serverProfile.find({});
     let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 
-    if (!profile) return interaction.reply(errorEmbed(true, 'No database!'));
+    if (!profile) return await interaction.reply(errorEmbed(true, 'No database!'));
     /**
      * Send a message
      * @param {string} message - Nội dung message

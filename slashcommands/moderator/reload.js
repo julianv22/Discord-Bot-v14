@@ -56,7 +56,7 @@ module.exports = {
       }, 2500);
     } catch (e) {
       console.error(chalk.red('Error (/reload):', e));
-      return interaction.reply(errorEmbed(true, 'Reload command error:', e));
+      return await interaction.reply(errorEmbed(true, 'Reload command error:', e));
     }
   },
 };

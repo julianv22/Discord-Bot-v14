@@ -31,7 +31,7 @@ module.exports = (client) => {
     };
     let commands = [];
     const ShowCommand = {
-      subcommands: () => {
+      subcommands: async () => {
         let parents = Array.from(subCommands.values()).map((sub) => sub.parent);
         parents = parents.filter((item, index) => parents.indexOf(item) === index);
 
@@ -44,9 +44,9 @@ module.exports = (client) => {
           });
           count += command.size;
         });
-        return interaction.update({ embeds: [helpEmbed(CommandType, commands, count)] });
+        return await interaction.update({ embeds: [helpEmbed(CommandType, commands, count)] });
       },
-      default: () => {
+      default: async () => {
         commands = Array.from(slashCommands.values()).filter(
           (cmd) => cmd.category.toLowerCase() === CommandType.toLowerCase(),
         );
@@ -54,7 +54,7 @@ module.exports = (client) => {
           name: `/${cmd.data?.name || cmd.name}`,
           value: `\`\`\`fix\n${cmd.data?.description || cmd.description}\`\`\``,
         }));
-        return interaction.update({
+        return await interaction.update({
           embeds: [helpEmbed(CommandType, commands, commands.length)],
         });
       },

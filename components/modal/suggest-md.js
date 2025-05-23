@@ -12,7 +12,7 @@ module.exports = {
     const { guild, user } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     if (!profile || !profile?.suggestChannel)
-      return interaction.reply(
+      return await interaction.reply(
         errorEmbed(true, `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`),
       );
 

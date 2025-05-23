@@ -19,7 +19,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { customId, message } = interaction;
     const [, button] = customId.split(':');
-    if (!message) return interaction.reply(errorEmbed(true, 'No message found'));
+    if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);

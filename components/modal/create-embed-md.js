@@ -48,10 +48,10 @@ module.exports = {
       descriptionInput: () => {
         getEmbeds.setDescription(strInput);
       },
-      colorInput: () => {
+      colorInput: async () => {
         const colors = embedColors.map((c) => c.toLowerCase());
         if (colors.includes(strInput.toLowerCase())) getEmbeds.setColor(capitalize(strInput.toLowerCase()));
-        else return interaction.reply(errorEmbed(true, 'Tên màu không chính xác'));
+        else await interaction.reply(errorEmbed(true, 'Tên màu không chính xác'));
       },
       imageInput: () => {
         if (!strInput) getEmbeds.setImage(null);
@@ -63,7 +63,7 @@ module.exports = {
       },
     };
     await editEmbed[type]();
-    return interaction.update({ embeds: [getEmbeds] });
+    return await interaction.update({ embeds: [getEmbeds] });
     /**
      * Capitalize a string
      * @param {String} str - String to capitalize
