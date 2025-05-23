@@ -1,4 +1,5 @@
-const { EmbedBuilder, Message } = require('discord.js');
+const { Client, EmbedBuilder, Message } = require('discord.js');
+/** @param {Client} client - Client object */
 module.exports = {
   name: 'ping',
   aliases: [],

@@ -1,4 +1,4 @@
-const { Client } = require('discord.js');
+const { Client, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
