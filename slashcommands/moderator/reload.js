@@ -22,32 +22,31 @@ module.exports = {
     const embed = new EmbedBuilder().setColor('Green');
 
     try {
-      switch (options.getSubcommand()) {
-        case 'commands':
+      const CommandsType = {
+        commands: async () => {
           await loadCommands(true);
           await loadComponents();
           await interaction.reply({
             embeds: [embed.setDescription(`\\✅ | Reloading commands, please wait...`)],
             ephemeral: true,
           });
-          break;
-
-        case 'events':
+        },
+        events: async () => {
           await loadEvents();
           await interaction.reply({
             embeds: [embed.setDescription(`\\✅ | Reloading events, please wait...`)],
             ephemeral: true,
           });
-          break;
-
-        case 'functions':
+        },
+        functions: async () => {
           await loadFunctions();
           await interaction.reply({
             embeds: [embed.setDescription(`\\✅ | Reloading functions, please wait...`)],
             ephemeral: true,
           });
-          break;
-      }
+        },
+      };
+      CommandsType[options.getSubcommand()]();
 
       setTimeout(() => {
         interaction.editReply({

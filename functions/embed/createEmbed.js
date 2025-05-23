@@ -60,18 +60,12 @@ module.exports = (client) => {
         embed.addFields(objFields);
       }
 
-      switch (method) {
-        case 'send':
-          channel.send({ embeds: [embed] });
-          break;
-        case 'edit':
-          message.edit({ embeds: [embed] });
-          if (author.bot) return;
-        case 'reply':
-          message.reply({ embeds: [embed] });
-        default:
-          break;
-      }
+      const sendEmbed = {
+        send: () => channel.send({ embeds: [embed] }),
+        edit: () => message.edit({ embeds: [embed] }),
+        reply: () => message.reply({ embeds: [embed] }),
+      };
+      sendEmbed[method]();
     } catch (e) {
       console.error(chalk.red('Error while running createEmbed'), e);
       return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {

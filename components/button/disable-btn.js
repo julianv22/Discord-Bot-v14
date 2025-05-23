@@ -62,12 +62,8 @@ module.exports = {
           profile.starboardChannel = '';
           profile.starCount = 0;
         },
-        suggest: () => {
-          profile.suggestChannel = '';
-        },
-        youtube: () => {
-          profile.youtubeNotifyChannel = '';
-        },
+        suggest: () => (profile.suggestChannel = ''),
+        youtube: () => (profile.youtubeNotifyChannel = ''),
         welcome: () => {
           profile.welcomeChannel = '';
           profile.welcomeMessage = '';

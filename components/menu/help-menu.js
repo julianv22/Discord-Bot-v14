@@ -10,9 +10,8 @@ module.exports = {
     const { helpPrefix, helpSlash } = client;
     const selected = interaction.values[0];
     const help = {
-      prefix: () => {
-        helpPrefix(interaction);
-      },
+      default: () => helpSlash(selected, interaction),
+      prefix: () => helpPrefix(interaction),
       slash: () => {
         return interaction.update({
           embeds: [
@@ -22,9 +21,6 @@ module.exports = {
             },
           ],
         });
-      },
-      default: () => {
-        helpSlash(selected, interaction);
       },
     };
     (help[selected] || help.default)(selected);

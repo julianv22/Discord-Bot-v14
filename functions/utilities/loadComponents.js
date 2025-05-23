@@ -55,19 +55,12 @@ module.exports = (client) => {
           count++;
         });
 
-        switch (folder) {
-          case 'button':
-            requireComponents(buttons, componentFiles, folder);
-            break;
-
-          case 'menu':
-            requireComponents(menus, componentFiles, folder);
-            break;
-
-          case 'modal':
-            requireComponents(modals, componentFiles, folder);
-            break;
-        }
+        const ComponentType = {
+          button: () => requireComponents(buttons, componentFiles, folder),
+          menu: () => requireComponents(menus, componentFiles, folder),
+          modal: () => requireComponents(modals, componentFiles, folder),
+        };
+        ComponentType[folder]();
       });
 
       table.setTitle(`Load Components [${count}]`);
