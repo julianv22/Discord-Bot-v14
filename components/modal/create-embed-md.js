@@ -7,42 +7,13 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { checkURL, errorEmbed } = client;
+    const { checkURL, getEmbedColor } = client;
     const { customId, fields, message, user } = interaction;
     const [, type] = customId.split(':');
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const strInput = fields.getTextInputValue(type);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
-    const embedColors = [
-      'Red',
-      'Blue',
-      'Green',
-      'Yellow',
-      'LuminousVividPink', // Một màu hồng rực rỡ
-      'Fuchsia',
-      'Gold',
-      'Orange',
-      'Purple',
-      'DarkAqua',
-      'DarkGreen',
-      'DarkBlue',
-      'DarkPurple',
-      'DarkVividPink',
-      'DarkGold',
-      'DarkOrange',
-      'DarkRed',
-      'DarkGrey', // Còn được gọi là 'DarkGray'
-      'Navy',
-      'Aqua', // Còn được gọi là 'Cyan'
-      'Blurple', // Màu đặc trưng của Discord
-      'Greyple',
-      'DarkButNotBlack', // Màu xám đậm hơn một chút so với đen
-      'NotQuiteBlack', // Màu đen nhưng không hoàn toàn đen
-      'White',
-      'Default', // Màu mặc định của Discord (xám đen)
-      'Random',
-    ];
     const editEmbed = {
       titleInput: () => {
         getEmbeds.setTitle(strInput);
@@ -50,10 +21,8 @@ module.exports = {
       descriptionInput: () => {
         getEmbeds.setDescription(strInput);
       },
-      colorInput: async () => {
-        const colors = embedColors.map((c) => c.toLowerCase());
-        if (colors.includes(strInput.toLowerCase())) getEmbeds.setColor(capitalize(strInput.toLowerCase()));
-        else await interaction.reply(errorEmbed(true, 'Tên màu không chính xác'));
+      colorInput: () => {
+        getEmbeds.setColor(getEmbedColor(strInput));
       },
       imageInput: () => {
         if (!strInput) getEmbeds.setImage(null);
@@ -93,8 +62,11 @@ module.exports = {
      */
     function replaceVar(str, replace, key) {
       let regex = '';
+      // Replace user variable
       if (key === 'user') regex = /\{user\}/g;
+      // Replace avatar variable
       else if (key === 'avt') regex = /\{avatar\}/g;
+      // Return string with variables replaced
       return str.replace(regex, replace);
     }
   },

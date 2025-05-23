@@ -7,41 +7,7 @@ const {
   ButtonStyle,
   ActionRowBuilder,
   ComponentType,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
 } = require('discord.js');
-
-const embedColors = [
-  'Red',
-  'Blue',
-  'Green',
-  'Yellow',
-  'LuminousVividPink', // Một màu hồng rực rỡ
-  'Fuchsia',
-  'Gold',
-  'Orange',
-  'Purple',
-  'DarkAqua',
-  'DarkGreen',
-  'DarkBlue',
-  'DarkPurple',
-  'DarkVividPink',
-  'DarkGold',
-  'DarkOrange',
-  'DarkRed',
-  'DarkGrey', // Còn được gọi là 'DarkGray'
-  'Navy',
-  'Aqua', // Còn được gọi là 'Cyan'
-  'Blurple', // Màu đặc trưng của Discord
-  'Greyple',
-  'DarkButNotBlack', // Màu xám đậm hơn một chút so với đen
-  'NotQuiteBlack', // Màu đen nhưng không hoàn toàn đen
-  'White',
-  'Default', // Màu mặc định của Discord (xám đen)
-  'Random', // Từ khóa "Random" để lấy một màu ngẫu nhiên
-];
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('create-embed')
@@ -77,7 +43,10 @@ module.exports = {
       { customId: 'create-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
       { customId: 'create-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
     ];
+    let guildeEmbed = `Danh sách màu sắc: \`\`\`'Red', 'Blue', 'Green', 'Yellow', 'LuminousVividPink', 'Fuchsia', 'Gold', 'Orange', 'Purple', 'DarkAqua', 'DarkGreen', 'DarkBlue', 'DarkPurple', 'DarkVividPink', 'DarkGold', 'DarkOrange', 'DarkRed', 'DarkGrey', 'Navy', 'Aqua', 'Blurple', 'Greyple', 'DarkButNotBlack', 'NotQuiteBlack', 'White', 'Default', 'Random'\`\`\`\n`;
+    guildeEmbed += `Click vào \`⛔Disable Footer\` để tắt footer, sau đó \`✅Enable Footer\` để thể thiết lập footer mới.\nCác biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.`;
     await interaction.reply({
+      content: guildeEmbed,
       embeds: [createEmbed],
       components: [
         new ActionRowBuilder().addComponents(getOptions(button1, ComponentType.Button)),
