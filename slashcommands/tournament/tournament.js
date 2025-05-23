@@ -39,8 +39,8 @@ module.exports = {
     const { errorEmbed } = client;
     const { guild, options } = interaction;
     let profile =
-      (await serverProfile.findOne({ guildID: guild.id })).catch(() => {}) ||
-      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+      (await serverProfile.findOne({ guildID: guild.id }).catch(() => {})) ||
+      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
 
     const getRole = options.getRole('ten-giai');
     const tourCommand = options.getSubcommand();

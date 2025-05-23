@@ -28,8 +28,8 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     let profile =
-      (await serverProfile.findOne({ guildID: guild.id })).catch(() => {}) ||
-      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+      (await serverProfile.findOne({ guildID: guild.id }).catch(() => {})) ||
+      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
 
     try {
       const totalChannel = options.getChannel('total-count-channel');

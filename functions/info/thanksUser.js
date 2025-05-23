@@ -133,15 +133,17 @@ module.exports = (client) => {
       msg.reply({ embeds: [embed] });
 
       // Update thanksCount
-      await serverThanks.findOneAndUpdate(
-        { guildID: guild.id, userID: user.id },
-        {
-          guildName: guild.name,
-          usertag: user.tag,
-          thanksCount: thanksCount,
-          lastThanks: Date.now(),
-        },
-      );
+      await serverThanks
+        .findOneAndUpdate(
+          { guildID: guild.id, userID: user.id },
+          {
+            guildName: guild.name,
+            usertag: user.tag,
+            thanksCount: thanksCount,
+            lastThanks: Date.now(),
+          },
+        )
+        .catch(() => {});
     } catch (e) {
       if (interaction && typeof interaction.reply === 'function') {
         interaction

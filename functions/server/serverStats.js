@@ -13,7 +13,7 @@ module.exports = (client) => {
 
       let profile =
         (await serverProfile.findOne({ guildID: guild.id }).catch(() => {})) ||
-        new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+        new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
 
       if (!profile?.totalChannel || !profile?.statsChannel) return;
       /**

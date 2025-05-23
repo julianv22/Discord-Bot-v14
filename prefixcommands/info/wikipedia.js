@@ -13,16 +13,13 @@ module.exports = {
    */
   async execute(message, args, client) {
     /**
-     * Chuyển đổi chữ cái đầu tiên thành chữ hoa
-     * @param {string} s - Chuỗi cần chuyển đổi
-     * @returns {string} - Chuỗi đã chuyển đổi
+     * Capitalize a string
+     * @param {String} str - String to capitalize
+     * @returns {String} - Capitalized string
      */
-    function capitalize(s) {
-      try {
-        return s && String(s[0]).toUpperCase() + String(s).slice(1);
-      } catch (e) {
-        console.log(e);
-      }
+    function capitalize(str) {
+      if (!str) return ''; // Handle empty or undefined string
+      return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     const { errorEmbed } = client;

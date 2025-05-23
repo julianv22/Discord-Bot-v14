@@ -12,12 +12,14 @@ module.exports = {
    * @param {Client} client - Đối tượng client
    */
   async execute(interaction, client) {
-    function capitalize(s) {
-      try {
-        return s && String(s[0]).toUpperCase() + String(s).slice(1);
-      } catch (e) {
-        console.log(e);
-      }
+    /**
+     * Capitalize a string
+     * @param {String} str - String to capitalize
+     * @returns {String} - Capitalized string
+     */
+    function capitalize(str) {
+      if (!str) return ''; // Handle empty or undefined string
+      return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     const keyword = interaction.options.getString('keyword');

@@ -10,7 +10,14 @@ module.exports = (client) => {
     const { slashCommands, subCommands, listCommands } = client;
     const { guild, user } = interaction;
     let commands = [];
-    const embed = (commandName, commands, count) => {
+    /**
+     * Help Embed
+     * @param {String} commandName - Name of the command
+     * @param {Array} commands - Commands to display
+     * @param {Number} count - Count of commands
+     * @returns {EmbedBuilder}
+     */
+    const helpEmbed = (commandName, commands, count) => {
       return new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`\\📂 Danh sách ${commandName} [${count}]`)
@@ -37,7 +44,7 @@ module.exports = (client) => {
           });
           count += command.size;
         });
-        return interaction.update({ embeds: [embed(selected, commands, count)] });
+        return interaction.update({ embeds: [helpEmbed(selected, commands, count)] });
       },
       default: () => {
         commands = Array.from(slashCommands.values()).filter(
@@ -48,7 +55,7 @@ module.exports = (client) => {
           value: `\`\`\`fix\n${cmd.data?.description || cmd.description}\`\`\``,
         }));
         return interaction.update({
-          embeds: [embed(selected, commands, commands.length)],
+          embeds: [helpEmbed(selected, commands, commands.length)],
         });
       },
     };

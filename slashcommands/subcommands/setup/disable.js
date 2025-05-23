@@ -1,9 +1,11 @@
 const {
   SlashCommandSubcommandBuilder,
-  StringSelectMenuBuilder,
   ActionRowBuilder,
   Client,
   Interaction,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
 } = require('discord.js');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('disable'),
@@ -16,54 +18,59 @@ module.exports = {
    * @param {Client} client - Đối tượng client
    */
   async execute(interaction, client) {
-    const features = [
+    const { guild, user } = interaction;
+    const buttons1 = [
       {
-        emoji: { name: `⭐` },
-        label: 'Disable Starboard System',
-        value: 'starboard',
-        description: 'Tắt chức năng Starboard System',
+        label: '⭐ Disable Starboard System',
+        customId: 'disable-btn:starboard',
+        style: ButtonStyle.Primary,
+        // style: 'Tắt chức năng Starboard System',
       },
       {
-        emoji: { name: `💡` },
-        label: 'Disable Suggest Channel',
-        value: 'suggest',
-        description: 'Tắt chức năng Suggestion',
-      },
-      {
-        emoji: { name: `🎬` },
-        label: 'Disable Youtube Notify',
-        value: 'youtube',
-        description: 'Tắt thông báo video mới trên Youtube',
-      },
-      {
-        emoji: { name: `🎉` },
-        label: 'Disable Welcome System',
-        value: 'welcome',
-        description: 'Tắt chức năng chào mừng thành viên mới',
+        label: '💡 Disable Suggest Channel',
+        customId: 'disable-btn:suggest',
+        style: ButtonStyle.Primary,
+        // style: 'Tắt chức năng Suggestion',
       },
     ];
-
+    const buttons2 = [
+      {
+        label: '🎬 Disable Youtube Notify',
+        customId: 'disable-btn:youtube',
+        style: ButtonStyle.Danger,
+        // style: 'Tắt thông báo video mới trên Youtube',
+      },
+      {
+        label: '🎉 Disable Welcome System',
+        customId: 'disable-btn:welcome',
+        style: ButtonStyle.Success,
+        // style: 'Tắt chức năng chào mừng thành viên mới',
+      },
+    ];
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: `Disable Features`, iconURL: user.displayAvatarURL(true) })
+      .setColor('Orange')
+      .addFields(
+        { name: `\\⭐ Disable Starboard System`, value: `Tắt chức năng Starboard System` },
+        { name: `\\💡 Disable Suggest Channel`, value: `Tắt chức năng Suggestion` },
+        { name: `\\🎬 Disable Youtube Notify`, value: `Tắt thông báo video mới trên Youtube` },
+        { name: `\\🎉 Disable Welcome System`, value: `Tắt chức năng chào mừng thành viên mới` },
+      )
+      .setTimestamp()
+      .setThumbnail(guild.iconURL(true))
+      .setFooter({ text: guild.name, iconURL: guild.iconURL(true) });
     await interaction.reply({
-      embeds: [
-        {
-          color: 15844367,
-          description: '**\\⚠️ Select feature to disabe \\⚠️**',
-        },
-      ],
+      embeds: [embed],
       components: [
         new ActionRowBuilder().addComponents(
-          new StringSelectMenuBuilder()
-            .setCustomId('disable-mn')
-            .setMinValues(1)
-            .setMaxValues(1)
-            .addOptions(
-              features.map((f) => ({
-                emoji: f.emoji,
-                label: f.label,
-                value: f.value,
-                description: f.description,
-              })),
-            ),
+          buttons1.map((data) =>
+            new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style),
+          ),
+        ),
+        new ActionRowBuilder().addComponents(
+          buttons2.map((data) =>
+            new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style),
+          ),
         ),
       ],
       ephemeral: true,

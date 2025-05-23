@@ -19,7 +19,7 @@ module.exports = {
     try {
       let profile =
         (await serverProfile.findOne({ guildID: guildId }).catch(() => {})) ||
-        new serverProfile({ guildID: guildId, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+        new serverProfile({ guildID: guildId, guildName: guild.name, prefix: cfg.prefix });
 
       profile.starboardChannel = channel.id;
       profile.starCount = number;
