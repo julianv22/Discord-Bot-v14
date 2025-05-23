@@ -7,9 +7,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   /**
-   * Xem số dư, độ dài chuỗi, số tiền gửi, hàng hóa và thành tích của người dùng
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * View balance, streak, bank, inventory and achievements of a user
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

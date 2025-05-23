@@ -4,9 +4,9 @@ module.exports = {
   category: 'context menu',
   scooldown: 0,
   /**
-   * Lấy avatar của user
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Get user avatar
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { targetUser: user, user: author } = interaction;

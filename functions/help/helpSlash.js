@@ -1,13 +1,13 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 /**
- * Hiển thị danh sách command slash.
- * @param {string} selected - Tên command được chọn.
- * @param {Interaction} interaction - Đối tượng interaction.
- * @param {Collection} components - Đối tượng components.
+ * Show slash commands list.
+ * @param {string} selected - Selected command name.
+ * @param {Interaction} interaction - Interaction object.
+ * @param {Collection} components - Components object.
  */
 module.exports = (client) => {
   client.helpSlash = async (selected, interaction) => {
-    const { slashCommands, subCommands, listCommands } = client;
+    const { slashCommands, subCommands } = client;
     const { guild, user } = interaction;
     let commands = [];
     /**

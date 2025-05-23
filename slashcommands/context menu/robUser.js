@@ -5,9 +5,9 @@ module.exports = {
   category: 'context menu',
   scooldown: 0,
   /**
-   * Rob money
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Rob money from a user
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed, user: bot } = client;

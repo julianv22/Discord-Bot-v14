@@ -4,9 +4,9 @@ module.exports = {
   category: 'info',
   scooldown: 0,
   /**
-   * Show bot's ping
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Get bot latency
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const sent = await interaction.deferReply({ fetchReply: true });

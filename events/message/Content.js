@@ -2,9 +2,9 @@ const { Message, Client, ChannelType, EmbedBuilder } = require('discord.js');
 module.exports = {
   name: 'messageCreate',
   /**
-   * Nội dung message
-   * @param {Message} message - Đối tượng message
-   * @param {Client} client - Đối tượng client
+   * Message Content Event
+   * @param {Message} message - Message object
+   * @param {Client} client - Client object
    */
   async execute(message, client) {
     const { author, channel, content } = message;

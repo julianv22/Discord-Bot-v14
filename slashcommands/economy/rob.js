@@ -10,9 +10,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   /**
-   * Rob \\💲 from others (has risk and cooldown)
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Rob 💲 from others (has risk and cooldown)
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed, user: bot } = client;

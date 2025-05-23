@@ -1,9 +1,5 @@
 const fetch = require('node-fetch');
 const { EmbedBuilder, Message, Client } = require('discord.js');
-/**
- * Lấy quote ngẫu nhiên từ zenquotes
- * @returns {Promise<string>}
- */
 function getQuote() {
   return fetch('https://zenquotes.io/api/random')
     .then((res) => {
@@ -21,10 +17,10 @@ module.exports = {
   category: 'misc',
   cooldown: 10,
   /**
-   * Lấy quote ngẫu nhiên từ zenquotes
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * Get a random quote from zenquotes
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);

@@ -18,8 +18,8 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   /**
    * Send a notification
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('notify-md').setTitle('Notification:');

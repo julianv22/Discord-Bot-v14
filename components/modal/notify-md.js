@@ -2,9 +2,9 @@ const { EmbedBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
   data: { name: 'notify-md' },
   /**
-   * Thông báo
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Notify Modal
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;

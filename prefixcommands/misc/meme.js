@@ -7,10 +7,10 @@ module.exports = {
   category: 'misc',
   cooldown: 0,
   /**
-   * Lấy meme ngẫu nhiên từ Reddit
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * Get a random meme from Reddit
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);

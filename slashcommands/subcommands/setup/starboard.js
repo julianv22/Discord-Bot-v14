@@ -7,12 +7,12 @@ module.exports = {
   scooldown: 0,
   /**
    * Setup starboard
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const { user, options, guild, guildId } = interaction;
+    const { options, guild, guildId } = interaction;
     const channel = options.getChannel('starboard-channel');
     const number = options.getInteger('starnum');
 

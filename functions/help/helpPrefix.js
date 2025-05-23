@@ -1,8 +1,8 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 /**
- * Hiển thị danh sách command prefix.
- * @param {Interaction} interaction - Đối tượng interaction.
- * @param {Client} client - Đối tượng client.
+ * Show prefix commands list.
+ * @param {Interaction} interaction - Interaction object.
+ * @param {Client} client - Client object.
  */
 module.exports = (client) => {
   client.helpPrefix = async (interaction) => {

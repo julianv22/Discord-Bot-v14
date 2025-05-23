@@ -6,9 +6,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   /**
-   * Nhận \\💲 hằng ngày
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Claim daily 💲 from the economy system
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

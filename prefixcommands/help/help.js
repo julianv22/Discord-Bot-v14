@@ -6,14 +6,14 @@ module.exports = {
   category: 'help',
   cooldown: 0,
   /**
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng các argument
-   * @param {Client} client - Đối tượng client
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     const { cmdGuide, prefixCommands, listCommands } = client;
-    const { author: user, member, guild } = message;
-    const { commands, count: cmdcount } = listCommands(prefixCommands, member);
+    const { author: user, guild } = message;
+    const { commands, count } = listCommands(prefixCommands);
 
     if (args.join(' ').trim() === '?')
       return cmdGuide(
@@ -41,7 +41,7 @@ module.exports = {
       .setThumbnail(cfg.helpPNG)
       .addFields([
         {
-          name: `Tổng số command: [${cmdcount}]`,
+          name: `Tổng số command: [${count}]`,
           value: `Command prefix: \`${prefix}\``,
         },
       ])

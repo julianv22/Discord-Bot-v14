@@ -2,14 +2,14 @@ const { EmbedBuilder, Message, Client } = require('discord.js');
 module.exports = {
   name: 'avatar',
   aliases: ['avt'],
-  description: 'Xem Avatar của thành viên.',
+  description: 'Xem avatar của thành viên.',
   category: 'info',
   cooldown: 0,
   /**
-   * Hàm thực thi lệnh avatar
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng các argument
-   * @param {Client} client - Đối tượng client
+   * Get user avatar
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     const { author, guild, mentions } = message;

@@ -1,15 +1,15 @@
 const { Client, GuildMember, Interaction, EmbedBuilder, Guild, Message, PermissionFlagsBits } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
-/** @param {Client} client - Đối tượng client */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Thông tin user
-   * @param {Guild} guild - Đối tượng guild
-   * @param {GuildMember} user - Đối tượng user
-   * @param {GuildMember} author - Đối tượng author
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Message} message - Đối tượng message
+   * User information
+   * @param {Guild} guild - Guild object
+   * @param {GuildMember} user - User object
+   * @param {GuildMember} author - Author object
+   * @param {Interaction} interaction - Interaction object
+   * @param {Message} message - Message object
    */
   client.userInfo = async (guild, user, author, interaction, message) => {
     try {

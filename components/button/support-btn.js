@@ -2,9 +2,9 @@ const { Client, Interaction } = require('discord.js');
 module.exports = {
   data: { name: 'support-btn' },
   /**
-   * Hỗ trợ
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Support Button
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const [, button] = interaction.customId.split(':');

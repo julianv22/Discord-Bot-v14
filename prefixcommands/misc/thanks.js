@@ -6,10 +6,10 @@ module.exports = {
   category: 'misc',
   cooldown: 30,
   /**
-   * Gửi lời cảm ơn tới một ai đó
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * Send a thank you message to someone
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     const { cmdGuide, thanksUser } = client;

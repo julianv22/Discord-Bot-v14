@@ -2,9 +2,9 @@ const { Client, Interaction } = require('discord.js');
 module.exports = {
   data: { name: 'help-menu' },
   /**
-   * Menu hỗ trợ
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Help Menu
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { helpPrefix, helpSlash } = client;

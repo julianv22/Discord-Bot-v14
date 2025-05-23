@@ -6,9 +6,9 @@ const serverProfile = require('../../config/serverProfile');
 module.exports = {
   name: 'guildMemberAdd',
   /**
-   * Thành viên tham gia server
-   * @param {GuildMember} member - Đối tượng member
-   * @param {Client} client - Đối tượng client
+   * Guild Member Add Event
+   * @param {GuildMember} member - Guild Member object
+   * @param {Client} client - Client object
    */
   async execute(member, client) {
     try {

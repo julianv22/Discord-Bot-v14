@@ -6,9 +6,9 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   /**
-   * Setup welcome message
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Setup welcome channel with welcome message and log channel
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { user, guild, options } = interaction;

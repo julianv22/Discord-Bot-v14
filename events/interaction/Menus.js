@@ -2,9 +2,9 @@ const { Client, Interaction, ChannelType } = require('discord.js');
 module.exports = {
   name: 'interactionCreate',
   /**
-   * Menu interaction
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Menu Interaction Event
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { menus, executeInteraction } = client;

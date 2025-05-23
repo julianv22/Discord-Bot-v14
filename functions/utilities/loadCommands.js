@@ -1,13 +1,11 @@
 const { Client } = require('discord.js');
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
-/**
- * @param {Client} client - Đối tượng client
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Load các command từ folder ./prefixcommands và ./slashcommands
-   * @param {Boolean} reload - True nếu muốn reload lại, ngược lại false
+   * Load commands from ./prefixcommands and ./slashcommands folders
+   * @param {Boolean} reload - True if you want to reload, otherwise false
    * @returns {Promise<void>}
    */
   client.loadCommands = async (reload = false) => {
@@ -49,9 +47,9 @@ module.exports = (client) => {
       }
 
       /**
-       * @param {String} name - Tên của command
-       * @param {String} folderName - Tên của folder
-       * @param {Array} commandFolders - Mảng các folder
+       * @param {String} name - Command name
+       * @param {String} folderName - Folder name
+       * @param {Array} commandFolders - Array of folders
        */
       async function LoadCommands(name, folderName, commandFolders) {
         const table = new ascii()

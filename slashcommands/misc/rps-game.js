@@ -18,8 +18,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Play RPS game
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const bet = interaction.options.getInteger('bet');

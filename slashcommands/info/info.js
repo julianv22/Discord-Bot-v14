@@ -15,8 +15,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Show bot or server or user's info
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {},
 };

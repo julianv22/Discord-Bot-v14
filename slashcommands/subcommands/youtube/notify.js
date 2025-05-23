@@ -7,8 +7,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Setup Youtube notify channel
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    * @returns {Promise<void>}
    */
   async execute(interaction, client) {

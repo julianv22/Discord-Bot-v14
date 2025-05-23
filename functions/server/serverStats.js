@@ -1,10 +1,11 @@
 const { Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Thống kê thông tin server
-   * @param {Client} client - Đối tượng client
-   * @param {String} guildID - ID của server
+   * Server statistics
+   * @param {Client} client - Client object
+   * @param {String} guildID - Guild ID
    */
   client.serverStats = async (client, guildID) => {
     try {
@@ -17,9 +18,9 @@ module.exports = (client) => {
 
       if (!profile?.totalChannel || !profile?.statsChannel) return;
       /**
-       * Đặt tên cho channel
-       * @param {String} id - ID của channel
-       * @param {String} name - Tên của channel
+       * Set channel name
+       * @param {String} id - Channel ID
+       * @param {String} name - Channel name
        */
       function setChannelName(id, name) {
         guild.channels.cache.get(id).setName(name);
@@ -48,9 +49,9 @@ module.exports = (client) => {
         setChannelName(channel.id, channel.name);
       });
       /**
-       * Lấy số lượng member có trạng thái đó
-       * @param {String} stats - Trạng thái của member
-       * @returns {Number} - Số lượng member có trạng thái đó
+       * Get the number of members with the given status
+       * @param {String} stats - Member status
+       * @returns {Number} - Number of members with the given status
        */
       function getPressence(stats) {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();

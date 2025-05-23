@@ -1,14 +1,12 @@
 const { Client, GuildMember, Message, Interaction, EmbedBuilder } = require('discord.js');
-/**
- * @param {Client} client - Đối tượng client
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Snipe message
-   * @param {GuildMember} user - Đối tượng user
-   * @param {GuildMember} target - Đối tượng target
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Message} message - Đối tượng message
+   * Snipe deleted message
+   * @param {GuildMember} user - User object
+   * @param {GuildMember} target - Target object
+   * @param {Interaction} interaction - Interaction object
+   * @param {Message} message - Message object
    */
   client.snipeMessage = async (user, target, interaction, message) => {
     try {

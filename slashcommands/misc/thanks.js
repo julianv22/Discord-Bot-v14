@@ -10,8 +10,8 @@ module.exports = {
   scooldown: 30,
   /**
    * Thanks someone
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     client.thanksUser(interaction.options.getUser('user'), interaction.user, interaction);

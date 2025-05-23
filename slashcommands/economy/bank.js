@@ -27,9 +27,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   /**
-   * Gửi tiền từ balance sang bank hoặc rút tiền từ bank sang balance
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Deposit/withdraw money from balance to bank
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {},
 };

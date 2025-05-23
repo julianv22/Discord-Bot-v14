@@ -13,8 +13,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Send suggestions to this server
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('suggest-md').setTitle('Server Suggestions:');

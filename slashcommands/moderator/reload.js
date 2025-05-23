@@ -13,8 +13,8 @@ module.exports = {
   // ownerOnly: true,
   /**
    * Reload all commands and events
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { loadCommands, loadComponents, loadEvents, loadFunctions } = client;

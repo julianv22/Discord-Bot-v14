@@ -6,10 +6,10 @@ module.exports = {
   category: 'misc',
   cooldown: 0,
   /**
-   * Gửi tin nhắn cho bot
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * Send a message to the bot
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);

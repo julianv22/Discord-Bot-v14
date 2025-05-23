@@ -1,12 +1,10 @@
 const { Client, Collection } = require('discord.js');
-/**
- * @param {Client} client - Đối tượng client
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Danh sách các command
-   * @param {Collection} CommandType - Đối tượng CommandType
-   * @returns {Object} - Trả về object gồm commands và count
+   * List of commands
+   * @param {Collection} CommandType - CommandType object
+   * @returns {Object} - Return object with commands and count
    */
   client.listCommands = function listCommands(CommandType) {
     try {

@@ -6,8 +6,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Refresh the YouTube channels
-   * @param {Interaction} interaction - The interaction object
-   * @param {Client} client - The client object
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed, checkVideos } = client;

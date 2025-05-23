@@ -32,8 +32,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Execute the tournament command
-   * @param {Interaction} interaction - The interaction object
-   * @param {Client} client - The client object
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

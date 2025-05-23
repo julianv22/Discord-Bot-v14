@@ -4,8 +4,8 @@ module.exports = {
   name: 'ready',
   once: true,
   /**
-   * Khi bot đã sẵn sàng
-   * @param {Client} client - Đối tượng client
+   * Bot ready event
+   * @param {Client} client - Client object
    */
   async execute(client) {
     const { setPresence, serverStats, checkVideos } = client;

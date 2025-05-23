@@ -2,9 +2,9 @@ const { Client, Interaction } = require('discord.js');
 module.exports = {
   data: { name: 'rps-btn' },
   /**
-   * RPS
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client
+   * RPS Game Button
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const [, button, betStr] = interaction.customId.split(':');

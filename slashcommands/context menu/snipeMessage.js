@@ -4,9 +4,9 @@ module.exports = {
   category: 'context menu',
   scooldown: 0,
   /**
-   * Snipe message
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Snipe deleted message
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     client.snipeMessage(interaction.user, interaction.targetUser, interaction);

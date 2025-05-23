@@ -8,10 +8,10 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * Xem thông tin tài khoản Github
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * Get Github account information
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     const { errorEmbed } = client;

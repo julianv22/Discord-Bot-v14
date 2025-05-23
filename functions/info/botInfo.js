@@ -12,15 +12,13 @@ const {
 const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
-/**
- * @param {Client} client - Đối tượng client
- */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Thông tin bot
-   * @param {GuildMember} author - Đối tượng author
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Message} message - Đối tượng message
+   * Bot information
+   * @param {GuildMember} author - Author object
+   * @param {Interaction} interaction - Interaction object
+   * @param {Message} message - Message object
    */
   client.botInfo = async (author, interaction, message) => {
     try {

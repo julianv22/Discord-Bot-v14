@@ -1,9 +1,9 @@
 const { Client } = require('discord.js');
-/** @param {Client} client - Đối tượng client */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Chuyển đổi thời gian uptime thành định dạng Discord
-   * @returns {String} - Trả về thời gian uptime đã chuyển đổi
+   * Convert uptime to Discord format
+   * @returns {String} - Return the converted uptime string
    */
   client.convertUpTime = function convertUpTime() {
     try {

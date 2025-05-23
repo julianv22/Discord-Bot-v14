@@ -1,8 +1,10 @@
+const chalk = require('chalk');
+
 module.exports = (client) => {
   /**
-   * Kiểm tra xem đối tượng strInput có phải là URL hay không
-   * @param {String} strInput - Đối tượng strInput
-   * @returns {Boolean} - Trả về true nếu đối tượng strInput là URL, ngược lại trả về false
+   * Check if the strInput object is a URL
+   * @param {String} strInput - Input string
+   * @returns {Boolean} - Return true if strInput is a URL, otherwise return false
    */
   client.checkURL = function checkURL(strInput) {
     try {

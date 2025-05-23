@@ -15,9 +15,9 @@ module.exports = {
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   /**
-   * Chấp nhận đề xuất
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Accept suggestion
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;

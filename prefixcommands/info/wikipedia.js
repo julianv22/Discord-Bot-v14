@@ -6,10 +6,10 @@ module.exports = {
   category: 'info',
   cooldown: 0,
   /**
-   * Tìm kiếm thông tin trên Wikipedia
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * Search for information on Wikipedia
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     /**

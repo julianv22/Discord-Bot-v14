@@ -3,9 +3,9 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 module.exports = {
   name: 'messageReactionAdd',
   /**
-   * Thêm reaction vào message
-   * @param {MessageReaction} reaction - Đối tượng reaction
-   * @param {User} user - Đối tượng user
+   * Message Reaction Add Event
+   * @param {MessageReaction} reaction - Message Reaction object
+   * @param {User} user - User object
    */
   async execute(reaction, user) {
     try {

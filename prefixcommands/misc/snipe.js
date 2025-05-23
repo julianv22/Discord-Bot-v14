@@ -7,9 +7,9 @@ module.exports = {
   cooldown: 0,
   /**
    * Snipe deleted messages
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
+   * @param {Message} message - Message object
+   * @param {Array} args - Array of arguments
+   * @param {Client} client - Client object
    */
   async execute(message, args, client) {
     const { cmdGuide, snipeMessage } = client;

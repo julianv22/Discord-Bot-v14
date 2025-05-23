@@ -6,9 +6,9 @@ module.exports = {
   category: 'context menu',
   scooldown: 0,
   /**
-   * Lấy thông tin user
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Get user information
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { guild, targetUser, user } = interaction;

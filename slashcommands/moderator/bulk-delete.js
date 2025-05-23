@@ -18,8 +18,8 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   /**
    * Bulk delete messages
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

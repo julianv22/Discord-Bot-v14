@@ -1,5 +1,5 @@
 /**
- * @param {Client} client - Đối tượng client
+ * @param {Client} client - Client object
  */
 module.exports = (client) => {
   /**

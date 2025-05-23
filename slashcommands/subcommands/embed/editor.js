@@ -14,8 +14,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Edit an embed message
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('embed-editor-md').setTitle('Edit Embed Message:');

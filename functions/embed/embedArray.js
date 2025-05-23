@@ -1,18 +1,18 @@
 const { Client, Message } = require('discord.js');
 /**
- * @param {Client} client - Đối tượng client
+ * @param {Client} client - Client object
  */
 module.exports = (client) => {
   /**
-   * Tạo mảng embed
-   * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
-   * @param {String} args[0] - Tiêu đề
-   * @param {String} args[1] - Mô tả
-   * @param {String} args[2] - Footer
-   * @param {URL} args[3] - Thumbnail
-   * @param {URL} args[4] - Image
-   * @param {Class} args[5] - Fields
+   * Create embed array
+   * @param {Message} message - Message object
+   * @param {Array} args - Array args
+   * @param {String} args[0] - Embed title
+   * @param {String} args[1] - Embed description
+   * @param {String} args[2] - Embed footer
+   * @param {URL} args[3] - Embed thumbnail
+   * @param {URL} args[4] - Embed image
+   * @param {Class} args[5] - Embed fields
    */
   client.embedArray = function embedArray(message, args) {
     try {

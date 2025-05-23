@@ -8,8 +8,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Show user's avatar
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { user: author, options } = interaction;

@@ -3,9 +3,9 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
   data: { name: 'transferbtn' },
   /**
-   * Chuyển tiền
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * Transfer Money Button
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

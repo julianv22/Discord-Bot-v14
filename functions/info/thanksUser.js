@@ -1,14 +1,14 @@
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 const { Client, GuildMember, Message, Interaction, EmbedBuilder } = require('discord.js');
-/** @param {Client} client - Đối tượng client */
+/** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Cảm ơn user
-   * @param {GuildMember} user - Đối tượng user
-   * @param {GuildMember} author - Đối tượng author
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Message} message - Đối tượng message
+   * Thank user
+   * @param {GuildMember} user - User object
+   * @param {GuildMember} author - Author object
+   * @param {Interaction} interaction - Interaction object
+   * @param {Message} message - Message object
    */
   client.thanksUser = async (user, author, interaction, message) => {
     try {

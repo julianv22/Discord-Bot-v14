@@ -11,8 +11,8 @@ module.exports = {
   permissions: PermissionFlagsBits.ManageMessages,
   /**
    * Edit a message
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

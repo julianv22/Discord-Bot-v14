@@ -24,8 +24,8 @@ module.exports = {
   scooldown: 0,
   /**
    * Get list of Youtube channels
-   * @param {Interaction} interaction - Đối tượng interaction
-   * @param {Client} client - Đối tượng client
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;

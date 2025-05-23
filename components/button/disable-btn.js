@@ -4,11 +4,12 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
   data: { name: 'disable-btn' },
   /**
-   * Disable Features
-   * @param {Interaction} interaction
-   * @param {Client} client
+   * Disable Features Button
+   * @param {Interaction} interaction - Interaction object
+   * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
     const {
       guild,
       user,
@@ -72,7 +73,7 @@ module.exports = {
       };
       Disable[confirm]();
       profile.save().catch(() => {});
-      await interaction.update({
+      await interaction.editReply({
         embeds: [
           confirmEmbed(
             `\\✅ | Đã tắt tính năng **${capitalize(confirm)}**!`,
@@ -82,11 +83,11 @@ module.exports = {
         components: [updateRow],
       });
     } else if (feature === 'cancel') {
-      await interaction.update({
+      await interaction.editReply({
         embeds: [confirmEmbed(`\\❌ | Đã hủy bỏ!`, `Click vào \`Dismiss message\` để trở về`)],
         components: [updateRow],
       });
-    } else await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
+    } else await interaction.editReply({ embeds: [confirmEmbed()], components: [confirmButton] });
     /**
      * Capitalize a string
      * @param {String} str - String to capitalize
