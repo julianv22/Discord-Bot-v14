@@ -1,6 +1,5 @@
-const { Client, Interaction, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { EmbedBuilder } = require('discord.js');
 module.exports = {
   data: { name: 'disable-btn' },
   /**
@@ -12,7 +11,6 @@ module.exports = {
     await interaction.deferUpdate();
     const {
       guild,
-      user,
       customId,
       message: { components: oldComponents },
     } = interaction;
@@ -71,7 +69,7 @@ module.exports = {
           profile.logChannel = '';
         },
       };
-      Disable[confirm]();
+      await Disable[confirm]();
       profile.save().catch(() => {});
       await interaction.editReply({
         embeds: [

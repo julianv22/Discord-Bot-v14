@@ -46,7 +46,7 @@ module.exports = {
           });
         },
       };
-      CommandsType[options.getSubcommand()]();
+      await CommandsType[options.getSubcommand()]();
 
       setTimeout(() => {
         interaction.editReply({

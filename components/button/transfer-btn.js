@@ -1,5 +1,5 @@
 const economyProfile = require('../../config/economyProfile');
-const { EmbedBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 module.exports = {
   data: { name: 'transfer-btn' },
   /**

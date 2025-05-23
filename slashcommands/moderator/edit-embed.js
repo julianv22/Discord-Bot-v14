@@ -1,19 +1,23 @@
 const {
-  SlashCommandSubcommandBuilder,
+  SlashCommandBuilder,
+  Interaction,
   Client,
+  PermissionFlagsBits,
   ModalBuilder,
   ActionRowBuilder,
   TextInputBuilder,
   TextInputStyle,
-  Interaction,
 } = require('discord.js');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('editor'),
-  category: 'sub command',
-  parent: 'embed',
+  data: new SlashCommandBuilder()
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+    .setName('edit-embed')
+    .setDescription(`Edit Embed. ${cfg.modRole} only`),
+  category: 'moderator',
   scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
   /**
-   * Edit an embed message
+   * Edit/Create Embed
    * @param {Interaction} interaction - Interaction object
    * @param {Client} client - Client object
    */
