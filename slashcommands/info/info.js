@@ -27,6 +27,6 @@ module.exports = {
       server: () => serverInfo(guild, user, interaction),
       user: () => userInfo(guild, options.getUser('user'), user, interaction),
     };
-    await showInfo[subCommand]();
+    if (typeof showInfo[subCommand] === 'function') await showInfo[subCommand]();
   },
 };

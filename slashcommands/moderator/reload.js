@@ -46,7 +46,7 @@ module.exports = {
           });
         },
       };
-      await CommandsType[options.getSubcommand()]();
+      if (typeof CommandsType[options.getSubcommand()] === 'function') await CommandsType[options.getSubcommand()]();
 
       setTimeout(async () => {
         await interaction.editReply({

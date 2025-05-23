@@ -69,7 +69,7 @@ module.exports = {
           profile.logChannel = '';
         },
       };
-      await Disable[confirm]();
+      if (typeof Disable[confirm] === 'function') await Disable[confirm]();
       profile.save().catch(() => {});
       await interaction.editReply({
         embeds: [

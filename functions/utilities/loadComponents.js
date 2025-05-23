@@ -54,7 +54,7 @@ module.exports = (client) => {
           menu: () => requireComponents(menus, componentFiles, folder),
           modal: () => requireComponents(modals, componentFiles, folder),
         };
-        ComponentType[folder]();
+        if (typeof ComponentType[folder] === 'function') ComponentType[folder]();
       });
 
       table.setTitle(`Load Components [${count}]`);

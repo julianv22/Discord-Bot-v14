@@ -44,7 +44,7 @@ module.exports = {
         Button1.components[0].setLabel('⛔Disable Footer').setStyle(ButtonStyle.Danger);
       },
     };
-    await editEmbed[part]();
+    if (typeof editEmbed[part] === 'function') await editEmbed[part]();
     return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });
     /**
      * Replace variables in a string
