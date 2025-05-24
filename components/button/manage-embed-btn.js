@@ -1,13 +1,5 @@
-const {
-  Client,
-  Interaction,
-  EmbedBuilder,
-  ActionRowBuilder,
-  ButtonStyle,
-  ModalBuilder,
-  TextInputStyle,
-} = require('discord.js');
-const { createModal, setEmbedInput } = require('../../functions/common/embedManager');
+const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle, TextInputStyle } = require('discord.js');
+const { createModal, setEmbedInput } = require('../../functions/common/manage-embed');
 module.exports = {
   data: { name: 'manage-embed-btn' },
   /**
@@ -24,13 +16,27 @@ module.exports = {
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
     const Selected = {
+      author: async () => {
+        const modal = createModal('manage-embed-md:author', 'Embed Manager', {
+          id: 'author',
+          label: 'Embed Author, variable: {guild}, {user}',
+          placeholder: '{guild} = Server name, {user} = Username',
+        });
+        modal.addComponents(
+          setEmbedInput({
+            id: 'authorIcon',
+            label: 'Author icon (*.webp)',
+            placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
+          }),
+        );
+        return await interaction.showModal(modal);
+      },
       title: async () => {
         return await interaction.showModal(
           createModal('manage-embed-md:title', 'Embed Manager', {
             id: 'title',
-            label: 'Title',
-            style: TextInputStyle.Short,
-            placeholder: 'Nhập title cho embed',
+            label: 'Embed Title',
+            placeholder: '{guild} = Server name, {user} = Username',
             required: true,
           }),
         );
@@ -40,8 +46,8 @@ module.exports = {
           createModal('manage-embed-md:description', 'Embed Manager', {
             id: 'description',
             label: 'Description',
+            placeholder: 'Enter the embed description\n{guild} = Server name\n{user} = Username',
             style: TextInputStyle.Paragraph,
-            placeholder: 'Nhập description cho embed variable: {user}',
             required: true,
           }),
         );
@@ -50,7 +56,7 @@ module.exports = {
         return await interaction.showModal(
           createModal('manage-embed-md:color', 'Embed Manager', {
             id: 'color',
-            label: 'Color',
+            label: 'Color (Empty = Random)',
             placeholder: 'Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...',
             required: true,
           }),
@@ -60,8 +66,8 @@ module.exports = {
         return await interaction.showModal(
           createModal('manage-embed-md:image', 'Embed Manager', {
             id: 'image',
-            label: 'Image',
-            placeholder: 'Nhập image cho embed, bỏ trống để xoá',
+            label: 'Image (Empty = Delete)',
+            placeholder: 'Enter the image url, Empty = Delete',
           }),
         );
       },
@@ -69,43 +75,33 @@ module.exports = {
         return await interaction.showModal(
           createModal('manage-embed-md:thumbnail', 'Embed Manager', {
             id: 'thumbnail',
-            label: 'Thumbnail',
-            placeholder: 'Nhập thumbnail cho embed, bỏ trống để xoá',
+            label: 'Thumbnail (Empty = Delete)',
+            placeholder: 'Enter the thumbnail url, Empty = Delete',
           }),
         );
       },
       footer: async () => {
-        if (Button1.components[0].data.style === ButtonStyle.Danger) {
-          getEmbeds.setFooter({ text: null });
-          Button1.components[0].setLabel('✅Enable Footer').setStyle(ButtonStyle.Success);
-          return await interaction.update({
-            embeds: [getEmbeds],
-            components: [Button0, Button1],
-            ephemeral: true,
-          });
-        } else {
-          const modal = createModal('manage-embed-md:footer', 'Embed Manager', {
-            id: 'footer',
-            label: 'Footer',
-            placeholder: '{user} = Username',
-          });
-          modal.addComponents(
-            setEmbedInput({
-              id: 'footerIcon',
-              label: 'Footer Icon Url',
-              placeholder: '{avatar} or link (*.webp)',
-            }),
-          );
-          return await interaction.showModal(modal);
-        }
+        const modal = createModal('manage-embed-md:footer', 'Embed Manager', {
+          id: 'footer',
+          label: 'Footer (Empty = Delete)',
+          placeholder: '{guild} = Server name, {user} = Username',
+        });
+        modal.addComponents(
+          setEmbedInput({
+            id: 'footerIcon',
+            label: 'Footer icon (*.webp)',
+            placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
+          }),
+        );
+        return await interaction.showModal(modal);
       },
       timestamp: async () => {
-        if (Button1.components[1].data.style === ButtonStyle.Danger) {
+        if (Button1.components[2].data.style === ButtonStyle.Danger) {
           getEmbeds.setTimestamp(null);
-          Button1.components[1].setLabel('✅Enable Timestamp').setStyle(ButtonStyle.Success);
+          Button1.components[2].setLabel('✅Timestamp').setStyle(ButtonStyle.Success);
         } else {
           getEmbeds.setTimestamp();
-          Button1.components[1].setLabel('⛔Disable Timestamp').setStyle(ButtonStyle.Danger);
+          Button1.components[2].setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
         }
         return await interaction.update({
           embeds: [getEmbeds],

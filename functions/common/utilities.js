@@ -39,19 +39,19 @@ function checkURL(strInput) {
   }
 }
 /**
- * Replace variables in a string
- * @param {string} str - The string to replace variables in
- * @param {string} replace - The string to replace the variables with
- * @returns {string} - The string with the variables replaced
+ * Tìm kiếm và thay thế các biến trong chuỗi
+ * @param {string} str - Chuỗi cần thay thế
+ * @param {Object} replacements - Đối tượng chứa các biến và giá trị tương ứng
+ * @returns {string} - Chuỗi đã được thay thế
  */
-function replaceVar(str, replace, key) {
-  let regex = '';
-  // Replace user variable
-  if (key === 'user') regex = /\{user\}/g;
-  // Replace avatar variable
-  else if (key === 'avt') regex = /\{avatar\}/g;
-  // Return string with variables replaced
-  return str.replace(regex, replace);
+function replaceVar(str, replacements) {
+  // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
+  // Ví dụ: {user}, {guild}, {avatar}
+  return str.replace(/\{(\w+)\}/g, (match, key) => {
+    // Nếu key tồn tại trong đối tượng replacements, trả về giá trị đó.
+    // Nếu không, trả về lại match gốc để không thay đổi phần đó.
+    return replacements[key] !== undefined ? replacements[key] : match;
+  });
 }
 /**
  * Capitalize a string

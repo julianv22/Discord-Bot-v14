@@ -40,7 +40,6 @@ function getEmbedColor(color) {
     'NotQuiteBlack',
     'White',
     'Default',
-    'Random',
   ];
   /**
    * Normalize a string
@@ -62,17 +61,18 @@ function getEmbedColor(color) {
  * Create embed buttons
  * @returns {[ActionRowBuilder, ActionRowBuilder]} - Return ActionRowBuilder
  */
-function manageEmbedButtons() {
+function embedButtons() {
   const button1 = [
     { customId: 'manage-embed-btn:title', label: '💬Title', style: ButtonStyle.Primary },
     { customId: 'manage-embed-btn:description', label: '💬Description', style: ButtonStyle.Primary },
     { customId: 'manage-embed-btn:color', label: '🎨Color', style: ButtonStyle.Primary },
-    { customId: 'manage-embed-btn:thumbnail', label: '🖼️Thumbnail', style: ButtonStyle.Secondary },
-    { customId: 'manage-embed-btn:image', label: '🖼️Image', style: ButtonStyle.Secondary },
+    { customId: 'manage-embed-btn:author', label: '✍Author', style: ButtonStyle.Secondary },
+    { customId: 'manage-embed-btn:footer', label: '📝Footer', style: ButtonStyle.Secondary },
   ];
   const button2 = [
-    { customId: 'manage-embed-btn:footer', label: '⛔DisableFooter', style: ButtonStyle.Danger },
-    { customId: 'manage-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
+    { customId: 'manage-embed-btn:thumbnail', label: '🖼️Thumbnail', style: ButtonStyle.Secondary },
+    { customId: 'manage-embed-btn:image', label: '🖼️Image', style: ButtonStyle.Secondary },
+    { customId: 'manage-embed-btn:timestamp', label: '⛔Timestamp', style: ButtonStyle.Danger },
     { customId: 'manage-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
   ];
   return [
@@ -111,4 +111,4 @@ function setEmbedInput({ id, label, style = TextInputStyle.Short, placeholder = 
       .setRequired(required),
   );
 }
-module.exports = { getEmbedColor, manageEmbedButtons, createModal, setEmbedInput };
+module.exports = { getEmbedColor, embedButtons, createModal, setEmbedInput };

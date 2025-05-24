@@ -1,14 +1,5 @@
-const {
-  Client,
-  Interaction,
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-  EmbedBuilder,
-  ButtonStyle,
-  ActionRowBuilder,
-  ComponentType,
-} = require('discord.js');
-const { setRowComponent } = require('../../functions/common/components');
+const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { embedButtons } = require('../../functions/common/manage-embed');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('create-embed')
@@ -31,27 +22,13 @@ module.exports = {
       .setColor('Random')
       .setTimestamp()
       .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
-    const button1 = [
-      { customId: 'manage-embed-btn:title', label: '💬Title', style: ButtonStyle.Primary },
-      { customId: 'manage-embed-btn:description', label: '💬Description', style: ButtonStyle.Primary },
-      { customId: 'manage-embed-btn:color', label: '🎨Color', style: ButtonStyle.Primary },
-      { customId: 'manage-embed-btn:thumbnail', label: '🖼️Thumbnail', style: ButtonStyle.Secondary },
-      { customId: 'manage-embed-btn:image', label: '🖼️Image', style: ButtonStyle.Secondary },
-    ];
-    const button2 = [
-      { customId: 'manage-embed-btn:footer', label: '⛔DisableFooter', style: ButtonStyle.Danger },
-      { customId: 'manage-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
-      { customId: 'manage-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
-    ];
+    const [row1, row2] = embedButtons();
     let guildeContent = `Danh sách màu sắc: \`\`\`'Red', 'Blue', 'Green', 'Yellow', 'LuminousVividPink', 'Fuchsia', 'Gold', 'Orange', 'Purple', 'DarkAqua', 'DarkGreen', 'DarkBlue', 'DarkPurple', 'DarkVividPink', 'DarkGold', 'DarkOrange', 'DarkRed', 'DarkGrey', 'Navy', 'Aqua', 'Blurple', 'Greyple', 'DarkButNotBlack', 'NotQuiteBlack', 'White', 'Default', 'Random'\`\`\`\n`;
-    guildeContent += `Click vào \`⛔Disable Footer\` để tắt footer, sau đó \`✅Enable Footer\` để thể thiết lập footer mới.\nCác biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.`;
+    guildeContent += `Các biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.    |    \`{guild}\`: tên guild`;
     await interaction.reply({
       content: guildeContent,
       embeds: [createEmbed],
-      components: [
-        new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button)),
-        new ActionRowBuilder().addComponents(setRowComponent(button2, ComponentType.Button)),
-      ],
+      components: [row1, row2],
       ephemeral: true,
     });
   },
