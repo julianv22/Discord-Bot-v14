@@ -18,11 +18,14 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const { options, channel } = interaction;
+    const {
+      options,
+      channel: { messages },
+    } = interaction;
     const messageId = options.getString('message_id');
     let msg;
     try {
-      msg = await channel.messages.fetch(messageId);
+      msg = await messages.fetch(messageId);
     } catch {
       return interaction.reply(errorEmbed(true, 'Không tìm thấy message, hoặc message không nằm trong channel này!'));
     }
