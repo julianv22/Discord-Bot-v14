@@ -1,6 +1,6 @@
 const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { getEmbedColor } = require('../../functions/common/embeds');
-const { checkURL } = require('../../functions/common/utilities');
+const { checkURL, replaceVar } = require('../../functions/common/utilities');
 module.exports = {
   data: { name: 'create-embed-md' },
   /**
@@ -21,7 +21,7 @@ module.exports = {
         getEmbeds.setTitle(strInput);
       },
       description: () => {
-        getEmbeds.setDescription(strInput);
+        getEmbeds.setDescription(replaceVar(strInput, user.displayName || user.username, 'user'));
       },
       color: () => {
         getEmbeds.setColor(getEmbedColor(strInput));
@@ -47,20 +47,5 @@ module.exports = {
     };
     if (typeof editEmbed[part] === 'function') await editEmbed[part]();
     return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });
-    /**
-     * Replace variables in a string
-     * @param {string} str - The string to replace variables in
-     * @param {string} replace - The string to replace the variables with
-     * @returns {string} - The string with the variables replaced
-     */
-    function replaceVar(str, replace, key) {
-      let regex = '';
-      // Replace user variable
-      if (key === 'user') regex = /\{user\}/g;
-      // Replace avatar variable
-      else if (key === 'avt') regex = /\{avatar\}/g;
-      // Return string with variables replaced
-      return str.replace(regex, replace);
-    }
   },
 };

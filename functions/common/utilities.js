@@ -39,4 +39,28 @@ function checkURL(strInput) {
     console.error(chalk.red('Error while running checkURL'), e);
   }
 }
-module.exports = { getLatestVideoId, checkURL };
+/**
+ * Replace variables in a string
+ * @param {string} str - The string to replace variables in
+ * @param {string} replace - The string to replace the variables with
+ * @returns {string} - The string with the variables replaced
+ */
+function replaceVar(str, replace, key) {
+  let regex = '';
+  // Replace user variable
+  if (key === 'user') regex = /\{user\}/g;
+  // Replace avatar variable
+  else if (key === 'avt') regex = /\{avatar\}/g;
+  // Return string with variables replaced
+  return str.replace(regex, replace);
+}
+/**
+ * Capitalize a string
+ * @param {String} str - String to capitalize
+ * @returns {String} - Capitalized string
+ */
+function capitalize(str) {
+  if (!str) return ''; // Handle empty or undefined string
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+module.exports = { getLatestVideoId, checkURL, replaceVar, capitalize };

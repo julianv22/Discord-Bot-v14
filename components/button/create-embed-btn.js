@@ -48,7 +48,7 @@ module.exports = {
               id: 'description',
               label: 'Description',
               style: TextInputStyle.Paragraph,
-              placeholder: 'Nhập description cho embed',
+              placeholder: 'Nhập description cho embed variable: {user}',
               required: true,
             }),
           );

@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { capitalize } = require('../../functions/common/utilities');
 module.exports = {
   data: { name: 'disable-btn' },
   /**
@@ -86,14 +87,5 @@ module.exports = {
         components: [updateRow],
       });
     } else await interaction.editReply({ embeds: [confirmEmbed()], components: [confirmButton] });
-    /**
-     * Capitalize a string
-     * @param {String} str - String to capitalize
-     * @returns {String} - Capitalized string
-     */
-    function capitalize(str) {
-      if (!str) return ''; // Handle empty or undefined string
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
   },
 };

@@ -1,4 +1,5 @@
 const { Message, Client, EmbedBuilder } = require('discord.js');
+const { capitalize } = require('../../functions/common/utilities');
 module.exports = {
   name: 'wikipedia',
   aliases: ['wiki'],
@@ -12,16 +13,6 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(message, args, client) {
-    /**
-     * Capitalize a string
-     * @param {String} str - String to capitalize
-     * @returns {String} - Capitalized string
-     */
-    function capitalize(str) {
-      if (!str) return ''; // Handle empty or undefined string
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
     const { errorEmbed } = client;
     const { author } = message;
     if (args.join(' ').trim() === '?')

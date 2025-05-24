@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { capitalize } = require('../../functions/common/utilities');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('wikipedia')
@@ -12,16 +13,6 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    /**
-     * Capitalize a string
-     * @param {String} str - String to capitalize
-     * @returns {String} - Capitalized string
-     */
-    function capitalize(str) {
-      if (!str) return ''; // Handle empty or undefined string
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
     const keyword = interaction.options.getString('keyword');
     const { user: author } = interaction;
     const { errorEmbed } = client;
