@@ -46,6 +46,24 @@ module.exports = {
     try {
       // Tính kết quả
       const rps = rpsGame(userMove, profile, bet);
+      // Tính tiền thắng
+      const winAmount = Math.floor(bet * (1 + Math.random() * 0.5)); // 1x ~ 1.5x
+      // Tạo string cho kết quả
+      const resString = {
+        0: () => {
+          profile.balance -= bet;
+          profile.totalSpent -= bet;
+          return `Bạn thua và bị trừ **${bet.toLocaleString()}\\💲**!`;
+        },
+        1: () => {
+          return `Hòa, bạn không bị trừ tiền!`;
+        },
+        2: () => {
+          profile.balance += winAmount;
+          profile.totalEarned += winAmount;
+          return `Bạn thắng và nhận được **${winAmount.toLocaleString()}\\💲**!`;
+        },
+      };
       // Tăng số lần chơi và cập nhật ngày
       profile.rpsCount += 1;
       profile.lastPlayRPS = today;
@@ -60,7 +78,7 @@ module.exports = {
         .setTimestamp()
         .setTitle('You ' + rps.result)
         .setDescription(
-          `${rps.description}\n\n${rpsConfig.Functions[rps.res]()}\nSố lần chơi hôm nay: **${
+          `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
             profile.rpsCount
           }/50**\nSố dư: **${profile.balance.toLocaleString()}\\💲**`,
         )

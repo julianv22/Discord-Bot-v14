@@ -2,7 +2,7 @@ const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle } = req
 const { getEmbedColor } = require('../../functions/common/embeds');
 const { checkURL, replaceVar } = require('../../functions/common/utilities');
 module.exports = {
-  data: { name: 'create-embed-md' },
+  data: { name: 'manage-embed-md' },
   /**
    * Embed Modal
    * @param {Interaction} interaction - Interaction object

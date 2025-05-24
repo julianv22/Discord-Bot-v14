@@ -9,9 +9,8 @@
  * - description: Mô tả cho embed
  * - res: Kết quả RPS dạng số
  */
-function rpsGame(userMove, profile, bet) {
+function rpsGame(userMove, bet) {
   const botMove = Math.floor(Math.random() * 3);
-  const winAmount = Math.floor(bet * (1 + Math.random() * 0.5)); // 1x ~ 1.5x
   /**
    * RPS Config
    * @type {Object}
@@ -28,21 +27,6 @@ function rpsGame(userMove, profile, bet) {
     Compares: { 0: '<', 1: '=', 2: '>' },
     ResultStrings: { 0: `Lose \\🏳️`, 1: `Tie \\🤝`, 2: `Win \\🎉` },
     Colors: { 0: 'Red', 1: 'Orange', 2: 'Green' },
-    Functions: {
-      0: () => {
-        profile.balance -= bet;
-        profile.totalSpent -= bet;
-        return `Bạn thua và bị trừ **${bet.toLocaleString()}\\💲**!`;
-      },
-      1: () => {
-        return `Hòa, bạn không bị trừ tiền!`;
-      },
-      2: () => {
-        profile.balance += winAmount;
-        profile.totalEarned += winAmount;
-        return `Bạn thắng và nhận được **${winAmount.toLocaleString()}\\💲**!`;
-      },
-    },
   };
 
   const {

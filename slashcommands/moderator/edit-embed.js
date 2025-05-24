@@ -1,17 +1,5 @@
-const {
-  SlashCommandBuilder,
-  Interaction,
-  Client,
-  PermissionFlagsBits,
-  ModalBuilder,
-  ActionRowBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  EmbedBuilder,
-  ComponentType,
-} = require('discord.js');
-const { setRowComponent } = require('../../functions/common/components');
-const { getEmbedButtons } = require('../../functions/common/embeds');
+const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { manageEmbedButtons } = require('../../functions/common/embedManager');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -37,16 +25,14 @@ module.exports = {
     try {
       msg = await channel.messages.fetch(messageId);
     } catch {
-      return interaction.reply(errorEmbed(true, 'Không tìm thấy message!'));
+      return interaction.reply(errorEmbed(true, 'Không tìm thấy message, hoặc message không nằm trong channel này!'));
     }
     if (!msg.embeds.length) return interaction.reply(errorEmbed(true, 'Message này không có embed!'));
-
-    // Tái sử dụng hàm tạo button
-    const [row1, row2] = getEmbedButtons(setRowComponent, ComponentType, true);
-
+    const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
+    const [row1, row2] = manageEmbedButtons();
     await interaction.reply({
-      content: 'Bạn có thể chỉnh sửa embed này:',
-      embeds: [EmbedBuilder.from(msg.embeds[0])],
+      content: 'Test',
+      embeds: [msgEmbed],
       components: [row1, row2],
       ephemeral: true,
     });

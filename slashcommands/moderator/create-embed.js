@@ -32,16 +32,16 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
     const button1 = [
-      { customId: 'create-embed-btn:title', label: '💬Title', style: ButtonStyle.Primary },
-      { customId: 'create-embed-btn:description', label: '💬Description', style: ButtonStyle.Primary },
-      { customId: 'create-embed-btn:color', label: '🎨Color', style: ButtonStyle.Primary },
-      { customId: 'create-embed-btn:thumbnail', label: '🖼️Thumbnail', style: ButtonStyle.Secondary },
-      { customId: 'create-embed-btn:image', label: '🖼️Image', style: ButtonStyle.Secondary },
+      { customId: 'manage-embed-btn:title', label: '💬Title', style: ButtonStyle.Primary },
+      { customId: 'manage-embed-btn:description', label: '💬Description', style: ButtonStyle.Primary },
+      { customId: 'manage-embed-btn:color', label: '🎨Color', style: ButtonStyle.Primary },
+      { customId: 'manage-embed-btn:thumbnail', label: '🖼️Thumbnail', style: ButtonStyle.Secondary },
+      { customId: 'manage-embed-btn:image', label: '🖼️Image', style: ButtonStyle.Secondary },
     ];
     const button2 = [
-      { customId: 'create-embed-btn:footer', label: '⛔DisableFooter', style: ButtonStyle.Danger },
-      { customId: 'create-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
-      { customId: 'create-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
+      { customId: 'manage-embed-btn:footer', label: '⛔DisableFooter', style: ButtonStyle.Danger },
+      { customId: 'manage-embed-btn:timestamp', label: '⛔Disable Timestamp', style: ButtonStyle.Danger },
+      { customId: 'manage-embed-btn:send', label: '✅Send Embed', style: ButtonStyle.Success },
     ];
     let guildeContent = `Danh sách màu sắc: \`\`\`'Red', 'Blue', 'Green', 'Yellow', 'LuminousVividPink', 'Fuchsia', 'Gold', 'Orange', 'Purple', 'DarkAqua', 'DarkGreen', 'DarkBlue', 'DarkPurple', 'DarkVividPink', 'DarkGold', 'DarkOrange', 'DarkRed', 'DarkGrey', 'Navy', 'Aqua', 'Blurple', 'Greyple', 'DarkButNotBlack', 'NotQuiteBlack', 'White', 'Default', 'Random'\`\`\`\n`;
     guildeContent += `Click vào \`⛔Disable Footer\` để tắt footer, sau đó \`✅Enable Footer\` để thể thiết lập footer mới.\nCác biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.`;
