@@ -79,18 +79,28 @@ module.exports = {
         // Đảm bảo profile.starboardMessages tồn tại
         if (!profile.starboardMessages) profile.starboardMessages = {};
 
-        const starboardMsgId = profile.starboardMessages[message.id];
-        let sentMsg;
+        // Lấy thông tin mapping starboard cho message hiện tại
+        const starboardData = profile.starboardMessages[message.id];
+        const now = Date.now();
+        // Kiểm tra cooldown: chỉ cho phép gửi mới hoặc update sau 5 phút (300000ms)
+        if (starboardData && starboardData.lastTime && now - starboardData.lastTime < 300000) {
+          // Nếu chưa đủ cooldown, bỏ qua không gửi/update
+          return;
+        }
 
-        if (starboardMsgId) {
+        let sentMsg;
+        if (starboardData && starboardData.id) {
           // Đã có message trên starboard, update lại
-          sentMsg = await starboardChannel.messages.fetch(starboardMsgId).catch(() => null);
+          sentMsg = await starboardChannel.messages.fetch(starboardData.id).catch(() => null);
           if (sentMsg) {
             await sentMsg.edit({
               content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
               embeds: embeds,
               components: [jumpButton],
             });
+            // Cập nhật lại thời gian cuối cùng update
+            profile.starboardMessages[message.id].lastTime = now;
+            await profile.save();
           } else {
             // Nếu không fetch được (bị xoá), gửi mới
             sentMsg = await starboardChannel.send({
@@ -98,7 +108,7 @@ module.exports = {
               embeds: embeds,
               components: [jumpButton],
             });
-            profile.starboardMessages[message.id] = sentMsg.id;
+            profile.starboardMessages[message.id] = { id: sentMsg.id, lastTime: now };
             await profile.save();
           }
         } else {
@@ -108,7 +118,7 @@ module.exports = {
             embeds: embeds,
             components: [jumpButton],
           });
-          profile.starboardMessages[message.id] = sentMsg.id;
+          profile.starboardMessages[message.id] = { id: sentMsg.id, lastTime: now };
           await profile.save();
         }
       }

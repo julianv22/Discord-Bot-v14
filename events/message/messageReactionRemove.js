@@ -29,9 +29,13 @@ module.exports = {
         const starboardChannel = guild.channels.cache.get(profile.starboardChannel);
         if (!starboardChannel) return;
 
-        // Xoá message starboard dựa vào messageId đã lưu
-        if (profile.starboardMessages && profile.starboardMessages[message.id]) {
-          const starMsgId = profile.starboardMessages[message.id];
+        // Xoá message starboard dựa vào messageId đã lưu (dạng object: { id, lastTime })
+        if (
+          profile.starboardMessages &&
+          profile.starboardMessages[message.id] &&
+          profile.starboardMessages[message.id].id
+        ) {
+          const starMsgId = profile.starboardMessages[message.id].id;
           const starMsg = await starboardChannel.messages.fetch(starMsgId).catch(() => null);
           if (starMsg) await starMsg.delete().catch(() => {});
           // Xoá mapping khỏi profile
