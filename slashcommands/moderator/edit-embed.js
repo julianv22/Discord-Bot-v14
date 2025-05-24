@@ -33,7 +33,6 @@ module.exports = {
     const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
     const [row1, row2] = embedButtons(messageId);
     await interaction.reply({
-      content: 'Test',
       embeds: [msgEmbed],
       components: [row1, row2],
       flags: 64,
