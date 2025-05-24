@@ -1,5 +1,6 @@
-const economyProfile = require('../../config/economyProfile');
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const economyProfile = require('../../config/economyProfile');
+const { rpsGame } = require('../../functions/common/games');
 module.exports = {
   data: { name: 'rps-btn' },
   /**
@@ -9,10 +10,9 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const { user, guild } = interaction;
-    const [, button, betStr] = interaction.customId.split(':');
+    const { user, guild, customId } = interaction;
+    const [, button, betStr] = customId.split(':');
     const bet = parseInt(betStr, 10);
-    const botMove = Math.floor(Math.random() * 3);
     const userMove = parseInt(button, 10);
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     // Kiểm tra tài khoản Economy
@@ -42,75 +42,10 @@ module.exports = {
         errorEmbed(true, `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toLocaleString()}\\💲`),
       );
     }
-    /**
-     * RPS Config
-     * @property {Object} Emojis - Emojis cho các nước đi
-     * @property {Object} Results - Kết quả RPS dạng số
-     * @property {Object} Compares - String so sánh kết quả RPS
-     * @property {Object} ResultStrings - String kết quả RPS
-     * @property {Object} Colors - Màu sắc cho embed
-     * @property {Object} Functions - Hàm xử lý kết quả RPS trả về string
-     */
-    const rpsConfig = {
-      Emojis: { 0: '🔨', 1: '📄', 2: '✂️' },
-      Results: { Lose: 0, Tie: 1, Win: 2 },
-      Compares: { 0: '<', 1: '=', 2: '>' },
-      ResultStrings: { 0: `Lose \\🏳️`, 1: `Tie \\🤝`, 2: `Win \\🎉` },
-      Colors: { 0: 'Red', 1: 'Orange', 2: 'Green' },
-      Functions: {
-        0: () => {
-          profile.balance -= bet;
-          profile.totalSpent -= bet;
-          return `Bạn thua và bị trừ **${bet.toLocaleString()}\\💲**!`;
-        },
-        1: () => {
-          return `Hòa, bạn không bị trừ tiền!`;
-        },
-        2: () => {
-          profile.balance += winAmount;
-          profile.totalEarned += winAmount;
-          return `Bạn thắng và nhận được **${winAmount.toLocaleString()}\\💲**!`;
-        },
-      },
-    };
-    // Destructure RPS Config
-    const {
-      Emojis,
-      Results: { Tie, Win, Lose },
-      Compares,
-      ResultStrings,
-      Colors,
-    } = rpsConfig;
-    // Số tiền thắng
-    let winAmount = Math.floor(bet * (1 + Math.random() * 0.5)); // 1x ~ 1.5x
-    // Ma trận kết quả
-    const resultMatrix = [
-      [Tie, Lose, Win],
-      [Win, Tie, Lose],
-      [Lose, Win, Tie],
-    ];
-    /**
-     * Hàm tính kết quả RPS
-     * @param {Number} userMove - Nước đi của người dùng
-     * @param {Number} botMove - Nước đi của bot
-     * @returns {Object} - Trả về object gồm:
-     * - result: Kết quả RPS
-     * - color: Màu sắc cho embed
-     * - description: Mô tả cho embed
-     * - res: Kết quả RPS dạng số
-     */
-    function rpsResult(userMove, botMove) {
-      const res = resultMatrix[userMove][botMove];
-      return {
-        result: ResultStrings[res],
-        color: Colors[res],
-        description: `〔You ${Emojis[userMove]}〕 ${Compares[res]} 〔Bot ${Emojis[botMove]}〕`,
-        res,
-      };
-    }
+
     try {
       // Tính kết quả
-      const rps = rpsResult(userMove, botMove);
+      const rps = rpsGame(userMove, profile, bet);
       // Tăng số lần chơi và cập nhật ngày
       profile.rpsCount += 1;
       profile.lastPlayRPS = today;

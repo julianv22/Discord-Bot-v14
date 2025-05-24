@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 const serverProfile = require('../../config/serverProfile');
-const { EmbedBuilder } = require('discord.js');
 /**
  * Get the latest video of the YouTube channel
  * @param {String} channelId - Channel ID
