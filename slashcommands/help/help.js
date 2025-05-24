@@ -5,10 +5,10 @@ const {
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
-  ButtonStyle,
   ComponentType,
 } = require('discord.js');
 const { setRowComponent } = require('../../functions/common/components');
+const { infoButtons } = require('../../functions/common/info-buttons');
 module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   category: 'help',
@@ -35,14 +35,6 @@ module.exports = {
         description: `List Slash (/) Commands`,
       },
     ];
-
-    const buttons = [
-      { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
-      { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
-      { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
-      { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
-    ];
-
     await interaction.reply({
       embeds: [
         {
@@ -59,7 +51,7 @@ module.exports = {
             .setOptions(setRowComponent(menus, ComponentType.StringSelect))
             .addOptions(folders.map((f) => ({ label: `📂 ${f.toUpperCase()}`, value: f }))),
         ),
-        new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button)),
+        infoButtons(),
       ],
       flags: 64,
     });

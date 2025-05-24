@@ -1,5 +1,5 @@
-const { EmbedBuilder, ActionRowBuilder, Message, Client, ButtonStyle, ComponentType } = require('discord.js');
-const { setRowComponent } = require('../../functions/common/components');
+const { EmbedBuilder, Message, Client } = require('discord.js');
+const { infoButtons } = require('../../functions/common/info-buttons');
 module.exports = {
   name: 'help',
   aliases: ['h'],
@@ -26,13 +26,6 @@ module.exports = {
           this.description
         }`,
       );
-
-    const buttons = [
-      { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
-      { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
-      { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
-      { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
-    ];
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -62,7 +55,7 @@ module.exports = {
     message.delete().then(() =>
       message.channel.send({
         embeds: [embed],
-        components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],
+        components: [infoButtons()],
       }),
     );
   },

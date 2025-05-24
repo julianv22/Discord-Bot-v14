@@ -1,4 +1,5 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { capitalize } = require('../common/utilities');
 /** @param {Client} client - Client object. */
 module.exports = (client) => {
   /**
@@ -19,7 +20,7 @@ module.exports = (client) => {
     const helpEmbed = (commandName, commands, count) => {
       return new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle(`\\📂 Danh sách ${commandName} [${count}]`)
+        .setTitle(`\\📂 Danh sách ${capitalize(commandName)} Command [${count}]`)
         .setColor('Random')
         .setThumbnail(cfg.slashPNG)
         .setTimestamp()
@@ -44,7 +45,7 @@ module.exports = (client) => {
           });
           count += command.size;
         });
-        return await interaction.update({ embeds: [helpEmbed(CommandType, commands, count)] });
+        return await interaction.update({ embeds: [helpEmbed('Sub', commands, count)] });
       },
       default: async () => {
         commands = Array.from(slashCommands.values()).filter(

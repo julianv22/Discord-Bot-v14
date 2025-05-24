@@ -12,7 +12,7 @@ const {
 const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
-const { setRowComponent } = require('../common/components');
+const { infoButtons } = require('../common/info-buttons');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
@@ -108,16 +108,9 @@ module.exports = (client) => {
           text: `Requested by ${author.displayName}`,
           iconURL: author.displayAvatarURL(true),
         });
-
-      const buttons = [
-        { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
-        { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
-        { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
-        { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
-      ];
       (interaction ? interaction : message).reply({
         embeds: [embed],
-        components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],
+        components: [infoButtons()],
       });
     } catch (e) {
       const errorEmbed = {
