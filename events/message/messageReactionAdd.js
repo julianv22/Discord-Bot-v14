@@ -76,50 +76,46 @@ module.exports = {
 
       // Nếu có content hoặc embed
       if (embeds.length > 0) {
-        // Đảm bảo profile.starboardMessages tồn tại
         if (!profile.starboardMessages) profile.starboardMessages = {};
 
-        // Lấy thông tin mapping starboard cho message hiện tại
         const starboardData = profile.starboardMessages[message.id];
         const now = Date.now();
-        // Kiểm tra cooldown: chỉ cho phép gửi mới hoặc update sau 5 phút (300000ms)
-        if (starboardData && starboardData.lastTime && now - starboardData.lastTime < 300000) {
-          // Nếu chưa đủ cooldown, bỏ qua không gửi/update
-          return;
-        }
 
-        let sentMsg;
         if (starboardData && starboardData.id) {
-          // Đã có message trên starboard, update lại
-          sentMsg = await starboardChannel.messages.fetch(starboardData.id).catch(() => null);
+          // Đã có message trên starboard, luôn update số star và embed ngay lập tức
+          const sentMsg = await starboardChannel.messages.fetch(starboardData.id).catch(() => null);
           if (sentMsg) {
             await sentMsg.edit({
               content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
               embeds: embeds,
               components: [jumpButton],
             });
-            // Cập nhật lại thời gian cuối cùng update
+            // Cập nhật lại thời gian cuối cùng update (không cần thiết cho cooldown, nhưng có thể lưu để log)
             profile.starboardMessages[message.id].lastTime = now;
             await profile.save();
           } else {
-            // Nếu không fetch được (bị xoá), gửi mới
-            sentMsg = await starboardChannel.send({
+            // Nếu không fetch được (bị xoá), cho phép gửi mới nếu qua cooldown
+            if (!starboardData.lastTime || now - starboardData.lastTime >= 300000) {
+              const newMsg = await starboardChannel.send({
+                content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
+                embeds: embeds,
+                components: [jumpButton],
+              });
+              profile.starboardMessages[message.id] = { id: newMsg.id, lastTime: now };
+              await profile.save();
+            }
+          }
+        } else {
+          // Chưa có, chỉ gửi mới nếu đủ cooldown
+          if (!starboardData || !starboardData.lastTime || now - starboardData.lastTime >= 300000) {
+            const newMsg = await starboardChannel.send({
               content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
               embeds: embeds,
               components: [jumpButton],
             });
-            profile.starboardMessages[message.id] = { id: sentMsg.id, lastTime: now };
+            profile.starboardMessages[message.id] = { id: newMsg.id, lastTime: now };
             await profile.save();
           }
-        } else {
-          // Chưa có, gửi mới
-          sentMsg = await starboardChannel.send({
-            content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
-            embeds: embeds,
-            components: [jumpButton],
-          });
-          profile.starboardMessages[message.id] = { id: sentMsg.id, lastTime: now };
-          await profile.save();
         }
       }
     } catch (e) {
