@@ -7,6 +7,7 @@ const {
   ModalBuilder,
   TextInputStyle,
 } = require('discord.js');
+const { setTextInputComponent } = require('../../functions/common/components');
 module.exports = {
   data: { name: 'create-embed-btn' },
   /**
@@ -15,7 +16,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed, setTextInputComponent } = client;
+    const { errorEmbed } = client;
     const { customId, message } = interaction;
     if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
     const [, button] = customId.split(':');

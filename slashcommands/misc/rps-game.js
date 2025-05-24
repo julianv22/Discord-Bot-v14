@@ -7,6 +7,7 @@ const {
   ButtonStyle,
   ComponentType,
 } = require('discord.js');
+const { setRowComponent } = require('../../functions/common/components');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('rps-game')
@@ -22,7 +23,6 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { setRowComponent } = client;
     const bet = interaction.options.getInteger('bet');
 
     const buttons = [

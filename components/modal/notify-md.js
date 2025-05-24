@@ -1,4 +1,5 @@
 const { EmbedBuilder, Client, Interaction } = require('discord.js');
+const { checkURL } = require('../../functions/common/utilities');
 module.exports = {
   data: { name: 'notify-md' },
   /**
@@ -25,7 +26,7 @@ module.exports = {
       })
       .setTimestamp()
       .setThumbnail(notifytype === '2' ? cfg.updatePNG : cfg.thongbaoPNG)
-      .setImage(client.checkURL(imageURL) ? imageURL : null);
+      .setImage(checkURL(imageURL) ? imageURL : null);
 
     await interaction.reply({ embeds: [embed] });
   },

@@ -1,4 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, Message, Client, ButtonStyle, ComponentType } = require('discord.js');
+const { setRowComponent } = require('../../functions/common/components');
 module.exports = {
   name: 'help',
   aliases: ['h'],
@@ -11,7 +12,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(message, args, client) {
-    const { cmdGuide, prefixCommands, listCommands, setRowComponent } = client;
+    const { cmdGuide, prefixCommands, listCommands } = client;
     const { author: user, guild } = message;
     const { commands, count } = listCommands(prefixCommands);
 

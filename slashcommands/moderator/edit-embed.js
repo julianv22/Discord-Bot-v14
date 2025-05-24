@@ -7,12 +7,20 @@ const {
   ActionRowBuilder,
   TextInputBuilder,
   TextInputStyle,
+  EmbedBuilder,
+  ComponentType,
 } = require('discord.js');
+const { setRowComponent } = require('../../functions/common/components');
+const { getEmbedButtons } = require('../../functions/common/embeds');
+
 module.exports = {
   data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('edit-embed')
-    .setDescription(`Edit Embed. ${cfg.modRole} only`),
+    .setDescription(`Edit Embed by message id. ${cfg.modRole} only`)
+    .addStringOption((opt) =>
+      opt.setName('message_id').setDescription('ID of message containing embed').setRequired(true),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.ManageMessages,
@@ -22,49 +30,25 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const modal = new ModalBuilder().setCustomId('embed-editor-md').setTitle('Edit Embed Message:');
+    const { errorEmbed } = client;
+    const { options, channel } = interaction;
+    const messageId = options.getString('message_id');
+    let msg;
+    try {
+      msg = await channel.messages.fetch(messageId);
+    } catch {
+      return interaction.reply(errorEmbed(true, 'Không tìm thấy message!'));
+    }
+    if (!msg.embeds.length) return interaction.reply(errorEmbed(true, 'Message này không có embed!'));
 
-    const msgidInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('msgid')
-        .setLabel('Message ID:')
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short),
-    );
+    // Tái sử dụng hàm tạo button
+    const [row1, row2] = getEmbedButtons(setRowComponent, ComponentType, true);
 
-    const titleInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('title')
-        .setLabel(`Embed's Title:`)
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short),
-    );
-
-    const descriptionInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('description')
-        .setLabel(`Embed's Description:`)
-        .setRequired(true)
-        .setStyle(TextInputStyle.Paragraph),
-    );
-
-    const thumbnailInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('thumbnailURL')
-        .setLabel('Thumbnail URL')
-        .setRequired(false)
-        .setStyle(TextInputStyle.Short),
-    );
-
-    const imageInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('imageURL')
-        .setLabel('Image URL')
-        .setRequired(false)
-        .setStyle(TextInputStyle.Short),
-    );
-
-    modal.addComponents(msgidInput, titleInput, descriptionInput, thumbnailInput, imageInput);
-    await interaction.showModal(modal);
+    await interaction.reply({
+      content: 'Bạn có thể chỉnh sửa embed này:',
+      embeds: [EmbedBuilder.from(msg.embeds[0])],
+      components: [row1, row2],
+      ephemeral: true,
+    });
   },
 };

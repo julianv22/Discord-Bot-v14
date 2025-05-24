@@ -1,4 +1,5 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const helpPrefix = require('../../functions/help/helpPrefix');
 module.exports = {
   data: { name: 'help-menu' },
   /**
@@ -7,7 +8,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { slashCommands, subCommands, helpPrefix, helpSlash } = client;
+    const { slashCommands, subCommands, helpSlash, helpPrefix } = client;
     const { guild } = interaction;
     const CommandType = interaction.values[0];
     const ShowHelp = {

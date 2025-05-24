@@ -12,6 +12,7 @@ const {
 const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
+const { setRowComponent } = require('../common/components');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
@@ -22,15 +23,7 @@ module.exports = (client) => {
    */
   client.botInfo = async (author, interaction, message) => {
     try {
-      const {
-        convertUpTime,
-        setRowComponent,
-        slashCommands,
-        subCommands,
-        prefixCommands,
-        user: bot,
-        application,
-      } = client;
+      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
       guilds.forEach((guild) => {
@@ -122,7 +115,6 @@ module.exports = (client) => {
         { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
         { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
       ];
-
       (interaction ? interaction : message).reply({
         embeds: [embed],
         components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],

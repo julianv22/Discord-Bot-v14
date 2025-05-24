@@ -8,6 +8,7 @@ const {
   ActionRowBuilder,
   ComponentType,
 } = require('discord.js');
+const { setRowComponent } = require('../../functions/common/components');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('create-embed')
@@ -23,7 +24,6 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;
-    const { setRowComponent } = client;
     const createEmbed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Enter the embed title')

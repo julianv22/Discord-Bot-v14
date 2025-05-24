@@ -8,6 +8,7 @@ const {
   ButtonStyle,
   ComponentType,
 } = require('discord.js');
+const { setRowComponent } = require('../../functions/common/components');
 module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   category: 'help',
@@ -18,9 +19,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { prefixCommands, slashCommands, subCommands, setRowComponent } = client;
+    const { prefixCommands, slashCommands, subCommands } = client;
     const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
-
     const menus = [
       {
         emoji: { name: `🗯` },

@@ -76,15 +76,41 @@ module.exports = {
 
       // Nếu có content hoặc embed
       if (embeds.length > 0) {
-        const sentMsg = await starboardChannel.send({
-          content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
-          embeds: embeds,
-          components: [jumpButton],
-        });
-        // Lưu messageId vào profile
+        // Đảm bảo profile.starboardMessages tồn tại
         if (!profile.starboardMessages) profile.starboardMessages = {};
-        profile.starboardMessages[message.id] = sentMsg.id;
-        await profile.save();
+
+        const starboardMsgId = profile.starboardMessages[message.id];
+        let sentMsg;
+
+        if (starboardMsgId) {
+          // Đã có message trên starboard, update lại
+          sentMsg = await starboardChannel.messages.fetch(starboardMsgId).catch(() => null);
+          if (sentMsg) {
+            await sentMsg.edit({
+              content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
+              embeds: embeds,
+              components: [jumpButton],
+            });
+          } else {
+            // Nếu không fetch được (bị xoá), gửi mới
+            sentMsg = await starboardChannel.send({
+              content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
+              embeds: embeds,
+              components: [jumpButton],
+            });
+            profile.starboardMessages[message.id] = sentMsg.id;
+            await profile.save();
+          }
+        } else {
+          // Chưa có, gửi mới
+          sentMsg = await starboardChannel.send({
+            content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
+            embeds: embeds,
+            components: [jumpButton],
+          });
+          profile.starboardMessages[message.id] = sentMsg.id;
+          await profile.save();
+        }
       }
     } catch (e) {
       console.error(chalk.red('Error in messageReactionAdd:'), e);

@@ -19,6 +19,7 @@ module.exports = (client) => {
         }
       });
       for (const folder of functionFolders) {
+        if (folder === 'common') continue;
         let functionFiles = [];
         try {
           functionFiles = readdirSync(`./functions/${folder}`).filter((f) => f.endsWith('.js'));

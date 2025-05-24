@@ -1,4 +1,5 @@
 const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
+const { checkURL } = require('../../../functions/common/utilities');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('level'),
   category: 'sub command',
@@ -10,7 +11,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed, checkURL } = client;
+    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
     const week = options.getInteger('week');
     const imgURL = options.getString('image');

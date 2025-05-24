@@ -19,7 +19,8 @@ module.exports = {
       if (reaction.emoji.name !== '⭐') return;
 
       // Đếm lại số lượng reaction "⭐" trên message
-      const starReaction = message.reactions.cache.get('⭐');
+      const fetchedMsg = await message.fetch();
+      const starReaction = fetchedMsg.reactions.cache.get('⭐');
       const count = starReaction ? starReaction.count : 0;
 
       // Nếu số lượng ⭐ < starCount, xoá message trên starboard
@@ -39,7 +40,7 @@ module.exports = {
         } else {
           // Nếu không lưu, fallback: tìm bằng nội dung như cũ
           const fetched = await starboardChannel.messages.fetch({ limit: 100 });
-          const starMsg = fetched.find((m) => m.embeds.length > 0 && m.embeds[0].description === message.content);
+          const starMsg = fetched.find((m) => m.embeds.length > 0 && m.embeds[0]?.description === message.content);
           if (starMsg) await starMsg.delete().catch(() => {});
         }
       }

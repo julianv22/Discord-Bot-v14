@@ -1,4 +1,6 @@
 const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+const { getEmbedColor } = require('../../functions/common/embeds');
+const { checkURL } = require('../../functions/common/utilities');
 module.exports = {
   data: { name: 'create-embed-md' },
   /**
@@ -7,7 +9,6 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { checkURL, getEmbedColor } = client;
     const { customId, fields, message, user } = interaction;
     if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
     const [, part] = customId.split(':');

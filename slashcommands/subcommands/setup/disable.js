@@ -7,6 +7,7 @@ const {
   EmbedBuilder,
   ComponentType,
 } = require('discord.js');
+const { setRowComponent } = require('../../../functions/common/components');
 module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('disable'),
   category: 'sub command',
@@ -18,7 +19,6 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { setRowComponent } = client;
     const { guild, user } = interaction;
     const buttons1 = [
       {
