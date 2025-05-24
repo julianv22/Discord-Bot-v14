@@ -1,5 +1,4 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
-const helpPrefix = require('../../functions/help/helpPrefix');
 module.exports = {
   data: { name: 'help-menu' },
   /**
@@ -9,13 +8,13 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { slashCommands, subCommands, helpSlash, helpPrefix } = client;
-    const { guild } = interaction;
+    const { guild, user } = interaction;
     const CommandType = interaction.values[0];
     const ShowHelp = {
-      default: () => helpSlash(CommandType, interaction),
-      prefix: () => helpPrefix(interaction),
+      default: async () => await helpSlash(CommandType, interaction),
+      prefix: async () => await helpPrefix(interaction),
       slash: async () => {
-        return await interaction.update({
+        await interaction.update({
           embeds: [
             new EmbedBuilder()
               .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -27,7 +26,11 @@ module.exports = {
               ])
               .setThumbnail(cfg.slashPNG)
               .setColor('Random')
-              .setTimestamp(),
+              .setTimestamp()
+              .setFooter({
+                text: `Requested by ${user.displayName || user.username}`,
+                iconURL: user.displayAvatarURL(true),
+              }),
           ],
         });
       },

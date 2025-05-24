@@ -1,5 +1,5 @@
 const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle, TextInputStyle } = require('discord.js');
-const { createModal, setEmbedInput } = require('../../functions/common/manage-embed');
+const { createModal, setTextInput } = require('../../functions/common/manage-embed');
 module.exports = {
   data: { name: 'manage-embed-btn' },
   /**
@@ -23,7 +23,7 @@ module.exports = {
           placeholder: '{guild} = Server name, {user} = Username',
         });
         modal.addComponents(
-          setEmbedInput({
+          setTextInput({
             id: 'authorIcon',
             label: 'Author icon (*.webp)',
             placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
@@ -87,7 +87,7 @@ module.exports = {
           placeholder: '{guild} = Server name, {user} = Username',
         });
         modal.addComponents(
-          setEmbedInput({
+          setTextInput({
             id: 'footerIcon',
             label: 'Footer icon (*.webp)',
             placeholder: '{avatar} = User avatar, {iconURL} = Server icon',

@@ -40,9 +40,9 @@ function checkURL(strInput) {
 }
 /**
  * Tìm kiếm và thay thế các biến trong chuỗi
- * @param {string} str - Chuỗi cần thay thế
- * @param {Object} replacements - Đối tượng chứa các biến và giá trị tương ứng
- * @returns {string} - Chuỗi đã được thay thế
+ * @param {string} str - String cần thay thế
+ * @param {Object} replacements - Object chứa các biến và giá trị tương ứng
+ * @returns {string} - String đã được thay thế
  */
 function replaceVar(str, replacements) {
   // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
@@ -54,12 +54,12 @@ function replaceVar(str, replacements) {
   });
 }
 /**
- * Capitalize a string
- * @param {String} str - String to capitalize
- * @returns {String} - Capitalized string
+ * Viết hoa chữ cái đầu tiên của string
+ * @param {String} str - String cần viết hoa
+ * @returns {String} - String đã được viết hoa
  */
 function capitalize(str) {
-  if (!str) return ''; // Handle empty or undefined string
+  if (!str) return ''; // Xử lý string rỗng hoặc undefined
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 module.exports = { getLatestVideoId, checkURL, replaceVar, capitalize };

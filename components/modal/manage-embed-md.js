@@ -28,7 +28,7 @@ module.exports = {
         const authorIcon = fields.getTextInputValue('authorIcon');
         const iconURL = replaceVar(authorIcon, replaceKey);
         getEmbeds.setAuthor({
-          name: replaceVar(strInput, replaceKey),
+          name: replaceVar(strInput, replaceKey) || null,
           iconURL: checkURL(iconURL) ? iconURL : null,
         });
       },

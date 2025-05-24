@@ -59,6 +59,7 @@ function getEmbedColor(color) {
 }
 /**
  * Create embed buttons
+ * @param {string} messageId - Message ID if edit embed
  * @returns {[ActionRowBuilder, ActionRowBuilder]} - Return ActionRowBuilder
  */
 function embedButtons(messageId) {
@@ -88,7 +89,7 @@ function embedButtons(messageId) {
  * @returns {ModalBuilder} - Return ModalBuilder
  */
 function createModal(customId, title, textOptions) {
-  return (modal = new ModalBuilder().setCustomId(customId).setTitle(title)).addComponents(setEmbedInput(textOptions));
+  return (modal = new ModalBuilder().setCustomId(customId).setTitle(title)).addComponents(setTextInput(textOptions));
 }
 /**
  * Set Text Input Component
@@ -100,15 +101,14 @@ function createModal(customId, title, textOptions) {
  * @param {boolean} options.required - Whether the text input is required
  * @returns {ActionRowBuilder} - Return ActionRowBuilder
  */
-function setEmbedInput({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) {
+function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) {
   return new ActionRowBuilder().addComponents(
     new TextInputBuilder()
       .setCustomId(id)
       .setLabel(label)
-      .setValue('')
       .setStyle(style)
       .setPlaceholder(placeholder)
       .setRequired(required),
   );
 }
-module.exports = { getEmbedColor, embedButtons, createModal, setEmbedInput };
+module.exports = { getEmbedColor, embedButtons, createModal, setTextInput };
