@@ -45,7 +45,7 @@ module.exports = {
           { name: 'Welcome message:', value: welcomeMsg || 'None' },
         ]);
 
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup welcome):', e));
       return await interaction.reply(errorEmbed(true, 'Error setup welcome'), e);

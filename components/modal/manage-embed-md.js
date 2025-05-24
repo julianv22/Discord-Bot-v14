@@ -24,6 +24,7 @@ module.exports = {
     };
     const editEmbed = {
       author: () => {
+        if (strInput.length > 256) strInput = strInput.slice(0, 256);
         const authorIcon = fields.getTextInputValue('authorIcon');
         const iconURL = replaceVar(authorIcon, replaceKey);
         getEmbeds.setAuthor({
@@ -32,9 +33,11 @@ module.exports = {
         });
       },
       title: () => {
+        if (strInput.length > 256) strInput = strInput.slice(0, 256);
         getEmbeds.setTitle(strInput);
       },
       description: () => {
+        if (strInput.length > 4096) strInput = strInput.slice(0, 4096);
         getEmbeds.setDescription(replaceVar(strInput, replaceKey));
       },
       color: () => {
@@ -49,6 +52,7 @@ module.exports = {
         else if (checkURL(strInput)) getEmbeds.setThumbnail(strInput);
       },
       footer: async () => {
+        if (strInput.length > 2048) strInput = strInput.slice(0, 2048);
         const footerIcon = fields.getTextInputValue('footerIcon');
         const iconUrl = replaceVar(footerIcon, replaceKey);
         getEmbeds.setFooter({

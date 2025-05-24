@@ -50,7 +50,7 @@ module.exports = {
           .setFooter({ text: `Rất hân hạn được phục vụ bạn!`, iconURL: bot.displayAvatarURL(true) })
           .setTimestamp(),
       ],
-      ephemeral: true,
+      flags: 64,
     });
   },
 };

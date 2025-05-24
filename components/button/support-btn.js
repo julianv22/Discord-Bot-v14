@@ -16,7 +16,6 @@ module.exports = {
         return `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink;
       },
     };
-    if (typeof types[button] === 'function')
-      return await interaction.reply({ content: types[button](), ephemeral: true });
+    if (typeof types[button] === 'function') return await interaction.reply({ content: types[button](), flags: 64 });
   },
 };

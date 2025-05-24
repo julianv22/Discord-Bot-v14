@@ -23,7 +23,7 @@ module.exports = (client) => {
                 description: `\❌ | There is nothing to snipe.`,
               },
             ],
-            ephemeral: true,
+            flags: 64,
           })
           .then((m) => {
             if (msg == message)
@@ -64,7 +64,7 @@ module.exports = (client) => {
         interaction
           .reply({
             embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-            ephemeral: true,
+            flags: 64,
           })
           .catch(() => {});
       } else if (message && typeof message.reply === 'function') {

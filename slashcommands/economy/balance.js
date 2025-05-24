@@ -55,6 +55,6 @@ module.exports = {
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
       .setTimestamp();
 
-    return await interaction.reply({ embeds: [embed], ephemeral: true });
+    return await interaction.reply({ embeds: [embed], flags: 64 });
   },
 };

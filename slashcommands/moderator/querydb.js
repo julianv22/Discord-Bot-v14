@@ -28,7 +28,7 @@ module.exports = {
 
     if (user.id !== cfg.ownerID) return await interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: 64 });
 
     // let profile = await serverProfile.find({});
     let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
@@ -76,9 +76,9 @@ module.exports = {
       await sendMessage(`\\✅ Parse ${guild.name}'s Database Successfully!`, key)
         .then(async () => {
           for (let i = 0; i < db.length; i += 2000) {
-            await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, ephemeral: true });
+            await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
           }
-          // interaction.followUp?.({ content: `\`\`\`json\n${JSON.stringify(profile, null, 2)}\`\`\``, ephemeral: true });
+          // interaction.followUp?.({ content: `\`\`\`json\n${JSON.stringify(profile, null, 2)}\`\`\``, flags: 64 });
         })
         .catch((e) => {
           console.error(chalk.red('Error (querydb):', e));

@@ -28,21 +28,21 @@ module.exports = {
           await loadComponents();
           await interaction.reply({
             embeds: [embed.setDescription(`\\✅ | Reloading commands, please wait...`)],
-            ephemeral: true,
+            flags: 64,
           });
         },
         events: async () => {
           await loadEvents();
           await interaction.reply({
             embeds: [embed.setDescription(`\\✅ | Reloading events, please wait...`)],
-            ephemeral: true,
+            flags: 64,
           });
         },
         functions: async () => {
           await loadFunctions();
           await interaction.reply({
             embeds: [embed.setDescription(`\\✅ | Reloading functions, please wait...`)],
-            ephemeral: true,
+            flags: 64,
           });
         },
       };
@@ -51,7 +51,7 @@ module.exports = {
       setTimeout(async () => {
         await interaction.editReply({
           embeds: [embed.setDescription(`\\✅ | Successfully reloaded application ${options.getSubcommand()}!`)],
-          ephemeral: true,
+          flags: 64,
         });
       }, 2500);
     } catch (e) {

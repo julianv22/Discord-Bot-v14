@@ -13,7 +13,7 @@ module.exports = (client) => {
       const error = `Error while executing interaction [${type.data.name}]`;
       await interaction.reply({
         embeds: [{ color: 16711680, title: `\\❌ ` + error, description: `${e}` }],
-        ephemeral: true,
+        flags: 64,
       });
       console.error(chalk.yellow(error), e);
     }

@@ -1,3 +1,5 @@
+const { MessageFlags } = require('discord.js');
+
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
@@ -28,7 +30,7 @@ module.exports = (client) => {
           description: prefixText + desc + (err ? `\`\`\`fix\n${err}\`\`\`` : ''),
         },
       ],
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     };
   };
 };

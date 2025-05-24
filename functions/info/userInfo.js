@@ -19,7 +19,7 @@ module.exports = (client) => {
           embeds: [{ color: 16711680, title: '❌ Error', description: 'User is not in this server.' }],
         };
         if (interaction && typeof interaction.reply === 'function') {
-          await interaction.reply({ ...errorEmbed, ephemeral: true }).catch(() => {});
+          await interaction.reply({ ...errorEmbed, flags: 64 }).catch(() => {});
         } else if (message && typeof message.reply === 'function') {
           message.reply(errorEmbed).catch(() => {});
         }
@@ -92,7 +92,7 @@ module.exports = (client) => {
         embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
       };
       if (interaction && typeof interaction.reply === 'function') {
-        await interaction.reply({ ...errorEmbed, ephemeral: true }).catch(() => {});
+        await interaction.reply({ ...errorEmbed, flags: 64 }).catch(() => {});
       } else if (message && typeof message.reply === 'function') {
         message.reply(errorEmbed).catch(() => {});
       }

@@ -130,6 +130,6 @@ module.exports = {
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
       .setTimestamp();
 
-    return await interaction.reply({ embeds: [embed], ephemeral: true });
+    return await interaction.reply({ embeds: [embed], flags: 64 });
   },
 };

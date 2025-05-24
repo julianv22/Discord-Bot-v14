@@ -28,12 +28,12 @@ module.exports = {
     }
     if (!msg.embeds.length) return interaction.reply(errorEmbed(true, 'Message này không có embed!'));
     const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
-    const [row1, row2] = embedButtons();
+    const [row1, row2] = embedButtons(messageId);
     await interaction.reply({
       content: 'Test',
       embeds: [msgEmbed],
       components: [row1, row2],
-      ephemeral: true,
+      flags: 64,
     });
   },
 };

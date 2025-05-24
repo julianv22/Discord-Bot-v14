@@ -66,7 +66,7 @@ module.exports = {
         new ActionRowBuilder().addComponents(setRowComponent(buttons1, ComponentType.Button)),
         new ActionRowBuilder().addComponents(setRowComponent(buttons2, ComponentType.Button)),
       ],
-      ephemeral: true,
+      flags: 64,
     });
   },
 };

@@ -29,7 +29,7 @@ module.exports = {
       content: guildeContent,
       embeds: [createEmbed],
       components: [row1, row2],
-      ephemeral: true,
+      flags: 64,
     });
   },
 };

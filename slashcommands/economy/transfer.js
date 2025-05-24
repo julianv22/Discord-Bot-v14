@@ -90,7 +90,7 @@ module.exports = {
           ),
         ),
       ],
-      ephemeral: true,
+      flags: 64,
     });
   },
 };

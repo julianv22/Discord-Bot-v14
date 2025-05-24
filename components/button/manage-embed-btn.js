@@ -11,7 +11,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { customId, message } = interaction;
     if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
-    const [, button] = customId.split(':');
+    const [, button, messageId] = customId.split(':');
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
@@ -106,7 +106,7 @@ module.exports = {
         return await interaction.update({
           embeds: [getEmbeds],
           components: [Button0, Button1],
-          ephemeral: true,
+          flags: 64,
         });
       },
       send: async () => {
@@ -116,8 +116,24 @@ module.exports = {
         Button1.components.forEach((btn) => {
           btn.data.disabled = true;
         });
-        await interaction.update({ components: [Button0, Button1] });
-        await interaction.channel.send({ embeds: [getEmbeds] });
+        if (!messageId) {
+          await interaction.channel.send({ embeds: [getEmbeds] });
+          await interaction.update({ components: [Button0, Button1] });
+        } else {
+          const msg = await interaction.channel.messages.fetch(messageId);
+          if (!msg) return await interaction.reply(errorEmbed(true, 'Message not found'));
+          else {
+            await msg.edit({ embeds: [getEmbeds] }).catch(() => {});
+            await interaction.update({
+              embeds: [
+                new EmbedBuilder()
+                  .setTitle(`\\✅ Update successfully!`)
+                  .setDescription(`Message đã được update thành công.\n\n[Jump to message](${msg.url})`),
+              ],
+              components: [Button0, Button1],
+            });
+          }
+        }
       },
     };
     if (typeof Selected[button] === 'function') return await Selected[button]();

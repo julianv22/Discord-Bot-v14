@@ -39,7 +39,7 @@ module.exports = (client) => {
                 description: `\❌ | You must mention someone!`,
               },
             ],
-            ephemeral: true,
+            flags: 64,
           })
           .then((m) => {
             if (msg == message)
@@ -57,7 +57,7 @@ module.exports = (client) => {
                 description: `\❌ | Bots do not need to be thanked! 😝`,
               },
             ],
-            ephemeral: true,
+            flags: 64,
           })
           .then((m) => {
             if (msg == message)
@@ -75,7 +75,7 @@ module.exports = (client) => {
                 description: `\❌ | You cannot thank yourself! 😅`,
               },
             ],
-            ephemeral: true,
+            flags: 64,
           })
           .then((m) => {
             if (msg == message)
@@ -149,7 +149,7 @@ module.exports = (client) => {
         interaction
           .reply({
             embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-            ephemeral: true,
+            flags: 64,
           })
           .catch(() => {});
       } else if (message && typeof message.reply === 'function') {

@@ -17,7 +17,7 @@ module.exports = {
   async execute(interaction, client) {
     const prompt = interaction.options.getString('prompt');
     if (!prompt) {
-      return await interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', ephemeral: true });
+      return await interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', flags: 64 });
     }
     const userId = interaction.user.id;
     let history = chatHistories.get(userId) || [];

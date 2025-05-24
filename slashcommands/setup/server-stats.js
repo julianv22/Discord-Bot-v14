@@ -71,7 +71,7 @@ module.exports = {
           { name: 'Preseneces Count Channel:', value: `${presencesChannel}` },
         );
 
-      await interaction.reply({ embeds: [embed], ephemeral: true });
+      await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup server-stats):', e));
       return await interaction.reply(errorEmbed(true, 'Error:', e));

@@ -37,14 +37,14 @@ module.exports = {
         await interaction
           .followUp({
             embeds: [{ color: 16711680, title: `❌ ` + error, description: `${e}` }],
-            ephemeral: true,
+            flags: 64,
           })
           .catch(() => {});
       } else {
         await interaction
           .reply({
             embeds: [{ color: 16711680, title: `❌ ` + error, description: `${e}` }],
-            ephemeral: true,
+            flags: 64,
           })
           .catch(() => {});
       }

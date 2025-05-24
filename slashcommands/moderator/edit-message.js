@@ -46,7 +46,7 @@ module.exports = {
             iconURL: user.displayAvatarURL(true),
           });
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], flags: 64 });
       });
     } catch (e) {
       console.error(chalk.red('Error (/edit-message):', e));
