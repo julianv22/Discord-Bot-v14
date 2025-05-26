@@ -14,7 +14,7 @@ module.exports = (client) => {
    *   client.errorEmbed(false, 'Thành công!');
    *   client.errorEmbed('⚠️ ', 'Cảnh báo!');
    */
-  client.errorEmbed = function errorEmbed(prefix, desc, err) {
+  client.errorEmbed = (prefix, desc, err) => {
     let prefixText = prefix;
     let color = Math.floor(Math.random() * 16777216); // Mặc định: màu ngẫu nhiên
 

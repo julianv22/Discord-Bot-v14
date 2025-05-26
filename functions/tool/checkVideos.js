@@ -27,7 +27,7 @@ module.exports = (client) => {
    * Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo
    * @returns {Promise<void>}
    */
-  client.checkVideos = async function checkVideos() {
+  client.checkVideos = async () => {
     try {
       // console.log(chalk.red('Checking videos...'));
       const servers = await serverProfile.find({}).catch(() => {});

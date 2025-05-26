@@ -5,7 +5,7 @@ module.exports = (client) => {
    * Convert uptime to Discord format
    * @returns {String} - Return the converted uptime string
    */
-  client.convertUpTime = function convertUpTime() {
+  client.convertUpTime = () => {
     try {
       const { readyTimestamp } = client;
       const uptime = process.uptime();

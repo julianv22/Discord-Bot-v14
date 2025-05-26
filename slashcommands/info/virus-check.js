@@ -10,9 +10,9 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('virus-check')
-    .setDescription('Kiểm tra một URL có độc hại không bằng VirusTotal.')
+    .setDescription('Check a URL with VirusTotal.')
     .addStringOption((option) =>
-      option.setName('url').setDescription('URL cần kiểm tra (ví dụ: https://example.com)').setRequired(true),
+      option.setName('url').setDescription('URL to check (example: https://example.com)').setRequired(true),
     ),
   category: 'info',
   scooldown: 0,

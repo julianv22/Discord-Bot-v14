@@ -6,7 +6,7 @@ module.exports = (client) => {
    * @param {Collection} CommandType - CommandType object
    * @returns {Object} - Return object with commands and count
    */
-  client.listCommands = function listCommands(CommandType) {
+  client.listCommands = (CommandType) => {
     try {
       var commands = [];
       const cmdCategories = CommandType.map((cmd) => cmd.category);

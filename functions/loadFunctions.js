@@ -3,7 +3,7 @@ const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
-  client.loadFunctions = async () => {
+  client.loadFunctions = () => {
     try {
       const table = new ascii()
         .setHeading('Folder', '🔢', 'Function Name', '♻')

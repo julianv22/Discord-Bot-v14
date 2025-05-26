@@ -26,12 +26,12 @@ module.exports = (client) => {
         guild.channels.cache.get(id).setName(name);
       }
 
-      const memberRole = await guild.roles.cache.get(profile?.memberRole);
-      const memberCount = await memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
+      const memberRole = guild.roles.cache.get(profile?.memberRole);
+      const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
       // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
 
-      const botRole = await guild.roles.cache.get(profile?.botRole).name;
-      const botCount = await guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
+      const botRole = guild.roles.cache.get(profile?.botRole).name;
+      const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
 
       const statsChannels = [
         {
