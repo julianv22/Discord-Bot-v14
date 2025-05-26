@@ -12,7 +12,7 @@ module.exports = (client) => {
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle(`Prefix Commands (${prefix}) List`)
-      .setDescription(`If you need some help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
+      .setDescription(`If you need more help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .addFields([
         {

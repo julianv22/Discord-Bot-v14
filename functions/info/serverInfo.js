@@ -17,7 +17,7 @@ module.exports = (client) => {
       const categories = guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size;
       const owner = await guild.fetchOwner();
 
-      var embed = new EmbedBuilder()
+      let embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('⚠️ Server Info ⚠️')
         .setColor('Random')

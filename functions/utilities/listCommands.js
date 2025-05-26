@@ -8,7 +8,7 @@ module.exports = (client) => {
    */
   client.listCommands = (CommandType) => {
     try {
-      var commands = [];
+      let commands = [];
       const cmdCategories = CommandType.map((cmd) => cmd.category);
       const filters = cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
 

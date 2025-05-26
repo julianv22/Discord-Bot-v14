@@ -37,7 +37,7 @@ module.exports = {
         ctx.fillText(text, x, y);
       }
 
-      var gradient = ctx.createLinearGradient(c.w / 2, 155, c.w / 2, 0);
+      let gradient = ctx.createLinearGradient(c.w / 2, 155, c.w / 2, 0);
       gradient.addColorStop(0, 'white');
       gradient.addColorStop(0.25, '#00ff00');
       gradient.addColorStop(0.5, 'yellow');
