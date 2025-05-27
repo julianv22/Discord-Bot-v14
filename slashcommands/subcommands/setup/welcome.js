@@ -13,21 +13,28 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
     const { cache: channels } = client.channels;
-    const welcomeChannel = await channels.get(options.getChannel('welcome').id);
-    const logChannel = await channels.get(options.getChannel('log').id);
+    const welcomeChannel = channels.get(options.getChannel('welcome').id);
+    const logChannel = channels.get(options.getChannel('log').id);
     const welcomeMsg = options.getString('message');
+    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    if (!profile) serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
     try {
-      await serverProfile
-        .findOneAndUpdate(
-          { guildID: guild.id },
-          {
-            guildName: guild.name,
-            welcomeChannel: options.getChannel('welcome').id,
-            logChannel: options.getChannel('log').id,
-            welcomeMessage: welcomeMsg,
-          },
-        )
-        .catch(() => {});
+      profile.guildName = guild.name;
+      profile.welcomeChannel = welcomeChannel.id;
+      profile.logChannel = logChannel.id;
+      profile.welcomeMessage = welcomeMsg;
+      await profile.save();
+      // await serverProfile
+      //   .findOneAndUpdate(
+      //     { guildID: guild.id },
+      //     {
+      //       guildName: guild.name,
+      //       welcomeChannel: options.getChannel('welcome').id,
+      //       logChannel: options.getChannel('log').id,
+      //       welcomeMessage: welcomeMsg,
+      //     },
+      //   )
+      //   .catch(() => {});
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
@@ -48,7 +55,7 @@ module.exports = {
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup welcome):', e));
-      return await interaction.reply(errorEmbed(true, 'Error setup welcome'), e);
+      return await interaction.reply(client.errorEmbed(true, 'Error setup welcome'), e);
     }
   },
 };

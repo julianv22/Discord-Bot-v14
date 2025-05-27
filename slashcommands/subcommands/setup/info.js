@@ -18,8 +18,8 @@ module.exports = {
 
       if (!profile) return await interaction.reply(errorEmbed(true, 'Hiện chưa có setup nào cho server'));
 
-      const welcomeChannel = await channels.cache.get(profile?.welcomeChannel);
-      const logChannel = await channels.cache.get(profile?.logChannel);
+      const welcomeChannel = channels.cache.get(profile?.welcomeChannel);
+      const logChannel = channels.cache.get(profile?.logChannel);
       const starboardChannel = channels.cache.get(profile?.starboardChannel);
       const youtubeNotifyChannel = channels.cache.get(profile?.youtubeNotifyChannel);
       const ytChannels = profile?.youtubeChannelIds.length;

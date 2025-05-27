@@ -16,7 +16,7 @@ module.exports = {
         errorEmbed(true, `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`),
       );
 
-    const sgtChannel = await client.channels.cache.get(profile?.suggestChannel);
+    const sgtChannel = client.channels.cache.get(profile?.suggestChannel);
     const content = interaction.fields.getTextInputValue('content');
     const embed = new EmbedBuilder()
       .setAuthor({

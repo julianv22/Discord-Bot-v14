@@ -14,7 +14,7 @@ module.exports = {
     const { errorEmbed, channels } = client;
     const { guild, options } = interaction;
     const channel = options.getChannel('schannel');
-    const sgtChannel = await channels.cache.get(channel.id);
+    const sgtChannel = channels.cache.get(channel.id);
     try {
       if (await serverProfile.findOne({ guildID: guild.id }))
         serverProfile
