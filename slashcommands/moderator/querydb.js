@@ -23,8 +23,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed, user } = client;
-    const { guild, guildId } = interaction;
+    const { errorEmbed } = client;
+    const { guild, guildId, user } = interaction;
 
     if (user.id !== cfg.ownerID) return await interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
 

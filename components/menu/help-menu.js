@@ -1,4 +1,5 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { capitalize } = require('../../functions/common/utilities');
 const { readdirSync } = require('fs');
 module.exports = {
   data: { name: 'help-menu' },
@@ -8,13 +9,15 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { slashCommands, subCommands, helpSlash, helpPrefix } = client;
+    const { slashCommands, helpSlash, helpPrefix } = client;
     const { guild, user } = interaction;
     const CommandType = interaction.values[0];
-    const slashFolders = readdirSync('./slashcommands').filter(
-      (f) => f !== 'context menu' && f !== 'subcommands' && !f.endsWith('.js'),
-    );
-    const subFolders = readdirSync('./slashcommands/subcommands').filter((f) => f && !f.endsWith('.js'));
+    const slashFolders = readdirSync('./slashcommands')
+      .filter((folder) => folder !== 'context menu' && folder !== 'subcommands' && !folder.endsWith('.js'))
+      .map((folder) => capitalize(folder));
+    const subFolders = readdirSync('./slashcommands/subcommands')
+      .filter((folder) => folder && !folder.endsWith('.js'))
+      .map((folder) => capitalize(folder));
     const contextMenus = Array.from(slashCommands.values())
       .filter((cmd) => cmd.category === 'context menu')
       .map((cmd) => cmd.data.name);
@@ -30,11 +33,11 @@ module.exports = {
               .addFields([
                 {
                   name: `Slash Commands [**${slashFolders.length}**]`,
-                  value: `Folders:\`\`\`fix\n${slashFolders.join(' | ')}\`\`\``,
+                  value: `Categories:\`\`\`fix\n${slashFolders.join(' | ')}\`\`\``,
                 },
                 {
                   name: `Sub Commands [**${subFolders.length}**]`,
-                  value: `Folders:\`\`\`fix\n${subFolders.join(' | ')}\`\`\``,
+                  value: `Categories:\`\`\`fix\n${subFolders.join(' | ')}\`\`\``,
                 },
                 {
                   name: `Context Menus [**${contextMenus.length}**]`,
