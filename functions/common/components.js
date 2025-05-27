@@ -1,4 +1,4 @@
-const { ActionRowBuilder, TextInputBuilder, TextInputStyle, ComponentType, ButtonBuilder } = require('discord.js');
+const { ActionRowBuilder, TextInputBuilder, ComponentType, ButtonBuilder } = require('discord.js');
 /**
  * Set Row Component
  * @param {Object} options - Options object
@@ -31,9 +31,10 @@ function setRowComponent(options, type) {
         return button;
       });
     },
+    // Return TextInputBuilder options
     [ComponentType.TextInput]: () => {
       return options.map((opt) => {
-        const textinput = new TextInputBuilder().setCustomId(opt.id).setLabel(opt.lablel).style(opt.style);
+        const textinput = new TextInputBuilder().setCustomId(opt.customId).setLabel(opt.label).style(opt.style);
         if (opt.placeholder) textinput.setPlaceholder(opt.placeholder);
         if (opt.required) textinput.setRequired(opt.required);
         if (opt.minLength) textinput.setMinLength(opt.minLength);

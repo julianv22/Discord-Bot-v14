@@ -21,9 +21,9 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { prefixCommands, slashCommands, subCommands } = client;
-    const menus = [
+    let menus = [
       {
-        emoji: { name: `🗯` },
+        emoji: { name: `📋` },
         label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${cfg.prefix}) Commands`,
