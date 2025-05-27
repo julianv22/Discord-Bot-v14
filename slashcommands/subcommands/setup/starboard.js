@@ -24,7 +24,7 @@ module.exports = {
       profile.starboardChannel = channel.id;
       profile.starCount = number;
       await profile.save().catch(() => {});
-      await interaction.reply(
+      return await interaction.reply(
         errorEmbed(false, `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`),
       );
     } catch (e) {

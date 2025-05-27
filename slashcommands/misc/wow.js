@@ -16,6 +16,6 @@ module.exports = {
       .setColor('Random')
       .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png');
 
-    await interaction.reply({ embeds: [embed] });
+    return await interaction.reply({ embeds: [embed] });
   },
 };

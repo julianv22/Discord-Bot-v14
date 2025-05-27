@@ -33,7 +33,7 @@ module.exports = {
           })
           .setTimestamp();
 
-        await interaction.reply({ embeds: [embed] });
+        return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
         client.errorEmbed(true, 'Đã xảy ra lỗi khi lấy quote!', e);

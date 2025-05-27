@@ -31,7 +31,7 @@ module.exports = {
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
         .setTimestamp();
 
-      await interaction.reply({ embeds: [embed] });
+      return await interaction.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error (/leaderboard level):', e));
       return await interaction.reply(errorEmbed(true, 'Error level leaderboard:', e));

@@ -75,7 +75,7 @@ module.exports = {
 
       if (profile?.tourName) embed.addFields({ name: 'Tournament status', value: tourStatus, inline: true });
 
-      await interaction.reply({ embeds: [embed], flags: 64 });
+      return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup info):', e));
       return await interaction.reply(errorEmbed(true, 'Lỗi khi lấy thông tin setup info', e));

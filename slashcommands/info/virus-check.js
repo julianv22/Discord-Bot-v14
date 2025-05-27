@@ -230,7 +230,7 @@ module.exports = {
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
         .setTimestamp();
 
-      await interaction.editReply({
+      return await interaction.editReply({
         embeds: [resultEmbed],
         components: [
           new ActionRowBuilder().addComponents(

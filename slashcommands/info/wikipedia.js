@@ -53,7 +53,7 @@ module.exports = {
           )
           .setTimestamp();
 
-        await interaction.reply({ embeds: [embed] });
+        return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
         message.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy thông tin Wikipedia!')).catch(() => {});

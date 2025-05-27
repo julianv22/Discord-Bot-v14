@@ -21,11 +21,11 @@ module.exports = {
           .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, suggestChannel: sgtChannel })
           .catch(() => {});
 
-      await interaction.reply(errorEmbed(false, `Channel to send suggestions has been changed to ${channel}!`));
-
       await serverProfile
         .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, suggestChannel: sgtChannel })
         .catch(() => {});
+
+      return await interaction.reply(errorEmbed(false, `Channel to send suggestions has been changed to ${channel}!`));
     } catch (e) {
       console.error(chalk.red('Error (/setup suggest):', e));
       return await interaction.reply(errorEmbed(true, 'Error when setup suggest channel:', e));

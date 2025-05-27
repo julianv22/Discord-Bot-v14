@@ -44,9 +44,9 @@ module.exports = {
             .setDescription(`**${msg}**\n\n` + userName.join(stInline))
             .setFooter({ text: `Tổng số: [${members.length}]` });
 
-        await interaction.editReply({ embeds: [embed] });
+        return await interaction.editReply({ embeds: [embed] });
       } else {
-        await interaction.editReply(errorEmbed(true, 'Can not find members or role is incorrect!'));
+        return await interaction.editReply(errorEmbed(true, 'Can not find members or role is incorrect!'));
       }
     } catch (e) {
       console.error(chalk.red('Error (/list members):', e));

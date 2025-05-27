@@ -38,7 +38,7 @@ module.exports = {
           iconURL: user.displayAvatarURL(true),
         })
         .setTimestamp();
-      await interaction.reply({ embeds: [embed], ephemeral: false });
+      return await interaction.reply({ embeds: [embed], ephemeral: false });
     } catch (e) {
       console.error(chalk.red('Error (/leaderboard thanks):', e));
       return await interaction.reply(errorEmbed(true, 'Error thanks leaderboard:', e));

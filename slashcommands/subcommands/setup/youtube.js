@@ -65,7 +65,7 @@ module.exports = {
         }
         if (changed) await profile.save().catch(() => {});
       }
-      await interaction.reply(
+      return await interaction.reply(
         errorEmbed(
           false,
           `Đã ${

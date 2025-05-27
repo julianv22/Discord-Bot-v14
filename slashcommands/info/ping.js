@@ -16,6 +16,6 @@ module.exports = {
 
     const embed = new EmbedBuilder().setColor(color).setDescription(`**⏱ | Ping:** ${ping} / *${delay}ms*`);
 
-    await interaction.editReply({ embeds: [embed] });
+    return await interaction.editReply({ embeds: [embed] });
   },
 };

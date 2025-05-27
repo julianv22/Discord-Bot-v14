@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
   data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
   category: 'misc',
@@ -28,7 +27,7 @@ module.exports = {
         .setFooter({
           text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${data.subreddit || ''}`,
         });
-      await interaction.editReply({ embeds: [embed] });
+      return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error fetching meme:', e));
       await interaction.editReply(errorEmbed(true, 'An error occurred while fetching meme', e));
