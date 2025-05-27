@@ -9,6 +9,7 @@ const {
 } = require('discord.js');
 const { setRowComponent } = require('../../functions/common/components');
 const { infoButtons } = require('../../functions/common/info-buttons');
+const { capitalize } = require('../../functions/common/utilities');
 module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   category: 'help',
@@ -20,7 +21,6 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { prefixCommands, slashCommands, subCommands } = client;
-    const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
     const menus = [
       {
         emoji: { name: `🗯` },
@@ -35,6 +35,7 @@ module.exports = {
         description: `List Slash (/) Commands`,
       },
     ];
+    const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
     await interaction.reply({
       embeds: [
         {
@@ -49,7 +50,7 @@ module.exports = {
             .setMinValues(1)
             .setMaxValues(1)
             .setOptions(setRowComponent(menus, ComponentType.StringSelect))
-            .addOptions(folders.map((f) => ({ label: `📂 ${f.toUpperCase()}`, value: f }))),
+            .addOptions(folders.map((folder) => ({ label: `📂 ${capitalize(folder)}`, value: folder }))),
         ),
         infoButtons(),
       ],
