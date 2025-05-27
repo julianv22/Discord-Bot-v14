@@ -21,5 +21,5 @@
   "suggestPNG": "https://media.discordapp.net/attachments/976364997066231828/995628740782596127/unknown.png",
   "economyPNG": "https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg",
   "discordQR_PNG": "https://media.discordapp.net/attachments/997825232205250633/1373502211438411807/discord_QR.png",
-  "npm install": "npm i discord.js @discordjs/rest @napi-rs/canvas ascii-table moment-timezone mongoose undici @google/genai chalk@4 node-fetch@2"
+  "npm install": "npm i discord.js @discordjs/rest @napi-rs/canvas ascii-table moment-timezone mongoose undici @google/genai chalk@4"
 }

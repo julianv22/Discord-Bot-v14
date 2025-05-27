@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const moment = require('moment-timezone');
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
@@ -50,7 +49,7 @@ module.exports = {
             .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
             .setTimestamp();
 
-          await interaction.reply({ embeds: [embed] });
+          return await interaction.reply({ embeds: [embed] });
         });
     } catch (e) {
       console.error(chalk.red('Error (/github):', e));

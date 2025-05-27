@@ -1,6 +1,6 @@
 const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
-const fetch = require('node-fetch');
+
 /**
  * Validate Youtube channel
  * @param {string} channelId - ID of the Youtube channel

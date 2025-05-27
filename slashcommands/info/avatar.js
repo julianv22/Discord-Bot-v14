@@ -25,6 +25,6 @@ module.exports = {
         iconURL: author.displayAvatarURL(true),
       });
 
-    await interaction.reply({ embeds: [avtEmbed] });
+    return await interaction.reply({ embeds: [avtEmbed] });
   },
 };

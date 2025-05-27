@@ -1,6 +1,6 @@
 const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-const fetch = require('node-fetch');
+
 /**
  * Get channel title
  * @param {string} channelId - ID of the Youtube channel
@@ -8,11 +8,15 @@ const fetch = require('node-fetch');
  * @returns {Promise<string>}
  */
 async function getChannelTitle(channelId, apiKey) {
-  const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if (data.items && data.items.length > 0) {
-    return data.items[0].snippet.title;
+  try {
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.items && data.items.length > 0) {
+      return data.items[0].snippet.title;
+    }
+  } catch (e) {
+    console.error(chalk.red('Error getChannelTitle:', e));
   }
   return channelId;
 }
@@ -28,6 +32,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    await interaction.deferReply();
     const { errorEmbed } = client;
     const { guild, user, guildId } = interaction;
     try {
@@ -59,10 +64,10 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
-      await interaction.reply({ embeds: [embed] });
+      return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error (/youtube list-channels):', e));
-      return await interaction.reply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
+      return await interaction.editReply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
     }
   },
 };

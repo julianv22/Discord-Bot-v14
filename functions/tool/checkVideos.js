@@ -1,6 +1,5 @@
-const fetch = require('node-fetch');
 const serverProfile = require('../../config/serverProfile');
-const { Client, EmbedBuilder } = require('discord.js');
+const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 /**
  * Get the latest video of the YouTube channel
  * @param {String} channelId - Channel ID
@@ -56,7 +55,7 @@ module.exports = (client) => {
                 const embed = new EmbedBuilder()
                   .setTitle(videoTitle || 'Video mới')
                   .setURL(`https://youtu.be/${latestVideoId}`)
-                  .setDescription(`[Xem trên YouTube](https://youtu.be/${latestVideoId})`)
+                  // .setDescription(`[Xem trên YouTube](https://youtu.be/${latestVideoId})`)
                   .setColor('Random')
                   .setImage(`https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg`)
                   .setFooter({ text: channelTitle || 'Youtube' });
@@ -65,6 +64,14 @@ module.exports = (client) => {
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:`,
                   embeds: [embed],
+                  components: [
+                    new ActionRowBuilder().addComponents(
+                      new ButtonBuilder()
+                        .setStyle(ButtonStyle.Link)
+                        .setLabel('🔗Xem trên Youtube')
+                        .setURL(`https://youtu.be/${latestVideoId}`),
+                    ),
+                  ],
                 });
               }
             }

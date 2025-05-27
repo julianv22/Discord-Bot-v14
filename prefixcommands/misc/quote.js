@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const { EmbedBuilder, Message, Client } = require('discord.js');
 function getQuote() {
   return fetch('https://zenquotes.io/api/random')

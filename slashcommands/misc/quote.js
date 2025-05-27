@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const { EmbedBuilder, SlashCommandBuilder, Client, Interaction } = require('discord.js');
 /** @returns {Promise<string>} */
 function getQuote() {

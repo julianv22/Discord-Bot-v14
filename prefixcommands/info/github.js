@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const moment = require('moment-timezone');
 const { EmbedBuilder, Message, Client } = require('discord.js');
 module.exports = {

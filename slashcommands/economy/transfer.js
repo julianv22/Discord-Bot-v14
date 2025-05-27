@@ -77,7 +77,7 @@ module.exports = {
       },
     ];
 
-    await interaction.reply({
+    return await interaction.reply({
       embeds: [embed],
       components: [
         new ActionRowBuilder().addComponents(

@@ -47,6 +47,6 @@ module.exports = {
       })
       .setTimestamp();
 
-    await interaction.reply({ embeds: [embed] });
+    return await interaction.reply({ embeds: [embed] });
   },
 };

@@ -28,5 +28,13 @@ module.exports = {
    * @param {Interaction} interaction - Interaction object
    * @param {Client} client - Client object
    */
-  async execute(interaction, client) {},
+  async execute(interaction, client) {
+    const { options } = interaction;
+    const { errorEmbed, checkVideos } = client;
+    const subcommand = options.getSubcommand();
+    if (subcommand === 'refresh') {
+      await checkVideos();
+      return await interaction.reply(errorEmbed(false, 'Refesh successfull!'));
+    }
+  },
 };

@@ -26,7 +26,7 @@ module.exports = {
           { new: true, upsert: true },
         )
         .catch(() => {});
-      await interaction.reply(
+      return await interaction.reply(
         errorEmbed(false, `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`),
       );
     } catch (e) {

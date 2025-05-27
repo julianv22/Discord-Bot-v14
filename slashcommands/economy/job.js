@@ -81,6 +81,6 @@ module.exports = {
       }
     }, workMinutes * 60 * 1000);
 
-    await interaction.reply({ embeds: [embed], flags: 64 });
+    return await interaction.reply({ embeds: [embed], flags: 64 });
   },
 };

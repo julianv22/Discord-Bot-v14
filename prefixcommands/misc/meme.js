@@ -1,5 +1,5 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
-const fetch = require('node-fetch');
+
 module.exports = {
   name: 'meme',
   aliases: [],
