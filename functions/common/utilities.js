@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const serverProfile = require('../../config/serverProfile');
 /**
  * Get the latest video of the YouTube channel
