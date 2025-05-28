@@ -1,6 +1,9 @@
-const { ActionRowBuilder, ComponentType, ButtonStyle } = require('discord.js');
+const { ActionRowBuilder, ComponentType, ButtonStyle, ButtonBuilder } = require('discord.js');
 const { setRowComponent } = require('./components');
-
+/**
+ * Info Buttons
+ * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with info buttons
+ */
 function infoButtons() {
   const buttons = [
     { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
@@ -10,4 +13,20 @@ function infoButtons() {
   ];
   return new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button));
 }
-module.exports = { infoButtons };
+/**
+ * Disable Buttons
+ * @param {ActionRowBuilder} buttons - Buttons
+ * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons
+ */
+function disableButtons(buttons) {
+  const disableRow = new ActionRowBuilder();
+  for (const button of buttons) {
+    for (const component of button.components) {
+      const button = ButtonBuilder.from(component);
+      button.setDisabled(true);
+      disableRow.addComponents(button);
+    }
+  }
+  return disableRow;
+}
+module.exports = { infoButtons, disableButtons };

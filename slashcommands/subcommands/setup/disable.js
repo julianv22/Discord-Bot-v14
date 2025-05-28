@@ -52,10 +52,10 @@ module.exports = {
       .setAuthor({ name: `Disable Features`, iconURL: user.displayAvatarURL(true) })
       .setColor('Orange')
       .addFields(
-        { name: `\\⭐ Disable Starboard System`, value: `Tắt chức năng Starboard System` },
-        { name: `\\💡 Disable Suggest Channel`, value: `Tắt chức năng Suggestion` },
-        { name: `\\🎬 Disable Youtube Notify`, value: `Tắt thông báo video mới trên Youtube` },
-        { name: `\\🎉 Disable Welcome System`, value: `Tắt chức năng chào mừng thành viên mới` },
+        { name: `\\⭐ Disable Starboard System`, value: `\`Tắt chức năng Starboard System\`` },
+        { name: `\\💡 Disable Suggest Channel`, value: `\`Tắt chức năng Suggestion\`` },
+        { name: `\\🎬 Disable Youtube Notify`, value: `\`Tắt thông báo video mới trên Youtube\`` },
+        { name: `\\🎉 Disable Welcome System`, value: `\`Tắt chức năng chào mừng thành viên mới\`` },
       )
       .setTimestamp()
       .setThumbnail(guild.iconURL(true))

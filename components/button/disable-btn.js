@@ -1,6 +1,7 @@
 const { Client, Interaction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { capitalize } = require('../../functions/common/utilities');
+const { disableButtons } = require('../../functions/common/info-buttons');
 module.exports = {
   data: { name: 'disable-btn' },
   /**
@@ -9,7 +10,6 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    await interaction.deferUpdate();
     const {
       guild,
       customId,
@@ -28,34 +28,27 @@ module.exports = {
         .setStyle(ButtonStyle.Success),
       new ButtonBuilder().setCustomId(`disable-btn:cancel`).setLabel('❌Cancel').setStyle(ButtonStyle.Danger),
     );
-    // Disable Buttons
-    const updateRow = new ActionRowBuilder();
-    for (const row of oldComponents) {
-      const buttons = row.components;
-      for (const btn of buttons) {
-        const button = ButtonBuilder.from(btn);
-        button.setDisabled(true);
-        updateRow.addComponents(button);
-      }
-    }
     /**
      * Confirm Embed
      * @param {String} title - Title of the embed (optional)
      * @param {String} description - Description of the embed (optional)
-     * @returns {EmbedBuilder}
+     * @returns {EmbedBuilder} - Return a new EmbedBuilder
      */
     const confirmEmbed = (
       title,
       description = `\\🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
+      color = 'Orange',
     ) => {
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setColor('Orange')
-        .setDescription(description)
-        .setTimestamp();
-      if (title) embed.setTitle(title);
+        .setColor(color)
+        .setDescription(description);
+      if (title) {
+        embed.setTitle(title).setTimestamp();
+      }
       return embed;
     };
+
     if (feature === 'confirm') {
       const Disable = {
         starboard: () => {
@@ -72,20 +65,21 @@ module.exports = {
       };
       if (typeof Disable[confirm] === 'function') await Disable[confirm]();
       profile.save().catch(() => {});
-      await interaction.editReply({
+      return await interaction.update({
         embeds: [
           confirmEmbed(
             `\\✅ | Đã tắt tính năng **${capitalize(confirm)}**!`,
             `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
+            'Green',
           ),
         ],
-        components: [updateRow],
+        components: [disableButtons(oldComponents)],
       });
     } else if (feature === 'cancel') {
-      await interaction.editReply({
-        embeds: [confirmEmbed(`\\❌ | Đã hủy bỏ!`, `Click vào \`Dismiss message\` để trở về`)],
-        components: [updateRow],
+      return await interaction.update({
+        embeds: [confirmEmbed(`\\❌ | Đã hủy bỏ!`, `Click vào \`Dismiss message\` để trở về`, 'Red')],
+        components: [disableButtons(oldComponents)],
       });
-    } else await interaction.editReply({ embeds: [confirmEmbed()], components: [confirmButton] });
+    } else await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
   },
 };
