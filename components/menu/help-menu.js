@@ -32,12 +32,12 @@ module.exports = {
               .setTitle(`Thống kê Slash Command & Sub Command`)
               .addFields([
                 {
-                  name: `Slash Commands [**${slashFolders.length}**]`,
-                  value: `Categories:\`\`\`fix\n${slashFolders.join(' | ')}\`\`\``,
+                  name: `Slash Commands [**${slashFolders.length}** categories]`,
+                  value: `\`\`\`fix\n${slashFolders.join(' | ')}\`\`\``,
                 },
                 {
-                  name: `Sub Commands [**${subFolders.length}**]`,
-                  value: `Categories:\`\`\`fix\n${subFolders.join(' | ')}\`\`\``,
+                  name: `Sub Commands [**${slashFolders.length}** categories]`,
+                  value: `\`\`\`fix\n${subFolders.join(' | ')}\`\`\``,
                 },
                 {
                   name: `Context Menus [**${contextMenus.length}**]`,
