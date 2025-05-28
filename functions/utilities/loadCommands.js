@@ -30,7 +30,7 @@ module.exports = (client) => {
         (async () => {
           try {
             const { REST } = require('@discordjs/rest');
-            const { Routes } = require('discord.js');
+            const { Routes } = require('discord-api-types/v10');
             const rest = new REST({ version: 10 }).setToken(process.env.token);
 
             if (!cfg.clientID) throw new Error('clientID is missing in config!');
