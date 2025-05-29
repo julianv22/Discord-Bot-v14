@@ -9,7 +9,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { slashCommands, helpSlash, helpPrefix } = client;
+    const { slashCommands, subCommands, helpSlash, helpPrefix } = client;
     const { guild, user } = interaction;
     const CommandType = interaction.values[0];
     const slashFolders = readdirSync('./slashcommands')
@@ -32,11 +32,13 @@ module.exports = {
               .setTitle(`Thống kê Slash Command & Sub Command`)
               .addFields([
                 {
-                  name: `Slash Commands [**${slashFolders.length}** categories]`,
+                  name: `Slash Commands\nCommands: [${slashCommands.size - contextMenus.length}] --- Categories: [${
+                    slashFolders.length
+                  }]`,
                   value: `\`\`\`fix\n${slashFolders.join(' | ')}\`\`\``,
                 },
                 {
-                  name: `Sub Commands [**${slashFolders.length}** categories]`,
+                  name: `Sub Commands\nCommands: [${subCommands.size}] --- Categories: [${subFolders.length}]`,
                   value: `\`\`\`fix\n${subFolders.join(' | ')}\`\`\``,
                 },
                 {

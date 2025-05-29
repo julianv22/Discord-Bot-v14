@@ -1,4 +1,5 @@
-const serverProfile = require('../../config/serverProfile');
+const { readdirSync } = require('fs');
+const profiles = readdirSync('./config').filter((f) => f.endsWith('Profile.js'));
 const {
   SlashCommandBuilder,
   Client,
@@ -13,7 +14,14 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('querydb')
-    .setDescription(`\⭕wner only`),
+    .setDescription(`\⭕wner only`)
+    .addStringOption((opt) =>
+      opt
+        .setName('profile')
+        .setDescription('Choose which profile type to query')
+        .setRequired(true)
+        .addChoices(profiles.map((p) => ({ name: p.split('.')[0], value: p.split('.')[0] }))),
+    ),
   category: 'moderator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
@@ -23,16 +31,13 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
-    const { guild, guildId, user } = interaction;
-
-    if (user.id !== cfg.ownerID) return await interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
-
     await interaction.deferReply({ flags: 64 });
-
-    // let profile = await serverProfile.find({});
+    const { errorEmbed } = client;
+    const { guild, guildId, user, options } = interaction;
+    const choice = options.getString('profile');
+    const serverProfile = require(`../../config/${choice}`);
+    if (user.id !== cfg.ownerID) return await interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
     let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
-
     if (!profile) return await interaction.reply(errorEmbed(true, 'No database!'));
     /**
      * Send a message
@@ -57,28 +62,22 @@ module.exports = {
       else await interaction.editReply({ embeds: [embed] });
     }
 
-    // let db = `${user.displayName || user.username}'s Database:\n`;
-    // profile.forEach((p) => {
-    //   db += `\n${JSON.stringify(p)}`;
-    // });
     let db = JSON.stringify(profile, null, 2);
-
     let bin = await fetch('https://sourceb.in/api/bins', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        files: [{ content: `${guild.name}'s Database:\n\n${db}` }],
+        files: [{ content: `${guild.name} **${choice}** database:\n\n${db}` }],
       }),
     });
 
     if (bin.ok) {
       let { key } = await bin.json();
-      await sendMessage(`\\✅ Parse ${guild.name}'s Database Successfully!`, key)
+      await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database Successfully!`, key)
         .then(async () => {
           for (let i = 0; i < db.length; i += 2000) {
             await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
           }
-          // interaction.followUp?.({ content: `\`\`\`json\n${JSON.stringify(profile, null, 2)}\`\`\``, flags: 64 });
         })
         .catch((e) => {
           console.error(chalk.red('Error (querydb):', e));

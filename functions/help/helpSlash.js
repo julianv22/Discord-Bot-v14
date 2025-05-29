@@ -20,7 +20,7 @@ module.exports = (client) => {
     const helpEmbed = (commandName, commands, count) => {
       return new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle(`\\📂 Danh sách ${capitalize(commandName)} Command [${count}]`)
+        .setTitle(`\\📂 Danh sách ${capitalize(commandName)} Commands [${count}]`)
         .setColor('Random')
         .setThumbnail(cfg.slashPNG)
         .setTimestamp()

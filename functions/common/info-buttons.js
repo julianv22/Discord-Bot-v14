@@ -22,9 +22,9 @@ function disableButtons(buttons) {
   const disableRow = new ActionRowBuilder();
   for (const button of buttons) {
     for (const component of button.components) {
-      const button = ButtonBuilder.from(component);
-      button.setDisabled(true);
-      disableRow.addComponents(button);
+      const btn = ButtonBuilder.from(component);
+      btn.setDisabled(true);
+      disableRow.addComponents(btn);
     }
   }
   return disableRow;
