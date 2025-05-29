@@ -29,7 +29,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { errorEmbed } = client;
-    const { options, guildId } = interaction;
+    const { options, guild } = interaction;
     const yt_channel = options.getString('channel-id');
     const action = options.getString('action');
 
@@ -40,11 +40,13 @@ module.exports = {
         return await interaction.reply(errorEmbed(true, 'ID kênh Youtube không hợp lệ hoặc không tồn tại!'));
       }
 
-      let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
       if (!profile) {
         if (action === 'remove') return await interaction.reply(errorEmbed(true, 'Server chưa có kênh Youtube nào!'));
         profile = await serverProfile.create({
-          guildID: guildId,
+          guildID: guild.id,
+          guildName: guild.name,
+          prefix: cfg.prefix,
           youtube: { channels: [yt_channel] },
         });
       } else {
