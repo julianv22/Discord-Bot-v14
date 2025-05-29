@@ -13,7 +13,13 @@ module.exports = {
 
       // Lấy cấu hình server
       const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(() => {});
-      if (!profile || !profile.starboardChannel || !profile.starCount || profile.starCount <= 0) return;
+      if (
+        !profile ||
+        !profile.setup.starboard.channel ||
+        !profile.setup.starboard.star ||
+        profile.setup.starboard.star <= 0
+      )
+        return;
 
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name !== '⭐') return;
@@ -24,23 +30,23 @@ module.exports = {
       const count = starReaction ? starReaction.count : 0;
 
       // Nếu số lượng ⭐ < starCount, xoá message trên starboard
-      if (count < profile.starCount) {
+      if (count < profile.setup.starboard.star) {
         const guild = message.guild;
-        const starboardChannel = guild.channels.cache.get(profile.starboardChannel);
+        const starboardChannel = guild.channels.cache.get(profile.setup.starboard.channel);
         if (!starboardChannel) return;
 
         // Xoá message starboard dựa vào messageId đã lưu (dạng object: { id, lastTime })
         if (
-          profile.starboardMessages &&
-          profile.starboardMessages[message.id] &&
-          profile.starboardMessages[message.id].id
+          profile.setup.starboard.messages &&
+          profile.setup.starboard.messages[message.id] &&
+          profile.setup.starboard.messages[message.id].id
         ) {
-          const starMsgId = profile.starboardMessages[message.id].id;
+          const starMsgId = profile.setup.starboard.messages[message.id].id;
           const starMsg = await starboardChannel.messages.fetch(starMsgId).catch(() => null);
           if (starMsg) await starMsg.delete().catch(() => {});
           // Xoá mapping khỏi profile
-          delete profile.starboardMessages[message.id];
-          await profile.save();
+          delete profile.setup.starboard.messages[message.id];
+          await profile.save().catch(() => {});
         } else {
           // Nếu không lưu, fallback: tìm bằng nội dung như cũ
           const fetched = await starboardChannel.messages.fetch({ limit: 100 });

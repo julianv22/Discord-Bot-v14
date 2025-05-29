@@ -116,23 +116,27 @@ module.exports = {
         Button1.components.forEach((btn) => {
           btn.data.disabled = true;
         });
-        if (!messageId) {
+        if (!messageId || messageId === 'undefined') {
           await channel.send({ embeds: [getEmbeds] });
           await interaction.update({ components: [Button0, Button1] });
         } else {
-          const msg = await channel.messages.fetch(messageId);
-          if (!msg)
-            return await interaction.reply(errorEmbed(true, 'Không tìm thấy message hoặc không ở channel này.'));
+          try {
+            const msg = await channel.messages.fetch(messageId);
+            if (!msg)
+              return await interaction.reply(errorEmbed(true, 'Không tìm thấy message hoặc không ở channel này.'));
 
-          await msg.edit({ embeds: [getEmbeds] }).catch(() => {});
-          await interaction.update({
-            embeds: [
-              new EmbedBuilder()
-                .setTitle(`\\✅ Update successfully!`)
-                .setDescription(`Message đã được update thành công.\n\n[Jump to message](${msg.url})`),
-            ],
-            components: [Button0, Button1],
-          });
+            await msg.edit({ embeds: [getEmbeds] }).catch(() => {});
+            await interaction.update({
+              embeds: [
+                new EmbedBuilder()
+                  .setTitle(`\\✅ Update successfully!`)
+                  .setDescription(`Message đã được update thành công.\n\n[Jump to message](${msg.url})`),
+              ],
+              components: [Button0, Button1],
+            });
+          } catch (err) {
+            return await interaction.reply(errorEmbed(true, 'Lỗi: Không thể tìm thấy hoặc cập nhật message.'));
+          }
         }
       },
     };

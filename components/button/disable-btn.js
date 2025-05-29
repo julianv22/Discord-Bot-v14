@@ -52,15 +52,15 @@ module.exports = {
     if (feature === 'confirm') {
       const Disable = {
         starboard: () => {
-          profile.starboardChannel = '';
-          profile.starCount = 0;
+          profile.setup.starboard.channel = '';
+          profile.setup.starboard.star = 0;
         },
-        suggest: () => (profile.suggestChannel = ''),
-        youtube: () => (profile.youtubeNotifyChannel = ''),
+        suggest: () => (profile.setup.suggest = ''),
+        youtube: () => (profile.youtube.notifyChannel = ''),
         welcome: () => {
-          profile.welcomeChannel = '';
-          profile.welcomeMessage = '';
-          profile.logChannel = '';
+          profile.setup.welcome.channel = '';
+          profile.setup.welcome.message = '';
+          profile.setup.welcome.log = '';
         },
       };
       if (typeof Disable[confirm] === 'function') await Disable[confirm]();

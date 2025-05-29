@@ -37,11 +37,11 @@ module.exports = {
     const { guild, user, guildId } = interaction;
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
-      if (!profile || profile.youtubeChannelIds.length == 0)
+      if (!profile || profile.youtube.channels.length == 0)
         return await interaction.reply(errorEmbed(true, 'Danh sách kênh Youtube trống!'));
 
       const channelList = await Promise.all(
-        profile.youtubeChannelIds.map(async (id, idx) => {
+        profile.youtube.channels.map(async (id, idx) => {
           const title = await getChannelTitle(id, process.env.YT_API_KEY);
           return `${idx + 1}. [${title}](https://www.youtube.com/channel/${id}) - \`${id}\``;
         }),
@@ -56,8 +56,8 @@ module.exports = {
         .setDescription(channelList.join('\n'))
         .addFields({
           name: 'Kênh thông báo video mới:',
-          value: profile.youtubeNotifyChannel
-            ? `<#${profile.youtubeNotifyChannel}>`
+          value: profile.youtube.notifyChannel
+            ? `<#${profile.youtube.notifyChannel}>`
             : `\\⚠️ Vui lòng sử dụng \`/youtube notify\` để thiết lập \\⚠️`,
         })
         .setColor('Random')

@@ -11,12 +11,12 @@ module.exports = {
     const { errorEmbed } = client;
     const { guild, user } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-    if (!profile || !profile?.suggestChannel)
+    if (!profile || !profile?.setup?.suggest)
       return await interaction.reply(
         errorEmbed(true, `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`),
       );
 
-    const sgtChannel = client.channels.cache.get(profile?.suggestChannel);
+    const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
     const content = interaction.fields.getTextInputValue('content');
     const embed = new EmbedBuilder()
       .setAuthor({

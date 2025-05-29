@@ -18,12 +18,12 @@ module.exports = {
     const { guild, user, options } = interaction;
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     let register;
-    if (!profile || !profile?.tourStatus) register = false;
-    else register = profile.tourStatus;
+    if (!profile || !profile?.tournament?.status) register = false;
+    else register = profile.tournament.status;
     if (register === false) return await interaction.reply(errorEmbed(true, 'Hiện không có giải đấu nào diễn ra!'));
 
     // Interaction Reply
-    const roleID = profile?.tourID;
+    const roleID = profile?.tournament?.id;
     const stIngame = options.getString('ingame');
     const role = guild.roles.cache.get(roleID);
 

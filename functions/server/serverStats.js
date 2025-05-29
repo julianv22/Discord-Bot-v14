@@ -12,11 +12,11 @@ module.exports = (client) => {
       // Start Server Stats
       const guild = client.guilds.cache.get(guildID);
 
-      let profile =
-        (await serverProfile.findOne({ guildID: guild.id }).catch(() => {})) ||
-        new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+      if (!profile)
+        await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
 
-      if (!profile?.totalChannel || !profile?.statsChannel) return;
+      if (!profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
       /**
        * Set channel name
        * @param {String} id - Channel ID
@@ -26,23 +26,23 @@ module.exports = (client) => {
         guild.channels.cache.get(id).setName(name);
       }
 
-      const memberRole = guild.roles.cache.get(profile?.memberRole);
+      const memberRole = guild.roles.cache.get(profile?.statistics?.memberRole);
       const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
       // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
 
-      const botRole = guild.roles.cache.get(profile?.botRole).name;
+      const botRole = guild.roles.cache.get(profile?.statistics?.botRole).name;
       const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
 
       const statsChannels = [
         {
-          id: profile?.totalChannel,
+          id: profile?.statistics?.totalChannel,
           name: `🌏 Total members: ${guild.memberCount.toLocaleString()}`,
         },
         {
-          id: profile?.membersChannel,
+          id: profile?.statistics?.memberChannel,
           name: `${memberRole.name}: ${memberCount}`,
         },
-        { id: profile?.botsChannel, name: `${botRole}: ${botCount}` },
+        { id: profile?.statistics?.botChannel, name: `${botRole}: ${botCount}` },
       ];
 
       statsChannels.forEach((channel) => {
@@ -63,7 +63,7 @@ module.exports = (client) => {
         status.push(`${icon[i++]} ${getPressence(stats)}`);
       });
 
-      setChannelName(profile?.statsChannel, status.join(' '));
+      setChannelName(profile?.statistics?.presenceChannel, status.join(' '));
       // End Server Stats
     } catch (e) {
       console.error(chalk.red('Error while running serverStats'), e);

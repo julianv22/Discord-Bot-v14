@@ -18,17 +18,17 @@ module.exports = {
 
       if (!profile) return await interaction.reply(errorEmbed(true, 'Hiện chưa có setup nào cho server'));
 
-      const welcomeChannel = channels.cache.get(profile?.welcomeChannel);
-      const logChannel = channels.cache.get(profile?.logChannel);
-      const starboardChannel = channels.cache.get(profile?.starboardChannel);
-      const youtubeNotifyChannel = channels.cache.get(profile?.youtubeNotifyChannel);
-      const ytChannels = profile?.youtubeChannelIds.length;
-      const suggestChannel = channels.cache.get(profile?.suggestChannel);
-      const welcomeMessage = profile?.welcomeMessage;
-      const tourName = profile?.tourID ? `${guild.roles.cache.get(profile.tourID)}` : 'None';
-      const tourStatus = profile?.tourStatus == true ? '\\✅ Open' : '\\❌ Closed';
-      const starCount = profile?.starCount;
-      const serverStatus = profile?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
+      const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel);
+      const logChannel = channels.cache.get(profile?.setup?.welcome?.log);
+      const starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel);
+      const youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel);
+      const ytChannels = profile?.youtube?.channels?.length;
+      const suggestChannel = channels.cache.get(profile?.setup?.suggest);
+      const welcomeMessage = profile?.setup?.welcome?.message;
+      const tourName = profile?.tournament?.id ? `${guild.roles.cache.get(profile.tournament.id)}` : 'None';
+      const tourStatus = profile?.tournament?.status == true ? '\\✅ Open' : '\\❌ Closed';
+      const starCount = profile?.setup?.starboard?.star;
+      const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
 
       const embed = new EmbedBuilder()
         .setColor('Random')

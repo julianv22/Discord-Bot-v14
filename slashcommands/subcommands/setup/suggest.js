@@ -18,11 +18,11 @@ module.exports = {
     try {
       if (await serverProfile.findOne({ guildID: guild.id }))
         serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, suggestChannel: sgtChannel })
+          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, setup: { suggest: sgtChannel } })
           .catch(() => {});
 
       await serverProfile
-        .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, suggestChannel: sgtChannel })
+        .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, setup: { suggest: sgtChannel } })
         .catch(() => {});
 
       return await interaction.reply(errorEmbed(false, `Channel to send suggestions has been changed to ${channel}!`));

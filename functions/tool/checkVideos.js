@@ -31,26 +31,29 @@ module.exports = (client) => {
       // console.log(chalk.red('Checking videos...'));
       const servers = await serverProfile.find({}).catch(() => {});
       for (const server of servers) {
-        const { youtubeChannelIds = [], lastVideoIds = [], youtubeNotifyChannel, guildID } = server;
-        if (!youtubeChannelIds.length || !youtubeNotifyChannel) continue;
+        const {
+          youtube: { channels = [], lastVideos = [], notifyChannel },
+          guildID,
+        } = server;
+        if (!channels.length || !notifyChannel) continue;
 
         let updated = false;
-        for (let i = 0; i < youtubeChannelIds.length; i++) {
-          const channelId = youtubeChannelIds[i];
+        for (let i = 0; i < channels.length; i++) {
+          const channelId = channels[i];
           const { videoId: latestVideoId, channelTitle, videoTitle } = await getLatestVideoId(channelId);
 
           if (!latestVideoId) continue;
 
           // Nếu chưa có lastVideoIds hoặc video mới
-          if (!lastVideoIds[i] || lastVideoIds[i] !== latestVideoId) {
-            lastVideoIds[i] = latestVideoId;
+          if (!lastVideos[i] || lastVideos[i] !== latestVideoId) {
+            lastVideos[i] = latestVideoId;
             updated = true;
 
             // Gửi thông báo lên kênh
             const guild = client.guilds.cache.get(guildID);
             if (guild) {
-              const notifyChannel = guild.channels.cache.get(youtubeNotifyChannel);
-              if (notifyChannel) {
+              const channel = guild.channels.cache.get(notifyChannel);
+              if (channel) {
                 // Thông báo text với tên kênh và link + embed nhúng video
                 const embed = new EmbedBuilder()
                   .setTitle(videoTitle || 'Video mới')
@@ -59,7 +62,7 @@ module.exports = (client) => {
                   .setColor('Random')
                   .setImage(`https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg`)
                   .setFooter({ text: channelTitle || 'Youtube' });
-                await notifyChannel.send({
+                await channel.send({
                   content: `\\🎬 **[${
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:`,
@@ -79,7 +82,7 @@ module.exports = (client) => {
         }
         // Lưu lại nếu có cập nhật
         if (updated) {
-          server.lastVideoIds = lastVideoIds;
+          server.youtube.lastVideos = lastVideos;
           await server.save().catch(() => {});
         }
       }

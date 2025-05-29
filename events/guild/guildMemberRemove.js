@@ -11,9 +11,11 @@ module.exports = {
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile || !profile?.logChannel) return console.log(chalk.red('No Channel Set'));
+      if (!profile || !profile?.setup?.welcome?.log) return console.log(chalk.red('No Channel Set'));
 
-      const { logChannel: logID } = profile;
+      const {
+        welcome: { log: logID },
+      } = profile;
       const emLog = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('👋 Good bye!')

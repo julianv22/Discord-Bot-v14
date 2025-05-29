@@ -27,9 +27,9 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    let profile =
-      (await serverProfile.findOne({ guildID: guild.id }).catch(() => {})) ||
-      new serverProfile({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    if (!profile)
+      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
 
     try {
       const totalChannel = options.getChannel('total-count-channel');
@@ -44,12 +44,14 @@ module.exports = {
           { guildID: guild.id },
           {
             guildName: guild.name,
-            totalChannel: totalChannel.id,
-            membersChannel: membersChannel.id,
-            memberRole: memberrole.id,
-            botsChannel: botsChannel.id,
-            botRole: botrole.id,
-            statsChannel: presencesChannel.id,
+            statistics: {
+              totalChannel: totalChannel.id,
+              memberChannel: membersChannel.id,
+              memberRole: memberrole.id,
+              botChannel: botsChannel.id,
+              botRole: botrole.id,
+              presenceChannel: presencesChannel.id,
+            },
           },
         )
         .catch(() => {});

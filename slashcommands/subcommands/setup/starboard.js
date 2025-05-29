@@ -17,12 +17,12 @@ module.exports = {
     const number = options.getInteger('starnum');
 
     try {
-      let profile =
-        (await serverProfile.findOne({ guildID: guildId }).catch(() => {})) ||
-        new serverProfile({ guildID: guildId, guildName: guild.name, prefix: cfg.prefix });
+      let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
+      if (!profile)
+        await serverProfile.create({ guildID: guildId, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
 
-      profile.starboardChannel = channel.id;
-      profile.starCount = number;
+      profile.setup.starboard.channel = channel.id;
+      profile.setup.starboard.star = number;
       await profile.save().catch(() => {});
       return await interaction.reply(
         errorEmbed(false, `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`),

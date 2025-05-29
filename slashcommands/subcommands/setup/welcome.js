@@ -20,21 +20,10 @@ module.exports = {
     if (!profile) serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
     try {
       profile.guildName = guild.name;
-      profile.welcomeChannel = welcomeChannel.id;
-      profile.logChannel = logChannel.id;
-      profile.welcomeMessage = welcomeMsg;
-      await profile.save();
-      // await serverProfile
-      //   .findOneAndUpdate(
-      //     { guildID: guild.id },
-      //     {
-      //       guildName: guild.name,
-      //       welcomeChannel: options.getChannel('welcome').id,
-      //       logChannel: options.getChannel('log').id,
-      //       welcomeMessage: welcomeMsg,
-      //     },
-      //   )
-      //   .catch(() => {});
+      profile.setup.welcome.channel = welcomeChannel.id;
+      profile.setup.welcome.log = logChannel.id;
+      profile.setup.welcome.message = welcomeMsg;
+      await profile.save().catch(() => {});
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

@@ -23,7 +23,7 @@ module.exports = {
       return await interaction.reply(errorEmbed('❗ ', 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-    let register = !profile || !profile?.tourStatus ? false : profile.tourStatus;
+    let register = !profile || !profile?.tournament?.status ? false : profile.tournament.status;
 
     try {
       if (register === false)
@@ -41,7 +41,7 @@ module.exports = {
       if (!tourProfile || !tourProfile?.status)
         return await interaction.reply(errorEmbed(true, `${user} chưa đăng ký giải đấu!`));
 
-      const role = guild.roles.cache.get(profile?.tourID);
+      const role = guild.roles.cache.get(profile?.tournament?.id);
       if (!role)
         return await interaction.reply(errorEmbed(true, `Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!`));
 

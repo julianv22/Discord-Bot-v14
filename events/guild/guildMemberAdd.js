@@ -14,8 +14,9 @@ module.exports = {
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile || !profile?.welcomeChannel || !profile?.logChannel) return console.log(chalk.red('No Channel Set'));
-      const { welcomeChannel: welcomeID, logChannel: logID } = profile;
+      if (!profile || !profile?.setup?.welcome?.channel || !profile?.setup?.welcome?.log)
+        return console.log(chalk.red('No Channel Set'));
+      const { channel: welcomeID, log: logID } = profile.setup.welcome;
 
       // Create Background
       const bgUrl = path.join(__dirname, '../../config/bg.png');
@@ -88,8 +89,8 @@ module.exports = {
         .setImage(cfg.welcomePNG)
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
         .setTimestamp();
-      if (profile?.welcomeMessage)
-        embWelcome.addFields([{ name: `Server's Information:`, value: profile?.welcomeMessage }]);
+      if (profile?.setup?.welcome?.message)
+        embWelcome.addFields([{ name: `Server's Information:`, value: profile?.setup?.welcome?.message }]);
 
       const attachment = new AttachmentBuilder(await canvas.encode('png'), {
         name: 'welcome.png',

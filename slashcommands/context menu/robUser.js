@@ -72,7 +72,7 @@ module.exports = {
     }
     profile.lastRob = new Date();
     await profile.save().catch(() => {});
-    await targetProfile.save();
+    await targetProfile.save().catch(() => {});
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

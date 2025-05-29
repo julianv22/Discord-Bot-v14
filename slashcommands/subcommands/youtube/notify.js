@@ -22,7 +22,7 @@ module.exports = {
       const profile = await serverProfile
         .findOneAndUpdate(
           { guildID: guildId },
-          { $set: { youtubeNotifyChannel: notifyChannel.id } },
+          { $set: { youtube: { notifyChannel: notifyChannel.id } } },
           { new: true, upsert: true },
         )
         .catch(() => {});

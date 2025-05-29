@@ -17,7 +17,13 @@ module.exports = {
 
       // Lấy cấu hình server
       const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(() => {});
-      if (!profile || !profile.starboardChannel || !profile.starCount || profile.starCount <= 0) return;
+      if (
+        !profile ||
+        !profile.setup.starboard.channel ||
+        !profile.setup.starboard.star ||
+        profile.setup.starboard.star <= 0
+      )
+        return;
 
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name !== '⭐') return;
@@ -27,14 +33,14 @@ module.exports = {
       const count = starReaction ? starReaction.count : 0;
 
       // Đủ số lượng starCount mới gửi
-      if (count < profile.starCount) return;
+      if (count < profile.setup.starboard.star) return;
 
       // Không cho tự star chính mình
       if (message.author.id === user.id) return;
 
       // Lấy channel starboard
       const guild = message.guild;
-      const starboardChannel = guild.channels.cache.get(profile.starboardChannel);
+      const starboardChannel = guild.channels.cache.get(profile.setup.starboard.channel);
       if (!starboardChannel) return;
 
       // Nếu có attachment thì bỏ qua
@@ -76,9 +82,9 @@ module.exports = {
 
       // Nếu có content hoặc embed
       if (embeds.length > 0) {
-        if (!profile.starboardMessages) profile.starboardMessages = {};
+        if (!profile.setup.starboard.messages) profile.setup.starboard.messages = {};
 
-        const starboardData = profile.starboardMessages[message.id];
+        const starboardData = profile.setup.starboard.messages[message.id];
         const now = Date.now();
 
         if (starboardData && starboardData.id) {
@@ -91,8 +97,8 @@ module.exports = {
               components: [jumpButton],
             });
             // Cập nhật lại thời gian cuối cùng update (không cần thiết cho cooldown, nhưng có thể lưu để log)
-            profile.starboardMessages[message.id].lastTime = now;
-            await profile.save();
+            profile.setup.starboard.messages[message.id].lastTime = now;
+            await profile.save().catch(() => {});
           } else {
             // Nếu không fetch được (bị xoá), cho phép gửi mới nếu qua cooldown
             if (!starboardData.lastTime || now - starboardData.lastTime >= 300000) {
@@ -101,8 +107,8 @@ module.exports = {
                 embeds: embeds,
                 components: [jumpButton],
               });
-              profile.starboardMessages[message.id] = { id: newMsg.id, lastTime: now };
-              await profile.save();
+              profile.setup.starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
+              await profile.save().catch(() => {});
             }
           }
         } else {
@@ -113,8 +119,8 @@ module.exports = {
               embeds: embeds,
               components: [jumpButton],
             });
-            profile.starboardMessages[message.id] = { id: newMsg.id, lastTime: now };
-            await profile.save();
+            profile.setup.starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
+            await profile.save().catch(() => {});
           }
         }
       }
