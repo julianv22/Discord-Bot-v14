@@ -42,7 +42,7 @@ module.exports = (client) => {
       console.error(chalk.red('Error while executing function cmdGuide'), e);
       return message.channel
         .send(
-          client.errorEmbed({ title: `\\❌ | Error while executing function cmdGuide`, description: e, color: 'Red' }),
+          client.errorEmbed({ title: `\\❌ Error while executing function cmdGuide`, description: e, color: 'Red' }),
         )
         .then((m) => {
           setTimeout(() => {

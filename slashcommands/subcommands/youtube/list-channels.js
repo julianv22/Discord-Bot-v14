@@ -65,7 +65,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /youtube list-channels command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while displaying Youtube channel list`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while displaying Youtube channel list`, description: e, color: 'Red' }),
       );
     }
   },

@@ -16,7 +16,7 @@ module.exports = (client) => {
       const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
 
       if (!snipe)
-        return msg.reply(errorEmbed({ description: `\\❌ | There is nothing to snipe.`, emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ description: `\\❌ There is nothing to snipe.`, emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(() => {
               m.delete();
@@ -53,11 +53,11 @@ module.exports = (client) => {
     } catch (e) {
       if (interaction && typeof interaction.reply === 'function') {
         interaction.reply(
-          errorEmbed({ title: `\\❌ | Error while executing function snipeMessage`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ Error while executing function snipeMessage`, description: e, color: 'Red' }),
         );
       } else if (message && typeof message.reply === 'function') {
         message.reply(
-          errorEmbed({ title: `\\❌ | Error while executing function snipeMessage`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ Error while executing function snipeMessage`, description: e, color: 'Red' }),
         );
       }
       console.error(chalk.red('Error while executing function snipeMessage'), e);

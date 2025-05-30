@@ -38,7 +38,7 @@ module.exports = {
       await msgEdit.edit(content).then(async () => {
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
-          .setTitle('✅ Message edited successfully!')
+          .setTitle('\\✅ Message edited successfully!')
           .setDescription(`**Message ID:** [\`${msgid}\`](${msgEdit.url})`)
           .setColor('Green')
           .setThumbnail(
@@ -56,7 +56,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /edit-message command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while executing /edit-message command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /edit-message command`, description: e, color: 'Red' }),
       );
     }
   },

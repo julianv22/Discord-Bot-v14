@@ -24,9 +24,11 @@ module.exports = {
         max: 1,
       })
       .then((m) => {
-        console.log(m.first().content);
-        message.reply('Hello ' + m.first().content + '!');
+        // console.log(m.first().content);
+        m.first()
+          .delete()
+          .then(() => msg.edit(`Hello ${m.first().content}!`));
       })
-      .catch((e) => console.log('Collector time out'));
+      .catch((e) => console.log(chalk.red('Collector time out'), e));
   },
 };

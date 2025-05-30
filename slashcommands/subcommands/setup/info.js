@@ -80,7 +80,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /setup info command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while getting setup info`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while getting setup info`, description: e, color: 'Red' }),
       );
     }
   },

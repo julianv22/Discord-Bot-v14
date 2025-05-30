@@ -30,9 +30,10 @@ module.exports = {
     try {
       const messages = await channel.messages.fetch({ limit: amount });
       const actualAmount = Math.min(messages.size, amount);
+      let filtered = [];
+
       if (user) {
         let i = 0;
-        let filtered = [];
         messages.filter((m) => {
           if (author.id === user.id && amount + 1 > i) {
             filtered.push(m);
@@ -43,12 +44,12 @@ module.exports = {
 
       await channel.bulkDelete(user ? filtered : actualAmount, user ? null : true);
       return await interaction.reply(
-        errorEmbed({ description: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: false }),
+        errorEmbed({ description: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true }),
       );
     } catch (e) {
       console.error(chalk.red('Error while executing /bulk-delete command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
       );
     }
   },

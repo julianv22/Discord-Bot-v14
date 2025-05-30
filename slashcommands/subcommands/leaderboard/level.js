@@ -36,7 +36,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /leaderboard level command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while executing /leaderboard level command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /leaderboard level command`, description: e, color: 'Red' }),
       );
     }
   },

@@ -33,7 +33,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /setup starboard command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while setting up starboard channel`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while setting up starboard channel`, description: e, color: 'Red' }),
       );
     }
   },

@@ -29,7 +29,7 @@ module.exports = {
     // Kiểm tra số lần chơi trong ngày
     if (profile.rpsCount >= 50)
       return await interaction.update(
-        errorEmbed({ description: `\\❌ | Bạn đã chơi hết 50 lần trong ngày!`, emoji: false }),
+        errorEmbed({ description: `\\❌ Bạn đã chơi hết 50 lần trong ngày!`, emoji: false }),
       );
     // Kiểm tra tiền cược
     if (profile.balance < bet) {
@@ -99,7 +99,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while running button rps-btn'), e);
       return await interaction.update(
-        errorEmbed({ title: `\\❌ | Error while running button rps-btn`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while running button rps-btn`, description: e, color: 'Red' }),
       );
     }
   },

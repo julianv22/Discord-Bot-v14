@@ -36,7 +36,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        client.errorEmbed({ title: `\\❌ | Error while getting quote`, description: e, color: 'Red' });
+        client.errorEmbed({ title: `\\❌ Error while getting quote`, description: e, color: 'Red' });
       });
   },
 };

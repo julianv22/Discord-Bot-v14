@@ -27,21 +27,21 @@ module.exports = {
           await loadCommands(true);
           await loadComponents();
           await interaction.reply({
-            embeds: [embed.setDescription(`\\✅ | Reloading commands, please wait...`)],
+            embeds: [embed.setDescription(`\\✅ Reloading commands, please wait...`)],
             flags: 64,
           });
         },
         events: async () => {
           await loadEvents();
           await interaction.reply({
-            embeds: [embed.setDescription(`\\✅ | Reloading events, please wait...`)],
+            embeds: [embed.setDescription(`\\✅ Reloading events, please wait...`)],
             flags: 64,
           });
         },
         functions: async () => {
           await loadFunctions();
           await interaction.reply({
-            embeds: [embed.setDescription(`\\✅ | Reloading functions, please wait...`)],
+            embeds: [embed.setDescription(`\\✅ Reloading functions, please wait...`)],
             flags: 64,
           });
         },
@@ -56,7 +56,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /reload command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while executing /reload command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /reload command`, description: e, color: 'Red' }),
       );
     }
   },

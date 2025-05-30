@@ -67,7 +67,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
-            emoji: `\\🏆 | `,
+            emoji: `\\🏆 `,
             color: 'Green',
           }),
         );
@@ -96,7 +96,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /dang-ky command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while executing /dang-ky command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /dang-ky command`, description: e, color: 'Red' }),
       );
     }
   },

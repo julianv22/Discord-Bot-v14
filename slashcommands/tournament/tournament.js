@@ -71,7 +71,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
-            emoji: `\\🏆 | `,
+            emoji: `\\🏆 `,
             color: 'Green',
           }),
         );
@@ -97,7 +97,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
-            emoji: `\\🏆 | `,
+            emoji: `\\🏆 `,
             color: 'Green',
           }),
         );
@@ -105,7 +105,7 @@ module.exports = {
       list: async () => {
         if (!profile.tournament.status)
           return await interaction.reply(
-            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆 | `, color: 'Red' }),
+            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆`, color: 'Red' }),
           );
 
         let memberList = await tournamentProfile
@@ -172,7 +172,7 @@ module.exports = {
           return await interaction.reply(
             errorEmbed({
               description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
-              emoji: `\\❗ | `,
+              emoji: `\\❗ `,
               color: 'Orange',
             }),
           );
@@ -194,7 +194,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
-            emoji: `\\🏆 | `,
+            emoji: `\\🏆 `,
             color: 'Green',
           }),
         );
@@ -211,7 +211,7 @@ module.exports = {
       console.error(chalk.red(`Error while executing /tournament command [${tourCommand}]:`, e));
       return await interaction.reply(
         errorEmbed({
-          title: `\\❌ | Error while executing /tournament command [${tourCommand}]:`,
+          title: `\\❌ Error while executing /tournament command [${tourCommand}]:`,
           description: e,
           color: 'Red',
         }),

@@ -17,7 +17,7 @@ module.exports = (client) => {
     let prefix = '';
 
     if (typeof emoji === 'boolean') {
-      prefix = emoji ? `\\✅ | ` : `\\❌ | `;
+      prefix = emoji ? `\\✅ ` : `\\❌ `;
       embed.setColor(emoji ? 'Green' : 'Red');
     } else {
       prefix = emoji;

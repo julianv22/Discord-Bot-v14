@@ -68,7 +68,7 @@ module.exports = {
       return await interaction.update({
         embeds: [
           confirmEmbed(
-            `\\✅ | Đã tắt tính năng **${capitalize(confirm)}**!`,
+            `\\✅ Đã tắt tính năng **${capitalize(confirm)}**!`,
             `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
             'Green',
           ),
@@ -77,7 +77,7 @@ module.exports = {
       });
     } else if (feature === 'cancel') {
       return await interaction.update({
-        embeds: [confirmEmbed(`\\❌ | Đã hủy bỏ!`, `Click vào \`Dismiss message\` để trở về`, 'Red')],
+        embeds: [confirmEmbed(`\\❌ Đã hủy bỏ!`, `Click vào \`Dismiss message\` để trở về`, 'Red')],
         components: [disableButtons(oldComponents)],
       });
     } else await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
