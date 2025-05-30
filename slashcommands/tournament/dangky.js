@@ -20,7 +20,8 @@ module.exports = {
     let register;
     if (!profile || !profile?.tournament?.status) register = false;
     else register = profile.tournament.status;
-    if (register === false) return await interaction.reply(errorEmbed(true, 'Hiện không có giải đấu nào diễn ra!'));
+    if (register === false)
+      return await interaction.reply(errorEmbed({ description: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
 
     // Interaction Reply
     const roleID = profile?.tournament?.id;
@@ -63,32 +64,40 @@ module.exports = {
             .catch(() => {});
         }
 
-        await interaction.reply({
-          embeds: [
-            {
-              color: 65280,
-              description: `\\🏆 | ${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
-            },
-          ],
-        });
+        await interaction.reply(
+          errorEmbed({
+            description: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
+            emoji: `\\🏆 | `,
+            color: 'Green',
+          }),
+        );
 
-        await interaction.followUp(errorEmbed(false, `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`));
+        await interaction.followUp(
+          errorEmbed({ description: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: true }),
+        );
         // Add Role
         const bot = guild.members.me || (await guild.members.fetch(client.user.id));
         if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
           if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
-            return await interaction.followUp(errorEmbed(true, `Bot cần quyền \`Manage Roles\` để gán role ${role}!`));
+            return await interaction.followUp(
+              errorEmbed({ description: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false }),
+            );
           }
           if (bot.roles.highest.position <= role.position) {
             return await interaction.followUp(
-              errorEmbed(true, `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`),
+              errorEmbed({
+                description: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
+                emoji: false,
+              }),
             );
           }
         } else await guild.members.cache.get(user.id).roles.add(role);
       }
     } catch (e) {
       console.error(chalk.red('Error while running command (/dang-ky):', e));
-      return await interaction.reply(errorEmbed(true, 'Error while running command (/dang-ky):', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error while running command (/dang-ky):`, description: e, color: 'Red' }),
+      );
     }
   },
 };

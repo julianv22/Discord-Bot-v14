@@ -36,7 +36,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        client.errorEmbed(true, 'Đã xảy ra lỗi khi lấy quote!', e);
+        client.errorEmbed({ title: `\❌ | Error while getting quote`, description: e, color: 'Red' });
       });
   },
 };

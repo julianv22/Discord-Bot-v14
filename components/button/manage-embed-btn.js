@@ -10,7 +10,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { customId, message, channel } = interaction;
-    if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
+    if (!message) return await interaction.reply(errorEmbed({ description: 'No message found', emoji: false }));
     const [, button, messageId] = customId.split(':');
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const Button0 = ActionRowBuilder.from(message.components[0]);
@@ -123,7 +123,9 @@ module.exports = {
           try {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
-              return await interaction.reply(errorEmbed(true, 'Không tìm thấy message hoặc không ở channel này.'));
+              return await interaction.reply(
+                errorEmbed({ description: 'Không tìm thấy message hoặc không ở channel này.', emoji: false }),
+              );
 
             await msg.edit({ embeds: [getEmbeds] }).catch(() => {});
             await interaction.update({
@@ -134,8 +136,10 @@ module.exports = {
               ],
               components: [Button0, Button1],
             });
-          } catch (err) {
-            return await interaction.reply(errorEmbed(true, 'Lỗi: Không thể tìm thấy hoặc cập nhật message.'));
+          } catch (e) {
+            return await interaction.reply(
+              errorEmbed({ title: `\❌ | Không thể tìm thấy hoặc cập nhật message`, description: e, color: 'Red' }),
+            );
           }
         }
       },

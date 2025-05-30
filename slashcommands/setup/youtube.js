@@ -34,7 +34,7 @@ module.exports = {
     const subcommand = options.getSubcommand();
     if (subcommand === 'refresh') {
       await checkVideos();
-      return await interaction.reply(errorEmbed(false, 'Refesh successfull!'));
+      return await interaction.reply(errorEmbed({ description: 'Refesh successfull!', emoji: true }));
     }
   },
 };

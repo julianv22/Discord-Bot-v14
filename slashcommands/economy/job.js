@@ -17,7 +17,10 @@ module.exports = {
     let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
     if (!profile)
       return await interaction.reply(
-        errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
+        errorEmbed({
+          description: `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`,
+          emoji: false,
+        }),
       );
 
     // Cooldown cố định 6 tiếng
@@ -27,7 +30,10 @@ module.exports = {
       const finishTime = new Date(new Date(profile.lastJob).getTime() + cooldownMs);
       const timeleft = Math.floor(finishTime.getTime() / 1000);
       return await interaction.reply(
-        errorEmbed(true, `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`),
+        errorEmbed({
+          description: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
+          emoji: false,
+        }),
       );
     }
 

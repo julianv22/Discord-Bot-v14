@@ -17,7 +17,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { loadCommands, loadComponents, loadEvents, loadFunctions } = client;
+    const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed } = client;
     const { options } = interaction;
     const embed = new EmbedBuilder().setColor('Green');
 
@@ -49,14 +49,13 @@ module.exports = {
       if (typeof CommandsType[options.getSubcommand()] === 'function') await CommandsType[options.getSubcommand()]();
 
       setTimeout(async () => {
-        await interaction.editReply({
-          embeds: [embed.setDescription(`\\✅ | Successfully reloaded application ${options.getSubcommand()}!`)],
-          flags: 64,
-        });
+        await interaction.editReply(
+          errorEmbed({ description: `Successfully reloaded application ${options.getSubcommand()}!`, emoji: true }),
+        );
       }, 2500);
     } catch (e) {
       console.error(chalk.red('Error (/reload):', e));
-      return await interaction.reply(errorEmbed(true, 'Reload command error:', e));
+      return await interaction.reply(errorEmbed({ title: `\❌ | Reload command error`, description: e, color: 'Red' }));
     }
   },
 };

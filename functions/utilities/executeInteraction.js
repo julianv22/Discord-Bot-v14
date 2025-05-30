@@ -10,12 +10,14 @@ module.exports = (client) => {
     try {
       await type.execute(interaction, client);
     } catch (e) {
-      const error = `Error while executing interaction [${type.data.name}]`;
-      await interaction.reply({
-        embeds: [{ color: 16711680, title: `\\❌ ` + error, description: `${e}` }],
-        flags: 64,
-      });
-      console.error(chalk.yellow(error), e);
+      console.error(chalk.yellow(`Error while executing interaction [${type.data.name}]`), e);
+      return await interaction.reply(
+        client.errorEmbed({
+          title: `\❌ | Error while executing interaction [${type.data.name}]`,
+          description: e,
+          color: 'Red',
+        }),
+      );
     }
   };
 };

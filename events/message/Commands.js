@@ -22,7 +22,12 @@ module.exports = {
 
         if (!command)
           return message
-            .reply(errorEmbed(true, `Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`))
+            .reply(
+              errorEmbed({
+                description: `Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`,
+                emoji: false,
+              }),
+            )
             .then((m) => {
               setTimeout(() => {
                 m.delete();
@@ -31,7 +36,9 @@ module.exports = {
 
         if (command.permissions && !member.permissions.has(command.permissions))
           return message
-            .reply(errorEmbed(true, `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`))
+            .reply(
+              errorEmbed({ description: `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`, emoji: false }),
+            )
             .then((m) => {
               setTimeout(() => {
                 m.delete();
@@ -42,15 +49,11 @@ module.exports = {
       }
     } catch (e) {
       const error = `An error occurred while executing the command!`;
-      message
-        .reply({
-          embeds: [{ color: 16711680, title: `\❌ ` + error, description: `${e}` }],
-        })
-        .then((m) => {
-          setTimeout(() => {
-            m.delete();
-          }, 5000);
-        });
+      message.reply(errorEmbed({ title: `\❌ | ${error}`, description: e, color: 'Red' })).then((m) => {
+        setTimeout(() => {
+          m.delete();
+        }, 5000);
+      });
       console.error(chalk.red(error), e);
     }
   },

@@ -10,6 +10,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.serverInfo = async (guild, author, interaction, message) => {
+    const { errorEmbed } = client;
     try {
       const bots = guild.members.cache.filter((m) => m.user.bot).size;
       const channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size;
@@ -69,13 +70,12 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
-      const errorEmbed = {
-        embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-      };
       if (interaction && typeof interaction.reply === 'function') {
-        await interaction.reply({ ...errorEmbed, flags: 64 }).catch(() => {});
+        await interaction.reply(
+          errorEmbed({ title: `\❌ | Error while running serverInfo`, description: e, color: 'Red' }),
+        );
       } else if (message && typeof message.reply === 'function') {
-        message.reply(errorEmbed).catch(() => {});
+        message.reply(errorEmbed({ title: `\❌ | Error while running serverInfo`, description: e, color: 'Red' }));
       }
       console.error(chalk.red('Error while running serverInfo'), e);
     }

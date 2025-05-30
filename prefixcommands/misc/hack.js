@@ -20,22 +20,22 @@ module.exports = {
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
       return message
-        .reply(errorEmbed(true, 'Phải @ đến nạn nhân để hack 🤣!'))
+        .reply(errorEmbed({ description: 'Phải @ đến nạn nhân để hack 🤣!', emoji: false }))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === author.id)
       return message
-        .reply(errorEmbed(true, 'Ngu dốt! Không thể hack chính mình 😅!'))
+        .reply(errorEmbed({ description: 'Ngu dốt! Không thể hack chính mình 😅!', emoji: false }))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === guild.ownerId)
       return message
-        .reply(errorEmbed(true, 'Không động được vào thằng này đâu nhá! 🎭'))
+        .reply(errorEmbed({ description: 'Không động được vào thằng này đâu nhá! 🎭', emoji: false }))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     if (target.id === cfg.clientID)
       return message
-        .reply(errorEmbed(true, 'Are you sure 🤔'))
+        .reply(errorEmbed({ description: 'Are you sure 🤔', emoji: false }))
         .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
 
     let username = target.displayName || target.user?.tag || target.id;

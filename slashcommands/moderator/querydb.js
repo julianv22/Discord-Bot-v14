@@ -36,9 +36,10 @@ module.exports = {
     const { guild, guildId, user, options } = interaction;
     const choice = options.getString('profile');
     const serverProfile = require(`../../config/${choice}`);
-    if (user.id !== cfg.ownerID) return await interaction.reply(errorEmbed(true, '\\⭕wner permission only'));
-    let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
-    if (!profile) return await interaction.reply(errorEmbed(true, 'No database!'));
+    if (user.id !== cfg.ownerID)
+      return await interaction.reply(errorEmbed({ description: '\\⭕wner permission only', emoji: false }));
+    let profile = await serverProfile.find({ guildID: guildId }).catch(() => {});
+    if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
     /**
      * Send a message
      * @param {string} message - Nội dung message
@@ -73,7 +74,7 @@ module.exports = {
 
     if (bin.ok) {
       let { key } = await bin.json();
-      await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database Successfully!`, key)
+      await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database successfully!`, key)
         .then(async () => {
           for (let i = 0; i < db.length; i += 2000) {
             await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
@@ -82,6 +83,9 @@ module.exports = {
         .catch((e) => {
           console.error(chalk.red('Error (querydb):', e));
         });
-    } else await sendMessage(`\\❌ Can not parse sourcebin now. Try again later!`);
+    } else
+      await interaction.editReply(
+        errorEmbed({ description: 'Can not parse sourcebin now. Try again later!', emoji: false }),
+      );
   },
 };

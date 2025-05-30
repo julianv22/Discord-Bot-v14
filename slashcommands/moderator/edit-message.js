@@ -23,11 +23,16 @@ module.exports = {
 
     try {
       if (msgEdit === undefined)
-        return await interaction.reply(errorEmbed(true, `Message ID \`${msgid}\` is incorrect!`));
+        return await interaction.reply(
+          errorEmbed({ description: `Message ID \`${msgid}\` is incorrect!`, emoji: false }),
+        );
 
       if (msgEdit.author.id !== client.user.id)
         return await interaction.reply(
-          errorEmbed(true, `This message [\`${msgid}\`](${msgEdit.url}) does not belong to ${client.user}!`),
+          errorEmbed({
+            description: `This message [\`${msgid}\`](${msgEdit.url}) does not belong to ${client.user}!`,
+            emoji: false,
+          }),
         );
 
       await msgEdit.edit(content).then(async () => {
@@ -50,7 +55,9 @@ module.exports = {
       });
     } catch (e) {
       console.error(chalk.red('Error (/edit-message):', e));
-      return await interaction.reply(errorEmbed(true, 'Error editing message:', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error while editing message`, description: e, color: 'Red' }),
+      );
     }
   },
 };

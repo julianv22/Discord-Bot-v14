@@ -1,36 +1,32 @@
-const { MessageFlags } = require('discord.js');
+const { EmbedBuilder, MessageFlags } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Tạo embed thông báo lỗi hoặc thành công.
-   * @param {boolean|string} prefix - true = lỗi, false = thành công, string = prefix tuỳ chỉnh.
-   * @param {string} desc - Nội dung thông báo.
-   * @param {string} [err] - Chi tiết lỗi hệ thống (nếu có).
-   * @returns {object} Đối tượng trả về cho reply/send của Discord.js.
-   *
-   * Ví dụ:
-   *   client.errorEmbed(true, 'Có lỗi xảy ra!');
-   *   client.errorEmbed(false, 'Thành công!');
-   *   client.errorEmbed('⚠️ ', 'Cảnh báo!');
+   * Create an error embed
+   * @param {string} title - The title of the embed
+   * @param {string} description - The description of the embed
+   * @param {string} error - The error if has occurred
+   * @param {string} color - The color of the embed
+   * @param {boolean} emoji - Whether to use an emoji prefix
+   * @param {boolean} flags - Whether to use flags
    */
-  client.errorEmbed = (prefix, desc, err) => {
-    let prefixText = prefix;
-    let color = Math.floor(Math.random() * 16777216); // Mặc định: màu ngẫu nhiên
+  client.errorEmbed = ({ title, description, error, color = 'Random', emoji = '', flags = true }) => {
+    const embed = new EmbedBuilder();
+    if (title) embed.setTitle(title);
+    let prefix = '';
 
-    if (typeof prefix === 'boolean') {
-      prefixText = prefix ? '\\❌ | ' : '\\✅ | ';
-      color = prefix ? 16711680 : 65280; // Đỏ nếu lỗi, xanh lá nếu thành công
+    if (typeof emoji === 'boolean') {
+      prefix = emoji ? `\\✅ | ` : `\\❌ | `;
+      embed.setColor(emoji ? 'Green' : 'Red');
+    } else {
+      prefix = emoji;
+      embed.setColor(color);
     }
 
-    return {
-      embeds: [
-        {
-          color,
-          description: prefixText + desc + (err ? `\`\`\`fix\n${err}\`\`\`` : ''),
-        },
-      ],
-      flags: MessageFlags.Ephemeral,
-    };
+    const desc = prefix + description + (error ? `\`\`\`fix\n${error}\`\`\`` : '');
+    embed.setDescription(desc);
+
+    return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };
 };

@@ -24,10 +24,12 @@ module.exports = {
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
     if (targetUser.bot) {
-      return await interaction.reply(errorEmbed(true, `Bạn không thể giật \\💲 của bot!`));
+      return await interaction.reply(errorEmbed({ description: `Bạn không thể giật \\💲 của bot!`, emoji: false }));
     }
     if (targetUser.id === userID) {
-      return await interaction.reply(errorEmbed(true, `Bạn không thể tự giật \\💲 của chính mình!`));
+      return await interaction.reply(
+        errorEmbed({ description: `Bạn không thể tự giật \\💲 của chính mình!`, emoji: false }),
+      );
     }
 
     // Lấy profile của user và target
@@ -36,15 +38,20 @@ module.exports = {
 
     if (!profile || !targetProfile)
       return await interaction.reply(
-        errorEmbed(true, !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`),
+        errorEmbed({
+          description: !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`,
+          emoji: false,
+        }),
       );
 
     if (profile.balance < 200) {
-      return await interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
+      return await interaction.reply(
+        errorEmbed({ description: `Bạn cần ít nhất 200\\💲 để thực hiện giật!`, emoji: false }),
+      );
     }
 
     if (targetProfile.balance < 100) {
-      return await interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
+      return await interaction.reply(errorEmbed({ description: `Người này không đủ \\💲 để bị giật!`, emoji: false }));
     }
 
     // Cooldown
@@ -52,7 +59,7 @@ module.exports = {
       const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
       const timeleft = Math.floor(nextRob.getTime() / 1000);
       return await interaction.reply(
-        errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`),
+        errorEmbed({ description: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
       );
     }
 

@@ -16,7 +16,8 @@ module.exports = {
     const userMove = parseInt(button, 10);
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     // Kiểm tra tài khoản Economy
-    if (!profile) return await interaction.update(errorEmbed(true, 'Bạn chưa có tài khoản Economy!'));
+    if (!profile)
+      return await interaction.update(errorEmbed({ description: 'Bạn chưa có tài khoản Economy!', emoji: false }));
     // Reset count nếu sang ngày mới
     const today = new Date();
     const lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null;
@@ -27,19 +28,16 @@ module.exports = {
     }
     // Kiểm tra số lần chơi trong ngày
     if (profile.rpsCount >= 50)
-      return await interaction.update({
-        embeds: [
-          {
-            color: 16711680,
-            description: `\\❌ | Bạn đã chơi hết 50 lần trong ngày!`,
-          },
-        ],
-        components: [],
-      });
+      return await interaction.update(
+        errorEmbed({ description: `\\❌ | Bạn đã chơi hết 50 lần trong ngày!`, emoji: false }),
+      );
     // Kiểm tra tiền cược
     if (profile.balance < bet) {
       return await interaction.update(
-        errorEmbed(true, `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toLocaleString()}\\💲`),
+        errorEmbed({
+          description: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toLocaleString()}\\💲`,
+          emoji: false,
+        }),
       );
     }
 
@@ -100,7 +98,9 @@ module.exports = {
       return await interaction.update({ embeds: [embed] });
     } catch (e) {
       console.error('Error while running rpsGame', e);
-      return await interaction.update(errorEmbed(true, 'Đã xảy ra lỗi khi chơi game!'));
+      return await interaction.update(
+        errorEmbed({ title: `\❌ | Error while running rpsGame`, description: e, color: 'Red' }),
+      );
     }
   },
 };

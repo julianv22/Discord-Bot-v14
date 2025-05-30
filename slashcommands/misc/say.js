@@ -25,7 +25,10 @@ module.exports = {
         return await interaction.followUp('Have a good day!');
       }, 3000);
     } else {
-      if (!toSay) return await interaction.reply(errorEmbed(true, 'You must provide some text for the bot to say!'));
+      if (!toSay)
+        return await interaction.reply(
+          errorEmbed({ description: 'You must provide some text for the bot to say!', emoji: false }),
+        );
 
       return await interaction.reply(toSay);
     }

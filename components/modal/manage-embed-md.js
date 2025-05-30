@@ -10,7 +10,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { customId, fields, message, user, guild } = interaction;
-    if (!message) return await interaction.reply(errorEmbed(true, 'No message found'));
+    if (!message) return await interaction.reply(errorEmbed({ description: 'No message found', emoji: false }));
     const [, part] = customId.split(':');
     const strInput = fields.getTextInputValue(part);
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);

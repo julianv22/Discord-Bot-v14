@@ -46,7 +46,7 @@ module.exports = {
       nextDaily.setHours(24, 0, 0, 0);
       const timeleft = Math.floor(nextDaily.getTime() / 1000);
       return await interaction.reply(
-        errorEmbed(true, `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`),
+        errorEmbed({ description: `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
       );
     }
 

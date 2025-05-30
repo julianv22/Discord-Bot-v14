@@ -48,46 +48,65 @@ module.exports = {
     // Gom các logic xử lý vào object
     const tourActions = {
       open: async () => {
-        if (!getRole) return await interaction.reply(errorEmbed(true, 'Bạn chưa chọn role giải đấu!'));
+        if (!getRole)
+          return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
 
         if (profile.tournament.status && getRole.id !== profile.tournament.id)
           return await interaction.reply(
-            errorEmbed(true, `Đang có giải đấu \`${profile.tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`),
+            errorEmbed({
+              description: `Đang có giải đấu \`${profile.tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
+              emoji: false,
+            }),
           );
 
         if (profile.tournament.status)
-          return await interaction.reply(errorEmbed(true, `Giải \`${profile.tournament.name}\` đang diễn ra rồi!`));
+          return await interaction.reply(
+            errorEmbed({ description: `Giải \`${profile.tournament.name}\` đang diễn ra rồi!`, emoji: false }),
+          );
 
         await serverProfile
           .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: true, id: getRole.id, name: getRole.name } })
           .catch(() => {});
 
-        await interaction.reply({
-          embeds: [{ color: 65280, description: `\\🏆 | Đã mở đăng ký giải đấu ${getRole} thành công!` }],
-        });
+        await interaction.reply(
+          errorEmbed({
+            description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
+            emoji: `\\🏆 | `,
+            color: 'Green',
+          }),
+        );
       },
       close: async () => {
-        if (!getRole) return await interaction.reply(errorEmbed(true, 'Bạn chưa chọn role giải đấu!'));
+        if (!getRole)
+          return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
 
         if (profile.tournament.id && getRole.id !== profile.tournament.id)
-          return await interaction.reply(errorEmbed(true, `Chưa chọn đúng giải đấu: \`${profile.tournament.name}\``));
+          return await interaction.reply(
+            errorEmbed({ description: `Chưa chọn đúng giải đấu: \`${profile.tournament.name}\``, emoji: false }),
+          );
 
         if (!profile.tournament.status)
           return await interaction.reply(
-            errorEmbed(true, `Giải \`${profile.tournament.name}\` đã được đóng trước đó rồi!`),
+            errorEmbed({ description: `Giải \`${profile.tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
           );
 
         await serverProfile
           .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false, id: null, name: null } })
           .catch(() => {});
 
-        await interaction.reply({
-          embeds: [{ color: 65280, description: `\\🏆 | Đã đóng đăng ký giải đấu ${getRole} thành công!` }],
-        });
+        await interaction.reply(
+          errorEmbed({
+            description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
+            emoji: `\\🏆 | `,
+            color: 'Green',
+          }),
+        );
       },
       list: async () => {
         if (!profile.tournament.status)
-          return await interaction.reply(errorEmbed(`\\🏆 | `, 'Hiện không có giải đấu nào đang diễn ra!'));
+          return await interaction.reply(
+            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆 | `, color: 'Red' }),
+          );
 
         let memberList = await tournamentProfile
           .find({
@@ -97,7 +116,9 @@ module.exports = {
           .catch(() => {});
 
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(errorEmbed(true, 'Chưa có thành viên nào đăng kí giải!'));
+          return await interaction.reply(
+            errorEmbed({ description: 'Chưa có thành viên nào đăng kí giải!', emoji: false }),
+          );
 
         const role = guild.roles.cache.get(profile.tournament.id);
         const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
@@ -148,11 +169,20 @@ module.exports = {
         const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(() => {});
 
         if (!verified)
-          return await interaction.reply(errorEmbed(`\\❗ `, 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!'));
+          return await interaction.reply(
+            errorEmbed({
+              description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
+              emoji: `\\❗ | `,
+              color: 'Orange',
+            }),
+          );
 
         if (!tourList || tourList.length === 0)
           return await interaction.reply(
-            errorEmbed(true, 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!'),
+            errorEmbed({
+              description: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!',
+              emoji: false,
+            }),
           );
 
         tourList.forEach(async (tour) => {
@@ -161,7 +191,13 @@ module.exports = {
         });
 
         await serverProfile.findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false } }).catch(() => {});
-        await interaction.reply(errorEmbed(`\\🏆 | `, 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!'));
+        await interaction.reply(
+          errorEmbed({
+            description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
+            emoji: `\\🏆 | `,
+            color: 'Green',
+          }),
+        );
       },
     };
 
@@ -169,11 +205,17 @@ module.exports = {
       if (tourActions[tourCommand]) {
         await tourActions[tourCommand]();
       } else {
-        return await interaction.reply(errorEmbed(true, 'Subcommand không hợp lệ!'));
+        return await interaction.reply(errorEmbed({ description: 'Subcommand không hợp lệ!', emoji: false }));
       }
     } catch (e) {
       console.error(chalk.red(`Error while running tournament command [${tourCommand}]:`, e));
-      return await interaction.reply(errorEmbed(true, `Error while running tournament command [${tourCommand}]:`, e));
+      return await interaction.reply(
+        errorEmbed({
+          title: `\❌ | Error while running tournament command [${tourCommand}]:`,
+          description: e,
+          color: 'Red',
+        }),
+      );
     }
   },
 };

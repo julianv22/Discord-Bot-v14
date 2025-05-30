@@ -20,7 +20,7 @@ module.exports = {
 
     const keyword = args.join(' ');
     if (!keyword)
-      return message.reply(errorEmbed(true, `Vui lòng nhập từ khóa tìm kiếm!`)).then((m) => {
+      return message.reply(errorEmbed({ description: `Vui lòng nhập từ khóa tìm kiếm!`, emoji: false })).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 10000);
@@ -31,7 +31,9 @@ module.exports = {
       .then((body) => {
         if (body.status === 404)
           return message
-            .reply(errorEmbed(true, `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`))
+            .reply(
+              errorEmbed({ description: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false }),
+            )
             .then((m) => {
               setTimeout(() => {
                 m.delete();
@@ -67,7 +69,11 @@ module.exports = {
         message.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        message.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy thông tin Wikipedia!')).catch(() => {});
+        message
+          .reply(
+            errorEmbed({ title: `\❌ | Error while running \`/wikipedia\` command:`, description: e, color: 'Red' }),
+          )
+          .catch(() => {});
         console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
       });
   },

@@ -13,15 +13,16 @@ module.exports = {
    */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
-    const { errorEmbed } = client;
     let toSay = args.join(' ');
 
     if (!toSay)
-      return message.reply(errorEmbed(true, 'Please enter the content you want the bot to say!')).then((m) => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return message
+        .reply(client.errorEmbed({ description: 'Please enter the content you want the bot to say!', emoji: false }))
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
 
     message.delete().then(() => message.channel.send(toSay));
   },

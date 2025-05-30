@@ -9,28 +9,19 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.snipeMessage = async (user, target, interaction, message) => {
+    const { errorEmbed } = client;
     try {
       const msg = interaction ? interaction : message;
       const { guildId, channelId } = msg;
       const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
 
       if (!snipe)
-        return msg
-          .reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\❌ | There is nothing to snipe.`,
-              },
-            ],
-            flags: 64,
-          })
-          .then((m) => {
-            if (msg == message)
-              setTimeout(() => {
-                m.delete();
-              }, 5000);
-          });
+        return msg.reply(errorEmbed({ description: `\\❌ | There is nothing to snipe.`, emoji: false })).then((m) => {
+          if (msg == message)
+            setTimeout(() => {
+              m.delete();
+            }, 5000);
+        });
 
       const { author, channelId: snpChannel, content } = snipe;
 
@@ -61,18 +52,11 @@ module.exports = (client) => {
       msg.reply({ embeds: [embed] });
     } catch (e) {
       if (interaction && typeof interaction.reply === 'function') {
-        interaction
-          .reply({
-            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-            flags: 64,
-          })
-          .catch(() => {});
+        interaction.reply(
+          errorEmbed({ title: `\❌ | Error while running snipeMessage`, description: e, color: 'Red' }),
+        );
       } else if (message && typeof message.reply === 'function') {
-        message
-          .reply({
-            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-          })
-          .catch(() => {});
+        message.reply(errorEmbed({ title: `\❌ | Error while running snipeMessage`, description: e, color: 'Red' }));
       }
       console.error(chalk.red('Error while running snipeMessage'), e);
     }

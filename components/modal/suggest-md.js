@@ -13,7 +13,10 @@ module.exports = {
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     if (!profile || !profile?.setup?.suggest)
       return await interaction.reply(
-        errorEmbed(true, `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`),
+        errorEmbed({
+          description: `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
+          emoji: false,
+        }),
       );
 
     const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
@@ -37,7 +40,12 @@ module.exports = {
     const msg = await sgtChannel.send({ embeds: [embed] });
 
     await interaction
-      .reply(errorEmbed(false, `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`))
+      .reply(
+        errorEmbed({
+          description: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`,
+          emoji: true,
+        }),
+      )
       .then(() => {
         msg.react('👍');
         msg.react('👎');

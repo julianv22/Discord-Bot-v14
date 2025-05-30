@@ -43,11 +43,13 @@ module.exports = {
 
       await channel.bulkDelete(user ? filtered : actualAmount, user ? null : true);
       return await interaction.reply(
-        errorEmbed(false, `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : '')),
+        errorEmbed({ description: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: false }),
       );
     } catch (e) {
       console.error(chalk.red('Error (/bulk-delete):', e));
-      return await interaction.reply(errorEmbed(true, 'Something went wrong while bulk deleting messages', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
+      );
     }
   },
 };

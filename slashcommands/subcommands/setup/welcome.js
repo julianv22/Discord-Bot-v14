@@ -17,7 +17,8 @@ module.exports = {
     const logChannel = channels.get(options.getChannel('log').id);
     const welcomeMsg = options.getString('message');
     const profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-    if (!profile) serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix });
+    if (!profile)
+      serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
     try {
       profile.guildName = guild.name;
       profile.setup.welcome.channel = welcomeChannel.id;
@@ -44,7 +45,9 @@ module.exports = {
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup welcome):', e));
-      return await interaction.reply(client.errorEmbed(true, 'Error setup welcome'), e);
+      return await interaction.reply(
+        client.errorEmbed({ title: `\❌ | Error setup welcome`, description: e, color: 'Red' }),
+      );
     }
   },
 };

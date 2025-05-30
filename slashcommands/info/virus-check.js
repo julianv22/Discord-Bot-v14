@@ -72,12 +72,12 @@ module.exports = {
           'Red',
         );
         return await interaction.editReply(
-          errorEmbed(
-            true,
-            `Không thể lấy báo cáo URL hiện có: ${
+          errorEmbed({
+            description: `Không thể lấy báo cáo URL hiện có: ${
               errorDetail.error ? errorDetail.error.message : getReportRes.statusText
             }`,
-          ),
+            emoji: false,
+          }),
         );
       }
     } catch (e) {
@@ -106,16 +106,20 @@ module.exports = {
             `[VIRUS-CHECK] Lỗi khi gửi URL để phân tích: ${submitRes.status} - ${JSON.stringify(errorDetail)}`,
           );
           return await interaction.editReply(
-            errorEmbed(
-              true,
-              `Không thể gửi URL để phân tích: ${errorDetail.error ? errorDetail.error.message : submitRes.statusText}`,
-            ),
+            errorEmbed({
+              description: `Không thể gửi URL để phân tích: ${
+                errorDetail.error ? errorDetail.error.message : submitRes.statusText
+              }`,
+              emoji: false,
+            }),
           );
         }
 
         const submitData = await submitRes.json();
         if (!submitData.data || !submitData.data.id) {
-          return await interaction.editReply(errorEmbed(true, 'Không nhận được ID phân tích từ VirusTotal.'));
+          return await interaction.editReply(
+            errorEmbed({ description: 'Không nhận được ID phân tích từ VirusTotal.', emoji: false }),
+          );
         }
         scanId = submitData.data.id;
 
@@ -148,12 +152,12 @@ module.exports = {
               `[VIRUS-CHECK] Lỗi khi lấy báo cáo phân tích: ${analysisRes.status} - ${JSON.stringify(errorDetail)}`,
             );
             return await interaction.editReply(
-              errorEmbed(
-                true,
-                `Không thể lấy báo cáo phân tích: ${
+              errorEmbed({
+                description: `Không thể lấy báo cáo phân tích: ${
                   errorDetail.error ? errorDetail.error.message : analysisRes.statusText
                 }`,
-              ),
+                emoji: false,
+              }),
             );
           }
 
@@ -178,13 +182,19 @@ module.exports = {
 
         if (!analysisReport) {
           return await interaction.editReply(
-            errorEmbed(true, 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.'),
+            errorEmbed({
+              description: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.',
+              emoji: false,
+            }),
           );
         }
       } catch (e) {
         console.error('[VIRUS-CHECK] Lỗi trong quá trình gửi/phân tích URL mới:', e);
         return await interaction.editReply(
-          errorEmbed(true, `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}`),
+          errorEmbed({
+            description: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}`,
+            emoji: false,
+          }),
         );
       }
     }
@@ -241,7 +251,10 @@ module.exports = {
     } else {
       // Trường hợp này chỉ xảy ra nếu có lỗi không mong muốn hoặc phân tích không bao giờ hoàn tất
       return await interaction.editReply(
-        errorEmbed(true, 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.'),
+        errorEmbed({
+          description: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.',
+          emoji: false,
+        }),
       );
     }
   },

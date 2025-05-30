@@ -21,7 +21,9 @@ module.exports = {
       .then((res) => res.json())
       .then(async (body) => {
         if (body.status === 404)
-          return await interaction.reply(errorEmbed(true, `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`));
+          return await interaction.reply(
+            errorEmbed({ description: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false }),
+          );
 
         // Fallback nếu thiếu dữ liệu
         let title = body.title || keyword;
@@ -56,8 +58,10 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        message.reply(errorEmbed(true, 'Đã xảy ra lỗi khi lấy thông tin Wikipedia!')).catch(() => {});
         console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
+        return interaction.reply(
+          errorEmbed({ title: `\❌ | Error while running \`/wikipedia\` command:`, description: e, color: 'Red' }),
+        );
       });
   },
 };

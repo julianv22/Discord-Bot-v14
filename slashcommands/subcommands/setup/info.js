@@ -16,7 +16,8 @@ module.exports = {
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
 
-      if (!profile) return await interaction.reply(errorEmbed(true, 'Hiện chưa có setup nào cho server'));
+      if (!profile)
+        return await interaction.reply(errorEmbed({ description: 'Hiện chưa có setup nào cho server', emoji: false }));
 
       const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel);
       const logChannel = channels.cache.get(profile?.setup?.welcome?.log);
@@ -78,7 +79,9 @@ module.exports = {
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup info):', e));
-      return await interaction.reply(errorEmbed(true, 'Lỗi khi lấy thông tin setup info', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error when getting setup info`, description: e, color: 'Red' }),
+      );
     }
   },
 };

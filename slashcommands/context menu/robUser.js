@@ -14,9 +14,12 @@ module.exports = {
     const { guild, targetUser, user } = interaction;
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
-    if (targetUser.bot) return await interaction.reply(errorEmbed(true, `Không thể giật \\💲 của bot!`));
+    if (targetUser.bot)
+      return await interaction.reply(errorEmbed({ description: `Không thể giật \\💲 của bot!`, emoji: false }));
     if (targetUser.id === user.id)
-      return await interaction.reply(errorEmbed(true, `Không thể giật \\💲 của chính bản thân mình!`));
+      return await interaction.reply(
+        errorEmbed({ description: `Không thể giật \\💲 của chính bản thân mình!`, emoji: false }),
+      );
 
     let [profile, targetProfile] = await Promise.all([
       economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
@@ -25,19 +28,24 @@ module.exports = {
 
     if (!profile || !targetProfile)
       return await interaction.reply(
-        errorEmbed(true, !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`),
+        errorEmbed({
+          description: !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`,
+          emoji: false,
+        }),
       );
     if (profile.balance < 200)
-      return await interaction.reply(errorEmbed(true, `Bạn cần ít nhất 200\\💲 để thực hiện giật!`));
+      return await interaction.reply(
+        errorEmbed({ description: `Bạn cần ít nhất 200\\💲 để thực hiện giật!`, emoji: false }),
+      );
     if (targetProfile.balance < 100) {
-      return await interaction.reply(errorEmbed(true, `Người này không đủ \\💲 để bị giật!`));
+      return await interaction.reply(errorEmbed({ description: `Người này không đủ \\💲 để bị giật!`, emoji: false }));
     }
     // Cooldown
     if (profile.lastRob && new Date() - profile.lastRob < cooldownMs) {
       const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
       const timeleft = Math.floor(nextRob.getTime() / 1000);
       return await interaction.reply(
-        errorEmbed(true, `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`),
+        errorEmbed({ description: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
       );
     }
 

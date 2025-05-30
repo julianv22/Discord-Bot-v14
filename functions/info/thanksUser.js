@@ -11,6 +11,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.thanksUser = async (user, author, interaction, message) => {
+    const { errorEmbed } = client;
     try {
       const imgURL = [
         'https://cdn.discordapp.com/attachments/976364997066231828/987822146279587850/unknown.png',
@@ -31,34 +32,16 @@ module.exports = (client) => {
       const { guild } = msg;
 
       if (!user)
-        return msg
-          .reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\❌ | You must mention someone!`,
-              },
-            ],
-            flags: 64,
-          })
-          .then((m) => {
-            if (msg == message)
-              setTimeout(() => {
-                m.delete();
-              }, 10000);
-          });
+        return msg.reply(errorEmbed({ description: `\\❌ | You must mention someone!`, emoji: false })).then((m) => {
+          if (msg == message)
+            setTimeout(() => {
+              m.delete();
+            }, 10000);
+        });
 
       if (user.user ? user.user.bot : user.bot)
         return msg
-          .reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\❌ | Bots do not need to be thanked! 😝`,
-              },
-            ],
-            flags: 64,
-          })
+          .reply(errorEmbed({ description: `\\❌ | Bots do not need to be thanked! 😝`, emoji: false }))
           .then((m) => {
             if (msg == message)
               setTimeout(() => {
@@ -68,15 +51,7 @@ module.exports = (client) => {
 
       if (user.id === author.id)
         return msg
-          .reply({
-            embeds: [
-              {
-                color: 16711680,
-                description: `\❌ | You cannot thank yourself! 😅`,
-              },
-            ],
-            flags: 64,
-          })
+          .reply(errorEmbed({ description: `\\❌ | You cannot thank yourself! 😅`, emoji: false }))
           .then((m) => {
             if (msg == message)
               setTimeout(() => {
@@ -146,18 +121,11 @@ module.exports = (client) => {
         .catch(() => {});
     } catch (e) {
       if (interaction && typeof interaction.reply === 'function') {
-        interaction
-          .reply({
-            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-            flags: 64,
-          })
-          .catch(() => {});
+        interaction.reply(
+          errorEmbed({ title: '❌ Error while running thanksUser', description: `${e}`, color: 'Red' }),
+        );
       } else if (message && typeof message.reply === 'function') {
-        message
-          .reply({
-            embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-          })
-          .catch(() => {});
+        message.reply(errorEmbed({ title: '❌ Error while running thanksUser', description: `${e}`, color: 'Red' }));
       }
       console.error(chalk.red('Error while running thanksUser'), e);
     }

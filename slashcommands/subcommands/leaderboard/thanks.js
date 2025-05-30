@@ -14,7 +14,17 @@ module.exports = {
     const { errorEmbed } = client;
     const { guild, user, options } = interaction;
     const time = options.getString('time');
-    const results = await thanksProfile.find({ guildID: guild.id }).sort({ thanksCount: -1 }).limit(10);
+    const results = await thanksProfile
+      .find({ guildID: guild.id })
+      .sort({ thanksCount: -1 })
+      .limit(10)
+      .catch(() => {});
+
+    if (!results)
+      return await interaction.reply(
+        errorEmbed({ description: 'There is no thanks data in this server!', emoji: false }),
+      );
+
     try {
       let text = '';
 
@@ -24,8 +34,6 @@ module.exports = {
         text += `${i < 3 ? emojis[i] : `**${i + 1}.**`} <@${userID}> `;
         text += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
       }
-
-      if (!text) return await interaction.reply(errorEmbed(true, 'There is no thanks data in this server!'));
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })

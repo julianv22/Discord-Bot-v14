@@ -16,7 +16,9 @@ module.exports = {
       const response = await fetch('https://meme-api.com/gimme');
       const data = await response.json();
       if (!data || !data.url) {
-        return await interaction.editReply(errorEmbed(true, 'Could not fetch meme, please try again later!'));
+        return await interaction.editReply(
+          errorEmbed({ description: 'Could not fetch meme, please try again later!', emoji: false }),
+        );
       }
       const embed = new EmbedBuilder()
         .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
@@ -30,7 +32,9 @@ module.exports = {
       return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error fetching meme:', e));
-      await interaction.editReply(errorEmbed(true, 'An error occurred while fetching meme', e));
+      await interaction.editReply(
+        errorEmbed({ title: `\❌ | An error occurred while fetching meme`, description: e, color: 'Red' }),
+      );
     }
   },
 };

@@ -38,7 +38,7 @@ module.exports = {
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
       if (!profile || profile.youtube.channels.length == 0)
-        return await interaction.reply(errorEmbed(true, 'Danh sách kênh Youtube trống!'));
+        return await interaction.reply(errorEmbed({ description: 'Danh sách kênh Youtube trống!', emoji: false }));
 
       const channelList = await Promise.all(
         profile.youtube.channels.map(async (id, idx) => {
@@ -67,7 +67,9 @@ module.exports = {
       return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error (/youtube list-channels):', e));
-      return await interaction.editReply(errorEmbed(true, 'Lỗi hiển thị danh sách kênh Youtube'), e);
+      return await interaction.editReply(
+        errorEmbed({ title: `\❌ | Error while display Youtube channel list`, description: e, color: 'Red' }),
+      );
     }
   },
 };

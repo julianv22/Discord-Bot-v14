@@ -12,16 +12,14 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.userInfo = async (guild, user, author, interaction, message) => {
+    const { errorEmbed } = client;
     try {
       const member = guild.members.cache.get(user.id);
       if (!member) {
-        const errorEmbed = {
-          embeds: [{ color: 16711680, title: '❌ Error', description: 'User is not in this server.' }],
-        };
         if (interaction && typeof interaction.reply === 'function') {
-          await interaction.reply({ ...errorEmbed, flags: 64 }).catch(() => {});
+          await interaction.reply(errorEmbed({ description: 'User is not in this server.', emoji: false }));
         } else if (message && typeof message.reply === 'function') {
-          message.reply(errorEmbed).catch(() => {});
+          message.reply(errorEmbed({ description: 'User is not in this server.', emoji: false }));
         }
         return;
       }
@@ -88,13 +86,12 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
-      const errorEmbed = {
-        embeds: [{ color: 16711680, title: '❌ Error', description: `${e}` }],
-      };
       if (interaction && typeof interaction.reply === 'function') {
-        await interaction.reply({ ...errorEmbed, flags: 64 }).catch(() => {});
+        await interaction.reply(
+          errorEmbed({ title: `\❌ | Error while running userInfo`, description: e, color: 'Red' }),
+        );
       } else if (message && typeof message.reply === 'function') {
-        message.reply(errorEmbed).catch(() => {});
+        message.reply(errorEmbed({ title: `\❌ | Error while running userInfo`, description: e, color: 'Red' }));
       }
       console.error(chalk.red('Error while running userInfo'), e);
     }

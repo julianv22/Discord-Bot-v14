@@ -76,7 +76,9 @@ module.exports = {
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       console.error(chalk.red('Error (/setup server-stats):', e));
-      return await interaction.reply(errorEmbed(true, 'Error:', e));
+      return await interaction.reply(
+        client.errorEmbed({ title: `\❌ | Error while setting up server stats`, description: e, color: 'Red' }),
+      );
     }
   },
 };

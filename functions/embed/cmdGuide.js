@@ -40,11 +40,13 @@ module.exports = (client) => {
       message.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error while running cmdGuide'), e);
-      return message.channel.send({ embeds: [{ color: 16711680, description: `\\❌ | ${e}` }] }).then((m) => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return message.channel
+        .send(client.errorEmbed({ title: `\❌ | Error while running cmdGuide`, description: e, color: 'Red' }))
+        .then((m) => {
+          setTimeout(() => {
+            m.delete();
+          }, 10000);
+        });
     }
   };
 };

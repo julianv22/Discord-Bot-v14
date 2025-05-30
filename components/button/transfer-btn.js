@@ -23,7 +23,8 @@ module.exports = {
     ]);
 
     // Kiểm tra lại dữ liệu
-    if (!profile) return await interaction.update(errorEmbed(true, 'Không kết nối được với database'));
+    if (!profile)
+      return await interaction.update(errorEmbed({ description: 'Không kết nối được với database', emoji: false }));
     if (!targetProfile)
       await economyProfile.create({
         guildID: guild.id,
@@ -31,7 +32,8 @@ module.exports = {
         userID: targetId,
         bank: 0,
       });
-    if (amount > profile.bank) return await interaction.update(errorEmbed(true, 'Bạn không có đủ \\💲 để chuyển'));
+    if (amount > profile.bank)
+      return await interaction.update(errorEmbed({ description: 'Bạn không có đủ \\💲 để chuyển', emoji: false }));
 
     // Trừ tiền người chuyển, cộng tiền người nhận
     profile.bank -= total;

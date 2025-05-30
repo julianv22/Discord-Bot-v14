@@ -25,10 +25,17 @@ module.exports = {
         .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, setup: { suggest: sgtChannel } })
         .catch(() => {});
 
-      return await interaction.reply(errorEmbed(false, `Channel to send suggestions has been changed to ${channel}!`));
+      return await interaction.reply(
+        errorEmbed({
+          description: `Channel to send suggestions has been changed to ${channel}!`,
+          emoji: true,
+        }),
+      );
     } catch (e) {
       console.error(chalk.red('Error (/setup suggest):', e));
-      return await interaction.reply(errorEmbed(true, 'Error when setup suggest channel:', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error when setup suggest channel`, description: e, color: 'Red' }),
+      );
     }
   },
 };

@@ -18,11 +18,16 @@ module.exports = {
 
     if (!profile)
       return await interaction.reply(
-        errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
+        errorEmbed({
+          description: `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`,
+          emoji: false,
+        }),
       );
 
     if (amount > profile.bank)
-      return await interaction.reply(errorEmbed(true, `Số \\💲 rút không được lớn hơn số tiền hiện có!`));
+      return await interaction.reply(
+        errorEmbed({ description: `Số \\💲 rút không được lớn hơn số tiền hiện có!`, emoji: false }),
+      );
 
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01).toLocaleString();

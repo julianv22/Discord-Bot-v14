@@ -25,11 +25,6 @@ const serverProfile = new mongoose.Schema({
     botRole: { type: String },
     presenceChannel: { type: String },
   },
-  totalChannel: { type: String },
-  membersChannel: { type: String },
-  memberRole: { type: String },
-  botsChannel: { type: String },
-  botRole: { type: String },
   youtube: {
     channels: { type: Array },
     lastVideos: { type: Array },

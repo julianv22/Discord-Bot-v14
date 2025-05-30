@@ -22,7 +22,7 @@ module.exports = {
         .then((res) => res.json())
         .then(async (body) => {
           if (!body || body.message === 'Not Found')
-            return await interaction.reply(errorEmbed(true, 'Can not find this user!'));
+            return await interaction.reply(errorEmbed({ description: 'Can not find this user!', emoji: false }));
 
           let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
             body;
@@ -52,8 +52,10 @@ module.exports = {
           return await interaction.reply({ embeds: [embed] });
         });
     } catch (e) {
-      console.error(chalk.red('Error (/github):', e));
-      return await interaction.reply(errorEmbed(true, 'Error github command:', e));
+      console.error(chalk.red('Error while running /github command:', e));
+      return await interaction.reply(
+        errorEmbed({ title: `Error while running \`/github\` command:`, description: e, color: 'Red' }),
+      );
     }
   },
 };

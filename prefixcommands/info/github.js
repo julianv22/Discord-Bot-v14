@@ -19,7 +19,7 @@ module.exports = {
       return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <username>');
 
     if (!args[0])
-      return channel.send(errorEmbed(true, 'Hãy nhập username!')).then((m) => {
+      return channel.send(errorEmbed({ description: 'Hãy nhập username!', emoji: false })).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 10000);
@@ -29,11 +29,13 @@ module.exports = {
       .then((res) => res.json())
       .then((body) => {
         if (!body || body.message === 'Not Found')
-          return channel.send(errorEmbed(true, 'User not found, please enter the correct username!')).then((m) => {
-            setTimeout(() => {
-              m.delete();
-            }, 10000);
-          });
+          return channel
+            .send(errorEmbed({ description: 'User not found, please enter the correct username!', emoji: false }))
+            .then((m) => {
+              setTimeout(() => {
+                m.delete();
+              }, 10000);
+            });
         let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
           body;
 

@@ -16,10 +16,10 @@ module.exports = {
     const { options, guildId } = interaction;
     const notifyChannel = options.getChannel('notify-channel');
     if (!notifyChannel) {
-      return await interaction.reply(errorEmbed(true, 'Kênh thông báo không hợp lệ'));
+      return await interaction.reply(errorEmbed({ description: 'Kênh thông báo không hợp lệ', emoji: false }));
     }
     try {
-      const profile = await serverProfile
+      await serverProfile
         .findOneAndUpdate(
           { guildID: guildId },
           { $set: { youtube: { notifyChannel: notifyChannel.id } } },
@@ -27,12 +27,15 @@ module.exports = {
         )
         .catch(() => {});
       return await interaction.reply(
-        errorEmbed(false, `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`),
+        errorEmbed({
+          description: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`,
+          emoji: true,
+        }),
       );
     } catch (e) {
       console.error(chalk.red('Error (/setup youtube):', e));
       return await interaction.reply(
-        errorEmbed(true, 'Có lỗi xảy ra khi thiết lập kênh thông báo video mới trên Youtube', e),
+        errorEmbed({ title: `\❌ | Error while setup Youtube notify channel`, description: e, color: 'Red' }),
       );
     }
   },

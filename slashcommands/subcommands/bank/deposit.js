@@ -15,19 +15,23 @@ module.exports = {
     const { user, guild } = interaction;
     const { errorEmbed, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
-    if (amount <= 0) return await interaction.reply(errorEmbed(true, `Số \\💲 gửi phải lớn hơn 0!`));
+    if (amount <= 0)
+      return await interaction.reply(errorEmbed({ description: `Số \\💲 gửi phải lớn hơn 0!`, emoji: false }));
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
 
     if (!profile)
       return await interaction.reply(
-        errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
+        errorEmbed({
+          description: `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`,
+          emoji: false,
+        }),
       );
     if (amount > profile.balance)
       return await interaction.reply(
-        errorEmbed(
-          true,
-          `Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng \`/balance\` để kiểm tra số 💲 hiện có`,
-        ),
+        errorEmbed({
+          description: `Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng \`/balance\` để kiểm tra số 💲 hiện có`,
+          emoji: false,
+        }),
       );
 
     profile.balance -= amount;

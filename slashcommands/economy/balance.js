@@ -17,7 +17,10 @@ module.exports = {
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
     if (!profile) {
       return await interaction.reply(
-        errorEmbed(true, `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`),
+        errorEmbed({
+          description: `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`,
+          emoji: false,
+        }),
       );
     }
 

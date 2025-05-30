@@ -27,9 +27,12 @@ module.exports = {
     const targetUser = options.getUser('target');
     const amount = options.getInteger('amount');
 
-    if (targetUser.bot) return await interaction.reply(errorEmbed(true, `Bạn không thể chuyển \\💲 cho bot!`));
+    if (targetUser.bot)
+      return await interaction.reply(errorEmbed({ description: `Bạn không thể chuyển \\💲 cho bot!`, emoji: false }));
     if (targetUser.id === user.id)
-      return await interaction.reply(errorEmbed(true, `Bạn không thể chuyển \\💲 cho chính mình!`));
+      return await interaction.reply(
+        errorEmbed({ description: `Bạn không thể chuyển \\💲 cho chính mình!`, emoji: false }),
+      );
 
     let [profile, targetProfile] = await Promise.all([
       economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
@@ -38,16 +41,19 @@ module.exports = {
 
     if (!profile || !targetProfile)
       return await interaction.reply(
-        errorEmbed(
-          true,
-          !profile
+        errorEmbed({
+          description: !profile
             ? `Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh \`/daily\` để tạo tài khoản`
             : `Đối tượng chuyển \\💲 chưa có tài khoản Economy`,
-        ),
+          emoji: false,
+        }),
       );
     if (amount < 99 || amount > profile.bank)
       return await interaction.reply(
-        errorEmbed(true, amount < 99 ? `Số \\💲 phải tối thiểu là 100\\💲` : `Bạn không có đủ \\💲 để chuyển!`),
+        errorEmbed({
+          description: amount < 99 ? `Số \\💲 phải tối thiểu là 100\\💲` : `Bạn không có đủ \\💲 để chuyển!`,
+          emoji: false,
+        }),
       );
     const fee = Math.round(amount * 0.01);
     const total = amount + fee;

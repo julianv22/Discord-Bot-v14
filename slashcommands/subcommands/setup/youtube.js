@@ -37,18 +37,23 @@ module.exports = {
       // Xác thực channel ID và lấy tên kênh
       const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
       if (!valid) {
-        return await interaction.reply(errorEmbed(true, 'ID kênh Youtube không hợp lệ hoặc không tồn tại!'));
+        return await interaction.reply(
+          errorEmbed({ description: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!', emoji: false }),
+        );
       }
 
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
       if (!profile) {
-        if (action === 'remove') return await interaction.reply(errorEmbed(true, 'Server chưa có kênh Youtube nào!'));
-        profile = await serverProfile.create({
-          guildID: guild.id,
-          guildName: guild.name,
-          prefix: cfg.prefix,
-          youtube: { channels: [yt_channel] },
-        });
+        if (action === 'remove')
+          return await interaction.reply(errorEmbed({ description: 'Server chưa có kênh Youtube nào!', emoji: false }));
+        profile = await serverProfile
+          .create({
+            guildID: guild.id,
+            guildName: guild.name,
+            prefix: cfg.prefix,
+            youtube: { channels: [yt_channel] },
+          })
+          .catch(() => {});
       } else {
         let changed = false;
         if (!Array.isArray(profile.youtube.channels)) profile.youtube.channels = [];
@@ -67,16 +72,18 @@ module.exports = {
         if (changed) await profile.save().catch(() => {});
       }
       return await interaction.reply(
-        errorEmbed(
-          false,
-          `Đã ${
+        errorEmbed({
+          description: `Đã ${
             action === 'add' ? 'thêm' : 'xoá'
           } kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** trong danh sách theo dõi của server`,
-        ),
+          emoji: true,
+        }),
       );
     } catch (e) {
-      console.error(chalk.red('Error ():', e));
-      return await interaction.reply(errorEmbed(true, 'Lỗi setup Youtube channel:', e));
+      console.error(chalk.red('Error (/setup youtube):', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error while setup Youtube channel`, description: e, color: 'Red' }),
+      );
     }
   },
 };

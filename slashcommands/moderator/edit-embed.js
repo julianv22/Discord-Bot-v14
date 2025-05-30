@@ -27,9 +27,12 @@ module.exports = {
     try {
       msg = await messages.fetch(messageId);
     } catch {
-      return interaction.reply(errorEmbed(true, 'Không tìm thấy message, hoặc message không nằm trong channel này!'));
+      return interaction.reply(
+        errorEmbed({ description: 'Không tìm thấy message, hoặc message không nằm trong channel này!', emoji: false }),
+      );
     }
-    if (!msg.embeds.length) return interaction.reply(errorEmbed(true, 'Message này không có embed!'));
+    if (!msg.embeds.length)
+      return interaction.reply(errorEmbed({ description: 'Message này không có embed!', emoji: false }));
     const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
     const [row1, row2] = embedButtons(messageId);
     await interaction.reply({

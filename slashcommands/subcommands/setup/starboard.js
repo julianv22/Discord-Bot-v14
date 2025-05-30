@@ -25,11 +25,16 @@ module.exports = {
       profile.setup.starboard.star = number;
       await profile.save().catch(() => {});
       return await interaction.reply(
-        errorEmbed(false, `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`),
+        errorEmbed({
+          description: `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`,
+          emoji: true,
+        }),
       );
     } catch (e) {
       console.error(chalk.red('Error (/setup starboard):', e));
-      return await interaction.reply(errorEmbed(true, 'Error when setup starboard channel:', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error when setup starboard channel`, description: e, color: 'Red' }),
+      );
     }
   },
 };

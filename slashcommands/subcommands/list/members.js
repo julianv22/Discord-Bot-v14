@@ -17,7 +17,10 @@ module.exports = {
     try {
       if (!isMod)
         return await interaction.reply(
-          errorEmbed(true, `You do not have \`${cfg.modRole}\` permissions to use this command!`),
+          errorEmbed({
+            description: `You do not have \`${cfg.modRole}\` permissions to use this command!`,
+            emoji: false,
+          }),
         );
 
       const message = await interaction.deferReply({ fetchReply: true });
@@ -46,11 +49,15 @@ module.exports = {
 
         return await interaction.editReply({ embeds: [embed] });
       } else {
-        return await interaction.editReply(errorEmbed(true, 'Can not find members or role is incorrect!'));
+        return await interaction.editReply(
+          errorEmbed({ description: 'Can not find members or role is incorrect!', emoji: false }),
+        );
       }
     } catch (e) {
       console.error(chalk.red('Error (/list members):', e));
-      return await interaction.reply(errorEmbed(true, 'Errro when list members:', e));
+      return await interaction.reply(
+        errorEmbed({ title: `\❌ | Error when list members`, description: e, color: 'Red' }),
+      );
     }
   },
 };
