@@ -46,7 +46,7 @@ module.exports = {
      * @param {string} key - Key của sourcebin
      */
     async function sendMessage(message, key) {
-      const embed = new EmbedBuilder().setColor('Random').setDescription(message);
+      const embed = new EmbedBuilder().setColor('Blurple').setDescription(message);
 
       if (key)
         await interaction.editReply({

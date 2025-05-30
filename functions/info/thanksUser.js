@@ -83,7 +83,7 @@ module.exports = (client) => {
           name: author.displayName,
           iconURL: author.displayAvatarURL(true),
         })
-        .setTitle('💖 | Special Thanks!')
+        .setTitle('💖 Special Thanks!')
         .setDescription(`${author} special thanks to ${user}!`)
         .setColor('Random')
         .addFields([
