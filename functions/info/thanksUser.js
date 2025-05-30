@@ -32,7 +32,7 @@ module.exports = (client) => {
       const { guild } = msg;
 
       if (!user)
-        return msg.reply(errorEmbed({ description: `\\❌ You must mention someone!`, emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ description: `You must mention someone!`, emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(() => {
               m.delete();
@@ -40,17 +40,15 @@ module.exports = (client) => {
         });
 
       if (user.user ? user.user.bot : user.bot)
-        return msg
-          .reply(errorEmbed({ description: `\\❌ Bots do not need to be thanked! 😝`, emoji: false }))
-          .then((m) => {
-            if (msg == message)
-              setTimeout(() => {
-                m.delete();
-              }, 10000);
-          });
+        return msg.reply(errorEmbed({ description: `Bots do not need to be thanked! 😝`, emoji: false })).then((m) => {
+          if (msg == message)
+            setTimeout(() => {
+              m.delete();
+            }, 10000);
+        });
 
       if (user.id === author.id)
-        return msg.reply(errorEmbed({ description: `\\❌ You cannot thank yourself! 😅`, emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ description: `You cannot thank yourself! 😅`, emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(() => {
               m.delete();
