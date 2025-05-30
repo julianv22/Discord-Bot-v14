@@ -48,7 +48,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/bulk-delete):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
       );
     }
   },

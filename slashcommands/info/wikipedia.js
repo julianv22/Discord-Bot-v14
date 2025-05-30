@@ -60,7 +60,7 @@ module.exports = {
       .catch((e) => {
         console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
         return interaction.reply(
-          errorEmbed({ title: `\❌ | Error while running \`/wikipedia\` command:`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ | Error while running \`/wikipedia\` command:`, description: e, color: 'Red' }),
         );
       });
   },

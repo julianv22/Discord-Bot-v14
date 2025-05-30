@@ -80,7 +80,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/setup info):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error when getting setup info`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error when getting setup info`, description: e, color: 'Red' }),
       );
     }
   },

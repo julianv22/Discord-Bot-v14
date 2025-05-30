@@ -57,7 +57,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/list members):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error when list members`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error when list members`, description: e, color: 'Red' }),
       );
     }
   },

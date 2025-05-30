@@ -34,7 +34,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/setup suggest):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error when setup suggest channel`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error when setup suggest channel`, description: e, color: 'Red' }),
       );
     }
   },

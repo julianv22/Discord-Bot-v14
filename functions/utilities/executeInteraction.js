@@ -13,7 +13,7 @@ module.exports = (client) => {
       console.error(chalk.yellow(`Error while executing interaction [${type.data.name}]`), e);
       return await interaction.reply(
         client.errorEmbed({
-          title: `\❌ | Error while executing interaction [${type.data.name}]`,
+          title: `\\❌ | Error while executing interaction [${type.data.name}]`,
           description: e,
           color: 'Red',
         }),

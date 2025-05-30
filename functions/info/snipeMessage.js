@@ -53,10 +53,10 @@ module.exports = (client) => {
     } catch (e) {
       if (interaction && typeof interaction.reply === 'function') {
         interaction.reply(
-          errorEmbed({ title: `\❌ | Error while running snipeMessage`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ | Error while running snipeMessage`, description: e, color: 'Red' }),
         );
       } else if (message && typeof message.reply === 'function') {
-        message.reply(errorEmbed({ title: `\❌ | Error while running snipeMessage`, description: e, color: 'Red' }));
+        message.reply(errorEmbed({ title: `\\❌ | Error while running snipeMessage`, description: e, color: 'Red' }));
       }
       console.error(chalk.red('Error while running snipeMessage'), e);
     }

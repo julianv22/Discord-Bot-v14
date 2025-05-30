@@ -36,7 +36,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/leaderboard level):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error level leaderboard`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error level leaderboard`, description: e, color: 'Red' }),
       );
     }
   },

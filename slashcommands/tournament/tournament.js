@@ -211,7 +211,7 @@ module.exports = {
       console.error(chalk.red(`Error while running tournament command [${tourCommand}]:`, e));
       return await interaction.reply(
         errorEmbed({
-          title: `\❌ | Error while running tournament command [${tourCommand}]:`,
+          title: `\\❌ | Error while running tournament command [${tourCommand}]:`,
           description: e,
           color: 'Red',
         }),

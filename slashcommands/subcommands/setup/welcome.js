@@ -46,7 +46,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/setup welcome):', e));
       return await interaction.reply(
-        client.errorEmbed({ title: `\❌ | Error setup welcome`, description: e, color: 'Red' }),
+        client.errorEmbed({ title: `\\❌ | Error setup welcome`, description: e, color: 'Red' }),
       );
     }
   },

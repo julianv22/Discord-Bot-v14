@@ -99,7 +99,7 @@ module.exports = {
     } catch (e) {
       console.error('Error while running rpsGame', e);
       return await interaction.update(
-        errorEmbed({ title: `\❌ | Error while running rpsGame`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while running rpsGame`, description: e, color: 'Red' }),
       );
     }
   },

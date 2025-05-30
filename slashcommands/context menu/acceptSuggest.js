@@ -65,7 +65,7 @@ module.exports = {
         console.error(chalk.red('Error (Context menu/Accept Suggest):', e));
         return interaction.reply(
           errorEmbed({
-            title: `\❌ | Error while running context menu: Accept Suggest`,
+            title: `\\❌ | Error while running context menu: Accept Suggest`,
             description: e,
             color: 'Red',
           }),

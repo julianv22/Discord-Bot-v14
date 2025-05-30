@@ -33,7 +33,7 @@ module.exports = {
       await message.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Lỗi lấy meme:', e));
-      await message.reply(errorEmbed({ title: `\❌ | Error while getting meme`, description: e, color: 'Red' }));
+      await message.reply(errorEmbed({ title: `\\❌ | Error while getting meme`, description: e, color: 'Red' }));
     }
   },
 };

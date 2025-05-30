@@ -49,7 +49,7 @@ module.exports = {
       }
     } catch (e) {
       const error = `An error occurred while executing the command!`;
-      message.reply(errorEmbed({ title: `\❌ | ${error}`, description: e, color: 'Red' })).then((m) => {
+      message.reply(errorEmbed({ title: `\\❌ | ${error}`, description: e, color: 'Red' })).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 5000);

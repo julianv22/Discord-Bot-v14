@@ -41,10 +41,10 @@ module.exports = {
       const error = `Error while executing command [${interaction.commandName}]`;
       if (interaction.replied || interaction.deferred) {
         await interaction
-          .followUp(errorEmbed({ title: `\❌ | ${error}`, description: e, color: 'Red' }))
+          .followUp(errorEmbed({ title: `\\❌ | ${error}`, description: e, color: 'Red' }))
           .catch(() => {});
       } else {
-        await interaction.reply(errorEmbed({ title: `\❌ | ${error}`, description: e, color: 'Red' })).catch(() => {});
+        await interaction.reply(errorEmbed({ title: `\\❌ | ${error}`, description: e, color: 'Red' })).catch(() => {});
       }
       console.error(chalk.red(error), e);
     }

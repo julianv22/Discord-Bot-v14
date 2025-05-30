@@ -73,7 +73,7 @@ module.exports = {
       .catch((e) => {
         console.error(chalk.red('Error (Context menu/Deny Suggest):', e));
         return interaction.reply(
-          errorEmbed({ title: `\❌ | Error while running context menu: Deny Suggest`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ | Error while running context menu: Deny Suggest`, description: e, color: 'Red' }),
         );
       });
   },

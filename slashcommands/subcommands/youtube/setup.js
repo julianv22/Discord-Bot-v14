@@ -80,7 +80,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/setup youtube):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error while setup Youtube channel`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while setup Youtube channel`, description: e, color: 'Red' }),
       );
     }
   },

@@ -55,7 +55,9 @@ module.exports = {
       }, 2500);
     } catch (e) {
       console.error(chalk.red('Error (/reload):', e));
-      return await interaction.reply(errorEmbed({ title: `\❌ | Reload command error`, description: e, color: 'Red' }));
+      return await interaction.reply(
+        errorEmbed({ title: `\\❌ | Reload command error`, description: e, color: 'Red' }),
+      );
     }
   },
 };

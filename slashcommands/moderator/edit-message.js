@@ -56,7 +56,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/edit-message):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error while editing message`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while editing message`, description: e, color: 'Red' }),
       );
     }
   },

@@ -33,7 +33,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error (/setup starboard):', e));
       return await interaction.reply(
-        errorEmbed({ title: `\❌ | Error when setup starboard channel`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error when setup starboard channel`, description: e, color: 'Red' }),
       );
     }
   },

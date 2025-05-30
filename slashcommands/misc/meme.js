@@ -33,7 +33,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error fetching meme:', e));
       await interaction.editReply(
-        errorEmbed({ title: `\❌ | An error occurred while fetching meme`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | An error occurred while fetching meme`, description: e, color: 'Red' }),
       );
     }
   },
