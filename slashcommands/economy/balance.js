@@ -34,6 +34,7 @@ module.exports = {
     const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : `\\🚫`;
     const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : `\\🚫`;
     const work = profile.lastWork || `\\❌ Chưa nhận (\`/job\` để nhận)`;
+    const lastJob = profile.lastJob || '';
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
@@ -49,7 +50,7 @@ module.exports = {
           value: `\`\`\`Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)\`\`\``,
           inline: false,
         },
-        { name: `\\💼 Job`, value: work, inline: false },
+        { name: `\\💼 Job`, value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
         { name: `\\📦 Inventory`, value: inventory, inline: false },
         { name: `\\🏆 Achievements`, value: achievements, inline: false },
       )
