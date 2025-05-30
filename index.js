@@ -47,11 +47,11 @@ mongoose
     client.loadComponents();
     client.loadEvents();
     client.login(process.env.token).catch((e) => {
-      console.error(e);
+      console.error(chalk.red(e));
     });
   })
   .catch((e) => {
-    console.error(chalk.red.bold('Error connecting to MongoDB!'), e);
+    console.error(chalk.red('Error while connecting to MongoDB!'), e);
     process.exit(1);
   });
 

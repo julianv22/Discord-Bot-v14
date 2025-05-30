@@ -43,10 +43,10 @@ module.exports = {
       guilds.map((g) => g.name),
     );
 
-    guilds.forEach((guild) => {
-      serverStats(client, guild.id);
-      setInterval(() => {
-        serverStats(client, guild.id);
+    guilds.forEach(async (guild) => {
+      await serverStats(client, guild.id);
+      setInterval(async () => {
+        await serverStats(client, guild.id);
       }, 5 * 60 * 1000);
     });
   },
