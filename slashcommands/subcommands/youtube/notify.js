@@ -1,10 +1,10 @@
-const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
+const serverProfile = require('../../../config/serverProfile');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('notify'),
   category: 'sub command',
   parent: 'youtube',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('notify'),
   /**
    * Setup Youtube notify channel
    * @param {Interaction} interaction - Interaction object

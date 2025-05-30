@@ -2,9 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('disc
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
 module.exports = {
-  data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
   category: 'economy',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
   /**
    * Get a random job and earn 💲!
    * @param {Interaction} interaction - Interaction object

@@ -9,13 +9,13 @@ const {
   PermissionFlagsBits,
 } = require('discord.js');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('notification')
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Send a notification
    * @param {Interaction} interaction - Interaction object

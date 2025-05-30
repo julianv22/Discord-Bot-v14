@@ -1,9 +1,10 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, PermissionFlagsBits, Client, Interaction } = require('discord.js');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('members'),
   category: 'sub command',
   parent: 'list',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('members'),
+
   /**
    * Get members of a role
    * @param {Interaction} interaction - Interaction object

@@ -1,8 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
-  data: new SlashCommandBuilder().setName('ping').setDescription(`Ping pong!`),
   category: 'info',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('ping').setDescription(`Ping pong!`),
   /**
    * Get bot latency
    * @param {Interaction} interaction - Interaction object

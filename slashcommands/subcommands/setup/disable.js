@@ -9,10 +9,10 @@ const {
 } = require('discord.js');
 const { setRowComponent } = require('../../../functions/common/components');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('disable'),
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('disable'),
   /**
    * Disable a feature
    * @param {Interaction} interaction - Interaction object

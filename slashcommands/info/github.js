@@ -1,12 +1,12 @@
-const moment = require('moment-timezone');
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const moment = require('moment-timezone');
 module.exports = {
+  category: 'info',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('github')
     .setDescription(`Github's Information`)
     .addStringOption((opt) => opt.setName('username').setDescription('Github Username').setRequired(true)),
-  category: 'info',
-  scooldown: 0,
   /**
    * Show Github's information
    * @param {Interaction} interaction - Interaction object

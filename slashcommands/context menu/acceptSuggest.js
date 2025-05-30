@@ -7,13 +7,13 @@ const {
   EmbedBuilder,
 } = require('discord.js');
 module.exports = {
+  category: 'context menu',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new ContextMenuCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('Accept Suggest')
     .setType(ApplicationCommandType.Message),
-  category: 'context menu',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Accept suggestion
    * @param {Interaction} interaction - Interaction object

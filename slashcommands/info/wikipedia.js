@@ -1,12 +1,12 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 module.exports = {
+  category: 'info',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('wikipedia')
     .setDescription('Search Vietnamese Wikipedia articles by keyword')
     .addStringOption((opt) => opt.setName('keyword').setDescription('Keyword').setRequired(true)),
-  category: 'info',
-  scooldown: 0,
   /**
    * Search Vietnamese Wikipedia articles by keyword
    * @param {Interaction} interaction - Interaction object

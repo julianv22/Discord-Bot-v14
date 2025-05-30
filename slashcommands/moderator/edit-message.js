@@ -1,14 +1,14 @@
 const { SlashCommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits } = require('discord.js');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('edit-message')
     .setDescription(`Edit a message. ${cfg.modRole} only`)
     .addStringOption((opt) => opt.setName('message-id').setDescription('Message ID').setRequired(true))
     .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.ManageMessages,
   /**
    * Edit a message
    * @param {Interaction} interaction - Interaction object

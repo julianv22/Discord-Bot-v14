@@ -2,9 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('disc
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
 module.exports = {
-  data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
   category: 'economy',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
   /**
    * Claim daily 💲 from the economy system
    * @param {Interaction} interaction - Interaction object

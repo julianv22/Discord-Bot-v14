@@ -1,10 +1,10 @@
-const thanksProfile = require('../../../config/thanksProfile');
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const thanksProfile = require('../../../config/thanksProfile');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('thanks'),
   category: 'sub command',
   parent: 'leaderboard',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('thanks'),
   /**
    * Get thanks leaderboard
    * @param {Interaction} interaction - Interaction object

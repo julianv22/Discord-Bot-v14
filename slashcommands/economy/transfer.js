@@ -1,4 +1,3 @@
-const economyProfile = require('../../config/economyProfile');
 const {
   SlashCommandBuilder,
   Interaction,
@@ -8,14 +7,15 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
+const economyProfile = require('../../config/economyProfile');
 module.exports = {
+  category: 'economy',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('transfer')
     .setDescription('Transfer 💲 to other users')
     .addUserOption((opt) => opt.setName('target').setDescription('Target user').setRequired(true))
     .addIntegerOption((opt) => opt.setName('amount').setDescription('Amount of 💲 to transfer').setRequired(true)),
-  category: 'economy',
-  scooldown: 0,
   /**
    * Transfer 💲 to other users
    * @param {Interaction} interaction - Interaction object

@@ -1,7 +1,10 @@
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client } = require('discord.js');
 module.exports = {
+  category: 'tournament',
+  permissions: PermissionFlagsBits.Administrator,
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('tournament')
@@ -27,9 +30,6 @@ module.exports = {
         .setDescription(`Huỷ đăng ký của tất cả thành viên trong guild.\n${cfg.adminRole} only`)
         .addBooleanOption((opt) => opt.setName('confirm').setDescription('Xác nhận').setRequired(true)),
     ),
-  category: 'tournament',
-  permissions: PermissionFlagsBits.Administrator,
-  scooldown: 0,
   /**
    * Execute the tournament command
    * @param {Interaction} interaction - Interaction object

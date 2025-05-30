@@ -1,11 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 module.exports = {
+  category: 'economy',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('balance')
     .setDescription('View your balance, streak, bank, inventory and achievements'),
-  category: 'economy',
-  scooldown: 0,
   /**
    * View balance, streak, bank, inventory and achievements of a user
    * @param {Interaction} interaction - Interaction object
@@ -34,7 +34,7 @@ module.exports = {
     const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : `\\🚫`;
     const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : `\\🚫`;
     const work = profile.lastWork || `\\❌ Chưa nhận (\`/job\` để nhận)`;
-    const lastJob = profile.lastJob || '';
+    const lastJob = profile.lastJob || new Date();
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

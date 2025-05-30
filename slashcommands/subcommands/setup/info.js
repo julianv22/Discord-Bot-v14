@@ -1,10 +1,10 @@
-const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const serverProfile = require('../../../config/serverProfile');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('info'),
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('info'),
   /**
    * Get setup information
    * @param {Interaction} interaction - Interaction object

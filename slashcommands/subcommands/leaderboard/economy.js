@@ -1,10 +1,10 @@
 const { EmbedBuilder, SlashCommandSubcommandBuilder, Interaction, Client } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('economy'),
   category: 'sub command',
   parent: 'leaderboard',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('economy'),
   /**
    * Get economy leaderboard
    * @param {Interaction} interaction - Interaction object

@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
+  category: 'info',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('info')
     .setDescription(`Get informations of bot/server/user`)
@@ -11,8 +13,6 @@ module.exports = {
         .setDescription(`Get user's info`)
         .addUserOption((opt) => opt.setName('user').setDescription(`Select user`).setRequired(true)),
     ),
-  category: 'info',
-  scooldown: 0,
   /**
    * Show bot or server or user's info
    * @param {Interaction} interaction - Interaction object

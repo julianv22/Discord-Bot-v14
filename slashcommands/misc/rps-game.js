@@ -9,14 +9,14 @@ const {
 } = require('discord.js');
 const { setRowComponent } = require('../../functions/common/components');
 module.exports = {
+  category: 'misc',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('rps-game')
     .setDescription('RPS game.')
     .addIntegerOption((opt) =>
       opt.setName('bet').setDescription('Số tiền muốn cá cược').setRequired(true).setMinValue(100).setMaxValue(1000000),
     ),
-  category: 'misc',
-  scooldown: 0,
   /**
    * Play RPS game
    * @param {Interaction} interaction - Interaction object

@@ -1,12 +1,12 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
+  category: 'misc',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('say')
     .setDescription('Make the bot say something 🗣')
     .addStringOption((opt) => opt.setName('text').setDescription('Text for the bot to say'))
     .addUserOption((opt) => opt.setName('hello').setDescription('Say "Hello" to someone')),
-  category: 'misc',
-  scooldown: 0,
   /**
    * Make the bot say something
    * @param {Interaction} interaction - Interaction object

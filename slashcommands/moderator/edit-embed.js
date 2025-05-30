@@ -1,6 +1,9 @@
 const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
   data: new SlashCommandBuilder()
     .setName('edit-embed')
     .setDescription(`Edit Embed by message id. ${cfg.modRole} only`)
@@ -8,9 +11,6 @@ module.exports = {
       opt.setName('message_id').setDescription('ID of message containing embed').setRequired(true),
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.ManageMessages,
   /**
    * Edit/Create Embed
    * @param {Interaction} interaction - Interaction object

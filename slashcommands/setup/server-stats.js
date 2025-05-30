@@ -1,6 +1,9 @@
-const serverProfile = require('../../config/serverProfile');
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
 module.exports = {
+  category: 'setup',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('server-stats')
@@ -17,9 +20,6 @@ module.exports = {
     .addChannelOption((opt) =>
       opt.setName('presences-count-channel').setDescription('Presences Count Channel').setRequired(true),
     ),
-  category: 'setup',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Setup server statistics
    * @param {Interaction} interaction - Interaction object

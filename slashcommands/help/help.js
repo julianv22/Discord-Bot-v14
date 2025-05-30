@@ -1,4 +1,3 @@
-const { readdirSync } = require('fs');
 const {
   Client,
   Interaction,
@@ -10,10 +9,11 @@ const {
 const { setRowComponent } = require('../../functions/common/components');
 const { infoButtons } = require('../../functions/common/info-buttons');
 const { capitalize } = require('../../functions/common/utilities');
+const { readdirSync } = require('fs');
 module.exports = {
-  data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   category: 'help',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   /**
    * Show command list
    * @param {Interaction} interaction - Interaction object

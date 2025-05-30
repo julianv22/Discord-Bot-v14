@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
-  data: new SlashCommandBuilder().setName('donate').setDescription('Donate for Julian-V'),
   category: 'info',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('donate').setDescription('Donate for Julian-V'),
   /**
    * Donate for Julian-V
    * @param {Interaction} interaction - Interaction object

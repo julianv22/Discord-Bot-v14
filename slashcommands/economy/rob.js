@@ -1,14 +1,14 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 module.exports = {
+  category: 'economy',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('rob')
     .setDescription('Rob 💲 from others (has risk and cooldown)')
     .addUserOption((option) =>
       option.setName('target').setDescription('The user you want to rob 💲 from').setRequired(true),
     ),
-  category: 'economy',
-  scooldown: 0,
   /**
    * Rob 💲 from others (has risk and cooldown)
    * @param {Interaction} interaction - Interaction object

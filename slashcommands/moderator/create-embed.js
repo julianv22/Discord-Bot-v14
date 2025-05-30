@@ -1,13 +1,13 @@
 const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
   data: new SlashCommandBuilder()
     .setName('create-embed')
     .setDescription(`Create a embed. ${cfg.modRole} only`)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.ManageMessages,
   /**
    * Create a embed
    * @param {Interaction} interaction - Interaction object

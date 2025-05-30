@@ -1,13 +1,13 @@
+const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
-const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits } = require('discord.js');
 module.exports = {
+  category: 'tournament',
+  cooldown: 0,
   data: new SlashCommandBuilder()
     .setName('dang-ky')
     .setDescription('Register Tournament!')
     .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
-  category: 'tournament',
-  cooldown: 0,
   /**
    * Register for a tournament
    * @param {Interaction} interaction - Interaction object

@@ -1,9 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 module.exports = {
-  data: new SlashCommandBuilder().setName('economy-guide').setDescription('Guide to the economy system'),
   category: 'economy',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('economy-guide').setDescription('Guide to the economy system'),
   /**
    * Get economy guide
    * @param {Interaction} interaction - Interaction object

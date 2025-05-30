@@ -1,6 +1,5 @@
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, flatten } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
-
 /**
  * Get channel title
  * @param {string} channelId - ID of the Youtube channel
@@ -20,19 +19,17 @@ async function getChannelTitle(channelId, apiKey) {
   }
   return channelId;
 }
-
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('list-channels'),
   category: 'sub command',
   parent: 'youtube',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('list-channels'),
   /**
    * Get list of Youtube channels
    * @param {Interaction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    await interaction.deferReply();
     const { errorEmbed } = client;
     const { guild, user, guildId } = interaction;
     try {
@@ -64,10 +61,10 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
-      return await interaction.editReply({ embeds: [embed] });
+      return await interaction.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error (/youtube list-channels):', e));
-      return await interaction.editReply(
+      return await interaction.reply(
         errorEmbed({ title: `\❌ | Error while display Youtube channel list`, description: e, color: 'Red' }),
       );
     }

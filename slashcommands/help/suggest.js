@@ -8,9 +8,9 @@ const {
   TextInputStyle,
 } = require('discord.js');
 module.exports = {
-  data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions to this server'),
   category: 'help',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions to this server'),
   /**
    * Send suggestions to this server
    * @param {Interaction} interaction - Interaction object

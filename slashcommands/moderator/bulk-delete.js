@@ -1,5 +1,8 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('bulk-delete')
@@ -13,9 +16,6 @@ module.exports = {
         .setRequired(true),
     )
     .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Bulk delete messages
    * @param {Interaction} interaction - Interaction object

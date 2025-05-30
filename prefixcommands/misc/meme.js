@@ -1,5 +1,4 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
-
 module.exports = {
   name: 'meme',
   aliases: [],

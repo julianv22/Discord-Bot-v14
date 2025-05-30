@@ -1,5 +1,7 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
+  category: 'economy',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('bank')
     .setDescription('Deposit/withdraw 💲 from bank')
@@ -24,8 +26,6 @@ module.exports = {
           opt.setName('amount').setDescription('Amount of 💲 to withdraw').setMinValue(100).setRequired(true),
         ),
     ),
-  category: 'economy',
-  scooldown: 0,
   /**
    * Deposit/withdraw money from balance to bank
    * @param {Interaction} interaction - Interaction object

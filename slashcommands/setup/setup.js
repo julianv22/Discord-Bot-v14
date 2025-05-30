@@ -1,6 +1,9 @@
-const serverProfile = require('../../config/serverProfile');
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
 module.exports = {
+  category: 'setup',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
@@ -24,19 +27,6 @@ module.exports = {
     )
     .addSubcommand((sub) =>
       sub
-        .setName('youtube')
-        .setDescription(`Add or remove a YouTube channel. ${cfg.adminRole} only`)
-        .addStringOption((opt) => opt.setName('channel-id').setDescription('YouTube channel ID').setRequired(true))
-        .addStringOption((opt) =>
-          opt
-            .setName('action')
-            .setDescription('Add or remove channel')
-            .setRequired(true)
-            .addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' }),
-        ),
-    )
-    .addSubcommand((sub) =>
-      sub
         .setName('starboard')
         .setDescription(`Set up starboard system. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
@@ -47,9 +37,6 @@ module.exports = {
         ),
     )
     .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`)),
-  category: 'setup',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Setup server
    * @param {Interaction} interaction - Interaction object

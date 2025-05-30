@@ -1,20 +1,20 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
-const chatHistories = new Map();
 module.exports = {
+  category: 'info',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('gemini')
     .setDescription('Chat with Gemini AI (Google GenAI)')
     .addStringOption((option) =>
       option.setName('prompt').setDescription('Your message to Gemini AI').setRequired(true),
     ),
-  category: 'info',
-  scooldown: 0,
   /**
    * Chat with Gemini AI (Google GenAI)
    * @param {Interaction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    const chatHistories = new Map();
     const prompt = interaction.options.getString('prompt');
     if (!prompt) {
       return await interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', flags: 64 });

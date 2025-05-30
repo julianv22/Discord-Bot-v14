@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
-  data: new SlashCommandBuilder().setName('wow').setDescription('😍 Wow!'),
   category: 'misc',
   scooldown: 0,
+  data: new SlashCommandBuilder().setName('wow').setDescription('😍 Wow!'),
   /**
    * Wow!
    * @param {Interaction} interaction - Interaction object

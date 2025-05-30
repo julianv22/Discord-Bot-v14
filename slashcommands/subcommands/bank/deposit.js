@@ -2,10 +2,10 @@ const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.
 const economyProfile = require('../../../config/economyProfile');
 const { EmbedBuilder } = require('@discordjs/builders');
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('deposit'),
   category: 'sub command',
   scooldown: 0,
   parent: 'bank',
+  data: new SlashCommandSubcommandBuilder().setName('deposit'),
   /**
    * Deposit money
    * @param {Interaction} interaction - Interaction object

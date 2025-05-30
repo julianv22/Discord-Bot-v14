@@ -1,11 +1,11 @@
 const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
 module.exports = {
+  category: 'misc',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('hack')
     .setDescription('Hacking someone! J4F 😝')
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
-  category: 'misc',
-  scooldown: 0,
   /**
    * Hack someone! J4F 😝
    * @param {Interaction} interaction - Interaction object

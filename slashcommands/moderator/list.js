@@ -1,5 +1,8 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.ManageMessages,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('list')
@@ -15,9 +18,6 @@ module.exports = {
         .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))
         .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline')),
     ),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.ManageMessages,
   /**
    * List members of a role
    * @param {Interaction} interaction - Interaction object

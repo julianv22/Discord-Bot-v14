@@ -1,6 +1,5 @@
-const serverProfile = require('../../../config/serverProfile');
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
-
+const serverProfile = require('../../../config/serverProfile');
 /**
  * Validate Youtube channel
  * @param {string} channelId - ID of the Youtube channel
@@ -16,12 +15,11 @@ async function validateYoutubeChannel(channelId, apiKey) {
   }
   return { valid: false, title: null };
 }
-
 module.exports = {
-  data: new SlashCommandSubcommandBuilder().setName('youtube'),
   category: 'sub command',
-  parent: 'setup',
+  parent: 'youtube',
   scooldown: 0,
+  data: new SlashCommandSubcommandBuilder().setName('setup'),
   /**
    * Setup Youtube channel
    * @param {Interaction} interaction - Interaction object

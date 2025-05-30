@@ -1,9 +1,9 @@
-const economyProfile = require('../../config/economyProfile');
 const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, EmbedBuilder } = require('discord.js');
+const economyProfile = require('../../config/economyProfile');
 module.exports = {
-  data: new ContextMenuCommandBuilder().setName(`Rob User`).setType(ApplicationCommandType.User),
   category: 'context menu',
   scooldown: 0,
+  data: new ContextMenuCommandBuilder().setName(`Rob User`).setType(ApplicationCommandType.User),
   /**
    * Rob money from a user
    * @param {Interaction} interaction - Interaction object

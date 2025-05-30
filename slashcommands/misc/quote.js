@@ -10,9 +10,9 @@ function getQuote() {
     });
 }
 module.exports = {
-  data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
   category: 'misc',
   scooldown: 10,
+  data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
   /**
    * Get a random quote from ZenQuotes
    * @param {Interaction} interaction - Interaction object

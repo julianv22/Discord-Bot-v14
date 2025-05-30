@@ -8,7 +8,6 @@ function getQuote() {
       return '❝ **' + data[0]['q'] + '** ❞\n\n- ' + data[0]['a'] + ' -';
     });
 }
-
 module.exports = {
   name: 'quote',
   aliases: ['qt'],

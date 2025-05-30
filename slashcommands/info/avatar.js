@@ -1,11 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 module.exports = {
+  category: 'info',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('avatar')
     .setDescription('Get Avatar')
     .addUserOption((opt) => opt.setName('user').setDescription('Provide user you wanna show Avatar')),
-  category: 'info',
-  scooldown: 0,
   /**
    * Show user's avatar
    * @param {Interaction} interaction - Interaction object

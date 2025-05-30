@@ -11,6 +11,9 @@ const {
   ButtonStyle,
 } = require('discord.js');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('querydb')
@@ -22,9 +25,6 @@ module.exports = {
         .setRequired(true)
         .addChoices(profiles.map((p) => ({ name: p.split('.')[0], value: p.split('.')[0] }))),
     ),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Query database
    * @param {Interaction} interaction - Interaction object

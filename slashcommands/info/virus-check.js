@@ -8,14 +8,14 @@ const {
   ButtonStyle,
 } = require('discord.js');
 module.exports = {
+  category: 'info',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('virus-check')
     .setDescription('Check a URL with VirusTotal.')
     .addStringOption((option) =>
       option.setName('url').setDescription('URL to check (example: https://example.com)').setRequired(true),
     ),
-  category: 'info',
-  scooldown: 0,
   /**
    * Kiểm tra một URL có độc hại không bằng VirusTotal
    * @param {Interaction} interaction - Đối tượng tương tác (SlashCommandInteraction)

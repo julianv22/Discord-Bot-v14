@@ -1,8 +1,8 @@
 const { ContextMenuCommandBuilder, EmbedBuilder, Client, Interaction, ApplicationCommandType } = require('discord.js');
 module.exports = {
-  data: new ContextMenuCommandBuilder().setName('Get Avatar').setType(ApplicationCommandType.User),
   category: 'context menu',
   scooldown: 0,
+  data: new ContextMenuCommandBuilder().setName('Get Avatar').setType(ApplicationCommandType.User),
   /**
    * Get user avatar
    * @param {Interaction} interaction - Interaction object

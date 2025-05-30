@@ -1,5 +1,8 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 module.exports = {
+  category: 'moderator',
+  scooldown: 0,
+  permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('leaderboard')
@@ -20,9 +23,6 @@ module.exports = {
     .addSubcommand((sub) =>
       sub.setName('economy').setDescription('Show Economy Leaderboard (top 💲, streak, max streak)'),
     ),
-  category: 'moderator',
-  scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
   /**
    * Show leaderboard
    * @param {Interaction} interaction - Interaction object

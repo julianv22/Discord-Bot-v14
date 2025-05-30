@@ -1,15 +1,15 @@
+const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 module.exports = {
+  category: 'tournament',
+  scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('huy-dang-ky')
     .setDescription('Unregister Tournament!')
     .addBooleanOption((option) =>
       option.setName('confirm').setDescription('Hãy chắc chắn trước khi đưa ra quyết định‼').setRequired(true),
     ),
-  category: 'tournament',
-  scooldown: 0,
   /**
    * Unregister for a tournament
    * @param {Interaction} interaction - Interaction object
