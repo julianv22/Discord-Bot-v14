@@ -81,9 +81,9 @@ module.exports = {
         errorEmbed({ description: `${user} huỷ đăng ký giải ${role}!!`, emoji: `\\🏆 | `, color: 'Green' }),
       );
     } catch (e) {
-      console.error(chalk.red('Error while running command (/huy-dang-ky):', e));
+      console.error(chalk.red('Error while executing /huy-dang-ky command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while running command (/huy-dang-ky):`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while executing /huy-dang-ky command`, description: e, color: 'Red' }),
       );
     }
   },

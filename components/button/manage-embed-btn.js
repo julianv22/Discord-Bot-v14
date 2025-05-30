@@ -137,6 +137,7 @@ module.exports = {
               components: [Button0, Button1],
             });
           } catch (e) {
+            console.error(chalk.red('Cannot update message'), e);
             return await interaction.reply(
               errorEmbed({ title: `\\❌ | Không thể tìm thấy hoặc cập nhật message`, description: e, color: 'Red' }),
             );

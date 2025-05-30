@@ -94,9 +94,9 @@ module.exports = {
         } else await guild.members.cache.get(user.id).roles.add(role);
       }
     } catch (e) {
-      console.error(chalk.red('Error while running command (/dang-ky):', e));
+      console.error(chalk.red('Error while executing /dang-ky command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while running command (/dang-ky):`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while executing /dang-ky command`, description: e, color: 'Red' }),
       );
     }
   },

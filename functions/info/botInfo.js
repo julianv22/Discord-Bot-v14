@@ -116,12 +116,14 @@ module.exports = (client) => {
     } catch (e) {
       if (interaction && typeof interaction.reply === 'function') {
         await interaction.reply(
-          errorEmbed({ title: `\\❌ | Error while running botInfo`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ | Error while executing function botInfo`, description: e, color: 'Red' }),
         );
       } else if (message && typeof message.reply === 'function') {
-        message.reply(errorEmbed({ title: `\\❌ | Error while running botInfo`, description: e, color: 'Red' }));
+        message.reply(
+          errorEmbed({ title: `\\❌ | Error while executing function botInfo`, description: e, color: 'Red' }),
+        );
       }
-      console.error(chalk.red('Error while running botInfo'), e);
+      console.error(chalk.red('Error while executing function botInfo'), e);
     }
   };
 };

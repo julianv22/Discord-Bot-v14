@@ -208,10 +208,10 @@ module.exports = {
         return await interaction.reply(errorEmbed({ description: 'Subcommand không hợp lệ!', emoji: false }));
       }
     } catch (e) {
-      console.error(chalk.red(`Error while running tournament command [${tourCommand}]:`, e));
+      console.error(chalk.red(`Error while executing /tournament command [${tourCommand}]:`, e));
       return await interaction.reply(
         errorEmbed({
-          title: `\\❌ | Error while running tournament command [${tourCommand}]:`,
+          title: `\\❌ | Error while executing /tournament command [${tourCommand}]:`,
           description: e,
           color: 'Red',
         }),

@@ -77,7 +77,9 @@ module.exports = {
             lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
           }`,
         );
-      } catch {}
+      } catch (e) {
+        console.error(chalk.red('Cannot send DM to user', e));
+      }
       let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
       if (p) {
         p.balance += reward;

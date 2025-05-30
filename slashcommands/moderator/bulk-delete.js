@@ -46,7 +46,7 @@ module.exports = {
         errorEmbed({ description: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: false }),
       );
     } catch (e) {
-      console.error(chalk.red('Error (/bulk-delete):', e));
+      console.error(chalk.red('Error while executing /bulk-delete command', e));
       return await interaction.reply(
         errorEmbed({ title: `\\❌ | Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
       );

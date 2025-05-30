@@ -87,7 +87,7 @@ module.exports = (client) => {
         }
       }
     } catch (e) {
-      console.error(chalk.red('Error while running checkVideos'), e);
+      console.error(chalk.red('Error while executing function checkVideos'), e);
     }
   };
 };

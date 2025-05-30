@@ -54,9 +54,9 @@ module.exports = {
         );
       }, 2500);
     } catch (e) {
-      console.error(chalk.red('Error (/reload):', e));
+      console.error(chalk.red('Error while executing /reload command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Reload command error`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while executing /reload command`, description: e, color: 'Red' }),
       );
     }
   },

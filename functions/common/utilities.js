@@ -32,9 +32,9 @@ function checkURL(strInput) {
         /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
       );
       return res !== null;
-    } else res;
+    }
   } catch (e) {
-    console.error(chalk.red('Error while running checkURL'), e);
+    console.error(chalk.red('Error while executing function checkURL'), e);
   }
 }
 /**

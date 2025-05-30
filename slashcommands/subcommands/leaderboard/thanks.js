@@ -48,8 +48,8 @@ module.exports = {
         .setTimestamp();
       return await interaction.reply({ embeds: [embed], ephemeral: false });
     } catch (e) {
-      console.error(chalk.red('Error (/leaderboard thanks):', e));
-      return await interaction.reply(errorEmbed(true, 'Error thanks leaderboard:', e));
+      console.error(chalk.red('Error while executing /leaderboard thanks command', e));
+      return await interaction.reply(errorEmbed(true, 'Error while executing /leaderboard thanks command', e));
     }
   },
 };

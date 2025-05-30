@@ -19,7 +19,7 @@ module.exports = {
         });
       }
     } catch (e) {
-      console.error(chalk.red('Error while running messageDelete event'), e);
+      console.error(chalk.red('Error while executing messageDelete event'), e);
     }
   },
 };

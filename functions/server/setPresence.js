@@ -24,7 +24,7 @@ module.exports = (client) => {
 
       user.setPresence({ activities: [activities], status: statusTypes[status_id] });
     } catch (e) {
-      console.error(chalk.red('Error while running setPresence'), e);
+      console.error(chalk.red('Error while executing function setPresence'), e);
     }
   };
 };

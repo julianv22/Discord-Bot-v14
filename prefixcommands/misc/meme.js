@@ -32,8 +32,8 @@ module.exports = {
         });
       await message.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Lỗi lấy meme:', e));
-      await message.reply(errorEmbed({ title: `\\❌ | Error while getting meme`, description: e, color: 'Red' }));
+      console.error(chalk.red('Error while fetching memes', e));
+      await message.reply(errorEmbed({ title: `\\❌ | Error while fetching memes`, description: e, color: 'Red' }));
     }
   },
 };

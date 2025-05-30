@@ -115,6 +115,7 @@ module.exports = {
           }`,
         );
       } catch (e) {
+        console.error(chalk.red('Cannot send DM to user', e));
         // Không gửi được DM (có thể user tắt DM)
       }
     }

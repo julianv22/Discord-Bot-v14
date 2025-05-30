@@ -55,7 +55,7 @@ module.exports = {
         }
       }
     } catch (e) {
-      console.error('Error in messageReactionRemove:', e);
+      console.error(chalk.red('Error while executing messageReactionRemove event'), e);
     }
   },
 };

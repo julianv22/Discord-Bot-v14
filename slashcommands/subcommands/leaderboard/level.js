@@ -34,9 +34,9 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error (/leaderboard level):', e));
+      console.error(chalk.red('Error while executing /leaderboard level command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error level leaderboard`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while executing /leaderboard level command`, description: e, color: 'Red' }),
       );
     }
   },

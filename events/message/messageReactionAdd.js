@@ -125,7 +125,7 @@ module.exports = {
         }
       }
     } catch (e) {
-      console.error(chalk.red('Error in messageReactionAdd:'), e);
+      console.error(chalk.red('Error while executing messageReactionAdd event'), e);
     }
   },
 };

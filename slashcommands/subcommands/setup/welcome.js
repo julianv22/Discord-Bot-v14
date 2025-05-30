@@ -44,9 +44,9 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      console.error(chalk.red('Error (/setup welcome):', e));
+      console.error(chalk.red('Error while executing /setup welcome command', e));
       return await interaction.reply(
-        client.errorEmbed({ title: `\\❌ | Error setup welcome`, description: e, color: 'Red' }),
+        client.errorEmbed({ title: `\\❌ | Error while setting up welcome`, description: e, color: 'Red' }),
       );
     }
   },

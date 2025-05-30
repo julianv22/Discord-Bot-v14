@@ -78,9 +78,9 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      console.error(chalk.red('Error (/setup info):', e));
+      console.error(chalk.red('Error while executing /setup info command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error when getting setup info`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while getting setup info`, description: e, color: 'Red' }),
       );
     }
   },

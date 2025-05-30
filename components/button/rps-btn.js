@@ -97,9 +97,9 @@ module.exports = {
       // Trả về kết quả
       return await interaction.update({ embeds: [embed] });
     } catch (e) {
-      console.error('Error while running rpsGame', e);
+      console.error(chalk.red('Error while running button rps-btn'), e);
       return await interaction.update(
-        errorEmbed({ title: `\\❌ | Error while running rpsGame`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while running button rps-btn`, description: e, color: 'Red' }),
       );
     }
   },

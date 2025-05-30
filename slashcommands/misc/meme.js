@@ -31,7 +31,7 @@ module.exports = {
         });
       return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error fetching meme:', e));
+      console.error(chalk.red('Error while fetching meme', e));
       await interaction.editReply(
         errorEmbed({ title: `\\❌ | An error occurred while fetching meme`, description: e, color: 'Red' }),
       );

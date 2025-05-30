@@ -33,9 +33,9 @@ module.exports = {
         }),
       );
     } catch (e) {
-      console.error(chalk.red('Error (/setup youtube):', e));
+      console.error(chalk.red('Error while executing /setup youtube command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while setup Youtube notify channel`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while setting up Youtube notify channel`, description: e, color: 'Red' }),
       );
     }
   },

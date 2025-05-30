@@ -124,7 +124,7 @@ module.exports = {
       client.serverStats(client, guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
     } catch (e) {
-      console.error(chalk.red('Error while running guildMemberAdd event'), e);
+      console.error(chalk.red('Error while executing guildMemberAdd event'), e);
     }
   },
 };

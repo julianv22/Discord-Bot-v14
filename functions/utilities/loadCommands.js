@@ -64,7 +64,7 @@ module.exports = (client) => {
           try {
             commandFiles = readdirSync(`./${folderName}/${folder}`).filter((f) => f.endsWith('.js'));
           } catch (e) {
-            console.error(chalk.yellow(`Không thể đọc folder: ./${folderName}/${folder}`), e);
+            console.error(chalk.yellow(`Không thể đọc folder: [./${folderName}/${folder}]`), e);
             continue;
           }
           table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '────────────', '📂');
@@ -91,7 +91,7 @@ module.exports = (client) => {
         console.log(table.toString());
       }
     } catch (e) {
-      console.error(chalk.yellow('Error while loading commands'), e);
+      console.error(chalk.yellow('Error while executing function loadCommands'), e);
     }
   };
 };

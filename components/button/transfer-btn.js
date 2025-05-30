@@ -77,6 +77,7 @@ module.exports = {
       await member.send({ embeds: [embedReceiver] });
     } catch (e) {
       // Nếu không gửi được DM thì bỏ qua
+      console.error(chalk.red('Cannot send DM to user'), e);
     }
 
     // Cập nhật lại interaction cho người chuyển

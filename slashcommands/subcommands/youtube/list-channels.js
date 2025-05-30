@@ -15,7 +15,7 @@ async function getChannelTitle(channelId, apiKey) {
       return data.items[0].snippet.title;
     }
   } catch (e) {
-    console.error(chalk.red('Error getChannelTitle:', e));
+    console.error(chalk.red('Error while executing function getChannelTitle:', e));
   }
   return channelId;
 }
@@ -63,9 +63,9 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error (/youtube list-channels):', e));
+      console.error(chalk.red('Error while executing /youtube list-channels command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ | Error while display Youtube channel list`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ | Error while displaying Youtube channel list`, description: e, color: 'Red' }),
       );
     }
   },
