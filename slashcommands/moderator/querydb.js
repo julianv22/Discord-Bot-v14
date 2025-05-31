@@ -33,12 +33,13 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
     const { errorEmbed } = client;
-    const { guild, guildId, user, options } = interaction;
+    const { guild, user, options } = interaction;
     const choice = options.getString('profile');
+    const owner = await guild.fetchOwner();
     const serverProfile = require(`../../config/${choice}`);
-    if (user.id !== cfg.ownerID)
+    if (user.id !== cfg.ownerID || user.id !== owner.id)
       return await interaction.reply(errorEmbed({ description: '\\⭕wner permission only', emoji: false }));
-    let profile = await serverProfile.find({ guildID: guildId }).catch(() => {});
+    let profile = await serverProfile.find({ guildID: guild.id }).catch(() => {});
     if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
     /**
      * Send a message

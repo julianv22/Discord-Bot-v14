@@ -25,6 +25,9 @@ module.exports = {
       )
         return;
 
+      const {
+        setup: { starboard },
+      } = profile;
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name !== '⭐') return;
 
@@ -33,14 +36,14 @@ module.exports = {
       const count = starReaction ? starReaction.count : 0;
 
       // Đủ số lượng starCount mới gửi
-      if (count < profile.setup.starboard.star) return;
+      if (count < starboard.star) return;
 
       // Không cho tự star chính mình
       if (message.author.id === user.id) return;
 
       // Lấy channel starboard
       const guild = message.guild;
-      const starboardChannel = guild.channels.cache.get(profile.setup.starboard.channel);
+      const starboardChannel = guild.channels.cache.get(starboard.channel);
       if (!starboardChannel) return;
 
       // Nếu có attachment thì bỏ qua
@@ -82,9 +85,9 @@ module.exports = {
 
       // Nếu có content hoặc embed
       if (embeds.length > 0) {
-        if (!profile.setup.starboard.messages) profile.setup.starboard.messages = {};
+        if (!starboard.messages) starboard.messages = {};
 
-        const starboardData = profile.setup.starboard.messages[message.id];
+        const starboardData = starboard.messages[message.id];
         const now = Date.now();
 
         if (starboardData && starboardData.id) {
@@ -97,7 +100,7 @@ module.exports = {
               components: [jumpButton],
             });
             // Cập nhật lại thời gian cuối cùng update (không cần thiết cho cooldown, nhưng có thể lưu để log)
-            profile.setup.starboard.messages[message.id].lastTime = now;
+            starboard.messages[message.id].lastTime = now;
             await profile.save().catch(() => {});
           } else {
             // Nếu không fetch được (bị xoá), cho phép gửi mới nếu qua cooldown
@@ -107,7 +110,7 @@ module.exports = {
                 embeds: embeds,
                 components: [jumpButton],
               });
-              profile.setup.starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
+              starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
               await profile.save().catch(() => {});
             }
           }
@@ -119,7 +122,7 @@ module.exports = {
               embeds: embeds,
               components: [jumpButton],
             });
-            profile.setup.starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
+            starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
             await profile.save().catch(() => {});
           }
         }

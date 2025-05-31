@@ -25,7 +25,9 @@ module.exports = {
           { $set: { youtube: { notifyChannel: notifyChannel.id } } },
           { new: true, upsert: true },
         )
-        .catch(() => {});
+        .catch((e) => {
+          console.error(chalk.red('Error while updating youtube notify channel', e));
+        });
       return await interaction.reply(
         errorEmbed({
           description: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`,

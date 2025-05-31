@@ -15,7 +15,7 @@ module.exports = {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
       if (!profile || !profile?.setup?.welcome?.channel || !profile?.setup?.welcome?.log)
-        return console.log(chalk.red('No Channel Set'));
+        return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
       const { channel: welcomeID, log: logID } = profile.setup.welcome;
 
       // Create Background

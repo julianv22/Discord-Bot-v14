@@ -29,7 +29,7 @@ module.exports = (client) => {
   client.checkVideos = async () => {
     try {
       // console.log(chalk.red('Checking videos...'));
-      const servers = await serverProfile.find({}).catch(() => {});
+      let servers = await serverProfile.find({}).catch(() => {});
       for (const server of servers) {
         const {
           youtube: { channels = [], lastVideos = [], notifyChannel },

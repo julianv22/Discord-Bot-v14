@@ -44,24 +44,24 @@ module.exports = {
 
     const getRole = options.getRole('ten-giai');
     const tourCommand = options.getSubcommand();
-
+    const { tournament } = profile;
     // Gom các logic xử lý vào object
     const tourActions = {
       open: async () => {
         if (!getRole)
           return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
 
-        if (profile.tournament.status && getRole.id !== profile.tournament.id)
+        if (tournament.status && getRole.id !== tournament.id)
           return await interaction.reply(
             errorEmbed({
-              description: `Đang có giải đấu \`${profile.tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
+              description: `Đang có giải đấu \`${tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
               emoji: false,
             }),
           );
 
-        if (profile.tournament.status)
+        if (tournament.status)
           return await interaction.reply(
-            errorEmbed({ description: `Giải \`${profile.tournament.name}\` đang diễn ra rồi!`, emoji: false }),
+            errorEmbed({ description: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false }),
           );
 
         await serverProfile
@@ -80,14 +80,14 @@ module.exports = {
         if (!getRole)
           return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
 
-        if (profile.tournament.id && getRole.id !== profile.tournament.id)
+        if (tournament.id && getRole.id !== tournament.id)
           return await interaction.reply(
-            errorEmbed({ description: `Chưa chọn đúng giải đấu: \`${profile.tournament.name}\``, emoji: false }),
+            errorEmbed({ description: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false }),
           );
 
-        if (!profile.tournament.status)
+        if (!tournament.status)
           return await interaction.reply(
-            errorEmbed({ description: `Giải \`${profile.tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
+            errorEmbed({ description: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
           );
 
         await serverProfile
@@ -103,7 +103,7 @@ module.exports = {
         );
       },
       list: async () => {
-        if (!profile.tournament.status)
+        if (!tournament.status)
           return await interaction.reply(
             errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆`, color: 'Red' }),
           );
@@ -120,7 +120,7 @@ module.exports = {
             errorEmbed({ description: 'Chưa có thành viên nào đăng kí giải!', emoji: false }),
           );
 
-        const role = guild.roles.cache.get(profile.tournament.id);
+        const role = guild.roles.cache.get(tournament.id);
         const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
 
         // Tạo danh sách thành viên, mỗi dòng 1 người

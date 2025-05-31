@@ -12,7 +12,7 @@ module.exports = {
       if (!message.guildId) return;
 
       // Lấy cấu hình server
-      const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: message.guildId }).catch(() => {});
       if (
         !profile ||
         !profile.setup.starboard.channel ||
@@ -20,7 +20,9 @@ module.exports = {
         profile.setup.starboard.star <= 0
       )
         return;
-
+      const {
+        setup: { starboard },
+      } = profile;
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name !== '⭐') return;
 
@@ -30,22 +32,18 @@ module.exports = {
       const count = starReaction ? starReaction.count : 0;
 
       // Nếu số lượng ⭐ < starCount, xoá message trên starboard
-      if (count < profile.setup.starboard.star) {
+      if (count < starboard.star) {
         const guild = message.guild;
-        const starboardChannel = guild.channels.cache.get(profile.setup.starboard.channel);
+        const starboardChannel = guild.channels.cache.get(starboard.channel);
         if (!starboardChannel) return;
 
         // Xoá message starboard dựa vào messageId đã lưu (dạng object: { id, lastTime })
-        if (
-          profile.setup.starboard.messages &&
-          profile.setup.starboard.messages[message.id] &&
-          profile.setup.starboard.messages[message.id].id
-        ) {
-          const starMsgId = profile.setup.starboard.messages[message.id].id;
+        if (starboard.messages && starboard.messages[message.id] && starboard.messages[message.id].id) {
+          const starMsgId = starboard.messages[message.id].id;
           const starMsg = await starboardChannel.messages.fetch(starMsgId).catch(() => null);
           if (starMsg) await starMsg.delete().catch(() => {});
           // Xoá mapping khỏi profile
-          delete profile.setup.starboard.messages[message.id];
+          delete starboard.messages[message.id];
           await profile.save().catch(() => {});
         } else {
           // Nếu không lưu, fallback: tìm bằng nội dung như cũ

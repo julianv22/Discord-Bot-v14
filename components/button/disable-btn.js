@@ -17,9 +17,11 @@ module.exports = {
     } = interaction;
     const { errorEmbed } = client;
     const [, feature, confirm] = customId.split(':');
-    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
+    const {
+      setup: { starboard, suggest, youtube, welcome },
+    } = profile;
     // Confirm Button & Cancel Button
     const confirmButton = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
@@ -52,15 +54,14 @@ module.exports = {
     if (feature === 'confirm') {
       const Disable = {
         starboard: () => {
-          profile.setup.starboard.channel = '';
-          profile.setup.starboard.star = 0;
+          starboard.channel = '';
+          starboard.star = 0;
         },
-        suggest: () => (profile.setup.suggest = ''),
-        youtube: () => (profile.youtube.notifyChannel = ''),
+        suggest: () => (suggest = ''),
+        youtube: () => (youtube.notifyChannel = ''),
         welcome: () => {
-          profile.setup.welcome.channel = '';
-          profile.setup.welcome.message = '';
-          profile.setup.welcome.log = '';
+          welcome.channel = '';
+          welcome.log = '';
         },
       };
       if (typeof Disable[confirm] === 'function') await Disable[confirm]();

@@ -11,7 +11,8 @@ module.exports = {
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile || !profile?.setup?.welcome?.log) return console.log(chalk.red('No Channel Set'));
+      if (!profile || !profile?.setup?.welcome?.log)
+        return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
 
       const {
         welcome: { log: logID },

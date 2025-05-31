@@ -16,8 +16,9 @@ module.exports = {
     const channel = options.getChannel('schannel');
     const sgtChannel = channels.cache.get(channel.id);
     try {
-      if (await serverProfile.findOne({ guildID: guild.id }))
-        serverProfile
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+      if (!profile)
+        await serverProfile
           .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, setup: { suggest: sgtChannel } })
           .catch(() => {});
 

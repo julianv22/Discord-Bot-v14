@@ -41,10 +41,11 @@ module.exports = {
       }
 
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+      const { youtube } = profile;
       if (!profile) {
         if (action === 'remove')
           return await interaction.reply(errorEmbed({ description: 'Server chưa có kênh Youtube nào!', emoji: false }));
-        profile = await serverProfile
+        await profile
           .create({
             guildID: guild.id,
             guildName: guild.name,
@@ -54,16 +55,16 @@ module.exports = {
           .catch(() => {});
       } else {
         let changed = false;
-        if (!Array.isArray(profile.youtube.channels)) profile.youtube.channels = [];
+        if (!Array.isArray(youtube.channels)) youtube.channels = [];
         if (action === 'add') {
-          if (!profile.youtube.channels.includes(yt_channel)) {
-            profile.youtube.channels.push(yt_channel);
+          if (!youtube.channels.includes(yt_channel)) {
+            youtube.channels.push(yt_channel);
             changed = true;
           }
         } else if (action === 'remove') {
-          const idx = profile.youtube.channels.indexOf(yt_channel);
+          const idx = youtube.channels.indexOf(yt_channel);
           if (idx !== -1) {
-            profile.youtube.channels.splice(idx, 1);
+            youtube.channels.splice(idx, 1);
             changed = true;
           }
         }

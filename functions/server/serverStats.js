@@ -11,12 +11,8 @@ module.exports = (client) => {
     try {
       // Start Server Stats
       const guild = client.guilds.cache.get(guildID);
-
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile)
-        await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
-
-      if (!profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
+      if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
       /**
        * Set channel name
        * @param {String} id - Channel ID
@@ -26,23 +22,24 @@ module.exports = (client) => {
         guild.channels.cache.get(id).setName(name);
       }
 
-      const memberRole = guild.roles.cache.get(profile?.statistics?.memberRole);
+      const { statistics } = profile;
+      const memberRole = guild.roles.cache.get(statistics?.memberRole);
       const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
       // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
 
-      const botRole = guild.roles.cache.get(profile?.statistics?.botRole).name;
+      const botRole = guild.roles.cache.get(statistics?.botRole).name;
       const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
 
       const statsChannels = [
         {
-          id: profile?.statistics?.totalChannel,
+          id: statistics?.totalChannel,
           name: `🌏 Total members: ${guild.memberCount.toLocaleString()}`,
         },
         {
-          id: profile?.statistics?.memberChannel,
+          id: statistics?.memberChannel,
           name: `${memberRole.name}: ${memberCount}`,
         },
-        { id: profile?.statistics?.botChannel, name: `${botRole}: ${botCount}` },
+        { id: statistics?.botChannel, name: `${botRole}: ${botCount}` },
       ];
 
       statsChannels.forEach((channel) => {
@@ -63,7 +60,7 @@ module.exports = (client) => {
         status.push(`${icon[i++]} ${getPressence(stats)}`);
       });
 
-      setChannelName(profile?.statistics?.presenceChannel, status.join(' '));
+      setChannelName(statistics?.presenceChannel, status.join(' '));
       // End Server Stats
     } catch (e) {
       console.error(chalk.red('Error while executing function serverStats'), e);

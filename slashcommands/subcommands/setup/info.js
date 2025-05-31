@@ -26,7 +26,7 @@ module.exports = {
       const ytChannels = profile?.youtube?.channels?.length;
       const suggestChannel = channels.cache.get(profile?.setup?.suggest);
       const welcomeMessage = profile?.setup?.welcome?.message;
-      const tourName = profile?.tournament?.id ? `${guild.roles.cache.get(profile.tournament.id)}` : 'None';
+      const tourName = profile?.tournament?.id ? `${guild.roles.cache.get(profile?.tournament?.id)}` : 'None';
       const tourStatus = profile?.tournament?.status == true ? '\\✅ Open' : '\\❌ Closed';
       const starCount = profile?.setup?.starboard?.star;
       const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
