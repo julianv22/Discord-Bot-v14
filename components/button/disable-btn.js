@@ -19,9 +19,7 @@ module.exports = {
     const [, feature, confirm] = customId.split(':');
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
     if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
-    const {
-      setup: { starboard, suggest, youtube, welcome },
-    } = profile;
+    const { starboard, suggest, youtube, welcome } = profile.setup;
     // Confirm Button & Cancel Button
     const confirmButton = new ActionRowBuilder().addComponents(
       new ButtonBuilder()

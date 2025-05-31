@@ -14,10 +14,9 @@ module.exports = {
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile || !profile?.setup?.welcome?.channel || !profile?.setup?.welcome?.log)
+      const { welcome } = profile.setup;
+      if (!profile || !welcome.channel || !welcome.log)
         return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
-      const { channel: welcomeID, log: logID } = profile.setup.welcome;
-
       // Create Background
       const bgUrl = path.join(__dirname, '../../config/bg.png');
       const canvas = Canvas.createCanvas(854, 480);
@@ -89,14 +88,13 @@ module.exports = {
         .setImage(cfg.welcomePNG)
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
         .setTimestamp();
-      if (profile?.setup?.welcome?.message)
-        embWelcome.addFields([{ name: `Server's Information:`, value: profile?.setup?.welcome?.message }]);
+      if (welcome.message) embWelcome.addFields([{ name: `Server's Information:`, value: welcome.message }]);
 
       const attachment = new AttachmentBuilder(await canvas.encode('png'), {
         name: 'welcome.png',
       });
 
-      const channel = guild.channels.cache.get(welcomeID);
+      const channel = guild.channels.cache.get(welcome.channel);
       if (channel) {
         await channel.send({ embeds: [embWelcome] });
         await channel.send({ files: [attachment] });
@@ -116,7 +114,7 @@ module.exports = {
           { name: 'ID:', value: `||${user.id}||`, inline: true },
         );
 
-      const logChannel = guild.channels.cache.get(logID);
+      const logChannel = guild.channels.cache.get(welcome.log);
       if (logChannel) {
         await logChannel.send({ embeds: [emLog] });
       }

@@ -20,10 +20,7 @@ module.exports = {
     if (!profile)
       serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
     try {
-      const {
-        setup: { welcome },
-      } = profile;
-      profile.guildName = guild.name;
+      const { welcome } = profile.setup;
       welcome.channel = welcomeChannel.id;
       welcome.log = logChannel.id;
       welcome.message = welcomeMsg;

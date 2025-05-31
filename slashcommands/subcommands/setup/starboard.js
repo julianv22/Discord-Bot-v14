@@ -20,9 +20,7 @@ module.exports = {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
       if (!profile)
         await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
-      const {
-        setup: { starboard },
-      } = profile;
+      const { starboard } = profile.setup;
       starboard.channel = channel.id;
       starboard.star = number;
       await profile.save().catch(() => {});

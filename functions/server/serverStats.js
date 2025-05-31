@@ -12,7 +12,8 @@ module.exports = (client) => {
       // Start Server Stats
       const guild = client.guilds.cache.get(guildID);
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
+      const { statistics } = profile;
+      if (!profile || !statistics?.totalChannel || !statistics?.presenceChannel) return;
       /**
        * Set channel name
        * @param {String} id - Channel ID
@@ -21,8 +22,6 @@ module.exports = (client) => {
       function setChannelName(id, name) {
         guild.channels.cache.get(id).setName(name);
       }
-
-      const { statistics } = profile;
       const memberRole = guild.roles.cache.get(statistics?.memberRole);
       const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
       // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot

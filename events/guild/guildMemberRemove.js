@@ -11,12 +11,9 @@ module.exports = {
     try {
       const { guild, user } = member;
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
-      if (!profile || !profile?.setup?.welcome?.log)
-        return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
+      const { welcome } = profile.setup;
+      if (!profile || !welcome.log) return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
 
-      const {
-        welcome: { log: logID },
-      } = profile;
       const emLog = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('👋 Good bye!')
@@ -31,7 +28,7 @@ module.exports = {
           { name: 'UserID:', value: `||${user.id}||`, inline: true },
         );
 
-      const logChannel = guild.channels.cache.get(logID);
+      const logChannel = guild.channels.cache.get(welcome.log);
       if (logChannel) {
         await logChannel.send({ embeds: [emLog] });
       }
