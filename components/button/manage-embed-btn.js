@@ -1,5 +1,13 @@
-const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle, TextInputStyle } = require('discord.js');
-const { createModal, setTextInput } = require('../../functions/common/manage-embed');
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  TextInputStyle,
+  ModalBuilder,
+} = require('discord.js');
+const { setTextInput } = require('../../functions/common/manage-embed');
 module.exports = {
   data: { name: 'manage-embed-btn' },
   /**
@@ -15,9 +23,20 @@ module.exports = {
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
+    /**
+     * Create modal
+     * @param {Object} options - Modal Components
+     * @param {string} modalId - Modal custom ID
+     * @param {string} modalTitle - Modal title
+     * @returns {ModalBuilder} - Return ModalBuilder
+     */
+    function createModal(options, modalId = `manage-embed-md:${button}`, modalTitle = `Embed Manager`) {
+      return new ModalBuilder().setCustomId(modalId).setTitle(modalTitle).setComponents(setTextInput(options));
+    }
+
     const Selected = {
       author: async () => {
-        const modal = createModal('manage-embed-md:author', 'Embed Manager', {
+        const modal = createModal({
           id: 'author',
           label: 'Embed Author, variable: {guild}, {user}',
           placeholder: '{guild} = Server name, {user} = Username',
@@ -33,7 +52,7 @@ module.exports = {
       },
       title: async () => {
         return await interaction.showModal(
-          createModal('manage-embed-md:title', 'Embed Manager', {
+          createModal({
             id: 'title',
             label: 'Embed Title',
             placeholder: '{guild} = Server name, {user} = Username',
@@ -43,7 +62,7 @@ module.exports = {
       },
       description: async () => {
         return await interaction.showModal(
-          createModal('manage-embed-md:description', 'Embed Manager', {
+          createModal({
             id: 'description',
             label: 'Description',
             placeholder: 'Enter the embed description\n{guild} = Server name\n{user} = Username',
@@ -54,7 +73,7 @@ module.exports = {
       },
       color: async () => {
         return await interaction.showModal(
-          createModal('manage-embed-md:color', 'Embed Manager', {
+          createModal({
             id: 'color',
             label: 'Color (Empty = Random)',
             placeholder: 'Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...',
@@ -64,7 +83,7 @@ module.exports = {
       },
       image: async () => {
         return await interaction.showModal(
-          createModal('manage-embed-md:image', 'Embed Manager', {
+          createModal({
             id: 'image',
             label: 'Image (Empty = Delete)',
             placeholder: 'Enter the image url, Empty = Delete',
@@ -73,7 +92,7 @@ module.exports = {
       },
       thumbnail: async () => {
         return await interaction.showModal(
-          createModal('manage-embed-md:thumbnail', 'Embed Manager', {
+          createModal({
             id: 'thumbnail',
             label: 'Thumbnail (Empty = Delete)',
             placeholder: 'Enter the thumbnail url, Empty = Delete',
@@ -81,7 +100,7 @@ module.exports = {
         );
       },
       footer: async () => {
-        const modal = createModal('manage-embed-md:footer', 'Embed Manager', {
+        const modal = createModal({
           id: 'footer',
           label: 'Footer (Empty = Delete)',
           placeholder: '{guild} = Server name, {user} = Username',
@@ -145,6 +164,7 @@ module.exports = {
         }
       },
     };
+
     if (typeof Selected[button] === 'function') return await Selected[button]();
   },
 };

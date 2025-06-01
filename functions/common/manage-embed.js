@@ -1,11 +1,4 @@
-const {
-  ButtonStyle,
-  ActionRowBuilder,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  ComponentType,
-} = require('discord.js');
+const { ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle, ComponentType } = require('discord.js');
 const { setRowComponent } = require('./components');
 /**
  * Get embed color
@@ -82,14 +75,18 @@ function embedButtons(messageId) {
   ];
 }
 /**
- * Create modal
- * @param {string} customId - Modal custom ID
- * @param {string} title - Modal title
- * @param {Object} textOptions - Modal Components
- * @returns {ModalBuilder} - Return ModalBuilder
+ * Create reaction buttons
+ * @returns {ActionRowBuilder} - Return ActionRowBuilder
  */
-function createModal(customId, title, textOptions) {
-  return (modal = new ModalBuilder().setCustomId(customId).setTitle(title)).addComponents(setTextInput(textOptions));
+function reactionButtons() {
+  const button1 = [
+    { customId: 'reaction-btn:title', label: '💬Title', style: ButtonStyle.Primary },
+    { customId: 'reaction-btn:color', label: '🎨Color', style: ButtonStyle.Secondary },
+    { customId: 'reaction-btn:add', label: '➕Add Role', style: ButtonStyle.Primary },
+    { customId: 'reaction-btn:finish', label: '✅Finish', style: ButtonStyle.Success },
+    { customId: 'reaction-btn:cancel', label: '❌Cancel', style: ButtonStyle.Danger },
+  ];
+  return new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button));
 }
 /**
  * Set Text Input Component
@@ -111,4 +108,4 @@ function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '
       .setRequired(required),
   );
 }
-module.exports = { getEmbedColor, embedButtons, createModal, setTextInput };
+module.exports = { getEmbedColor, embedButtons, reactionButtons, setTextInput };

@@ -1,4 +1,3 @@
-const serverProfile = require('../../config/serverProfile');
 /**
  * Get the latest video of the YouTube channel
  * @param {String} channelId - Channel ID

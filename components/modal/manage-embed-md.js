@@ -40,9 +40,7 @@ module.exports = {
         if (strInput.length > 4096) strInput = strInput.slice(0, 4096);
         getEmbeds.setDescription(replaceVar(strInput, replaceKey));
       },
-      color: () => {
-        getEmbeds.setColor(getEmbedColor(strInput));
-      },
+      color: () => getEmbeds.setColor(getEmbedColor(strInput)),
       image: () => {
         if (!strInput) getEmbeds.setImage(null);
         else if (checkURL(strInput)) getEmbeds.setImage(strInput);
