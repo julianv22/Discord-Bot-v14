@@ -129,12 +129,8 @@ module.exports = {
         });
       },
       send: async () => {
-        Button0.components.forEach((btn) => {
-          btn.data.disabled = true;
-        });
-        Button1.components.forEach((btn) => {
-          btn.data.disabled = true;
-        });
+        Button0.components.forEach((btn) => (btn.data.disabled = true));
+        Button1.components.forEach((btn) => (btn.data.disabled = true));
         if (!messageId || messageId === 'undefined') {
           await channel.send({ embeds: [getEmbeds] });
           await interaction.update({ components: [Button0, Button1] });

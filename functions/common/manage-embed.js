@@ -84,7 +84,7 @@ function reactionButtons() {
     { customId: 'reaction-btn:color', label: '🎨Color', style: ButtonStyle.Secondary },
     { customId: 'reaction-btn:add', label: '➕Add Role', style: ButtonStyle.Primary },
     { customId: 'reaction-btn:finish', label: '✅Finish', style: ButtonStyle.Success },
-    { customId: 'reaction-btn:cancel', label: '❌Cancel', style: ButtonStyle.Danger },
+    // { customId: 'reaction-btn:cancel', label: '❌Cancel', style: ButtonStyle.Danger },
   ];
   return new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button));
 }

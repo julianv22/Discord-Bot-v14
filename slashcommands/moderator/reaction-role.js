@@ -25,8 +25,8 @@ module.exports = {
         `Vui lòng tạo role trước khi thêm reaction role!\n\n\`🎨Color\`: Đặt màu sắc cho embed\n\n\`🟢Add Role\`: Thêm role vào reaction role`,
       )
       .setTimestamp()
-      .setFooter({ text: 'Select the reaction role ⤵️' });
+      .setFooter({ text: 'Select your role ⤵️' });
 
-    await interaction.reply({ embeds: [reactionEmbed], components: [reactionButtons()] });
+    await interaction.reply({ embeds: [reactionEmbed], components: [reactionButtons()], flags: 64 });
   },
 };

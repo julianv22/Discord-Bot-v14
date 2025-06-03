@@ -41,9 +41,7 @@ module.exports = (client) => {
         { id: statistics?.botChannel, name: `${botRole}: ${botCount}` },
       ];
 
-      statsChannels.forEach((channel) => {
-        setChannelName(channel.id, channel.name);
-      });
+      statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));
       /**
        * Get the number of members with the given status
        * @param {String} stats - Member status
@@ -55,9 +53,7 @@ module.exports = (client) => {
 
       const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];
       let i = 0;
-      ['online', 'idle', 'dnd', 'offline'].forEach((stats) => {
-        status.push(`${icon[i++]} ${getPressence(stats)}`);
-      });
+      ['online', 'idle', 'dnd', 'offline'].forEach((stats) => status.push(`${icon[i++]} ${getPressence(stats)}`));
 
       setChannelName(statistics?.presenceChannel, status.join(' '));
       // End Server Stats
