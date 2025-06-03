@@ -14,8 +14,6 @@ module.exports = {
     const { customId, guild, channel, message, user } = interaction;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
-    // const msg = message;
-    // const reactionButton = ActionRowBuilder.from(message.components[0]);
 
     const Reaction = {
       title: async () => await interaction.showModal(reactionModal('Enter the reaction role title')),
@@ -81,21 +79,24 @@ module.exports = {
       },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
-        console.log('🚀 ~ finish: ~ emojiArray:', emojiArray);
+
         if (emojiArray.length <= 0)
           return interaction.reply(errorEmbed({ description: 'Thêm ít nhất một role!', emoji: false }));
 
         const msg = await channel.send({ embeds: [reactionEmbed] });
+
         await interaction.update({
-          content: `Done! Reaction role đã được thêm ở bên dưới [Jump Link](${msg.url})`,
-          embeds: [],
+          ...errorEmbed({
+            description: `Reaction role đã được tạo: [Jump Link](${msg.url})`,
+            emoji: true,
+          }),
           components: [],
         });
+
         await emojiArray.forEach((e) => msg.react(e));
 
         reactionMap.delete(message.id);
       },
-      cancel: async () => {},
     };
 
     if (typeof Reaction[buttonId] === 'function') await Reaction[buttonId](interaction);
