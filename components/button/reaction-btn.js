@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputStyle, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { ModalBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
 const { setTextInput } = require('../../functions/common/manage-embed');
 const reactionMap = new Map();
 
@@ -58,15 +58,17 @@ module.exports = {
             );
 
           let emojiReact = emojiInput;
-
-          const customEmojiMatch = emojiInput.match(/<(a)?:(\w+):(\d+)>/);
-          if (customEmojiMatch) {
-            emojiReact = customEmojiMatch[3];
+          const emojiMatch = emojiInput.match(/<(a)?:(\w+):(\d+)>/);
+          if (emojiMatch) {
+            emojiReact = `<${emojiMatch[1] ? 'a' : ''}:${emojiMatch[2]}:${emojiMatch[3]}>`;
           }
-          emojiArray.push(emojiReact);
+
           let desc = reactionEmbed.data.description;
           if (desc.includes('🎨Color')) desc = '';
-          desc = desc + `\n${emojiReact} | ${role}`;
+          desc = desc + `\n${emojiReact} ${role}`;
+
+          emojiArray.push(emojiReact);
+
           reactionEmbed.setDescription(desc);
 
           await interaction.editReply({ content: '', embeds: [reactionEmbed] });
@@ -79,12 +81,17 @@ module.exports = {
       },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
+        console.log('🚀 ~ finish: ~ emojiArray:', emojiArray);
         if (emojiArray.length <= 0)
           return interaction.reply(errorEmbed({ description: 'Thêm ít nhất một role!', emoji: false }));
 
-        await interaction.update({ content: 'Done!', embeds: [], components: [] });
         const msg = await channel.send({ embeds: [reactionEmbed] });
-        emojiArray.forEach((e) => msg.react(e));
+        await interaction.update({
+          content: `Done! Reaction role đã được thêm ở bên dưới [Jump Link](${msg.url})`,
+          embeds: [],
+          components: [],
+        });
+        await emojiArray.forEach((e) => msg.react(e));
 
         reactionMap.delete(message.id);
       },
