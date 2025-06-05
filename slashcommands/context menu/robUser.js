@@ -22,8 +22,8 @@ module.exports = {
       );
 
     let [profile, targetProfile] = await Promise.all([
-      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
-      economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(() => {}),
+      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
+      economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
     ]);
 
     if (!profile || !targetProfile)
@@ -79,8 +79,8 @@ module.exports = {
       ).toLocaleString()}**\\💲!`;
     }
     profile.lastRob = new Date();
-    await profile.save().catch(() => {});
-    await targetProfile.save().catch(() => {});
+    await profile.save().catch(console.error);
+    await targetProfile.save().catch(console.error);
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

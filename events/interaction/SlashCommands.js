@@ -42,9 +42,11 @@ module.exports = {
       if (interaction.replied || interaction.deferred) {
         await interaction
           .followUp(errorEmbed({ title: `\\❌ ${error}`, description: e, color: 'Red' }))
-          .catch(() => {});
+          .catch(console.error);
       } else {
-        await interaction.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: 'Red' })).catch(() => {});
+        await interaction
+          .reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: 'Red' }))
+          .catch(console.error);
       }
       console.error(chalk.red(error), e);
     }

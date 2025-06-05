@@ -40,7 +40,7 @@ module.exports = {
         );
       }
 
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       const { youtube } = profile;
       if (!profile) {
         if (action === 'remove')
@@ -52,7 +52,7 @@ module.exports = {
             prefix: cfg.prefix,
             youtube: { channels: [yt_channel] },
           })
-          .catch(() => {});
+          .catch(console.error);
       } else {
         let changed = false;
         if (!Array.isArray(youtube.channels)) youtube.channels = [];
@@ -68,7 +68,7 @@ module.exports = {
             changed = true;
           }
         }
-        if (changed) await profile.save().catch(() => {});
+        if (changed) await profile.save().catch(console.error);
       }
       return await interaction.reply(
         errorEmbed({

@@ -33,7 +33,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { guild, user, guildId } = interaction;
     try {
-      let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
       const { youtube } = profile;
       if (!profile || youtube.channels.length == 0)
         return await interaction.reply(errorEmbed({ description: 'Danh sách kênh Youtube trống!', emoji: false }));

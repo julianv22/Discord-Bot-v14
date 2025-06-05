@@ -21,22 +21,22 @@ module.exports = {
     if (!target)
       return message
         .reply(errorEmbed({ description: 'Phải @ đến nạn nhân để hack 🤣!', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
+        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
 
     if (target.id === author.id)
       return message
         .reply(errorEmbed({ description: 'Ngu dốt! Không thể hack chính mình 😅!', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
+        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
 
     if (target.id === guild.ownerId)
       return message
         .reply(errorEmbed({ description: 'Không động được vào thằng này đâu nhá! 🎭', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
+        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
 
     if (target.id === cfg.clientID)
       return message
         .reply(errorEmbed({ description: 'Are you sure 🤔', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(() => {}), 10000));
+        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
 
     let username = target.displayName || target.user?.tag || target.id;
     const text = [
@@ -70,22 +70,22 @@ module.exports = {
     const randomProcess3 = Math.floor(Math.random() * process3.length);
     const msg = await message.reply(text[randomText]);
     setTimeout(() => {
-      msg.edit(process1[randomProcess1]).catch(() => {});
+      msg.edit(process1[randomProcess1]).catch(console.error);
     }, 1500);
     setTimeout(() => {
-      msg.edit(process2[randomProcess2]).catch(() => {});
+      msg.edit(process2[randomProcess2]).catch(console.error);
     }, 2500);
     setTimeout(() => {
-      msg.edit(process3[randomProcess3]).catch(() => {});
+      msg.edit(process3[randomProcess3]).catch(console.error);
     }, 3500);
     setTimeout(() => {
-      msg.edit(processEnd).catch(() => {});
+      msg.edit(processEnd).catch(console.error);
     }, 4500);
     setTimeout(() => {
-      msg.edit(endText).catch(() => {});
+      msg.edit(endText).catch(console.error);
     }, 5500);
     setTimeout(() => {
-      msg.edit(result).catch(() => {});
+      msg.edit(result).catch(console.error);
     }, 6000);
   },
 };

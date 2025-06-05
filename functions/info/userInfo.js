@@ -86,15 +86,13 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
+      const embed = errorEmbed({ title: `\\❌ Error while executing function userInfo`, description: e, color: 'Red' });
+
       if (interaction && typeof interaction.reply === 'function') {
-        await interaction.reply(
-          errorEmbed({ title: `\\❌ Error while executing function userInfo`, description: e, color: 'Red' }),
-        );
-      } else if (message && typeof message.reply === 'function') {
-        message.reply(
-          errorEmbed({ title: `\\❌ Error while executing function userInfo`, description: e, color: 'Red' }),
-        );
-      }
+        if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);
+        else interaction.reply(embed).catch(console.error);
+      } else if (message && typeof message.reply === 'function') message.reply(embed).catch(console.error);
+
       console.error(chalk.red('Error while executing function userInfo'), e);
     }
   };

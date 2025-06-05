@@ -14,7 +14,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { user, guild } = interaction;
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     if (!profile) {
       return await interaction.reply(
         errorEmbed({

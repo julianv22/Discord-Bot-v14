@@ -39,7 +39,7 @@ module.exports = {
     const serverProfile = require(`../../config/${choice}`);
     if (user.id !== cfg.ownerID || user.id !== owner.id)
       return await interaction.reply(errorEmbed({ description: '\\⭕wner permission only', emoji: false }));
-    let profile = await serverProfile.find({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
     if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
     /**
      * Send a message

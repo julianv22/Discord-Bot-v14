@@ -35,15 +35,15 @@ module.exports = {
                   name: `Slash Commands\nCommands: [${slashCommands.size - contextMenus.length}] --- Categories: [${
                     slashFolders.length
                   }]`,
-                  value: `\`\`\`fix\n${slashFolders.join(' | ')}\`\`\``,
+                  value: `\`\`\`ansi\n\u001b[36m${slashFolders.join(' | ')}\u001b[0m\`\`\``,
                 },
                 {
                   name: `Sub Commands\nCommands: [${subCommands.size}] --- Categories: [${subFolders.length}]`,
-                  value: `\`\`\`fix\n${subFolders.join(' | ')}\`\`\``,
+                  value: `\`\`\`ansi\n\u001b[36m${subFolders.join(' | ')}\u001b[0m\`\`\``,
                 },
                 {
                   name: `Context Menus [**${contextMenus.length}**]`,
-                  value: `\`\`\`fix\n${contextMenus.join(' | ')}\`\`\``,
+                  value: `\`\`\`ansi\n\u001b[36m${contextMenus.join(' | ')}\u001b[0m\`\`\``,
                 },
                 { name: `\u200b`, value: `Select Slash Command Category \\⤵️` },
               ])

@@ -17,13 +17,15 @@ module.exports = {
     const number = options.getInteger('starnum');
 
     try {
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile)
-        await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+        await serverProfile
+          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+          .catch(console.error);
       const { starboard } = profile.setup;
       starboard.channel = channel.id;
       starboard.star = number;
-      await profile.save().catch(() => {});
+      await profile.save().catch(console.error);
       return await interaction.reply(
         errorEmbed({
           description: `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`,

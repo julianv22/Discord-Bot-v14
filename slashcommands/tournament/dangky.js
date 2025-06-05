@@ -16,7 +16,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, user, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     let register;
     if (!profile || !profile?.tournament?.status) register = false;
     else register = profile.tournament.status;
@@ -36,7 +36,7 @@ module.exports = {
             guildID: guild.id,
             userID: user.id,
           })
-          .catch(() => {});
+          .catch(console.error);
         if (!tourProfile) {
           await tournamentProfile
             .create({
@@ -48,7 +48,7 @@ module.exports = {
               decklist: 'none',
               status: true,
             })
-            .catch(() => {});
+            .catch(console.error);
         } else {
           await tournamentProfile
             .findOneAndUpdate(
@@ -61,7 +61,7 @@ module.exports = {
                 status: true,
               },
             )
-            .catch(() => {});
+            .catch(console.error);
         }
 
         await interaction.reply(

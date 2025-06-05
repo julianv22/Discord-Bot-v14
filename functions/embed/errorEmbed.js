@@ -11,20 +11,21 @@ module.exports = (client) => {
    * @param {boolean} emoji - Whether to use an emoji prefix
    * @param {boolean} flags - Whether to use flags
    */
-  client.errorEmbed = ({ title, description, error, color = 'Random', emoji = '', flags = true }) => {
+  client.errorEmbed = ({ title, description, color = 'Random', emoji = '', flags = true }) => {
     const embed = new EmbedBuilder();
     if (title) embed.setTitle(title);
     let prefix = '';
 
     if (typeof emoji === 'boolean') {
-      prefix = emoji ? `\\✅ ` : `\\❌ `;
+      prefix = emoji ? `\\✅` : `\\❌`;
       embed.setColor(emoji ? 'Green' : 'Red');
     } else {
       prefix = emoji;
       embed.setColor(color);
     }
 
-    const desc = prefix + description + (error ? `\`\`\`fix\n${error}\`\`\`` : '');
+    let desc = title ? `\`\`\`ansi\n\u001b[33m${description}\u001b[0m\`\`\`` : `${prefix} ${description}`;
+
     embed.setDescription(desc);
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };

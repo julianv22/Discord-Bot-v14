@@ -14,7 +14,7 @@ module.exports = {
     const { errorEmbed, channels } = client;
     const { guild, user, guildId } = interaction;
     try {
-      let profile = await serverProfile.findOne({ guildID: guildId }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
 
       if (!profile)
         return await interaction.reply(errorEmbed({ description: 'Hiện chưa có setup nào cho server', emoji: false }));

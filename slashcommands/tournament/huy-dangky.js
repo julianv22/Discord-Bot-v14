@@ -24,7 +24,7 @@ module.exports = {
         errorEmbed({ description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: `[\\❗] ` }),
       );
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     let register = !profile || !profile?.tournament?.status ? false : profile.tournament.status;
 
     try {
@@ -42,7 +42,7 @@ module.exports = {
           guildID: guild.id,
           userID: user.id,
         })
-        .catch(() => {});
+        .catch(console.error);
 
       if (!tourProfile || !tourProfile?.status)
         return await interaction.reply(errorEmbed({ description: `${user} chưa đăng ký giải đấu!`, emoji: false }));
@@ -56,7 +56,7 @@ module.exports = {
       // Set Tournament's Status
       await tournamentProfile
         .findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false })
-        .catch(() => {});
+        .catch(console.error);
 
       // Remove Role
       const bot = guild.members.me || (await guild.members.fetch(client.user.id));

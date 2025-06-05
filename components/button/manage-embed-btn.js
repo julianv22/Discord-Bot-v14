@@ -6,6 +6,7 @@ const {
   ButtonStyle,
   TextInputStyle,
   ModalBuilder,
+  Colors,
 } = require('discord.js');
 const { setTextInput } = require('../../functions/common/manage-embed');
 module.exports = {
@@ -48,20 +49,19 @@ module.exports = {
             placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
           }),
         );
-        return await interaction.showModal(modal);
+        await interaction.showModal(modal);
       },
-      title: async () => {
-        return await interaction.showModal(
+      title: async () =>
+        await interaction.showModal(
           createModal({
             id: 'title',
             label: 'Embed Title',
             placeholder: '{guild} = Server name, {user} = Username',
             required: true,
           }),
-        );
-      },
-      description: async () => {
-        return await interaction.showModal(
+        ),
+      description: async () =>
+        await interaction.showModal(
           createModal({
             id: 'description',
             label: 'Description',
@@ -69,36 +69,32 @@ module.exports = {
             style: TextInputStyle.Paragraph,
             required: true,
           }),
-        );
-      },
-      color: async () => {
-        return await interaction.showModal(
+        ),
+      color: async () =>
+        await interaction.showModal(
           createModal({
             id: 'color',
             label: 'Color (Empty = Random)',
-            placeholder: 'Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...',
+            placeholder: Object.keys(Colors).join(',').slice(14, 114),
             required: true,
           }),
-        );
-      },
-      image: async () => {
-        return await interaction.showModal(
+        ),
+      image: async () =>
+        await interaction.showModal(
           createModal({
             id: 'image',
             label: 'Image (Empty = Delete)',
             placeholder: 'Enter the image url, Empty = Delete',
           }),
-        );
-      },
-      thumbnail: async () => {
-        return await interaction.showModal(
+        ),
+      thumbnail: async () =>
+        await interaction.showModal(
           createModal({
             id: 'thumbnail',
             label: 'Thumbnail (Empty = Delete)',
             placeholder: 'Enter the thumbnail url, Empty = Delete',
           }),
-        );
-      },
+        ),
       footer: async () => {
         const modal = createModal({
           id: 'footer',
@@ -112,7 +108,7 @@ module.exports = {
             placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
           }),
         );
-        return await interaction.showModal(modal);
+        await interaction.showModal(modal);
       },
       timestamp: async () => {
         if (Button1.components[2].data.style === ButtonStyle.Danger) {
@@ -122,7 +118,7 @@ module.exports = {
           getEmbeds.setTimestamp();
           Button1.components[2].setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
         }
-        return await interaction.update({
+        await interaction.update({
           embeds: [getEmbeds],
           components: [Button0, Button1],
           flags: 64,
@@ -142,7 +138,7 @@ module.exports = {
                 errorEmbed({ description: 'Không tìm thấy message hoặc không ở channel này.', emoji: false }),
               );
 
-            await msg.edit({ embeds: [getEmbeds] }).catch(() => {});
+            await msg.edit({ embeds: [getEmbeds] }).catch(console.error);
             await interaction.update({
               embeds: [
                 new EmbedBuilder()

@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
+const { ModalBuilder, TextInputStyle, EmbedBuilder, Colors } = require('discord.js');
 const { setTextInput } = require('../../functions/common/manage-embed');
 const reactionMap = new Map();
 
@@ -17,14 +17,13 @@ module.exports = {
 
     const Reaction = {
       title: async () => await interaction.showModal(reactionModal('Enter the reaction role title')),
-      color: async () =>
-        await interaction.showModal(reactionModal('Red, Blue, Green, Yellow, Gold, Orange, Aqua, Purple, ...')),
+      color: async () => await interaction.showModal(reactionModal(Object.keys(Colors).join(',').slice(14, 114))),
       add: async () => {
         if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
         const emojiArray = reactionMap.get(message.id);
 
         await interaction.update({
-          content: `Vui lòng nhập **emoji và tên role** theo định dạng \`emoji | @tên_role\` (ví dụ: \`👍 | @Thành viên\` hoặc \`:custom_emoji: | @TênRole\`).\nBạn có 5 phút để nhập. Để kết thúc nhập \`Done\``,
+          content: `Vui lòng nhập **emoji và tên role** theo định dạng \`emoji | @tên_role\` (ví dụ: \`👍 | @Tên_Role\` hoặc \`:custom_emoji: | @Tên_Role\`).\nBạn có 5 phút để nhập. Để kết thúc nhập \`Done\``,
         });
 
         const filter = (m) => m.author.id === user.id && m.channel.id === channel.id;
@@ -65,7 +64,7 @@ module.exports = {
           if (desc.includes('🎨Color')) desc = '';
           desc = desc + `\n${emojiReact} ${role}`;
 
-          emojiArray.push(emojiReact);
+          emojiArray.push({ emoji: emojiReact, role: role.id });
 
           reactionEmbed.setDescription(desc);
 
@@ -93,7 +92,8 @@ module.exports = {
           components: [],
         });
 
-        await emojiArray.forEach((e) => msg.react(e));
+        await emojiArray.forEach((e) => msg.react(e.emoji));
+        console.log('🚀 ~ finish: ~ emojiArray:', emojiArray);
 
         reactionMap.delete(message.id);
       },

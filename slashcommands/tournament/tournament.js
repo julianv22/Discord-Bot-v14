@@ -38,9 +38,9 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
-      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
 
     const getRole = options.getRole('ten-giai');
     const tourCommand = options.getSubcommand();
@@ -66,7 +66,7 @@ module.exports = {
 
         await serverProfile
           .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: true, id: getRole.id, name: getRole.name } })
-          .catch(() => {});
+          .catch(console.error);
 
         await interaction.reply(
           errorEmbed({
@@ -92,7 +92,7 @@ module.exports = {
 
         await serverProfile
           .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false, id: null, name: null } })
-          .catch(() => {});
+          .catch(console.error);
 
         await interaction.reply(
           errorEmbed({
@@ -113,7 +113,7 @@ module.exports = {
             guildID: guild.id,
             status: true,
           })
-          .catch(() => {});
+          .catch(console.error);
 
         if (!memberList || memberList.length === 0)
           return await interaction.reply(
@@ -166,7 +166,7 @@ module.exports = {
       },
       'close-all': async () => {
         const verified = options.getBoolean('confirm');
-        const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(() => {});
+        const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(console.error);
 
         if (!verified)
           return await interaction.reply(
@@ -187,10 +187,12 @@ module.exports = {
 
         tourList.forEach(async (tour) => {
           tour.status = false;
-          await tour.save().catch(() => {});
+          await tour.save().catch(console.error);
         });
 
-        await serverProfile.findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false } }).catch(() => {});
+        await serverProfile
+          .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false } })
+          .catch(console.error);
         await interaction.reply(
           errorEmbed({
             description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',

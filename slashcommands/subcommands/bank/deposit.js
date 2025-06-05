@@ -17,7 +17,7 @@ module.exports = {
     const amount = interaction.options.getInteger('amount');
     if (amount <= 0)
       return await interaction.reply(errorEmbed({ description: `Số \\💲 gửi phải lớn hơn 0!`, emoji: false }));
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
 
     if (!profile)
       return await interaction.reply(
@@ -36,7 +36,7 @@ module.exports = {
 
     profile.balance -= amount;
     profile.bank += amount;
-    await profile.save().catch(() => {});
+    await profile.save().catch(console.error);
 
     return await interaction.reply({
       embeds: [

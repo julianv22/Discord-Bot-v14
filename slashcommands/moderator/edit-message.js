@@ -19,7 +19,7 @@ module.exports = {
     const { guild, user, options } = interaction;
     const msgid = options.getString('message-id');
     const content = options.getString('content');
-    let msgEdit = await interaction.channel.messages.fetch(msgid).catch(() => undefined);
+    let msgEdit = await interaction.channel.messages.fetch(msgid).catch(console.error);
 
     try {
       if (msgEdit === undefined)

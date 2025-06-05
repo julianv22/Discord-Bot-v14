@@ -18,7 +18,7 @@ module.exports = {
       .find({ guildID: guild.id })
       .sort({ thanksCount: -1 })
       .limit(10)
-      .catch(() => {});
+      .catch(console.error);
 
     if (!results)
       return await interaction.reply(

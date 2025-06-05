@@ -1,4 +1,11 @@
-const { ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle, ComponentType } = require('discord.js');
+const {
+  ButtonStyle,
+  ActionRowBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ComponentType,
+  Colors,
+} = require('discord.js');
 const { setRowComponent } = require('./components');
 /**
  * Get embed color
@@ -6,49 +13,15 @@ const { setRowComponent } = require('./components');
  * @returns {string} - Return valid color name. If invalid, return 'Random'
  */
 function getEmbedColor(color) {
-  const embedColors = [
-    'Red',
-    'Blue',
-    'Green',
-    'Yellow',
-    'LuminousVividPink',
-    'Fuchsia',
-    'Gold',
-    'Orange',
-    'Purple',
-    'DarkAqua',
-    'DarkGreen',
-    'DarkBlue',
-    'DarkPurple',
-    'DarkVividPink',
-    'DarkGold',
-    'DarkOrange',
-    'DarkRed',
-    'DarkGrey',
-    'Navy',
-    'Aqua',
-    'Blurple',
-    'Greyple',
-    'DarkButNotBlack',
-    'NotQuiteBlack',
-    'White',
-    'Default',
-  ];
-  /**
-   * Normalize a string
-   * @param {string} input - Input string
-   * @returns {string} - Normalized string
-   */
-  function normalized(input) {
-    // Remove all spaces and convert to lowercase
-    return input.toLowerCase().replace(/\s/g, '');
-  }
+  // Nomarlize color input
+  const normalizedColor = color.toLowerCase().replace(/\s/g, '');
+
   // Check valid color name
-  for (const colorName of embedColors) {
-    if (normalized(colorName) === normalized(color)) return colorName;
+  for (const colorName of Object.keys(Colors)) {
+    if (colorName.toLowerCase() === normalizedColor) return colorName;
   }
-  // Return Random if invalid
-  return 'Random';
+
+  return 'Random'; // Return Random if invalid
 }
 /**
  * Create embed buttons

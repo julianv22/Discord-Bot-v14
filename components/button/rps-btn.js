@@ -14,7 +14,7 @@ module.exports = {
     const [, button, betStr] = customId.split(':');
     const bet = parseInt(betStr, 10);
     const userMove = parseInt(button, 10);
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy
     if (!profile)
       return await interaction.update(errorEmbed({ description: 'Bạn chưa có tài khoản Economy!', emoji: false }));
@@ -91,7 +91,7 @@ module.exports = {
           },
         ]);
       // Cập nhật tài khoản
-      await profile.save().catch(() => {});
+      await profile.save().catch(console.error);
       // Trả về kết quả
       return await interaction.update({ embeds: [embed] });
     } catch (e) {

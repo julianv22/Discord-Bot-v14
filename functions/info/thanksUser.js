@@ -55,26 +55,24 @@ module.exports = (client) => {
             }, 10000);
         });
 
-      const thanks = await serverThanks.findOne({
-        guildID: guild.id,
-        userID: user.id,
-      });
-      let thanksCount = 1;
+      const thanks = await serverThanks.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+      let count = 1;
       if (!thanks) {
-        let createOne = await serverThanks.create({
-          guildID: guild.id,
-          guildName: guild.name,
-          userID: user.id,
-          usertag: user.tag,
-          thanksCount: 1,
-          lastThanks: Date.now(),
-        });
-        thanksCount = 1;
+        await thanks
+          .create({
+            guildID: guild.id,
+            guildName: guild.name,
+            userID: user.id,
+            usertag: user.tag,
+            thanksCount: count,
+            lastThanks: Date.now(),
+          })
+          .catch(console.error);
       } else {
-        thanksCount = thanks.thanksCount + 1;
+        count = thanks.thanksCount + 1;
       }
 
-      const lastThanks = moment((thanks && thanks.lastThanks) || Date.now())
+      const lastThanks = moment(thanks.lastThanks || Date.now())
         .tz('Asia/Ho_Chi_Minh')
         .format('HH:mm ddd, Do MMMM YYYY');
 
@@ -88,7 +86,7 @@ module.exports = (client) => {
         .setColor('Random')
         .addFields([
           {
-            name: `Thanks count: [${thanksCount}]`,
+            name: `Thanks count: [${count}]`,
             value: `\u200b`,
             inline: true,
           },
@@ -104,27 +102,19 @@ module.exports = (client) => {
       msg.reply({ embeds: [embed] });
 
       // Update thanksCount
-      await serverThanks
-        .findOneAndUpdate(
-          { guildID: guild.id, userID: user.id },
-          {
-            guildName: guild.name,
-            usertag: user.tag,
-            thanksCount: thanksCount,
-            lastThanks: Date.now(),
-          },
-        )
-        .catch(() => {});
+      thanks.guildName = guild.name;
+      thanks.usertag = user.tag;
+      thanks.thanksCount = count;
+      thanks.lastThanks = Date.now();
+      thanks.save().catch(console.error);
     } catch (e) {
+      const embed = errorEmbed({ title: '❌ Error while executing function thanksUser', description: e, color: 'Red' });
+
       if (interaction && typeof interaction.reply === 'function') {
-        interaction.reply(
-          errorEmbed({ title: '❌ Error while executing function thanksUser', description: `${e}`, color: 'Red' }),
-        );
-      } else if (message && typeof message.reply === 'function') {
-        message.reply(
-          errorEmbed({ title: '❌ Error while executing function thanksUser', description: `${e}`, color: 'Red' }),
-        );
-      }
+        if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);
+        else interaction.reply(embed).catch(console.error);
+      } else if (message && typeof message.reply === 'function') message.reply(embed).catch(console.error);
+
       console.error(chalk.red('Error while executing function thanksUser'), e);
     }
   };

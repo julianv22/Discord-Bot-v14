@@ -1,4 +1,4 @@
-const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 module.exports = {
   category: 'moderator',
@@ -23,8 +23,9 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
     const [row1, row2] = embedButtons();
-    let guildeContent = `Danh sách màu sắc: \`\`\`'Red', 'Blue', 'Green', 'Yellow', 'LuminousVividPink', 'Fuchsia', 'Gold', 'Orange', 'Purple', 'DarkAqua', 'DarkGreen', 'DarkBlue', 'DarkPurple', 'DarkVividPink', 'DarkGold', 'DarkOrange', 'DarkRed', 'DarkGrey', 'Navy', 'Aqua', 'Blurple', 'Greyple', 'DarkButNotBlack', 'NotQuiteBlack', 'White', 'Default', 'Random'\`\`\`\n`;
+    let guildeContent = `Danh sách màu sắc: \`\`\`fix\n${Object.keys(Colors).join(', ')}\`\`\`\n`;
     guildeContent += `Các biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.    |    \`{guild}\`: tên guild`;
+    console.log('🚀 ~ execute ~ Colors:', Colors);
     await interaction.reply({
       content: guildeContent,
       embeds: [createEmbed],

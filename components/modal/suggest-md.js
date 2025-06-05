@@ -10,7 +10,7 @@ module.exports = {
   async execute(interaction, client) {
     const { errorEmbed } = client;
     const { guild, user } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile || !profile?.setup?.suggest)
       return await interaction.reply(
         errorEmbed({
@@ -46,9 +46,6 @@ module.exports = {
           emoji: true,
         }),
       )
-      .then(() => {
-        msg.react('👍');
-        msg.react('👎');
-      });
+      .then(() => ['👍', '👎'].forEach((e) => msg.react(e)));
   },
 };

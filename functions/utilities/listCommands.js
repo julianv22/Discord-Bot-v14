@@ -19,7 +19,9 @@ module.exports = (client) => {
         count += cmd.length;
         commands.push({
           name: `📂 ${category.toUpperCase()} [${cmd.length}]`,
-          value: `\`\`\`fix\n${cmd.map((cmd) => (cmd.data ? cmd.data.name : cmd.name)).join(' | ')}\`\`\``,
+          value: `\`\`\`ansi\n\u001b[36m${cmd
+            .map((cmd) => (cmd.data ? cmd.data.name : cmd.name))
+            .join(' | ')}\u001b[0m\`\`\``,
         });
       });
 

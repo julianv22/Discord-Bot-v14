@@ -16,15 +16,15 @@ module.exports = {
     const welcomeChannel = channels.get(options.getChannel('welcome').id);
     const logChannel = channels.get(options.getChannel('log').id);
     const welcomeMsg = options.getString('message');
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
-      serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+      serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
     try {
       const { welcome } = profile.setup;
       welcome.channel = welcomeChannel.id;
       welcome.log = logChannel.id;
       welcome.message = welcomeMsg;
-      await profile.save().catch(() => {});
+      await profile.save().catch(console.error);
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

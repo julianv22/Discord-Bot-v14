@@ -14,7 +14,7 @@ module.exports = {
     const { errorEmbed } = client;
     const { user, guild, guildId } = interaction;
 
-    let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
+    let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({
@@ -46,7 +46,7 @@ module.exports = {
     profile.lastJob = now;
     profile.lastRob = now;
     profile.lastWork = jobName;
-    await profile.save().catch(() => {});
+    await profile.save().catch(console.error);
 
     // Hiển thị thời gian làm việc
     const workTimeStr =
@@ -80,12 +80,12 @@ module.exports = {
       } catch (e) {
         console.error(chalk.red('Cannot send DM to user', e));
       }
-      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(() => {});
+      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
       if (p) {
         p.balance += reward;
         p.totalEarned += reward;
         p.lastRob = null;
-        await p.save().catch(() => {});
+        await p.save().catch(console.error);
       }
     }, workMinutes * 60 * 1000);
 

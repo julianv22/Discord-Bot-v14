@@ -112,15 +112,13 @@ module.exports = (client) => {
         components: [infoButtons()],
       });
     } catch (e) {
-      if (interaction && typeof interaction.reply === 'function') {
-        await interaction.reply(
-          errorEmbed({ title: `\\❌ Error while executing function botInfo`, description: e, color: 'Red' }),
-        );
-      } else if (message && typeof message.reply === 'function') {
-        message.reply(
-          errorEmbed({ title: `\\❌ Error while executing function botInfo`, description: e, color: 'Red' }),
-        );
-      }
+      const embed = errorEmbed({ title: `\\❌ Error while executing function botInfo`, description: e, color: 'Red' });
+
+      if (interaction) {
+        if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);
+        else await interaction.reply(embed).catch(console.error);
+      } else if (message && typeof message.reply === 'function') message.reply(embed).catch(console.error);
+
       console.error(chalk.red('Error while executing function botInfo'), e);
     }
   };

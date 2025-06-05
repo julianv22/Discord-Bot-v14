@@ -18,8 +18,8 @@ module.exports = {
 
     // Lấy profile của người chuyển và người nhận
     const [profile, targetProfile] = await Promise.all([
-      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {}),
-      economyProfile.findOne({ guildID: guild.id, userID: targetId }).catch(() => {}),
+      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
+      economyProfile.findOne({ guildID: guild.id, userID: targetId }).catch(console.error),
     ]);
 
     // Kiểm tra lại dữ liệu
@@ -39,8 +39,8 @@ module.exports = {
     profile.bank -= total;
     targetProfile.bank += amount;
 
-    await profile.save().catch(() => {});
-    await targetProfile.save().catch(() => {});
+    await profile.save().catch(console.error);
+    await targetProfile.save().catch(console.error);
 
     // Tạo embed thông báo cho người chuyển
     const embedSender = new EmbedBuilder()

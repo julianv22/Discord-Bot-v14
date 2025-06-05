@@ -1,12 +1,12 @@
-const { PermissionFlagsBits, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { PermissionFlagsBits, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const { reactionButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {
   category: 'moderator',
   scooldown: 0,
-  permissions: PermissionFlagsBits.ManageMessages,
+  permissions: PermissionFlagsBits.ManageRoles,
   data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
     .setName('reaction-role')
     .setDescription(`Create reaction role. ${cfg.modRole} only`),
   /**
@@ -22,7 +22,9 @@ module.exports = {
       .setColor('Random')
       .setTitle(`\`💬Title\`: Đặt tiêu đề cho reaction role`)
       .setDescription(
-        `Vui lòng tạo role trước khi thêm reaction role!\n\n\`🎨Color\`: Đặt màu sắc cho embed\n\n\`🟢Add Role\`: Thêm role vào reaction role`,
+        `Vui lòng tạo role trước khi thêm reaction role!\n\n\`🎨Color\`: Đặt màu sắc cho embed\n\`\`\`fix\n${Object.keys(
+          Colors,
+        ).join(', ')}\`\`\`\n\`🟢Add Role\`: Thêm role vào reaction role`,
       )
       .setTimestamp()
       .setFooter({ text: 'Select your role ⤵️' });

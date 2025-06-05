@@ -16,15 +16,15 @@ module.exports = {
     const channel = options.getChannel('schannel');
     const sgtChannel = channels.cache.get(channel.id);
     try {
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile)
         await serverProfile
           .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, setup: { suggest: sgtChannel } })
-          .catch(() => {});
+          .catch(console.error);
 
       await serverProfile
         .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, setup: { suggest: sgtChannel } })
-        .catch(() => {});
+        .catch(console.error);
 
       return await interaction.reply(
         errorEmbed({

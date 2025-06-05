@@ -17,7 +17,7 @@ module.exports = {
     } = interaction;
     const { errorEmbed } = client;
     const [, feature, confirm] = customId.split(':');
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
     const { starboard, suggest, youtube, welcome } = profile.setup;
     // Confirm Button & Cancel Button
@@ -63,7 +63,7 @@ module.exports = {
         },
       };
       if (typeof Disable[confirm] === 'function') await Disable[confirm]();
-      profile.save().catch(() => {});
+      profile.save().catch(console.error);
       return await interaction.update({
         embeds: [
           confirmEmbed(

@@ -27,9 +27,9 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(() => {});
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
-      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(() => {});
+      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
 
     try {
       const totalChannel = options.getChannel('total-count-channel');
@@ -54,7 +54,7 @@ module.exports = {
             },
           },
         )
-        .catch(() => {});
+        .catch(console.error);
 
       client.serverStats(client, guild.id);
 

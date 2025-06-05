@@ -53,9 +53,9 @@ module.exports = {
         });
     } catch (e) {
       console.error(chalk.red('Error while executing /github command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `Error while executing /github command`, description: e, color: 'Red' }),
-      );
+      return await interaction
+        .reply(errorEmbed({ title: `Error while executing /github command`, description: e, color: 'Red' }))
+        .catch(console.error);
     }
   },
 };

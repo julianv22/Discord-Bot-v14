@@ -39,10 +39,10 @@ module.exports = {
         message.channel.send({ embeds: [embed] });
       })
       .then(() => {
-        if (message.deletable) message.delete().catch(() => {});
+        if (message.deletable) message.delete().catch(console.error);
       })
       .catch((e) => {
-        message.channel.send('Đã xảy ra lỗi khi lấy quote!').catch(() => {});
+        message.channel.send('Đã xảy ra lỗi khi lấy quote!').catch(console.error);
         console.error(chalk.red('[quote.js] Error fetching quote:', e));
       });
   },

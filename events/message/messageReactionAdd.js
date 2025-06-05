@@ -16,7 +16,7 @@ module.exports = {
       if (!message.guildId) return;
 
       // Lấy cấu hình server
-      const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(() => {});
+      const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(console.error);
       const { starboard } = profile.setup;
       if (!profile || !starboard.channel || !starboard.star || starboard.star <= 0) return;
 
@@ -84,7 +84,7 @@ module.exports = {
 
         if (starboardData && starboardData.id) {
           // Đã có message trên starboard, luôn update số star và embed ngay lập tức
-          const sentMsg = await starboardChannel.messages.fetch(starboardData.id).catch(() => null);
+          const sentMsg = await starboardChannel.messages.fetch(starboardData.id).catch(console.error);
           if (sentMsg) {
             await sentMsg.edit({
               content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
@@ -93,7 +93,7 @@ module.exports = {
             });
             // Cập nhật lại thời gian cuối cùng update (không cần thiết cho cooldown, nhưng có thể lưu để log)
             starboard.messages[message.id].lastTime = now;
-            await profile.save().catch(() => {});
+            await profile.save().catch(console.error);
           } else {
             // Nếu không fetch được (bị xoá), cho phép gửi mới nếu qua cooldown
             if (!starboardData.lastTime || now - starboardData.lastTime >= 300000) {
@@ -103,7 +103,7 @@ module.exports = {
                 components: [jumpButton],
               });
               starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
-              await profile.save().catch(() => {});
+              await profile.save().catch(console.error);
             }
           }
         } else {
@@ -115,7 +115,7 @@ module.exports = {
               components: [jumpButton],
             });
             starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
-            await profile.save().catch(() => {});
+            await profile.save().catch(console.error);
           }
         }
       }

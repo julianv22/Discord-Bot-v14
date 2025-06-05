@@ -13,6 +13,7 @@ module.exports = {
     const ping = client.ws.ping;
     const delay = sent.createdTimestamp - interaction.createdTimestamp;
     let color = ping < 101 ? 'Green' : ping > 300 ? 'Red' : 'Orange';
+
     return await interaction.editReply(
       client.errorEmbed({ description: `**⏱ | Ping:** ${ping} / *${delay}ms*`, color: color }),
     );

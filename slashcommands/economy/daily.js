@@ -16,7 +16,7 @@ module.exports = {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(() => {});
+    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     if (!profile) {
       profile = await economyProfile
         .create({
@@ -35,7 +35,7 @@ module.exports = {
           totalSpent: 0,
           createdAt: new Date(),
         })
-        .catch(() => {});
+        .catch(console.error);
     }
 
     // Kiểm tra cooldown: chỉ cần qua 0h là nhận được
@@ -104,7 +104,7 @@ module.exports = {
     profile.maxStreak = maxStreak;
     profile.lastDaily = today;
 
-    await profile.save().catch(() => {});
+    await profile.save().catch(console.error);
 
     // Nếu bị reset streak và streak cũ > 7, gửi DM
     if (resetStreak) {
