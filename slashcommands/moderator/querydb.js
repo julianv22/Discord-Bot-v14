@@ -1,5 +1,6 @@
 const { readdirSync } = require('fs');
 const profiles = readdirSync('./config').filter((f) => f.endsWith('Profile.js'));
+
 const {
   SlashCommandBuilder,
   Client,
@@ -23,7 +24,8 @@ module.exports = {
         .setName('profile')
         .setDescription('Choose which profile type to query')
         .setRequired(true)
-        .addChoices(profiles.map((p) => ({ name: p.split('.')[0], value: p.split('.')[0] }))),
+        .addChoices(profiles.map((p) => ({ name: p.split('.')[0], value: p.split('.')[0] })))
+        .addChoices({ name: 'reactionRole', value: 'reactionRole' }),
     ),
   /**
    * Query database
@@ -37,8 +39,8 @@ module.exports = {
     const choice = options.getString('profile');
     const owner = await guild.fetchOwner();
     const serverProfile = require(`../../config/${choice}`);
-    if (user.id !== cfg.ownerID || user.id !== owner.id)
-      return await interaction.reply(errorEmbed({ description: '\\⭕wner permission only', emoji: false }));
+    if (user.id !== cfg.ownerID && user.id !== owner.id)
+      return await interaction.editReply(errorEmbed({ description: 'Owner permission only', emoji: false }));
     let profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
     if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
     /**

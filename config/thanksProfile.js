@@ -8,6 +8,4 @@ const thanksProfile = new mongoose.Schema({
   lastThanks: { type: Date },
 });
 
-thanksProfile.index({ guildID: 1, userID: 1 });
-
 module.exports = mongoose.model('thanksProfile', thanksProfile, `thanksProfile [${cfg.mongodb}] - ${cfg.clientID}`);

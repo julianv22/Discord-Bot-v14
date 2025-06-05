@@ -23,6 +23,4 @@ const economyProfile = new mongoose.Schema({
   rpsCount: { type: Number, default: 0 },
 });
 
-economyProfile.index({ guildID: 1, userID: 1 });
-
 module.exports = mongoose.model('economyProfile', economyProfile, `economyProfile [${cfg.mongodb}] - ${cfg.clientID}`);

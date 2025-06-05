@@ -9,8 +9,6 @@ const tournamentProfile = new mongoose.Schema({
   status: { type: Boolean },
 });
 
-tournamentProfile.index({ guildID: 1, userID: 1 });
-
 module.exports = mongoose.model(
   'tournamentProfile',
   tournamentProfile,

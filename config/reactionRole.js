@@ -16,6 +16,4 @@ const reactionRole = new mongoose.Schema({
   createAt: { type: Date, default: Date.now },
 });
 
-reactionRole.index({ guildID: 1, messageId: 1 });
-
 module.exports = mongoose.model('reactionRole', reactionRole, `reactionRole [${cfg.mongodb}] - ${cfg.clientID}`);
