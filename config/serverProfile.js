@@ -37,4 +37,6 @@ const serverProfile = new mongoose.Schema({
   },
 });
 
+serverProfile.index({ guildID: 1 });
+
 module.exports = mongoose.model('serverProfile', serverProfile, `serverProfile [${cfg.mongodb}] - ${cfg.clientID}`);

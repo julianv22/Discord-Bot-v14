@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const economyProfile = new mongoose.Schema({
   guildID: { type: String, required: true },
   guildName: { type: String },
-  userID: { type: String, required: true },
+  userID: { type: String, required: true, unique: true },
   usertag: { type: String },
   balance: { type: Number, default: 0 },
   bank: { type: Number, default: 0 },
@@ -22,5 +22,7 @@ const economyProfile = new mongoose.Schema({
   lastPlayRPS: { type: Date, default: null },
   rpsCount: { type: Number, default: 0 },
 });
+
+economyProfile.index({ guildID: 1, userID: 1 });
 
 module.exports = mongoose.model('economyProfile', economyProfile, `economyProfile [${cfg.mongodb}] - ${cfg.clientID}`);
