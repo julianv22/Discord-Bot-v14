@@ -26,12 +26,14 @@ module.exports = {
     if (!profile)
       return await interaction.update(errorEmbed({ description: 'Không kết nối được với database', emoji: false }));
     if (!targetProfile)
-      await economyProfile.create({
-        guildID: guild.id,
-        guildName: guild.name,
-        userID: targetId,
-        bank: 0,
-      });
+      await economyProfile
+        .create({
+          guildID: guild.id,
+          guildName: guild.name,
+          userID: targetId,
+          bank: 0,
+        })
+        .catch(console.error);
     if (amount > profile.bank)
       return await interaction.update(errorEmbed({ description: 'Bạn không có đủ \\💲 để chuyển', emoji: false }));
 

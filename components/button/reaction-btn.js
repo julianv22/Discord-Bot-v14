@@ -1,4 +1,5 @@
 const { ModalBuilder, TextInputStyle, EmbedBuilder, Colors } = require('discord.js');
+const reactionRole = require('../../config/reactionRole');
 const { setTextInput } = require('../../functions/common/manage-embed');
 const reactionMap = new Map();
 
@@ -41,30 +42,42 @@ module.exports = {
           if (!emojiInput || !roleInput)
             return await interaction.followUp({ content: `Nhập sai cú pháp \`emoji | @tên_role\``, flags: 64 });
 
-          let role = null;
-          const roleName = roleInput.startsWith('<@&') ? roleInput.substring(3, roleInput.length - 1) : roleInput;
-          role = guild.roles.cache.find((r) => r.id === roleName);
+          let role = roleInput;
+          try {
+            const roleMatch = roleInput.match(/^<@&(\d+)>$/);
+            const roleId = roleMatch ? roleMatch[1] : null;
 
-          if (!role)
-            return await interaction.followUp(
-              errorEmbed({
-                title: 'Không tìm thấy Role',
-                description: `Role \`${roleName}\` không tồn tại, hãy thử lại!`,
-                emoji: false,
-              }),
-            );
+            if (roleId) role = guild.roles.cache.get(roleId);
+            else role = guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
+
+            if (!role)
+              return await interaction.followUp(
+                errorEmbed({
+                  title: 'Không tìm thấy Role',
+                  description: `Role \`${roleInput}\` không tồn tại, hãy thử lại!`,
+                  emoji: false,
+                }),
+              );
+          } catch (e) {
+            return console.error(chalk.red('Error while fetching role'), e);
+          }
 
           let emojiReact = emojiInput;
           const emojiMatch = emojiInput.match(/<(a)?:(\w+):(\d+)>/);
           if (emojiMatch) {
             emojiReact = `<${emojiMatch[1] ? 'a' : ''}:${emojiMatch[2]}:${emojiMatch[3]}>`;
+
+            if (!client.emojis.cache.get(emojiMatch[3]))
+              return interaction.followUp(
+                errorEmbed({ description: `Bot không truy cập được custom emoji: ${emojiInput}` }),
+              );
           }
 
-          let desc = reactionEmbed.data.description;
+          let desc = reactionEmbed.data.description || '';
           if (desc.includes('🎨Color')) desc = '';
           desc = desc + `\n${emojiReact} ${role}`;
 
-          emojiArray.push({ emoji: emojiReact, role: role.id });
+          emojiArray.push({ emoji: emojiReact, roleId: role.id });
 
           reactionEmbed.setDescription(desc);
 
@@ -84,6 +97,18 @@ module.exports = {
 
         const msg = await channel.send({ embeds: [reactionEmbed] });
 
+        await reactionRole
+          .create({
+            guildID: guild.id,
+            guildName: guild.name,
+            channelId: channel.id,
+            messageId: msg.id,
+            title: reactionEmbed.data.title,
+            description: reactionEmbed.data.description,
+            roles: emojiArray,
+          })
+          .catch(console.error);
+
         await interaction.update({
           ...errorEmbed({
             description: `Reaction role đã được tạo: [Jump Link](${msg.url})`,
@@ -92,8 +117,7 @@ module.exports = {
           components: [],
         });
 
-        await emojiArray.forEach((e) => msg.react(e.emoji));
-        console.log('🚀 ~ finish: ~ emojiArray:', emojiArray);
+        await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
 
         reactionMap.delete(message.id);
       },

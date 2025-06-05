@@ -1,4 +1,5 @@
 const { Message, Client } = require('discord.js');
+const reactionRole = require('../../config/reactionRole');
 module.exports = {
   name: 'messageDelete',
   /**
@@ -9,6 +10,14 @@ module.exports = {
   async execute(message, client) {
     try {
       const { guildId, channelId, author, content } = message;
+      const config = await reactionRole
+        .findOne({ guildID: guildId, channelId: channelId, messageId: message.id })
+        .catch(console.error);
+      if (config) {
+        await reactionRole
+          .findOneAndDelete({ guildID: guildId, channelId: channelId, messageId: message.id })
+          .catch(console.error);
+      }
       if (content) {
         const { snipes } = client;
         snipes.set(channelId, { author: author, content: content });
