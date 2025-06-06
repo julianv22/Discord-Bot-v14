@@ -61,24 +61,4 @@ function reactionButtons() {
   ];
   return new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button));
 }
-/**
- * Set Text Input Component
- * @param {Object} options - Options object
- * @param {string} options.id - The id of the text input
- * @param {string} options.label - The label of the text input
- * @param {string} options.style - The style of the text input
- * @param {string} options.placeholder - The placeholder of the text input
- * @param {boolean} options.required - Whether the text input is required
- * @returns {ActionRowBuilder} - Return ActionRowBuilder
- */
-function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) {
-  return new ActionRowBuilder().addComponents(
-    new TextInputBuilder()
-      .setCustomId(id)
-      .setLabel(label)
-      .setStyle(style)
-      .setPlaceholder(placeholder)
-      .setRequired(required),
-  );
-}
-module.exports = { getEmbedColor, embedButtons, reactionButtons, setTextInput };
+module.exports = { getEmbedColor, embedButtons, reactionButtons };

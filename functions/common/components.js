@@ -63,6 +63,26 @@ function disableButtons(buttons) {
   return disableRow;
 }
 /**
+ * Set Text Input Component
+ * @param {Object} options - Options object
+ * @param {string} options.id - The id of the text input
+ * @param {string} options.label - The label of the text input
+ * @param {string} options.style - The style of the text input
+ * @param {string} options.placeholder - The placeholder of the text input
+ * @param {boolean} options.required - Whether the text input is required
+ * @returns {ActionRowBuilder} - Return ActionRowBuilder
+ */
+function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) {
+  return new ActionRowBuilder().addComponents(
+    new TextInputBuilder()
+      .setCustomId(id)
+      .setLabel(label)
+      .setStyle(style)
+      .setPlaceholder(placeholder)
+      .setRequired(required),
+  );
+}
+/**
  * Info Buttons
  * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with info buttons
  */
@@ -75,4 +95,4 @@ function infoButtons() {
   ];
   return new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button));
 }
-module.exports = { setRowComponent, disableButtons, infoButtons };
+module.exports = { setRowComponent, setTextInput, disableButtons, infoButtons };

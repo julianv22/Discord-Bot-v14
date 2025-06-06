@@ -8,7 +8,7 @@ const {
   ModalBuilder,
   Colors,
 } = require('discord.js');
-const { setTextInput } = require('../../functions/common/manage-embed');
+const { setTextInput } = require('../../functions/common/components');
 module.exports = {
   data: { name: 'manage-embed-btn' },
   /**
