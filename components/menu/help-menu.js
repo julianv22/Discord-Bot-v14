@@ -1,6 +1,7 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 const { readdirSync } = require('fs');
+
 module.exports = {
   data: { name: 'help-menu' },
   /**

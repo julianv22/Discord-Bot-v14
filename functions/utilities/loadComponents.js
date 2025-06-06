@@ -1,6 +1,7 @@
+const { Collection, Client } = require('discord.js');
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
-const { Collection, Client } = require('discord.js');
+
 /**
  * @param {Collection} components - Components object
  * @param {Array} componentFiles - Array of component files

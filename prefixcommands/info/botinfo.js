@@ -1,4 +1,5 @@
 const { Message, Client } = require('discord.js');
+
 module.exports = {
   name: 'botinfo',
   aliases: ['bot'],

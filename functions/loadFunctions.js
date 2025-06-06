@@ -1,6 +1,7 @@
 const { Client } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
+
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   client.loadFunctions = () => {

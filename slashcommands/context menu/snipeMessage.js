@@ -1,4 +1,5 @@
 const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType } = require('discord.js');
+
 module.exports = {
   category: 'context menu',
   scooldown: 0,

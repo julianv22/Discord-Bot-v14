@@ -8,6 +8,7 @@ const {
   ComponentType,
 } = require('discord.js');
 const { setRowComponent } = require('../../../functions/common/components');
+
 module.exports = {
   category: 'sub command',
   parent: 'setup',

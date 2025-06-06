@@ -1,5 +1,6 @@
 const { EmbedBuilder, SlashCommandSubcommandBuilder, Interaction, Client } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
+
 module.exports = {
   category: 'sub command',
   parent: 'leaderboard',

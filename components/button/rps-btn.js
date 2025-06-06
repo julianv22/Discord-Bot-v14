@@ -1,6 +1,7 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
+
 module.exports = {
   data: { name: 'rps-btn' },
   /**

@@ -1,4 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder, Client, Interaction } = require('discord.js');
+
 /** @returns {Promise<string>} */
 function getQuote() {
   return fetch('https://zenquotes.io/api/random')

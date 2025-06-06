@@ -1,5 +1,6 @@
 const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+
 module.exports = {
   category: 'context menu',
   scooldown: 0,

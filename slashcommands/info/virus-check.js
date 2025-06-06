@@ -7,6 +7,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
+
 module.exports = {
   category: 'info',
   scooldown: 0,

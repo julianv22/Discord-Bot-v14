@@ -1,5 +1,6 @@
-const ascii = require('ascii-table');
 const { Client } = require('discord.js');
+const ascii = require('ascii-table');
+
 module.exports = {
   name: 'ready',
   once: true,

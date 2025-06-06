@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits } = require('discord.js');
+
 module.exports = {
   category: 'moderator',
   scooldown: 0,

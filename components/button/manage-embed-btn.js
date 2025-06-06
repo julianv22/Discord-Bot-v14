@@ -9,6 +9,7 @@ const {
   Colors,
 } = require('discord.js');
 const { setTextInput } = require('../../functions/common/components');
+
 module.exports = {
   data: { name: 'manage-embed-btn' },
   /**

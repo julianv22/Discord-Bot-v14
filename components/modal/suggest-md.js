@@ -1,5 +1,5 @@
-const serverProfile = require('../../config/serverProfile');
 const { EmbedBuilder, Client, Interaction } = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
 module.exports = {
   data: { name: 'suggest-md' },
   /**

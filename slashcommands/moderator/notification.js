@@ -8,6 +8,7 @@ const {
   TextInputStyle,
   PermissionFlagsBits,
 } = require('discord.js');
+
 module.exports = {
   category: 'moderator',
   scooldown: 0,

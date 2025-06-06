@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
+
 module.exports = {
   category: 'moderator',
   scooldown: 0,

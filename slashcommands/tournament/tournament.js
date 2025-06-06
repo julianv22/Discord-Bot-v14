@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
+
 module.exports = {
   category: 'tournament',
   permissions: PermissionFlagsBits.Administrator,

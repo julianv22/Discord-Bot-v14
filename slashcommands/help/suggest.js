@@ -7,6 +7,7 @@ const {
   Interaction,
   TextInputStyle,
 } = require('discord.js');
+
 module.exports = {
   category: 'help',
   scooldown: 0,

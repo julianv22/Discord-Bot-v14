@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+
 module.exports = {
   category: 'setup',
   scooldown: 0,

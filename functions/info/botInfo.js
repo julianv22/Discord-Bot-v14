@@ -1,18 +1,9 @@
-const {
-  Client,
-  GuildMember,
-  Interaction,
-  Message,
-  ActionRowBuilder,
-  EmbedBuilder,
-  UserFlags,
-  ButtonStyle,
-  ComponentType,
-} = require('discord.js');
+const { Client, GuildMember, Interaction, Message, EmbedBuilder, UserFlags } = require('discord.js');
 const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
+
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**

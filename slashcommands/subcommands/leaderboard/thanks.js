@@ -1,5 +1,6 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const thanksProfile = require('../../../config/thanksProfile');
+
 module.exports = {
   category: 'sub command',
   parent: 'leaderboard',

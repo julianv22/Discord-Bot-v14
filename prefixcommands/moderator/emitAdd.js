@@ -1,4 +1,5 @@
 const { Message, Client, PermissionFlagsBits } = require('discord.js');
+
 module.exports = {
   name: 'emitAdd',
   aliases: ['add'],

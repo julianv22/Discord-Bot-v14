@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
+
 /** @param {Client} client - Client object. */
 module.exports = (client) => {
   /**

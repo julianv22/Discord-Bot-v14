@@ -1,12 +1,6 @@
-const {
-  ButtonStyle,
-  ActionRowBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-  ComponentType,
-  Colors,
-} = require('discord.js');
+const { Colors, ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const { setRowComponent } = require('./components');
+
 /**
  * Get embed color
  * @param {string} color - Color input

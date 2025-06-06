@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
+
 module.exports = {
   category: 'moderator',
   scooldown: 0,

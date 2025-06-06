@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, Interaction, Client } = require('discord.js');
+
 module.exports = {
   category: 'misc',
   scooldown: 0,

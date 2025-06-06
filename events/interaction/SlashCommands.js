@@ -1,5 +1,6 @@
 const { Client, Interaction, ChannelType } = require('discord.js');
 const errorEmbed = require('../../functions/embed/errorEmbed');
+
 module.exports = {
   name: 'interactionCreate',
   /**

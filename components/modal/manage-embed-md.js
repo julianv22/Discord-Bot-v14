@@ -1,6 +1,7 @@
-const { Client, Interaction, EmbedBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { getEmbedColor } = require('../../functions/common/manage-embed');
 const { checkURL, replaceVar } = require('../../functions/common/utilities');
+
 module.exports = {
   data: { name: 'manage-embed-md' },
   /**

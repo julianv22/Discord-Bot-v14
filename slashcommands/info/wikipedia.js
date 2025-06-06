@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
+
 module.exports = {
   category: 'info',
   scooldown: 0,

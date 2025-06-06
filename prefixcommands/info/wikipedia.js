@@ -1,5 +1,6 @@
 const { Message, Client, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
+
 module.exports = {
   name: 'wikipedia',
   aliases: ['wiki'],

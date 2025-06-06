@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
+
 module.exports = {
   category: 'economy',
   scooldown: 0,

@@ -1,4 +1,5 @@
 const { Client, Interaction } = require('discord.js');
+
 module.exports = {
   data: { name: 'support-btn' },
   /**

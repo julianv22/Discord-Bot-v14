@@ -1,5 +1,6 @@
 const { EmbedBuilder, Client, Interaction } = require('discord.js');
 const { checkURL } = require('../../functions/common/utilities');
+
 module.exports = {
   data: { name: 'notify-md' },
   /**

@@ -2,6 +2,7 @@ const { Client, Interaction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, Butt
 const serverProfile = require('../../config/serverProfile');
 const { capitalize } = require('../../functions/common/utilities');
 const { disableButtons } = require('../../functions/common/components');
+
 module.exports = {
   data: { name: 'disable-btn' },
   /**

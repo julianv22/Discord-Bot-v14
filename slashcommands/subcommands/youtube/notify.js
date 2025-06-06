@@ -1,5 +1,6 @@
 const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
+
 module.exports = {
   category: 'sub command',
   parent: 'youtube',

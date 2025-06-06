@@ -1,5 +1,6 @@
-const serverProfile = require('../../config/serverProfile');
 const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
+
 /**
  * Get the latest video of the YouTube channel
  * @param {String} channelId - Channel ID

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
+
 module.exports = {
   category: 'economy',
   scooldown: 0,

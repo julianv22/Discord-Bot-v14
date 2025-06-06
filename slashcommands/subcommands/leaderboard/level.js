@@ -1,5 +1,6 @@
 const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
 const { checkURL } = require('../../../functions/common/utilities');
+
 module.exports = {
   category: 'sub command',
   parent: 'leaderboard',

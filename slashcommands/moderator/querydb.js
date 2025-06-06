@@ -1,6 +1,3 @@
-const { readdirSync } = require('fs');
-const profiles = readdirSync('./config').filter((f) => f.endsWith('Profile.js'));
-
 const {
   SlashCommandBuilder,
   Client,
@@ -11,6 +8,9 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require('discord.js');
+const { readdirSync } = require('fs');
+const profiles = readdirSync('./config').filter((f) => f.endsWith('Profile.js'));
+
 module.exports = {
   category: 'moderator',
   scooldown: 0,

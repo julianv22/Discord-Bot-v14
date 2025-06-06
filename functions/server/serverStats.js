@@ -1,5 +1,6 @@
 const { Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**

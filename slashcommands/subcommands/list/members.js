@@ -1,4 +1,5 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, PermissionFlagsBits, Client, Interaction } = require('discord.js');
+
 module.exports = {
   category: 'sub command',
   parent: 'list',

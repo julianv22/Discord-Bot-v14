@@ -8,6 +8,7 @@ const {
   ButtonStyle,
 } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+
 module.exports = {
   category: 'economy',
   scooldown: 0,

@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+
 module.exports = {
   category: 'setup',
   scooldown: 0,

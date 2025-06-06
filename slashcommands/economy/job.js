@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
+
 module.exports = {
   category: 'economy',
   scooldown: 0,

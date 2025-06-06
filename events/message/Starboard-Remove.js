@@ -1,4 +1,6 @@
+const { MessageReaction, User } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+
 module.exports = {
   name: 'messageReactionRemove',
   /**

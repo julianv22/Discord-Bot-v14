@@ -9,6 +9,7 @@ const {
 const { setRowComponent, infoButtons } = require('../../functions/common/components');
 const { capitalize } = require('../../functions/common/utilities');
 const { readdirSync } = require('fs');
+
 module.exports = {
   category: 'help',
   scooldown: 0,
