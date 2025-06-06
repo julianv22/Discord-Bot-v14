@@ -6,8 +6,7 @@ const {
   StringSelectMenuBuilder,
   ComponentType,
 } = require('discord.js');
-const { setRowComponent } = require('../../functions/common/components');
-const { infoButtons } = require('../../functions/common/info-buttons');
+const { setRowComponent, infoButtons } = require('../../functions/common/components');
 const { capitalize } = require('../../functions/common/utilities');
 const { readdirSync } = require('fs');
 module.exports = {

@@ -1,7 +1,7 @@
 const { Client, Interaction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { capitalize } = require('../../functions/common/utilities');
-const { disableButtons } = require('../../functions/common/info-buttons');
+const { disableButtons } = require('../../functions/common/components');
 module.exports = {
   data: { name: 'disable-btn' },
   /**

@@ -12,7 +12,7 @@ const {
 const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
-const { infoButtons } = require('../common/info-buttons');
+const { infoButtons } = require('../common/components');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**

@@ -1,5 +1,5 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
-const { infoButtons } = require('../../functions/common/info-buttons');
+const { infoButtons } = require('../../functions/common/components');
 module.exports = {
   name: 'help',
   aliases: ['h'],
