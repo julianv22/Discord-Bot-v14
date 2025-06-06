@@ -29,10 +29,7 @@ module.exports = (client) => {
        * @param {String} name - Channel name
        */
       function setChannelName(id, name) {
-        guild.channels.cache
-          .get(id)
-          .setName(name)
-          .catch(console.error(chalk.red(`Error while changing channel name: ${name} (${id}) from ${guild.name}`)));
+        guild.channels.cache.get(id).setName(name).catch(console.error);
       }
       try {
         const memberRole = guild.roles.cache.get(statistics?.memberRole);
