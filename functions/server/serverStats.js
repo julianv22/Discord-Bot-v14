@@ -12,8 +12,8 @@ module.exports = (client) => {
       // Start Server Stats
       const guild = client.guilds.cache.get(guildID);
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+      if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
       const { statistics } = profile;
-      if (!profile || !statistics?.totalChannel || !statistics?.presenceChannel) return;
       /**
        * Set channel name
        * @param {String} id - Channel ID
