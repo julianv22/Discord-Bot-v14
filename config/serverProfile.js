@@ -20,9 +20,7 @@ const serverProfile = new mongoose.Schema({
   statistics: {
     totalChannel: { type: String },
     memberChannel: { type: String },
-    memberRole: { type: String },
     botChannel: { type: String },
-    botRole: { type: String },
     presenceChannel: { type: String },
   },
   youtube: {
