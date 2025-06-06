@@ -28,9 +28,10 @@ module.exports = (client) => {
        * @param {String} id - Channel ID
        * @param {String} name - Channel name
        */
-      function setChannelName(id, name) {
-        guild.channels.cache.get(id).setName(name).catch(console.error);
+      async function setChannelName(id, name) {
+        await guild.channels.cache.get(id).setName(name).catch(console.error);
       }
+
       try {
         const memberRole = guild.roles.cache.get(statistics?.memberRole);
         const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
