@@ -15,40 +15,40 @@ module.exports = (client) => {
       if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
       const { statistics } = profile;
       /**
-       * Set channel name
-       * @param {String} id - Channel ID
-       * @param {String} name - Channel name
-       */
-      function setChannelName(id, name) {
-        guild.channels.cache.get(id).setName(name);
-      }
-      const memberRole = guild.roles.cache.get(statistics?.memberRole);
-      const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
-      // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
-
-      const botRole = guild.roles.cache.get(statistics?.botRole).name;
-      const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
-
-      const statsChannels = [
-        {
-          id: statistics?.totalChannel,
-          name: `🌏 Total members: ${guild.memberCount.toLocaleString()}`,
-        },
-        {
-          id: statistics?.memberChannel,
-          name: `${memberRole.name}: ${memberCount}`,
-        },
-        { id: statistics?.botChannel, name: `${botRole}: ${botCount}` },
-      ];
-
-      statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));
-      /**
        * Get the number of members with the given status
        * @param {String} stats - Member status
        * @returns {Number} - Number of members with the given status
        */
       function getPressence(stats) {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
+      }
+      /**
+       * Set channel name
+       * @param {String} id - Channel ID
+       * @param {String} name - Channel name
+       */
+      function setChannelName(id, name) {
+        guild.channels.cache
+          .get(id)
+          .setName(name)
+          .catch(console.error(chalk.red(`Error while changing channel name: ${name} (${id}) from ${guild.name}`)));
+      }
+      try {
+        const memberRole = guild.roles.cache.get(statistics?.memberRole);
+        const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
+        // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
+        const botRole = guild.roles.cache.get(statistics?.botRole).name;
+        const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
+
+        const statsChannels = [
+          { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
+          { id: statistics?.memberChannel, name: `${memberRole.name}: ${memberCount}` },
+          { id: statistics?.botChannel, name: `${botRole}: ${botCount}` },
+        ];
+
+        statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));
+      } catch (e) {
+        console.error(chalk.red('Error while caching roles from server', e));
       }
 
       const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];
