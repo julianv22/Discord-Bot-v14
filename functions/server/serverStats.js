@@ -41,8 +41,8 @@ module.exports = (client) => {
 
         const statsChannels = [
           { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
-          { id: statistics?.memberChannel, name: `🤵〔Member〕: ${memberCount}` },
-          { id: statistics?.botChannel, name: `🚔〔Bot〕: ${botCount}` },
+          { id: statistics?.memberChannel, name: `🤵〔Members〕: ${memberCount}` },
+          { id: statistics?.botChannel, name: `🚔〔Bots〕: ${botCount}` },
         ];
 
         statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));
