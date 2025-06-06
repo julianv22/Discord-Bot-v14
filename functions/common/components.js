@@ -1,4 +1,11 @@
-const { ActionRowBuilder, ButtonBuilder, TextInputBuilder, ComponentType, ButtonStyle } = require('discord.js');
+const {
+  ActionRowBuilder,
+  ButtonBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ComponentType,
+  ButtonStyle,
+} = require('discord.js');
 /**
  * Set Row Component
  * @param {Object} options - Options object
@@ -47,22 +54,6 @@ function setRowComponent(options, type) {
   return setRowComponent[type]();
 }
 /**
- * Disable Buttons
- * @param {ActionRowBuilder} buttons - Buttons
- * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons
- */
-function disableButtons(buttons) {
-  const disableRow = new ActionRowBuilder();
-  for (const button of buttons) {
-    for (const component of button.components) {
-      const btn = ButtonBuilder.from(component);
-      btn.setDisabled(true);
-      disableRow.addComponents(btn);
-    }
-  }
-  return disableRow;
-}
-/**
  * Set Text Input Component
  * @param {Object} options - Options object
  * @param {string} options.id - The id of the text input
@@ -81,6 +72,22 @@ function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '
       .setPlaceholder(placeholder)
       .setRequired(required),
   );
+}
+/**
+ * Disable Buttons
+ * @param {ActionRowBuilder} buttons - Buttons
+ * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons
+ */
+function disableButtons(buttons) {
+  const disableRow = new ActionRowBuilder();
+  for (const button of buttons) {
+    for (const component of button.components) {
+      const btn = ButtonBuilder.from(component);
+      btn.setDisabled(true);
+      disableRow.addComponents(btn);
+    }
+  }
+  return disableRow;
 }
 /**
  * Info Buttons

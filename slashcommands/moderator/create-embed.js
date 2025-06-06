@@ -25,7 +25,6 @@ module.exports = {
     const [row1, row2] = embedButtons();
     let guildeContent = `Danh sách màu sắc: \`\`\`fix\n${Object.keys(Colors).join(', ')}\`\`\`\n`;
     guildeContent += `Các biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.    |    \`{guild}\`: tên guild`;
-    console.log('🚀 ~ execute ~ Colors:', Colors);
     await interaction.reply({
       content: guildeContent,
       embeds: [createEmbed],
