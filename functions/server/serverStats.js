@@ -33,16 +33,16 @@ module.exports = (client) => {
       }
 
       try {
-        const memberRole = guild.roles.cache.get(statistics?.memberRole);
-        const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
-        // await guild.members.cache.filter(m => !m.user.bot).size.toLocaleString(); // -> count members are not bot
-        const botRole = guild.roles.cache.get(statistics?.botRole).name;
+        // const memberRole = guild.roles.cache.get(statistics?.memberRole);
+        // const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
+        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // -> count members are not bot
+        // const botRole = guild.roles.cache.get(statistics?.botRole).name;
         const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
 
         const statsChannels = [
           { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
-          { id: statistics?.memberChannel, name: `${memberRole.name}: ${memberCount}` },
-          { id: statistics?.botChannel, name: `${botRole}: ${botCount}` },
+          { id: statistics?.memberChannel, name: `🤵〔Member〕: ${memberCount}` },
+          { id: statistics?.botChannel, name: `🚔〔Bot〕: ${botCount}` },
         ];
 
         statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));

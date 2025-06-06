@@ -15,9 +15,9 @@ module.exports = {
     .addChannelOption((opt) =>
       opt.setName('members-count-channel').setDescription('Members Count Channel').setRequired(true),
     )
-    .addRoleOption((opt) => opt.setName('member-role').setDescription('Member Role').setRequired(true))
+    // .addRoleOption((opt) => opt.setName('member-role').setDescription('Member Role').setRequired(true))
     .addChannelOption((opt) => opt.setName('bots-count-channel').setDescription('Bots Count Channel').setRequired(true))
-    .addRoleOption((opt) => opt.setName('bot-role').setDescription('Bot Role').setRequired(true))
+    // .addRoleOption((opt) => opt.setName('bot-role').setDescription('Bot Role').setRequired(true))
     .addChannelOption((opt) =>
       opt.setName('presences-count-channel').setDescription('Presences Count Channel').setRequired(true),
     ),
@@ -35,9 +35,9 @@ module.exports = {
     try {
       const totalChannel = options.getChannel('total-count-channel');
       const membersChannel = options.getChannel('members-count-channel');
-      const memberrole = options.getRole('member-role');
+      // const memberrole = options.getRole('member-role');
       const botsChannel = options.getChannel('bots-count-channel');
-      const botrole = options.getRole('bot-role');
+      // const botrole = options.getRole('bot-role');
       const presencesChannel = options.getChannel('presences-count-channel');
 
       await serverProfile
@@ -48,9 +48,9 @@ module.exports = {
             statistics: {
               totalChannel: totalChannel.id,
               memberChannel: membersChannel.id,
-              memberRole: memberrole.id,
+              // memberRole: memberrole.id,
               botChannel: botsChannel.id,
-              botRole: botrole.id,
+              // botRole: botrole.id,
               presenceChannel: presencesChannel.id,
             },
           },
@@ -68,9 +68,9 @@ module.exports = {
         .addFields(
           { name: 'Total Count Channel:', value: `${totalChannel}` },
           { name: 'Members Count Channel:', value: `${membersChannel}` },
-          { name: 'Member Role:', value: `${memberrole}` },
+          // { name: 'Member Role:', value: `${memberrole}` },
           { name: 'Bots Count Channel:', value: `${botsChannel}` },
-          { name: 'Bot Role:', value: `${botrole}` },
+          // { name: 'Bot Role:', value: `${botrole}` },
           { name: 'Preseneces Count Channel:', value: `${presencesChannel}` },
         );
 
