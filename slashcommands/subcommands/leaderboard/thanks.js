@@ -12,21 +12,22 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
+    const { errorEmbed, catchError } = client;
     const time = options.getString('time');
-    const results = await thanksProfile
-      .find({ guildID: guild.id })
-      .sort({ thanksCount: -1 })
-      .limit(10)
-      .catch(console.error);
-
-    if (!results)
-      return await interaction.reply(
-        errorEmbed({ description: 'There is no thanks data in this server!', emoji: false }),
-      );
 
     try {
+      let results = await thanksProfile
+        .find({ guildID: guild.id })
+        .sort({ thanksCount: -1 })
+        .limit(10)
+        .catch(console.error);
+
+      if (!results)
+        return await interaction.reply(
+          errorEmbed({ description: 'There is no thanks data in this server!', emoji: false }),
+        );
+
       let text = '';
 
       for (let i = 0; i < results.length; i++) {
@@ -49,8 +50,7 @@ module.exports = {
         .setTimestamp();
       return await interaction.reply({ embeds: [embed], ephemeral: false });
     } catch (e) {
-      console.error(chalk.red('Error while executing /leaderboard thanks command', e));
-      return await interaction.reply(errorEmbed(true, 'Error while executing /leaderboard thanks command', e));
+      catchError(interaction, e, this);
     }
   },
 };

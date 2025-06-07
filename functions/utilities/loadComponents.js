@@ -15,7 +15,10 @@ const requireComponents = (components, componentFiles, folder) => {
       components.set(component.data.name, component);
     });
   } catch (e) {
-    console.error(chalk.yellow('Error while executing function [requireComponents] from file [loadComponents.js]'), e);
+    console.error(
+      chalk.yellow('Error while executing function [requireComponents] from file [loadComponents.js]\n'),
+      e,
+    );
   }
 };
 /** @param {Client} client - Client object */
@@ -39,7 +42,7 @@ module.exports = (client) => {
         try {
           componentFiles = readdirSync(`./components/${folder}`).filter((f) => f.endsWith('.js'));
         } catch (e) {
-          console.error(chalk.yellow(`Không thể đọc folder: [./components/${folder}]`), e);
+          console.error(chalk.yellow(`Không thể đọc folder: [./components/${folder}]\n`), e);
           return;
         }
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
@@ -62,7 +65,7 @@ module.exports = (client) => {
       console.log(table.toString());
       // End Component Handle
     } catch (e) {
-      console.error(chalk.yellow('Error while executing function loadComponents'), e);
+      console.error(chalk.yellow('Error while executing loadComponents function\n'), e);
     }
   };
 };

@@ -37,8 +37,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, options } = interaction;
+    const { errorEmbed, catchError } = client;
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
       await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
@@ -72,7 +72,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
-            emoji: `\\🏆 `,
+            emoji: `\\🏆`,
             color: Colors.Green,
           }),
         );
@@ -98,7 +98,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
-            emoji: `\\🏆 `,
+            emoji: `\\🏆`,
             color: Colors.Green,
           }),
         );
@@ -173,7 +173,7 @@ module.exports = {
           return await interaction.reply(
             errorEmbed({
               description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
-              emoji: `\\❗ `,
+              emoji: `\\❗`,
               color: Colors.Orange,
             }),
           );
@@ -197,7 +197,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
-            emoji: `\\🏆 `,
+            emoji: `\\🏆`,
             color: Colors.Green,
           }),
         );
@@ -211,14 +211,7 @@ module.exports = {
         return await interaction.reply(errorEmbed({ description: 'Subcommand không hợp lệ!', emoji: false }));
       }
     } catch (e) {
-      console.error(chalk.red(`Error while executing /tournament command [${tourCommand}]:`, e));
-      return await interaction.reply(
-        errorEmbed({
-          title: `\\❌ Error while executing /tournament command [${tourCommand}]:`,
-          description: e,
-          color: Colors.Red,
-        }),
-      );
+      catchError(interaction, e, `Error while executing /tournament ${tourCommand}`);
     }
   },
 };

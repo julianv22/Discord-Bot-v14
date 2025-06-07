@@ -15,12 +15,11 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
+    const { errorEmbed, catchError } = client;
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    let register;
-    if (!profile || !profile?.tournament?.status) register = false;
-    else register = profile.tournament.status;
+    let register = !profile || !profile?.tournament?.status ? false : profile.tournament.status;
+
     if (register === false)
       return await interaction.reply(errorEmbed({ description: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
 
@@ -68,7 +67,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
-            emoji: `\\🏆 `,
+            emoji: `\\🏆`,
             color: Colors.Green,
           }),
         );
@@ -95,10 +94,7 @@ module.exports = {
         } else await guild.members.cache.get(user.id).roles.add(role);
       }
     } catch (e) {
-      console.error(chalk.red('Error while executing /dang-ky command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /dang-ky command`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

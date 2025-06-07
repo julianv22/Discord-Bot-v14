@@ -25,6 +25,6 @@ module.exports = {
           }, 10000);
         });
 
-    message.delete().then(() => message.channel.send(toSay));
+    if (message.deletable) message.delete().then(() => message.channel.send(toSay));
   },
 };

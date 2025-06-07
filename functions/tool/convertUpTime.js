@@ -26,7 +26,7 @@ module.exports = (client) => {
 
       return uptime < 60 ? `<t:${parseInt(readyTimestamp / 1000)}:R>` : stringTime;
     } catch (e) {
-      console.error(chalk.red('Error while executing function convertUpTime'), e);
+      console.error(chalk.red('Error while executing convertUpTime function\n'), e);
     }
   };
 };

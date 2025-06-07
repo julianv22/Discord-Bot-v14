@@ -15,6 +15,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    const { catchError } = client;
     const chatHistories = new Map();
     const prompt = interaction.options.getString('prompt');
     if (!prompt) {
@@ -24,9 +25,9 @@ module.exports = {
     let history = chatHistories.get(userId) || [];
     history.push({ role: 'user', text: prompt });
     if (history.length > 10) history = history.slice(history.length - 10);
+
     try {
       await interaction.deferReply();
-
       // Import động ESM module
       const mod = await import('@google/genai');
       const GoogleGenAI = mod.GoogleGenAI || mod.default;
@@ -47,9 +48,8 @@ module.exports = {
         await interaction.editReply(prompt);
         await interaction.followUp({ content: reply.slice(i, i + 2000) });
       }
-    } catch (error) {
-      console.error(chalk.red('Error communicating with Gemini AI', error));
-      await interaction.editReply({ content: 'There was an error communicating with Gemini AI' });
+    } catch (e) {
+      catchError(interaction, e, 'Error communicating with Gemini AI');
     }
   },
 };

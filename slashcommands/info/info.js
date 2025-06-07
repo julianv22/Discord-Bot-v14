@@ -20,8 +20,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { botInfo, serverInfo, userInfo } = client;
     const { guild, user, options } = interaction;
+    const { botInfo, serverInfo, userInfo } = client;
     const subCommand = options.getSubcommand();
     const showInfo = {
       bot: () => botInfo(user, interaction),

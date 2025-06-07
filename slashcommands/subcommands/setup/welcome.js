@@ -45,10 +45,11 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      console.error(chalk.red('Error while executing /setup welcome command', e));
-      return await interaction.reply(
-        client.errorEmbed({ title: `\\❌ Error while setting up welcome`, description: e, color: Colors.Red }),
-      );
+      const error = `Error while executing ${this.category} /${this.parent} ${this.data.name}\n`;
+      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
+      console.error(chalk.red(error), e);
+      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
+      else return await interaction.editReply(embed);
     }
   },
 };

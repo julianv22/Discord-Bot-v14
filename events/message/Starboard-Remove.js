@@ -47,7 +47,7 @@ module.exports = {
         }
       }
     } catch (e) {
-      console.error(chalk.red('Error while executing messageReactionRemove event'), e);
+      console.error(chalk.red(`Error while executing Starboard Remove event\n`), e);
     }
   },
 };

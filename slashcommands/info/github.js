@@ -14,8 +14,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const gitUsername = interaction.options.getString('username');
+    const { errorEmbed, catchError } = client;
     const { user: author } = interaction;
 
     try {
@@ -53,10 +53,7 @@ module.exports = {
           return await interaction.reply({ embeds: [embed] });
         });
     } catch (e) {
-      console.error(chalk.red('Error while executing /github command', e));
-      return await interaction
-        .reply(errorEmbed({ title: `Error while executing /github command`, description: e, color: Colors.Red }))
-        .catch(console.error);
+      catchError(interaction, e, this);
     }
   },
 };

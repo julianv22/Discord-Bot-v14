@@ -30,6 +30,6 @@ module.exports = {
           .delete()
           .then(() => msg.edit(`Hello ${m.first().content}!`));
       })
-      .catch((e) => console.log(chalk.red('Collector time out'), e));
+      .catch(console.error);
   },
 };

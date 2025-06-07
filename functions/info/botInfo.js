@@ -103,18 +103,11 @@ module.exports = (client) => {
         components: [infoButtons()],
       });
     } catch (e) {
-      const embed = errorEmbed({
-        title: `\\❌ Error while executing function botInfo`,
-        description: e,
-        color: Colors.Red,
-      });
-
-      if (interaction) {
-        if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);
-        else await interaction.reply(embed).catch(console.error);
-      } else if (message && typeof message.reply === 'function') message.reply(embed).catch(console.error);
-
-      console.error(chalk.red('Error while executing function botInfo'), e);
+      const error = `Error while executing botInfo function\n`;
+      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
+      console.error(chalk.red(error), e);
+      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
+      else return await interaction.editReply(embed);
     }
   };
 };

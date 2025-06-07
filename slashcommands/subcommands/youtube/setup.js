@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Validate Youtube channel
@@ -26,8 +26,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { options, guild } = interaction;
+    const { errorEmbed, catchError } = client;
     const yt_channel = options.getString('channel-id');
     const action = options.getString('action');
 
@@ -79,10 +79,7 @@ module.exports = {
         }),
       );
     } catch (e) {
-      console.error(chalk.red('Error while executing /setup youtube command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while setting up Youtube channel`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

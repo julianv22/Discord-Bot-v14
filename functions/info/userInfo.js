@@ -96,18 +96,17 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
+      const error = `Error while executing function userInfo\n`;
       const embed = errorEmbed({
-        title: `\\❌ Error while executing function userInfo`,
+        title: `\\❌ ${error}`,
         description: e,
         color: Colors.Red,
       });
-
+      console.error(chalk.red(error), e);
       if (interaction && typeof interaction.reply === 'function') {
-        if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);
+        if (interaction.replied || interaction.deferred) return await interaction.followUp(embed).catch(console.error);
         else interaction.reply(embed).catch(console.error);
-      } else if (message && typeof message.reply === 'function') message.reply(embed).catch(console.error);
-
-      console.error(chalk.red('Error while executing function userInfo'), e);
+      } else if (message && typeof message.reply === 'function') return message.reply(embed).catch(console.error);
     }
   };
 };

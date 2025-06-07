@@ -42,7 +42,7 @@ module.exports = (client) => {
 
             console.log(chalk.yellow('\nSuccessfully reloaded application (/) commands.\n'));
           } catch (e) {
-            console.error(chalk.yellow('Error while reloading application (/) command'), e);
+            console.error(chalk.yellow('Error while reloading application (/) command\n'), e);
           }
         })();
       }
@@ -92,7 +92,7 @@ module.exports = (client) => {
         console.log(table.toString());
       }
     } catch (e) {
-      console.error(chalk.yellow('Error while executing function loadCommands'), e);
+      console.error(chalk.yellow('Error while executing function loadCommands\n'), e);
     }
   };
 };

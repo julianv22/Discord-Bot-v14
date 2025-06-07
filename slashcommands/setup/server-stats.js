@@ -28,17 +28,21 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    if (!profile)
-      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
+    const { catchError, serverStats } = client;
+    const totalChannel = options.getChannel('total-count-channel');
+    const membersChannel = options.getChannel('members-count-channel');
+    // const memberrole = options.getRole('member-role');
+    const botsChannel = options.getChannel('bots-count-channel');
+    // const botrole = options.getRole('bot-role');
+    const presencesChannel = options.getChannel('presences-count-channel');
 
     try {
-      const totalChannel = options.getChannel('total-count-channel');
-      const membersChannel = options.getChannel('members-count-channel');
-      // const memberrole = options.getRole('member-role');
-      const botsChannel = options.getChannel('bots-count-channel');
-      // const botrole = options.getRole('bot-role');
-      const presencesChannel = options.getChannel('presences-count-channel');
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+
+      if (!profile)
+        await serverProfile
+          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+          .catch(console.error);
 
       await serverProfile
         .findOneAndUpdate(
@@ -57,7 +61,7 @@ module.exports = {
         )
         .catch(console.error);
 
-      client.serverStats(client, guild.id);
+      serverStats(client, guild.id);
 
       const embed = new EmbedBuilder()
         .setColor('Green')
@@ -76,10 +80,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      console.error(chalk.red('Error while executing /setup server-stats command:', e));
-      return await interaction.reply(
-        client.errorEmbed({ title: `\\❌ Error while setting up server stats`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

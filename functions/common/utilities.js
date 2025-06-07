@@ -33,7 +33,7 @@ function checkURL(strInput) {
       return res !== null;
     }
   } catch (e) {
-    console.error(chalk.red('Error while executing function checkURL'), e);
+    console.error(chalk.red('Error while executing checkURL function\n'), e);
   }
 }
 /**

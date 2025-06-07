@@ -121,7 +121,7 @@ module.exports = {
         }
       }
     } catch (e) {
-      console.error(chalk.red('Error while executing messageReactionAdd event'), e);
+      console.error(chalk.red(`Error while executing Add Starboard event\n`), e);
     }
   },
 };

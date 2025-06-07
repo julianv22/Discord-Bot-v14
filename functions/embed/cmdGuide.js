@@ -40,11 +40,11 @@ module.exports = (client) => {
 
       message.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error while executing function cmdGuide'), e);
+      console.error(chalk.red('Error while executing cmdGuide function\n'), e);
       return message.channel
         .send(
           client.errorEmbed({
-            title: `\\❌ Error while executing function cmdGuide`,
+            title: `\\❌ Error while executing cmdGuide function`,
             description: e,
             color: Colors.Red,
           }),

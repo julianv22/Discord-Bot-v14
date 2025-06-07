@@ -33,7 +33,7 @@ module.exports = {
         });
       await message.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error while fetching memes', e));
+      console.error(chalk.red('Error while fetching memes\n'), e);
       await message.reply(errorEmbed({ title: `\\❌ Error while fetching memes`, description: e, color: Colors.Red }));
     }
   },

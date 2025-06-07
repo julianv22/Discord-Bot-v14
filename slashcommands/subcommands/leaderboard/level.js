@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
 const { checkURL } = require('../../../functions/common/utilities');
 
 module.exports = {
@@ -12,8 +12,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
+    const { errorEmbed, catchError } = client;
     const week = options.getInteger('week');
     const imgURL = options.getString('image');
 
@@ -35,14 +35,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error while executing /leaderboard level command', e));
-      return await interaction.reply(
-        errorEmbed({
-          title: `\\❌ Error while executing /leaderboard level command`,
-          description: e,
-          color: Colors.Red,
-        }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

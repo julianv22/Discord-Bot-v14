@@ -14,9 +14,9 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const keyword = interaction.options.getString('keyword');
-    const { user: author } = interaction;
-    const { errorEmbed } = client;
+    const { options, user: author } = interaction;
+    const { errorEmbed, catchError } = client;
+    const keyword = options.getString('keyword');
 
     fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${keyword}`)
       .then((res) => res.json())
@@ -59,10 +59,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
-        return interaction.reply(
-          errorEmbed({ title: `\\❌ Error while running \`/wikipedia\` command:`, description: e, color: Colors.Red }),
-        );
+        catchError(interaction, 'Error fetching Wikipedia API', e);
       });
   },
 };

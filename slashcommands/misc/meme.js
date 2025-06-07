@@ -10,8 +10,9 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { user } = interaction;
+    const { errorEmbed, catchError } = client;
+
     await interaction.deferReply();
     try {
       const response = await fetch('https://meme-api.com/gimme');
@@ -32,10 +33,7 @@ module.exports = {
         });
       return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error while fetching meme', e));
-      await interaction.editReply(
-        errorEmbed({ title: `\\❌ An error occurred while fetching meme`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

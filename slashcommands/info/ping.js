@@ -10,9 +10,10 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const sent = await interaction.deferReply({ fetchReply: true });
+    const sent = await interaction.deferReply({ withResponse: true });
     const ping = client.ws.ping;
-    const delay = sent.createdTimestamp - interaction.createdTimestamp;
+    // const delay = sent.createdTimestamp - interaction.createdTimestamp;
+    const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
     let color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
 
     return await interaction.editReply(

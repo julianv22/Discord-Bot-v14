@@ -23,7 +23,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
-    const { errorEmbed, users, user: bot } = client;
+    const { errorEmbed, catchError, users, user: bot } = client;
 
     if (msg.author.id !== cfg.clientID)
       return await interaction.reply(
@@ -73,14 +73,7 @@ module.exports = {
         ],
       })
       .catch((e) => {
-        console.error(chalk.red('Error (Context menu/Deny Suggest):', e));
-        return interaction.reply(
-          errorEmbed({
-            title: `\\❌ Error while running context menu: Deny Suggest`,
-            description: e,
-            color: Colors.Red,
-          }),
-        );
+        catchError(interaction, e, this);
       });
   },
 };

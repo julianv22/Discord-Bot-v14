@@ -47,7 +47,7 @@ module.exports = (client) => {
 
         statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));
       } catch (e) {
-        console.error(chalk.red('Error while caching roles from server', e));
+        console.error(chalk.red(`Error while caching roles from server ${guild}\n`), e);
       }
 
       const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];
@@ -57,7 +57,7 @@ module.exports = (client) => {
       setChannelName(statistics?.presenceChannel, status.join(' '));
       // End Server Stats
     } catch (e) {
-      console.error(chalk.red('Error while executing function serverStats'), e);
+      console.error(chalk.red('Error while executing serverStats function\n'), e);
     }
   };
 };

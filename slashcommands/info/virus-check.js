@@ -23,9 +23,10 @@ module.exports = {
    * @param {Client} client - Đối tượng Client của bot
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { options, user, guild } = interaction;
+    const { errorEmbed } = client;
     const inputUrl = options.getString('url');
+
     await interaction.deferReply({ flags: 64 });
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)
     async function sendResponseEmbed(title, description, color = 'Random') {

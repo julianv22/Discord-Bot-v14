@@ -48,7 +48,7 @@ module.exports = {
           if (member.roles.cache.has(role.id)) await member.roles.remove(role.id);
         } else console.warn(chalk.yellow(`Role ID ${roleObj.roleId} is undefined in ${guild.name}`));
       } catch (e) {
-        console.error(chalk.red(`Error while adding role to ${member.user.tag}`, e));
+        console.error(chalk.red(`Error while adding role to ${member.user.tag}\n`), e);
       }
     }
   },

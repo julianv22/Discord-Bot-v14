@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -12,10 +12,11 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed, channels } = client;
     const { guild, options } = interaction;
+    const { errorEmbed, catchError, channels } = client;
     const channel = options.getChannel('schannel');
     const sgtChannel = channels.cache.get(channel.id);
+
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile)
@@ -34,10 +35,7 @@ module.exports = {
         }),
       );
     } catch (e) {
-      console.error(chalk.red('Error while executing /setup suggest command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while setting up suggest channel`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

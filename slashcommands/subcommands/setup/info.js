@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -12,8 +12,9 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed, channels } = client;
     const { guild, user, guildId } = interaction;
+    const { errorEmbed, catchError, channels } = client;
+
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
 
@@ -75,14 +76,11 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
-      if (profile?.tourName) embed.addFields({ name: 'Tournament status', value: tourStatus, inline: true });
+      if (profile.tournament.name) embed.addFields({ name: 'Tournament status', value: tourStatus, inline: true });
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      console.error(chalk.red('Error while executing /setup info command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while getting setup info`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

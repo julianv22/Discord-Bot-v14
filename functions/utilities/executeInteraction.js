@@ -8,18 +8,15 @@ module.exports = (client) => {
    * @param {Interaction} interaction - Interaction object
    */
   client.executeInteraction = async (type, interaction) => {
+    const { errorEmbed } = client;
     try {
       await type.execute(interaction, client);
     } catch (e) {
-      const desc = `Error while executing interaction [${type.data.name}]`;
-      console.error(chalk.yellow(desc), e);
-      return await interaction.reply(
-        client.errorEmbed({
-          title: `\\❌ ${desc}`,
-          description: e,
-          color: Colors.Red,
-        }),
-      );
+      const error = `Error while executing interaction [${type.data.name}]\n`;
+      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
+      console.error(chalk.red(error), e);
+      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
+      else return await interaction.editReply(embed);
     }
   };
 };

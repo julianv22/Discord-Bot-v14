@@ -27,14 +27,11 @@ module.exports = {
     }
 
     if (!content.startsWith(prefix)) {
-      const hint = {
-        embeds: [
-          {
-            color: 16757248,
-            description: `\\💡 | Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
-          },
-        ],
-      };
+      const hint = client.errorEmbed({
+        description: `Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
+        color: 16757248,
+        emoji: '\\💡',
+      });
       if (author.bot) return;
       else {
         if (content.toLowerCase().includes('cảm ơn'))

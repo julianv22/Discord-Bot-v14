@@ -20,7 +20,7 @@ module.exports = {
       try {
         await reaction.fetch();
       } catch (e) {
-        return console.error(chalk.red('Failed to fetch partial reaction', e));
+        return console.error(chalk.red('Failed to fetch partial reaction\n'), e);
       }
     }
 
@@ -28,7 +28,7 @@ module.exports = {
       try {
         await reaction.message.fetch();
       } catch (e) {
-        return console.error(chalk.red('Failed to fetch partial message from reaction', e));
+        return console.error(chalk.red('Failed to fetch partial message from reaction\n'), e);
       }
     }
 
@@ -62,7 +62,7 @@ module.exports = {
           if (!member.roles.cache.has(role.id)) await member.roles.add(role.id);
         } else console.warn(chalk.yellow(`Role ID ${roleObj.roleId} is undefined in ${guild.name}`));
       } catch (e) {
-        console.error(chalk.red(`Error while adding role to ${member.user.tag}`, e));
+        console.error(chalk.red(`Error while adding role to ${member.user.tag}\n`), e);
       }
     }
   },

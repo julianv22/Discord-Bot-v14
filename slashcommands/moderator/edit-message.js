@@ -16,8 +16,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
+    const { errorEmbed, catchError } = client;
     const msgid = options.getString('message-id');
     const content = options.getString('content');
     let msgEdit = await interaction.channel.messages.fetch(msgid).catch(console.error);
@@ -55,10 +55,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed], flags: 64 });
       });
     } catch (e) {
-      console.error(chalk.red('Error while executing /edit-message command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /edit-message command`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

@@ -79,7 +79,7 @@ module.exports = {
             }),
           )
           .catch(console.error);
-        console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
+        console.error(chalk.red('Error fetching Wikipedia API\n'), e);
       });
   },
 };

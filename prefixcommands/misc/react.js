@@ -15,18 +15,22 @@ module.exports = {
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
 
-    let stReact = [
-      ['Cool!', '😎'],
-      ['Greet', '👍'],
-      ['Perfect', '🥳'],
-      ['Wonderful', '😍'],
-      ['Amazing', '😮'],
-      ['Holy', '😱'],
-    ];
+    try {
+      let reactArray = [
+        ['Cool!', '😎'],
+        ['Greet', '👍'],
+        ['Perfect', '🥳'],
+        ['Wonderful', '😍'],
+        ['Amazing', '😮'],
+        ['Holy', '😱'],
+      ];
 
-    message.delete();
-    const raID = Math.floor(Math.random() * stReact.length);
-    const msgReact = await message.channel.send(stReact[raID][0]);
-    await msgReact.react(stReact[raID][1]);
+      if (message.deletable) await message.delete();
+      const reactId = Math.floor(Math.random() * reactArray.length);
+      const reactMessage = await message.channel.send(reactArray[reactId][0]);
+      await reactMessage.react(reactArray[reactId][1]);
+    } catch (e) {
+      console.error(chalk.red(`Error while reacting message`), e);
+    }
   },
 };

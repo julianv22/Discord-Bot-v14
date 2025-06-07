@@ -39,17 +39,11 @@ module.exports = {
         if (context) executeInteraction(context, interaction);
       }
     } catch (e) {
-      const error = `Error while executing command [${interaction.commandName}]`;
-      if (interaction.replied || interaction.deferred) {
-        await interaction
-          .followUp(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red }))
-          .catch(console.error);
-      } else {
-        await interaction
-          .reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red }))
-          .catch(console.error);
-      }
+      const error = `Error while executing slash command: ${interaction.commandName}\n`;
+      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
       console.error(chalk.red(error), e);
+      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
+      else return await interaction.editReply(embed);
     }
   },
 };

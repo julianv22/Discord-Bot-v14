@@ -18,8 +18,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed } = client;
     const { options } = interaction;
+    const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;
     const embed = new EmbedBuilder().setColor('Green');
 
     try {
@@ -55,10 +55,7 @@ module.exports = {
         );
       }, 2500);
     } catch (e) {
-      console.error(chalk.red('Error while executing /reload command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /reload command`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

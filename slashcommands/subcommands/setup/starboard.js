@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -12,8 +12,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { options, guild } = interaction;
+    const { errorEmbed, catchError } = client;
     const channel = options.getChannel('starboard-channel');
     const number = options.getInteger('starnum');
 
@@ -34,10 +34,7 @@ module.exports = {
         }),
       );
     } catch (e) {
-      console.error(chalk.red('Error while executing /setup starboard command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while setting up starboard channel`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

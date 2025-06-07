@@ -13,8 +13,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, user, options } = interaction;
+    const { errorEmbed } = client;
     const target = options.getUser('target');
 
     // Validate context

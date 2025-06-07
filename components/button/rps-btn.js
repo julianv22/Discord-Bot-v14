@@ -10,37 +10,40 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { user, guild, customId } = interaction;
+    const { errorEmbed, catchError } = client;
     const [, button, betStr] = customId.split(':');
     const bet = parseInt(betStr, 10);
     const userMove = parseInt(button, 10);
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
-    // Kiểm tra tài khoản Economy
-    if (!profile)
-      return await interaction.update(errorEmbed({ description: 'Bạn chưa có tài khoản Economy!', emoji: false }));
-    // Reset count nếu sang ngày mới
-    const today = new Date();
-    const lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null;
-    const isNewDay = !lastPlay || today.toDateString() !== lastPlay.toDateString();
-    if (isNewDay) {
-      profile.rpsCount = 0;
-      profile.lastPlayRPS = today;
-    }
-    // Kiểm tra số lần chơi trong ngày
-    if (profile.rpsCount >= 50)
-      return await interaction.update(errorEmbed({ description: `Bạn đã chơi hết 50 lần trong ngày!`, emoji: false }));
-    // Kiểm tra tiền cược
-    if (profile.balance < bet) {
-      return await interaction.update(
-        errorEmbed({
-          description: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toLocaleString()}\\💲`,
-          emoji: false,
-        }),
-      );
-    }
 
     try {
+      let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+      // Kiểm tra tài khoản Economy
+      if (!profile)
+        return await interaction.update(errorEmbed({ description: 'Bạn chưa có tài khoản Economy!', emoji: false }));
+      // Reset count nếu sang ngày mới
+      const today = new Date();
+      const lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null;
+      const isNewDay = !lastPlay || today.toDateString() !== lastPlay.toDateString();
+      if (isNewDay) {
+        profile.rpsCount = 0;
+        profile.lastPlayRPS = today;
+      }
+      // Kiểm tra số lần chơi trong ngày
+      if (profile.rpsCount >= 50)
+        return await interaction.update(
+          errorEmbed({ description: `Bạn đã chơi hết 50 lần trong ngày!`, emoji: false }),
+        );
+      // Kiểm tra tiền cược
+      if (profile.balance < bet) {
+        return await interaction.update(
+          errorEmbed({
+            description: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toLocaleString()}\\💲`,
+            emoji: false,
+          }),
+        );
+      }
+
       // Tính kết quả
       const rps = rpsGame(userMove, profile, bet);
       // Tính tiền thắng
@@ -96,10 +99,7 @@ module.exports = {
       // Trả về kết quả
       return await interaction.update({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error while running button rps-btn'), e);
-      return await interaction.update(
-        errorEmbed({ title: `\\❌ Error while running button rps-btn`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

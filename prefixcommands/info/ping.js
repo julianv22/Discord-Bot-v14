@@ -22,8 +22,6 @@ module.exports = {
 
     const embed = new EmbedBuilder().setColor(color).setDescription(`**⏱ | Ping:** ${ping} / *${delay}ms*`);
 
-    await message.reply({ embeds: [embed] }).catch((e) => {
-      console.error(chalk.red('[ping.js] Error replying with ping embed:', e));
-    });
+    return await message.reply({ embeds: [embed] }).catch(console.error);
   },
 };

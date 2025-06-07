@@ -14,9 +14,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { options } = interaction;
-
+    const { errorEmbed } = client;
     const toSay = options.getString('text');
     const target = options.getUser('hello');
 

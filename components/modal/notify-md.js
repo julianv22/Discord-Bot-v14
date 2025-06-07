@@ -10,25 +10,31 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
+    const { catchError } = client;
     const notifytype = fields.getTextInputValue('type');
     const title = fields.getTextInputValue('title');
     const description = fields.getTextInputValue('description');
     const imageURL = fields.getTextInputValue('imageURL');
+    const thumbnail = [cfg.thongbaoPNG, cfg.updatePNG];
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(title)
-      .setDescription(description)
-      .setColor('Red')
-      .setThumbnail(cfg.thongbaoPNG)
-      .setFooter({
-        text: 'Sent by ' + (user.displayName || user.username),
-        iconURL: user.displayAvatarURL(true),
-      })
-      .setTimestamp()
-      .setThumbnail(notifytype === '2' ? cfg.updatePNG : cfg.thongbaoPNG)
-      .setImage(checkURL(imageURL) ? imageURL : null);
+    try {
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle(title)
+        .setDescription(description)
+        .setColor('Red')
+        .setThumbnail(cfg.thongbaoPNG)
+        .setFooter({
+          text: 'Sent by ' + (user.displayName || user.username),
+          iconURL: user.displayAvatarURL(true),
+        })
+        .setTimestamp()
+        .setThumbnail(thumbnail[notifytype - 1])
+        .setImage(checkURL(imageURL) ? imageURL : null);
 
-    await interaction.reply({ embeds: [embed] });
+      await interaction.reply({ embeds: [embed] });
+    } catch (e) {
+      catchError(interaction, e, this);
+    }
   },
 };

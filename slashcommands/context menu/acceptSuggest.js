@@ -23,7 +23,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
-    const { errorEmbed, users, user: bot } = client;
+    const { errorEmbed, catchError, users } = client;
 
     if (msg.author.id !== cfg.clientID)
       return await interaction.reply(errorEmbed({ description: `This is not my message!`, emoji: false }));
@@ -64,14 +64,7 @@ module.exports = {
         ],
       })
       .catch((e) => {
-        console.error(chalk.red('Error (Context menu/Accept Suggest):', e));
-        return interaction.reply(
-          errorEmbed({
-            title: `\\❌ Error while running context menu: Accept Suggest`,
-            description: e,
-            color: Colors.Red,
-          }),
-        );
+        catchError(interaction, e, this);
       });
   },
 };

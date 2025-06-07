@@ -18,11 +18,11 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed, user } = client;
     const {
       options,
       channel: { messages },
     } = interaction;
+    const { errorEmbed, user } = client;
     const messageId = options.getString('message_id');
     let msg;
     try {

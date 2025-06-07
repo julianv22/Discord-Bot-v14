@@ -23,8 +23,8 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { options, channel, user: author } = interaction;
+    const { errorEmbed, catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
 
@@ -48,14 +48,7 @@ module.exports = {
         errorEmbed({ description: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true }),
       );
     } catch (e) {
-      console.error(chalk.red('Error while executing /bulk-delete command', e));
-      return await interaction.reply(
-        errorEmbed({
-          title: `\\❌ Something went wrong while bulk deleting messages`,
-          description: e,
-          color: Colors.Red,
-        }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };

@@ -21,6 +21,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { user, guild } = interaction;
+    const { catchError } = client;
     getQuote()
       .then(async (quote) => {
         const embed = new EmbedBuilder()
@@ -37,7 +38,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        client.errorEmbed({ title: `\\❌ Error while getting quote`, description: e, color: Colors.Red });
+        catchError(interaction, e, this);
       });
   },
 };

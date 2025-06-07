@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, flatten, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Get channel title
@@ -15,7 +15,7 @@ async function getChannelTitle(channelId, apiKey) {
       return data.items[0].snippet.title;
     }
   } catch (e) {
-    console.error(chalk.red('Error while executing function getChannelTitle:', e));
+    console.error(chalk.red('Error while executing function getChannelTitle:\n'), e);
   }
   return channelId;
 }
@@ -30,8 +30,9 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
     const { guild, user, guildId } = interaction;
+    const { errorEmbed, catchError } = client;
+
     try {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
       const { youtube } = profile;
@@ -63,10 +64,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      console.error(chalk.red('Error while executing /youtube list-channels command', e));
-      return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while displaying Youtube channel list`, description: e, color: Colors.Red }),
-      );
+      catchError(interaction, e, this);
     }
   },
 };
