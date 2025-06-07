@@ -1,5 +1,4 @@
 const { Client, Interaction, ChannelType, Colors } = require('discord.js');
-const errorEmbed = require('../../functions/embed/errorEmbed');
 
 module.exports = {
   name: 'interactionCreate',
@@ -9,18 +8,17 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    try {
-      const { slashCommands, subCommands, executeInteraction, errorEmbed } = client;
-      const { guild, member, commandName, options, channel } = interaction;
+    const { slashCommands, subCommands, executeInteraction, errorEmbed, catchError } = client;
+    const { guild, member, commandName, options, channel } = interaction;
 
-      if (channel.type === ChannelType.DM)
-        return await interaction.reply(
-          errorEmbed({ description: 'This command is not available in DMs', emoji: false }),
-        );
-      if (!guild)
-        return await interaction.reply(
-          errorEmbed({ description: 'This command is not available in DMs', emoji: false }),
-        );
+    try {
+      if (channel.type === ChannelType.DM) return;
+
+      if (!guild) {
+        const reply = errorEmbed({ description: 'No guild found', emoji: false });
+        if (interaction.replied && !interaction.deferred) await interaction.reply(reply);
+        else await interaction.editReply(reply);
+      }
 
       if (interaction.isChatInputCommand()) {
         const command = slashCommands.get(commandName);
@@ -30,20 +28,14 @@ module.exports = {
         if (command.ownerOnly && member.id !== guild.ownerId)
           return await interaction.reply(errorEmbed({ description: 'You are not the owner.', emoji: false }));
 
-        if (subcommandName) executeInteraction(subcommand || command, interaction);
-        else executeInteraction(command, interaction);
-      }
-
-      if (interaction.isContextMenuCommand()) {
+        if (subcommandName) await executeInteraction(subcommand || command, interaction);
+        else await executeInteraction(command, interaction);
+      } else if (interaction.isContextMenuCommand()) {
         const context = slashCommands.get(commandName);
-        if (context) executeInteraction(context, interaction);
+        if (context) await executeInteraction(context, interaction);
       }
     } catch (e) {
-      const error = `Error while executing slash command: ${interaction.commandName}\n`;
-      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
-      console.error(chalk.red(error), e);
-      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
-      else return await interaction.editReply(embed);
+      catchError(interaction, e, `Error while executing command ${interaction.commandName}`);
     }
   },
 };
