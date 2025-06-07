@@ -7,6 +7,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  Colors,
 } = require('discord.js');
 const { readdirSync } = require('fs');
 const profiles = readdirSync('./config').filter((f) => f.endsWith('Profile.js'));
@@ -53,7 +54,7 @@ module.exports = {
        * @param {string} key - Key của sourcebin
        */
       async function sendMessage(message, key) {
-        const embed = new EmbedBuilder().setColor('Blurple').setDescription(message);
+        const embed = new EmbedBuilder().setColor(Colors.Blurple).setDescription(message);
 
         if (key)
           await interaction.editReply({

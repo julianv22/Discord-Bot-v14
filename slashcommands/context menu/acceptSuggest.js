@@ -33,7 +33,7 @@ module.exports = {
     if (!embed || embed.title !== `Suggest's content:`)
       return await interaction.reply(errorEmbed({ description: `This is not suggest message!`, emoji: false }));
 
-    const edit = EmbedBuilder.from(embed).setColor('Green').spliceFields(0, 1).setTimestamp().setFooter({
+    const edit = EmbedBuilder.from(embed).setColor(Colors.Green).spliceFields(0, 1).setTimestamp().setFooter({
       text: `Đề xuất đã được chấp nhận`,
       iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
     });
@@ -57,7 +57,7 @@ module.exports = {
             })
             .setTitle(`Your suggestion has been accepted by ${user.displayName || user.username}!`)
             .setDescription(`[Jump Link](${msg.url})`)
-            .setColor('Green')
+            .setColor(Colors.Green)
             .setThumbnail(user.displayAvatarURL(true))
             .setTimestamp()
             .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),

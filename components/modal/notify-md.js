@@ -1,4 +1,4 @@
-const { EmbedBuilder, Client, Interaction } = require('discord.js');
+const { EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const { checkURL } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(title)
         .setDescription(description)
-        .setColor('Red')
+        .setColor(Colors.Red)
         .setThumbnail(cfg.thongbaoPNG)
         .setFooter({
           text: 'Sent by ' + (user.displayName || user.username),

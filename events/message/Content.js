@@ -1,4 +1,4 @@
-const { Message, Client, ChannelType, EmbedBuilder } = require('discord.js');
+const { Message, Client, ChannelType, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
@@ -21,7 +21,7 @@ module.exports = {
             .setTitle('You cannot use commands here.')
             .setDescription(`Please use commands in a server I have joined!`)
             .setThumbnail(author.displayAvatarURL(true))
-            .setColor('Orange'),
+            .setColor(Colors.Orange),
         ],
       });
     }

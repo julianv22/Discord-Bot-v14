@@ -1,4 +1,4 @@
-const { EmbedBuilder, Client, Interaction } = require('discord.js');
+const { EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
   data: { name: 'suggest-md' },
@@ -31,7 +31,7 @@ module.exports = {
         })
         .setTitle(`Suggest's content:`)
         .setDescription(content)
-        .setColor('Yellow')
+        .setColor(Colors.Yellow)
         .addFields({
           name: '\u200b',
           value: `\`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!\``,

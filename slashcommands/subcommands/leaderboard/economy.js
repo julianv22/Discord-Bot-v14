@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandSubcommandBuilder, Interaction, Client } = require('discord.js');
+const { EmbedBuilder, SlashCommandSubcommandBuilder, Interaction, Client, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
         .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
         .setTitle(`Top \\🔟 richest users in ${interaction.guild.name}`)
         .setDescription(leaderboard)
-        .setColor('Gold')
+        .setColor(Colors.Gold)
         .setThumbnail(
           'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg',
         )

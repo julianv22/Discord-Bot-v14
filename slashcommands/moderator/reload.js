@@ -20,7 +20,7 @@ module.exports = {
   async execute(interaction, client) {
     const { options } = interaction;
     const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;
-    const embed = new EmbedBuilder().setColor('Green');
+    const embed = new EmbedBuilder().setColor(Colors.Green);
 
     try {
       const CommandsType = {

@@ -1,4 +1,4 @@
-const { EmbedBuilder, Client, GuildMember } = require('discord.js');
+const { EmbedBuilder, Client, GuildMember, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         .setThumbnail(
           'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/name-badge_1f4db.png',
         )
-        .setColor('Red')
+        .setColor(Colors.Red)
         .setTimestamp()
         .addFields(
           { name: 'UserName:', value: user.tag, inline: true },

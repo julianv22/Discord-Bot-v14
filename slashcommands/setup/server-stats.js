@@ -64,7 +64,7 @@ module.exports = {
       serverStats(client, guild.id);
 
       const embed = new EmbedBuilder()
-        .setColor('Green')
+        .setColor(Colors.Green)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('\\✅ Server stats set up successfully!')
         .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')

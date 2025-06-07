@@ -6,6 +6,7 @@ const {
   ButtonStyle,
   EmbedBuilder,
   ComponentType,
+  Colors,
 } = require('discord.js');
 const { setRowComponent } = require('../../../functions/common/components');
 
@@ -51,7 +52,7 @@ module.exports = {
     ];
     const embed = new EmbedBuilder()
       .setAuthor({ name: `Disable Features`, iconURL: user.displayAvatarURL(true) })
-      .setColor('Orange')
+      .setColor(Colors.Orange)
       .addFields(
         { name: `\\⭐ Disable Starboard System`, value: `\`Tắt chức năng Starboard System\`` },
         { name: `\\💡 Disable Suggest Channel`, value: `\`Tắt chức năng Suggestion\`` },

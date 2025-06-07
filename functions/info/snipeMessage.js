@@ -35,7 +35,7 @@ module.exports = (client) => {
             : 'Last deleted message:',
           iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
         })
-        .setColor('DarkVividPink')
+        .setColor(Colors.DarkVividPink)
         .setTimestamp()
         .setThumbnail(author.displayAvatarURL(true))
         .setFooter({

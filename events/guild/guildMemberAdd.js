@@ -84,7 +84,7 @@ module.exports = {
             value: 'Chúc bạn một ngày làm việc vui vẻ!',
           },
         ])
-        .setColor('#00BCE3')
+        .setColor(0x00bce3)
         .setThumbnail(user.displayAvatarURL(true))
         .setImage(cfg.welcomePNG)
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
@@ -105,7 +105,7 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('👋 Thành viên mới tham gia!')
         .setDescription(`${user} đã tham gia server!`)
-        .setColor('#00BCE3')
+        .setColor(0x00bce3)
         .setThumbnail(
           'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png',
         )

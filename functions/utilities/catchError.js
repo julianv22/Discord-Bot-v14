@@ -17,7 +17,7 @@ module.exports = (client) => {
     else
       error = command.parent
         ? `Error while executing ${command.category} /${command.parent} ${command.data.name}`
-        : `Error while executing command /${command.data.name}`;
+        : `Error while executing ${command.category} command /${command.data.name}`;
 
     const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
 

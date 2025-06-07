@@ -24,7 +24,7 @@ module.exports = (client) => {
         .setTitle(`Huớng dẫn sử dụng command [${commandname}]`)
         .setDescription(stDesc)
         .addFields([{ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` }])
-        .setColor('Aqua')
+        .setColor(Colors.Aqua)
         .setTimestamp()
         .setThumbnail(cfg.helpPNG);
       if (footer)

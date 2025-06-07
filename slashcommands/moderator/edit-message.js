@@ -41,7 +41,7 @@ module.exports = {
           .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
           .setTitle('\\✅ Message edited successfully!')
           .setDescription(`**Message ID:** [\`${msgid}\`](${msgEdit.url})`)
-          .setColor('Green')
+          .setColor(Colors.Green)
           .setThumbnail(
             'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png',
           )

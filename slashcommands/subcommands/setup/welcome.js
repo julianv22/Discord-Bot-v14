@@ -30,7 +30,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle(`Welcome's setup information`)
-        .setColor('Aqua')
+        .setColor(Colors.Aqua)
         .setTimestamp()
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
         .addFields([

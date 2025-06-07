@@ -1,4 +1,11 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, PermissionFlagsBits, Client, Interaction } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  PermissionFlagsBits,
+  Client,
+  Interaction,
+  Colors,
+} = require('discord.js');
 
 module.exports = {
   category: 'sub command',
@@ -34,7 +41,7 @@ module.exports = {
     try {
       if (members) {
         const msg = desc || `Danh sách thành viên của ${role}:`;
-        const embed = new EmbedBuilder().setColor('Aqua');
+        const embed = new EmbedBuilder().setColor(Colors.Aqua);
 
         if (isMention === true)
           embed

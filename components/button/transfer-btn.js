@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
@@ -53,7 +53,7 @@ module.exports = {
         .setDescription(
           `\\♻️ Bạn đã chuyển **${amount.toLocaleString()}\\💲** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toLocaleString()}\\💲**\n\n\\💸 Tổng trừ: **${total.toLocaleString()}\\💲**\n\n\\🏦 Số dư còn lại: **${profile.bank.toLocaleString()}\\💲**`,
         )
-        .setColor('Green')
+        .setColor(Colors.Green)
         .setThumbnail(cfg.economyPNG)
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
@@ -67,7 +67,7 @@ module.exports = {
             guild.name
           }.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toLocaleString()}\\💲**`,
         )
-        .setColor('Green')
+        .setColor(Colors.Green)
         .setThumbnail(cfg.economyPNG)
         .setTimestamp()
         .setFooter({

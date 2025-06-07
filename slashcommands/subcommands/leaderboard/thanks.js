@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const thanksProfile = require('../../../config/thanksProfile');
 
 module.exports = {
@@ -41,7 +41,7 @@ module.exports = {
         .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
         .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
         .setDescription(text)
-        .setColor('Gold')
+        .setColor(Colors.Gold)
         .setThumbnail(cfg.thanksPNG)
         .setFooter({
           text: `Requested by ${user.displayName || user.username}`,
