@@ -41,7 +41,11 @@ module.exports = {
     const guilds = client.guilds.cache.map((g) => g);
     console.log(
       chalk.magenta.bold(`Working in ${guilds.length} server${guilds.length > 1 ? 's' : ''}:`),
-      guilds.map((g) => ({ [g.name]: g.id })),
+      guilds.reduce((servers, g) => {
+        servers[g.name] = g.id;
+        return servers;
+      }, {}),
+      // guilds.map((g) => ({ [g.name]: g.id })),
     );
 
     guilds.forEach(async (guild) => {
