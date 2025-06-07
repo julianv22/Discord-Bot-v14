@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, Client, Interaction, Colors } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -13,7 +13,7 @@ module.exports = {
     const sent = await interaction.deferReply({ fetchReply: true });
     const ping = client.ws.ping;
     const delay = sent.createdTimestamp - interaction.createdTimestamp;
-    let color = ping < 101 ? 'Green' : ping > 300 ? 'Red' : 'Orange';
+    let color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
 
     return await interaction.editReply(
       client.errorEmbed({ description: `**⏱ | Ping:** ${ping} / *${delay}ms*`, color: color }),

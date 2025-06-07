@@ -33,11 +33,11 @@ module.exports = (client) => {
       }
 
       try {
-        // const memberRole = guild.roles.cache.get(statistics?.memberRole);
-        // const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // -> count members by memberRole
-        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // -> count members are not bot
-        // const botRole = guild.roles.cache.get(statistics?.botRole).name;
-        const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString();
+        // const memberRole = guild.roles.cache.get(statistics?.memberRole); //Lấy role của member cần thống kê
+        // const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // Thống kê số thành viên theo memberRole
+        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // Thống kê  số thành viên không phải là bot trong server
+        // const botRole = guild.roles.cache.get(statistics?.botRole).name; // Lấy role của bot
+        const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString(); // Đếm số bot trong server
 
         const statsChannels = [
           { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },

@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, GuildMember, Message, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -109,7 +109,11 @@ module.exports = (client) => {
       thanks.lastThanks = Date.now();
       thanks.save().catch(console.error);
     } catch (e) {
-      const embed = errorEmbed({ title: '❌ Error while executing function thanksUser', description: e, color: 'Red' });
+      const embed = errorEmbed({
+        title: '❌ Error while executing function thanksUser',
+        description: e,
+        color: Colors.Red,
+      });
 
       if (interaction && typeof interaction.reply === 'function') {
         if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);

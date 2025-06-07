@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -34,7 +34,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while fetching meme', e));
       await interaction.editReply(
-        errorEmbed({ title: `\\❌ An error occurred while fetching meme`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ An error occurred while fetching meme`, description: e, color: Colors.Red }),
       );
     }
   },

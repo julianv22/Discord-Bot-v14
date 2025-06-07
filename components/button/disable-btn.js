@@ -1,4 +1,12 @@
-const { Client, Interaction, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ButtonBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { capitalize } = require('../../functions/common/utilities');
 const { disableButtons } = require('../../functions/common/components');
@@ -38,7 +46,7 @@ module.exports = {
     const confirmEmbed = (
       title,
       description = `\\🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
-      color = 'Orange',
+      color = Colors.Orange,
     ) => {
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

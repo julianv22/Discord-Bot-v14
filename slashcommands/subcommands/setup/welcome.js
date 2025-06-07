@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const serverProfile = require(`../../../config/serverProfile`);
 
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /setup welcome command', e));
       return await interaction.reply(
-        client.errorEmbed({ title: `\\❌ Error while setting up welcome`, description: e, color: 'Red' }),
+        client.errorEmbed({ title: `\\❌ Error while setting up welcome`, description: e, color: Colors.Red }),
       );
     }
   },

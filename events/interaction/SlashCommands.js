@@ -1,4 +1,4 @@
-const { Client, Interaction, ChannelType } = require('discord.js');
+const { Client, Interaction, ChannelType, Colors } = require('discord.js');
 const errorEmbed = require('../../functions/embed/errorEmbed');
 
 module.exports = {
@@ -42,11 +42,11 @@ module.exports = {
       const error = `Error while executing command [${interaction.commandName}]`;
       if (interaction.replied || interaction.deferred) {
         await interaction
-          .followUp(errorEmbed({ title: `\\❌ ${error}`, description: e, color: 'Red' }))
+          .followUp(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red }))
           .catch(console.error);
       } else {
         await interaction
-          .reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: 'Red' }))
+          .reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red }))
           .catch(console.error);
       }
       console.error(chalk.red(error), e);

@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, Interaction, Colors } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /setup youtube command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while setting up Youtube notify channel`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while setting up Youtube notify channel`, description: e, color: Colors.Red }),
       );
     }
   },

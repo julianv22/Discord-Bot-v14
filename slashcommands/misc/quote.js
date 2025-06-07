@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, Client, Interaction } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, Client, Interaction, Colors } = require('discord.js');
 
 /** @returns {Promise<string>} */
 function getQuote() {
@@ -37,7 +37,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        client.errorEmbed({ title: `\\❌ Error while getting quote`, description: e, color: 'Red' });
+        client.errorEmbed({ title: `\\❌ Error while getting quote`, description: e, color: Colors.Red });
       });
   },
 };

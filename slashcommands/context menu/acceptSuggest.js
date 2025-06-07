@@ -5,6 +5,7 @@ const {
   ApplicationCommandType,
   PermissionFlagsBits,
   EmbedBuilder,
+  Colors,
 } = require('discord.js');
 
 module.exports = {
@@ -68,7 +69,7 @@ module.exports = {
           errorEmbed({
             title: `\\❌ Error while running context menu: Accept Suggest`,
             description: e,
-            color: 'Red',
+            color: Colors.Red,
           }),
         );
       });

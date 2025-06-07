@@ -1,4 +1,4 @@
-const { Client, Interaction } = require('discord.js');
+const { Client, Interaction, Colors } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -17,7 +17,7 @@ module.exports = (client) => {
         client.errorEmbed({
           title: `\\❌ ${desc}`,
           description: e,
-          color: 'Red',
+          color: Colors.Red,
         }),
       );
     }

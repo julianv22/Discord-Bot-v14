@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -81,7 +81,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /setup info command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while getting setup info`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while getting setup info`, description: e, color: Colors.Red }),
       );
     }
   },

@@ -1,4 +1,4 @@
-const { Client, GuildMember, Interaction, Message, EmbedBuilder, UserFlags } = require('discord.js');
+const { Client, GuildMember, Interaction, Message, EmbedBuilder, UserFlags, Colors } = require('discord.js');
 const { connection } = require('mongoose');
 const os = require('os');
 const package = require('../../package.json');
@@ -103,7 +103,11 @@ module.exports = (client) => {
         components: [infoButtons()],
       });
     } catch (e) {
-      const embed = errorEmbed({ title: `\\❌ Error while executing function botInfo`, description: e, color: 'Red' });
+      const embed = errorEmbed({
+        title: `\\❌ Error while executing function botInfo`,
+        description: e,
+        color: Colors.Red,
+      });
 
       if (interaction) {
         if (interaction.replied || interaction.deferred) await interaction.followUp(embed).catch(console.error);

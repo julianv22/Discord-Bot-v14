@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -69,7 +69,7 @@ module.exports = {
           errorEmbed({
             description: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
             emoji: `\\🏆 `,
-            color: 'Green',
+            color: Colors.Green,
           }),
         );
 
@@ -97,7 +97,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /dang-ky command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /dang-ky command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /dang-ky command`, description: e, color: Colors.Red }),
       );
     }
   },

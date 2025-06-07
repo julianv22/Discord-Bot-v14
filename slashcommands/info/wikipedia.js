@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -61,7 +61,7 @@ module.exports = {
       .catch((e) => {
         console.error(chalk.red('[wikipedia.js] Error fetching Wikipedia API:', e));
         return interaction.reply(
-          errorEmbed({ title: `\\❌ Error while running \`/wikipedia\` command:`, description: e, color: 'Red' }),
+          errorEmbed({ title: `\\❌ Error while running \`/wikipedia\` command:`, description: e, color: Colors.Red }),
         );
       });
   },

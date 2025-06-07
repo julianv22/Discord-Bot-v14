@@ -1,4 +1,4 @@
-const { Message, Client, ChannelType } = require('discord.js');
+const { Message, Client, ChannelType, Colors } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
@@ -50,7 +50,7 @@ module.exports = {
       }
     } catch (e) {
       const error = `An error occurred while executing the command!`;
-      message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: 'Red' })).then((m) => {
+      message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.red })).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 5000);

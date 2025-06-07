@@ -1,4 +1,4 @@
-const { EmbedBuilder, Message, Client } = require('discord.js');
+const { EmbedBuilder, Message, Client, Colors } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -43,7 +43,11 @@ module.exports = (client) => {
       console.error(chalk.red('Error while executing function cmdGuide'), e);
       return message.channel
         .send(
-          client.errorEmbed({ title: `\\❌ Error while executing function cmdGuide`, description: e, color: 'Red' }),
+          client.errorEmbed({
+            title: `\\❌ Error while executing function cmdGuide`,
+            description: e,
+            color: Colors.Red,
+          }),
         )
         .then((m) => {
           setTimeout(() => {

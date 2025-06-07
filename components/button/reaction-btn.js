@@ -53,9 +53,9 @@ module.exports = {
             if (!role)
               return await interaction.followUp(
                 errorEmbed({
-                  title: 'Không tìm thấy Role',
+                  title: `\\❌ Không tìm thấy Role`,
                   description: `Role \`${roleInput}\` không tồn tại, hãy thử lại!`,
-                  emoji: false,
+                  color: Colors.Red,
                 }),
               );
           } catch (e) {

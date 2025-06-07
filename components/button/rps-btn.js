@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 
@@ -98,7 +98,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while running button rps-btn'), e);
       return await interaction.update(
-        errorEmbed({ title: `\\❌ Error while running button rps-btn`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while running button rps-btn`, description: e, color: Colors.Red }),
       );
     }
   },

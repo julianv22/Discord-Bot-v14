@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, flatten } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, flatten, Colors } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Get channel title
@@ -65,7 +65,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /youtube list-channels command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while displaying Youtube channel list`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while displaying Youtube channel list`, description: e, color: Colors.Red }),
       );
     }
   },

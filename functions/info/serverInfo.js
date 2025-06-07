@@ -1,4 +1,4 @@
-const { Client, GuildMember, Interaction, EmbedBuilder, ChannelType, Guild, Message } = require('discord.js');
+const { Client, GuildMember, Interaction, EmbedBuilder, ChannelType, Guild, Message, Colors } = require('discord.js');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Client object */
@@ -74,7 +74,7 @@ module.exports = (client) => {
       const embed = errorEmbed({
         title: `\\❌ Error while executing function serverInfo`,
         description: e,
-        color: 'Red',
+        color: Colors.Red,
       });
 
       if (interaction && typeof interaction.reply === 'function') {

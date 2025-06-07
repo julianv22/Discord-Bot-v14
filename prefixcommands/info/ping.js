@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder, Message } = require('discord.js');
+const { Client, EmbedBuilder, Message, Colors } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
 
     const ping = client.ws.ping;
     const delay = Math.abs(Date.now() - message.createdTimestamp); // Đảm bảo luôn dương
-    let color = ping < 101 ? 'Green' : ping > 300 ? 'Red' : 'Orange';
+    let color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
 
     const embed = new EmbedBuilder().setColor(color).setDescription(`**⏱ | Ping:** ${ping} / *${delay}ms*`);
 

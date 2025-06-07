@@ -1,4 +1,11 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, PermissionFlagsBits, Client, Interaction } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  PermissionFlagsBits,
+  Client,
+  Interaction,
+  Colors,
+} = require('discord.js');
 
 module.exports = {
   category: 'sub command',
@@ -58,7 +65,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /list members command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /list members command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /list members command`, description: e, color: Colors.Red }),
       );
     }
   },

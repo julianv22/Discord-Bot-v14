@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -73,7 +73,7 @@ module.exports = {
           errorEmbed({
             description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
             emoji: `\\🏆 `,
-            color: 'Green',
+            color: Colors.Green,
           }),
         );
       },
@@ -99,14 +99,14 @@ module.exports = {
           errorEmbed({
             description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
             emoji: `\\🏆 `,
-            color: 'Green',
+            color: Colors.Green,
           }),
         );
       },
       list: async () => {
         if (!tournament.status)
           return await interaction.reply(
-            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆`, color: 'Red' }),
+            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆`, color: Colors.Red }),
           );
 
         let memberList = await tournamentProfile
@@ -174,7 +174,7 @@ module.exports = {
             errorEmbed({
               description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
               emoji: `\\❗ `,
-              color: 'Orange',
+              color: Colors.Orange,
             }),
           );
 
@@ -198,7 +198,7 @@ module.exports = {
           errorEmbed({
             description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
             emoji: `\\🏆 `,
-            color: 'Green',
+            color: Colors.Green,
           }),
         );
       },
@@ -216,7 +216,7 @@ module.exports = {
         errorEmbed({
           title: `\\❌ Error while executing /tournament command [${tourCommand}]:`,
           description: e,
-          color: 'Red',
+          color: Colors.Red,
         }),
       );
     }

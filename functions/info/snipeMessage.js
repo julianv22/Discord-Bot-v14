@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, GuildMember, Message, Interaction, EmbedBuilder, Colors } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -55,7 +55,7 @@ module.exports = (client) => {
       const embed = errorEmbed({
         title: `\\❌ Error while executing function snipeMessage`,
         description: e,
-        color: 'Red',
+        color: Colors.Red,
       });
 
       if (interaction && typeof interaction.reply === 'function') {

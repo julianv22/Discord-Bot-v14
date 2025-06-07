@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
 
 module.exports = {
   category: 'moderator',
@@ -57,7 +57,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /edit-message command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /edit-message command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /edit-message command`, description: e, color: Colors.Red }),
       );
     }
   },

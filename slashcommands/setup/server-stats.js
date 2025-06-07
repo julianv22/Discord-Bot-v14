@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -78,7 +78,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /setup server-stats command:', e));
       return await interaction.reply(
-        client.errorEmbed({ title: `\\❌ Error while setting up server stats`, description: e, color: 'Red' }),
+        client.errorEmbed({ title: `\\❌ Error while setting up server stats`, description: e, color: Colors.Red }),
       );
     }
   },

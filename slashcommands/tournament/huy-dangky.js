@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -34,7 +34,7 @@ module.exports = {
           errorEmbed({
             description: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
             emoji: `\\🏆 `,
-            color: 'Red',
+            color: Colors.Red,
           }),
         );
       // Check Tournament's Status
@@ -79,12 +79,12 @@ module.exports = {
       } else await guild.members.cache.get(user.id).roles.remove(role);
 
       await interaction.reply(
-        errorEmbed({ description: `${user} huỷ đăng ký giải ${role}!!`, emoji: `\\🏆 `, color: 'Green' }),
+        errorEmbed({ description: `${user} huỷ đăng ký giải ${role}!!`, emoji: `\\🏆 `, color: Colors.Green }),
       );
     } catch (e) {
       console.error(chalk.red('Error while executing /huy-dang-ky command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Error while executing /huy-dang-ky command`, description: e, color: 'Red' }),
+        errorEmbed({ title: `\\❌ Error while executing /huy-dang-ky command`, description: e, color: Colors.Red }),
       );
     }
   },

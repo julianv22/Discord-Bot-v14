@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
 const moment = require('moment-timezone');
 
 module.exports = {
@@ -55,7 +55,7 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /github command', e));
       return await interaction
-        .reply(errorEmbed({ title: `Error while executing /github command`, description: e, color: 'Red' }))
+        .reply(errorEmbed({ title: `Error while executing /github command`, description: e, color: Colors.Red }))
         .catch(console.error);
     }
   },

@@ -5,6 +5,7 @@ const {
   ApplicationCommandType,
   PermissionFlagsBits,
   EmbedBuilder,
+  Colors,
 } = require('discord.js');
 
 module.exports = {
@@ -47,7 +48,7 @@ module.exports = {
       errorEmbed({
         description: `Suggestion has been denied! [[Jump Link](${msg.url})]`,
         emoji: `\\🚫 `,
-        color: 'Red',
+        color: Colors.Red,
       }),
     );
 
@@ -74,7 +75,11 @@ module.exports = {
       .catch((e) => {
         console.error(chalk.red('Error (Context menu/Deny Suggest):', e));
         return interaction.reply(
-          errorEmbed({ title: `\\❌ Error while running context menu: Deny Suggest`, description: e, color: 'Red' }),
+          errorEmbed({
+            title: `\\❌ Error while running context menu: Deny Suggest`,
+            description: e,
+            color: Colors.Red,
+          }),
         );
       });
   },

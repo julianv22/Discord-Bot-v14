@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
 
 module.exports = {
   category: 'moderator',
@@ -50,7 +50,11 @@ module.exports = {
     } catch (e) {
       console.error(chalk.red('Error while executing /bulk-delete command', e));
       return await interaction.reply(
-        errorEmbed({ title: `\\❌ Something went wrong while bulk deleting messages`, description: e, color: 'Red' }),
+        errorEmbed({
+          title: `\\❌ Something went wrong while bulk deleting messages`,
+          description: e,
+          color: Colors.Red,
+        }),
       );
     }
   },
