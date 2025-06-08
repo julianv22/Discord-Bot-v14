@@ -28,7 +28,7 @@ module.exports = (client) => {
           console.error(chalk.yellow(`Không thể đọc folder [./functions/${folder}]\n`), e);
           continue;
         }
-        table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '────────────', '📂');
+        table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '─'.repeat(12), '📂');
 
         let i = 1;
         for (const file of functionFiles) {

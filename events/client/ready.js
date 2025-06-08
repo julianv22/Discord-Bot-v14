@@ -10,17 +10,17 @@ module.exports = {
    */
   async execute(client) {
     const { setPresence, serverStats, checkVideos } = client;
-    const length = client.user.tag.length + 2;
+    const seperator = ['─'.repeat(16), '─'.repeat(client.user.tag.length + 2), '──'];
     const table = new ascii()
       .setBorder('│', '─', '✧', '✧')
       .setTitle('Client Login')
       .setAlignCenter(2)
       .addRow('Client Name', `${client.user.tag}\u200b\u200b`, '🚀')
-      .addRow('─'.repeat(16), '─'.repeat(length), '──')
+      .addRow(seperator)
       .addRow('Client ID', client.user.id, '🌐')
-      .addRow('─'.repeat(16), '─'.repeat(length), '──')
+      .addRow(seperator)
       .addRow(`Prefix: ${prefix}`, `Node JS: ${process.version}`, '📝')
-      .addRow('─'.repeat(16), '─'.repeat(length), '──')
+      .addRow(seperator)
       .addRow(`Author: Julian-V`, 'Client Ready!', '✅\u200b');
 
     console.log(table.toString(), chalk.bgYellow('\n----------------Project is started!----------------\n'));

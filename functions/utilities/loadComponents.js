@@ -45,7 +45,7 @@ module.exports = (client) => {
           console.error(chalk.yellow(`Không thể đọc folder: [./components/${folder}]\n`), e);
           return;
         }
-        table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '────────────', '📂');
+        table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '─'.repeat(12), '📂');
 
         let i = 1;
         componentFiles.forEach((file) => {

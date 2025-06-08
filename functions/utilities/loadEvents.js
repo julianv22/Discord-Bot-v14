@@ -26,7 +26,7 @@ module.exports = (client) => {
           console.error(chalk.yellow(`Không thể đọc folder [./events/${folder}]\n`), e);
           continue;
         }
-        table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '────────────', '📂');
+        table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '─'.repeat(12), '📂');
 
         let i = 1;
         for (const file of eventFiles) {
@@ -36,8 +36,8 @@ module.exports = (client) => {
             if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
             else client.on(event.name, (...args) => event.execute(...args, client));
 
-            table.addRow('', i++, file.split('.')[0], '📝');
-            if (event.name !== file.split('.')[0]) table.addRow('', '', `⤷(${event.name})`, '');
+            if (event.name !== file.split('.')[0] && i > 1) table.addRow();
+            table.addRow(event.name !== file.split('.')[0] ? file.split('.')[0] : '', i++, event.name, '📝');
             count++;
           } catch (e) {
             console.error(chalk.yellow(`Lỗi khi load event file: [./events/${folder}/${file}]\n`), e);
