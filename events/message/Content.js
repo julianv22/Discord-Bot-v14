@@ -14,10 +14,7 @@ module.exports = {
       message.reply({
         embeds: [
           new EmbedBuilder()
-            .setAuthor({
-              name: `Hi, ${author.displayName}`,
-              iconURL: author.displayAvatarURL(true),
-            })
+            .setAuthor({ name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
             .setTitle('You cannot use commands here.')
             .setDescription(`Please use commands in a server I have joined!`)
             .setThumbnail(author.displayAvatarURL(true))

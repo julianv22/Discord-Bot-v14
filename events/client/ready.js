@@ -10,20 +10,20 @@ module.exports = {
    */
   async execute(client) {
     const { setPresence, serverStats, checkVideos } = client;
+    const length = client.user.tag.length + 2;
     const table = new ascii()
       .setBorder('│', '─', '✧', '✧')
       .setTitle('Client Login')
       .setAlignCenter(2)
       .addRow('Client Name', `${client.user.tag}\u200b\u200b`, '🚀')
-      .addRow('────────────────', '────────────────────────', '──')
+      .addRow('─'.repeat(16), '─'.repeat(length), '──')
       .addRow('Client ID', client.user.id, '🌐')
-      .addRow('────────────────', '────────────────────────', '──')
+      .addRow('─'.repeat(16), '─'.repeat(length), '──')
       .addRow(`Prefix: ${prefix}`, `Node JS: ${process.version}`, '📝')
-      .addRow('────────────────', '────────────────────────', '──')
+      .addRow('─'.repeat(16), '─'.repeat(length), '──')
       .addRow(`Author: Julian-V`, 'Client Ready!', '✅\u200b');
 
-    console.log(table.toString());
-    console.log(chalk.bgYellow('\n-----------------Project is started!-----------------\n'));
+    console.log(table.toString(), chalk.bgYellow('\n----------------Project is started!----------------\n'));
 
     // Lastest youtube videos
     await checkVideos();
