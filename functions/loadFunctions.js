@@ -7,7 +7,7 @@ module.exports = (client) => {
   client.loadFunctions = () => {
     try {
       const table = new ascii()
-        .setHeading('Folder', '🔢', 'Function Name', '♻')
+        .setHeading('Folder', '♻', 'Function Name')
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
@@ -28,14 +28,14 @@ module.exports = (client) => {
           console.error(chalk.yellow(`Không thể đọc folder [./functions/${folder}]\n`), e);
           continue;
         }
-        table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '─'.repeat(12), '📂');
+        table.addRow(`📂 ${folder.toUpperCase()} [${functionFiles.length}]`, '─', '─'.repeat(18));
 
         let i = 1;
         for (const file of functionFiles) {
           try {
             delete require.cache[require.resolve(`../functions/${folder}/${file}`)];
             require(`../functions/${folder}/${file}`)(client);
-            table.addRow('', i++, file.split('.')[0], '📝');
+            table.addRow('', i++, file.split('.')[0]);
             count++;
           } catch (e) {
             console.error(chalk.yellow(`Lỗi khi load function file [./functions/${folder}/${file}]\n`), e);

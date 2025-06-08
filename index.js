@@ -23,7 +23,7 @@ client.menus = new Collection();
 client.modals = new Collection();
 client.snipes = new Collection();
 
-console.log(chalk.bgYellow('\n----------------Project is running!----------------\n'));
+console.log(chalk.bgYellow('\n---------------Project is running---------------\n'));
 
 // Kiểm tra biến môi trường
 if (!process.env.mongodb) {

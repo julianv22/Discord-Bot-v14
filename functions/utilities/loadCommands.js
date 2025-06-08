@@ -54,7 +54,7 @@ module.exports = (client) => {
        */
       async function LoadCommands(name, folderName, commandFolders) {
         const table = new ascii()
-          .setHeading('Folder', '🔢', 'Command Name', '♻')
+          .setHeading('Folder', '♻', 'Command Name')
           .setAlignCenter(1)
           .setBorder('│', '─', '✧', '✧');
         let count = 0;
@@ -68,7 +68,7 @@ module.exports = (client) => {
             console.error(chalk.yellow(`Không thể đọc folder: [./${folderName}/${folder}]`), e);
             continue;
           }
-          table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '─'.repeat(12), '📂');
+          table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '─'.repeat(12));
 
           let i = 1;
           commandFiles.forEach((file) => {
@@ -84,7 +84,7 @@ module.exports = (client) => {
               }
             }
 
-            table.addRow('', i++, command.data ? command.data.name : command.name, '📝');
+            table.addRow('', i++, command.data ? command.data.name : command.name);
             count++;
           });
         }

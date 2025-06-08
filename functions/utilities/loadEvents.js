@@ -6,10 +6,7 @@ const ascii = require('ascii-table');
 module.exports = (client) => {
   client.loadEvents = () => {
     try {
-      const table = new ascii()
-        .setHeading('Folder', '🔢', 'Event Name', '♻')
-        .setAlignCenter(1)
-        .setBorder('│', '─', '✧', '✧');
+      const table = new ascii().setHeading('Folder', '♻', 'Event Name').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let count = 0;
       let eventFolders = [];
       try {
@@ -26,7 +23,7 @@ module.exports = (client) => {
           console.error(chalk.yellow(`Không thể đọc folder [./events/${folder}]\n`), e);
           continue;
         }
-        table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '─'.repeat(12), '📂');
+        table.addRow(`📂 ${folder.toUpperCase()} [${eventFiles.length}]`, '─', '─'.repeat(21));
 
         let i = 1;
         for (const file of eventFiles) {
@@ -37,7 +34,7 @@ module.exports = (client) => {
             else client.on(event.name, (...args) => event.execute(...args, client));
 
             if (event.name !== file.split('.')[0] && i > 1) table.addRow();
-            table.addRow(event.name !== file.split('.')[0] ? file.split('.')[0] : '', i++, event.name, '📝');
+            table.addRow(event.name !== file.split('.')[0] ? file.split('.')[0] : '', i++, event.name);
             count++;
           } catch (e) {
             console.error(chalk.yellow(`Lỗi khi load event file: [./events/${folder}/${file}]\n`), e);

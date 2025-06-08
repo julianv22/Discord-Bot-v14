@@ -10,20 +10,17 @@ module.exports = {
    */
   async execute(client) {
     const { setPresence, serverStats, checkVideos } = client;
-    const seperator = ['─'.repeat(16), '─'.repeat(client.user.tag.length + 2), '──'];
+    const seperator = ['─'.repeat(19), '─'.repeat(client.user.tag.length + 2)];
     const table = new ascii()
       .setBorder('│', '─', '✧', '✧')
-      .setTitle('Client Login')
+      .setTitle('✅ Client Ready\u200b')
       .setAlignCenter(2)
-      .addRow('Client Name', `${client.user.tag}\u200b\u200b`, '🚀')
+      .setHeading('🦸 Author: Julian-V', `📝 Node JS: ${process.version}`)
+      .addRow('🚀 Client Name', client.user.tag + '\u200b\u200b')
       .addRow(seperator)
-      .addRow('Client ID', client.user.id, '🌐')
-      .addRow(seperator)
-      .addRow(`Prefix: ${prefix}`, `Node JS: ${process.version}`, '📝')
-      .addRow(seperator)
-      .addRow(`Author: Julian-V`, 'Client Ready!', '✅\u200b');
+      .addRow('🌐 Client ID', client.user.id);
 
-    console.log(table.toString(), chalk.bgYellow('\n----------------Project is started!----------------\n'));
+    console.log(table.toString(), chalk.bgYellow('\n---------------Project is started!---------------\n'));
 
     // Lastest youtube videos
     await checkVideos();

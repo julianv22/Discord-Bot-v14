@@ -33,7 +33,7 @@ module.exports = (client) => {
       await modals.clear();
 
       const table = new ascii()
-        .setHeading('Folder', '🔢', 'Component Name', '♻')
+        .setHeading('Folder', '♻', 'Component Name')
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
       let count = 0;
@@ -45,11 +45,11 @@ module.exports = (client) => {
           console.error(chalk.yellow(`Không thể đọc folder: [./components/${folder}]\n`), e);
           return;
         }
-        table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '─'.repeat(12), '📂');
+        table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '─'.repeat(14));
 
         let i = 1;
         componentFiles.forEach((file) => {
-          table.addRow('', i++, file.split('.')[0], '📝');
+          table.addRow('', i++, file.split('.')[0]);
           count++;
         });
 
