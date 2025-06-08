@@ -1,4 +1,4 @@
-const { Client, Interaction, Colors } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -11,7 +11,7 @@ module.exports = (client) => {
     try {
       await type.execute(interaction, client);
     } catch (e) {
-      client.catchError(interaction, e, `Error while executing interaction [${type.data.name}]`);
+      client.catchError(interaction, e, `Error while executing interaction [${type.data.name || type.name}]`);
     }
   };
 };

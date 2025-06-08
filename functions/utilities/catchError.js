@@ -3,25 +3,25 @@ const { Client, Interaction, ChatInputCommandInteraction, Colors } = require('di
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   *
-   * @param {Error} e
-   * @param {ChatInputCommandInteraction} command
+   * Catch Error function
    * @param {Interaction} interaction
+   * @param {Error} e
+   * @param {ChatInputCommandInteraction} [command]
    */
   client.catchError = async (interaction, e, command) => {
     const { errorEmbed } = client;
 
-    let error = '';
+    let errorMessage = 'Unknown error';
 
-    if (typeof command === 'string') error = command;
+    if (typeof command === 'string') errorMessage = command;
     else
-      error = command.parent
+      errorMessage = command.parent
         ? `Error while executing ${command.category} /${command.parent} ${command.data.name}`
         : `Error while executing ${command.category} command /${command.data.name}`;
 
-    const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
+    const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, description: e, color: Colors.Red });
 
-    console.error(chalk.red(error + '\n'), e);
+    console.error(chalk.red(errorMessage + '\n'), e);
 
     if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
     else return await interaction.editReply(embed);

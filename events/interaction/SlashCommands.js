@@ -1,4 +1,4 @@
-const { Client, Interaction, ChannelType, Colors } = require('discord.js');
+const { Client, Interaction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
@@ -9,14 +9,14 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { slashCommands, subCommands, executeInteraction, errorEmbed, catchError } = client;
-    const { guild, member, commandName, options, channel } = interaction;
+    const { guild, member, options, channel, commandName } = interaction;
 
     try {
       if (channel.type === ChannelType.DM) return;
 
       if (!guild) {
         const reply = errorEmbed({ description: 'No guild found', emoji: false });
-        if (interaction.replied && !interaction.deferred) await interaction.reply(reply);
+        if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
         else await interaction.editReply(reply);
       }
 
@@ -25,8 +25,11 @@ module.exports = {
         const subcommandName = options.getSubcommand(false);
         const subcommand = subCommands.get(subcommandName);
 
-        if (command.ownerOnly && member.id !== guild.ownerId)
-          return await interaction.reply(errorEmbed({ description: 'You are not the owner.', emoji: false }));
+        if (command.ownerOnly && member.id !== guild.ownerId) {
+          const reply = errorEmbed({ description: 'You are not the owner', emoji: false });
+          if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
+          else await interaction.editReply(reply);
+        }
 
         if (subcommandName) await executeInteraction(subcommand || command, interaction);
         else await executeInteraction(command, interaction);

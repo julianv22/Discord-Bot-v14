@@ -48,7 +48,7 @@ module.exports = {
         await command.execute(message, args, client);
       } catch (e) {
         const error = `Error while executing command [${command.name}]\n`;
-        message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.re })).then((m) => {
+        message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red })).then((m) => {
           setTimeout(() => {
             m.delete();
           }, 5000);
