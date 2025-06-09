@@ -20,21 +20,21 @@ module.exports = {
       return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <username>');
 
     if (!args[0])
-      return channel.send(errorEmbed({ description: 'Hãy nhập username!', emoji: false })).then((m) => {
-        setTimeout(() => {
-          m.delete();
+      return await message.reply(errorEmbed({ description: 'Hãy nhập username!', emoji: false })).then((m) => {
+        setTimeout(async () => {
+          await m.delete();
         }, 10000);
       });
 
     fetch(`https://api.github.com/users/${args[0]}`)
       .then((res) => res.json())
-      .then((body) => {
+      .then(async (body) => {
         if (!body || body.message === 'Not Found')
-          return channel
-            .send(errorEmbed({ description: 'User not found, please enter the correct username!', emoji: false }))
+          return await message
+            .reply(errorEmbed({ description: 'User not found, please enter the correct username!', emoji: false }))
             .then((m) => {
-              setTimeout(() => {
-                m.delete();
+              setTimeout(async () => {
+                await m.delete();
               }, 10000);
             });
         let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
@@ -62,7 +62,7 @@ module.exports = {
           .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
           .setTimestamp();
 
-        channel.send({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
       });
   },
 };

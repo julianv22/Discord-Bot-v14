@@ -12,15 +12,15 @@ module.exports = (client) => {
   client.snipeMessage = async (user, target, interaction, message) => {
     const { errorEmbed, catchError } = client;
     try {
-      const msg = interaction ? interaction : message;
+      const msg = interaction || message;
       const { guildId, channelId } = msg;
       const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
 
       if (!snipe)
-        return msg.reply(errorEmbed({ description: `There is nothing to snipe.`, emoji: false })).then((m) => {
+        return await msg.reply(errorEmbed({ description: `There is nothing to snipe.`, emoji: false })).then((m) => {
           if (msg == message)
-            setTimeout(() => {
-              m.delete();
+            setTimeout(async () => {
+              await m.delete();
             }, 5000);
         });
 
@@ -50,7 +50,7 @@ module.exports = (client) => {
         })
         .addFields([{ name: 'Content:', value: `${content}` }]);
 
-      msg.reply({ embeds: [embed] });
+      await msg.reply({ embeds: [embed] });
     } catch (e) {
       catchError(interaction, e, 'Error while executing snipeMessage function');
     }

@@ -52,7 +52,7 @@ module.exports = {
         );
       // Set Tournament's Status
       tourProfile.status = false;
-      tourProfile.save().catch(console.error);
+      await tourProfile.save().catch(console.error);
       // Remove Role
       const bot = guild.members.me || (await guild.members.fetch(client.user.id));
 

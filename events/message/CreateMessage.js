@@ -11,7 +11,7 @@ module.exports = {
     const { author, channel, content } = message;
 
     if (channel && channel.type === ChannelType.DM && content.includes('help')) {
-      message.reply({
+      await message.reply({
         embeds: [
           new EmbedBuilder()
             .setAuthor({ name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
@@ -32,18 +32,18 @@ module.exports = {
       if (author.bot) return;
       else {
         if (content.toLowerCase().includes('cảm ơn'))
-          return message.reply(hint).then((m) => {
-            setTimeout(() => {
-              m.delete();
+          return await message.reply(hint).then((m) => {
+            setTimeout(async () => {
+              await m.delete();
             }, 10000);
           });
 
         const thanks = ['thank', 'ty', 'thanks'];
-        thanks.forEach((thank) => {
+        thanks.forEach(async (thank) => {
           if (content.toLowerCase().split(' ').includes(thank)) {
-            return message.reply(hint).then((m) => {
-              setTimeout(() => {
-                m.delete();
+            return await message.reply(hint).then((m) => {
+              setTimeout(async () => {
+                await m.delete();
               }, 10000);
             });
           }

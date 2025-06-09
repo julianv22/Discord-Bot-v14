@@ -11,7 +11,7 @@ module.exports = (client) => {
    * @param {String} usage - Command usage
    * @param {String} footer - Embed footer
    */
-  client.cmdGuide = (message, commandname, description, alias, usage, footer) => {
+  client.cmdGuide = async (message, commandname, description, alias, usage, footer) => {
     try {
       const { guild, author } = message;
       let stDesc = '⤷' + description;
@@ -38,10 +38,10 @@ module.exports = (client) => {
           iconURL: author.displayAvatarURL(true),
         });
 
-      message.reply({ embeds: [embed] });
+      await message.reply({ embeds: [embed] });
     } catch (e) {
       console.error(chalk.red('Error while executing cmdGuide function\n'), e);
-      return message.channel
+      return await message.channel
         .send(
           client.errorEmbed({
             title: '\\❌ Error while executing cmdGuide function',
@@ -50,8 +50,8 @@ module.exports = (client) => {
           }),
         )
         .then((m) => {
-          setTimeout(() => {
-            m.delete();
+          setTimeout(async () => {
+            await m.delete();
           }, 10000);
         });
     }

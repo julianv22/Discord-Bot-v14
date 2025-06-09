@@ -29,30 +29,32 @@ module.exports = (client) => {
         'https://png.pngtree.com/thumb_back/fw800/background/20201020/pngtree-rose-thank-you-background-image_425104.jpg',
       ];
 
-      const msg = interaction ? interaction : message;
+      const msg = interaction || message;
       const { guild } = msg;
 
       if (!user)
-        return msg.reply(errorEmbed({ description: 'You must mention someone!', emoji: false })).then((m) => {
+        return await msg.reply(errorEmbed({ description: 'You must mention someone!', emoji: false })).then((m) => {
           if (msg == message)
-            setTimeout(() => {
-              m.delete();
+            setTimeout(async () => {
+              await m.delete();
             }, 10000);
         });
 
       if (user.user ? user.user.bot : user.bot)
-        return msg.reply(errorEmbed({ description: 'Bots do not need to be thanked! 😝', emoji: false })).then((m) => {
-          if (msg == message)
-            setTimeout(() => {
-              m.delete();
-            }, 10000);
-        });
+        return await msg
+          .reply(errorEmbed({ description: 'Bots do not need to be thanked! 😝', emoji: false }))
+          .then((m) => {
+            if (msg == message)
+              setTimeout(async () => {
+                await m.delete();
+              }, 10000);
+          });
 
       if (user.id === author.id)
         return msg.reply(errorEmbed({ description: 'You cannot thank yourself! 😅', emoji: false })).then((m) => {
           if (msg == message)
-            setTimeout(() => {
-              m.delete();
+            setTimeout(async () => {
+              await m.delete();
             }, 10000);
         });
 
@@ -100,14 +102,14 @@ module.exports = (client) => {
         })
         .setTimestamp();
 
-      msg.reply({ embeds: [embed] });
+      await msg.reply({ embeds: [embed] });
 
       // Update thanksCount
       thanks.guildName = guild.name;
       thanks.usertag = user.tag;
       thanks.thanksCount = count;
       thanks.lastThanks = Date.now();
-      thanks.save().catch(console.error);
+      await thanks.save().catch(console.error);
     } catch (e) {
       catchError(interaction, e, 'Error while executing thanksUser function');
     }

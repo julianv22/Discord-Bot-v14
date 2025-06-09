@@ -20,7 +20,7 @@ module.exports = {
       const response = await fetch('https://meme-api.com/gimme');
       const data = await response.json();
       if (!data || !data.url) {
-        return message.reply(errorEmbed({ description: 'Không lấy được meme, thử lại sau!', emoji: false }));
+        return await message.reply(errorEmbed({ description: 'Không lấy được meme, thử lại sau!', emoji: false }));
       }
       const embed = new EmbedBuilder()
         .setAuthor({ name: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) })

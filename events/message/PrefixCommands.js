@@ -21,7 +21,7 @@ module.exports = {
         prefixCommands.get(cmdName) || prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(cmdName));
 
       if (!command)
-        return message
+        return await message
           .reply(
             errorEmbed({
               description: `Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`,
@@ -29,28 +29,28 @@ module.exports = {
             }),
           )
           .then((m) => {
-            setTimeout(() => {
-              m.delete();
+            setTimeout(async () => {
+              await m.delete();
             }, 5000);
           });
       try {
         if (command.permissions && !member.permissions.has(command.permissions))
-          return message
+          return await message
             .reply(
               errorEmbed({ description: `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`, emoji: false }),
             )
             .then((m) => {
-              setTimeout(() => {
-                m.delete();
+              setTimeout(async () => {
+                await m.delete();
               }, 5000);
             });
 
         await command.execute(message, args, client);
       } catch (e) {
         const error = `Error while executing command [${command.name}]\n`;
-        message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red })).then((m) => {
-          setTimeout(() => {
-            m.delete();
+        await message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red })).then((m) => {
+          setTimeout(async () => {
+            await m.delete();
           }, 5000);
         });
         console.error(chalk.red(error), e);

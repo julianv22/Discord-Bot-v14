@@ -21,23 +21,25 @@ module.exports = {
 
     const keyword = args.join(' ');
     if (!keyword)
-      return message.reply(errorEmbed({ description: 'Vui lòng nhập từ khóa tìm kiếm!', emoji: false })).then((m) => {
-        setTimeout(() => {
-          m.delete();
-        }, 10000);
-      });
+      return await message
+        .reply(errorEmbed({ description: 'Vui lòng nhập từ khóa tìm kiếm!', emoji: false }))
+        .then((m) => {
+          setTimeout(async () => {
+            await m.delete();
+          }, 10000);
+        });
 
     fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${keyword}`)
       .then((res) => res.json())
-      .then((body) => {
+      .then(async (body) => {
         if (body.status === 404)
           return message
             .reply(
               errorEmbed({ description: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false }),
             )
             .then((m) => {
-              setTimeout(() => {
-                m.delete();
+              setTimeout(async () => {
+                await m.delete();
               }, 10000);
             });
 
@@ -67,10 +69,10 @@ module.exports = {
           })
           .setThumbnail(thumbnail);
 
-        message.reply({ embeds: [embed] });
+        await message.reply({ embeds: [embed] });
       })
-      .catch((e) => {
-        message
+      .catch(async (e) => {
+        await message
           .reply(
             errorEmbed({
               title: '\\❌ Error while running `/wikipedia` command:',

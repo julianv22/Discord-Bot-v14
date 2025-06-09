@@ -17,14 +17,14 @@ module.exports = {
     let toSay = args.join(' ');
 
     if (!toSay)
-      return message
+      return await message
         .reply(client.errorEmbed({ description: 'Please enter the content you want the bot to say!', emoji: false }))
         .then((m) => {
-          setTimeout(() => {
-            m.delete();
+          setTimeout(async () => {
+            await m.delete();
           }, 10000);
         });
 
-    if (message.deletable) message.delete().then(() => message.channel.send(toSay));
+    if (message.deletable) await message.delete().then(() => message.channel.send(toSay));
   },
 };

@@ -25,14 +25,11 @@ module.exports = (client) => {
     const { errorEmbed, catchError } = client;
     try {
       const member = guild.members.cache.get(user.id);
-      if (!member) {
-        if (interaction && typeof interaction.reply === 'function') {
-          await interaction.reply(errorEmbed({ description: 'User is not in this server.', emoji: false }));
-        } else if (message && typeof message.reply === 'function') {
-          message.reply(errorEmbed({ description: 'User is not in this server.', emoji: false }));
-        }
-        return;
-      }
+      if (!member)
+        return await (interaction || message).reply(
+          errorEmbed({ description: 'User is not in this server.', emoji: false }),
+        );
+
       const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
       const isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);
 
@@ -94,7 +91,7 @@ module.exports = (client) => {
           },
         ]);
 
-      (interaction ? interaction : message).reply({ embeds: [embed] });
+      await (interaction || message).reply({ embeds: [embed] });
     } catch (e) {
       catchError(interaction, e, 'Error while executing function userInfo');
     }

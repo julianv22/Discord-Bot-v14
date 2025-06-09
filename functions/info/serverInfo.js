@@ -69,7 +69,7 @@ module.exports = (client) => {
           },
         ]);
 
-      (interaction ? interaction : message).reply({ embeds: [embed] });
+      await (interaction || message).reply({ embeds: [embed] });
     } catch (e) {
       catchError(interaction, e, 'Error while executing serverInfo function');
     }

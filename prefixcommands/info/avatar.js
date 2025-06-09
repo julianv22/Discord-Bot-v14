@@ -28,6 +28,6 @@ module.exports = {
         iconURL: author.displayAvatarURL(true),
       });
 
-    message.reply({ embeds: [avtEmbed] });
+    await message.reply({ embeds: [avtEmbed] });
   },
 };

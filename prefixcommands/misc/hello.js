@@ -24,11 +24,12 @@ module.exports = {
         time: 5000,
         max: 1,
       })
-      .then((m) => {
+      .then(async (m) => {
         // console.log(m.first().content);
-        m.first()
+        await m
+          .first()
           .delete()
-          .then(() => msg.edit(`Hello ${m.first().content}!`));
+          .then(async () => await msg.edit(`Hello ${m.first().content}!`));
       })
       .catch(console.error);
   },

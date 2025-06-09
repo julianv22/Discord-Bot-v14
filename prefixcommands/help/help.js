@@ -53,11 +53,12 @@ module.exports = {
       })
       .setTimestamp();
 
-    message.delete().then(() =>
-      message.channel.send({
-        embeds: [embed],
-        components: [infoButtons()],
-      }),
+    await message.delete().then(
+      async () =>
+        await message.channel.send({
+          embeds: [embed],
+          components: [infoButtons()],
+        }),
     );
   },
 };

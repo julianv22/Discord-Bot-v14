@@ -76,7 +76,7 @@ module.exports = {
           },
         };
         if (typeof Disable[confirm] === 'function') await Disable[confirm]();
-        profile.save().catch(console.error);
+        await rofile.save().catch(console.error);
         return await interaction.update({
           embeds: [
             confirmEmbed(

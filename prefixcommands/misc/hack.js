@@ -20,24 +20,24 @@ module.exports = {
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
-      return message
+      return await message
         .reply(errorEmbed({ description: 'Phải @ đến nạn nhân để hack 🤣!', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     if (target.id === author.id)
-      return message
+      return await message
         .reply(errorEmbed({ description: 'Ngu dốt! Không thể hack chính mình 😅!', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     if (target.id === guild.ownerId)
-      return message
+      return await message
         .reply(errorEmbed({ description: 'Không động được vào thằng này đâu nhá! 🎭', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     if (target.id === cfg.clientID)
-      return message
+      return await message
         .reply(errorEmbed({ description: 'Are you sure 🤔', emoji: false }))
-        .then((m) => setTimeout(() => m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     let username = target.displayName || target.user?.tag || target.id;
     const text = [
@@ -70,23 +70,23 @@ module.exports = {
     const randomProcess2 = Math.floor(Math.random() * process2.length);
     const randomProcess3 = Math.floor(Math.random() * process3.length);
     const msg = await message.reply(text[randomText]);
-    setTimeout(() => {
-      msg.edit(process1[randomProcess1]).catch(console.error);
+    setTimeout(async () => {
+      await msg.edit(process1[randomProcess1]).catch(console.error);
     }, 1500);
-    setTimeout(() => {
-      msg.edit(process2[randomProcess2]).catch(console.error);
+    setTimeout(async () => {
+      await msg.edit(process2[randomProcess2]).catch(console.error);
     }, 2500);
-    setTimeout(() => {
-      msg.edit(process3[randomProcess3]).catch(console.error);
+    setTimeout(async () => {
+      await msg.edit(process3[randomProcess3]).catch(console.error);
     }, 3500);
-    setTimeout(() => {
-      msg.edit(processEnd).catch(console.error);
+    setTimeout(async () => {
+      await msg.edit(processEnd).catch(console.error);
     }, 4500);
-    setTimeout(() => {
-      msg.edit(endText).catch(console.error);
+    setTimeout(async () => {
+      await msg.edit(endText).catch(console.error);
     }, 5500);
-    setTimeout(() => {
-      msg.edit(result).catch(console.error);
+    setTimeout(async () => {
+      await msg.edit(result).catch(console.error);
     }, 6000);
   },
 };

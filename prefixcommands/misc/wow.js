@@ -25,6 +25,6 @@ module.exports = {
       .setColor('Random')
       .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png');
 
-    if (message.deletable) message.delete().then(() => message.channel.send({ embeds: [embed] }));
+    if (message.deletable) await message.delete().then(async () => await message.channel.send({ embeds: [embed] }));
   },
 };

@@ -25,8 +25,8 @@ module.exports = {
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);
 
-    getQuote()
-      .then((quote) => {
+    await getQuote()
+      .then(async (quote) => {
         const { author, guild } = message;
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -38,13 +38,13 @@ module.exports = {
             iconURL: author.displayAvatarURL(true),
           })
           .setTimestamp();
-        message.channel.send({ embeds: [embed] });
+        await message.channel.send({ embeds: [embed] });
       })
-      .then(() => {
-        if (message.deletable) message.delete().catch(console.error);
+      .then(async () => {
+        if (message.deletable) await message.delete().catch(console.error);
       })
-      .catch((e) => {
-        message.channel.send('Đã xảy ra lỗi khi lấy quote!').catch(console.error);
+      .catch(async (e) => {
+        await message.channel.send('Đã xảy ra lỗi khi lấy quote!').catch(console.error);
         console.error(chalk.red('Error fetching quote\n'), e);
       });
   },

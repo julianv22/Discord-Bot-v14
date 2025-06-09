@@ -98,10 +98,8 @@ module.exports = (client) => {
           text: `Requested by ${author.displayName}`,
           iconURL: author.displayAvatarURL(true),
         });
-      (interaction ? interaction : message).reply({
-        embeds: [embed],
-        components: [infoButtons()],
-      });
+
+      await (interaction || message).reply({ embeds: [embed], components: [infoButtons()] });
     } catch (e) {
       catchError(interaction, e, 'Error while executing botInfo function');
     }
