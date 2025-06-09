@@ -12,7 +12,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.thanksUser = async (user, author, interaction, message) => {
-    const { errorEmbed } = client;
+    const { errorEmbed, catchError } = client;
     try {
       const imgURL = [
         'https://cdn.discordapp.com/attachments/976364997066231828/987822146279587850/unknown.png',

@@ -10,7 +10,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.snipeMessage = async (user, target, interaction, message) => {
-    const { errorEmbed } = client;
+    const { errorEmbed, catchError } = client;
     try {
       const msg = interaction ? interaction : message;
       const { guildId, channelId } = msg;

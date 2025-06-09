@@ -22,7 +22,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.userInfo = async (guild, user, author, interaction, message) => {
-    const { errorEmbed } = client;
+    const { errorEmbed, catchError } = client;
     try {
       const member = guild.members.cache.get(user.id);
       if (!member) {
