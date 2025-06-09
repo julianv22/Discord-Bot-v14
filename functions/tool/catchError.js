@@ -1,4 +1,4 @@
-const { Client, Interaction, ChatInputCommandInteraction, Colors } = require('discord.js');
+const { Client, Interaction, ChatInputCommandInteraction, Colors, Message } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -7,6 +7,7 @@ module.exports = (client) => {
    * @param {Interaction} interaction
    * @param {Error} e
    * @param {ChatInputCommandInteraction} [command]
+   * @param {Message} [message]
    */
   client.catchError = async (interaction, e, command) => {
     const { errorEmbed } = client;
@@ -22,7 +23,6 @@ module.exports = (client) => {
     const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, description: e, color: Colors.Red });
 
     console.error(chalk.red(errorMessage + '\n'), e);
-
     if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
     else return await interaction.editReply(embed);
   };

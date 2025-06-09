@@ -31,8 +31,7 @@ module.exports = {
           else await interaction.editReply(reply);
         }
 
-        if (subcommandName) await subcommand.execute(interaction, client);
-        //executeInteraction(subcommand || command, interaction);
+        if (subcommandName) await (subcommand || command).execute(interaction, client);
         else await command.execute(interaction, client);
       } else if (interaction.isContextMenuCommand()) {
         const context = slashCommands.get(commandName);

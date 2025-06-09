@@ -52,12 +52,7 @@ module.exports = (client) => {
 
       msg.reply({ embeds: [embed] });
     } catch (e) {
-      const errorMessage = 'Error while executing snipeMessage function';
-      if (interaction) catchError(interaction, e, errorMessage);
-      else if (message) {
-        console.error(chalk.red(errorMessage + '\n'), e);
-        return message.reply(errorEmbed({ title: '\\❌ ' + errorMessage, description: e, color: Colors.Red }));
-      }
+      catchError(interaction, e, 'Error while executing snipeMessage function');
     }
   };
 };
