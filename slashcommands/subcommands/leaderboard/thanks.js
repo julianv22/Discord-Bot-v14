@@ -48,7 +48,7 @@ module.exports = {
           iconURL: user.displayAvatarURL(true),
         })
         .setTimestamp();
-      return await interaction.reply({ embeds: [embed], ephemeral: false });
+      return await interaction.reply({ embeds: [embed] });
     } catch (e) {
       catchError(interaction, e, this);
     }

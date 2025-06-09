@@ -33,7 +33,7 @@ module.exports = (client) => {
       let servers = await serverProfile.find({}).catch(console.error);
       for (const server of servers) {
         const {
-          youtube: { channels = [], lastVideos = [], notifyChannel },
+          youtube: { channels = [], lastVideos = [], notifyChannel, alert },
           guildID,
         } = server;
         if (!channels.length || !notifyChannel) continue;
@@ -52,8 +52,11 @@ module.exports = (client) => {
 
             // Gửi thông báo lên kênh
             const guild = client.guilds.cache.get(guildID);
+
             if (guild) {
               const channel = guild.channels.cache.get(notifyChannel);
+              const role = guild.roles.cache.get(alert);
+
               if (channel) {
                 // Thông báo text với tên kênh và link + embed nhúng video
                 const embed = new EmbedBuilder()
@@ -64,7 +67,7 @@ module.exports = (client) => {
                   .setImage(`https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg`)
                   .setFooter({ text: channelTitle || 'Youtube' });
                 await channel.send({
-                  content: `\\🎬 **[${
+                  content: `${role ? `${role} ` : ''}\\🎬 **[${
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:`,
                   embeds: [embed],

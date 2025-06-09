@@ -1,4 +1,15 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const {
+  SlashCommandBuilder,
+  Client,
+  Interaction,
+  PermissionFlagsBits,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  Colors,
+} = require('discord.js');
+const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   category: 'setup',
@@ -35,6 +46,10 @@ module.exports = {
       sub
         .setName('list-channels')
         .setDescription(`List YouTube channels that have been registered. ${cfg.adminRole} only`),
+    )
+    .addSubcommand(
+      (sub) => sub.setName('alerts').setDescription(`Set alert role for Youtube notifications. ${cfg.adminRole} only`),
+      // .addRoleOption((opt) => opt.setName('role').setDescription('Choice alert role, set empty for removing')),
     ),
   /**
    * Setup YouTube
@@ -42,12 +57,36 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { options } = interaction;
+    const { guild, options } = interaction;
     const { errorEmbed, checkVideos } = client;
     const subcommand = options.getSubcommand();
+
     if (subcommand === 'refresh') {
       await checkVideos();
-      return await interaction.reply(errorEmbed({ description: 'Refesh successfull!', emoji: true }));
+      return await interaction.reply(errorEmbed({ description: 'Refesh successfully!', emoji: true }));
+    } else if (subcommand === 'alerts') {
+      let profile = await serverProfile.findOne({ guildID: guild.id });
+      const { youtube } = profile;
+      const role = guild.roles.cache.get(youtube.alert);
+
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setColor(Colors.Orange)
+        .setTitle('Role thông báo khi Youtube có video mới ')
+        .setDescription(role ? `Alert role: ${role}` : 'Chưa có YouTube alert role nào được thiết lập.')
+        .setThumbnail(
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
+        )
+        .setTimestamp();
+
+      await interaction.reply({
+        embeds: [embed],
+        components: [
+          new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('youtube-alert-btn').setLabel('Set Role').setStyle(ButtonStyle.Primary),
+          ),
+        ],
+      });
     }
   },
 };

@@ -27,6 +27,7 @@ const serverProfile = new mongoose.Schema({
     channels: { type: Array },
     lastVideos: { type: Array },
     notifyChannel: { type: String },
+    alert: { type: String },
   },
   tournament: {
     id: { type: String },
