@@ -89,7 +89,7 @@ module.exports = {
         });
       } else if (feature === 'cancel') {
         return await interaction.update({
-          embeds: [confirmEmbed(`\\❌ Đã hủy bỏ!`, `Click vào \`Dismiss message\` để trở về`, 'Red')],
+          embeds: [confirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', 'Red')],
           components: [disableButtons(oldComponents)],
         });
       } else await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });

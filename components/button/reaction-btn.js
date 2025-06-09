@@ -25,7 +25,8 @@ module.exports = {
           const emojiArray = reactionMap.get(message.id);
 
           await interaction.update({
-            content: `Vui lòng nhập **emoji và tên role** theo định dạng \`emoji | @tên_role\` (ví dụ: \`👍 | @Tên_Role\` hoặc \`:custom_emoji: | @Tên_Role\`).\nBạn có 5 phút để nhập. Để kết thúc nhập \`Done\``,
+            content:
+              'Vui lòng nhập **emoji và tên role** theo định dạng `emoji | @tên_role` (ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`).\nBạn có 5 phút để nhập. Để kết thúc nhập `Done`',
           });
 
           const filter = (m) => m.author.id === user.id && m.channel.id === channel.id;
@@ -41,7 +42,7 @@ module.exports = {
 
             const [emojiInput, roleInput] = input.split('|').map((v) => v.trim());
             if (!emojiInput || !roleInput)
-              return await interaction.followUp({ content: `Nhập sai cú pháp \`emoji | @tên_role\``, flags: 64 });
+              return await interaction.followUp({ content: 'Nhập sai cú pháp `emoji | @tên_role`', flags: 64 });
 
             let role = roleInput;
             try {

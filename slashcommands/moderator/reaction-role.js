@@ -20,7 +20,7 @@ module.exports = {
     const reactionEmbed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setColor('Random')
-      .setTitle(`\`💬Title\`: Đặt tiêu đề cho reaction role`)
+      .setTitle('`💬Title`: Đặt tiêu đề cho reaction role')
       .setDescription(
         `Vui lòng tạo role trước khi thêm reaction role!\n\n\`🎨Color\`: Đặt màu sắc cho embed\n\`\`\`fix\n${Object.keys(
           Colors,

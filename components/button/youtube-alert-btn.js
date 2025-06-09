@@ -13,7 +13,7 @@ module.exports = {
     const { errorEmbed } = client;
 
     await interaction.reply({
-      content: 'Vui lòng nhập Alert Role (`@tên_role`) hoặc nhập `delete` để xóa vai trò cảnh báo YouTube hiện tại.',
+      content: 'Vui lòng nhập Alert Role `@tên_role` hoặc nhập `delete` để xóa YouTube Alert Role hiện tại.',
       flags: 64,
     });
 
@@ -33,7 +33,6 @@ module.exports = {
       if (input === 'delete') {
         newEmbed.setDescription('Chưa có YouTube Alert Role nào được thiết lập.');
         await message.edit({ embeds: [newEmbed] });
-        // await m.delete();
         await interaction.followUp(
           errorEmbed({ description: `YouTube Alert Role <@${youtube.alert}> đã được xóa`, emoji: false }),
         );
@@ -48,13 +47,10 @@ module.exports = {
           await profile.save().catch(console.error);
           newEmbed.setDescription(`Alert Role: ${role}`);
           await message.edit({ embeds: [newEmbed] });
-          // await m.delete();
-        } else {
-          // await m.delete();
+        } else
           await interaction.followUp(
             errorEmbed({ description: 'Alert Role không hợp lệ hoặc role không tồn tại.', flags: 64 }),
           );
-        }
       }
     });
 

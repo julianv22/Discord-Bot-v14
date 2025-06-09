@@ -20,7 +20,7 @@ module.exports = {
       if (!profile)
         return await interaction.reply(
           errorEmbed({
-            description: `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`,
+            description: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
           }),
         );

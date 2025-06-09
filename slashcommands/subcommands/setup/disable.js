@@ -27,13 +27,13 @@ module.exports = {
         label: '⭐ Disable Starboard System',
         customId: 'disable-btn:starboard',
         style: ButtonStyle.Primary,
-        // style: 'Tắt chức năng Starboard System',
+        // 'Tắt chức năng Starboard System',
       },
       {
         label: '💡 Disable Suggest Channel',
         customId: 'disable-btn:suggest',
         style: ButtonStyle.Primary,
-        // style: 'Tắt chức năng Suggestion',
+        // 'Tắt chức năng Suggestion',
       },
     ];
     const buttons2 = [
@@ -41,23 +41,23 @@ module.exports = {
         label: '🎬 Disable Youtube Notify',
         customId: 'disable-btn:youtube',
         style: ButtonStyle.Danger,
-        // style: 'Tắt thông báo video mới trên Youtube',
+        // 'Tắt thông báo video mới trên Youtube',
       },
       {
         label: '🎉 Disable Welcome System',
         customId: 'disable-btn:welcome',
         style: ButtonStyle.Success,
-        // style: 'Tắt chức năng chào mừng thành viên mới',
+        // 'Tắt chức năng chào mừng thành viên mới',
       },
     ];
     const embed = new EmbedBuilder()
       .setAuthor({ name: `Disable Features`, iconURL: user.displayAvatarURL(true) })
       .setColor(Colors.Orange)
       .addFields(
-        { name: `\\⭐ Disable Starboard System`, value: `\`Tắt chức năng Starboard System\`` },
-        { name: `\\💡 Disable Suggest Channel`, value: `\`Tắt chức năng Suggestion\`` },
-        { name: `\\🎬 Disable Youtube Notify`, value: `\`Tắt thông báo video mới trên Youtube\`` },
-        { name: `\\🎉 Disable Welcome System`, value: `\`Tắt chức năng chào mừng thành viên mới\`` },
+        { name: '\\⭐ Disable Starboard System', value: '`Tắt chức năng Starboard System`' },
+        { name: '\\💡 Disable Suggest Channel', value: '`Tắt chức năng Suggestion`' },
+        { name: '\\🎬 Disable Youtube Notify', value: '`Tắt thông báo video mới trên Youtube`' },
+        { name: '\\🎉 Disable Welcome System', value: '`Tắt chức năng chào mừng thành viên mới`' },
       )
       .setTimestamp()
       .setThumbnail(guild.iconURL(true))

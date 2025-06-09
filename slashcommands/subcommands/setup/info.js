@@ -12,24 +12,31 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { guild, user, guildId } = interaction;
+    const { guild, user } = interaction;
     const { errorEmbed, catchError, channels } = client;
 
     try {
-      let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
+      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
       if (!profile)
-        return await interaction.reply(errorEmbed({ description: 'Hiện chưa có setup nào cho server', emoji: false }));
+        return await interaction.reply(
+          errorEmbed({ description: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false }),
+        );
 
-      const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel);
-      const logChannel = channels.cache.get(profile?.setup?.welcome?.log);
-      const starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel);
-      const youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel);
+      const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';
+      const welcomeMessage = profile?.setup?.welcome?.message || '\\⚠️ `/setup welcome`';
+      const logChannel = channels.cache.get(profile?.setup?.welcome?.log) || '\\⚠️ Not set';
+      const starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel) || '\\⚠️ `/setup starboard`';
+      const youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel) || '\\⚠️ `/youtube notify';
       const ytChannels = profile?.youtube?.channels?.length;
-      const suggestChannel = channels.cache.get(profile?.setup?.suggest);
-      const welcomeMessage = profile?.setup?.welcome?.message;
-      const tourName = profile?.tournament?.id ? `${guild.roles.cache.get(profile?.tournament?.id)}` : 'None';
-      const tourStatus = profile?.tournament?.status == true ? '\\✅ Open' : '\\❌ Closed';
+      const alertRole = profile?.youtube.alert
+        ? `${guild.roles.cache.get(profile.youtube.alert)}`
+        : '\\⚠️ `/youtube alerts`';
+      const suggestChannel = channels.cache.get(profile?.setup?.suggest) || '\\⚠️ `/setup suggest`';
+      const tourName = profile?.tournament?.id
+        ? `${guild.roles.cache.get(profile.tournament.id)}`
+        : '\\⚠️ `/tournament`';
+      const tourStatus = profile?.tournament?.status ? '\\✅ Open' : '\\❌ Closed';
       const starCount = profile?.setup?.starboard?.star;
       const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
 
@@ -41,42 +48,22 @@ module.exports = {
         .setThumbnail(
           'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png',
         )
+        .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
+        .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: true })
+        .addFields({ name: 'Log Channel', value: `${logChannel}`, inline: true })
+        .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount || '0'}\\⭐)`, inline: false })
+        .addFields({ name: 'Suggest Channel', value: `${suggestChannel}`, inline: false })
         .addFields({
-          name: 'Welcome channel',
-          value: `${welcomeChannel || '\\⚠️ `/setup welcome`'}`,
-          inline: true,
-        })
-        .addFields({
-          name: 'Welcome message',
-          value: `${welcomeMessage || '\\⚠️ `/setup welcome`'}`,
-          inline: true,
-        })
-        .addFields({ name: 'Log channel', value: `${logChannel || '\\⚠️ Not set'}`, inline: true })
-        .addFields({
-          name: 'Starboard channel',
-          value: `${starboardChannel || '\\⚠️ `/setup starboard`'} (${starCount || '0'}\\⭐)`,
+          name: `Youtube Notify (${ytChannels || 0}) \`/youtube list-channel\``,
+          value: `${youtubeNotifyChannel} | Alert role: ${alertRole}`,
           inline: false,
         })
-        .addFields({
-          name: 'Suggest channel',
-          value: `${suggestChannel || '\\⚠️ `/setup suggest`'}`,
-          inline: false,
-        })
-        .addFields({
-          name: 'Youtube channel',
-          value: `${youtubeNotifyChannel || '\\⚠️ `/youtube notify`'} (${ytChannels || 0} channels)`,
-          inline: false,
-        })
-        .addFields({
-          name: `Server's Status Channel`,
-          value: serverStatus + `  \`/server-stats\``,
-          inline: false,
-        })
-        .addFields({ name: 'Tournament', value: tourName, inline: true })
+        .addFields({ name: `Server's Status Channel`, value: serverStatus + '  `/server-stats`', inline: false })
+        .addFields({ name: 'Tournament', value: `${tourName}`, inline: true })
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
-      if (profile.tournament.name) embed.addFields({ name: 'Tournament status', value: tourStatus, inline: true });
+      if (tourStatus) embed.addFields({ name: 'Tournament Status', value: tourStatus, inline: true });
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {

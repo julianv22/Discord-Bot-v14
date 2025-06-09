@@ -34,7 +34,7 @@ module.exports = {
         .setColor(Colors.Yellow)
         .addFields({
           name: '\u200b',
-          value: `\`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!\``,
+          value: '`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!`',
         })
         .setThumbnail(cfg.suggestPNG)
         .setTimestamp()

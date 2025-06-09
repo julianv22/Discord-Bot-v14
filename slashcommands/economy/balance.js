@@ -21,7 +21,7 @@ module.exports = {
       if (!profile) {
         return await interaction.reply(
           errorEmbed({
-            description: `Bạn chưa có tài khoản Economy!\n ➡ Sử dụng \`/daily\` để khởi nghiệp 😁`,
+            description: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
           }),
         );
@@ -37,26 +37,26 @@ module.exports = {
       const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : `\\🚫`;
       const achievements =
         profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : `\\🚫`;
-      const work = profile.lastWork || `\\❌ Chưa nhận (\`/job\` để nhận)`;
+      const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
       const lastJob = profile.lastJob || new Date();
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-        .setTitle(`\\💳 Economy Information`)
+        .setTitle('\\💳 Economy Information')
         .addFields(
-          { name: `\\💰 Balance`, value: `${balance}\\💲`, inline: true },
-          { name: `\\🏦 Bank`, value: `${bank}\\💲`, inline: true },
-          { name: `\\🔥 Streak`, value: `${streak} / (max: ${maxStreak})`, inline: true },
-          { name: `Tổng số \\💲 đã kiếm được`, value: `${totalEarned}\\💲`, inline: true },
-          { name: `Tổng số \\💲 đã chi tiêu`, value: `${totalSpent}\\💲`, inline: true },
+          { name: '\\💰 Balance', value: `${balance}\\💲`, inline: true },
+          { name: '`\\🏦 Bank', value: `${bank}\\💲`, inline: true },
+          { name: '\\🔥 Streak', value: `${streak} / (max: ${maxStreak})`, inline: true },
+          { name: 'Tổng số \\💲 đã kiếm được', value: `${totalEarned}\\💲`, inline: true },
+          { name: 'Tổng số \\💲 đã chi tiêu', value: `${totalSpent}\\💲`, inline: true },
           {
-            name: `\u200b`,
-            value: `\`\`\`Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)\`\`\``,
+            name: '\u200b',
+            value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',
             inline: false,
           },
-          { name: `\\💼 Job`, value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
-          { name: `\\📦 Inventory`, value: inventory, inline: false },
-          { name: `\\🏆 Achievements`, value: achievements, inline: false },
+          { name: '\\💼 Job', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
+          { name: '\\📦 Inventory', value: inventory, inline: false },
+          { name: '\\🏆 Achievements', value: achievements, inline: false },
         )
         .setColor('Random')
         .setThumbnail(cfg.economyPNG)

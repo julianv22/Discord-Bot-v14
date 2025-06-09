@@ -29,10 +29,10 @@ module.exports = {
     const amount = options.getInteger('amount');
 
     if (targetUser.bot)
-      return await interaction.reply(errorEmbed({ description: `Bạn không thể chuyển \\💲 cho bot!`, emoji: false }));
+      return await interaction.reply(errorEmbed({ description: 'Bạn không thể chuyển \\💲 cho bot!', emoji: false }));
     if (targetUser.id === user.id)
       return await interaction.reply(
-        errorEmbed({ description: `Bạn không thể chuyển \\💲 cho chính mình!`, emoji: false }),
+        errorEmbed({ description: 'Bạn không thể chuyển \\💲 cho chính mình!', emoji: false }),
       );
 
     try {
@@ -45,15 +45,15 @@ module.exports = {
         return await interaction.reply(
           errorEmbed({
             description: !profile
-              ? `Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh \`/daily\` để tạo tài khoản`
-              : `Đối tượng chuyển \\💲 chưa có tài khoản Economy`,
+              ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
+              : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
             emoji: false,
           }),
         );
       if (amount < 99 || amount > profile.bank)
         return await interaction.reply(
           errorEmbed({
-            description: amount < 99 ? `Số \\💲 phải tối thiểu là 100\\💲` : `Bạn không có đủ \\💲 để chuyển!`,
+            description: amount < 99 ? 'Số \\💲 phải tối thiểu là 100\\💲' : 'Bạn không có đủ \\💲 để chuyển!',
             emoji: false,
           }),
         );

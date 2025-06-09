@@ -56,7 +56,7 @@ module.exports = {
           name: 'Kênh thông báo video mới:',
           value: youtube.notifyChannel
             ? `<#${youtube.notifyChannel}>`
-            : `\\⚠️ Vui lòng sử dụng \`/youtube notify\` để thiết lập \\⚠️`,
+            : '\\⚠️ Vui lòng sử dụng `/youtube notify` để thiết lập \\⚠️',
         })
         .setColor('Random')
         .setTimestamp()
