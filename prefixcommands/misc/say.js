@@ -25,6 +25,6 @@ module.exports = {
           }, 10000);
         });
 
-    if (message.deletable) await message.delete().then(() => message.channel.send(toSay));
+    if (message.deletable) await message.delete().then(async () => await message.channel.send(toSay));
   },
 };

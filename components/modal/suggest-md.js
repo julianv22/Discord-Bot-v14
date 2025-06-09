@@ -49,7 +49,7 @@ module.exports = {
             emoji: true,
           }),
         )
-        .then(() => ['👍', '👎'].forEach((e) => msg.react(e)));
+        .then(() => ['👍', '👎'].forEach(async (e) => await msg.react(e)));
     } catch (e) {
       catchError(interaction, e, this);
     }

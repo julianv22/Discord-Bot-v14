@@ -56,7 +56,7 @@ module.exports = {
     if (!author)
       return await interaction.followUp?.(errorEmbed({ description: 'Không tìm thấy user để gửi DM!', emoji: false }));
 
-    author
+    await author
       .send({
         embeds: [
           new EmbedBuilder()
