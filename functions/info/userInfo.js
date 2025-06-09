@@ -96,7 +96,7 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
-      const error = `Error while executing function userInfo\n`;
+      const error = 'Error while executing function userInfo\n';
       const embed = errorEmbed({
         title: `\\❌ ${error}`,
         description: e,

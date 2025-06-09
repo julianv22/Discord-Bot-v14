@@ -6,7 +6,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('github')
-    .setDescription(`Github's Information`)
+    .setDescription("Github's Information")
     .addStringOption((opt) => opt.setName('username').setDescription('Github Username').setRequired(true)),
   /**
    * Show Github's information

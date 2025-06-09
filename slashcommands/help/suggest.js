@@ -23,7 +23,7 @@ module.exports = {
     const contentInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('content')
-        .setLabel(`Suggest's Content`)
+        .setLabel("Suggest's Content")
         .setRequired(true)
         .setStyle(TextInputStyle.Paragraph),
     );

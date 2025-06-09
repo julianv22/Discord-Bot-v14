@@ -21,7 +21,7 @@ module.exports = {
 
     const keyword = args.join(' ');
     if (!keyword)
-      return message.reply(errorEmbed({ description: `Vui lòng nhập từ khóa tìm kiếm!`, emoji: false })).then((m) => {
+      return message.reply(errorEmbed({ description: 'Vui lòng nhập từ khóa tìm kiếm!', emoji: false })).then((m) => {
         setTimeout(() => {
           m.delete();
         }, 10000);
@@ -73,7 +73,7 @@ module.exports = {
         message
           .reply(
             errorEmbed({
-              title: `\\❌ Error while running \`/wikipedia\` command:`,
+              title: '\\❌ Error while running `/wikipedia` command:',
               description: e,
               color: Colors.Red,
             }),

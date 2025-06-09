@@ -10,7 +10,7 @@ module.exports = (client) => {
       let count = 0;
       let eventFolders = [];
       try {
-        eventFolders = readdirSync(`./events`);
+        eventFolders = readdirSync('./events');
       } catch (e) {
         console.error(chalk.yellow('Không thể đọc folder [./events]\n'), e);
         return;

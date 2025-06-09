@@ -25,11 +25,11 @@ module.exports = {
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
     if (targetUser.bot) {
-      return await interaction.reply(errorEmbed({ description: `Bạn không thể giật \\💲 của bot!`, emoji: false }));
+      return await interaction.reply(errorEmbed({ description: 'Bạn không thể giật \\💲 của bot!', emoji: false }));
     }
     if (targetUser.id === userID) {
       return await interaction.reply(
-        errorEmbed({ description: `Bạn không thể tự giật \\💲 của chính mình!`, emoji: false }),
+        errorEmbed({ description: 'Bạn không thể tự giật \\💲 của chính mình!', emoji: false }),
       );
     }
 
@@ -41,20 +41,20 @@ module.exports = {
       if (!profile || !targetProfile)
         return await interaction.reply(
           errorEmbed({
-            description: !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`,
+            description: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
             emoji: false,
           }),
         );
 
       if (profile.balance < 200) {
         return await interaction.reply(
-          errorEmbed({ description: `Bạn cần ít nhất 200\\💲 để thực hiện giật!`, emoji: false }),
+          errorEmbed({ description: 'Bạn cần ít nhất 200\\💲 để thực hiện giật!', emoji: false }),
         );
       }
 
       if (targetProfile.balance < 100) {
         return await interaction.reply(
-          errorEmbed({ description: `Người này không đủ \\💲 để bị giật!`, emoji: false }),
+          errorEmbed({ description: 'Người này không đủ \\💲 để bị giật!', emoji: false }),
         );
       }
 

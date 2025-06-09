@@ -33,7 +33,7 @@ module.exports = (client) => {
       const { guild } = msg;
 
       if (!user)
-        return msg.reply(errorEmbed({ description: `You must mention someone!`, emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ description: 'You must mention someone!', emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(() => {
               m.delete();
@@ -41,7 +41,7 @@ module.exports = (client) => {
         });
 
       if (user.user ? user.user.bot : user.bot)
-        return msg.reply(errorEmbed({ description: `Bots do not need to be thanked! 😝`, emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ description: 'Bots do not need to be thanked! 😝', emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(() => {
               m.delete();
@@ -49,7 +49,7 @@ module.exports = (client) => {
         });
 
       if (user.id === author.id)
-        return msg.reply(errorEmbed({ description: `You cannot thank yourself! 😅`, emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ description: 'You cannot thank yourself! 😅', emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(() => {
               m.delete();
@@ -88,14 +88,14 @@ module.exports = (client) => {
         .addFields([
           {
             name: `Thanks count: [${count}]`,
-            value: `\u200b`,
+            value: '\u200b',
             inline: true,
           },
           { name: 'Last thanks:', value: lastThanks, inline: true },
         ])
         .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
         .setFooter({
-          text: `Use /thanks to thank someone.`,
+          text: 'Use /thanks to thank someone.',
           iconURL: guild.iconURL(true),
         })
         .setTimestamp();
@@ -109,7 +109,7 @@ module.exports = (client) => {
       thanks.lastThanks = Date.now();
       thanks.save().catch(console.error);
     } catch (e) {
-      const error = `Error while executing thanksUser function\n`;
+      const error = 'Error while executing thanksUser function\n';
       const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
       console.error(chalk.red(error), e);
       if (interaction) {

@@ -35,13 +35,13 @@ module.exports = {
     );
 
     const titleInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('title').setLabel(`Title:`).setRequired(true).setStyle(TextInputStyle.Short),
+      new TextInputBuilder().setCustomId('title').setLabel('Title:').setRequired(true).setStyle(TextInputStyle.Short),
     );
 
     const descriptionInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('description')
-        .setLabel(`Description:`)
+        .setLabel('Description:')
         .setRequired(true)
         .setStyle(TextInputStyle.Paragraph),
     );

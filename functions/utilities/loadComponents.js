@@ -26,7 +26,7 @@ module.exports = (client) => {
   client.loadComponents = async () => {
     try {
       // Start Component Handle
-      const componentFolders = readdirSync(`./components`);
+      const componentFolders = readdirSync('./components');
       const { buttons, menus, modals } = client;
       await buttons.clear();
       await menus.clear();

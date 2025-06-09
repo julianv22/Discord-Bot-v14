@@ -25,7 +25,7 @@ function rpsGame(userMove, bet) {
     Emojis: { 0: '🔨', 1: '📄', 2: '✂️' },
     Results: { Lose: 0, Tie: 1, Win: 2 },
     Compares: { 0: '<', 1: '=', 2: '>' },
-    ResultStrings: { 0: `Lose \\🏳️`, 1: `Tie \\🤝`, 2: `Win \\🎉` },
+    ResultStrings: { 0: 'Lose \\🏳️', 1: 'Tie \\🤝', 2: 'Win \\🎉' },
     Colors: { 0: 'Red', 1: 'Orange', 2: 'Green' },
   };
 

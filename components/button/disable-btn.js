@@ -39,7 +39,7 @@ module.exports = {
           .setCustomId(`disable-btn:confirm:${feature}`)
           .setLabel('✅Confirm')
           .setStyle(ButtonStyle.Success),
-        new ButtonBuilder().setCustomId(`disable-btn:cancel`).setLabel('❌Cancel').setStyle(ButtonStyle.Danger),
+        new ButtonBuilder().setCustomId('disable-btn:cancel').setLabel('❌Cancel').setStyle(ButtonStyle.Danger),
       );
       /**
        * Confirm Embed

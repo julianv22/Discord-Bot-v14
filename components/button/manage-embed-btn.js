@@ -34,7 +34,7 @@ module.exports = {
      * @param {string} modalTitle - Modal title
      * @returns {ModalBuilder} - Return ModalBuilder
      */
-    function createModal(options, modalId = `manage-embed-md:${button}`, modalTitle = `Embed Manager`) {
+    function createModal(options, modalId = `manage-embed-md:${button}`, modalTitle = 'Embed Manager') {
       return new ModalBuilder().setCustomId(modalId).setTitle(modalTitle).setComponents(setTextInput(options));
     }
 
@@ -146,14 +146,14 @@ module.exports = {
               await interaction.update({
                 embeds: [
                   new EmbedBuilder()
-                    .setTitle(`\\✅ Update successfully!`)
+                    .setTitle('\\✅ Update successfully!')
                     .setDescription(`Message đã được update thành công.\n\n[Jump to message](${msg.url})`),
                 ],
                 components: [Button0, Button1],
               });
             }
           } catch (e) {
-            const error = `Error while updating embed message\n`;
+            const error = 'Error while updating embed message\n';
             console.error(chalk.red(error), e);
             return await interaction.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red }));
           }

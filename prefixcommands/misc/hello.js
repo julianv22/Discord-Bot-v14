@@ -3,7 +3,7 @@ const { Message, Client } = require('discord.js');
 module.exports = {
   name: 'hello',
   aliases: ['hi'],
-  description: `Hello! 👋`,
+  description: 'Hello! 👋',
   category: 'misc',
   cooldown: 0,
   /**
@@ -16,7 +16,7 @@ module.exports = {
     if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description, this.aliases);
 
     const { author } = message;
-    const msg = await message.reply(`What is your name?`);
+    const msg = await message.reply('What is your name?');
 
     await msg.channel
       .awaitMessages({

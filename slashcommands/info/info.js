@@ -5,14 +5,14 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('info')
-    .setDescription(`Get informations of bot/server/user`)
-    .addSubcommand((sub) => sub.setName('bot').setDescription(`Get bot's info`))
-    .addSubcommand((sub) => sub.setName('server').setDescription(`Get server's info`))
+    .setDescription('Get informations of bot/server/user')
+    .addSubcommand((sub) => sub.setName('bot').setDescription("Get bot's info"))
+    .addSubcommand((sub) => sub.setName('server').setDescription("Get server's info"))
     .addSubcommand((sub) =>
       sub
         .setName('user')
-        .setDescription(`Get user's info`)
-        .addUserOption((opt) => opt.setName('user').setDescription(`Select user`).setRequired(true)),
+        .setDescription("Get user's info")
+        .addUserOption((opt) => opt.setName('user').setDescription('Select user').setRequired(true)),
     ),
   /**
    * Show bot or server or user's info

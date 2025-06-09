@@ -23,23 +23,23 @@ module.exports = {
     const { prefixCommands, slashCommands, subCommands } = client;
     let menus = [
       {
-        emoji: { name: `📋` },
+        emoji: { name: '📋' },
         label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${cfg.prefix}) Commands`,
       },
       {
-        emoji: { name: `📝` },
+        emoji: { name: '📝' },
         label: `Slash Commands [${slashCommands.size + subCommands.size}]`,
         value: 'slash',
-        description: `List Slash (/) Commands`,
+        description: 'List Slash (/) Commands',
       },
     ];
     const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
     await interaction.reply({
       embeds: [
         {
-          author: { name: `Select Command Category ⤵️`, iconURL: cfg.helpPNG },
+          author: { name: 'Select Command Category ⤵️', iconURL: cfg.helpPNG },
           color: Math.floor(Math.random() * 0xffffff),
         },
       ],

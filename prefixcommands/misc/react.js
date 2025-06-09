@@ -30,7 +30,7 @@ module.exports = {
       const reactMessage = await message.channel.send(reactArray[reactId][0]);
       await reactMessage.react(reactArray[reactId][1]);
     } catch (e) {
-      console.error(chalk.red(`Error while reacting message`), e);
+      console.error(chalk.red('Error while reacting message'), e);
     }
   },
 };

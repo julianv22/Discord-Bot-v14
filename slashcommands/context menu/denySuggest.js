@@ -35,11 +35,11 @@ module.exports = {
     if (!embed)
       return await interaction.reply(errorEmbed({ description: 'This is not suggest message!', emoji: false }));
 
-    if (embed.title !== `Suggest's content:`)
+    if (embed.title !== "Suggest's content:")
       return await interaction.reply(errorEmbed({ description: 'This is not suggest message!', emoji: false }));
 
     const edit = EmbedBuilder.from(embed).setColor(Colors.Red).spliceFields(0, 1).setTimestamp().setFooter({
-      text: `Đề xuất không được chấp nhận`,
+      text: 'Đề xuất không được chấp nhận',
       iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
     });
     await msg.edit({ embeds: [edit] });
@@ -47,7 +47,7 @@ module.exports = {
     await interaction.reply(
       errorEmbed({
         description: `Suggestion has been denied! [[Jump Link](${msg.url})]`,
-        emoji: `\\🚫 `,
+        emoji: '\\🚫',
         color: Colors.Red,
       }),
     );

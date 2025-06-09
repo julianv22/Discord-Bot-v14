@@ -29,7 +29,7 @@ module.exports = {
         });
       }
     } catch (e) {
-      console.error(chalk.red(`Error while executing Snipe Message event\n`), e);
+      console.error(chalk.red('Error while executing Snipe Message event\n'), e);
     }
   },
 };

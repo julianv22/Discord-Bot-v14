@@ -19,7 +19,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('querydb')
-    .setDescription(`\⭕wner only`)
+    .setDescription('⭕wner only')
     .addStringOption((opt) =>
       opt
         .setName('profile')

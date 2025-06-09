@@ -51,7 +51,7 @@ module.exports = {
       },
     ];
     const embed = new EmbedBuilder()
-      .setAuthor({ name: `Disable Features`, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({ name: 'Disable Features', iconURL: user.displayAvatarURL(true) })
       .setColor(Colors.Orange)
       .addFields(
         { name: '\\⭐ Disable Starboard System', value: '`Tắt chức năng Starboard System`' },

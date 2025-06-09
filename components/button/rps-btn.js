@@ -32,7 +32,7 @@ module.exports = {
       // Kiểm tra số lần chơi trong ngày
       if (profile.rpsCount >= 50)
         return await interaction.update(
-          errorEmbed({ description: `Bạn đã chơi hết 50 lần trong ngày!`, emoji: false }),
+          errorEmbed({ description: 'Bạn đã chơi hết 50 lần trong ngày!', emoji: false }),
         );
       // Kiểm tra tiền cược
       if (profile.balance < bet) {
@@ -56,7 +56,7 @@ module.exports = {
           return `Bạn thua và bị trừ **${bet.toLocaleString()}\\💲**!`;
         },
         1: () => {
-          return `Hòa, bạn không bị trừ tiền!`;
+          return 'Hòa, bạn không bị trừ tiền!';
         },
         2: () => {
           profile.balance += winAmount;
@@ -84,12 +84,12 @@ module.exports = {
         )
         .addFields([
           {
-            name: `\\💰 Tổng tiền đã nhận`,
+            name: '\\💰 Tổng tiền đã nhận',
             value: `${profile.totalEarned?.toLocaleString() || 0}\\💲`,
             inline: true,
           },
           {
-            name: `\\💸 Tổng tiền đã chi`,
+            name: '\\💸 Tổng tiền đã chi',
             value: `${profile.totalSpent?.toLocaleString() || 0}\\💲`,
             inline: true,
           },

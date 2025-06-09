@@ -1,5 +1,5 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
-const serverProfile = require(`../../../config/serverProfile`);
+const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
   category: 'sub command',
@@ -29,7 +29,7 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-        .setTitle(`Welcome's setup information`)
+        .setTitle("Welcome's setup information")
         .setColor(Colors.Aqua)
         .setTimestamp()
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })

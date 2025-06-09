@@ -55,7 +55,7 @@ module.exports = {
               if (!role)
                 return await interaction.followUp(
                   errorEmbed({
-                    title: `\\❌ Không tìm thấy Role`,
+                    title: '\\❌ Không tìm thấy Role',
                     description: `Role \`${roleInput}\` không tồn tại, hãy thử lại!`,
                     color: Colors.Red,
                   }),
@@ -139,7 +139,7 @@ module.exports = {
     function reactionModal(
       placeholder = '',
       modalId = `reaction-md:${buttonId}`,
-      modalTitle = `Manager Reaction Role`,
+      modalTitle = 'Manager Reaction Role',
     ) {
       return new ModalBuilder()
         .setCustomId(modalId)

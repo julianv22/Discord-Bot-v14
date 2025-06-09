@@ -11,7 +11,7 @@ const economyProfile = require('../../config/economyProfile');
 module.exports = {
   category: 'context menu',
   scooldown: 0,
-  data: new ContextMenuCommandBuilder().setName(`Rob User`).setType(ApplicationCommandType.User),
+  data: new ContextMenuCommandBuilder().setName('Rob User').setType(ApplicationCommandType.User),
   /**
    * Rob money from a user
    * @param {Interaction} interaction - Interaction object
@@ -24,10 +24,10 @@ module.exports = {
 
     try {
       if (targetUser.bot)
-        return await interaction.reply(errorEmbed({ description: `Không thể giật \\💲 của bot!`, emoji: false }));
+        return await interaction.reply(errorEmbed({ description: 'Không thể giật \\💲 của bot!', emoji: false }));
       if (targetUser.id === user.id)
         return await interaction.reply(
-          errorEmbed({ description: `Không thể giật \\💲 của chính bản thân mình!`, emoji: false }),
+          errorEmbed({ description: 'Không thể giật \\💲 của chính bản thân mình!', emoji: false }),
         );
 
       let [profile, targetProfile] = await Promise.all([
@@ -38,17 +38,17 @@ module.exports = {
       if (!profile || !targetProfile)
         return await interaction.reply(
           errorEmbed({
-            description: !profile ? `Bạn chưa có tài khoản Economy` : `Đối tượng giật \\💲 chưa có tài khoản Economy`,
+            description: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
             emoji: false,
           }),
         );
       if (profile.balance < 200)
         return await interaction.reply(
-          errorEmbed({ description: `Bạn cần ít nhất 200\\💲 để thực hiện giật!`, emoji: false }),
+          errorEmbed({ description: 'Bạn cần ít nhất 200\\💲 để thực hiện giật!', emoji: false }),
         );
       if (targetProfile.balance < 100) {
         return await interaction.reply(
-          errorEmbed({ description: `Người này không đủ \\💲 để bị giật!`, emoji: false }),
+          errorEmbed({ description: 'Người này không đủ \\💲 để bị giật!', emoji: false }),
         );
       }
       // Cooldown

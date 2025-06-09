@@ -3,7 +3,7 @@ const { ContextMenuCommandBuilder, Client, Interaction, ApplicationCommandType }
 module.exports = {
   category: 'context menu',
   scooldown: 0,
-  data: new ContextMenuCommandBuilder().setName(`Thanks`).setType(ApplicationCommandType.User),
+  data: new ContextMenuCommandBuilder().setName('Thanks').setType(ApplicationCommandType.User),
   /**
    * Thanks user
    * @param {Interaction} interaction - Interaction object

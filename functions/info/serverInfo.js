@@ -71,7 +71,7 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
-      const error = `Error while executing serverInfo function\n`;
+      const error = 'Error while executing serverInfo function\n';
       const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
       console.error(chalk.red(error), e);
       if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);

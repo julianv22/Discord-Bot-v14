@@ -3,7 +3,7 @@ const { SlashCommandBuilder, Client, Interaction, Colors } = require('discord.js
 module.exports = {
   category: 'info',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('ping').setDescription(`Ping pong!`),
+  data: new SlashCommandBuilder().setName('ping').setDescription('Ping pong!'),
   /**
    * Get bot latency
    * @param {Interaction} interaction - Interaction object

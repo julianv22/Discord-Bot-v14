@@ -29,12 +29,12 @@ module.exports = {
           name: `${user.tag}'s suggestions`,
           iconURL: user.displayAvatarURL(true),
         })
-        .setTitle(`Suggest's content:`)
+        .setTitle("Suggest's content:")
         .setDescription(content)
         .setColor(Colors.Yellow)
         .addFields({
           name: '\u200b',
-          value: '`❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!`',
+          value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!',
         })
         .setThumbnail(cfg.suggestPNG)
         .setTimestamp()

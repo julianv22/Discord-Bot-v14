@@ -44,7 +44,7 @@ module.exports = (client) => {
         })
         .addFields([{ name: 'Author:', value: `${author}`, inline: true }])
         .addFields({
-          name: target ? `Channel:` : '\u200b',
+          name: target ? 'Channel:' : '\u200b',
           value: target ? `<#${snpChannel}>` : '\u200b',
           inline: true,
         })
@@ -52,7 +52,7 @@ module.exports = (client) => {
 
       msg.reply({ embeds: [embed] });
     } catch (e) {
-      const error = `Error while executing snipeMessage function\n`;
+      const error = 'Error while executing snipeMessage function\n';
       const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
       console.error(chalk.red(error), e);
       if (interaction) {

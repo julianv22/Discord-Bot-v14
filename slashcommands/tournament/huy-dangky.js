@@ -23,7 +23,7 @@ module.exports = {
     // Verified
     if (options.getBoolean('confirm') === false)
       return await interaction.reply(
-        errorEmbed({ description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: `[\\❗]` }),
+        errorEmbed({ description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '[\\❗]' }),
       );
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -34,7 +34,7 @@ module.exports = {
         return await interaction.reply(
           errorEmbed({
             description: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
-            emoji: `\\🏆`,
+            emoji: '\\🏆',
             color: Colors.Red,
           }),
         );
@@ -80,7 +80,7 @@ module.exports = {
       } else await guild.members.cache.get(user.id).roles.remove(role);
 
       await interaction.reply(
-        errorEmbed({ description: `${user} huỷ đăng ký giải ${role}!!`, emoji: `\\🏆`, color: Colors.Green }),
+        errorEmbed({ description: `${user} huỷ đăng ký giải ${role}!!`, emoji: '\\🏆', color: Colors.Green }),
       );
     } catch (e) {
       catchError(interaction, e, this);

@@ -35,7 +35,7 @@ module.exports = {
             embeds: [
               new EmbedBuilder()
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-                .setTitle(`Thống kê Slash Command & Sub Command`)
+                .setTitle('Thống kê Slash Command & Sub Command')
                 .addFields([
                   {
                     name: `Slash Commands\nCommands: [${slashCommands.size - contextMenus.length}] --- Categories: [${
@@ -51,7 +51,7 @@ module.exports = {
                     name: `Context Menus [**${contextMenus.length}**]`,
                     value: `\`\`\`ansi\n\u001b[36m${contextMenus.join(' | ')}\u001b[0m\`\`\``,
                   },
-                  { name: `\u200b`, value: `Select Slash Command Category \\⤵️` },
+                  { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
                 ])
                 .setThumbnail(cfg.slashPNG)
                 .setColor('Random')

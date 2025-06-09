@@ -67,7 +67,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
-            emoji: `\\🏆`,
+            emoji: '\\🏆',
             color: Colors.Green,
           }),
         );

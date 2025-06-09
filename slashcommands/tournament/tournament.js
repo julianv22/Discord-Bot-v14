@@ -72,7 +72,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
-            emoji: `\\🏆`,
+            emoji: '\\🏆',
             color: Colors.Green,
           }),
         );
@@ -98,7 +98,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
-            emoji: `\\🏆`,
+            emoji: '\\🏆',
             color: Colors.Green,
           }),
         );
@@ -106,7 +106,7 @@ module.exports = {
       list: async () => {
         if (!tournament.status)
           return await interaction.reply(
-            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: `\\🏆`, color: Colors.Red }),
+            errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: '\\🏆', color: Colors.Red }),
           );
 
         let memberList = await tournamentProfile
@@ -143,7 +143,7 @@ module.exports = {
           }
           const embed = new EmbedBuilder()
             .setAuthor({
-              name: `🏆 Danh sách thành viên tham gia giải đấu`,
+              name: '🏆 Danh sách thành viên tham gia giải đấu',
               iconURL: guild.iconURL(true),
             })
             .setColor('Random')
@@ -173,7 +173,7 @@ module.exports = {
           return await interaction.reply(
             errorEmbed({
               description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
-              emoji: `\\❗`,
+              emoji: '\\❗',
               color: Colors.Orange,
             }),
           );
@@ -197,7 +197,7 @@ module.exports = {
         await interaction.reply(
           errorEmbed({
             description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
-            emoji: `\\🏆`,
+            emoji: '\\🏆',
             color: Colors.Green,
           }),
         );
