@@ -39,19 +39,23 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed, catchError } = client;
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    if (!profile)
-      await serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
-
     const getRole = options.getRole('ten-giai');
     const tourCommand = options.getSubcommand();
+
+    if (!getRole)
+      return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
+
+    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+
+    if (!profile)
+      profile = serverProfile
+        .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+        .catch(console.error);
+
     const { tournament } = profile;
     // Gom các logic xử lý vào object
     const tourActions = {
       open: async () => {
-        if (!getRole)
-          return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
-
         if (tournament.status && getRole.id !== tournament.id)
           return await interaction.reply(
             errorEmbed({
@@ -65,9 +69,10 @@ module.exports = {
             errorEmbed({ description: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false }),
           );
 
-        await serverProfile
-          .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: true, id: getRole.id, name: getRole.name } })
-          .catch(console.error);
+        tournament.status = true;
+        tournament.id = getRole.id;
+        tournament.name = getRole.name;
+        await profile.save().catch(console.error);
 
         await interaction.reply(
           errorEmbed({
@@ -78,9 +83,6 @@ module.exports = {
         );
       },
       close: async () => {
-        if (!getRole)
-          return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
-
         if (tournament.id && getRole.id !== tournament.id)
           return await interaction.reply(
             errorEmbed({ description: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false }),
@@ -91,9 +93,10 @@ module.exports = {
             errorEmbed({ description: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
           );
 
-        await serverProfile
-          .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false, id: null, name: null } })
-          .catch(console.error);
+        tournament.status = false;
+        tournament.id = null;
+        tournament.name = null;
+        await profile.save().catch(console.error);
 
         await interaction.reply(
           errorEmbed({
@@ -191,9 +194,11 @@ module.exports = {
           await tour.save().catch(console.error);
         });
 
-        await serverProfile
-          .findOneAndUpdate({ guildID: guild.id }, { tournament: { status: false } })
-          .catch(console.error);
+        tournament.status = false;
+        tournament.id = null;
+        tournament.name = null;
+        await profile.save().catch(console.error);
+
         await interaction.reply(
           errorEmbed({
             description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',

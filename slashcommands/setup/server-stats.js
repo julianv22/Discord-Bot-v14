@@ -13,13 +13,13 @@ module.exports = {
       opt.setName('total-count-channel').setDescription('Total Count Channel').setRequired(true),
     )
     .addChannelOption((opt) =>
-      opt.setName('members-count-channel').setDescription('Members Count Channel').setRequired(true),
+      opt.setName('member-count-channel').setDescription('Members Count Channel').setRequired(true),
     )
     // .addRoleOption((opt) => opt.setName('member-role').setDescription('Member Role').setRequired(true))
-    .addChannelOption((opt) => opt.setName('bots-count-channel').setDescription('Bots Count Channel').setRequired(true))
+    .addChannelOption((opt) => opt.setName('bot-count-channel').setDescription('Bots Count Channel').setRequired(true))
     // .addRoleOption((opt) => opt.setName('bot-role').setDescription('Bot Role').setRequired(true))
     .addChannelOption((opt) =>
-      opt.setName('presences-count-channel').setDescription('Presences Count Channel').setRequired(true),
+      opt.setName('presence-count-channel').setDescription('Presences Count Channel').setRequired(true),
     ),
   /**
    * Setup server statistics
@@ -30,36 +30,31 @@ module.exports = {
     const { guild, options } = interaction;
     const { catchError, serverStats } = client;
     const totalChannel = options.getChannel('total-count-channel');
-    const membersChannel = options.getChannel('members-count-channel');
+    const memberChannel = options.getChannel('member-count-channel');
     // const memberrole = options.getRole('member-role');
-    const botsChannel = options.getChannel('bots-count-channel');
+    const botChannel = options.getChannel('bot-count-channel');
     // const botrole = options.getRole('bot-role');
-    const presencesChannel = options.getChannel('presences-count-channel');
+    const presenceChannel = options.getChannel('presence-count-channel');
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
       if (!profile)
-        await serverProfile
+        profile = await serverProfile
           .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
           .catch(console.error);
 
-      await serverProfile
-        .findOneAndUpdate(
-          { guildID: guild.id },
-          {
-            guildName: guild.name,
-            statistics: {
-              totalChannel: totalChannel.id,
-              memberChannel: membersChannel.id,
-              // memberRole: memberrole.id,
-              botChannel: botsChannel.id,
-              // botRole: botrole.id,
-              presenceChannel: presencesChannel.id,
-            },
-          },
-        )
-        .catch(console.error);
+      const { statistics } = profile;
+
+      if (!statistics) statistics = {};
+
+      profile.guildName = guild.name;
+      statistics.totalChannel = totalChannel.id;
+      statistics.memberChannel = memberChannel.id;
+      statistics.botChannel = botChannel.id;
+      statistics.presenceChannel = presenceChannel.id;
+
+      await profile.save().catch(console.error);
 
       serverStats(client, guild.id);
 
@@ -71,11 +66,11 @@ module.exports = {
         .setTimestamp()
         .addFields(
           { name: 'Total Count Channel:', value: `${totalChannel}` },
-          { name: 'Members Count Channel:', value: `${membersChannel}` },
+          { name: 'Members Count Channel:', value: `${memberChannel}` },
           // { name: 'Member Role:', value: `${memberrole}` },
-          { name: 'Bots Count Channel:', value: `${botsChannel}` },
+          { name: 'Bots Count Channel:', value: `${botChannel}` },
           // { name: 'Bot Role:', value: `${botrole}` },
-          { name: 'Preseneces Count Channel:', value: `${presencesChannel}` },
+          { name: 'Preseneces Count Channel:', value: `${presenceChannel}` },
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

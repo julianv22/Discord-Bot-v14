@@ -14,19 +14,19 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed, catchError, channels } = client;
-    const channel = options.getChannel('schannel');
-    const sgtChannel = channels.cache.get(channel.id);
+    const channel = options.getChannel('suggest-channel');
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile)
-        await serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, setup: { suggest: sgtChannel } })
+        profile = await serverProfile
+          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, setup: { suggest: channel.id } })
           .catch(console.error);
 
-      await serverProfile
-        .findOneAndUpdate({ guildID: guild.id }, { guildName: guild.name, setup: { suggest: sgtChannel } })
-        .catch(console.error);
+      if (!profile.setup) profile.setup = {};
+
+      profile.setup.suggest = channel.id;
+      await profile.save().catch(console.error);
 
       return await interaction.reply(
         errorEmbed({

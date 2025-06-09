@@ -45,7 +45,7 @@ module.exports = {
       if (!profile) {
         if (action === 'remove')
           return await interaction.reply(errorEmbed({ description: 'Server chưa có kênh Youtube nào!', emoji: false }));
-        await profile
+        profile = await serverProfile
           .create({
             guildID: guild.id,
             guildName: guild.name,

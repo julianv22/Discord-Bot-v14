@@ -15,7 +15,7 @@ module.exports = {
         .setName('suggest')
         .setDescription(`Set up suggestion channel. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
-          opt.setName('schannel').setDescription('Select the channel to send suggestions to').setRequired(true),
+          opt.setName('suggest-channel').setDescription('Select the channel to send suggestions to').setRequired(true),
         ),
     )
     .addSubcommand((sub) =>

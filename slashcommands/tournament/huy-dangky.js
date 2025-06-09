@@ -21,45 +21,38 @@ module.exports = {
     const { errorEmbed, catchError } = client;
 
     // Verified
-    if (options.getBoolean('confirm') === false)
+    if (!options.getBoolean('confirm'))
       return await interaction.reply(
         errorEmbed({ description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '[\\❗]' }),
       );
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    let register = !profile || !profile?.tournament?.status ? false : profile.tournament.status;
+    const register = profile.tournament.status;
+
+    if (!register)
+      return await interaction.reply(
+        errorEmbed({
+          description: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
+          emoji: '\\🏆',
+          color: Colors.Red,
+        }),
+      );
 
     try {
-      if (register === false)
-        return await interaction.reply(
-          errorEmbed({
-            description: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
-            emoji: '\\🏆',
-            color: Colors.Red,
-          }),
-        );
       // Check Tournament's Status
-      let tourProfile = await tournamentProfile
-        .findOne({
-          guildID: guild.id,
-          userID: user.id,
-        })
-        .catch(console.error);
+      let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
 
       if (!tourProfile || !tourProfile?.status)
         return await interaction.reply(errorEmbed({ description: `${user} chưa đăng ký giải đấu!`, emoji: false }));
-
+      // Kiểm tra role giải đấu
       const role = guild.roles.cache.get(profile?.tournament?.id);
       if (!role)
         return await interaction.reply(
           errorEmbed({ description: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!', emoji: false }),
         );
-
       // Set Tournament's Status
-      await tournamentProfile
-        .findOneAndUpdate({ guildID: guild.id, userID: user.id }, { status: false })
-        .catch(console.error);
-
+      tourProfile.status = false;
+      tourProfile.save().catch(console.error);
       // Remove Role
       const bot = guild.members.me || (await guild.members.fetch(client.user.id));
 

@@ -19,7 +19,9 @@ module.exports = {
     const welcomeMsg = options.getString('message');
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
-      serverProfile.create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix }).catch(console.error);
+      profile = await serverProfile
+        .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+        .catch(console.error);
     try {
       const { welcome } = profile.setup;
       welcome.channel = welcomeChannel.id;

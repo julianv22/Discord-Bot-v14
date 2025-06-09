@@ -28,7 +28,7 @@ module.exports = {
       if (!profile)
         return await interaction.update(errorEmbed({ description: 'Không kết nối được với database', emoji: false }));
       if (!targetProfile)
-        await economyProfile
+        targetProfile = await economyProfile
           .create({
             guildID: guild.id,
             guildName: guild.name,

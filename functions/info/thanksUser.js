@@ -59,7 +59,7 @@ module.exports = (client) => {
       const thanks = await serverThanks.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
       let count = 1;
       if (!thanks) {
-        await thanks
+        thanks = await serverThanks
           .create({
             guildID: guild.id,
             guildName: guild.name,

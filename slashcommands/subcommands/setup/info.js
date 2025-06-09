@@ -27,7 +27,7 @@ module.exports = {
       const welcomeMessage = profile?.setup?.welcome?.message || '\\⚠️ `/setup welcome`';
       const logChannel = channels.cache.get(profile?.setup?.welcome?.log) || '\\⚠️ Not set';
       const starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel) || '\\⚠️ `/setup starboard`';
-      const youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel) || '\\⚠️ `/youtube notify';
+      const youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel) || '\\⚠️ `/youtube notify`';
       const ytChannels = profile?.youtube?.channels?.length;
       const alertRole = profile?.youtube.alert
         ? `${guild.roles.cache.get(profile.youtube.alert)}`

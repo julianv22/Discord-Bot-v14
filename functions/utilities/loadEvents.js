@@ -32,9 +32,7 @@ module.exports = (client) => {
             const event = require(`../../events/${folder}/${file}`);
             if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
             else client.on(event.name, (...args) => event.execute(...args, client));
-
-            if (event.name !== file.split('.')[0] && i > 1) table.addRow();
-            table.addRow(event.name !== file.split('.')[0] ? file.split('.')[0] : '', i++, event.name);
+            table.addRow(file.split('.')[0] !== event.name ? '│─' + file.split('.')[0] : '', i++, event.name);
             count++;
           } catch (e) {
             console.error(chalk.yellow(`Lỗi khi load event file: [./events/${folder}/${file}]\n`), e);

@@ -13,24 +13,23 @@ module.exports = {
    * @returns {Promise<void>}
    */
   async execute(interaction, client) {
-    const { options, guildId } = interaction;
+    const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;
     const notifyChannel = options.getChannel('notify-channel');
 
-    if (!notifyChannel) {
-      return await interaction.reply(errorEmbed({ description: 'Kênh thông báo không hợp lệ', emoji: false }));
-    }
-
     try {
-      await serverProfile
-        .findOneAndUpdate(
-          { guildID: guildId },
-          { $set: { youtube: { notifyChannel: notifyChannel.id } } },
-          { new: true, upsert: true },
-        )
-        .catch((e) => {
-          console.error(chalk.red('Error while updating youtube notify channel', e));
-        });
+      let profile = await serverProfile.findOne({ guildID: guild.id });
+
+      if (!profile)
+        profile = await serverProfile
+          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+          .catch(console.error);
+
+      if (!profile.youtube) profile.youtube = {};
+
+      profile.youtube.notifyChannel = notifyChannel.id;
+      await profile.save().catch(console.error);
+
       return await interaction.reply(
         errorEmbed({
           description: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`,

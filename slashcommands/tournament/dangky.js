@@ -17,51 +17,40 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed, catchError } = client;
+    const stIngame = options.getString('ingame');
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    let register = !profile || !profile?.tournament?.status ? false : profile.tournament.status;
+    const register = profile.tournament.status;
 
-    if (register === false)
+    if (!register)
       return await interaction.reply(errorEmbed({ description: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
 
-    // Interaction Reply
     const roleID = profile?.tournament?.id;
-    const stIngame = options.getString('ingame');
     const role = guild.roles.cache.get(roleID);
 
     try {
       if (role) {
         // Add Tournament Profile
-        let tourProfile = await tournamentProfile
-          .findOne({
-            guildID: guild.id,
-            userID: user.id,
-          })
-          .catch(console.error);
+        let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+
         if (!tourProfile) {
-          await tournamentProfile
+          tourProfile = await tournamentProfile
             .create({
               guildID: guild.id,
               guildName: guild.name,
               userID: user.id,
               usertag: user.tag,
               ingame: stIngame,
-              decklist: 'none',
+              decklist: '',
               status: true,
             })
             .catch(console.error);
         } else {
-          await tournamentProfile
-            .findOneAndUpdate(
-              { guildID: guild.id, userID: user.id },
-              {
-                guildName: guild.name,
-                usertag: user.tag,
-                ingame: stIngame,
-                decklist: 'none',
-                status: true,
-              },
-            )
-            .catch(console.error);
+          tourProfile.guildName = guild.name;
+          tourProfile.usertag = user.tag;
+          tourProfile.ingame = stIngame;
+          tourProfile.decklist = '';
+          tourProfile.status = true;
+          await tourProfile.save().catch(console.error);
         }
 
         await interaction.reply(
