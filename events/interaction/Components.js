@@ -8,7 +8,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { executeInteraction, catchError, buttons, menus, modals } = client;
+    const { catchError, buttons, menus, modals } = client;
     const { channel, customId } = interaction;
 
     if (channel.type === ChannelType.DM) return;
@@ -31,9 +31,9 @@ module.exports = {
         }
       }
       //Thực thi component nếu có tồn tại
-      if (component) await executeInteraction(component, interaction);
+      if (component) await component.execute(interaction, client);
     } catch (e) {
-      catchError(interaction, e, 'Error while executing interaction');
+      catchError(interaction, e, `Error while executing interaction component ${customId}`);
     }
   },
 };

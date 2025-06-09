@@ -10,15 +10,12 @@ module.exports = {
    */
   async execute(message, client) {
     try {
-      const { guildId, channelId, author, content } = message;
-      const config = await reactionRole
-        .findOne({ guildID: guildId, channelId: channelId, messageId: message.id })
+      const { guildId, channelId, id, author, content } = message;
+
+      await reactionRole
+        .findOneAndDelete({ guildID: guildId, channelId: channelId, messageId: id })
         .catch(console.error);
-      if (config) {
-        await reactionRole
-          .findOneAndDelete({ guildID: guildId, channelId: channelId, messageId: message.id })
-          .catch(console.error);
-      }
+
       if (content) {
         const { snipes } = client;
         snipes.set(channelId, { author: author, content: content });

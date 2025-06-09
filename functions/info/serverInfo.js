@@ -11,7 +11,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.serverInfo = async (guild, author, interaction, message) => {
-    const { errorEmbed } = client;
+    const { catchError } = client;
     try {
       const bots = guild.members.cache.filter((m) => m.user.bot).size;
       const channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size;
@@ -71,11 +71,12 @@ module.exports = (client) => {
 
       (interaction ? interaction : message).reply({ embeds: [embed] });
     } catch (e) {
-      const error = 'Error while executing serverInfo function\n';
-      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
-      console.error(chalk.red(error), e);
-      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
-      else return await interaction.editReply(embed);
+      const errorMessage = 'Error while executing serverInfo function';
+      if (interaction) catchError(interaction, e, errorMessage);
+      else if (message) {
+        console.error(chalk.red(errorMessage + '\n'), e);
+        return message.reply(errorEmbed({ title: '\\❌ ' + errorMessage, description: e, color: Colors.Red }));
+      }
     }
   };
 };

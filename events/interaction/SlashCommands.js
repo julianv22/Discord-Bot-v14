@@ -8,7 +8,7 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { slashCommands, subCommands, executeInteraction, errorEmbed, catchError } = client;
+    const { slashCommands, subCommands, errorEmbed, catchError } = client;
     const { guild, member, options, channel, commandName } = interaction;
 
     try {
@@ -31,14 +31,15 @@ module.exports = {
           else await interaction.editReply(reply);
         }
 
-        if (subcommandName) await executeInteraction(subcommand || command, interaction);
-        else await executeInteraction(command, interaction);
+        if (subcommandName) await subcommand.execute(interaction, client);
+        //executeInteraction(subcommand || command, interaction);
+        else await command.execute(interaction, client);
       } else if (interaction.isContextMenuCommand()) {
         const context = slashCommands.get(commandName);
-        if (context) await executeInteraction(context, interaction);
+        if (context) await context.execute(interaction, client);
       }
     } catch (e) {
-      catchError(interaction, e, `Error while executing command ${interaction.commandName}`);
+      catchError(interaction, e, `Error while executing command ${commandName}`);
     }
   },
 };

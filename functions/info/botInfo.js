@@ -1,8 +1,8 @@
 const { Client, GuildMember, Interaction, Message, EmbedBuilder, UserFlags, Colors } = require('discord.js');
-const { connection } = require('mongoose');
-const os = require('os');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
+const { connection } = require('mongoose');
+const os = require('os');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -13,7 +13,7 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.botInfo = async (author, interaction, message) => {
-    const { errorEmbed } = client;
+    const { errorEmbed, catchError } = client;
     try {
       const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map((g) => g);
@@ -103,11 +103,12 @@ module.exports = (client) => {
         components: [infoButtons()],
       });
     } catch (e) {
-      const error = 'Error while executing botInfo function\n';
-      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
-      console.error(chalk.red(error), e);
-      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
-      else return await interaction.editReply(embed);
+      const errorMessage = 'Error while executing botInfo function';
+      if (interaction) catchError(interaction, e, errorMessage);
+      else if (message) {
+        console.error(chalk.red(errorMessage + '\n'), e);
+        return message.reply(errorEmbed({ title: '\\❌ ' + errorMessage, description: e, color: Colors.Red }));
+      }
     }
   };
 };

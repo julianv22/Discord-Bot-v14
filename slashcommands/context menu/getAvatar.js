@@ -10,15 +10,15 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { targetUser: user, user: author } = interaction;
+    const { targetUser, user } = interaction;
     const avtEmbed = new EmbedBuilder()
       .setColor('Random')
       .setTimestamp()
-      .setDescription(`${user}'s Avatar:`)
-      .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))
+      .setDescription(`${targetUser}'s Avatar:`)
+      .setImage(targetUser.displayAvatarURL({ dynamic: true, size: 2048 }))
       .setFooter({
-        text: `Requested by ${author.displayName}`,
-        iconURL: author.displayAvatarURL(true),
+        text: `Requested by ${user.displayName}`,
+        iconURL: user.displayAvatarURL(true),
       });
 
     return await interaction.reply({ embeds: [avtEmbed] });

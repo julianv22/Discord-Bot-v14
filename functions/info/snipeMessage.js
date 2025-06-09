@@ -52,13 +52,12 @@ module.exports = (client) => {
 
       msg.reply({ embeds: [embed] });
     } catch (e) {
-      const error = 'Error while executing snipeMessage function\n';
-      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
-      console.error(chalk.red(error), e);
-      if (interaction) {
-        if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed).catch(console.error);
-        else interaction.editReply(embed).catch(console.error);
-      } else if (message && typeof message.reply === 'function') return message.reply(embed).catch(console.error);
+      const errorMessage = 'Error while executing snipeMessage function';
+      if (interaction) catchError(interaction, e, errorMessage);
+      else if (message) {
+        console.error(chalk.red(errorMessage + '\n'), e);
+        return message.reply(errorEmbed({ title: '\\❌ ' + errorMessage, description: e, color: Colors.Red }));
+      }
     }
   };
 };
