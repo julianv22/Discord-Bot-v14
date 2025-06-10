@@ -49,8 +49,8 @@ module.exports = {
               const roleMatch = roleInput.match(/^<@&(\d+)>$/);
               const roleId = roleMatch ? roleMatch[1] : null;
 
-              if (roleId) role = guild.roles.cache.get(roleId);
-              else role = guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
+              if (roleId) role = await guild.roles.cache.get(roleId);
+              else role = await guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
 
               if (!role)
                 return await interaction.followUp(

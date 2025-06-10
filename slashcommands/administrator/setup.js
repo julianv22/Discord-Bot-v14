@@ -2,7 +2,7 @@ const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = requir
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
-  category: 'setup',
+  category: 'administrator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()

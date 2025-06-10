@@ -31,8 +31,8 @@ module.exports = {
         );
 
       let [profile, targetProfile] = await Promise.all([
-        economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
-        economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
+        await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
+        await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
       ]);
 
       if (!profile || !targetProfile)

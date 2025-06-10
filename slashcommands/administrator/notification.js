@@ -10,7 +10,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  category: 'moderator',
+  category: 'administrator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()

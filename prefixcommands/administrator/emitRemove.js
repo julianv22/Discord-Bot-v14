@@ -1,14 +1,14 @@
 const { Message, Client, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-  name: 'emitAdd',
-  aliases: ['add'],
-  description: 'Emit Add Member\n' + cfg.adminRole + 'only',
-  category: 'moderator',
+  name: 'emitRemove',
+  aliases: ['rmv'],
+  description: 'Emit Revmove Member\n' + cfg.adminRole + 'only',
+  category: 'administrator',
   cooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   /**
-   * Emit Add Member
+   * Emit Revmove Member
    * @param {Message} message - Đối tượng message
    * @param {Array} args - Mảng args
    * @param {Client} client - Đối tượng client
@@ -16,6 +16,6 @@ module.exports = {
   async execute(message, args, client) {
     const { member: user, mentions } = message;
     const member = mentions.members.first() || user;
-    client.emit('guildMemberAdd', member);
+    client.emit('guildMemberRemove', member);
   },
 };

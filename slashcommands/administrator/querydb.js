@@ -13,7 +13,7 @@ const { readdirSync } = require('fs');
 const profiles = readdirSync('./config').filter((f) => f.endsWith('Profile.js'));
 
 module.exports = {
-  category: 'moderator',
+  category: 'administrator',
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
