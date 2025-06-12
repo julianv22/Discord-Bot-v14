@@ -1,11 +1,11 @@
-const { EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 const { checkURL } = require('../../functions/common/utilities');
 
 module.exports = {
   data: { name: 'notify-md' },
   /**
    * Notify Modal
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Get channel title
@@ -26,7 +26,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('list-channels'),
   /**
    * Get list of Youtube channels
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

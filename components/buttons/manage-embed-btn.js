@@ -1,6 +1,6 @@
 const {
   Client,
-  Interaction,
+  CommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonStyle,
@@ -14,7 +14,7 @@ module.exports = {
   data: { name: 'manage-embed-btn' },
   /**
    * Create a embed
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

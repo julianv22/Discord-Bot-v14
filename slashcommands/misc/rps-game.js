@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   Client,
-  Interaction,
+  CommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonStyle,
@@ -20,7 +20,7 @@ module.exports = {
     ),
   /**
    * Play RPS game
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

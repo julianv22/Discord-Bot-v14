@@ -1,4 +1,10 @@
-const { ContextMenuCommandBuilder, EmbedBuilder, Client, Interaction, ApplicationCommandType } = require('discord.js');
+const {
+  ContextMenuCommandBuilder,
+  EmbedBuilder,
+  Client,
+  CommandInteraction,
+  ApplicationCommandType,
+} = require('discord.js');
 
 module.exports = {
   category: 'context menu',
@@ -6,7 +12,7 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName('Get Avatar').setType(ApplicationCommandType.User),
   /**
    * Get user avatar
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

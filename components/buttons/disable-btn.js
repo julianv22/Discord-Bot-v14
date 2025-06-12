@@ -1,6 +1,6 @@
 const {
   Client,
-  Interaction,
+  CommandInteraction,
   EmbedBuilder,
   ButtonBuilder,
   ActionRowBuilder,
@@ -15,7 +15,7 @@ module.exports = {
   data: { name: 'disable-btn' },
   /**
    * Disable Features Button
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

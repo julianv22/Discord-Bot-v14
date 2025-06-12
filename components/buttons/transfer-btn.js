@@ -1,11 +1,11 @@
-const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
   data: { name: 'transfer-btn' },
   /**
    * Transfer Money Button
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

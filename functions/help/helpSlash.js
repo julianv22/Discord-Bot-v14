@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Client object. */
@@ -6,7 +6,7 @@ module.exports = (client) => {
   /**
    * Show slash commands list.
    * @param {String} CommandType - Command type.
-   * @param {Interaction} interaction - Interaction object.
+   * @param {CommandInteraction} interaction - Interaction object.
    */
   client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands, subCommands } = client;

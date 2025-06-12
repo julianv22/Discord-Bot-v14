@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     ),
   /**
    * Rob 💲 from others (has risk and cooldown)
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

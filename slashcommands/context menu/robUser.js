@@ -1,7 +1,7 @@
 const {
   ContextMenuCommandBuilder,
   Client,
-  Interaction,
+  CommandInteraction,
   ApplicationCommandType,
   EmbedBuilder,
   Colors,
@@ -14,7 +14,7 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName('Rob User').setType(ApplicationCommandType.User),
   /**
    * Rob money from a user
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

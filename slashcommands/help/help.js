@@ -1,6 +1,6 @@
 const {
   Client,
-  Interaction,
+  CommandInteraction,
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -16,7 +16,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   /**
    * Show command list
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

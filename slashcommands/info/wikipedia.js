@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     .addStringOption((opt) => opt.setName('keyword').setDescription('Keyword').setRequired(true)),
   /**
    * Search Vietnamese Wikipedia articles by keyword
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

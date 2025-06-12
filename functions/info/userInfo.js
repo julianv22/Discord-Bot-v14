@@ -1,7 +1,7 @@
 const {
   Client,
   GuildMember,
-  Interaction,
+  CommandInteraction,
   EmbedBuilder,
   Guild,
   Message,
@@ -18,7 +18,7 @@ module.exports = (client) => {
    * @param {Guild} guild - Guild object
    * @param {GuildMember} user - User object
    * @param {GuildMember} author - Author object
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Message} message - Message object
    */
   client.userInfo = async (guild, user, author, interaction, message) => {

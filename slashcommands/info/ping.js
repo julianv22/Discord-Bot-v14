@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -6,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('ping').setDescription('Ping pong!'),
   /**
    * Get bot latency
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

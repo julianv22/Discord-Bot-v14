@@ -1,10 +1,10 @@
-const { Client, Interaction, ChatInputCommandInteraction, Colors, Message } = require('discord.js');
+const { Client, CommandInteraction, ChatInputCommandInteraction, Colors, Message } = require('discord.js');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
    * Catch Error function
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Error} e - Error when catched
    * @param {ChatInputCommandInteraction} command - Chat input command
    */

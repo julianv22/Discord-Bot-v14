@@ -1,4 +1,11 @@
-const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, Colors } = require('discord.js');
+const {
+  Client,
+  CommandInteraction,
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {
@@ -11,7 +18,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   /**
    * Create a embed
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

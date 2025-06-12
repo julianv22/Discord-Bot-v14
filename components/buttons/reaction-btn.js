@@ -7,7 +7,7 @@ module.exports = {
   data: { name: 'reaction-btn' },
   /**
    * Reaction Button
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

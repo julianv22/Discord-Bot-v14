@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits, Colors } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -19,7 +19,7 @@ module.exports = {
     .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
   /**
    * Bulk delete messages
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

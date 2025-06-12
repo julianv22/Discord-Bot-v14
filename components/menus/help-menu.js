@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 const { readdirSync } = require('fs');
 
@@ -6,7 +6,7 @@ module.exports = {
   data: { name: 'help-menu' },
   /**
    * Help Menu
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

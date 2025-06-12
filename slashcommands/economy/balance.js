@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     .setDescription('View your balance, streak, bank, inventory and achievements'),
   /**
    * View balance, streak, bank, inventory and achievements of a user
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

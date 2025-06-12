@@ -1,6 +1,6 @@
 const {
   SlashCommandBuilder,
-  Interaction,
+  CommandInteraction,
   Client,
   EmbedBuilder,
   ActionRowBuilder,
@@ -19,7 +19,7 @@ module.exports = {
     .addIntegerOption((opt) => opt.setName('amount').setDescription('Amount of 💲 to transfer').setRequired(true)),
   /**
    * Transfer 💲 to other users
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

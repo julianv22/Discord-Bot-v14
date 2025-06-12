@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Interaction, Client, PermissionFlagsBits, Colors } = require('discord.js');
+const { SlashCommandBuilder, CommandInteraction, Client, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -11,7 +11,7 @@ module.exports = {
     .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
   /**
    * Register for a tournament
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

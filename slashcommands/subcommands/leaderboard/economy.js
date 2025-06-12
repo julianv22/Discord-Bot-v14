@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandSubcommandBuilder, Interaction, Client, Colors } = require('discord.js');
+const { EmbedBuilder, SlashCommandSubcommandBuilder, CommandInteraction, Client, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('economy'),
   /**
    * Get economy leaderboard
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

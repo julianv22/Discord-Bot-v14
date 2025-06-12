@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, CommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Validate Youtube channel
@@ -22,7 +22,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('setup'),
   /**
    * Setup Youtube channel
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

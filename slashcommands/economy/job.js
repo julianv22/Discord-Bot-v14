@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
 
@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
   /**
    * Get a random job and earn 💲!
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

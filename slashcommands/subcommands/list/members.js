@@ -3,7 +3,7 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
   Client,
-  Interaction,
+  CommandInteraction,
   Colors,
 } = require('discord.js');
 
@@ -15,7 +15,7 @@ module.exports = {
 
   /**
    * Get members of a role
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, Interaction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, GuildMember, Message, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -8,7 +8,7 @@ module.exports = (client) => {
    * Thank user
    * @param {GuildMember} user - User object
    * @param {GuildMember} author - Author object
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Message} message - Message object
    */
   client.thanksUser = async (user, author, interaction, message) => {

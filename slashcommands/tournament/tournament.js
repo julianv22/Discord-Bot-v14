@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Interaction, Client, Colors } = require('discord.js');
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  PermissionFlagsBits,
+  CommandInteraction,
+  Client,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -33,7 +40,7 @@ module.exports = {
     ),
   /**
    * Execute the tournament command
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

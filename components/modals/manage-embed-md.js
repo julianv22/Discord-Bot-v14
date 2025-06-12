@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { getEmbedColor } = require('../../functions/common/manage-embed');
 const { checkURL, replaceVar } = require('../../functions/common/utilities');
 
@@ -6,7 +6,7 @@ module.exports = {
   data: { name: 'manage-embed-md' },
   /**
    * Embed Modal
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

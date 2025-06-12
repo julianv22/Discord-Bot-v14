@@ -22,6 +22,9 @@ const readFiles = (folderPath) => {
  */
 const requireCommands = (filePath, folderName, collection) => {
   try {
+    const parts = filePath.split('\\');
+    const relativePath = parts.slice(parts.length - 3, parts.length - 1).join('/');
+
     // Xóa cache để đảm bảo tải lại file nếu có thay đổi (hữu ích cho hot-reloading)
     delete require.cache[require.resolve(filePath)];
     const command = require(filePath);
@@ -31,7 +34,7 @@ const requireCommands = (filePath, folderName, collection) => {
         chalk.yellow('[Warn] Invalid file or empty at ') +
           filePath.split('\\').pop() +
           chalk.yellow(' in ') +
-          chalk.green(`${folderName}`),
+          chalk.green(folderName),
       );
       return null;
     }
@@ -44,22 +47,21 @@ const requireCommands = (filePath, folderName, collection) => {
             chalk.yellow('[Warn] Prefix command ') +
               filePath.split('\\').pop() +
               chalk.yellow(' in ') +
-              chalk.green(`${folderName}`) +
+              chalk.green(relativePath) +
               chalk.yellow(" is missing 'name'"),
           );
       },
       default: () => {
         if (command.data && command.data.name) {
           collection.set(command.data.name, command);
-        } else {
+        } else
           console.warn(
             chalk.yellow('[Warn] Command ') +
               filePath.split('\\').pop() +
               chalk.yellow(' in ') +
-              chalk.green(`${folderName}`) +
+              chalk.green(relativePath) +
               chalk.yellow(" is missing 'data' or 'data.name'"),
           );
-        }
       },
     };
     (setCollection[folderName] || setCollection.default)(folderName);
@@ -69,7 +71,7 @@ const requireCommands = (filePath, folderName, collection) => {
       chalk.red('Error while requiring file ') +
         filePath.split('\\').pop() +
         chalk.red(' in ') +
-        chalk.green(`${folderName}\n`),
+        chalk.green(`${relativePath}\n`),
       e,
     );
     return null;

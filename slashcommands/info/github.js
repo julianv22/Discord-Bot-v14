@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 const moment = require('moment-timezone');
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     .addStringOption((opt) => opt.setName('username').setDescription('Github Username').setRequired(true)),
   /**
    * Show Github's information
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

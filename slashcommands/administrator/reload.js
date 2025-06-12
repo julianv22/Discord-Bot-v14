@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits, EmbedBuilder, Colors } = require('discord.js');
+const {
+  SlashCommandBuilder,
+  Client,
+  CommandInteraction,
+  PermissionFlagsBits,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -14,7 +21,7 @@ module.exports = {
   // ownerOnly: true,
   /**
    * Reload all commands and events
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

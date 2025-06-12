@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, Interaction, EmbedBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { checkURL } = require('../../../functions/common/utilities');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('level'),
   /**
    * Get level leaderboard
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

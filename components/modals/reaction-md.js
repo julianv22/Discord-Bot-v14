@@ -5,7 +5,7 @@ module.exports = {
   data: { name: 'reaction-md' },
   /**
    * Reaction Modal
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

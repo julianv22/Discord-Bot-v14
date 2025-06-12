@@ -1,7 +1,7 @@
 const {
   ContextMenuCommandBuilder,
   Client,
-  Interaction,
+  CommandInteraction,
   ApplicationCommandType,
   PermissionFlagsBits,
   EmbedBuilder,
@@ -18,7 +18,7 @@ module.exports = {
     .setType(ApplicationCommandType.Message),
   /**
    * Deny suggestion
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

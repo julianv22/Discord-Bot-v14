@@ -1,4 +1,4 @@
-const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 
@@ -6,7 +6,7 @@ module.exports = {
   data: { name: 'rps-btn' },
   /**
    * RPS Game
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

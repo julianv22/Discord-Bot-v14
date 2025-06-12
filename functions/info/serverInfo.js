@@ -1,4 +1,13 @@
-const { Client, GuildMember, Interaction, EmbedBuilder, ChannelType, Guild, Message, Colors } = require('discord.js');
+const {
+  Client,
+  GuildMember,
+  CommandInteraction,
+  EmbedBuilder,
+  ChannelType,
+  Guild,
+  Message,
+  Colors,
+} = require('discord.js');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Client object */
@@ -7,7 +16,7 @@ module.exports = (client) => {
    * Server information
    * @param {Guild} guild - Guild object
    * @param {GuildMember} author - Author object
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Message} message - Message object
    */
   client.serverInfo = async (guild, author, interaction, message) => {

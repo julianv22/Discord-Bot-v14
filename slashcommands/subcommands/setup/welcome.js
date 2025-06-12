@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('welcome'),
   /**
    * Setup welcome channel with welcome message and log channel
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

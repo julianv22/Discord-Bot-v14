@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -6,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('wow').setDescription('😍 Wow!'),
   /**
    * Wow!
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

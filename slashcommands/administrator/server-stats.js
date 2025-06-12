@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  Client,
+  CommandInteraction,
+  PermissionFlagsBits,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -23,7 +30,7 @@ module.exports = {
     ),
   /**
    * Setup server statistics
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

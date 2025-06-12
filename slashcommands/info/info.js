@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -16,7 +16,7 @@ module.exports = {
     ),
   /**
    * Show bot or server or user's info
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, Interaction, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
 
@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
   /**
    * Claim daily 💲 from the economy system
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

@@ -12,7 +12,7 @@ module.exports = {
   /**
    * Execute the reaction-role command
    * @param {Client} client - The client instance
-   * @param {Interaction} interaction - The interaction object
+   * @param {CommandInteraction} interaction - The interaction object
    */
   async execute(interaction, client) {
     const { guild } = interaction;

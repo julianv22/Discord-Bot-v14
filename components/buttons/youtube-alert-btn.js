@@ -1,11 +1,11 @@
-const { Client, Interaction, EmbedBuilder } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   data: { name: 'youtube-alert-btn' },
   /**
    * Youtube Alert Role Button
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

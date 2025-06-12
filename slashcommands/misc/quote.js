@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, Client, Interaction, Colors } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, Client, CommandInteraction, Colors } = require('discord.js');
 
 /** @returns {Promise<string>} */
 function getQuote() {
@@ -16,7 +16,7 @@ module.exports = {
   data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
   /**
    * Get a random quote from ZenQuotes
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -40,7 +40,7 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`)),
   /**
    * Setup server
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {},

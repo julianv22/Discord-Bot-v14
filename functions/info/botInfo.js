@@ -1,4 +1,4 @@
-const { Client, GuildMember, Interaction, Message, EmbedBuilder, UserFlags, Colors } = require('discord.js');
+const { Client, GuildMember, CommandInteraction, Message, EmbedBuilder, UserFlags, Colors } = require('discord.js');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
 const { connection } = require('mongoose');
@@ -9,7 +9,7 @@ module.exports = (client) => {
   /**
    * Bot information
    * @param {GuildMember} author - Author object
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Message} message - Message object
    */
   client.botInfo = async (author, interaction, message) => {

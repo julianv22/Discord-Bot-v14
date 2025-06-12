@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   Client,
-  Interaction,
+  CommandInteraction,
   PermissionFlagsBits,
   EmbedBuilder,
   ActionRowBuilder,
@@ -53,7 +53,7 @@ module.exports = {
     ),
   /**
    * Setup YouTube
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

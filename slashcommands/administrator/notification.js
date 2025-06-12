@@ -4,7 +4,7 @@ const {
   ActionRowBuilder,
   TextInputBuilder,
   Client,
-  Interaction,
+  CommandInteraction,
   TextInputStyle,
   PermissionFlagsBits,
 } = require('discord.js');
@@ -19,7 +19,7 @@ module.exports = {
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
   /**
    * Send a notification
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

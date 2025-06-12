@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -26,7 +26,7 @@ module.exports = {
     ),
   /**
    * Show leaderboard
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {},

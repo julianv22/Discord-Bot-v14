@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, Interaction } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -10,7 +10,7 @@ module.exports = {
     .addUserOption((opt) => opt.setName('hello').setDescription('Say "Hello" to someone')),
   /**
    * Make the bot say something
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {

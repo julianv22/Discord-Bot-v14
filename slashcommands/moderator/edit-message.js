@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, Client, EmbedBuilder, Interaction, PermissionFlagsBits, Colors } = require('discord.js');
+const {
+  SlashCommandBuilder,
+  Client,
+  EmbedBuilder,
+  CommandInteraction,
+  PermissionFlagsBits,
+  Colors,
+} = require('discord.js');
 
 module.exports = {
   category: 'moderator',
@@ -12,7 +19,7 @@ module.exports = {
     .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
   /**
    * Edit a message
-   * @param {Interaction} interaction - Interaction object
+   * @param {CommandInteraction} interaction - Interaction object
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
