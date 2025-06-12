@@ -1,67 +1,70 @@
-const { Collection, Client } = require('discord.js');
+const { Client } = require('discord.js');
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
+const path = require('path');
+const { readFiles } = require('../common/initLoader');
 
-/**
- * @param {Collection} components - Components object
- * @param {Array} componentFiles - Array of component files
- * @param {String} folder - Folder name
- */
-const requireComponents = (components, componentFiles, folder) => {
-  try {
-    componentFiles.forEach((file) => {
-      delete require.cache[require.resolve(`../../components/${folder}/${file}`)];
-      const component = require(`../../components/${folder}/${file}`);
-      components.set(component.data.name, component);
-    });
-  } catch (e) {
-    console.error(
-      chalk.yellow('Error while executing function [requireComponents] from file [loadComponents.js]\n'),
-      e,
-    );
-  }
-};
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   client.loadComponents = async () => {
     try {
-      // Start Component Handle
-      const componentFolders = readdirSync('./components');
       const { buttons, menus, modals } = client;
-      await buttons.clear();
-      await menus.clear();
-      await modals.clear();
+      const rootDir = path.resolve(__dirname, '..', '..');
+      const compntFolder = 'components';
+      buttons.clear();
+      menus.clear();
+      modals.clear();
+      const requireComponents = (componentFiles, folder, collection) => {
+        try {
+          for (const file of componentFiles) {
+            const filePath = path.join(rootDir, compntFolder, folder, file);
+            delete require.cache[require.resolve(filePath)];
+            const component = require(filePath);
+
+            if (component.data && component.data.name) collection.set(component.data.name, component);
+            else
+              console.warn(
+                chalk.yellow('[Warn] Component ') +
+                  file +
+                  chalk.yellow(' in ') +
+                  chalk.green(folder) +
+                  chalk.yellow(" is missing 'data' or 'data.name'"),
+              );
+          }
+        } catch (e) {
+          console.error(chalk.yellow('Error while requiring components from ') + chalk.green(`${folder}\n`), e);
+        }
+      };
+
+      const componentFolders = readdirSync(compntFolder);
 
       const table = new ascii()
         .setHeading('Folder', '♻', 'Component Name')
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
-      let count = 0;
-      componentFolders.forEach((folder) => {
-        let componentFiles = [];
-        try {
-          componentFiles = readdirSync(`./components/${folder}`).filter((f) => f.endsWith('.js'));
-        } catch (e) {
-          console.error(chalk.yellow(`Không thể đọc folder: [./components/${folder}]\n`), e);
-          return;
-        }
+      let totalCount = 0;
+
+      for (const folder of componentFolders) {
+        const folderPath = path.join(compntFolder, folder);
+        const componentFiles = readFiles(folderPath);
+
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '─'.repeat(14));
 
-        let i = 1;
-        componentFiles.forEach((file) => {
-          table.addRow('', i++, file.split('.')[0]);
-          count++;
-        });
+        let sequence = 0;
+        for (const file of componentFiles) {
+          table.addRow('', ++sequence, file.split('.')[0]);
+          totalCount++;
+        }
 
         const ComponentType = {
-          button: () => requireComponents(buttons, componentFiles, folder),
-          menu: () => requireComponents(menus, componentFiles, folder),
-          modal: () => requireComponents(modals, componentFiles, folder),
+          buttons: () => requireComponents(componentFiles, folder, buttons),
+          menus: () => requireComponents(componentFiles, folder, menus),
+          modals: () => requireComponents(componentFiles, folder, modals),
         };
-        if (typeof ComponentType[folder] === 'function') ComponentType[folder]();
-      });
+        ComponentType[folder]();
+      }
 
-      table.setTitle(`Load Components [${count}]`);
+      table.setTitle(`Load Components [${totalCount}]`);
       console.log(table.toString());
       // End Component Handle
     } catch (e) {

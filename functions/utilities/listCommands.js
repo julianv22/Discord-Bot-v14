@@ -14,7 +14,7 @@ module.exports = (client) => {
       const filters = cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
 
       let count = 0;
-      filters.forEach((category) => {
+      for (const category of filters) {
         let cmd;
         cmd = CommandType.map((cmd) => cmd).filter((cmd) => cmd.category === category);
         count += cmd.length;
@@ -24,7 +24,7 @@ module.exports = (client) => {
             .map((cmd) => (cmd.data ? cmd.data.name : cmd.name))
             .join(' | ')}\u001b[0m\`\`\``,
         });
-      });
+      }
 
       return { commands: commands, count: count };
     } catch (e) {

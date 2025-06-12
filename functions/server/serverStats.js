@@ -45,7 +45,7 @@ module.exports = (client) => {
           { id: statistics?.botChannel, name: `🎯〔Bots〕: ${botCount}` },
         ];
 
-        statsChannels.forEach((channel) => setChannelName(channel.id, channel.name));
+        for (const channel of statsChannels) setChannelName(channel.id, channel.name);
       } catch (e) {
         console.error(chalk.red(`Error while caching roles from server ${guild}\n`), e);
       }

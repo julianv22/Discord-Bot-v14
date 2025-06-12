@@ -1,98 +1,100 @@
 const { Client } = require('discord.js');
 const { readdirSync } = require('fs');
 const ascii = require('ascii-table');
+const path = require('path');
+const { readFiles, requireCommands } = require('../common/initLoader');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Load commands from ./prefixcommands and ./slashcommands folders
-   * @param {Boolean} reload - True if you want to reload, otherwise false
-   * @returns {Promise<void>}
+   * Load commands from ./prefixcommands and ./slashcommands
+   * @param {Boolean} [reload = false]  True if reload
    */
   client.loadCommands = async (reload = false) => {
-    try {
-      const { prefixCommands, slashCommands, subCommands, slashArray } = client;
-      await prefixCommands.clear();
-      await slashCommands.clear();
-      await subCommands.clear();
-      slashArray.length = 0;
+    const { prefixCommands, slashCommands, subCommands } = client;
+    prefixCommands.clear();
+    slashCommands.clear();
+    subCommands.clear();
 
-      // Prefix Commands
-      const prefixCommandFolders = readdirSync('./prefixcommands');
-      await LoadCommands('Prefix Command', './prefixcommands', prefixCommandFolders);
-      // Slash Commands
-      const slashCommandFolders = readdirSync('./slashcommands');
-      await LoadCommands('Slash Command', './slashcommands', slashCommandFolders);
-      // Sub Commands
-      const subCommandFolders = readdirSync('./slashcommands/subcommands');
-      await LoadCommands('Sub Command', './slashcommands/subcommands', subCommandFolders);
+    const rootDir = path.resolve(__dirname, '..', '..');
+    const commandTypes = {
+      Prefix: { name: 'Prefix Commands', folder: 'prefixcommands', collection: prefixCommands },
+      Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
+      Sub: { name: 'Sub Commands', folder: 'slashcommands/subcommands', collection: subCommands },
+    };
+    /**
+     * Load các command (Prefix, Slash, Sub)
+     * @param {string} type Loại command trong commandTypes
+     */
+    async function LoadCommands(type) {
+      const table = new ascii()
+        .setHeading('Folder', '♻', 'Command Name')
+        .setAlignCenter(1)
+        .setBorder('│', '─', '✧', '✧');
+
+      let totalCount = 0;
+      const commandFolders = readdirSync(type.folder);
+
+      for (const folder of commandFolders) {
+        if (folder === 'subcommands') continue;
+        const folderPath = path.join(type.folder, folder);
+        const commandFiles = readFiles(folderPath);
+
+        table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '─'.repeat(12));
+        let folderCount = 0;
+
+        for (const file of commandFiles) {
+          const filePath = path.join(rootDir, path.join(folderPath, file));
+          const command = requireCommands(filePath, type.folder, type.collection);
+
+          if (command) {
+            table.addRow('', ++folderCount, command.data ? command.data.name : command.name);
+            totalCount++;
+          }
+        }
+      }
+      table.setTitle(`Load ${type.name} [${totalCount}]`);
+      console.log(table.toString());
+    }
+
+    try {
+      await LoadCommands(commandTypes.Prefix);
+      await LoadCommands(commandTypes.Slash);
+      await LoadCommands(commandTypes.Sub);
 
       if (!reload) {
         (async () => {
           try {
             const { REST } = require('@discordjs/rest');
             const { Routes } = require('discord-api-types/v10');
-            const rest = new REST({ version: 10 }).setToken(process.env.token);
+            const token = process.env.token || client.token;
+            const clientId = process.env.clientID || cfg.clientID;
+            const guildId = '1368536666066649148';
 
-            if (!cfg.clientID) throw new Error('clientID is missing in config!');
+            if (!token) throw new Error('Không xác định được token của bot');
+            if (!clientId) throw new Error('Không xác định được clientId của bot');
 
-            await rest.put(Routes.applicationCommands(cfg.clientID), {
-              body: slashArray,
-            });
+            let slashArray = [];
 
-            console.log(chalk.yellow('\nSuccessfully reloaded application (/) commands.\n'));
+            for (const command of slashCommands) {
+              slashArray.push(command[1].data.toJSON());
+            }
+
+            const rest = new REST({ version: 10 }).setToken(token);
+            if (clientId === '995949416273940623')
+              await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
+            else await rest.put(Routes.applicationCommands(clientId), { body: global.slashArray });
+
+            console.log(chalk.green('\n✅ Successfully loaded application (/) commands.\n'));
           } catch (e) {
-            console.error(chalk.yellow('Error while reloading application (/) command\n'), e);
+            console.error(chalk.yellow('Error while loading application (/) commands to Discord API\n'), e);
           }
         })();
       }
-
-      /**
-       * @param {String} name - Command name
-       * @param {String} folderName - Folder name
-       * @param {Array} commandFolders - Array of folders
-       */
-      async function LoadCommands(name, folderName, commandFolders) {
-        const table = new ascii()
-          .setHeading('Folder', '♻', 'Command Name')
-          .setAlignCenter(1)
-          .setBorder('│', '─', '✧', '✧');
-        let count = 0;
-
-        for (const folder of commandFolders) {
-          if (folder === 'subcommands') continue;
-          let commandFiles = [];
-          try {
-            commandFiles = readdirSync(`./${folderName}/${folder}`).filter((f) => f.endsWith('.js'));
-          } catch (e) {
-            console.error(chalk.yellow(`Không thể đọc folder: [./${folderName}/${folder}]`), e);
-            continue;
-          }
-          table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '─'.repeat(12));
-
-          let i = 1;
-          commandFiles.forEach((file) => {
-            delete require.cache[require.resolve(`../../${folderName}/${folder}/${file}`)];
-            const command = require(`../../${folderName}/${folder}/${file}`);
-
-            if (name === 'Prefix Command') prefixCommands.set(command.name, command);
-            else if (name === 'Sub Command') subCommands.set(command.data.name, command);
-            else {
-              slashCommands.set(command.data.name, command);
-              if (!slashArray.some((cmd) => cmd.name === command.data.name)) {
-                slashArray.push(command.data.toJSON());
-              }
-            }
-
-            table.addRow('', i++, command.data ? command.data.name : command.name);
-            count++;
-          });
-        }
-        table.setTitle(`Load ${name}s [${count}]`);
-        console.log(table.toString());
-      }
     } catch (e) {
-      console.error(chalk.yellow('Error while executing function loadCommands\n'), e);
+      if (e.rawError && e.rawError.code) console.error(chalk.red(`Mã lỗi Discord API: ${e.rawError.code}`));
+      if (e.status) console.error(chalk.red(`Mã trạng thái HTTP: ${e.status}`));
+      console.error(chalk.yellow('Error while executing loadCommands function\n'), e);
     }
   };
 };

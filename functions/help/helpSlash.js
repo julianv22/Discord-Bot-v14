@@ -38,7 +38,8 @@ module.exports = (client) => {
         parents = parents.filter((item, index) => parents.indexOf(item) === index);
 
         let count = 0;
-        parents.forEach((parent) => {
+
+        for (const parent of parents) {
           const command = subCommands.filter((sub) => sub.parent === parent);
           commands.push({
             name: `/${parent} [${command.size}]`,
@@ -47,7 +48,7 @@ module.exports = (client) => {
               .join(' | ')}\u001b[0m\`\`\``,
           });
           count += command.size;
-        });
+        }
         return await interaction.update({ embeds: [helpEmbed('Sub', commands, count)] });
       },
       default: async () => {

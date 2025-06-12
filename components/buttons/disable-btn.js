@@ -49,7 +49,7 @@ module.exports = {
        */
       const confirmEmbed = (
         title,
-        description = `\\🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
+        description = `🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
         color = Colors.Orange,
       ) => {
         const embed = new EmbedBuilder()

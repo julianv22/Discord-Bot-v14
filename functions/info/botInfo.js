@@ -18,11 +18,12 @@ module.exports = (client) => {
       const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
-      guilds.forEach((guild) => (totalmembers += guild.memberCount));
+
+      for (const guild of guilds) totalmembers += guild.memberCount;
 
       const [status, emoji] = [
-        ['Disconnected \\', 'Connected \\', 'Connecting \\', 'Disconnecting \\'],
-        ['❌', '✅', '🔄', '🆘'],
+        ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
+        ['\\❌', '\\✅', '\\🔄', '\\🆘'],
       ];
       await bot.fetch();
       await application.fetch();

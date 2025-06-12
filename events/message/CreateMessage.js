@@ -39,7 +39,8 @@ module.exports = {
           });
 
         const thanks = ['thank', 'ty', 'thanks'];
-        thanks.forEach(async (thank) => {
+
+        for (const thank of thanks) {
           if (content.toLowerCase().split(' ').includes(thank)) {
             return await message.reply(hint).then((m) => {
               setTimeout(async () => {
@@ -47,7 +48,7 @@ module.exports = {
               }, 10000);
             });
           }
-        });
+        }
       }
     }
   },

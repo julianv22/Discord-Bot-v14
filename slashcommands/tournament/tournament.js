@@ -189,10 +189,10 @@ module.exports = {
             }),
           );
 
-        tourList.forEach(async (tour) => {
+        for (const tour of tourList) {
           tour.status = false;
           await tour.save().catch(console.error);
-        });
+        }
 
         tournament.status = false;
         tournament.id = null;

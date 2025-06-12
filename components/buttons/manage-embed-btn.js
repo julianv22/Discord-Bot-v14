@@ -130,8 +130,8 @@ module.exports = {
         },
         send: async () => {
           try {
-            Button0.components.forEach((btn) => (btn.data.disabled = true));
-            Button1.components.forEach((btn) => (btn.data.disabled = true));
+            for (const button of [...Button0.components, ...Button1.components]) button.data.disabled = true;
+
             if (!messageId || messageId === 'undefined') {
               await channel.send({ embeds: [getEmbeds] });
               await interaction.update({ components: [Button0, Button1] });
