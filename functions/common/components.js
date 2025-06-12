@@ -57,11 +57,11 @@ function setRowComponent(options, type) {
 /**
  * Set Text Input Component
  * @param {Object} options - Options object
- * @param {string} options.id - The id of the text input
- * @param {string} options.label - The label of the text input
- * @param {string} options.style - The style of the text input
- * @param {string} options.placeholder - The placeholder of the text input
- * @param {boolean} options.required - Whether the text input is required
+ * @param {String} options.id - The id of the text input
+ * @param {String} options.label - The label of the text input
+ * @param {String|TextInputStyle.Short} [options.style] - The style of the text input
+ * @param {String} [options.placeholder] - The placeholder of the text input
+ * @param {Boolean|False} [options.required] - Whether the text input is required
  * @returns {ActionRowBuilder} - Return ActionRowBuilder
  */
 function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) {

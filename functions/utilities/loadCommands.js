@@ -12,11 +12,11 @@ module.exports = (client) => {
    */
   client.loadCommands = async (reload = false) => {
     const { prefixCommands, slashCommands, subCommands } = client;
+
     prefixCommands.clear();
     slashCommands.clear();
     subCommands.clear();
 
-    const rootDir = path.resolve(__dirname, '..', '..');
     const commandTypes = {
       Prefix: { name: 'Prefix Commands', folder: 'prefixcommands', collection: prefixCommands },
       Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
@@ -24,7 +24,7 @@ module.exports = (client) => {
     };
     /**
      * Load các command (Prefix, Slash, Sub)
-     * @param {string} type Loại command trong commandTypes
+     * @param {String} type Loại command trong commandTypes
      */
     async function LoadCommands(type) {
       const table = new ascii()
@@ -44,7 +44,7 @@ module.exports = (client) => {
         let folderCount = 0;
 
         for (const file of commandFiles) {
-          const filePath = path.join(rootDir, path.join(folderPath, file));
+          const filePath = path.join(process.cwd(), folderPath, file);
           const command = requireCommands(filePath, type.folder, type.collection);
 
           if (command) {

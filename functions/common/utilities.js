@@ -22,7 +22,7 @@ async function getLatestVideoId(channelId) {
 /**
  * Check URL
  * @param {String} strInput - String input
- * @returns {Boolean} - Return true if the string is a valid URL, otherwise return false
+ * @returns {Boolean|null} - Return true if the string is a valid URL, otherwise return false
  */
 function checkURL(strInput) {
   try {
@@ -38,9 +38,9 @@ function checkURL(strInput) {
 }
 /**
  * Tìm kiếm và thay thế các biến trong chuỗi
- * @param {string} str - String cần thay thế
+ * @param {String} str - String cần thay thế
  * @param {Object} replacements - Object chứa các biến và giá trị tương ứng
- * @returns {string} - String đã được thay thế
+ * @returns {String} - String đã được thay thế
  */
 function replaceVar(str, replacements) {
   // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}

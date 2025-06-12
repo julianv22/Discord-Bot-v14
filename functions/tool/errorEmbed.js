@@ -3,13 +3,14 @@ const { Client, EmbedBuilder, MessageFlags } = require('discord.js');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
-   * Create an error embed
-   * @param {string} title - The title of the embed
-   * @param {string} description - The description of the embed
-   * @param {string} error - The error if has occurred
-   * @param {string} color - The color of the embed
-   * @param {boolean} emoji - Whether to use an emoji prefix
-   * @param {boolean} flags - Whether to use flags
+   * Tạo một embed thông báo lỗi.
+   * @param {Object} options - Các tùy chọn cho embed lỗi.
+   * @param {String} options.title - Tiêu đề của embed.
+   * @param {String} options.description - Mô tả chi tiết của lỗi.
+   * @param {String} [options.color='Random'] - Màu sắc của embed. Mặc định là 'Random'.
+   * @param {String} [options.emoji=''] - Emoji để thêm vào tiêu đề hoặc mô tả. Mặc định là chuỗi rỗng.
+   * @param {Boolean} [options.flags=true] - Cờ (flags) để xác định hành vi của embed (ví dụ: ephemeral). Mặc định là `true`.
+   * @returns {EmbedBuilder} EmbedBuilder
    */
   client.errorEmbed = ({ title, description, color = 'Random', emoji = '', flags = true }) => {
     const embed = new EmbedBuilder();

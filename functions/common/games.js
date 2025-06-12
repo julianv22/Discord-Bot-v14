@@ -1,15 +1,13 @@
 /**
  * RPS Game
  * @param {number} userMove - Nước đi của người dùng
- * @param {mongoose.Document<economyProfile>} profile - Profile của người dùng
- * @param {number} bet - Số tiền cá cược
  * @returns {Object} - Trả về object gồm:
  * - result: Kết quả RPS
  * - color: Màu sắc cho embed
  * - description: Mô tả cho embed
  * - res: Kết quả RPS dạng số
  */
-function rpsGame(userMove, bet) {
+function rpsGame(userMove) {
   const botMove = Math.floor(Math.random() * 3);
   /**
    * RPS Config

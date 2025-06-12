@@ -8,7 +8,6 @@ const { readFiles } = require('./common/initLoader');
 module.exports = (client) => {
   client.loadFunctions = () => {
     try {
-      const rootDir = path.resolve(__dirname, '..');
       const funcFolder = 'functions';
       const denyList = ['common', 'loadFunctions.js'];
 
@@ -31,7 +30,7 @@ module.exports = (client) => {
         let sequence = 0;
         for (const file of functionFiles) {
           try {
-            const filePath = path.join(rootDir, folderPath, file);
+            const filePath = path.join(process.cwd(), folderPath, file);
 
             delete require.cache[require.resolve(filePath)];
             require(filePath)(client);

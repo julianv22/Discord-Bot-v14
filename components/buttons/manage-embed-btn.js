@@ -30,8 +30,8 @@ module.exports = {
     /**
      * Create modal
      * @param {Object} options - Modal Components
-     * @param {string} modalId - Modal custom ID
-     * @param {string} modalTitle - Modal title
+     * @param {String} modalId - Modal custom ID
+     * @param {String} modalTitle - Modal title
      * @returns {ModalBuilder} - Return ModalBuilder
      */
     function createModal(options, modalId = `manage-embed-md:${button}`, modalTitle = 'Embed Manager') {

@@ -131,9 +131,9 @@ module.exports = {
     }
     /**
      * Create modal
-     * @param {string} placeholder - Placeholder
-     * @param {string} modalId - Modal ID
-     * @param {string} modalTitle - Modal Title
+     * @param {String} placeholder - Placeholder
+     * @param {String} modalId - Modal ID
+     * @param {String} modalTitle - Modal Title
      * @returns {ModalBuilder} - Return ModalBuilder
      */
     function reactionModal(

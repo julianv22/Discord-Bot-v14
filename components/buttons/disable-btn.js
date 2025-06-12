@@ -45,7 +45,7 @@ module.exports = {
        * Confirm Embed
        * @param {String} title - Title of the embed (optional)
        * @param {String} description - Description of the embed (optional)
-       * @returns {EmbedBuilder} - Return a new EmbedBuilder
+       * @returns {EmbedBuilder} - Return EmbedBuilder
        */
       const confirmEmbed = (
         title,

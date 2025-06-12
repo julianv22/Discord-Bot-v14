@@ -13,9 +13,8 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.botInfo = async (author, interaction, message) => {
-    const { catchError } = client;
+    const { catchError, convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
     try {
-      const { convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
       const guilds = client.guilds.cache.map((g) => g);
       let totalmembers = 0;
 

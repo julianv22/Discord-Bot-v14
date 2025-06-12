@@ -5,7 +5,7 @@ const { capitalize } = require('../common/utilities');
 module.exports = (client) => {
   /**
    * Show slash commands list.
-   * @param {string} CommandType - Command type.
+   * @param {String} CommandType - Command type.
    * @param {Interaction} interaction - Interaction object.
    */
   client.helpSlash = async (CommandType, interaction) => {

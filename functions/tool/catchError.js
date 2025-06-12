@@ -4,10 +4,9 @@ const { Client, Interaction, ChatInputCommandInteraction, Colors, Message } = re
 module.exports = (client) => {
   /**
    * Catch Error function
-   * @param {Interaction} interaction
-   * @param {Error} e
-   * @param {ChatInputCommandInteraction} [command]
-   * @param {Message} [message]
+   * @param {Interaction} interaction - Interaction object
+   * @param {Error} e - Error when catched
+   * @param {ChatInputCommandInteraction} command - Chat input command
    */
   client.catchError = async (interaction, e, command) => {
     const { errorEmbed } = client;

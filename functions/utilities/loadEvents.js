@@ -8,7 +8,6 @@ const { readFiles } = require('../common/initLoader');
 module.exports = (client) => {
   client.loadEvents = () => {
     try {
-      const rootDir = path.resolve(__dirname, '..', '..');
       const eventFolder = 'events';
       const table = new ascii().setHeading('Folder', '♻', 'Event Name').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
@@ -24,7 +23,7 @@ module.exports = (client) => {
         let sequence = 0;
         for (const file of eventFiles) {
           try {
-            const filePath = path.join(rootDir, folderPath, file);
+            const filePath = path.join(process.cwd(), folderPath, file);
             delete require.cache[require.resolve(filePath)];
             const event = require(filePath);
 

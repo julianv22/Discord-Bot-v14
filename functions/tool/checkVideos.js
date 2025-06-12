@@ -1,26 +1,6 @@
 const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
-/**
- * Get the latest video of the YouTube channel
- * @param {String} channelId - Channel ID
- * @returns {Object} - Return videoId, channelTitle, videoTitle
- */
-async function getLatestVideoId(channelId) {
-  try {
-    const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
-    if (!res.ok) return { videoId: null, title: null };
-    const xml = await res.text();
-    const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-    const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
-    // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
-    const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
-    const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
-    return { videoId: match ? match[1] : null, channelTitle, videoTitle };
-  } catch {
-    return { videoId: null, channelTitle: null, videoTitle: null };
-  }
-}
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   /**
@@ -28,6 +8,26 @@ module.exports = (client) => {
    * @returns {Promise<void>}
    */
   client.checkVideos = async () => {
+    /**
+     * Get the latest video of the YouTube channel
+     * @param {String} channelId - Channel ID
+     * @returns {Object} - Return videoId, channelTitle, videoTitle
+     */
+    async function getLatestVideoId(channelId) {
+      try {
+        const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
+        if (!res.ok) return { videoId: null, title: null };
+        const xml = await res.text();
+        const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+        const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
+        // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
+        const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
+        const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
+        return { videoId: match ? match[1] : null, channelTitle, videoTitle };
+      } catch {
+        return { videoId: null, channelTitle: null, videoTitle: null };
+      }
+    }
     try {
       // console.log(chalk.red('Checking videos...'));
       let servers = await serverProfile.find({}).catch(console.error);
