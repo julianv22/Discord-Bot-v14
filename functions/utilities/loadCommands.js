@@ -1,5 +1,5 @@
-const { Client } = require('discord.js');
-const { readdirSync } = require('fs');
+const { Client, Collection } = require('discord.js');
+const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
@@ -16,15 +16,31 @@ module.exports = (client) => {
     prefixCommands.clear();
     slashCommands.clear();
     subCommands.clear();
-
+    /**
+     * @typedef {Object} CommandTypeConfig
+     * @property {String} name Tên hiển thị của command
+     * @property {String} folder Tên thư mục chứa các command
+     * @property {Collection} collection Collection dùng để lưu trữ các command
+     */
+    /**
+     * Object chứa cấu hình cho các loại command khác nhau.
+     * Mỗi thuộc tính đại diện cho một loại command (Prefix, Slash, Sub) và chứa các thông tin cần thiết để tải và quản lý chúng.
+     * @type {{
+     * Prefix: CommandTypeConfig,
+     * Slash: CommandTypeConfig,
+     * Sub: CommandTypeConfig
+     * }}
+     */
     const commandTypes = {
       Prefix: { name: 'Prefix Commands', folder: 'prefixcommands', collection: prefixCommands },
       Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
       Sub: { name: 'Sub Commands', folder: 'slashcommands/subcommands', collection: subCommands },
     };
+
+    const ignoreList = ['subcommands'];
     /**
      * Load các command (Prefix, Slash, Sub)
-     * @param {String} type Loại command trong commandTypes
+     * @param {commandTypes} type Loại command trong commandTypes
      */
     async function LoadCommands(type) {
       const table = new ascii()
@@ -33,10 +49,13 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
 
       let totalCount = 0;
-      const commandFolders = readdirSync(type.folder);
+      const commandFolders = readdirSync(type.folder).filter((folder) =>
+        statSync(path.join(type.folder, folder)).isDirectory(),
+      );
 
       for (const folder of commandFolders) {
-        if (folder === 'subcommands') continue;
+        if (ignoreList.includes(folder)) continue;
+
         const folderPath = path.join(type.folder, folder);
         const commandFiles = readFiles(folderPath);
 

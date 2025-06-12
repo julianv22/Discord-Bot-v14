@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const { readdirSync } = require('fs');
+const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('./common/initLoader');
@@ -9,7 +9,7 @@ module.exports = (client) => {
   client.loadFunctions = () => {
     try {
       const funcFolder = 'functions';
-      const denyList = ['common', 'loadFunctions.js'];
+      const ignoreList = ['common'];
 
       const table = new ascii()
         .setHeading('Folder', '♻', 'Function Name')
@@ -17,10 +17,12 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
 
-      const functionFolders = readdirSync(funcFolder);
+      const functionFolders = readdirSync(funcFolder).filter((folder) =>
+        statSync(path.join(funcFolder, folder)).isDirectory(),
+      );
 
       for (const folder of functionFolders) {
-        if (denyList.includes(folder)) continue;
+        if (ignoreList.includes(folder)) continue;
 
         const folderPath = path.join(funcFolder, folder);
         const functionFiles = readFiles(folderPath);

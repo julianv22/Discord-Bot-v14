@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const { readdirSync } = require('fs');
+const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
@@ -12,7 +12,9 @@ module.exports = (client) => {
       const table = new ascii().setHeading('Folder', '♻', 'Event Name').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
 
-      const eventFolders = readdirSync(eventFolder);
+      const eventFolders = readdirSync(eventFolder).filter((folder) =>
+        statSync(path.join(eventFolder, folder)).isDirectory(),
+      );
 
       for (const folder of eventFolders) {
         const folderPath = path.join(eventFolder, folder);
@@ -24,8 +26,20 @@ module.exports = (client) => {
         for (const file of eventFiles) {
           try {
             const filePath = path.join(process.cwd(), folderPath, file);
+
             delete require.cache[require.resolve(filePath)];
             const event = require(filePath);
+
+            if (!event.name) {
+              console.warn(
+                chalk.yellow('[Warn] Event ') +
+                  file +
+                  chalk.yellow(' in ') +
+                  chalk.green(folderPath) +
+                  chalk.yellow(" is missing 'event.name'"),
+              );
+              continue;
+            }
 
             if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
             else client.on(event.name, (...args) => event.execute(...args, client));

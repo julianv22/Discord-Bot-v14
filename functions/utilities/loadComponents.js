@@ -1,5 +1,5 @@
 const { Client, Collection } = require('discord.js');
-const { readdirSync } = require('fs');
+const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
@@ -8,7 +8,7 @@ const { readFiles } = require('../common/initLoader');
 module.exports = (client) => {
   client.loadComponents = async () => {
     const { buttonCollection, menuCollection, modalCollection } = client;
-    const compntFolder = 'components';
+    const compFolder = 'components';
 
     buttonCollection.clear();
     menuCollection.clear();
@@ -22,12 +22,13 @@ module.exports = (client) => {
     const requireComponents = (componentFiles, folder, collection) => {
       try {
         for (const file of componentFiles) {
-          const filePath = path.join(process.cwd(), compntFolder, folder, file);
+          const filePath = path.join(process.cwd(), compFolder, folder, file);
+
           delete require.cache[require.resolve(filePath)];
           const component = require(filePath);
 
           if (component.data && component.data.name) collection.set(component.data.name, component);
-          else
+          else {
             console.warn(
               chalk.yellow('[Warn] Component ') +
                 file +
@@ -35,6 +36,8 @@ module.exports = (client) => {
                 chalk.green(folder) +
                 chalk.yellow(" is missing 'data' or 'data.name'"),
             );
+            continue;
+          }
         }
       } catch (e) {
         console.error(chalk.yellow('Error while requiring components from ') + chalk.green(`${folder}\n`), e);
@@ -42,7 +45,9 @@ module.exports = (client) => {
     };
 
     try {
-      const componentFolders = readdirSync(compntFolder);
+      const componentFolders = readdirSync(compFolder).filter((folder) =>
+        statSync(path.join(compFolder, folder)).isDirectory(),
+      );
 
       const table = new ascii()
         .setHeading('Folder', '♻', 'Component Name')
@@ -51,18 +56,13 @@ module.exports = (client) => {
       let totalCount = 0;
 
       for (const folder of componentFolders) {
-        const folderPath = path.join(compntFolder, folder);
+        const folderPath = path.join(compFolder, folder);
         const componentFiles = readFiles(folderPath);
 
         table.addRow(`📂 ${folder.toUpperCase()} [${componentFiles.length}]`, '─', '─'.repeat(14));
 
         let sequence = 0;
         for (const file of componentFiles) {
-          if (!file.endsWith('.js')) {
-            console.warn(chalk.yellow(`Bỏ qua ${file} không phải .js trong ${folderPath}`));
-            continue;
-          }
-
           table.addRow('', ++sequence, file.split('.')[0]);
           totalCount++;
         }
