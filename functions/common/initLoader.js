@@ -1,4 +1,4 @@
-const { Client, Collection } = require('discord.js');
+const { Collection } = require('discord.js');
 const { readdirSync } = require('fs');
 /**
  * Đọc các file (.js) từ folder

@@ -18,9 +18,9 @@ client.prefixCommands = new Collection();
 client.slashCommands = new Collection();
 client.subCommands = new Collection();
 client.slashArray = [];
-client.buttons = new Collection();
-client.menus = new Collection();
-client.modals = new Collection();
+client.buttonCollection = new Collection();
+client.menuCollection = new Collection();
+client.modalCollection = new Collection();
 client.snipes = new Collection();
 
 console.log(chalk.bgYellow('\n---------------Project is running---------------\n'));

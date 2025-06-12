@@ -8,15 +8,15 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
-    const { catchError, buttons, menus, modals } = client;
+    const { catchError, buttonCollection, menuCollection, modalCollection } = client;
     const { channel, customId } = interaction;
 
     if (channel.type === ChannelType.DM) return;
     //Method object của components
     const interactionTypes = {
-      isButton: buttons,
-      isStringSelectMenu: menus,
-      isModalSubmit: modals,
+      isButton: buttonCollection,
+      isStringSelectMenu: menuCollection,
+      isModalSubmit: modalCollection,
     };
     //Handler component
     let component;

@@ -7,12 +7,12 @@ const { readFiles } = require('../common/initLoader');
 /** @param {Client} client - Client object */
 module.exports = (client) => {
   client.loadComponents = async () => {
-    const { buttons, menus, modals } = client;
+    const { buttonCollection, menuCollection, modalCollection } = client;
     const compntFolder = 'components';
 
-    buttons.clear();
-    menus.clear();
-    modals.clear();
+    buttonCollection.clear();
+    menuCollection.clear();
+    modalCollection.clear();
     /**
      * Require file và set vào collection tương ứng
      * @param {String[]} componentFiles Danh sách các file component
@@ -68,9 +68,9 @@ module.exports = (client) => {
         }
 
         const ComponentType = {
-          buttons: () => requireComponents(componentFiles, folder, buttons),
-          menus: () => requireComponents(componentFiles, folder, menus),
-          modals: () => requireComponents(componentFiles, folder, modals),
+          buttons: () => requireComponents(componentFiles, folder, buttonCollection),
+          menus: () => requireComponents(componentFiles, folder, menuCollection),
+          modals: () => requireComponents(componentFiles, folder, modalCollection),
         };
         ComponentType[folder]();
       }
