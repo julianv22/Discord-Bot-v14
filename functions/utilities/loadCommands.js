@@ -92,15 +92,12 @@ module.exports = (client) => {
             if (!clientId) throw new Error('Không xác định được clientId của bot');
 
             let slashArray = [];
-
             for (const command of slashCommands) {
               slashArray.push(command[1].data.toJSON());
             }
 
             const rest = new REST({ version: 10 }).setToken(token);
-            if (clientId === '995949416273940623')
-              await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
-            else await rest.put(Routes.applicationCommands(clientId), { body: global.slashArray });
+            await rest.put(Routes.applicationCommands(clientId), { body: global.slashArray });
 
             console.log(chalk.green('\n✅ Successfully loaded application (/) commands.\n'));
           } catch (e) {
