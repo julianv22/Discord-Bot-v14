@@ -1,6 +1,8 @@
-.env
+# Folders
 .idx
 .replit
 .vscode
-replit.nix
 node_modules
+# Files
+.env
+functions\loadFunctions.js

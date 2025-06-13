@@ -97,7 +97,7 @@ module.exports = (client) => {
             }
 
             const rest = new REST({ version: 10 }).setToken(token);
-            await rest.put(Routes.applicationCommands(clientId), { body: global.slashArray });
+            await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
 
             console.log(chalk.green('\n✅ Successfully loaded application (/) commands.\n'));
           } catch (e) {
