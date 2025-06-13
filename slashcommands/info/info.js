@@ -28,6 +28,9 @@ module.exports = {
       server: () => serverInfo(guild, user, interaction),
       user: () => userInfo(guild, options.getUser('user'), user, interaction),
     };
-    if (typeof showInfo[subCommand] === 'function') await showInfo[subCommand]();
+
+    if (!showInfo[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
+
+    await showInfo[subCommand]();
   },
 };

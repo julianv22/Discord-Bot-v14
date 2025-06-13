@@ -29,18 +29,18 @@ module.exports = {
 
     await interaction.deferReply({ flags: 64 });
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)
-    async function sendResponseEmbed(title, description, color = 'Random') {
+    const sendResponseEmbed = async (title, description, color = 'Random') => {
       const embed = new EmbedBuilder().setColor(color).setTitle(title).setDescription(description);
       await interaction.editReply({ embeds: [embed] });
-    }
+    };
     // Hàm mã hóa URL sang Base64 URL-safe (không padding)
     // Đây là định dạng mà VirusTotal cần cho endpoint GET /urls/{id}
-    function encodeUrlToBase64(url) {
+    const encodeUrlToBase64 = (url) => {
       // encodeURIComponent xử lý các ký tự đặc biệt trước khi mã hóa Base64
       const encoded = Buffer.from(encodeURIComponent(url)).toString('base64');
       // Thay thế + bằng -, / bằng _, và loại bỏ padding =
       return encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    }
+    };
 
     // Kiểm tra báo cáo URL hiện có trên VirusTotal ---
     const encodedUrl = encodeUrlToBase64(inputUrl);

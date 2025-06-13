@@ -81,7 +81,7 @@ module.exports = (client) => {
             inline: true,
           },
           {
-            name: `💻 Platform: ${process.platform}`,
+            name: `💻 Platform: \`${process.platform} ${process.arch}\``,
             value: `**CPU Usage:** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%`,
             inline: true,
           },

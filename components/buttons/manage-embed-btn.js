@@ -34,9 +34,9 @@ module.exports = {
      * @param {String} modalTitle - Modal title
      * @returns {ModalBuilder} - Return ModalBuilder
      */
-    function createModal(options, modalId = `manage-embed-md:${button}`, modalTitle = 'Embed Manager') {
+    const createModal = (options, modalId = `manage-embed-md:${button}`, modalTitle = 'Embed Manager') => {
       return new ModalBuilder().setCustomId(modalId).setTitle(modalTitle).setComponents(setTextInput(options));
-    }
+    };
 
     try {
       const Selected = {
@@ -160,7 +160,9 @@ module.exports = {
         },
       };
 
-      if (typeof Selected[button] === 'function') return await Selected[button]();
+      if (!Selected[button]) throw new Error(chalk.yellow('Invalid button customId ') + chalk.green(button));
+
+      return await Selected[button]();
     } catch (e) {
       catchError(interaction, e, this);
     }

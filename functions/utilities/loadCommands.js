@@ -40,18 +40,16 @@ module.exports = (client) => {
     const ignoreList = ['subcommands'];
     /**
      * Load các command (Prefix, Slash, Sub)
-     * @param {commandTypes} type Loại command trong commandTypes
+     * @param {CommandTypeConfig} type Loại command trong commandTypes
      */
-    async function LoadCommands(type) {
+    const LoadCommands = async (type) => {
       const table = new ascii()
         .setHeading('Folder', '♻', 'Command Name')
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
 
       let totalCount = 0;
-      const commandFolders = readdirSync(type.folder).filter((folder) =>
-        statSync(path.join(type.folder, folder)).isDirectory(),
-      );
+      const commandFolders = readFiles(type.folder, 'dir');
 
       for (const folder of commandFolders) {
         if (ignoreList.includes(folder)) continue;
@@ -74,7 +72,7 @@ module.exports = (client) => {
       }
       table.setTitle(`Load ${type.name} [${totalCount}]`);
       console.log(table.toString());
-    }
+    };
 
     try {
       await LoadCommands(commandTypes.Prefix);

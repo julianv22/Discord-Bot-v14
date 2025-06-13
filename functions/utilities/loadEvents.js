@@ -1,5 +1,4 @@
 const { Client } = require('discord.js');
-const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
@@ -12,9 +11,7 @@ module.exports = (client) => {
       const table = new ascii().setHeading('Folder', '♻', 'Event Name').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
 
-      const eventFolders = readdirSync(eventFolder).filter((folder) =>
-        statSync(path.join(eventFolder, folder)).isDirectory(),
-      );
+      const eventFolders = readFiles(eventFolder, 'dir');
 
       for (const folder of eventFolders) {
         const folderPath = path.join(eventFolder, folder);
@@ -32,11 +29,11 @@ module.exports = (client) => {
 
             if (!event.name) {
               console.warn(
-                chalk.yellow('[Warn] Event ') +
-                  file +
-                  chalk.yellow(' in ') +
-                  chalk.green(folderPath) +
-                  chalk.yellow(" is missing 'event.name'"),
+                chalk.yellow('[Warn] Event'),
+                file,
+                chalk.yellow('in'),
+                chalk.green(folderPath),
+                chalk.yellow("is missing 'event.name'"),
               );
               continue;
             }
@@ -48,7 +45,10 @@ module.exports = (client) => {
             totalCount++;
           } catch (e) {
             console.error(
-              chalk.red('Error while requiring event ') + file + chalk.red(' in ') + chalk.green(`${folderPath}\n`),
+              chalk.red('Error while requiring event'),
+              file,
+              chalk.red('in'),
+              chalk.green(`${folderPath}\n`),
               e,
             );
           }

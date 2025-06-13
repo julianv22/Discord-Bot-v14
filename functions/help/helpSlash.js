@@ -64,6 +64,6 @@ module.exports = (client) => {
         });
       },
     };
-    (ShowCommand[CommandType] || ShowCommand.default)(CommandType);
+    (ShowCommand[CommandType] || ShowCommand.default)();
   };
 };

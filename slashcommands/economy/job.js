@@ -73,9 +73,9 @@ module.exports = {
         if (lucky) reward *= 2;
         await user
           .send(
-            `\\🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
+            `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
               guild.name
-            }**\n\n\\💰 Bạn đã nhận được **${reward.toLocaleString()}**\\💲!${
+            }**\n\n💰 Bạn đã nhận được **${reward.toLocaleString()}**💲!${
               lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
             }`,
           )

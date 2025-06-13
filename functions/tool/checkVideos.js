@@ -13,7 +13,7 @@ module.exports = (client) => {
      * @param {String} channelId - Channel ID
      * @returns {Object} - Return videoId, channelTitle, videoTitle
      */
-    async function getLatestVideoId(channelId) {
+    const getLatestVideoId = async (channelId) => {
       try {
         const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
         if (!res.ok) return { videoId: null, title: null };
@@ -27,7 +27,7 @@ module.exports = (client) => {
       } catch {
         return { videoId: null, channelTitle: null, videoTitle: null };
       }
-    }
+    };
     try {
       // console.log(chalk.red('Checking videos...'));
       let servers = await serverProfile.find({}).catch(console.error);

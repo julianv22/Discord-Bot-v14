@@ -38,17 +38,17 @@ module.exports = {
                 .setTitle('Thống kê Slash Command & Sub Command')
                 .addFields([
                   {
-                    name: `Slash Commands\nCommands: [${slashCommands.size - contextMenus.length}] --- Categories: [${
-                      slashFolders.length
-                    }]`,
+                    name: `\\📂 Slash Commands\nCommands: [${
+                      slashCommands.size - contextMenus.length
+                    }] --- Categories: [${slashFolders.length}]`,
                     value: `\`\`\`ansi\n\u001b[36m${slashFolders.join(' | ')}\u001b[0m\`\`\``,
                   },
                   {
-                    name: `Sub Commands\nCommands: [${subCommands.size}] --- Categories: [${subFolders.length}]`,
+                    name: `\\📂 Sub Commands\nCommands: [${subCommands.size}] --- Categories: [${subFolders.length}]`,
                     value: `\`\`\`ansi\n\u001b[36m${subFolders.join(' | ')}\u001b[0m\`\`\``,
                   },
                   {
-                    name: `Context Menus [**${contextMenus.length}**]`,
+                    name: `\\📂 Context Menus [**${contextMenus.length}**]`,
                     value: `\`\`\`ansi\n\u001b[36m${contextMenus.join(' | ')}\u001b[0m\`\`\``,
                   },
                   { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
@@ -64,7 +64,7 @@ module.exports = {
           });
         },
       };
-      (ShowHelp[CommandType] || ShowHelp.default)(CommandType);
+      (ShowHelp[CommandType] || ShowHelp.default)();
     } catch (e) {
       catchError(interaction, e, this);
     }

@@ -1,5 +1,4 @@
 const { Client } = require('discord.js');
-const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('./common/initLoader');
@@ -17,9 +16,7 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
 
-      const functionFolders = readdirSync(funcFolder).filter((folder) =>
-        statSync(path.join(funcFolder, folder)).isDirectory(),
-      );
+      const functionFolders = readFiles(funcFolder, 'dir');
 
       for (const folder of functionFolders) {
         if (ignoreList.includes(folder)) continue;
@@ -41,7 +38,10 @@ module.exports = (client) => {
             totalCount++;
           } catch (e) {
             console.error(
-              chalk.red('Error while requiring function ') + file + chalk.red(' in ') + chalk.green(`${folderPath}\n`),
+              chalk.red('Error while requiring function'),
+              file,
+              chalk.red('in'),
+              chalk.green(`${folderPath}\n`),
               e,
             );
           }

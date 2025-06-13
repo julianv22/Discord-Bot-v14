@@ -6,7 +6,7 @@ const serverProfile = require('../../../config/serverProfile');
  * @param {String} apiKey - API key for Youtube
  * @returns {Promise<string>}
  */
-async function getChannelTitle(channelId, apiKey) {
+const getChannelTitle = async (channelId, apiKey) => {
   try {
     const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
     const res = await fetch(url);
@@ -18,7 +18,7 @@ async function getChannelTitle(channelId, apiKey) {
     console.error(chalk.red('Error while executing function getChannelTitle:\n'), e);
   }
   return channelId;
-}
+};
 module.exports = {
   category: 'sub command',
   parent: 'youtube',

@@ -75,8 +75,12 @@ module.exports = {
             welcome.log = '';
           },
         };
-        if (typeof Disable[confirm] === 'function') await Disable[confirm]();
-        await rofile.save().catch(console.error);
+
+        if (!Disable[confirm]) throw new Error(chalk.yellow('Invalid feature customId ') + chalk.green(confirm));
+
+        await Disable[confirm]();
+
+        await profile.save().catch(console.error);
         return await interaction.update({
           embeds: [
             confirmEmbed(

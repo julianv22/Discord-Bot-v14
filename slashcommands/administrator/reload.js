@@ -27,6 +27,7 @@ module.exports = {
   async execute(interaction, client) {
     const { options } = interaction;
     const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;
+    const subCommand = options.getSubcommand();
     const embed = new EmbedBuilder().setColor(Colors.Green);
 
     try {
@@ -34,31 +35,25 @@ module.exports = {
         commands: async () => {
           await loadCommands(true);
           await loadComponents();
-          await interaction.reply({
-            embeds: [embed.setDescription('\\✅ Reloading commands, please wait...')],
-            flags: 64,
-          });
+          await interaction.reply(errorEmbed({ description: 'Reloading commands, please wait...', emoji: true }));
         },
         events: async () => {
           await loadEvents();
-          await interaction.reply({
-            embeds: [embed.setDescription('\\✅ Reloading events, please wait...')],
-            flags: 64,
-          });
+          await interaction.reply(errorEmbed({ description: 'Reloading events, please wait...', emoji: true }));
         },
         functions: async () => {
           await loadFunctions();
-          await interaction.reply({
-            embeds: [embed.setDescription('\\✅ Reloading functions, please wait...')],
-            flags: 64,
-          });
+          await interaction.reply(errorEmbed({ description: 'Reloading functions, please wait...', emoji: true }));
         },
       };
-      if (typeof CommandsType[options.getSubcommand()] === 'function') await CommandsType[options.getSubcommand()]();
+
+      if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
+
+      await CommandsType[subCommand]();
 
       setTimeout(async () => {
         await interaction.editReply(
-          errorEmbed({ description: `Successfully reloaded application ${options.getSubcommand()}!`, emoji: true }),
+          errorEmbed({ description: `Successfully reloaded application ${subCommand}!`, emoji: true }),
         );
       }, 2500);
     } catch (e) {

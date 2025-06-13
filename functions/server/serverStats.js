@@ -20,17 +20,17 @@ module.exports = (client) => {
        * @param {String} stats - Member status
        * @returns {Number} - Number of members with the given status
        */
-      function getPressence(stats) {
+      const getPressence = (stats) => {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
-      }
+      };
       /**
        * Set channel name
        * @param {String} id - Channel ID
        * @param {String} name - Channel name
        */
-      async function setChannelName(id, name) {
+      const setChannelName = async (id, name) => {
         await guild.channels.cache.get(id).setName(name).catch(console.error);
-      }
+      };
 
       try {
         // const memberRole = guild.roles.cache.get(statistics?.memberRole); //Lấy role của member cần thống kê

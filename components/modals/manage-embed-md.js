@@ -64,7 +64,10 @@ module.exports = {
           });
         },
       };
-      if (typeof editEmbed[part] === 'function') await editEmbed[part]();
+
+      if (!editEmbed[part]) throw new Error(chalk.yellow('Invalid Modal customId ') + chalk.green(part));
+
+      await editEmbed[part]();
       return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });
     } catch (e) {
       catchError(interaction, e, this);

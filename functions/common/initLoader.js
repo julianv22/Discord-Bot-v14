@@ -1,26 +1,48 @@
 const { Collection } = require('discord.js');
-const { readdirSync } = require('fs');
+const { readdirSync, statSync } = require('fs');
+const path = require('path');
 /**
- * Đọc các file (.js) từ folder
- * @param {String} folderPath Đường dẫn thư mục chứa command
- * @returns {String[]} Danh sách tên file command (kết thúc bằng .js)
+ * Đọc danh sách các file (.js) hoặc folder
+ * @param {String} folderPath Đường dẫn thư mục
+ * @param {String|Boolean|'.js'} [fileType] Loại file (optional):
+ * - '.js': (mặc định) lọc danh sách các file js
+ * - 'dir': lọc danh sách các directory
+ * - true: lấy danh sách toàn bộ file/folder trong thư mục
+ * @returns {String[]} Danh sách file/folder
  */
-const readFiles = (folderPath) => {
+function readFiles(folderPath, fileType = '.js') {
   try {
-    return readdirSync(folderPath).filter((file) => file.endsWith('.js'));
+    const readFile = {
+      dir: () => {
+        // Trả về danh sách các thư mục con
+        return readdirSync(folderPath).filter((folder) => statSync(path.join(folderPath, folder)).isDirectory());
+      },
+      true: () => {
+        // Trả về danh sách toàn bộ file và thư mục con
+        return readdirSync(folderPath);
+      },
+      default: () => {
+        // Trả về danh sách các tệp có phần mở rộng fileType
+        return readdirSync(folderPath).filter((file) => file.endsWith(fileType));
+      },
+    };
+
+    return (readFile[fileType] || readFile.default)();
   } catch (e) {
-    console.error(chalk.red(`Cannot read folder ${folderPath}\n`), e);
+    const file =
+      fileType === 'dir' ? 'directories' : (fileType === true ? '' : `[ ${fileType} ] `) + chalk.red('files');
+    console.error(chalk.red('Error while reading'), file, chalk.red('in'), chalk.green(`${folderPath}\n`), e);
     return [];
   }
-};
+}
 /**
  * Require file và thêm vào collection tương ứng
  * @param {String} filePath Đường dẫn của file
  * @param {String} folderName Tên folder
  * @param {Collection} collection Collection của file
- * @returns {Object|null} Đối tượng file hoặc null nếu không hợp lệ
+ * @returns {Object|null} Đối tượng command hoặc null nếu không hợp lệ
  */
-const requireCommands = (filePath, folderName, collection) => {
+function requireCommands(filePath, folderName, collection) {
   try {
     const parts = filePath.split('\\');
     const relativePath = parts.slice(parts.length - 3, parts.length - 1).join('/');
@@ -31,10 +53,10 @@ const requireCommands = (filePath, folderName, collection) => {
 
     if (!command) {
       console.warn(
-        chalk.yellow('[Warn] Invalid file or empty at ') +
-          filePath.split('\\').pop() +
-          chalk.yellow(' in ') +
-          chalk.green(folderName),
+        chalk.yellow('[Warn] Invalid file or empty at'),
+        filePath.split('\\').pop(),
+        chalk.yellow('in'),
+        chalk.green(folderName),
       );
       return null;
     }
@@ -44,11 +66,11 @@ const requireCommands = (filePath, folderName, collection) => {
         if (command.name) collection.set(command.name, command);
         else
           console.warn(
-            chalk.yellow('[Warn] Prefix command ') +
-              filePath.split('\\').pop() +
-              chalk.yellow(' in ') +
-              chalk.green(relativePath) +
-              chalk.yellow(" is missing 'name'"),
+            chalk.yellow('[Warn] Prefix command'),
+            filePath.split('\\').pop(),
+            chalk.yellow('in'),
+            chalk.green(relativePath),
+            chalk.yellow("is missing 'name'"),
           );
       },
       default: () => {
@@ -56,25 +78,25 @@ const requireCommands = (filePath, folderName, collection) => {
           collection.set(command.data.name, command);
         } else
           console.warn(
-            chalk.yellow('[Warn] Command ') +
-              filePath.split('\\').pop() +
-              chalk.yellow(' in ') +
-              chalk.green(relativePath) +
-              chalk.yellow(" is missing 'data' or 'data.name'"),
+            chalk.yellow('[Warn] Command'),
+            filePath.split('\\').pop(),
+            chalk.yellow('in'),
+            chalk.green(relativePath),
+            chalk.yellow("is missing 'data' or 'data.name'"),
           );
       },
     };
-    (setCollection[folderName] || setCollection.default)(folderName);
+    (setCollection[folderName] || setCollection.default)();
     return command;
   } catch (e) {
     console.error(
-      chalk.red('Error while requiring file ') +
-        filePath.split('\\').pop() +
-        chalk.red(' in ') +
-        chalk.green(`${relativePath}\n`),
+      chalk.red('Error while requiring file'),
+      filePath.split('\\').pop(),
+      chalk.red('in'),
+      chalk.green(`${relativePath}\n`),
       e,
     );
     return null;
   }
-};
+}
 module.exports = { readFiles, requireCommands };

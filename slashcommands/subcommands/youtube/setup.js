@@ -6,7 +6,7 @@ const serverProfile = require('../../../config/serverProfile');
  * @param {String} apiKey - API key for Youtube
  * @returns {Promise<{ valid: boolean, title: string | null }>}
  */
-async function validateYoutubeChannel(channelId, apiKey) {
+const validateYoutubeChannel = async (channelId, apiKey) => {
   const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
   const res = await fetch(url);
   const data = await res.json();
@@ -14,7 +14,7 @@ async function validateYoutubeChannel(channelId, apiKey) {
     return { valid: true, title: data.items[0].snippet.title };
   }
   return { valid: false, title: null };
-}
+};
 module.exports = {
   category: 'sub command',
   parent: 'youtube',

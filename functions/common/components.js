@@ -5,16 +5,28 @@ const {
   TextInputStyle,
   ComponentType,
   ButtonStyle,
+  SelectMenuComponentOptionData,
 } = require('discord.js');
 
 /**
  * Set Row Component
  * @param {Object} options - Options object
  * @param {ComponentType} type - Component type
- * @returns {ActionRowBuilder} - Return ActionRowBuilder
+ * @returns {ButtonBuilder|SelectMenuComponentOptionData|TextInputBuilder} - Return ActionRowBuilder
  */
 function setRowComponent(options, type) {
   const setRowComponent = {
+    // Return ButtonBuilder options
+    [ComponentType.Button]: () => {
+      return options.map((opt) => {
+        const button = new ButtonBuilder().setLabel(opt.label).setStyle(opt.style);
+        if (opt.emoji) button.setEmoji(opt.emoji);
+        if (opt.customId) button.setCustomId(opt.customId);
+        if (opt.url) button.setURL(opt.url);
+        if (opt.disabled) button.setDisabled(opt.disabled);
+        return button;
+      });
+    },
     // Return StringSelectMenuBuilder options
     [ComponentType.StringSelect]: () => {
       return options.map((opt) => {
@@ -26,17 +38,6 @@ function setRowComponent(options, type) {
         if (opt.emoji) option.emoji = opt.emoji;
         if (opt.default) option.default = opt.default;
         return option;
-      });
-    },
-    // Return ButtonBuilder options
-    [ComponentType.Button]: () => {
-      return options.map((opt) => {
-        const button = new ButtonBuilder().setLabel(opt.label).setStyle(opt.style);
-        if (opt.emoji) button.setEmoji(opt.emoji);
-        if (opt.customId) button.setCustomId(opt.customId);
-        if (opt.url) button.setURL(opt.url);
-        if (opt.disabled) button.setDisabled(opt.disabled);
-        return button;
       });
     },
     // Return TextInputBuilder options
@@ -51,7 +52,9 @@ function setRowComponent(options, type) {
       });
     },
   };
-  if (!setRowComponent[type]) throw new Error(`Invalid component type: ${type}`);
+
+  if (!setRowComponent[type]) throw new Error(chalk.yellow('Invalid component type ') + chalk.green(type));
+
   return setRowComponent[type]();
 }
 /**
@@ -76,7 +79,7 @@ function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '
 }
 /**
  * Disable Buttons
- * @param {ActionRowBuilder} buttons - Buttons
+ * @param {ButtonBuilder} buttons - Buttons
  * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons
  */
 function disableButtons(buttons) {

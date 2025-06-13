@@ -53,7 +53,7 @@ module.exports = {
        * @param {String} message - Nội dung message
        * @param {String} key - Key của sourcebin
        */
-      async function sendMessage(message, key) {
+      const sendMessage = async (message, key) => {
         const embed = new EmbedBuilder().setColor(Colors.Blurple).setDescription(message);
 
         if (key)
@@ -69,7 +69,7 @@ module.exports = {
             ],
           });
         else await interaction.editReply({ embeds: [embed] });
-      }
+      };
 
       let db = JSON.stringify(profile, null, 2);
       let bin = await fetch('https://sourceb.in/api/bins', {

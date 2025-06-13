@@ -1,6 +1,6 @@
 const { EmbedBuilder, Message, Client } = require('discord.js');
 
-function getQuote() {
+const getQuote = () => {
   return fetch('https://zenquotes.io/api/random')
     .then((res) => {
       return res.json();
@@ -8,7 +8,7 @@ function getQuote() {
     .then((data) => {
       return '❝ **' + data[0]['q'] + '** ❞\n\n- ' + data[0]['a'] + ' -';
     });
-}
+};
 
 module.exports = {
   name: 'quote',

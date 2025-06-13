@@ -44,7 +44,7 @@ module.exports = (client) => {
       return await message.channel
         .send(
           client.errorEmbed({
-            title: '\\❌ Error while executing cmdGuide function',
+            title: '❌ Error while executing cmdGuide function',
             description: e,
             color: Colors.Red,
           }),

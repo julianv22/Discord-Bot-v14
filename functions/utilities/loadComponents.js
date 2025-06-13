@@ -1,5 +1,4 @@
 const { Client, Collection } = require('discord.js');
-const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
@@ -30,24 +29,22 @@ module.exports = (client) => {
           if (component.data && component.data.name) collection.set(component.data.name, component);
           else {
             console.warn(
-              chalk.yellow('[Warn] Component ') +
-                file +
-                chalk.yellow(' in ') +
-                chalk.green(folder) +
-                chalk.yellow(" is missing 'data' or 'data.name'"),
+              chalk.yellow('[Warn] Component'),
+              file,
+              chalk.yellow('in'),
+              chalk.green(folder),
+              chalk.yellow("is missing 'data' or 'data.name'"),
             );
             continue;
           }
         }
       } catch (e) {
-        console.error(chalk.yellow('Error while requiring components from ') + chalk.green(`${folder}\n`), e);
+        console.error(chalk.yellow('Error while requiring components from'), chalk.green(`${folder}\n`), e);
       }
     };
 
     try {
-      const componentFolders = readdirSync(compFolder).filter((folder) =>
-        statSync(path.join(compFolder, folder)).isDirectory(),
-      );
+      const componentFolders = readFiles(compFolder, 'dir');
 
       const table = new ascii()
         .setHeading('Folder', '♻', 'Component Name')

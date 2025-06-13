@@ -20,7 +20,10 @@ module.exports = {
           return `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink;
         },
       };
-      if (typeof types[button] === 'function') return await interaction.reply({ content: types[button](), flags: 64 });
+
+      if (!types[button]) throw new Error(chalk.yellow('Invalid button customId ') + chalk.green(button));
+
+      return await interaction.reply({ content: types[button](), flags: 64 });
     } catch (e) {
       catchError(interaction, e, this);
     }

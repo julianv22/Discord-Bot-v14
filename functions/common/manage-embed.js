@@ -20,7 +20,7 @@ function getEmbedColor(color) {
 /**
  * Create embed buttons
  * @param {String} messageId - Message ID if edit embed
- * @returns {Array} - Return ActionRowBuilder
+ * @returns {[ActionRowBuilder]} - Return ActionRowBuilder
  */
 function embedButtons(messageId) {
   const button1 = [

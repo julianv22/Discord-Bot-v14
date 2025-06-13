@@ -125,7 +125,9 @@ module.exports = {
         },
       };
 
-      if (typeof Reaction[buttonId] === 'function') await Reaction[buttonId](interaction);
+      if (!Reaction[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
+
+      await Reaction[buttonId](interaction);
     } catch (e) {
       catchError(interaction, e, this);
     }
@@ -136,11 +138,11 @@ module.exports = {
      * @param {String} modalTitle - Modal Title
      * @returns {ModalBuilder} - Return ModalBuilder
      */
-    function reactionModal(
+    const reactionModal = (
       placeholder = '',
       modalId = `reaction-md:${buttonId}`,
       modalTitle = 'Manager Reaction Role',
-    ) {
+    ) => {
       return new ModalBuilder()
         .setCustomId(modalId)
         .setTitle(modalTitle)
@@ -152,6 +154,6 @@ module.exports = {
             placeholder: placeholder,
           }),
         );
-    }
+    };
   },
 };

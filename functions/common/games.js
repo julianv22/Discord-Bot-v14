@@ -1,6 +1,6 @@
 /**
  * RPS Game
- * @param {number} userMove - Nước đi của người dùng
+ * @param {Number} userMove - Nước đi của người dùng
  * @returns {Object} - Trả về object gồm:
  * - result: Kết quả RPS
  * - color: Màu sắc cho embed
