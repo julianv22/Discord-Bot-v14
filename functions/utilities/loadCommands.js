@@ -85,11 +85,10 @@ module.exports = (client) => {
             const { REST } = require('@discordjs/rest');
             const { Routes } = require('discord-api-types/v10');
             const token = process.env.token || client.token;
-            const clientId = process.env.clientID || cfg.clientID;
-            const guildId = '1368536666066649148';
+            const clientID = process.env.clientID || cfg.clientID;
 
             if (!token) throw new Error('Không xác định được token của bot');
-            if (!clientId) throw new Error('Không xác định được clientId của bot');
+            if (!clientID) throw new Error('Không xác định được clientId của bot');
 
             let slashArray = [];
             for (const command of slashCommands) {
@@ -97,7 +96,7 @@ module.exports = (client) => {
             }
 
             const rest = new REST({ version: 10 }).setToken(token);
-            await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+            await rest.put(Routes.applicationCommands(clientID), { body: slashArray });
 
             console.log(chalk.green('\n✅ Successfully loaded application (/) commands.\n'));
           } catch (e) {

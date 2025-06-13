@@ -16,7 +16,6 @@ const client = new Client({
 client.prefixCommands = new Collection();
 client.slashCommands = new Collection();
 client.subCommands = new Collection();
-client.slashArray = [];
 client.buttonCollection = new Collection();
 client.menuCollection = new Collection();
 client.modalCollection = new Collection();
