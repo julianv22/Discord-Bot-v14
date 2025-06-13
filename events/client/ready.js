@@ -1,6 +1,5 @@
 const { Client } = require('discord.js');
 const ascii = require('ascii-table');
-const moment = require('moment-timezone');
 
 module.exports = {
   name: 'ready',
@@ -24,11 +23,15 @@ module.exports = {
         .addRow(seperator)
         .addRow(`🧮 Guilds: ${client.guilds.cache.size}`, `💬 Channels: ${client.channels.cache.size}`)
         .addRow(seperator)
-        .addRow(`📝 Node JS: ${process.version}`, `💻 System: ${process.platform} ${process.arch}`)
+        .addRow('📝 Node JS:', process.version)
         .addRow(seperator)
         .addRow(
-          `💾 Memory: ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`,
-          `📊 RSS: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
+          `💻 System: ${process.platform} ${process.arch}`,
+          `💾 Memory (RSS): ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`,
+        )
+        .addRow(
+          `🟢 Heap Used: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
+          `🟡 Total: ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
         );
 
       console.log(table.toString(), chalk.bgYellow('\n---------------Project is started!---------------\n'));

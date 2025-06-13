@@ -1,8 +1,18 @@
-const { Client, GuildMember, CommandInteraction, Message, EmbedBuilder, UserFlags, Colors } = require('discord.js');
+const {
+  Client,
+  GuildMember,
+  CommandInteraction,
+  Message,
+  EmbedBuilder,
+  UserFlags,
+  Colors,
+  ChannelType,
+} = require('discord.js');
+const { connection, version } = require('mongoose');
+const os = require('os');
+const moment = require('moment-timezone');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
-const { connection } = require('mongoose');
-const os = require('os');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -13,21 +23,34 @@ module.exports = (client) => {
    * @param {Message} message - Message object
    */
   client.botInfo = async (author, interaction, message) => {
-    const { catchError, convertUpTime, slashCommands, subCommands, prefixCommands, user: bot, application } = client;
+    const {
+      catchError,
+      convertUpTime,
+      slashCommands,
+      subCommands,
+      prefixCommands,
+      user: bot,
+      application,
+      channels,
+    } = client;
     try {
       const guilds = client.guilds.cache.map((g) => g);
-      let totalmembers = 0;
 
+      const textChannels = channels.cache.filter((c) => c.type === ChannelType.GuildText).size.toLocaleString();
+      const voiceChannels = channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size.toLocaleString();
+
+      let totalmembers = 0;
       for (const guild of guilds) totalmembers += guild.memberCount;
 
       const [status, emoji] = [
         ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
         ['\\❌', '\\✅', '\\🔄', '\\🆘'],
       ];
+
       await bot.fetch();
       await application.fetch();
 
-      const map = Object.entries(package.dependencies)
+      const mapPackages = Object.entries(package.dependencies)
         .map(([a, b]) => `${a}: ${b}`)
         .join('\n');
 
@@ -59,30 +82,25 @@ module.exports = (client) => {
           },
           {
             name: `Prefix Commands [${prefixCommands.size}]:`,
-            value: `Prefix: \`${prefix}\`\nHelp: \`${prefix}help | /help\``,
+            value: `Prefix: \`${prefix}\`\n(\`${prefix}help | /help\`)`,
             inline: true,
           },
 
           {
             name: `💎 Server(s) [${guilds.length}]:`,
-            value: `Members: ${totalmembers.toLocaleString()}`,
+            value: `Members: ${totalmembers.toLocaleString()}\nChannels:\n\`💬 ${textChannels} | 🔊 ${voiceChannels}\``,
             inline: true,
           },
           {
             name: '✅ Verified:',
-            value: bot.flags & UserFlags.VerifiedBot ? 'Yes' : 'No',
+            value: bot.flags & UserFlags.VerifiedBot ? '`✅ Yes`' : '`❌ No`',
             inline: true,
           },
           { name: '♻️ Version:', value: package.version, inline: true },
           { name: '📝 Node Version:', value: process.version, inline: true },
           {
-            name: `📚 Database:`,
-            value: status[connection.readyState] + emoji[connection.readyState],
-            inline: true,
-          },
-          {
-            name: `💻 Platform: \`${process.platform} ${process.arch}\``,
-            value: `**CPU Usage:** ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}%`,
+            name: '📚 Database:',
+            value: emoji[connection.readyState] + status[connection.readyState] + `\nVersion: ${version}`,
             inline: true,
           },
           {
@@ -90,8 +108,17 @@ module.exports = (client) => {
             value: os.cpus()[0].model,
             inline: true,
           },
-          { name: '⏱️ Uptime', value: convertUpTime() },
-          { name: '📦 Packages:', value: `\`\`\`yaml\n\n${map}\`\`\`` },
+          {
+            name: `💻 Platform: \`${process.platform} ${process.arch}\``,
+            value: `💾 **RSS:** ${(process.memoryUsage().rss / 1024 / 1024).toFixed(1)} MB`,
+            inline: true,
+          },
+          { name: '🕖 Server time:', value: `<t:${parseInt(new Date() / 1000)}:F>`, inline: true },
+          { name: '⏱ Uptime', value: convertUpTime(), inline: true },
+          {
+            name: `📦 Packages [${Object.keys(package.dependencies).length}]:`,
+            value: `\`\`\`yaml\n\n${mapPackages}\`\`\``,
+          },
         )
         .setTimestamp()
         .setFooter({

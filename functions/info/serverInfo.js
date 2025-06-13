@@ -1,13 +1,4 @@
-const {
-  Client,
-  GuildMember,
-  CommandInteraction,
-  EmbedBuilder,
-  ChannelType,
-  Guild,
-  Message,
-  Colors,
-} = require('discord.js');
+const { Client, GuildMember, CommandInteraction, EmbedBuilder, ChannelType, Guild, Message } = require('discord.js');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Client object */
