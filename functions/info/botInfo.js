@@ -99,7 +99,11 @@ module.exports = (client) => {
           iconURL: author.displayAvatarURL(true),
         });
 
-      await (interaction || message).reply({ embeds: [embed], components: [infoButtons()] });
+      if (interaction)
+        if (!interaction.replied && !interaction.deferred)
+          await interaction.reply({ embeds: [embed], components: [infoButtons()] });
+        else interaction.editReply({ embeds: [embed], components: [infoButtons()] });
+      else if (message) await message.reply({ embeds: [embed], components: [infoButtons()] });
     } catch (e) {
       catchError(interaction, e, 'Error while executing botInfo function');
     }

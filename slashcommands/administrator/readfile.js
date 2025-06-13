@@ -9,7 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('readfile')
-    .setDescription(`Read file content of a JavaScript file. ${cfg.adminRole} only`)
+    .setDescription(`Read JavaScript file content. ${cfg.adminRole} only`)
     .addStringOption((option) =>
       option
         .setName('filepath')

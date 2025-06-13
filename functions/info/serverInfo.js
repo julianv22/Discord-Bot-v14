@@ -78,7 +78,10 @@ module.exports = (client) => {
           },
         ]);
 
-      await (interaction || message).reply({ embeds: [embed] });
+      if (interaction)
+        if (!interaction.replied && !interaction.deferred) await interaction.reply({ embeds: [embed] });
+        else interaction.editReply({ embeds: [embed] });
+      else if (message) await message.reply({ embeds: [embed] });
     } catch (e) {
       catchError(interaction, e, 'Error while executing serverInfo function');
     }
