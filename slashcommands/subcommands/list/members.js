@@ -21,13 +21,15 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options, member } = interaction;
     const { errorEmbed, catchError } = client;
-    const isMention = options.getBoolean('mention');
-    const desc = options.getString('description');
-    const role = options.getRole('role');
+    const [desc, role, isMention, inline] = [
+      options.getString('description'),
+      options.getRole('role'),
+      options.getBoolean('mention'),
+      options.getBoolean('inline'),
+    ];
     const members = guild.roles.cache.get(role.id).members.map((m) => m.user);
     const userName = guild.roles.cache.get(role.id).members.map((m) => m.user.displayName || m.user.username);
-    const isInline = options.getBoolean('inline');
-    let stInline = isInline === true ? ' | ' : '\n';
+    let strJoin = inline === true ? ' | ' : '\n';
     const isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);
 
     if (!isMod)
@@ -45,11 +47,11 @@ module.exports = {
 
         if (isMention === true)
           embed
-            .setDescription(`**${msg}**\n\n` + members.join(stInline))
+            .setDescription(`**${msg}**\n\n` + members.join(strJoin))
             .setFooter({ text: `Tổng số: [${members.length}]` });
         else
           embed
-            .setDescription(`**${msg}**\n\n` + userName.join(stInline))
+            .setDescription(`**${msg}**\n\n` + userName.join(strJoin))
             .setFooter({ text: `Tổng số: [${members.length}]` });
 
         await interaction.reply({ embeds: [embed] });

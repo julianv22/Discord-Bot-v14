@@ -25,8 +25,7 @@ module.exports = {
   async execute(interaction, client) {
     const { options, channel, user: author } = interaction;
     const { errorEmbed, catchError } = client;
-    const amount = options.getInteger('amount');
-    const user = options.getUser('user');
+    const [amount, user] = [options.getInteger('amount'), options.getUser('user')];
 
     try {
       const messages = await channel.messages.fetch({ limit: amount });

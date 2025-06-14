@@ -15,8 +15,10 @@ module.exports = {
     const [, part] = customId.split(':');
     const strInput = fields.getTextInputValue(part);
     const getEmbeds = EmbedBuilder.from(message.embeds[0]);
-    const Button0 = ActionRowBuilder.from(message.components[0]);
-    const Button1 = ActionRowBuilder.from(message.components[1]);
+    const [Button0, Button1] = [
+      ActionRowBuilder.from(message.components[0]),
+      ActionRowBuilder.from(message.components[1]),
+    ];
     const replaceKey = {
       user: user.displayName || user.username,
       guild: guild.name,

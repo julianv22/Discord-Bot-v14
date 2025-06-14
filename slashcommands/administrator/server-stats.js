@@ -36,12 +36,12 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { catchError, serverStats } = client;
-    const totalChannel = options.getChannel('total-count-channel');
-    const memberChannel = options.getChannel('member-count-channel');
-    // const memberrole = options.getRole('member-role');
-    const botChannel = options.getChannel('bot-count-channel');
-    // const botrole = options.getRole('bot-role');
-    const presenceChannel = options.getChannel('presence-count-channel');
+    const [totalChannel, memberChannel, botChannel, presenceChannel] = [
+      options.getChannel('total-count-channel'),
+      options.getChannel('member-count-channel'),
+      options.getChannel('bot-count-channel'),
+      options.getChannel('presence-count-channel'),
+    ];
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -74,9 +74,7 @@ module.exports = {
         .addFields(
           { name: 'Total Count Channel:', value: `${totalChannel}` },
           { name: 'Members Count Channel:', value: `${memberChannel}` },
-          // { name: 'Member Role:', value: `${memberrole}` },
           { name: 'Bots Count Channel:', value: `${botChannel}` },
-          // { name: 'Bot Role:', value: `${botrole}` },
           { name: 'Preseneces Count Channel:', value: `${presenceChannel}` },
         );
 

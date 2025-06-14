@@ -25,8 +25,7 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
     const { errorEmbed, catchError } = client;
-    const targetUser = options.getUser('target');
-    const amount = options.getInteger('amount');
+    const [targetUser, amount] = [options.getUser('target'), options.getInteger('amount')];
 
     if (targetUser.bot)
       return await interaction.reply(errorEmbed({ description: 'Bạn không thể chuyển \\💲 cho bot!', emoji: false }));
@@ -76,15 +75,13 @@ module.exports = {
       const buttons = [
         {
           customId: `transfer-btn:${amount}:${fee}:${targetUser.id}`,
-          label: 'Tiếp tục',
+          label: 'Transfer',
           style: ButtonStyle.Success,
-          disabled: false,
         },
         {
-          customId: 'cancel',
-          label: 'Click vào Dismiss để huỷ bỏ',
+          customId: 'transfer-btn:cancel',
+          label: 'Cancel',
           style: ButtonStyle.Danger,
-          disabled: true,
         },
       ];
 
@@ -93,11 +90,7 @@ module.exports = {
         components: [
           new ActionRowBuilder().addComponents(
             buttons.map((data) =>
-              new ButtonBuilder()
-                .setCustomId(data.customId)
-                .setLabel(data.label)
-                .setStyle(data.style)
-                .setDisabled(data.disabled),
+              new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style),
             ),
           ),
         ],

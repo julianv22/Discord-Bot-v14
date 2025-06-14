@@ -13,8 +13,10 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
-    const amount = parseInt(amountStr, 10);
-    const fee = parseInt(feeStr, 10);
+
+    if (amountStr === 'cancel') return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
+
+    const [amount, fee] = [parseInt(amountStr, 10), parseInt(feeStr, 10)];
     const total = amount + fee;
 
     try {

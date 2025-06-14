@@ -6,8 +6,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('say')
     .setDescription('Make the bot say something 🗣')
-    .addStringOption((opt) => opt.setName('text').setDescription('Text for the bot to say'))
-    .addUserOption((opt) => opt.setName('hello').setDescription('Say "Hello" to someone')),
+    .addStringOption((opt) => opt.setName('content').setDescription('Content for the bot to say'))
+    .addUserOption((opt) => opt.setName('user').setDescription('Say "Hello" to user')),
   /**
    * Make the bot say something
    * @param {CommandInteraction} interaction - Interaction object
@@ -16,21 +16,21 @@ module.exports = {
   async execute(interaction, client) {
     const { options } = interaction;
     const { errorEmbed } = client;
-    const toSay = options.getString('text');
-    const target = options.getUser('hello');
+    const [content, target] = [options.getString('content'), options.getUser('user')];
 
     if (target) {
-      await interaction.reply(`Hello ${target}!`);
-      setTimeout(async () => {
-        return await interaction.followUp('Have a good day!');
-      }, 3000);
+      if (!content) {
+        await interaction.reply(`Hello ${target} 👋!`);
+        setTimeout(async () => {
+          return await interaction.followUp('Have a good day 🎉!');
+        }, 3000);
+      } else await interaction.reply(`${target}: ${content}`);
     } else {
-      if (!toSay)
+      if (!content)
         return await interaction.reply(
           errorEmbed({ description: 'You must provide some text for the bot to say!', emoji: false }),
         );
-
-      return await interaction.reply(toSay);
+      else await interaction.reply(content);
     }
   },
 };

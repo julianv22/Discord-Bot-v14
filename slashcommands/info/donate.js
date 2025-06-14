@@ -11,8 +11,10 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { user } = interaction;
-    const img = 'https://media.discordapp.net/attachments/976364997066231828/997976998527914124/Header.png';
-    const thumb = 'https://cdn.discordapp.com/avatars/566891661616218132/ba6efb8ea73083a217e45c977e70a921.webp';
+    const [img, thumb] = [
+      'https://media.discordapp.net/attachments/976364997066231828/997976998527914124/Header.png',
+      'https://cdn.discordapp.com/avatars/566891661616218132/ba6efb8ea73083a217e45c977e70a921.webp',
+    ];
 
     const embed = new EmbedBuilder()
       .setAuthor({

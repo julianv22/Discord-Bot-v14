@@ -8,7 +8,7 @@ module.exports = (client) => {
   client.loadFunctions = () => {
     try {
       const funcFolder = 'functions';
-      const ignoreList = ['common'];
+      const ignoreFolders = ['common'];
 
       const table = new ascii()
         .setHeading('Folder', '♻', 'Function Name')
@@ -16,10 +16,10 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
 
-      const functionFolders = readFiles(funcFolder, 'dir');
+      const functionFolders = readFiles(funcFolder, { isDir: true });
 
       for (const folder of functionFolders) {
-        if (ignoreList.includes(folder)) continue;
+        if (ignoreFolders.includes(folder)) continue;
 
         const folderPath = path.join(funcFolder, folder);
         const functionFiles = readFiles(folderPath);

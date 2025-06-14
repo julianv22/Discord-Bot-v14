@@ -10,6 +10,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
     const { errorEmbed, catchError } = client;
+    const content = interaction.fields.getTextInputValue('content');
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -23,7 +24,6 @@ module.exports = {
         );
 
       const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
-      const content = interaction.fields.getTextInputValue('content');
       const embed = new EmbedBuilder()
         .setAuthor({
           name: `${user.tag}'s suggestions`,

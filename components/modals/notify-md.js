@@ -11,10 +11,13 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
     const { catchError } = client;
-    const notifytype = fields.getTextInputValue('type');
-    const title = fields.getTextInputValue('title');
-    const description = fields.getTextInputValue('description');
-    const imageURL = fields.getTextInputValue('imageURL');
+    const [notifytype, title, description, imageURL] = [
+      fields.getTextInputValue('type'),
+      fields.getTextInputValue('title'),
+      fields.getTextInputValue('description'),
+      fields.getTextInputValue('imageURL'),
+    ];
+
     const thumbnail = [cfg.thongbaoPNG, cfg.updatePNG];
 
     try {

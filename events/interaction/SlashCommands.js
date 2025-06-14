@@ -21,8 +21,7 @@ module.exports = {
       }
 
       if (interaction.isChatInputCommand()) {
-        const command = slashCommands.get(commandName);
-        const subcommandName = options.getSubcommand(false);
+        const [command, subcommandName] = [slashCommands.get(commandName), options.getSubcommand(false)];
         const subcommand = subCommands.get(subcommandName);
 
         if (command.ownerOnly && member.id !== guild.ownerId) {

@@ -1,7 +1,7 @@
 const { Client, Collection } = require('discord.js');
 const ascii = require('ascii-table');
 const path = require('path');
-const { readFiles } = require('../common/initLoader');
+const { readFiles, readContents } = require('../common/initLoader');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -26,14 +26,15 @@ module.exports = (client) => {
           delete require.cache[require.resolve(filePath)];
           const component = require(filePath);
 
-          if (component.data && component.data.name) collection.set(component.data.name, component);
+          if (component.data && component.data.name && component.execute)
+            collection.set(component.data.name, component);
           else {
             console.warn(
               chalk.yellow('[Warn] Component'),
               file,
               chalk.yellow('in'),
               chalk.green(folder),
-              chalk.yellow("is missing 'data' or 'data.name'"),
+              chalk.yellow("is missing 'data.name' or 'execute' property"),
             );
             continue;
           }
@@ -44,7 +45,7 @@ module.exports = (client) => {
     };
 
     try {
-      const componentFolders = readFiles(compFolder, 'dir');
+      const componentFolders = readFiles(compFolder, { isDir: true });
 
       const table = new ascii()
         .setHeading('Folder', '♻', 'Component Name')
@@ -69,6 +70,7 @@ module.exports = (client) => {
           menus: () => requireComponents(componentFiles, folder, menuCollection),
           modals: () => requireComponents(componentFiles, folder, modalCollection),
         };
+
         ComponentType[folder]();
       }
 

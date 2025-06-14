@@ -13,7 +13,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    const { errorEmbed, catchError, channels } = client;
+    const { errorEmbed, catchError } = client;
     const channel = options.getChannel('suggest-channel');
 
     try {

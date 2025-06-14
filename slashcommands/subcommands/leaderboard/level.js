@@ -14,8 +14,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed, catchError } = client;
-    const week = options.getInteger('week');
-    const imgURL = options.getString('image');
+    const [week, imgURL] = [options.getInteger('week'), options.getString('image')];
 
     try {
       if (!checkURL(imgURL))

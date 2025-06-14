@@ -25,8 +25,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed, catchError } = client;
-    const msgid = options.getString('message-id');
-    const content = options.getString('content');
+    const [msgid, content] = [options.getString('message-id'), options.getString('content')];
     let msgEdit = await interaction.channel.messages.fetch(msgid).catch(console.error);
 
     try {

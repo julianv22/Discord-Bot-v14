@@ -1,6 +1,6 @@
 const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
-const { readdirSync } = require('fs');
+const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {
   data: { name: 'help-menu' },
@@ -15,14 +15,12 @@ module.exports = {
     const CommandType = interaction.values[0];
 
     try {
-      const slashFolders = readdirSync('./slashcommands')
-        .filter((folder) => folder !== 'context menu' && folder !== 'subcommands' && !folder.endsWith('.js'))
-        .map((folder) => capitalize(folder));
-
-      const subFolders = readdirSync('./slashcommands/subcommands')
-        .filter((folder) => folder && !folder.endsWith('.js'))
-        .map((folder) => capitalize(folder));
-
+      const ignoreFolders = ['context menu', 'subcommands'];
+      const slashFolders = readFiles('slashcommands', {
+        isDir: true,
+        filter: (folder) => !ignoreFolders.includes(folder),
+      }).map((folder) => capitalize(folder));
+      const subFolders = readFiles('slashcommands/subcommands', { isDir: true }).map((folder) => capitalize(folder));
       const contextMenus = Array.from(slashCommands.values())
         .filter((cmd) => cmd.category === 'context menu')
         .map((cmd) => cmd.data.name);

@@ -14,9 +14,11 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
     const { cache: channels } = client.channels;
-    const welcomeChannel = channels.get(options.getChannel('welcome').id);
-    const logChannel = channels.get(options.getChannel('log').id);
-    const welcomeMsg = options.getString('message');
+    const [welcomeChannel, logChannel, welcomeMsg] = [
+      channels.get(options.getChannel('welcome').id),
+      channels.get(options.getChannel('log').id),
+      options.getString('message'),
+    ];
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
       profile = await serverProfile

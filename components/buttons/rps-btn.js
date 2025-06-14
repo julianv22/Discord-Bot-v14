@@ -13,8 +13,7 @@ module.exports = {
     const { user, guild, customId } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, betStr] = customId.split(':');
-    const bet = parseInt(betStr, 10);
-    const userMove = parseInt(button, 10);
+    const [bet, userMove] = [parseInt(betStr, 10), parseInt(button, 10)];
 
     try {
       let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);

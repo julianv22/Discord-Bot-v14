@@ -18,9 +18,7 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
-    const targetUser = options.getUser('target');
-    const userID = user.id;
-    const guildID = guild.id;
+    const [targetUser, userID, guildID] = [options.getUser('target'), user.id, guild.id];
     const now = new Date();
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 

@@ -11,7 +11,7 @@ module.exports = (client) => {
       const table = new ascii().setHeading('Folder', '♻', 'Event Name').setAlignCenter(1).setBorder('│', '─', '✧', '✧');
       let totalCount = 0;
 
-      const eventFolders = readFiles(eventFolder, 'dir');
+      const eventFolders = readFiles(eventFolder, { isDir: true });
 
       for (const folder of eventFolders) {
         const folderPath = path.join(eventFolder, folder);
@@ -27,13 +27,13 @@ module.exports = (client) => {
             delete require.cache[require.resolve(filePath)];
             const event = require(filePath);
 
-            if (!event.name) {
+            if (!event.name || !event.execute) {
               console.warn(
                 chalk.yellow('[Warn] Event'),
                 file,
                 chalk.yellow('in'),
                 chalk.green(folderPath),
-                chalk.yellow("is missing 'event.name'"),
+                chalk.yellow("is missing 'name' or 'execute' property"),
               );
               continue;
             }

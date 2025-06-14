@@ -28,8 +28,7 @@ module.exports = {
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;
-    const yt_channel = options.getString('channel-id');
-    const action = options.getString('action');
+    const [yt_channel, action] = [options.getString('channel-id'), options.getString('action')];
 
     try {
       // Xác thực channel ID và lấy tên kênh

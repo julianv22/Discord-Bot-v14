@@ -15,15 +15,18 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(interaction, client) {
+    const { user } = interaction;
     const { catchError } = client;
     const chatHistories = new Map();
     const prompt = interaction.options.getString('prompt');
+
     if (!prompt) {
       return await interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', flags: 64 });
     }
-    const userId = interaction.user.id;
-    let history = chatHistories.get(userId) || [];
+
+    let history = chatHistories.get(user.id) || [];
     history.push({ role: 'user', text: prompt });
+
     if (history.length > 10) history = history.slice(history.length - 10);
 
     try {
@@ -42,7 +45,7 @@ module.exports = {
       if (typeof reply === 'object') reply = JSON.stringify(reply, null, 2);
       history.push({ role: 'assistant', text: reply });
       if (history.length > 10) history = history.slice(history.length - 10);
-      chatHistories.set(userId, history);
+      chatHistories.set(user.id, history);
 
       for (let i = 0; i < reply.length; i += 2000) {
         await interaction.editReply(prompt);

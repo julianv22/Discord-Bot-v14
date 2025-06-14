@@ -8,7 +8,7 @@ const {
 } = require('discord.js');
 const { setRowComponent, infoButtons } = require('../../functions/common/components');
 const { capitalize } = require('../../functions/common/utilities');
-const { readdirSync } = require('fs');
+const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {
   category: 'help',
@@ -35,7 +35,9 @@ module.exports = {
         description: 'List Slash (/) Commands',
       },
     ];
-    const folders = readdirSync('./slashcommands').filter((f) => f !== 'context menu' && !f.endsWith('.js'));
+
+    const ignoreFolders = ['context menu'];
+    const folders = readFiles('slashcommands', { isDir: true, filter: (folder) => !ignoreFolders.includes(folder) });
     await interaction.reply({
       embeds: [
         {

@@ -1,24 +1,5 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-/**
- * Get channel title
- * @param {String} channelId - ID of the Youtube channel
- * @param {String} apiKey - API key for Youtube
- * @returns {Promise<string>}
- */
-const getChannelTitle = async (channelId, apiKey) => {
-  try {
-    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if (data.items && data.items.length > 0) {
-      return data.items[0].snippet.title;
-    }
-  } catch (e) {
-    console.error(chalk.red('Error while executing function getChannelTitle:\n'), e);
-  }
-  return channelId;
-};
 module.exports = {
   category: 'sub command',
   parent: 'youtube',
@@ -34,6 +15,26 @@ module.exports = {
     const { errorEmbed, catchError } = client;
 
     try {
+      /**
+       * Get channel title
+       * @param {String} channelId - ID of the Youtube channel
+       * @param {String} apiKey - API key for Youtube
+       * @returns {Promise<string>}
+       */
+      const getChannelTitle = async (channelId, apiKey) => {
+        try {
+          const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data.items && data.items.length > 0) {
+            return data.items[0].snippet.title;
+          }
+        } catch (e) {
+          console.error(chalk.red('Error while executing function getChannelTitle:\n'), e);
+        }
+        return channelId;
+      };
+
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
       const { youtube } = profile;
       if (!profile || youtube.channels.length == 0)

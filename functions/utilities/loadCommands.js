@@ -1,5 +1,4 @@
 const { Client, Collection } = require('discord.js');
-const { readdirSync, statSync } = require('fs');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
@@ -37,7 +36,7 @@ module.exports = (client) => {
       Sub: { name: 'Sub Commands', folder: 'slashcommands/subcommands', collection: subCommands },
     };
 
-    const ignoreList = ['subcommands'];
+    const ignoreFolders = ['subcommands'];
     /**
      * Load các command (Prefix, Slash, Sub)
      * @param {CommandTypeConfig} type Loại command trong commandTypes
@@ -49,10 +48,10 @@ module.exports = (client) => {
         .setBorder('│', '─', '✧', '✧');
 
       let totalCount = 0;
-      const commandFolders = readFiles(type.folder, 'dir');
+      const commandFolders = readFiles(type.folder, { isDir: true });
 
       for (const folder of commandFolders) {
-        if (ignoreList.includes(folder)) continue;
+        if (ignoreFolders.includes(folder)) continue;
 
         const folderPath = path.join(type.folder, folder);
         const commandFiles = readFiles(folderPath);
@@ -96,14 +95,18 @@ module.exports = (client) => {
               slashArray.push(command[1].data.toJSON());
             }
 
-            const rest = new REST({ version: 10 }).setToken(token);
-            if (clientId === '995949416273940623')
-              await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
-            else await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+            console.log(chalk.green(`🔃 Start refreshing ${slashArray.length} aplication (/) commands.`));
 
-            console.log(chalk.green('\n✅ Successfully loaded application (/) commands.\n'));
+            const rest = new REST({ version: 10 }).setToken(token);
+            let data = [];
+
+            if (clientId === '995949416273940623') {
+              data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
+            } else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+
+            console.log(chalk.green(`\n✅ Successfully reloaded ${data.length} application (/) commands.\n`));
           } catch (e) {
-            console.error(chalk.yellow('Error while loading application (/) commands to Discord API\n'), e);
+            console.error(chalk.yellow('Error while realoading application (/) commands to Discord API\n'), e);
           }
         })();
       }
