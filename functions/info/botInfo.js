@@ -111,7 +111,11 @@ module.exports = (client) => {
             value: `💾 **RSS:** ${(process.memoryUsage().rss / 1024 / 1024).toFixed(1)} MB`,
             inline: true,
           },
-          { name: '🕖 Server time:', value: `<t:${parseInt(new Date() / 1000)}:F>`, inline: true },
+          {
+            name: '🕖 Server time:',
+            value: `${moment(new Date()).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, DD/MM/YYYY')}`,
+            inline: true,
+          },
           { name: '⏱ Uptime', value: convertUpTime(), inline: true },
           {
             name: `📦 Packages [${Object.keys(package.dependencies).length}]:`,
