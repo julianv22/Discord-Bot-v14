@@ -43,8 +43,8 @@ module.exports = {
       );
       /**
        * Confirm Embed
-       * @param {String} title - Title of the embed (optional)
-       * @param {String} description - Description of the embed (optional)
+       * @param {string} title - Title of the embed (optional)
+       * @param {string} description - Description of the embed (optional)
        * @returns {EmbedBuilder} - Return EmbedBuilder
        */
       const confirmEmbed = (
@@ -76,7 +76,7 @@ module.exports = {
           },
         };
 
-        if (!Disable[confirm]) throw new Error(chalk.yellow('Invalid feature customId ') + chalk.green(confirm));
+        if (!Disable[confirm]) throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
 
         await Disable[confirm]();
 

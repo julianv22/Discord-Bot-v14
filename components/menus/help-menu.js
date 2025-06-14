@@ -22,7 +22,7 @@ module.exports = {
       }).map((folder) => capitalize(folder));
       const subFolders = readFiles('slashcommands/subcommands', { isDir: true }).map((folder) => capitalize(folder));
       const contextMenus = Array.from(slashCommands.values())
-        .filter((cmd) => cmd.category === 'context menu')
+        .filter((cmd) => cmd.category === ignoreFolders[0])
         .map((cmd) => cmd.data.name);
 
       const ShowHelp = {

@@ -37,7 +37,10 @@ module.exports = {
     ];
 
     const ignoreFolders = ['context menu'];
-    const folders = readFiles('slashcommands', { isDir: true, filter: (folder) => !ignoreFolders.includes(folder) });
+    const slashFolders = readFiles('slashcommands', {
+      isDir: true,
+      filter: (folder) => !ignoreFolders.includes(folder),
+    });
     await interaction.reply({
       embeds: [
         {
@@ -52,7 +55,7 @@ module.exports = {
             .setMinValues(1)
             .setMaxValues(1)
             .setOptions(setRowComponent(menus, ComponentType.StringSelect))
-            .addOptions(folders.map((folder) => ({ label: `📂 ${capitalize(folder)}`, value: folder }))),
+            .addOptions(slashFolders.map((folder) => ({ label: `📂 ${capitalize(folder)}`, value: folder }))),
         ),
         infoButtons(),
       ],

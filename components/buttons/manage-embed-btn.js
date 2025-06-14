@@ -31,9 +31,9 @@ module.exports = {
 
     /**
      * Create modal
-     * @param {Object} options - Modal Components
-     * @param {String} modalId - Modal custom ID
-     * @param {String} modalTitle - Modal title
+     * @param {object} options - Modal Components
+     * @param {string} modalId - Modal custom ID
+     * @param {string} modalTitle - Modal title
      * @returns {ModalBuilder} - Return ModalBuilder
      */
     const createModal = (options, modalId = `manage-embed-md:${button}`, modalTitle = 'Embed Manager') => {
@@ -162,7 +162,7 @@ module.exports = {
         },
       };
 
-      if (!Selected[button]) throw new Error(chalk.yellow('Invalid button customId ') + chalk.green(button));
+      if (!Selected[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
 
       return await Selected[button]();
     } catch (e) {

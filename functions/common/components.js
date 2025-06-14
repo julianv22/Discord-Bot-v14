@@ -10,7 +10,19 @@ const {
 
 /**
  * Set Row Component
- * @param {Object} options - Options object
+ * @param {object} options - Options
+ * @param {string} [options.customId] - Component customId
+ * @param {string} options.label - Component label
+ * @param {number} [options.style] - Component style
+ * @param {string} [options.value] - Component value
+ * @param {string} [options.placeholder] - Component placeholder
+ * @param {string} [options.emoji] - Component emoji
+ * @param {string} [options.url] - Component url
+ * @param {boolean} [options.disabled] - Component disabled
+ * @param {boolean} [options.default] - Component default
+ * @param {boolean} [options.require] - Component require
+ * @param {number} [options.minLength] - Component minLength
+ * @param {number} [options.maxLength] - Component maxLength
  * @param {ComponentType} type - Component type
  * @returns {ButtonBuilder|SelectMenuComponentOptionData|TextInputBuilder} - Return ActionRowBuilder
  */
@@ -53,18 +65,18 @@ function setRowComponent(options, type) {
     },
   };
 
-  if (!setRowComponent[type]) throw new Error(chalk.yellow('Invalid component type ') + chalk.green(type));
+  if (!setRowComponent[type]) throw new Error(chalk.yellow('Invalid ComponentType ') + chalk.green(type));
 
   return setRowComponent[type]();
 }
 /**
  * Set Text Input Component
- * @param {Object} options - Options object
- * @param {String} options.id - The id of the text input
- * @param {String} options.label - The label of the text input
- * @param {String|TextInputStyle.Short} [options.style] - The style of the text input
- * @param {String} [options.placeholder] - The placeholder of the text input
- * @param {Boolean|False} [options.required] - Whether the text input is required
+ * @param {object} options - Options object
+ * @param {string} options.id - The id of the text input
+ * @param {string} options.label - The label of the text input
+ * @param {string|TextInputStyle.Short} [options.style] - The style of the text input
+ * @param {string} [options.placeholder] - The placeholder of the text input
+ * @param {boolean} [options.required] - Whether the text input is required
  * @returns {ActionRowBuilder} - Return ActionRowBuilder
  */
 function setTextInput({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) {
@@ -99,7 +111,7 @@ function disableButtons(buttons) {
  */
 function infoButtons() {
   const buttons = [
-    { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
+    { customId: 'support-btn:youtubes', label: '🎬 YouTube', style: ButtonStyle.Danger },
     { customId: 'support-btn:server', label: cfg.supportServer, style: ButtonStyle.Primary },
     { url: cfg.inviteLink, label: '🔗 Invite Me', style: ButtonStyle.Link },
     { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },

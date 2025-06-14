@@ -1,7 +1,7 @@
 /**
  * Get the latest video of the YouTube channel
- * @param {String} channelId - Channel ID
- * @returns {Object} - Return videoId, channelTitle, videoTitle
+ * @param {string} channelId - Channel ID
+ * @returns {object} - Return videoId, channelTitle, videoTitle
  */
 async function getLatestVideoId(channelId) {
   try {
@@ -21,8 +21,8 @@ async function getLatestVideoId(channelId) {
 
 /**
  * Check URL
- * @param {String} strInput - String input
- * @returns {Boolean|null} - Return true if the string is a valid URL, otherwise return false
+ * @param {string} strInput - String input
+ * @returns {boolean|null} - Return true if the string is a valid URL, otherwise return false
  */
 function checkURL(strInput) {
   try {
@@ -38,9 +38,9 @@ function checkURL(strInput) {
 }
 /**
  * Tìm kiếm và thay thế các biến trong chuỗi
- * @param {String} str - String cần thay thế
- * @param {Object} replacements - Object chứa các biến và giá trị tương ứng
- * @returns {String} - String đã được thay thế
+ * @param {string} str - String cần thay thế
+ * @param {object} replacements - Object chứa các biến và giá trị tương ứng
+ * @returns {string} - String đã được thay thế
  */
 function replaceVar(str, replacements) {
   // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
@@ -53,8 +53,8 @@ function replaceVar(str, replacements) {
 }
 /**
  * Viết hoa chữ cái đầu tiên của string
- * @param {String} str - String cần viết hoa
- * @returns {String} - String đã được viết hoa
+ * @param {string} str - String cần viết hoa
+ * @returns {string} - String đã được viết hoa
  */
 function capitalize(str) {
   if (!str) return ''; // Xử lý string rỗng hoặc undefined

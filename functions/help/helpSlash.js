@@ -5,7 +5,7 @@ const { capitalize } = require('../common/utilities');
 module.exports = (client) => {
   /**
    * Show slash commands list.
-   * @param {String} CommandType - Command type.
+   * @param {string} CommandType - Command type.
    * @param {CommandInteraction} interaction - Interaction object.
    */
   client.helpSlash = async (CommandType, interaction) => {
@@ -13,9 +13,9 @@ module.exports = (client) => {
     const { guild, user } = interaction;
     /**
      * Help Embed
-     * @param {String} commandName - Name of the command
+     * @param {string} commandName - Name of the command
      * @param {Array} commands - Commands to display
-     * @param {Number} count - Count of commands
+     * @param {number} count - Count of commands
      * @returns {EmbedBuilder}
      */
     const helpEmbed = (commandName, commands, count) => {
@@ -37,8 +37,7 @@ module.exports = (client) => {
         let parents = Array.from(subCommands.values()).map((sub) => sub.parent);
         parents = parents.filter((item, index) => parents.indexOf(item) === index);
 
-        let count = 0;
-
+        let totalCount = 0;
         for (const parent of parents) {
           const command = subCommands.filter((sub) => sub.parent === parent);
           commands.push({
@@ -47,9 +46,9 @@ module.exports = (client) => {
               .map((cmd) => `${cmd.data?.name || cmd.name}`)
               .join(' | ')}\u001b[0m\`\`\``,
           });
-          count += command.size;
+          totalCount += command.size;
         }
-        return await interaction.update({ embeds: [helpEmbed('Sub', commands, count)] });
+        return await interaction.update({ embeds: [helpEmbed('Sub', commands, totalCount)] });
       },
       default: async () => {
         commands = Array.from(slashCommands.values()).filter(

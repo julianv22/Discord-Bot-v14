@@ -3,8 +3,8 @@ const { setRowComponent } = require('./components');
 
 /**
  * Get embed color
- * @param {String} color - Color input
- * @returns {String|'Random'} - Return valid color name. If invalid, return 'Random'
+ * @param {string} color - Color input
+ * @returns {string|'Random'} - Return valid color name. If invalid, return 'Random'
  */
 function getEmbedColor(color) {
   // Nomarlize color input
@@ -19,7 +19,7 @@ function getEmbedColor(color) {
 }
 /**
  * Create embed buttons
- * @param {String} messageId - Message ID if edit embed
+ * @param {string} messageId - Message ID if edit embed
  * @returns {[ActionRowBuilder]} - Return ActionRowBuilder
  */
 function embedButtons(messageId) {

@@ -67,7 +67,7 @@ module.exports = {
         },
       };
 
-      if (!editEmbed[part]) throw new Error(chalk.yellow('Invalid Modal customId ') + chalk.green(part));
+      if (!editEmbed[part]) throw new Error(chalk.yellow("Invalid Modal's customId ") + chalk.green(part));
 
       await editEmbed[part]();
       return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });

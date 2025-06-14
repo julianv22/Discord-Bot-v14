@@ -4,7 +4,7 @@ const { Client } = require('discord.js');
 module.exports = (client) => {
   /**
    * Convert uptime to Discord format
-   * @returns {String} - Return the converted uptime string
+   * @returns {string} - Return the converted uptime string
    */
   client.convertUpTime = () => {
     try {

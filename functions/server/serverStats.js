@@ -6,7 +6,7 @@ module.exports = (client) => {
   /**
    * Server statistics
    * @param {Client} client - Client object
-   * @param {String} guildID - Guild ID
+   * @param {string} guildID - Guild ID
    */
   client.serverStats = async (client, guildID) => {
     try {
@@ -17,16 +17,16 @@ module.exports = (client) => {
       const { statistics } = profile;
       /**
        * Get the number of members with the given status
-       * @param {String} stats - Member status
-       * @returns {Number} - Number of members with the given status
+       * @param {string} stats - Member status
+       * @returns {number} - Number of members with the given status
        */
       const getPressence = (stats) => {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
       };
       /**
        * Set channel name
-       * @param {String} id - Channel ID
-       * @param {String} name - Channel name
+       * @param {string} id - Channel ID
+       * @param {string} name - Channel name
        */
       const setChannelName = async (id, name) => {
         await guild.channels.cache.get(id).setName(name).catch(console.error);

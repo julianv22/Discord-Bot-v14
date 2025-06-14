@@ -1,7 +1,7 @@
 const { Client, Collection } = require('discord.js');
 const ascii = require('ascii-table');
 const path = require('path');
-const { readFiles, readContents } = require('../common/initLoader');
+const { readFiles } = require('../common/initLoader');
 
 /** @param {Client} client - Client object */
 module.exports = (client) => {
@@ -14,8 +14,8 @@ module.exports = (client) => {
     modalCollection.clear();
     /**
      * Require file và set vào collection tương ứng
-     * @param {String[]} componentFiles Danh sách các file component
-     * @param {String} folder Thư mục chứa component
+     * @param {string[]} componentFiles Danh sách các file component
+     * @param {string} folder Thư mục chứa component
      * @param {Collection} collection Collection tương ứng
      */
     const requireComponents = (componentFiles, folder, collection) => {

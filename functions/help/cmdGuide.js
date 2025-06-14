@@ -5,11 +5,11 @@ module.exports = (client) => {
   /**
    * Command Guide
    * @param {Message} message - Message object
-   * @param {String} commandname - Command name
-   * @param {String} description - Command description
+   * @param {string} commandname - Command name
+   * @param {string} description - Command description
    * @param {Array} alias - Command alias
-   * @param {String} usage - Command usage
-   * @param {String} footer - Embed footer
+   * @param {string} usage - Command usage
+   * @param {string} footer - Embed footer
    */
   client.cmdGuide = async (message, commandname, description, alias, usage, footer) => {
     try {

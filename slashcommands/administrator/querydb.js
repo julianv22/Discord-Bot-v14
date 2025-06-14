@@ -50,8 +50,8 @@ module.exports = {
       if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
       /**
        * Send a message
-       * @param {String} message - Nội dung message
-       * @param {String} key - Key của sourcebin
+       * @param {string} message - Nội dung message
+       * @param {string} key - Key của sourcebin
        */
       const sendMessage = async (message, key) => {
         const embed = new EmbedBuilder().setColor(Colors.Blurple).setDescription(message);

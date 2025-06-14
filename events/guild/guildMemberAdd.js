@@ -28,10 +28,10 @@ module.exports = {
 
       // /**
       //  * Thêm text vào canvas
-      //  * @param {String} text - Chuỗi cần hiển thị
-      //  * @param {Number} x - Tọa độ x
-      //  * @param {Number} y - Tọa độ y
-      //  * @param {Number} size - Kích thước
+      //  * @param {string} text - Chuỗi cần hiển thị
+      //  * @param {number} x - Tọa độ x
+      //  * @param {number} y - Tọa độ y
+      //  * @param {number} size - Kích thước
       //  */
       // function addContext(text, x, y, size) {
       //   ctx.font = `${text.length < 25 ? size : 40}px Consolas`;

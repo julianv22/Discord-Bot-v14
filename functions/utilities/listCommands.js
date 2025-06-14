@@ -6,7 +6,7 @@ module.exports = (client) => {
   /**
    * List of commands
    * @param {Collection} CommandType - CommandType object
-   * @returns {Object} - Return object with commands and count
+   * @returns {object} - Return object with commands and count
    */
   client.listCommands = (CommandType) => {
     try {

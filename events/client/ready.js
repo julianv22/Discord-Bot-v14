@@ -34,7 +34,10 @@ module.exports = {
           `🟡 Total: ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
         );
 
-      console.log(table.toString(), chalk.bgYellow('\n---------------Project is started!---------------\n'));
+      console.log(
+        chalk.cyan(table.toString()),
+        chalk.bgYellow('\n---------------Project is started!---------------\n'),
+      );
 
       const guilds = client.guilds.cache.map((g) => g);
       console.log(

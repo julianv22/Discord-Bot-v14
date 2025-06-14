@@ -10,8 +10,8 @@ module.exports = (client) => {
   client.checkVideos = async () => {
     /**
      * Get the latest video of the YouTube channel
-     * @param {String} channelId - Channel ID
-     * @returns {Object} - Return videoId, channelTitle, videoTitle
+     * @param {string} channelId - Channel ID
+     * @returns {object} - Return videoId, channelTitle, videoTitle
      */
     const getLatestVideoId = async (channelId) => {
       try {

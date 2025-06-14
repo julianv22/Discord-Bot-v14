@@ -1,100 +1,92 @@
-const { Collection, ChannelType } = require('discord.js');
+const { Collection } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
 const path = require('path');
 /**
- * Đọc nội dung thư mục (tệp và/hoặc thư mục con) dựa trên các tùy chọn lọc.
- * Hàm này có thể lấy tất cả nội dung, chỉ thư mục con, hoặc lọc theo phần mở rộng tệp,
- * sau đó áp dụng thêm một hàm lọc tùy chỉnh.
- * @param {String} folderPath Đường dẫn đến thư mục cần đọc.
- * @param {Object} [options={}] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
- * @param {Boolean|False} [options.all=false] Nếu `true`, hàm sẽ trả về **tất cả** các tệp và thư mục con trong `folderPath`.
- * Tham số này ưu tiên cao nhất, các tùy chọn lọc khác sẽ bị bỏ qua.
- * @param {Boolean|False} [options.isDir=false] Nếu `true`, hàm sẽ chỉ trả về danh sách các **thư mục con** trực tiếp trong `folderPath`.
- * Tham số này ưu tiên thứ hai, chỉ có hiệu lực nếu `all` là `false`.
- * @param {String|.js} [options.extension='.js'] Phần mở rộng của tệp để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
- * Chỉ áp dụng khi cả `all` và `isDir` đều là `false`. Hàm sẽ trả về các tệp có phần mở rộng này.
- * @param {function(string): boolean} [options.filter] Một hàm lọc tùy chỉnh bổ sung.
- * Hàm này nhận **tên của từng tệp/thư mục** làm đối số (kiểu `string`).
- * Nếu hàm trả về `true`, mục đó sẽ được giữ lại trong danh sách kết quả;
- * nếu trả về `false`, mục đó sẽ bị loại bỏ.
- * Lọc này được áp dụng **sau** bước lọc chính (all/isDir/extension).
- * @returns {string[]} Một mảng chứa tên các tệp hoặc thư mục phù hợp với các điều kiện lọc.
- * Trả về một mảng rỗng (`[]`) nếu thư mục không tồn tại, không thể đọc, hoặc không có mục nào khớp.
+ * Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
+ * @param {string} folderPath Đường dẫn đến folder cần đọc.
+ * @param {object} [options={}] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
+ * @param {boolean} [options.all] Nếu `true`, hàm sẽ trả về **tất cả** các file và subfolder `folderPath`.
+ * @param {boolean} [options.isDir] Nếu `true`, hàm sẽ chỉ trả về danh sách các **subfolder** trong `folderPath`.
+ * @param {string} [options.extension] Phần mở rộng của file để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
+ * @param {function(string): boolean} [options.filter] Hàm lọc tùy chỉnh bổ sung (nếu có).
+ * Hàm này được áp dụng sau bước lọc chính (all/isDir/extension).
+ * @returns {string[]} Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc.
  */
 function readFiles(folderPath, options = {}) {
   const { all = false, isDir = false, extension = '.js', filter } = options;
+  const FileType = all ? 'AllFiles' : isDir ? 'Directories' : `[ ${extension} ] files`;
 
   try {
-    const allFiles = readdirSync(folderPath);
-    let result = [];
+    const Read = {
+      AllFiles: () => {
+        return readdirSync(folderPath);
+      },
+      Directories: () => {
+        return readdirSync(folderPath).filter((folder) => {
+          try {
+            return statSync(path.join(folderPath, folder)).isDirectory();
+          } catch (e) {
+            console.error(
+              chalk.red('Error while reading folder'),
+              folder,
+              chalk.red('from'),
+              chalk.green(`${folderPath}\n`),
+              e,
+            );
+            return false;
+          }
+        });
+      },
+      default: () => {
+        return readdirSync(folderPath).filter((file) => {
+          try {
+            return statSync(path.join(folderPath, file)).isFile() && file.endsWith(extension);
+          } catch (e) {
+            console.warn(
+              chalk.red('Error while reading file'),
+              file,
+              chalk.red('from'),
+              chalk.green(`${folderPath}\n`),
+              e,
+            );
+            return false;
+          }
+        });
+      },
+    };
 
-    if (all) result = allFiles;
-    else if (isDir) result = allFiles.filter((folder) => statSync(path.join(folderPath, folder)).isDirectory());
-    else if (extension) {
-      result = allFiles.filter((file) => statSync(path.join(folderPath, file)).isFile() && file.endsWith(extension));
-    }
+    let result = (Read[FileType] || Read.default)();
 
-    if (filter) {
+    if (filter)
       if (typeof filter === 'function') result = result.filter(filter);
-      else console.warn(chalk.yellow('[Warn] Filter'), filter, chalk.yellow('is not a function'));
-    }
+      else
+        console.warn(
+          chalk.yellow('[Warn] Filter of'),
+          FileType.toLowerCase(),
+          chalk.yellow('in'),
+          chalk.green(folderPath),
+          chalk.yellow('folder is not a function:\n'),
+          chalk.cyan(filter),
+        );
 
     return result;
   } catch (e) {
-    const content = (all ? 'contents' : isDir ? 'folders' : `[ ${extension} ]`) + chalk.red(' files from');
-    console.error(chalk.red('Error while reading'), content, chalk.green(folderPath), '\n', e);
+    console.error(
+      chalk.red('Error while reading'),
+      FileType.toLowerCase(),
+      chalk.red('from'),
+      chalk.green(`${folderPath}\n`),
+      e,
+    );
     return [];
   }
 }
-// /**
-//  * Đọc danh sách các file (.js) hoặc folder.
-//  * @param {String|enum} folderPath Đường dẫn thư mục.
-//  * @param {String|Boolean|'.js'} [fileType] Loại file (optional):
-//  * - `ChannelType.GuildDirectory = 14`: Lọc danh sách các thư mục con trong `folderPath`.
-//  * - `true`: Lấy danh sách toàn bộ file/folder trong thư mục.
-//  * - Mặc định `'.js'`: Lọc danh sách các file js trong `folderPath`. Ví dụ: `readFiles('functions')`
-//  * @param {Boolean|null} [filter] - Lọc theo điều kiện:
-//  * - Nếu đặt là `true` sẽ lọc file/folder theo điều kiện truyền vào `fileType`.
-//  * - Ví dụ: `readFiles('config', (filter = (f) => f.endsWith('.css')), true)`.
-//  * @returns {String[]} Danh sách file/folder.
-//  */
-// function readFiles(folderPath, fileType = '.js', filter) {
-//   try {
-//     const readFile = {
-//       [ChannelType.GuildDirectory]: () => {
-//         // Trả về danh sách các thư mục con
-//         let folders = readdirSync(folderPath).filter((folder) => statSync(path.join(folderPath, folder)).isDirectory());
-//         // Nếu có filter sẽ lọc theo điều kiện filter truyền vào
-//         if (filter) folders = folders.filter(filter);
-//         return folders;
-//       },
-//       true: () => {
-//         // Trả về danh sách toàn bộ file và thư mục con
-//         return readdirSync(folderPath);
-//       },
-//       default: () => {
-//         // Trả về danh sách các tệp có phần mở rộng fileType hoặc điều kiện lọc filter truyền vào fileType
-//         if (filter === true) return readdirSync(folderPath).filter(fileType);
-//         else return readdirSync(folderPath).filter((file) => file.endsWith(fileType));
-//       },
-//     };
-
-//     return (readFile[fileType] || readFile.default)();
-//   } catch (e) {
-//     const file =
-//       fileType === ChannelType.GuildDirectory
-//         ? 'directories'
-//         : (fileType === true ? '' : `[ ${fileType} ] `) + chalk.red('files');
-//     console.error(chalk.red('Error while reading'), file, chalk.red('in'), chalk.green(`${folderPath}\n`), e);
-//     return [];
-//   }
-// }
 /**
  * Require file và thêm vào collection tương ứng
- * @param {String} filePath Đường dẫn của file
- * @param {String} folderName Tên folder
+ * @param {string} filePath Đường dẫn của file
+ * @param {string} folderName Tên folder
  * @param {Collection} collection Collection của file
- * @returns {Object|null} Đối tượng command hoặc null nếu không hợp lệ
+ * @returns {object|null} Đối tượng command hoặc null nếu không hợp lệ
  */
 function requireCommands(filePath, folderName, collection) {
   const parts = filePath.split('\\');

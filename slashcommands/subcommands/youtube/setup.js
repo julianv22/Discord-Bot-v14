@@ -2,8 +2,8 @@ const { SlashCommandSubcommandBuilder, Client, CommandInteraction } = require('d
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Validate Youtube channel
- * @param {String} channelId - ID of the Youtube channel
- * @param {String} apiKey - API key for Youtube
+ * @param {string} channelId - ID of the Youtube channel
+ * @param {string} apiKey - API key for Youtube
  * @returns {Promise<{ valid: boolean, title: string | null }>}
  */
 const validateYoutubeChannel = async (channelId, apiKey) => {

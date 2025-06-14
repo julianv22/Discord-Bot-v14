@@ -217,7 +217,7 @@ module.exports = {
       };
       if (!tourActions[tourCommand]) {
         await interaction.reply(errorEmbed({ description: 'Subcommand không hợp lệ!', emoji: false }));
-        throw new Error(chalk.yellow('Subcommand') + tourCommand + chalk.yellow('không hợp lệ!'));
+        throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
       } else await tourActions[tourCommand]();
     } catch (e) {
       catchError(interaction, e, `Error while executing /tournament ${tourCommand}`);

@@ -21,7 +21,7 @@ module.exports = {
         },
       };
 
-      if (!types[button]) throw new Error(chalk.yellow('Invalid button customId ') + chalk.green(button));
+      if (!types[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
 
       return await interaction.reply({ content: types[button](), flags: 64 });
     } catch (e) {

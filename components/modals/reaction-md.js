@@ -24,7 +24,8 @@ module.exports = {
         color: () => reactionEmbed.setColor(getEmbedColor(stringInput)),
       };
 
-      if (!inputModal[textInput]) throw new Error(chalk.yellow('Invalid TextInput customId ') + chalk.green(textInput));
+      if (!inputModal[textInput])
+        throw new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(textInput));
 
       await inputModal[textInput]();
       return interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });

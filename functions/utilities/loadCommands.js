@@ -7,7 +7,7 @@ const { readFiles, requireCommands } = require('../common/initLoader');
 module.exports = (client) => {
   /**
    * Load commands from ./prefixcommands and ./slashcommands
-   * @param {Boolean} [reload = false]  True if reload
+   * @param {boolean} [reload = false]  True if reload
    */
   client.loadCommands = async (reload = false) => {
     const { prefixCommands, slashCommands, subCommands } = client;
@@ -36,7 +36,6 @@ module.exports = (client) => {
       Sub: { name: 'Sub Commands', folder: 'slashcommands/subcommands', collection: subCommands },
     };
 
-    const ignoreFolders = ['subcommands'];
     /**
      * Load các command (Prefix, Slash, Sub)
      * @param {CommandTypeConfig} type Loại command trong commandTypes
@@ -47,12 +46,14 @@ module.exports = (client) => {
         .setAlignCenter(1)
         .setBorder('│', '─', '✧', '✧');
 
+      const ignoreFolders = ['subcommands'];
+      const commandFolders = readFiles(type.folder, {
+        isDir: true,
+        filter: (folder) => !ignoreFolders.includes(folder),
+      });
+
       let totalCount = 0;
-      const commandFolders = readFiles(type.folder, { isDir: true });
-
       for (const folder of commandFolders) {
-        if (ignoreFolders.includes(folder)) continue;
-
         const folderPath = path.join(type.folder, folder);
         const commandFiles = readFiles(folderPath);
 

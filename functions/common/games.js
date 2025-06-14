@@ -1,7 +1,7 @@
 /**
  * RPS Game
- * @param {Number} userMove - Nước đi của người dùng
- * @returns {Object} - Trả về object gồm:
+ * @param {number} userMove - Nước đi của người dùng
+ * @returns {object} - Trả về object gồm:
  * - result: Kết quả RPS
  * - color: Màu sắc cho embed
  * - description: Mô tả cho embed
@@ -11,13 +11,13 @@ function rpsGame(userMove) {
   const botMove = Math.floor(Math.random() * 3);
   /**
    * RPS Config
-   * @type {Object}
-   * @property {Object} Emojis - Các emoji cho từng nước đi
-   * @property {Object} Results - Kết quả RPS dạng số
-   * @property {Object} Compares - So sánh giữa người dùng và bot
-   * @property {Object} ResultStrings - Kết quả RPS dạng string
-   * @property {Object} Colors - Màu sắc cho từng kết quả
-   * @property {Object} Functions - Hàm xử lý kết quả RPS
+   * @type {object}
+   * @property {object} Emojis - Các emoji cho từng nước đi
+   * @property {object} Results - Kết quả RPS dạng số
+   * @property {object} Compares - So sánh giữa người dùng và bot
+   * @property {object} ResultStrings - Kết quả RPS dạng string
+   * @property {object} Colors - Màu sắc cho từng kết quả
+   * @property {object} Functions - Hàm xử lý kết quả RPS
    */
   const rpsConfig = {
     Emojis: { 0: '🔨', 1: '📄', 2: '✂️' },

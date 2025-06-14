@@ -17,8 +17,8 @@ module.exports = {
     try {
       /**
        * Get channel title
-       * @param {String} channelId - ID of the Youtube channel
-       * @param {String} apiKey - API key for Youtube
+       * @param {string} channelId - ID of the Youtube channel
+       * @param {string} apiKey - API key for Youtube
        * @returns {Promise<string>}
        */
       const getChannelTitle = async (channelId, apiKey) => {
