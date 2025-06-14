@@ -1,4 +1,4 @@
-const { Client, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 

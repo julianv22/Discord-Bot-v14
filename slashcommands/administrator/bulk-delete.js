@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits, Colors } = require('discord.js');
+const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',

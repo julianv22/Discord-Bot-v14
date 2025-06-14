@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, GuildMember, Message, CommandInteraction, EmbedBuilder } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 

@@ -5,12 +5,10 @@ const {
   Message,
   EmbedBuilder,
   UserFlags,
-  Colors,
   ChannelType,
 } = require('discord.js');
 const { connection, version } = require('mongoose');
 const os = require('os');
-const moment = require('moment-timezone');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
 

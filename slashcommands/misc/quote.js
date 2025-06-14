@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
 
 /** @returns {Promise<string>} */
 const getQuote = () => {

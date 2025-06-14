@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const ascii = require('ascii-table');
+const pkg = require('../../package.json');
 
 module.exports = {
   name: 'ready',
@@ -9,42 +9,57 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(client) {
+    const { setPresence, serverStats, checkVideos, user, guilds, channels } = client;
+    const log = (message, color = 'white') => console.log(chalk[color](message));
+    const table = ({ name, value, nameColor = 'green', valueColor = 'cyan', tab = 1 }) => {
+      if (typeof name === 'object' && typeof value === 'object') {
+        const data = { name, value };
+
+        const logs = [];
+        for (let i = 0; i < data.name.length; i++)
+          logs.push(chalk[nameColor](data.name[i]) + ' : ' + chalk[valueColor](data.value[i]));
+
+        console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
+      } else console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
+    };
+
+    log(`\n${'-'.repeat(12)}[ Server Statistics ]${'-'.repeat(12)}\n`, 'red');
+    table({ name: ['🦸 Author', '🆔'], value: [pkg.author, cfg.ownerID] });
+    table({ name: '🚀 Client name', value: user.tag });
+    table({ name: '🌐 Client Id', value: user.id });
+    table({
+      name: ['🧮 Guilds', '💬 Channels'],
+      value: [guilds.cache.size, channels.cache.size],
+      valueColor: 'white',
+      tab: 2,
+    });
+    table({
+      name: ['📝 Node JS', '📦 Packages'],
+      value: [process.version, Object.keys(pkg.dependencies).length],
+      valueColor: 'white',
+    });
+    table({
+      name: ['💻 System', '💾 Memory'],
+      value: [`${process.platform} ${process.arch}`, (process.memoryUsage().rss / 1024 / 1024).toFixed(1) + ' MB'],
+    });
+    table({
+      name: ['🟢 Heap Used', '🟡 Total'],
+      value: [
+        (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(1) + ' MB',
+        (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
+      ],
+      tab: 0,
+    });
+    log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
+    log(`${'-'.repeat(12)}[ Project is started ]${'-'.repeat(12)}\n`, 'bgYellow');
+
     try {
-      const { setPresence, serverStats, checkVideos } = client;
-      const seperator = ['─'.repeat(20), '─'.repeat(client.user.tag.length + 2)];
-      const table = new ascii()
-        .setBorder('│', '─', '✧', '✧')
-        .setTitle('✅ Client Ready\u200b')
-        .setAlignCenter(2)
-        .setHeading('🦸 Author: Julian-V', 'ID: ' + cfg.ownerID)
-        .addRow('🚀 Client Name', client.user.tag + '\u200b\u200b')
-        .addRow(seperator)
-        .addRow('🌐 Client ID', client.user.id)
-        .addRow(seperator)
-        .addRow(`🧮 Guilds: ${client.guilds.cache.size}`, `💬 Channels: ${client.channels.cache.size}`)
-        .addRow(seperator)
-        .addRow('📝 Node JS:', process.version)
-        .addRow(seperator)
-        .addRow(
-          `💻 System: ${process.platform} ${process.arch}`,
-          `💾 Memory (RSS): ${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`,
-        )
-        .addRow(
-          `🟢 Heap Used: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`,
-          `🟡 Total: ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
-        );
-
+      const servers = guilds.cache.map((g) => g);
       console.log(
-        chalk.cyan(table.toString()),
-        chalk.bgYellow('\n---------------Project is started!---------------\n'),
-      );
-
-      const guilds = client.guilds.cache.map((g) => g);
-      console.log(
-        chalk.magenta.bold('Working in ') +
-          guilds.length +
-          chalk.magenta.bold(` server${guilds.length > 1 ? 's' : ''}:`),
-        guilds.reduce((servers, g) => {
+        chalk.magenta.bold('Working in'),
+        servers.length,
+        chalk.magenta.bold(`server${servers.length > 1 ? 's' : ''}:`),
+        servers.reduce((servers, g) => {
           servers[g.name] = g.id;
           return servers;
         }, {}),
@@ -63,7 +78,7 @@ module.exports = {
         setPresence(client);
       }, 5 * 60 * 1000);
 
-      for (const guild of guilds) {
+      for (const guild of servers) {
         await serverStats(client, guild.id);
         setInterval(async () => {
           await serverStats(client, guild.id);

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
