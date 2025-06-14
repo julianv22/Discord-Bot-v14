@@ -10,14 +10,12 @@ module.exports = {
    */
   async execute(client) {
     const { setPresence, serverStats, checkVideos, user, guilds, channels } = client;
-    const log = (message, color = 'white') => console.log(chalk[color](message));
-    const table = ({ name, value, nameColor = 'green', valueColor = 'cyan', tab = 1 }) => {
-      if (typeof name === 'object' && typeof value === 'object') {
-        const data = { name, value };
-
+    const log = (message, color = 'reset') => console.log(chalk[color](message));
+    const table = ({ name, value, nameColor = 'blue', valueColor = 'cyan', tab = 1 }) => {
+      if (Array.isArray(name) && Array.isArray(value)) {
+        const loop = Math.min(name.length, value.length);
         const logs = [];
-        for (let i = 0; i < data.name.length; i++)
-          logs.push(chalk[nameColor](data.name[i]) + ' : ' + chalk[valueColor](data.value[i]));
+        for (let i = 0; i < loop; i++) logs.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
 
         console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
       } else console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
@@ -30,13 +28,13 @@ module.exports = {
     table({
       name: ['🧮 Guilds', '💬 Channels'],
       value: [guilds.cache.size, channels.cache.size],
-      valueColor: 'white',
+      valueColor: 'yellow',
       tab: 2,
     });
     table({
       name: ['📝 Node JS', '📦 Packages'],
       value: [process.version, Object.keys(pkg.dependencies).length],
-      valueColor: 'white',
+      valueColor: 'yellow',
     });
     table({
       name: ['💻 System', '💾 Memory'],
