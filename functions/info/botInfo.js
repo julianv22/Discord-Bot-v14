@@ -9,6 +9,7 @@ const {
 } = require('discord.js');
 const { connection, version } = require('mongoose');
 const os = require('os');
+const moment = require('moment-timezone');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
 
@@ -113,7 +114,7 @@ module.exports = (client) => {
           },
           {
             name: '🕖 Server time:',
-            value: `${moment(new Date()).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, DD/MM/YYYY')}`,
+            value: `${moment(new Date()).format('HH:mm ddd, DD/MM/YYYY')}`,
             inline: true,
           },
           { name: '⏱ Uptime', value: convertUpTime(), inline: true },
