@@ -5,7 +5,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('snipe')
-    .setDescription('Snipe a deleted message')
+    .setDescription('Snipe deleted messages')
     .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna snipe')),
   /**
    * Snipe a deleted message

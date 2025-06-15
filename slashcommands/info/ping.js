@@ -3,7 +3,7 @@ const { SlashCommandBuilder, Client, ChatInputCommandInteraction, Colors } = req
 module.exports = {
   category: 'info',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('ping').setDescription('Ping pong!'),
+  data: new SlashCommandBuilder().setName('ping').setDescription('Get bot latency!'),
   /**
    * Get bot latency
    * @param {ChatInputCommandInteraction} interaction - Interaction object

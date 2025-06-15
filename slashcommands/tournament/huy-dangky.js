@@ -65,7 +65,7 @@ module.exports = {
         if (bot.roles.highest.position <= role.position) {
           return await interaction.followUp(
             errorEmbed({
-              description: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`,
+              desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`,
               emoji: false,
             }),
           );

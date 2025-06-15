@@ -15,18 +15,19 @@ module.exports = (client) => {
     const { name, aliases, description } = command;
 
     try {
-      let stDesc = '⤷' + description;
-      if (Array.isArray(aliases) && aliases.length) stDesc += `\n\nAlias: [\`${aliases}\`]`;
+      let strDesc = '⤷' + description;
+
+      if (Array.isArray(aliases) && aliases.length > 0) strDesc += `\n\nAlias: [\`${aliases.join(' | ')}\`]`;
 
       if (!usage) {
         usage = prefix + name;
-        if (Array.isArray(aliases) && aliases.length) aliases.forEach((alias) => (usage += ' | ' + prefix + alias));
+        if (Array.isArray(aliases) && aliases.length > 0) aliases.forEach((alias) => (usage += ' | ' + prefix + alias));
       }
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`Huớng dẫn sử dụng command [\`${prefix + name}\`]`)
-        .setDescription(stDesc)
+        .setDescription(strDesc)
         .addFields([{ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` }])
         .setColor(Colors.Aqua)
         .setTimestamp()

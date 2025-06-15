@@ -82,7 +82,7 @@ module.exports = {
 
           await interaction.reply(
             errorEmbed({
-              description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
+              desc: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
               emoji: '🏆',
               color: Colors.Green,
             }),
@@ -105,11 +105,7 @@ module.exports = {
           await profile.save().catch(console.error);
 
           await interaction.reply(
-            errorEmbed({
-              description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
-              emoji: '🏆',
-              color: Colors.Green,
-            }),
+            errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.Green }),
           );
         },
         list: async () => {
@@ -188,7 +184,7 @@ module.exports = {
           if (!tourList || tourList.length === 0)
             return await interaction.reply(
               errorEmbed({
-                description: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!',
+                desc: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!',
                 emoji: false,
               }),
             );
@@ -205,7 +201,7 @@ module.exports = {
 
           await interaction.reply(
             errorEmbed({
-              description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
+              desc: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
               emoji: '🏆',
               color: Colors.Green,
             }),
@@ -217,7 +213,11 @@ module.exports = {
         throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
       } else await tourActions[tourCommand]();
     } catch (e) {
-      return await catchError(interaction, e, `Error while executing /tournament ${tourCommand}`);
+      return await catchError(
+        interaction,
+        e,
+        `Error while executing command ${chalk.green(`/tournament ${tourCommand}`)}`,
+      );
     }
   },
 };

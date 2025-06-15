@@ -13,7 +13,7 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName('filepath')
-        .setDescription('Đường dẫn tương đối đến file JavaScript (ví dụ: ./commands/ping.js)')
+        .setDescription('JavaScript file relative file path (ex: ./commands/ping.js)')
         .setRequired(true),
     ),
   /**

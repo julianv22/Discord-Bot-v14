@@ -8,7 +8,7 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(message, client) {
-    const { prefixCommands, errorEmbed } = client;
+    const { prefixCommands, errorEmbed, catchError } = client;
     const { content, channel, author, member } = message;
 
     if (channel.type === ChannelType.DM) return;
@@ -16,15 +16,16 @@ module.exports = {
 
     if (content.startsWith(prefix)) {
       const args = content.slice(prefix.length).split(/ +/);
-      const cmdName = args.shift().toLowerCase();
+      const commandName = args.shift().toLowerCase();
       const command =
-        prefixCommands.get(cmdName) || prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(cmdName));
+        prefixCommands.get(commandName) ||
+        prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
       if (!command)
         return await message
           .reply(
             errorEmbed({
-              description: `Command \`${prefix + cmdName}\` không chính xác hoặc không tồn tại!`,
+              desc: `Command [\`${prefix + commandName}\`] không chính xác hoặc không tồn tại!`,
               emoji: false,
             }),
           )
@@ -36,7 +37,7 @@ module.exports = {
       try {
         if (command.permissions && !member.permissions.has(command.permissions))
           return await message
-            .reply(errorEmbed({ desc: `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`, emoji: false }))
+            .reply(errorEmbed({ desc: `Bạn không có quyền sử dụng lệnh [\`${prefix + commandName}\`]!`, emoji: false }))
             .then((m) => {
               setTimeout(async () => {
                 await m.delete().catch(console.error);
@@ -45,13 +46,7 @@ module.exports = {
 
         await command.execute(message, args, client);
       } catch (e) {
-        const error = `Error while executing command [${command.name}]\n`;
-        await message.reply(errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red })).then((m) => {
-          setTimeout(async () => {
-            await m.delete().catch(console.error);
-          }, 5000);
-        });
-        console.error(chalk.red(error), e);
+        catchError(message, e, `Error while executing prefix command [ ${chalk.green(prefix + command.name)} ]`);
       }
     }
   },

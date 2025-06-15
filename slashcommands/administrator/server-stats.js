@@ -15,7 +15,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('server-stats')
-    .setDescription(`Setup Server statistics count. ${cfg.adminRole} only`)
+    .setDescription(`Setup server statistics count. ${cfg.adminRole} only`)
     .addChannelOption((opt) =>
       opt.setName('total-count-channel').setDescription('Total Count Channel').setRequired(true),
     )

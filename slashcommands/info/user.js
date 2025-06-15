@@ -5,7 +5,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('user')
-    .setDescription("User's infomations")
+    .setDescription("Get user's infomations (personal info, avatar)")
     .addSubcommand((sub) =>
       sub
         .setName('info')

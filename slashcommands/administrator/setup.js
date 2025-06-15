@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
-    .setDescription(`Set up server information. ${cfg.adminRole} only`)
+    .setDescription(`Set up server's information. ${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub.setName('information').setDescription(`Show all setup information. ${cfg.adminRole} only`),
     )

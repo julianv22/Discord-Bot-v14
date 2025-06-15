@@ -17,7 +17,7 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
     .setName('youtube')
-    .setDescription(`Set up YouTube. ${cfg.adminRole} only`)
+    .setDescription(`Set up YouTube (Add/remove follow channels, notify channel). ${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('setup')

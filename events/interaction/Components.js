@@ -33,7 +33,7 @@ module.exports = {
       //Thực thi component nếu có tồn tại
       if (component) await component.execute(interaction, client);
     } catch (e) {
-      return await catchError(interaction, e, `Error while executing interaction component ${customId}`);
+      return await catchError(interaction, e, `Error while executing interaction component ${chalk.green(customId)}`);
     }
   },
 };

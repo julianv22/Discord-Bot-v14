@@ -26,13 +26,16 @@ module.exports = (client) => {
     const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, desc: e, color: Colors.Red });
 
     console.error(chalk.red(errorMessage + '\n'), e);
-    if (!object.replied && !object.deferred)
-      return await object.reply(embed).then((m) => {
-        if (object.author)
-          setTimeout(async () => {
-            await m.delete().catch(console.error);
-          }, 10_000);
-      });
-    else return await object.editReply(embed);
+
+    if (object.author)
+      return await object.reply(embed).then((m) =>
+        setTimeout(async () => {
+          m.delete().catch(console.error);
+        }, 10 * 1000),
+      );
+    else {
+      if (!object.replied && !object.deferred) return await object.reply(embed);
+      else return await object.editReply(embed);
+    }
   };
 };

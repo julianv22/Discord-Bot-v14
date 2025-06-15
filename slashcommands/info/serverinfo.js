@@ -3,7 +3,7 @@ const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('di
 module.exports = {
   category: 'info',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('serverinfo').setDescription('Get informations of bot/server/user'),
+  data: new SlashCommandBuilder().setName('serverinfo').setDescription("Get server's informations"),
   /**
    * Show bot or server or user's info
    * @param {ChatInputCommandInteraction} interaction - Interaction object

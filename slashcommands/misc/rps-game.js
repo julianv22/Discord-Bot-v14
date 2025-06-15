@@ -16,7 +16,7 @@ module.exports = {
     .setName('rps-game')
     .setDescription('RPS game.')
     .addIntegerOption((opt) =>
-      opt.setName('bet').setDescription('Số tiền muốn cá cược').setRequired(true).setMinValue(100).setMaxValue(1000000),
+      opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(100).setMaxValue(1000000),
     ),
   /**
    * Play RPS game

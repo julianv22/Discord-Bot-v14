@@ -3,7 +3,7 @@ const { EmbedBuilder, SlashCommandBuilder, Client, ChatInputCommandInteraction }
 module.exports = {
   category: 'misc',
   scooldown: 10,
-  data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
+  data: new SlashCommandBuilder().setName('quote').setDescription('Get a random quote from https://zenquotes.io'),
   /**
    * Get a random quote from ZenQuotes
    * @param {ChatInputCommandInteraction} interaction - Interaction object

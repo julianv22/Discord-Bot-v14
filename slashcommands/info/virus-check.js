@@ -109,7 +109,7 @@ module.exports = {
           );
           return await interaction.editReply(
             errorEmbed({
-              description: `Không thể gửi URL để phân tích: ${
+              desc: `Không thể gửi URL để phân tích: ${
                 errorDetail.error ? errorDetail.error.message : submitRes.statusText
               }`,
               emoji: false,
@@ -185,7 +185,7 @@ module.exports = {
         if (!analysisReport) {
           return await interaction.editReply(
             errorEmbed({
-              description: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.',
+              desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.',
               emoji: false,
             }),
           );
