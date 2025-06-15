@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
-  category: 'misc',
+  category: 'fun',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
   /**

@@ -15,13 +15,10 @@ module.exports = (client) => {
     if (typeof message === 'string') errorMessage = message;
     else
       errorMessage = message.parent
-        ? chalk.red('Error while executing ') +
-          message.category +
+        ? chalk.red(`Error while executing [ ${chalk.yellow(message.category)} ] command`) +
           chalk.green(` /${message.parent} ${message.data.name}`)
-        : chalk.red('Error while executing ') +
-          message.category +
-          chalk.red(' command ') +
-          chalk.green(message.data.name);
+        : chalk.red(`Error while executing  [ ${chalk.yellow(message.category)} ] command`) +
+          chalk.green('/' + message.data.name);
 
     const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, desc: e, color: Colors.Red });
 

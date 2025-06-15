@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, ChatInputCommandInteraction, Client } = require('discord.js');
 
 module.exports = {
-  category: 'misc',
+  category: 'fun',
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('hack')

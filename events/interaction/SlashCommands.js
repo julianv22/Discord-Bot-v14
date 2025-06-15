@@ -1,4 +1,4 @@
-const { Client, ChannelType, ChatInputCommandInteraction } = require('discord.js');
+const { ChatInputCommandInteraction, Client, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
@@ -18,19 +18,34 @@ module.exports = {
         const reply = errorEmbed({ desc: 'No guild found', emoji: false });
         if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
         else await interaction.editReply(reply);
+        return;
       }
 
       if (interaction.isChatInputCommand()) {
-        const [command, subcommandName] = [slashCommands.get(commandName), options.getSubcommand(false)];
-        const subcommand = subCommands.get(subcommandName);
+        const command = slashCommands.get(commandName);
+
+        if (!command) {
+          const reply = errorEmbed({ desc: `Can not find  command ${commandName}`, emoji: false });
+          if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
+          else await interaction.editReply(reply);
+          return;
+        }
 
         if (command.ownerOnly && member.id !== guild.ownerId) {
           const reply = errorEmbed({ desc: 'You are not the owner', emoji: false });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
+          return;
         }
 
-        if (subcommandName) await (subcommand || command).execute(interaction, client);
+        const subCommandName = options.getSubcommand(false);
+        let subcommand = null;
+        if (subCommandName) {
+          const compoundKey = `${command.data.name}|${subCommandName}`;
+          subcommand = subCommands.get(compoundKey);
+        }
+
+        if (subcommand && subcommand.parent === command.data.name) await subcommand.execute(interaction, client);
         else await command.execute(interaction, client);
       } else if (interaction.isContextMenuCommand()) {
         const context = slashCommands.get(commandName);

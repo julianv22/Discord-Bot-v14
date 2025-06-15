@@ -9,9 +9,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
     .setDescription(`Set up server's information. ${cfg.adminRole} only`)
-    .addSubcommand((sub) =>
-      sub.setName('information').setDescription(`Show all setup information. ${cfg.adminRole} only`),
-    )
+    .addSubcommand((sub) => sub.setName('info').setDescription(`Show all setup information. ${cfg.adminRole} only`))
     .addSubcommand((sub) =>
       sub
         .setName('suggest')

@@ -11,7 +11,7 @@ const { capitalize } = require('../../functions/common/utilities');
 const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {
-  category: 'help',
+  category: 'info',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   /**

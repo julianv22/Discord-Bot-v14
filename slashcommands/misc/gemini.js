@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
-  category: 'info',
+  category: 'misc',
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('gemini')

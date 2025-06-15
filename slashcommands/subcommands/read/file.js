@@ -1,25 +1,17 @@
-const { ChatInputCommandInteraction, Client, SlashCommandBuilder, PermissionFlagsBits, Colors } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
 
 module.exports = {
-  category: 'administrator',
+  category: 'sub command',
+  parent: 'read',
   scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
-  data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('readfile')
-    .setDescription(`Read JavaScript file content. ${cfg.adminRole} only`)
-    .addStringOption((option) =>
-      option
-        .setName('filepath')
-        .setDescription('JavaScript file relative file path (ex: ./commands/ping.js)')
-        .setRequired(true),
-    ),
+  data: new SlashCommandSubcommandBuilder().setName('file'),
+
   /**
-   * Thực thi lệnh readfile.
-   * @param {ChatInputCommandInteraction} interaction Đối tượng tương tác lệnh từ Discord.
-   * @param {Client} client
+   * Read file from project
+   * @param {ChatInputCommandInteraction} interaction - Interaction
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { errorEmbed, catchError } = client;

@@ -34,12 +34,8 @@ module.exports = {
       avatar: async () => await getAvatar(target, interaction),
     };
 
-    if (!showInfo[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
+    if (!showInfo[subCommand]) throw new Error(`Invalid SubCommand ${chalk.green(subCommand)}`);
 
-    try {
-      await showInfo[subCommand]();
-    } catch (e) {
-      console.error(e);
-    }
+    await (showInfo[subCommand] || showInfo.default)();
   },
 };

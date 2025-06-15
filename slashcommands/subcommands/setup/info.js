@@ -5,7 +5,7 @@ module.exports = {
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
-  data: new SlashCommandSubcommandBuilder().setName('information'),
+  data: new SlashCommandSubcommandBuilder().setName('info'),
   /**
    * Get setup information
    * @param {ChatInputCommandInteraction} interaction - Interaction object

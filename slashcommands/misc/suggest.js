@@ -9,7 +9,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  category: 'help',
+  category: 'misc',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions to this server'),
   /**

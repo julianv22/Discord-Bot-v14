@@ -119,6 +119,18 @@ function requireCommands(filePath, folderName, collection) {
             chalk.yellow("is missing 'name' or 'execute' property"),
           );
       },
+      'slashcommands/subcommands': () => {
+        if (command.parent && command.data && command.data.name && command.execute) {
+          collection.set(`${command.parent}|${command.data.name}`, command);
+        } else
+          console.warn(
+            chalk.yellow('[Warn] Sub Command'),
+            filePath.split('\\').pop(),
+            chalk.yellow('in'),
+            chalk.green(relativePath),
+            chalk.yellow("is missing 'parent' or 'data.name' or 'execute' property"),
+          );
+      },
       default: () => {
         if (command.data && command.data.name && command.execute) {
           collection.set(command.data.name, command);
