@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  Colors,
+} = require('discord.js');
 const thanksProfile = require('../../../config/thanksProfile');
 
 module.exports = {
@@ -8,8 +14,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('thanks'),
   /**
    * Get thanks leaderboard
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
@@ -48,7 +54,7 @@ module.exports = {
         .setTimestamp();
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

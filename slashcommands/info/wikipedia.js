@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
-const { capitalize } = require('../../functions/common/utilities');
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -10,56 +9,12 @@ module.exports = {
     .addStringOption((opt) => opt.setName('keyword').setDescription('Keyword').setRequired(true)),
   /**
    * Search Vietnamese Wikipedia articles by keyword
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const { options, user: author } = interaction;
-    const { errorEmbed, catchError } = client;
-    const keyword = options.getString('keyword');
+    const keyword = interaction.options.getString('keyword');
 
-    fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${keyword}`)
-      .then((res) => res.json())
-      .then(async (body) => {
-        if (body.status === 404)
-          return await interaction.reply(
-            errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false }),
-          );
-
-        // Fallback nếu thiếu dữ liệu
-        let title = body.title || keyword;
-        let description = body.description || 'Không có mô tả';
-        let thumbnail =
-          body.thumbnail?.source ||
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png';
-        let extract = body.extract || 'Không có nội dung.';
-        let page_url =
-          body.content_urls?.desktop?.page || `https://vi.wikipedia.org/wiki/${encodeURIComponent(keyword)}`;
-
-        const embed = new EmbedBuilder()
-          .setColor('Random')
-          .setAuthor({
-            name: title,
-            iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
-            url: page_url,
-          })
-          .setTitle(capitalize(description))
-          .setURL(page_url)
-          .setDescription(extract)
-          .setFooter({
-            text: `Requested by ${author.displayName}`,
-            iconURL: author.displayAvatarURL(true),
-          })
-          .setThumbnail(
-            thumbnail?.source ||
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png',
-          )
-          .setTimestamp();
-
-        return await interaction.reply({ embeds: [embed] });
-      })
-      .catch((e) => {
-        catchError(interaction, 'Error fetching Wikipedia API', e);
-      });
+    await client.wikipedia(keyword, interaction);
   },
 };

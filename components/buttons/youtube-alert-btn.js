@@ -1,12 +1,12 @@
-const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   data: { name: 'youtube-alert-btn' },
   /**
    * Youtube Alert Role Button
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, channel, message } = interaction;
@@ -22,7 +22,7 @@ module.exports = {
 
     collector.on('collect', async (m) => {
       const input = m.content.trim().toLowerCase();
-      if (m && m.deletable) await m.delete();
+      if (m && m.deletable) await m.delete().catch(console.error);
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile) return;
       const { youtube } = profile;

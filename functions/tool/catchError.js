@@ -1,35 +1,38 @@
-const { Client, CommandInteraction, ChatInputCommandInteraction, Colors, Message } = require('discord.js');
+const { Client, ChatInputCommandInteraction, Colors, Message } = require('discord.js');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Catch Error function
-   * @param {CommandInteraction} interaction - Interaction object
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
    * @param {Error} e - Error when catched
-   * @param {ChatInputCommandInteraction} command - Chat input command
+   * @param {Message} message - Chat input command
    */
-  client.catchError = async (interaction, e, command) => {
+  client.catchError = async (object, e, message) => {
     const { errorEmbed } = client;
-
     let errorMessage = 'Unknown error';
 
-    if (typeof command === 'string') errorMessage = command;
+    if (typeof message === 'string') errorMessage = message;
     else
-      errorMessage = command.parent
+      errorMessage = message.parent
         ? chalk.red('Error while executing ') +
-          command.category +
-          chalk.green(` /${command.parent} ${command.data.name}`)
+          message.category +
+          chalk.green(` /${message.parent} ${message.data.name}`)
         : chalk.red('Error while executing ') +
-          command.category +
+          message.category +
           chalk.red(' command ') +
-          chalk.green(command.data.name);
-    //`Error while executing ${command.category} /${command.parent} ${command.data.name}`
-    //`Error while executing ${command.category} command /${command.data.name}`;
+          chalk.green(message.data.name);
 
     const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, desc: e, color: Colors.Red });
 
     console.error(chalk.red(errorMessage + '\n'), e);
-    if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
-    else return await interaction.editReply(embed);
+    if (!object.replied && !object.deferred)
+      return await object.reply(embed).then((m) => {
+        if (object.author)
+          setTimeout(async () => {
+            await m.delete().catch(console.error);
+          }, 10_000);
+      });
+    else return await object.editReply(embed);
   };
 };

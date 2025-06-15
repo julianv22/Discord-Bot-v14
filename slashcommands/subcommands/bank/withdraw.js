@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -8,8 +8,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('withdraw'),
   /**
    * Withdraw money
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild } = interaction;
@@ -60,7 +60,7 @@ module.exports = {
         flags: 64,
       });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

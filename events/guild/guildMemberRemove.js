@@ -6,7 +6,7 @@ module.exports = {
   /**
    * Guild Member Remove Event
    * @param {GuildMember} member - Guild Member object
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(member, client) {
     try {

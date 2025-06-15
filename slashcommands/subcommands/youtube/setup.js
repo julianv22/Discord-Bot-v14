@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 /**
  * Validate Youtube channel
@@ -22,8 +22,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('setup'),
   /**
    * Setup Youtube channel
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { options, guild } = interaction;
@@ -48,7 +48,7 @@ module.exports = {
           .create({
             guildID: guild.id,
             guildName: guild.name,
-            prefix: cfg.prefix,
+            prefix: prefix,
             youtube: { channels: [yt_channel] },
           })
           .catch(console.error);
@@ -78,7 +78,7 @@ module.exports = {
         }),
       );
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

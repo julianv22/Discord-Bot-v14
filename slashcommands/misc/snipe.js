@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -6,13 +6,13 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('snipe')
     .setDescription('Snipe a deleted message')
-    .addUserOption((opt) => opt.setName('user').setDescription('Provide user you wanna snipe')),
+    .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna snipe')),
   /**
    * Snipe a deleted message
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    client.snipeMessage(interaction.user, interaction.options.getUser('user'), interaction);
+    await client.snipeMessage(interaction.options.getUser('target'), interaction);
   },
 };

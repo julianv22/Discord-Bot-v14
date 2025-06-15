@@ -1,7 +1,7 @@
 const {
   Client,
   GuildMember,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Message,
   EmbedBuilder,
   UserFlags,
@@ -13,15 +13,15 @@ const moment = require('moment-timezone');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Bot information
-   * @param {GuildMember} author - Author object
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Message} message - Message object
+   * @param {GuildMember} author - Author
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
+   * @returns {Promise<void>}
    */
-  client.botInfo = async (author, interaction, message) => {
+  client.botInfo = async (object) => {
     const {
       catchError,
       convertUpTime,
@@ -32,6 +32,8 @@ module.exports = (client) => {
       application,
       channels,
     } = client;
+    const author = object.user || object.author;
+
     try {
       const guilds = client.guilds.cache.map((g) => g);
 
@@ -129,13 +131,9 @@ module.exports = (client) => {
           iconURL: author.displayAvatarURL(true),
         });
 
-      if (interaction)
-        if (!interaction.replied && !interaction.deferred)
-          await interaction.reply({ embeds: [embed], components: [infoButtons()] });
-        else interaction.editReply({ embeds: [embed], components: [infoButtons()] });
-      else if (message) await message.reply({ embeds: [embed], components: [infoButtons()] });
+      return await object.reply({ embeds: [embed], components: [infoButtons()] });
     } catch (e) {
-      catchError(interaction, e, `Error while executing ${chalk.green('botInfo')} function`);
+      return await catchError(object, e, `Error while executing ${chalk.green('botInfo')} function`);
     }
   };
 };

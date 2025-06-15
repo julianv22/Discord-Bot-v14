@@ -2,30 +2,30 @@ const { Client, Message } = require('discord.js');
 
 module.exports = {
   name: 'info',
-  aliases: ['serverinfo'],
+  aliases: [],
   description: 'Xem thông tin server/thành viên',
   category: 'info',
   cooldown: 0,
   /**
    * Get server/member information
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
+    const { commandUsage, userInfo, serverInfo } = client;
+    const { guild } = message;
+
     if (args.join(' ').trim() === '?')
-      return client.cmdGuide(
+      return await commandUsage(
         message,
-        this.name,
-        this.description,
-        this.aliases,
-        `Xem thông tin server: ${prefix + this.aliases}\n\nXem thông tin thành viên: ${prefix + this.name} <user>`,
+        this,
+        `Xem thông tin server: ${prefix + this.name}\n\nXem thông tin thành viên: ${prefix + this.name} @user`,
       );
 
-    const { guild, author } = message;
     const member = message.mentions.members.first() || message.member || guild.members.cache.get(args[0]);
 
-    if (args.join(' ')) client.userInfo(guild, member, author, null, message);
-    else client.serverInfo(guild, author, null, message);
+    if (member) await userInfo(member, message);
+    else await serverInfo(message);
   },
 };

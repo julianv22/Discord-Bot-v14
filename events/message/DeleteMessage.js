@@ -5,8 +5,8 @@ module.exports = {
   name: 'messageDelete',
   /**
    * Delete message event
-   * @param {Message} message - Message object
-   * @param {Client} client - Client object
+   * @param {Message} message - Message
+   * @param {Client} client - Client
    */
   async execute(message, client) {
     try {

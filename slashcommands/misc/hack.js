@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, CommandInteraction, Client } = require('discord.js');
+const { SlashCommandBuilder, ChatInputCommandInteraction, Client } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -9,8 +9,8 @@ module.exports = {
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
   /**
    * Hack someone! J4F 😝
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;

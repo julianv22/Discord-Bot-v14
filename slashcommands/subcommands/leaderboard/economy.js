@@ -1,4 +1,10 @@
-const { EmbedBuilder, SlashCommandSubcommandBuilder, CommandInteraction, Client, Colors } = require('discord.js');
+const {
+  EmbedBuilder,
+  SlashCommandSubcommandBuilder,
+  ChatInputCommandInteraction,
+  Client,
+  Colors,
+} = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -8,8 +14,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('economy'),
   /**
    * Get economy leaderboard
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild, guildId } = interaction;
@@ -46,7 +52,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

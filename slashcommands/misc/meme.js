@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -6,8 +6,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
   /**
    * Get random meme from Reddit
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user } = interaction;
@@ -33,7 +33,7 @@ module.exports = {
         });
       return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

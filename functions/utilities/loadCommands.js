@@ -1,9 +1,9 @@
-const { Client, Collection } = require('discord.js');
+const { Client, Collection, REST, Routes } = require('discord.js');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Load commands from ./prefixcommands and ./slashcommands
@@ -82,11 +82,9 @@ module.exports = (client) => {
       if (!reload) {
         (async () => {
           try {
-            const { REST } = require('@discordjs/rest');
-            const { Routes } = require('discord-api-types/v10');
             const token = process.env.token || client.token;
             const clientId = process.env.clientID || cfg.clientID;
-            const guildId = '1368536666066649148';
+            const guildId = '1368536666066649148'; // Guild ID cụ thể cho bot phụ
 
             if (!token) throw new Error('Không xác định được token của bot');
             if (!clientId) throw new Error('Không xác định được clientId của bot');
@@ -100,10 +98,14 @@ module.exports = (client) => {
 
             const rest = new REST({ version: 10 }).setToken(token);
             let data = [];
-
+            // Logic phân biệt bot chính và bot phụ
             if (clientId === '995949416273940623') {
+              // Đăng ký Guild Commands cho bot phụ chỉ trên guildId cụ thể
               data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
-            } else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+            } else {
+              // Đăng ký Global Commands cho bot chính
+              data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+            }
 
             console.log(chalk.green(`\n✅ Successfully reloaded ${data.length} application (/) commands.\n`));
           } catch (e) {

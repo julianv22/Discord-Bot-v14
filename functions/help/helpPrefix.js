@@ -1,10 +1,10 @@
-const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 
-/** @param {Client} client - Client object. */
+/** @param {Client} client - Client. */
 module.exports = (client) => {
   /**
    * Show prefix commands list.
-   * @param {CommandInteraction} interaction - Interaction object.
+   * @param {ChatInputCommandInteraction} interaction - Interaction object.
    */
   client.helpPrefix = async (interaction) => {
     const { guild, user } = interaction;

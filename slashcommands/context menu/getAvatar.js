@@ -2,7 +2,7 @@ const {
   ContextMenuCommandBuilder,
   EmbedBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   ApplicationCommandType,
 } = require('discord.js');
 
@@ -12,21 +12,13 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName('Get Avatar').setType(ApplicationCommandType.User),
   /**
    * Get user avatar
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const { targetUser, user } = interaction;
-    const avtEmbed = new EmbedBuilder()
-      .setColor('Random')
-      .setTimestamp()
-      .setDescription(`${targetUser}'s Avatar:`)
-      .setImage(targetUser.displayAvatarURL({ dynamic: true, size: 2048 }))
-      .setFooter({
-        text: `Requested by ${user.displayName}`,
-        iconURL: user.displayAvatarURL(true),
-      });
+    const { targetUser } = interaction;
+    const { getAvatar } = client;
 
-    return await interaction.reply({ embeds: [avtEmbed] });
+    await getAvatar(targetUser, interaction);
   },
 };

@@ -8,13 +8,13 @@ module.exports = {
   cooldown: 0,
   /**
    * Wow! 😍
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
     const { author } = message;
-    if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
+    if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
 
     const embed = new EmbedBuilder()
       .setAuthor({

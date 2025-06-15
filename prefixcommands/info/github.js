@@ -1,5 +1,4 @@
-const { EmbedBuilder, Message, Client } = require('discord.js');
-const moment = require('moment-timezone');
+const { Message, Client } = require('discord.js');
 
 module.exports = {
   name: 'github',
@@ -9,60 +8,27 @@ module.exports = {
   cooldown: 0,
   /**
    * Get Github account information
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
-    const { errorEmbed } = client;
-    const { channel, guild, author } = message;
+    const { errorEmbed, commandUsage, githubInfo } = client;
+
     if (args.join(' ').trim() === '?')
-      return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <username>');
+      return await commandUsage(
+        message,
+        this,
+        prefix + this.name + ' username' + ' | ' + prefix + this.aliases + ' username',
+      );
 
     if (!args[0])
       return await message.reply(errorEmbed({ desc: 'Hãy nhập username!', emoji: false })).then((m) => {
         setTimeout(async () => {
-          await m.delete();
+          await m.delete().catch(console.error);
         }, 10000);
       });
 
-    fetch(`https://api.github.com/users/${args[0]}`)
-      .then((res) => res.json())
-      .then(async (body) => {
-        if (!body || body.message === 'Not Found')
-          return await message
-            .reply(errorEmbed({ desc: 'User not found, please enter the correct username!', emoji: false }))
-            .then((m) => {
-              setTimeout(async () => {
-                await m.delete();
-              }, 10000);
-            });
-        let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
-          body;
-
-        const embed = new EmbedBuilder()
-          .setAuthor({ name: 'GitHub Information!', iconURL: guild.iconURL(true) })
-          .setColor('Random')
-          .setThumbnail(avatar_url)
-          .addFields([
-            { name: 'Username', value: `${login}`, inline: true },
-            { name: 'ID', value: `${id}`, inline: true },
-            { name: 'Bio', value: `${bio}`, inline: true },
-            { name: 'Name', value: `[${name}](${html_url})`, inline: true },
-            { name: 'Public Repositories', value: `${public_repos || 'None'}`, inline: true },
-            { name: 'Followers', value: `${followers}`, inline: true },
-            { name: 'Following', value: `${following}`, inline: true },
-            { name: 'Location', value: `${location || 'No location'}`, inline: true },
-            {
-              name: 'Account Created',
-              value: moment.utc(created_at).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY'),
-              inline: true,
-            },
-          ])
-          .setFooter({ text: `Requested by ${author.username}`, iconURL: author.displayAvatarURL(true) })
-          .setTimestamp();
-
-        await message.reply({ embeds: [embed] });
-      });
+    await githubInfo(args[0], message);
   },
 };

@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   PermissionFlagsBits,
   EmbedBuilder,
   ActionRowBuilder,
@@ -53,8 +53,8 @@ module.exports = {
     ),
   /**
    * Setup YouTube
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;

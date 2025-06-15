@@ -1,7 +1,7 @@
 const {
   ContextMenuCommandBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   ApplicationCommandType,
   EmbedBuilder,
   Colors,
@@ -14,8 +14,8 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName('Rob User').setType(ApplicationCommandType.User),
   /**
    * Rob money from a user
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, targetUser, user } = interaction;
@@ -116,7 +116,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

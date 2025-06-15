@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -8,8 +8,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('notify'),
   /**
    * Setup Youtube notify channel
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    * @returns {Promise<void>}
    */
   async execute(interaction, client) {
@@ -22,7 +22,7 @@ module.exports = {
 
       if (!profile)
         profile = await serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+          .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
           .catch(console.error);
 
       if (!profile.youtube) profile.youtube = {};
@@ -37,7 +37,7 @@ module.exports = {
         }),
       );
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

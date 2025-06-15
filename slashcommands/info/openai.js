@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -11,8 +11,8 @@ module.exports = {
     ),
   /**
    * Chat with Gemini AI (Google GenAI)
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user } = interaction;
@@ -52,7 +52,7 @@ module.exports = {
         await interaction.followUp({ content: reply.slice(i, i + 2000) });
       }
     } catch (e) {
-      catchError(interaction, e, 'Error communicating with Gemini AI');
+      return await catchError(interaction, e, 'Error communicating with Gemini AI');
     }
   },
 };

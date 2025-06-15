@@ -1,6 +1,6 @@
 const {
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   EmbedBuilder,
   ButtonBuilder,
   ActionRowBuilder,
@@ -15,8 +15,8 @@ module.exports = {
   data: { name: 'disable-btn' },
   /**
    * Disable Features Button
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const {
@@ -98,7 +98,7 @@ module.exports = {
         });
       } else await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

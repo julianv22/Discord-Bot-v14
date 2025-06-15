@@ -1,7 +1,7 @@
 const {
   ContextMenuCommandBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   ApplicationCommandType,
   PermissionFlagsBits,
   EmbedBuilder,
@@ -18,8 +18,8 @@ module.exports = {
     .setType(ApplicationCommandType.Message),
   /**
    * Deny suggestion
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
@@ -70,7 +70,7 @@ module.exports = {
         ],
       })
       .catch((e) => {
-        catchError(interaction, e, this);
+        return catchError(interaction, e, this);
       });
   },
 };

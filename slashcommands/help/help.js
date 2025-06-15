@@ -1,6 +1,6 @@
 const {
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -16,8 +16,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
   /**
    * Show command list
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { prefixCommands, slashCommands, subCommands } = client;
@@ -26,7 +26,7 @@ module.exports = {
         emoji: { name: '📋' },
         label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
-        description: `List Prefix (${cfg.prefix}) Commands`,
+        description: `List Prefix (${prefix}) Commands`,
       },
       {
         emoji: { name: '📝' },

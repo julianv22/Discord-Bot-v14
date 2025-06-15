@@ -1,21 +1,21 @@
 const { Client, EmbedBuilder, Message, Colors } = require('discord.js');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = {
   name: 'ping',
   aliases: [],
-  description: "Check the bot's latency!",
+  description: 'Kiểm tra độ trễ của bot',
   category: 'info',
   cooldown: 0,
   /**
    * Check bot latency
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
-    const { cmdGuide, errorEmbed, ws } = client;
-    if (args.join(' ').trim() === '?') return cmdGuide(message, this.name, this.description);
+    const { commandUsage, errorEmbed, ws } = client;
+    if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
     const ping = ws.ping;
     const delay = Math.abs(Date.now() - message.createdTimestamp); // Đảm bảo luôn dương

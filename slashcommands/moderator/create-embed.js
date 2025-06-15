@@ -1,6 +1,6 @@
 const {
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
   PermissionFlagsBits,
   EmbedBuilder,
@@ -18,8 +18,8 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   /**
    * Create a embed
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;

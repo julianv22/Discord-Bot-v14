@@ -3,7 +3,7 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Colors,
 } = require('discord.js');
 
@@ -15,8 +15,8 @@ module.exports = {
 
   /**
    * Get members of a role
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, options, member } = interaction;
@@ -59,7 +59,7 @@ module.exports = {
         await interaction.reply(errorEmbed({ desc: 'Can not find members or role is incorrect!', emoji: false }));
       }
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

@@ -7,8 +7,8 @@ module.exports = {
   data: { name: 'reaction-btn' },
   /**
    * Reaction Button
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { customId, guild, channel, message, user } = interaction;
@@ -128,7 +128,7 @@ module.exports = {
 
       await Reaction[buttonId](interaction);
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
     /**
      * Create modal

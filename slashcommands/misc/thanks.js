@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -11,10 +11,10 @@ module.exports = {
     ),
   /**
    * Thanks someone
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    client.thanksUser(interaction.options.getUser('user'), interaction.user, interaction);
+    await client.thanksUser(interaction.options.getUser('user'), interaction);
   },
 };

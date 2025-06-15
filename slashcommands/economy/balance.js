@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
@@ -9,8 +9,8 @@ module.exports = {
     .setDescription('View your balance, streak, bank, inventory and achievements'),
   /**
    * View balance, streak, bank, inventory and achievements of a user
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild } = interaction;
@@ -65,7 +65,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

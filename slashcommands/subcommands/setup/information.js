@@ -1,15 +1,15 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
   category: 'sub command',
   parent: 'setup',
   scooldown: 0,
-  data: new SlashCommandSubcommandBuilder().setName('info'),
+  data: new SlashCommandSubcommandBuilder().setName('information'),
   /**
    * Get setup information
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;
@@ -67,7 +67,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

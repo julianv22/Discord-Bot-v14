@@ -1,11 +1,11 @@
-const { Client, CommandInteraction, ChannelType } = require('discord.js');
+const { Client, ChannelType, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
   /**
    * Slash Command Interaction Event
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { slashCommands, subCommands, errorEmbed, catchError } = client;
@@ -37,7 +37,7 @@ module.exports = {
         if (context) await context.execute(interaction, client);
       }
     } catch (e) {
-      catchError(interaction, e, `Error while executing command ${chalk.green(commandName)}`);
+      return await catchError(interaction, e, `Error while executing command ${chalk.green(commandName)}`);
     }
   },
 };

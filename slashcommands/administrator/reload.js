@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   PermissionFlagsBits,
   EmbedBuilder,
   Colors,
@@ -21,8 +21,8 @@ module.exports = {
   // ownerOnly: true,
   /**
    * Reload all commands and events
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { options } = interaction;
@@ -57,7 +57,7 @@ module.exports = {
         );
       }, 2500);
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

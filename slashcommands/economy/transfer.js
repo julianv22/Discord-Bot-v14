@@ -1,6 +1,6 @@
 const {
   SlashCommandBuilder,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Client,
   EmbedBuilder,
   ActionRowBuilder,
@@ -19,8 +19,8 @@ module.exports = {
     .addIntegerOption((opt) => opt.setName('amount').setDescription('Amount of 💲 to transfer').setRequired(true)),
   /**
    * Transfer 💲 to other users
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
@@ -95,7 +95,7 @@ module.exports = {
         flags: 64,
       });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

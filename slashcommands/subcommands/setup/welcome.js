@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -8,8 +14,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('welcome'),
   /**
    * Setup welcome channel with welcome message and log channel
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
@@ -22,7 +28,7 @@ module.exports = {
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
       profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
         .catch(console.error);
     try {
       const { welcome } = profile.setup;

@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   PermissionFlagsBits,
   EmbedBuilder,
   ActionRowBuilder,
@@ -30,8 +30,8 @@ module.exports = {
     ),
   /**
    * Query database
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
@@ -94,7 +94,7 @@ module.exports = {
           errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!', emoji: false }),
         );
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
 
@@ -8,8 +8,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
   /**
    * Claim daily 💲 from the economy system
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild } = interaction;
@@ -131,7 +131,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

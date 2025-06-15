@@ -2,7 +2,7 @@ const {
   SlashCommandBuilder,
   EmbedBuilder,
   PermissionFlagsBits,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Client,
   Colors,
 } = require('discord.js');
@@ -40,8 +40,8 @@ module.exports = {
     ),
   /**
    * Execute the tournament command
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
@@ -55,7 +55,7 @@ module.exports = {
 
       if (!profile)
         profile = serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+          .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
           .catch(console.error);
 
       const { tournament } = profile;
@@ -217,7 +217,7 @@ module.exports = {
         throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
       } else await tourActions[tourCommand]();
     } catch (e) {
-      catchError(interaction, e, `Error while executing /tournament ${tourCommand}`);
+      return await catchError(interaction, e, `Error while executing /tournament ${tourCommand}`);
     }
   },
 };

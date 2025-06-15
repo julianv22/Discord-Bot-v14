@@ -2,7 +2,7 @@ const {
   SlashCommandBuilder,
   EmbedBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   PermissionFlagsBits,
   Colors,
 } = require('discord.js');
@@ -30,8 +30,8 @@ module.exports = {
     ),
   /**
    * Setup server statistics
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
@@ -48,7 +48,7 @@ module.exports = {
 
       if (!profile)
         profile = await serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix })
+          .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
           .catch(console.error);
 
       const { statistics } = profile;
@@ -80,7 +80,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

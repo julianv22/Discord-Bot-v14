@@ -57,7 +57,7 @@ module.exports = {
         const role = guild.roles.cache.get(roleObj.roleId);
         if (role) {
           if (role.position >= bot.roles.highest.position)
-            return console.error(chalk.red(`Bot cannot remove role for ${user.displayName}`));
+            return console.error(chalk.red(`Bot can not remove role for ${user.displayName}`));
 
           if (!member.roles.cache.has(role.id)) await member.roles.add(role.id);
         } else console.warn(chalk.yellow(`Role ID ${roleObj.roleId} is undefined in ${guild.name}`));

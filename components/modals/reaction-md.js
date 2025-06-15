@@ -5,8 +5,8 @@ module.exports = {
   data: { name: 'reaction-md' },
   /**
    * Reaction Modal
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { customId, fields, message } = interaction;
@@ -30,7 +30,7 @@ module.exports = {
       await inputModal[textInput]();
       return interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

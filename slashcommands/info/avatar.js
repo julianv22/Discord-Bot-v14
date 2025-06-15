@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -9,23 +9,14 @@ module.exports = {
     .addUserOption((opt) => opt.setName('user').setDescription('Provide user you wanna show Avatar')),
   /**
    * Show user's avatar
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const { user: author, options } = interaction;
-    const user = options.getUser('user') || author;
+    const { user, options } = interaction;
+    const { getAvatar } = client;
+    const target = options.getUser('user') || user;
 
-    const avtEmbed = new EmbedBuilder()
-      .setColor('Random')
-      .setTimestamp()
-      .setDescription(`${user}'s Avatar:`)
-      .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))
-      .setFooter({
-        text: `Requested by ${author.displayName}`,
-        iconURL: author.displayAvatarURL(true),
-      });
-
-    return await interaction.reply({ embeds: [avtEmbed] });
+    await getAvatar(target, interaction);
   },
 };

@@ -4,26 +4,26 @@ const { infoButtons } = require('../../functions/common/components');
 module.exports = {
   name: 'help',
   aliases: ['h'],
-  description: '`Đọc kỹ hướng dẫn SD trước khi dùng!`',
+  description: 'Đọc kỹ hướng dẫn SD trước khi dùng!',
   category: 'help',
   cooldown: 0,
   /**
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
-    const { cmdGuide, prefixCommands, listCommands } = client;
+    const { commandUsage, prefixCommands, listCommands } = client;
     const { author: user, guild } = message;
     const { commands, count } = listCommands(prefixCommands);
 
     if (args.join(' ').trim() === '?')
-      return cmdGuide(
+      return await commandUsage(
         message,
-        this.name,
-        `Sử dụng \`${
+        this,
+        `Sử dụng ${
           prefix + this.name
-        }\` để xem danh sách các command\n\n\`${prefix}[tên command] ?\` để xen hướng dẫn chi tiết của command đó\n\n⤷${
+        } để xem danh sách các command\n\n${prefix}[tên command] ? để xen hướng dẫn chi tiết của command đó\n\n⤷${
           this.description
         }`,
       );

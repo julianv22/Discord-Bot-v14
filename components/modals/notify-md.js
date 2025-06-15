@@ -1,12 +1,12 @@
-const { EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const { EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const { checkURL } = require('../../functions/common/utilities');
 
 module.exports = {
   data: { name: 'notify-md' },
   /**
    * Notify Modal
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
@@ -37,7 +37,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

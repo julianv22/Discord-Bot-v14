@@ -1,7 +1,7 @@
 const {
   Client,
   GuildMember,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   EmbedBuilder,
   Guild,
   Message,
@@ -11,20 +11,22 @@ const {
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * User information
-   * @param {Guild} guild - Guild object
-   * @param {GuildMember} user - User object
-   * @param {GuildMember} author - Author object
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Message} message - Message object
+   * @param {Guild} guild - Guild
+   * @param {GuildMember} target - Target user
+   * @param {GuildMember} author - Author
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
+   * @returns {Promise<void>}
    */
-  client.userInfo = async (guild, user, author, interaction, message) => {
+  client.userInfo = async (target, object) => {
     const { errorEmbed, catchError } = client;
+    const [guild, author] = [object.guild, object.user || object.author];
+
     try {
-      const member = guild.members.cache.get(user.id);
+      const member = guild.members.cache.get(target.id);
       if (!member)
         return await (interaction || message).reply(errorEmbed({ desc: 'User is not in this server.', emoji: false }));
 
@@ -33,11 +35,11 @@ module.exports = (client) => {
 
       // Acknowledgements
       let acknowledgements = '';
-      if (user.id === guild.ownerId) acknowledgements = 'Server Owner | ';
+      if (target.id === guild.ownerId) acknowledgements = 'Server Owner | ';
       if (isAdmin) acknowledgements += 'Administrator';
       if (isMod) acknowledgements += ' | Moderator';
-      if (user.bot) acknowledgements += ' | Bot';
-      if (user.premiumSince) acknowledgements += ' | Server Booster';
+      if (target.bot) acknowledgements += ' | Bot';
+      if (target.premiumSince) acknowledgements += ' | Server Booster';
       if (!acknowledgements) acknowledgements = 'None';
 
       acknowledgements = `\`\`\`fix\n` + acknowledgements + `\`\`\``;
@@ -45,18 +47,18 @@ module.exports = (client) => {
       const roles = member.roles.cache.filter((r) => r.id !== guild.id).map((r) => r);
       const thanks = await serverThanks.findOne({
         guildID: guild.id,
-        userID: user.id,
+        userID: target.id,
       });
 
       embed = new EmbedBuilder()
         .setAuthor({
-          name: user.tag || user.user.tag,
-          iconURL: user.displayAvatarURL(true),
+          name: target.tag || target.user.tag,
+          iconURL: target.displayAvatarURL(true),
         })
         .setTitle('⚠️ Member Info ⚠️')
-        .setDescription(`👤 **Username:** ${user}`)
+        .setDescription(`👤 **Username:** ${target}`)
         .setColor('Random')
-        .setThumbnail(user.displayAvatarURL(true))
+        .setThumbnail(target.displayAvatarURL(true))
         .setFooter({
           text: `Requested by ${author.displayName}`,
           iconURL: author.displayAvatarURL(true),
@@ -64,7 +66,7 @@ module.exports = (client) => {
         .setTimestamp()
         .addFields([
           {
-            name: `🆔: ||${user.id || user.user.id}||`,
+            name: `🆔: ||${target.id || target.user.id}||`,
             value: '\u200b',
             inline: true,
           },
@@ -89,12 +91,9 @@ module.exports = (client) => {
           },
         ]);
 
-      if (interaction)
-        if (!interaction.replied && !interaction.deferred) await interaction.reply({ embeds: [embed] });
-        else interaction.editReply({ embeds: [embed] });
-      else if (message) await message.reply({ embeds: [embed] });
+      return await object.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, `Error while executing ${chalk.green('userInfo')} function`);
+      return await catchError(object, e, `Error while executing ${chalk.green('userInfo')} function`);
     }
   };
 };

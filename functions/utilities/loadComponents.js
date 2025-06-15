@@ -3,7 +3,7 @@ const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   client.loadComponents = async () => {
     const { buttonCollection, menuCollection, modalCollection } = client;

@@ -1,4 +1,4 @@
-const { CommandInteraction, Client, SlashCommandBuilder, PermissionFlagsBits, Colors } = require('discord.js');
+const { ChatInputCommandInteraction, Client, SlashCommandBuilder, PermissionFlagsBits, Colors } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
 
@@ -18,7 +18,7 @@ module.exports = {
     ),
   /**
    * Thực thi lệnh readfile.
-   * @param {CommandInteraction} interaction Đối tượng tương tác lệnh từ Discord.
+   * @param {ChatInputCommandInteraction} interaction Đối tượng tương tác lệnh từ Discord.
    * @param {Client} client
    */
   async execute(interaction, client) {
@@ -77,7 +77,7 @@ module.exports = {
           errorEmbed({ desc: `Không có quyền truy cập để đọc file [ \`${relativeFilePath}\` ].`, emoji: false }),
         );
       } else {
-        catchError(interaction, error, this);
+        return await catchError(interaction, error, this);
       }
     }
   },

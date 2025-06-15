@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -19,8 +19,8 @@ module.exports = {
     .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
   /**
    * Bulk delete messages
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { options, channel, user: author } = interaction;
@@ -47,7 +47,7 @@ module.exports = {
         errorEmbed({ desc: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true }),
       );
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

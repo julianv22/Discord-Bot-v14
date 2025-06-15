@@ -4,8 +4,8 @@ module.exports = {
   name: 'messageCreate',
   /**
    * Message Command Event
-   * @param {Message} message - Message object
-   * @param {Client} client - Client object
+   * @param {Message} message - Message
+   * @param {Client} client - Client
    */
   async execute(message, client) {
     const { prefixCommands, errorEmbed } = client;
@@ -30,7 +30,7 @@ module.exports = {
           )
           .then((m) => {
             setTimeout(async () => {
-              await m.delete();
+              await m.delete().catch(console.error);
             }, 5000);
           });
       try {
@@ -39,7 +39,7 @@ module.exports = {
             .reply(errorEmbed({ desc: `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`, emoji: false }))
             .then((m) => {
               setTimeout(async () => {
-                await m.delete();
+                await m.delete().catch(console.error);
               }, 5000);
             });
 
@@ -48,7 +48,7 @@ module.exports = {
         const error = `Error while executing command [${command.name}]\n`;
         await message.reply(errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red })).then((m) => {
           setTimeout(async () => {
-            await m.delete();
+            await m.delete().catch(console.error);
           }, 5000);
         });
         console.error(chalk.red(error), e);

@@ -8,15 +8,14 @@ module.exports = {
   cooldown: 0,
   /**
    * Hack someone
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
-    const { errorEmbed } = client;
+    const { errorEmbed, commandUsage } = client;
     const { mentions, guild, author } = message;
-    if (args.join(' ').trim() === '?')
-      return client.cmdGuide(message, this.name, this.description, null, prefix + this.name + ' <user>');
+    if (args.join(' ').trim() === '?') return await commandUsage(message, this, prefix + this.name + ' @user');
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)

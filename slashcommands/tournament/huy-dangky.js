@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits, Colors } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -13,8 +13,8 @@ module.exports = {
     ),
   /**
    * Unregister for a tournament
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
@@ -76,7 +76,7 @@ module.exports = {
         errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.Green }),
       );
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

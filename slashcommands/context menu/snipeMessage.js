@@ -1,4 +1,9 @@
-const { ContextMenuCommandBuilder, Client, CommandInteraction, ApplicationCommandType } = require('discord.js');
+const {
+  ContextMenuCommandBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  ApplicationCommandType,
+} = require('discord.js');
 
 module.exports = {
   category: 'context menu',
@@ -6,10 +11,10 @@ module.exports = {
   data: new ContextMenuCommandBuilder().setName('Snipe Message').setType(ApplicationCommandType.User),
   /**
    * Snipe deleted message
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    client.snipeMessage(interaction.user, interaction.targetUser, interaction);
+    await client.snipeMessage(interaction.targetUser, interaction);
   },
 };

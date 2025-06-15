@@ -1,11 +1,11 @@
-const { Client, CommandInteraction } = require('discord.js');
+const { Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   data: { name: 'support-btn' },
   /**
    * Support Button
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { catchError } = client;
@@ -25,7 +25,7 @@ module.exports = {
 
       return await interaction.reply({ content: types[button](), flags: 64 });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

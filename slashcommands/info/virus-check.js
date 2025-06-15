@@ -1,6 +1,6 @@
 const {
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
@@ -19,7 +19,7 @@ module.exports = {
     ),
   /**
    * Kiểm tra một URL có độc hại không bằng VirusTotal
-   * @param {CommandInteraction} interaction - Đối tượng tương tác (SlashCommandInteraction)
+   * @param {ChatInputCommandInteraction} interaction - Đối tượng tương tác (SlashChatInputCommandInteraction)
    * @param {Client} client - Đối tượng Client của bot
    */
   async execute(interaction, client) {

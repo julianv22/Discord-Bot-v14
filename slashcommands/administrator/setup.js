@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, CommandInteraction, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, PermissionFlagsBits } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -9,7 +9,9 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
     .setDescription(`Set up server information. ${cfg.adminRole} only`)
-    .addSubcommand((sub) => sub.setName('info').setDescription(`Show all setup information. ${cfg.adminRole} only`))
+    .addSubcommand((sub) =>
+      sub.setName('information').setDescription(`Show all setup information. ${cfg.adminRole} only`),
+    )
     .addSubcommand((sub) =>
       sub
         .setName('suggest')
@@ -40,8 +42,8 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`)),
   /**
    * Setup server
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {},
 };

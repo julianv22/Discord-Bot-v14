@@ -4,7 +4,7 @@ const {
   ActionRowBuilder,
   TextInputBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   TextInputStyle,
   PermissionFlagsBits,
 } = require('discord.js');
@@ -19,8 +19,8 @@ module.exports = {
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
   /**
    * Send a notification
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('notify-md').setTitle('Notification:');

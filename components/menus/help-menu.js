@@ -1,4 +1,4 @@
-const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 const { readFiles } = require('../../functions/common/initLoader');
 
@@ -6,8 +6,8 @@ module.exports = {
   data: { name: 'help-menu' },
   /**
    * Help Menu
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;
@@ -64,7 +64,7 @@ module.exports = {
       };
       (ShowHelp[CommandType] || ShowHelp.default)();
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

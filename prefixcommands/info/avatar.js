@@ -8,26 +8,23 @@ module.exports = {
   cooldown: 0,
   /**
    * Get user avatar
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
+    const { getAvatar, commandUsage } = client;
     const { author, guild, mentions } = message;
+
     if (args.join(' ').trim() === '?')
-      return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <user>');
-    const user = mentions.users.first() || guild.members.cache.get(args[0]) || author;
+      return await commandUsage(
+        message,
+        this,
+        prefix + this.name + ' @username' + ' | ' + prefix + this.aliases + ' @username',
+      );
 
-    const avtEmbed = new EmbedBuilder()
-      .setColor('Random')
-      .setTimestamp()
-      .setDescription(`Avatar của ${user}`)
-      .setImage(user.displayAvatarURL({ dynamic: true, size: 2048 }))
-      .setFooter({
-        text: `Requested by ${author.displayName}`,
-        iconURL: author.displayAvatarURL(true),
-      });
+    const target = mentions.users.first() || guild.members.cache.get(args[0]) || author;
 
-    await message.reply({ embeds: [avtEmbed] });
+    if (target) await getAvatar(target, message);
   },
 };

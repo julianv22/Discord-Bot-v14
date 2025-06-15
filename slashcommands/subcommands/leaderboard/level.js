@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const { checkURL } = require('../../../functions/common/utilities');
 
 module.exports = {
@@ -8,8 +8,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('level'),
   /**
    * Get level leaderboard
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
@@ -34,7 +34,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonStyle,
@@ -20,8 +20,8 @@ module.exports = {
     ),
   /**
    * Play RPS game
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const bet = interaction.options.getInteger('bet');

@@ -1,6 +1,6 @@
 const { Client, EmbedBuilder, MessageFlags } = require('discord.js');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Tạo một embed thông báo lỗi.
@@ -24,7 +24,10 @@ module.exports = (client) => {
     if (typeof emoji === 'boolean') {
       prefix += emoji ? '✅' : '❌';
       embed.setColor(emoji ? 'Green' : 'Red');
-    } else embed.setColor(color);
+    } else {
+      prefix += emoji;
+      embed.setColor(color);
+    }
 
     const description = title ? `\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\`` : `${prefix} ${desc}`;
     embed.setDescription(description);

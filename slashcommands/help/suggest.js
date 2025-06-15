@@ -4,7 +4,7 @@ const {
   ActionRowBuilder,
   TextInputBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   TextInputStyle,
 } = require('discord.js');
 
@@ -14,8 +14,8 @@ module.exports = {
   data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions to this server'),
   /**
    * Send suggestions to this server
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('suggest-md').setTitle('Server Suggestions:');

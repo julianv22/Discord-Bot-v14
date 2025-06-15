@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, CommandInteraction, Client, PermissionFlagsBits, Colors } = require('discord.js');
+const { SlashCommandBuilder, ChatInputCommandInteraction, Client, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -11,8 +11,8 @@ module.exports = {
     .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
   /**
    * Register for a tournament
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
@@ -83,7 +83,7 @@ module.exports = {
         } else await guild.members.cache.get(user.id).roles.add(role);
       }
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

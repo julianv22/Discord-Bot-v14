@@ -2,7 +2,7 @@ const {
   SlashCommandSubcommandBuilder,
   ActionRowBuilder,
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   ButtonStyle,
   EmbedBuilder,
   ComponentType,
@@ -17,8 +17,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('disable'),
   /**
    * Disable a feature
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;

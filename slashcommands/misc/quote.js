@@ -1,27 +1,29 @@
-const { EmbedBuilder, SlashCommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
-/** @returns {Promise<string>} */
-const getQuote = () => {
-  return fetch('https://zenquotes.io/api/random')
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      return '❝ **' + data[0]['q'] + '** ❞\n\n- ' + data[0]['a'] + ' -';
-    });
-};
 module.exports = {
   category: 'misc',
   scooldown: 10,
   data: new SlashCommandBuilder().setName('quote').setDescription('Get a quote from https://zenquotes.io'),
   /**
    * Get a random quote from ZenQuotes
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { catchError } = client;
+
+    /** @returns {Promise<string>} */
+    const getQuote = () => {
+      return fetch('https://zenquotes.io/api/random')
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          return '❝ **' + data[0]['q'] + '** ❞\n\n- ' + data[0]['a'] + ' -';
+        });
+    };
+
     getQuote()
       .then(async (quote) => {
         const embed = new EmbedBuilder()
@@ -38,7 +40,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        catchError(interaction, e, this);
+        return catchError(interaction, e, this);
       });
   },
 };

@@ -1,7 +1,7 @@
 const { Client, Collection } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * List of commands

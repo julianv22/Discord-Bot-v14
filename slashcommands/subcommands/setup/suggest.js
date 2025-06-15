@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, CommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -8,8 +8,8 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('suggest'),
   /**
    * Setup suggest channel
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, options } = interaction;
@@ -20,7 +20,7 @@ module.exports = {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile)
         profile = await serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: cfg.prefix, setup: { suggest: channel.id } })
+          .create({ guildID: guild.id, guildName: guild.name, prefix: prefix, setup: { suggest: channel.id } })
           .catch(console.error);
 
       if (!profile.setup) profile.setup = {};
@@ -35,7 +35,7 @@ module.exports = {
         }),
       );
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

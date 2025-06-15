@@ -1,4 +1,4 @@
-const { Client, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 
@@ -6,8 +6,8 @@ module.exports = {
   data: { name: 'rps-btn' },
   /**
    * RPS Game
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
@@ -96,7 +96,7 @@ module.exports = {
       // Trả về kết quả
       return await interaction.update({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

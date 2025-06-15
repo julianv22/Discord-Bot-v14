@@ -8,19 +8,23 @@ module.exports = {
   cooldown: 30,
   /**
    * Send a thank you message to someone
-   * @param {Message} message - Message object
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(message, args, client) {
-    const { cmdGuide, thanksUser } = client;
-    const { guild, mentions, author } = message;
+    const { commandUsage, thanksUser } = client;
+    const { guild, mentions } = message;
 
     if (args.join(' ').trim() === '?')
-      return cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <user>');
+      return await commandUsage(
+        message,
+        this,
+        prefix + this.name + ' @user' + ' | ' + prefix + this.aliases + ' @user',
+      );
 
-    const user = mentions.members.first() || guild.members.cache.get(args[0]);
+    const target = mentions.members.first() || guild.members.cache.get(args[0]);
 
-    thanksUser(user, author, null, message);
+    await thanksUser(target, message);
   },
 };

@@ -1,18 +1,21 @@
-const { Client, GuildMember, Message, CommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Thank user
-   * @param {GuildMember} user - User object
-   * @param {GuildMember} author - Author object
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Message} message - Message object
+   * @param {GuildMember} target - Target user
+   * @param {GuildMember} author - Author
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
+   * @returns {Promise<void>}
    */
-  client.thanksUser = async (user, author, interaction, message) => {
+  client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;
+    const { guild, user, author: objAuthor } = object;
+    const author = user || objAuthor;
+
     try {
       const imgURL = [
         'https://cdn.discordapp.com/attachments/976364997066231828/987822146279587850/unknown.png',
@@ -29,42 +32,41 @@ module.exports = (client) => {
         'https://png.pngtree.com/thumb_back/fw800/background/20201020/pngtree-rose-thank-you-background-image_425104.jpg',
       ];
 
-      const msg = interaction || message;
-      const { guild } = msg;
-
-      if (!user)
-        return await msg.reply(errorEmbed({ desc: 'You must mention someone!', emoji: false })).then((m) => {
-          if (msg == message)
+      if (!target)
+        return await object.reply(errorEmbed({ desc: 'You must mention someone!', emoji: false })).then((m) => {
+          if (objAuthor)
             setTimeout(async () => {
-              await m.delete();
+              await m.delete().catch(console.error);
             }, 10000);
         });
 
-      if (user.user ? user.user.bot : user.bot)
-        return await msg.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝', emoji: false })).then((m) => {
-          if (msg == message)
+      if (target.user ? target.user.bot : target.bot)
+        return await object
+          .reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝', emoji: false }))
+          .then((m) => {
+            if (objAuthor)
+              setTimeout(async () => {
+                await m.delete().catch(console.error);
+              }, 10000);
+          });
+
+      if (target.id === author.id)
+        return object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅', emoji: false })).then((m) => {
+          if (objAuthor)
             setTimeout(async () => {
-              await m.delete();
+              await m.delete().catch(console.error);
             }, 10000);
         });
 
-      if (user.id === author.id)
-        return msg.reply(errorEmbed({ desc: 'You cannot thank yourself! 😅', emoji: false })).then((m) => {
-          if (msg == message)
-            setTimeout(async () => {
-              await m.delete();
-            }, 10000);
-        });
-
-      const thanks = await serverThanks.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+      const thanks = await serverThanks.findOne({ guildID: guild.id, userID: target.id }).catch(console.error);
       let count = 1;
       if (!thanks) {
         thanks = await serverThanks
           .create({
             guildID: guild.id,
             guildName: guild.name,
-            userID: user.id,
-            usertag: user.tag,
+            userID: target.id,
+            usertag: target.tag,
             thanksCount: count,
             lastThanks: Date.now(),
           })
@@ -83,7 +85,7 @@ module.exports = (client) => {
           iconURL: author.displayAvatarURL(true),
         })
         .setTitle('💖 Special Thanks!')
-        .setDescription(`${author} special thanks to ${user}!`)
+        .setDescription(`${author} special thanks to ${target}!`)
         .setColor('Random')
         .addFields([
           {
@@ -100,16 +102,16 @@ module.exports = (client) => {
         })
         .setTimestamp();
 
-      await msg.reply({ embeds: [embed] });
+      await object.reply({ embeds: [embed] });
 
       // Update thanksCount
       thanks.guildName = guild.name;
-      thanks.usertag = user.tag;
+      thanks.usertag = target.tag;
       thanks.thanksCount = count;
       thanks.lastThanks = Date.now();
-      await thanks.save().catch(console.error);
+      return await thanks.save().catch(console.error);
     } catch (e) {
-      catchError(interaction, e, `Error while executing ${chalk.green('thanksUser')} function`);
+      return await catchError(object, e, `Error while executing ${chalk.green('thanksUser')} function`);
     }
   };
 };

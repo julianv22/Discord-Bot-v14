@@ -1,6 +1,6 @@
 const { Client } = require('discord.js');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Convert uptime to Discord format

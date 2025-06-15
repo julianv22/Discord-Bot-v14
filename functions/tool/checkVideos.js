@@ -1,7 +1,7 @@
 const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo

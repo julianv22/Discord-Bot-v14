@@ -1,26 +1,27 @@
-const { Client, GuildMember, Message, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 
-/** @param {Client} client - Client object */
+/** @param {Client} client - Client */
 module.exports = (client) => {
   /**
    * Snipe deleted message
    * @param {GuildMember} user - User object
    * @param {GuildMember} target - Target object
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Message} message - Message object
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
+   * @returns {Promise<void>}
    */
-  client.snipeMessage = async (user, target, interaction, message) => {
+  client.snipeMessage = async (target, object) => {
     const { errorEmbed, catchError } = client;
+    const user = object.user || object.author;
+
     try {
-      const msg = interaction || message;
-      const { guildId, channelId } = msg;
+      const { guildId, channelId } = object;
       const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
 
       if (!snipe)
-        return await msg.reply(errorEmbed({ desc: `There is nothing to snipe.`, emoji: false })).then((m) => {
-          if (msg == message)
+        return await object.reply(errorEmbed({ desc: `There is nothing to snipe.`, emoji: false })).then((m) => {
+          if (object == message)
             setTimeout(async () => {
-              await m.delete();
+              await m.delete().catch(console.error);
             }, 5000);
         });
 
@@ -50,12 +51,9 @@ module.exports = (client) => {
         })
         .addFields([{ name: 'Content:', value: `${content}` }]);
 
-      if (interaction)
-        if (!interaction.replied && !interaction.deferred) await interaction.reply({ embeds: [embed] });
-        else interaction.editReply({ embeds: [embed] });
-      else if (message) await message.reply({ embeds: [embed] });
+      return await object.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, `Error while executing ${chalk.green('snipeMessage')} function`);
+      return await catchError(object, e, `Error while executing ${chalk.green('snipeMessage')} function`);
     }
   };
 };

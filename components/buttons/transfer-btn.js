@@ -1,12 +1,12 @@
-const { Client, CommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
   data: { name: 'transfer-btn' },
   /**
    * Transfer Money Button
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
@@ -84,7 +84,7 @@ module.exports = {
       // Cập nhật lại interaction cho người chuyển
       return await interaction.update({ embeds: [embedSender], components: [] });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

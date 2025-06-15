@@ -2,7 +2,7 @@ const {
   SlashCommandBuilder,
   Client,
   EmbedBuilder,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   PermissionFlagsBits,
   Colors,
 } = require('discord.js');
@@ -19,8 +19,8 @@ module.exports = {
     .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
   /**
    * Edit a message
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
@@ -59,7 +59,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed], flags: 64 });
       });
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

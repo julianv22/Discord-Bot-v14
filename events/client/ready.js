@@ -6,7 +6,7 @@ module.exports = {
   once: true,
   /**
    * Bot ready event
-   * @param {Client} client - Client object
+   * @param {Client} client - Client
    */
   async execute(client) {
     const { setPresence, serverStats, checkVideos, user, guilds, channels } = client;

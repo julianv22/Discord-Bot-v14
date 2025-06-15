@@ -1,11 +1,11 @@
-const { EmbedBuilder, Client, CommandInteraction, Colors } = require('discord.js');
+const { EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
   data: { name: 'suggest-md' },
   /**
    * Suggest Modal
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { guild, user } = interaction;
@@ -51,7 +51,7 @@ module.exports = {
         )
         .then(() => ['👍', '👎'].forEach(async (e) => await msg.react(e)));
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };

@@ -1,11 +1,11 @@
-const { Client, CommandInteraction, ChannelType } = require('discord.js');
+const { Client, ChatInputCommandInteraction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
   /**
    * Button Interaction Event
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { catchError, buttonCollection, menuCollection, modalCollection } = client;
@@ -33,7 +33,7 @@ module.exports = {
       //Thực thi component nếu có tồn tại
       if (component) await component.execute(interaction, client);
     } catch (e) {
-      catchError(interaction, e, `Error while executing interaction component ${customId}`);
+      return await catchError(interaction, e, `Error while executing interaction component ${customId}`);
     }
   },
 };

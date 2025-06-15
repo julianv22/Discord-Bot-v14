@@ -1,6 +1,6 @@
 const {
   Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ButtonStyle,
@@ -14,8 +14,8 @@ module.exports = {
   data: { name: 'manage-embed-btn' },
   /**
    * Create a embed
-   * @param {CommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client object
+   * @param {ChatInputCommandInteraction} interaction - Interaction object
+   * @param {Client} client - Client
    */
   async execute(interaction, client) {
     const { customId, message, channel } = interaction;
@@ -166,7 +166,7 @@ module.exports = {
 
       return await Selected[button]();
     } catch (e) {
-      catchError(interaction, e, this);
+      return await catchError(interaction, e, this);
     }
   },
 };
