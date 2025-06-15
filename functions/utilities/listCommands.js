@@ -21,9 +21,9 @@ module.exports = (client) => {
         count += cmd.length;
         commands.push({
           name: `\\📂 ${capitalize(category)} [${cmd.length}]`,
-          value: `\`\`\`ansi\n\u001b[36m${cmd
+          value: `\`\`\`ansi\n\x1b[36m${cmd
             .map((cmd) => (cmd.data ? cmd.data.name : cmd.name))
-            .join(' | ')}\u001b[0m\`\`\``,
+            .join(' | ')}\x1b[0m\`\`\``,
         });
       }
 

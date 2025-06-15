@@ -50,7 +50,7 @@ module.exports = {
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       const error = `Error while executing ${this.category} /${this.parent} ${this.data.name}\n`;
-      const embed = errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red });
+      const embed = errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red });
       console.error(chalk.red(error), e);
       if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
       else return await interaction.editReply(embed);

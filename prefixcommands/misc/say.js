@@ -18,7 +18,7 @@ module.exports = {
 
     if (!toSay)
       return await message
-        .reply(client.errorEmbed({ description: 'Please enter the content you want the bot to say!', emoji: false }))
+        .reply(client.errorEmbed({ desc: 'Please enter the content you want the bot to say!', emoji: false }))
         .then((m) => {
           setTimeout(async () => {
             await m.delete();

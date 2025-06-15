@@ -20,7 +20,7 @@ module.exports = {
 
       if (!profile)
         return await interaction.reply(
-          errorEmbed({ description: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false }),
+          errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false }),
         );
 
       const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';

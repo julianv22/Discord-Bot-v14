@@ -42,9 +42,9 @@ module.exports = (client) => {
           const command = subCommands.filter((sub) => sub.parent === parent);
           commands.push({
             name: `/${parent} [${command.size}]`,
-            value: `\`\`\`ansi\n\u001b[36m${command
+            value: `\`\`\`ansi\n\x1b[36m${command
               .map((cmd) => `${cmd.data?.name || cmd.name}`)
-              .join(' | ')}\u001b[0m\`\`\``,
+              .join(' | ')}\x1b[0m\`\`\``,
           });
           totalCount += command.size;
         }
@@ -56,7 +56,7 @@ module.exports = (client) => {
         );
         commands = commands.map((cmd) => ({
           name: `/${cmd.data?.name || cmd.name}`,
-          value: `\`\`\`ansi\n\u001b[36m${cmd.data?.description || cmd.description}\u001b[0m\`\`\``,
+          value: `\`\`\`ansi\n\x1b[36m${cmd.data?.description || cmd.description}\x1b[0m\`\`\``,
         }));
         return await interaction.update({
           embeds: [helpEmbed(CommandType, commands, commands.length)],

@@ -36,9 +36,7 @@ module.exports = {
       try {
         if (command.permissions && !member.permissions.has(command.permissions))
           return await message
-            .reply(
-              errorEmbed({ description: `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`, emoji: false }),
-            )
+            .reply(errorEmbed({ desc: `Bạn không có quyền sử dụng lệnh \`${prefix + cmdName}\`!`, emoji: false }))
             .then((m) => {
               setTimeout(async () => {
                 await m.delete();
@@ -48,7 +46,7 @@ module.exports = {
         await command.execute(message, args, client);
       } catch (e) {
         const error = `Error while executing command [${command.name}]\n`;
-        await message.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red })).then((m) => {
+        await message.reply(errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red })).then((m) => {
           setTimeout(async () => {
             await m.delete();
           }, 5000);

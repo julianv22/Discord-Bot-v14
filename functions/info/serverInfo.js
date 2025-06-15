@@ -74,7 +74,7 @@ module.exports = (client) => {
         else interaction.editReply({ embeds: [embed] });
       else if (message) await message.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, 'Error while executing serverInfo function');
+      catchError(interaction, e, `Error while executing ${chalk.green('serverInfo')} function`);
     }
   };
 };

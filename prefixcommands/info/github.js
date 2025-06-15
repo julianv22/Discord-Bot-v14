@@ -20,7 +20,7 @@ module.exports = {
       return client.cmdGuide(message, this.name, this.description, this.aliases, prefix + this.name + ' <username>');
 
     if (!args[0])
-      return await message.reply(errorEmbed({ description: 'Hãy nhập username!', emoji: false })).then((m) => {
+      return await message.reply(errorEmbed({ desc: 'Hãy nhập username!', emoji: false })).then((m) => {
         setTimeout(async () => {
           await m.delete();
         }, 10000);
@@ -31,7 +31,7 @@ module.exports = {
       .then(async (body) => {
         if (!body || body.message === 'Not Found')
           return await message
-            .reply(errorEmbed({ description: 'User not found, please enter the correct username!', emoji: false }))
+            .reply(errorEmbed({ desc: 'User not found, please enter the correct username!', emoji: false }))
             .then((m) => {
               setTimeout(async () => {
                 await m.delete();

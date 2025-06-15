@@ -17,7 +17,7 @@ module.exports = (client) => {
       const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
 
       if (!snipe)
-        return await msg.reply(errorEmbed({ description: `There is nothing to snipe.`, emoji: false })).then((m) => {
+        return await msg.reply(errorEmbed({ desc: `There is nothing to snipe.`, emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(async () => {
               await m.delete();
@@ -55,7 +55,7 @@ module.exports = (client) => {
         else interaction.editReply({ embeds: [embed] });
       else if (message) await message.reply({ embeds: [embed] });
     } catch (e) {
-      catchError(interaction, e, 'Error while executing snipeMessage function');
+      catchError(interaction, e, `Error while executing ${chalk.green('snipeMessage')} function`);
     }
   };
 };

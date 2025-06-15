@@ -44,7 +44,7 @@ module.exports = {
 
       await channel.bulkDelete(user ? filtered : actualAmount, user ? null : true);
       return await interaction.reply(
-        errorEmbed({ description: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true }),
+        errorEmbed({ desc: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true }),
       );
     } catch (e) {
       catchError(interaction, e, this);

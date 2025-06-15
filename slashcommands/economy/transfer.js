@@ -28,11 +28,9 @@ module.exports = {
     const [targetUser, amount] = [options.getUser('target'), options.getInteger('amount')];
 
     if (targetUser.bot)
-      return await interaction.reply(errorEmbed({ description: 'Bạn không thể chuyển \\💲 cho bot!', emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho bot!', emoji: false }));
     if (targetUser.id === user.id)
-      return await interaction.reply(
-        errorEmbed({ description: 'Bạn không thể chuyển \\💲 cho chính mình!', emoji: false }),
-      );
+      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho chính mình!', emoji: false }));
 
     try {
       let [profile, targetProfile] = await Promise.all([

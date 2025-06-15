@@ -33,7 +33,7 @@ module.exports = (client) => {
       const { guild } = msg;
 
       if (!user)
-        return await msg.reply(errorEmbed({ description: 'You must mention someone!', emoji: false })).then((m) => {
+        return await msg.reply(errorEmbed({ desc: 'You must mention someone!', emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(async () => {
               await m.delete();
@@ -41,17 +41,15 @@ module.exports = (client) => {
         });
 
       if (user.user ? user.user.bot : user.bot)
-        return await msg
-          .reply(errorEmbed({ description: 'Bots do not need to be thanked! 😝', emoji: false }))
-          .then((m) => {
-            if (msg == message)
-              setTimeout(async () => {
-                await m.delete();
-              }, 10000);
-          });
+        return await msg.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝', emoji: false })).then((m) => {
+          if (msg == message)
+            setTimeout(async () => {
+              await m.delete();
+            }, 10000);
+        });
 
       if (user.id === author.id)
-        return msg.reply(errorEmbed({ description: 'You cannot thank yourself! 😅', emoji: false })).then((m) => {
+        return msg.reply(errorEmbed({ desc: 'You cannot thank yourself! 😅', emoji: false })).then((m) => {
           if (msg == message)
             setTimeout(async () => {
               await m.delete();
@@ -111,7 +109,7 @@ module.exports = (client) => {
       thanks.lastThanks = Date.now();
       await thanks.save().catch(console.error);
     } catch (e) {
-      catchError(interaction, e, 'Error while executing thanksUser function');
+      catchError(interaction, e, `Error while executing ${chalk.green('thanksUser')} function`);
     }
   };
 };

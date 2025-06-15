@@ -29,13 +29,13 @@ module.exports = {
       msg = await messages.fetch(messageId);
     } catch {
       return await interaction.reply(
-        errorEmbed({ description: 'Không tìm thấy message, hoặc message không nằm trong channel này!', emoji: false }),
+        errorEmbed({ desc: 'Không tìm thấy message, hoặc message không nằm trong channel này!', emoji: false }),
       );
     }
     if (msg.author.id !== user.id)
-      return await interaction.reply(errorEmbed({ description: `Message này không phải của ${user}!`, emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${user}!`, emoji: false }));
     if (!msg.embeds.length)
-      return await interaction.reply(errorEmbed({ description: 'Message này không có embed!', emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!', emoji: false }));
     const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
     const [row1, row2] = embedButtons(messageId);
     await interaction.reply({

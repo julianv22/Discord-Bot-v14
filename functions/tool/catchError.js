@@ -16,10 +16,17 @@ module.exports = (client) => {
     if (typeof command === 'string') errorMessage = command;
     else
       errorMessage = command.parent
-        ? `Error while executing ${command.category} /${command.parent} ${command.data.name}`
-        : `Error while executing ${command.category} command /${command.data.name}`;
+        ? chalk.red('Error while executing ') +
+          command.category +
+          chalk.green(` /${command.parent} ${command.data.name}`)
+        : chalk.red('Error while executing ') +
+          command.category +
+          chalk.red(' command ') +
+          chalk.green(command.data.name);
+    //`Error while executing ${command.category} /${command.parent} ${command.data.name}`
+    //`Error while executing ${command.category} command /${command.data.name}`;
 
-    const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, description: e, color: Colors.Red });
+    const embed = errorEmbed({ title: `\\❌ ${errorMessage}`, desc: e, color: Colors.Red });
 
     console.error(chalk.red(errorMessage + '\n'), e);
     if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);

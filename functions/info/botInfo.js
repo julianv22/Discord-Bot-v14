@@ -135,7 +135,7 @@ module.exports = (client) => {
         else interaction.editReply({ embeds: [embed], components: [infoButtons()] });
       else if (message) await message.reply({ embeds: [embed], components: [infoButtons()] });
     } catch (e) {
-      catchError(interaction, e, 'Error while executing botInfo function');
+      catchError(interaction, e, `Error while executing ${chalk.green('botInfo')} function`);
     }
   };
 };

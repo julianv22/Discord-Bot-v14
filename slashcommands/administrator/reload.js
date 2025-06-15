@@ -35,15 +35,15 @@ module.exports = {
         commands: async () => {
           await loadCommands(true);
           await loadComponents();
-          await interaction.reply(errorEmbed({ description: 'Reloading commands, please wait...', emoji: true }));
+          await interaction.reply(errorEmbed({ desc: 'Reloading commands, please wait...', emoji: true }));
         },
         events: async () => {
           await loadEvents();
-          await interaction.reply(errorEmbed({ description: 'Reloading events, please wait...', emoji: true }));
+          await interaction.reply(errorEmbed({ desc: 'Reloading events, please wait...', emoji: true }));
         },
         functions: async () => {
           await loadFunctions();
-          await interaction.reply(errorEmbed({ description: 'Reloading functions, please wait...', emoji: true }));
+          await interaction.reply(errorEmbed({ desc: 'Reloading functions, please wait...', emoji: true }));
         },
       };
 
@@ -53,7 +53,7 @@ module.exports = {
 
       setTimeout(async () => {
         await interaction.editReply(
-          errorEmbed({ description: `Successfully reloaded application ${subCommand}!`, emoji: true }),
+          errorEmbed({ desc: `Successfully reloaded application ${subCommand}!`, emoji: true }),
         );
       }, 2500);
     } catch (e) {

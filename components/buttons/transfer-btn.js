@@ -28,7 +28,7 @@ module.exports = {
 
       // Kiểm tra lại dữ liệu
       if (!profile)
-        return await interaction.update(errorEmbed({ description: 'Không kết nối được với database', emoji: false }));
+        return await interaction.update(errorEmbed({ desc: 'Không kết nối được với database', emoji: false }));
       if (!targetProfile)
         targetProfile = await economyProfile
           .create({
@@ -39,7 +39,7 @@ module.exports = {
           })
           .catch(console.error);
       if (amount > profile.bank)
-        return await interaction.update(errorEmbed({ description: 'Bạn không có đủ \\💲 để chuyển', emoji: false }));
+        return await interaction.update(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển', emoji: false }));
 
       // Trừ tiền người chuyển, cộng tiền người nhận
       profile.bank -= total;

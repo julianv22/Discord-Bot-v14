@@ -24,10 +24,10 @@ module.exports = {
 
     try {
       if (targetUser.bot)
-        return await interaction.reply(errorEmbed({ description: 'Không thể giật \\💲 của bot!', emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: 'Không thể giật \\💲 của bot!', emoji: false }));
       if (targetUser.id === user.id)
         return await interaction.reply(
-          errorEmbed({ description: 'Không thể giật \\💲 của chính bản thân mình!', emoji: false }),
+          errorEmbed({ desc: 'Không thể giật \\💲 của chính bản thân mình!', emoji: false }),
         );
 
       let [profile, targetProfile] = await Promise.all([
@@ -44,19 +44,17 @@ module.exports = {
         );
       if (profile.balance < 200)
         return await interaction.reply(
-          errorEmbed({ description: 'Bạn cần ít nhất 200\\💲 để thực hiện giật!', emoji: false }),
+          errorEmbed({ desc: 'Bạn cần ít nhất 200\\💲 để thực hiện giật!', emoji: false }),
         );
       if (targetProfile.balance < 100) {
-        return await interaction.reply(
-          errorEmbed({ description: 'Người này không đủ \\💲 để bị giật!', emoji: false }),
-        );
+        return await interaction.reply(errorEmbed({ desc: 'Người này không đủ \\💲 để bị giật!', emoji: false }));
       }
       // Cooldown
       if (profile.lastRob && new Date() - profile.lastRob < cooldownMs) {
         const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
         const timeleft = Math.floor(nextRob.getTime() / 1000);
         return await interaction.reply(
-          errorEmbed({ description: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
+          errorEmbed({ desc: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
         );
       }
 

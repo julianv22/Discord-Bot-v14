@@ -49,8 +49,7 @@ module.exports = {
     const [tourCommand, getRole] = [options.getSubcommand(), options.getRole('ten-giai')];
 
     try {
-      if (!getRole)
-        return await interaction.reply(errorEmbed({ description: 'Bạn chưa chọn role giải đấu!', emoji: false }));
+      if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Bạn chưa chọn role giải đấu!', emoji: false }));
 
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
@@ -73,7 +72,7 @@ module.exports = {
 
           if (tournament.status)
             return await interaction.reply(
-              errorEmbed({ description: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false }),
+              errorEmbed({ desc: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false }),
             );
 
           tournament.status = true;
@@ -84,7 +83,7 @@ module.exports = {
           await interaction.reply(
             errorEmbed({
               description: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
-              emoji: '\\🏆',
+              emoji: '🏆',
               color: Colors.Green,
             }),
           );
@@ -92,12 +91,12 @@ module.exports = {
         close: async () => {
           if (tournament.id && getRole.id !== tournament.id)
             return await interaction.reply(
-              errorEmbed({ description: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false }),
+              errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false }),
             );
 
           if (!tournament.status)
             return await interaction.reply(
-              errorEmbed({ description: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
+              errorEmbed({ desc: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
             );
 
           tournament.status = false;
@@ -108,7 +107,7 @@ module.exports = {
           await interaction.reply(
             errorEmbed({
               description: `Đã đóng đăng ký giải đấu ${getRole} thành công!`,
-              emoji: '\\🏆',
+              emoji: '🏆',
               color: Colors.Green,
             }),
           );
@@ -116,7 +115,7 @@ module.exports = {
         list: async () => {
           if (!tournament.status)
             return await interaction.reply(
-              errorEmbed({ description: 'Hiện không có giải đấu nào đang diễn ra!', emoji: '\\🏆', color: Colors.Red }),
+              errorEmbed({ desc: 'Hiện không có giải đấu nào đang diễn ra!', emoji: '🏆', color: Colors.Red }),
             );
 
           let memberList = await tournamentProfile
@@ -127,9 +126,7 @@ module.exports = {
             .catch(console.error);
 
           if (!memberList || memberList.length === 0)
-            return await interaction.reply(
-              errorEmbed({ description: 'Chưa có thành viên nào đăng kí giải!', emoji: false }),
-            );
+            return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: false }));
 
           const role = guild.roles.cache.get(tournament.id);
           const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
@@ -183,7 +180,7 @@ module.exports = {
             return await interaction.reply(
               errorEmbed({
                 description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
-                emoji: '\\❗',
+                emoji: '❗',
                 color: Colors.Orange,
               }),
             );
@@ -209,14 +206,14 @@ module.exports = {
           await interaction.reply(
             errorEmbed({
               description: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
-              emoji: '\\🏆',
+              emoji: '🏆',
               color: Colors.Green,
             }),
           );
         },
       };
       if (!tourActions[tourCommand]) {
-        await interaction.reply(errorEmbed({ description: 'Subcommand không hợp lệ!', emoji: false }));
+        await interaction.reply(errorEmbed({ desc: 'Subcommand không hợp lệ!', emoji: false }));
         throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
       } else await tourActions[tourCommand]();
     } catch (e) {

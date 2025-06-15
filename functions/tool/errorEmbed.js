@@ -12,22 +12,22 @@ module.exports = (client) => {
    * @param {boolean} [options.flags=true] - Cờ (flags) để xác định hành vi của embed (ví dụ: ephemeral). Mặc định là `true`.
    * @returns {EmbedBuilder} EmbedBuilder
    */
-  client.errorEmbed = ({ title, description, color = 'Random', emoji = '', flags = true }) => {
+  client.errorEmbed = ({ title, desc, color = 'Random', emoji = '', flags = true }) => {
     const embed = new EmbedBuilder();
-    if (title) embed.setTitle(title);
-    let prefix = '';
 
-    if (typeof emoji === 'boolean') {
-      prefix = emoji ? '\\✅' : '\\❌';
-      embed.setColor(emoji ? 'Green' : 'Red');
-    } else {
-      prefix = emoji;
-      embed.setColor(color);
+    if (title) {
+      const regex = /\x1b\[[0-9;]*m/g;
+      embed.setTitle(title.replace(regex, ''));
     }
 
-    let desc = title ? `\`\`\`ansi\n\u001b[33m${description}\u001b[0m\`\`\`` : `${prefix} ${description}`;
+    let prefix = '\\';
+    if (typeof emoji === 'boolean') {
+      prefix += emoji ? '✅' : '❌';
+      embed.setColor(emoji ? 'Green' : 'Red');
+    } else embed.setColor(color);
 
-    embed.setDescription(desc);
+    const description = title ? `\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\`` : `${prefix} ${desc}`;
+    embed.setDescription(description);
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };

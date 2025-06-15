@@ -56,9 +56,7 @@ module.exports = {
 
         await interaction.reply({ embeds: [embed] });
       } else {
-        await interaction.reply(
-          errorEmbed({ description: 'Can not find members or role is incorrect!', emoji: false }),
-        );
+        await interaction.reply(errorEmbed({ desc: 'Can not find members or role is incorrect!', emoji: false }));
       }
     } catch (e) {
       catchError(interaction, e, this);

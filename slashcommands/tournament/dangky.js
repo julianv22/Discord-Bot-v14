@@ -22,7 +22,7 @@ module.exports = {
     const register = profile.tournament.status;
 
     if (!register)
-      return await interaction.reply(errorEmbed({ description: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
 
     const roleID = profile?.tournament?.id;
     const role = guild.roles.cache.get(roleID);
@@ -62,14 +62,14 @@ module.exports = {
         );
 
         await interaction.followUp(
-          errorEmbed({ description: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: true }),
+          errorEmbed({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: true }),
         );
         // Add Role
         const bot = guild.members.me || (await guild.members.fetch(client.user.id));
         if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
           if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
             return await interaction.followUp(
-              errorEmbed({ description: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false }),
+              errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false }),
             );
           }
           if (bot.roles.highest.position <= role.position) {

@@ -35,7 +35,7 @@ module.exports = {
       const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
       if (!valid) {
         return await interaction.reply(
-          errorEmbed({ description: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!', emoji: false }),
+          errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!', emoji: false }),
         );
       }
 
@@ -43,7 +43,7 @@ module.exports = {
       const { youtube } = profile;
       if (!profile) {
         if (action === 'remove')
-          return await interaction.reply(errorEmbed({ description: 'Server chưa có kênh Youtube nào!', emoji: false }));
+          return await interaction.reply(errorEmbed({ desc: 'Server chưa có kênh Youtube nào!', emoji: false }));
         profile = await serverProfile
           .create({
             guildID: guild.id,

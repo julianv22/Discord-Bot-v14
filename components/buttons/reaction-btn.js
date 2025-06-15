@@ -37,7 +37,7 @@ module.exports = {
             if (m && m.deletable) await m.delete().catch(console.error);
             if (input === 'done') {
               collector.stop('finish');
-              return interaction.followUp(errorEmbed({ description: 'Kết thúc thêm reaction role!', emoji: true }));
+              return interaction.followUp(errorEmbed({ desc: 'Kết thúc thêm reaction role!', emoji: true }));
             }
 
             const [emojiInput, roleInput] = input.split('|').map((v) => v.trim());
@@ -71,7 +71,7 @@ module.exports = {
 
               if (!client.emojis.cache.get(emojiMatch[3]))
                 return interaction.followUp(
-                  errorEmbed({ description: `Bot không truy cập được custom emoji: ${emojiInput}` }),
+                  errorEmbed({ desc: `Bot không truy cập được custom emoji: ${emojiInput}` }),
                 );
             }
 
@@ -87,15 +87,14 @@ module.exports = {
           });
 
           collector.on('end', async (collected, reason) => {
-            if (reason === 'time')
-              await interaction.followUp(errorEmbed({ description: 'Hết thời gian nhập', emoji: false }));
+            if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập', emoji: false }));
           });
         },
         finish: async () => {
           const emojiArray = reactionMap.get(message.id) || [];
 
           if (emojiArray.length <= 0)
-            return interaction.reply(errorEmbed({ description: 'Thêm ít nhất một role!', emoji: false }));
+            return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!', emoji: false }));
 
           const msg = await channel.send({ embeds: [reactionEmbed] });
 

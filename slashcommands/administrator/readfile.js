@@ -29,14 +29,10 @@ module.exports = {
     // Tạo đường dẫn tuyệt đối cho file.
     const absoluteFilePath = path.join(process.cwd(), relativeFilePath);
 
-    await interaction.editReply(
-      errorEmbed({ description: `Loading file [ \`${relativeFilePath}\` ]...`, emoji: '\\🔃' }),
-    );
+    await interaction.editReply(errorEmbed({ desc: `Loading file [ \`${relativeFilePath}\` ]...`, emoji: '🔃' }));
     // Kiểm tra xem file có phải là file .js không
     if (!relativeFilePath.endsWith('.js')) {
-      return interaction.editReply(
-        errorEmbed({ description: 'Vui lòng chỉ đọc các file JavaScript (.js)!', emoji: false }),
-      );
+      return interaction.editReply(errorEmbed({ desc: 'Vui lòng chỉ đọc các file JavaScript (.js)!', emoji: false }));
     }
 
     try {
@@ -73,12 +69,12 @@ module.exports = {
       } else if (error.code === 'EISDIR') {
         // Đường dẫn trỏ đến một thư mục
         return interaction.editReply(
-          errorEmbed({ description: `[ \`${relativeFilePath}\` ] là một thư mục, không phải một file.`, emoji: false }),
+          errorEmbed({ desc: `[ \`${relativeFilePath}\` ] là một thư mục, không phải một file.`, emoji: false }),
         );
       } else if (error.code === 'EACCES' || error.code === 'EPERM') {
         // Lỗi quyền truy cập
         return interaction.editReply(
-          errorEmbed({ description: `Không có quyền truy cập để đọc file [ \`${relativeFilePath}\` ].`, emoji: false }),
+          errorEmbed({ desc: `Không có quyền truy cập để đọc file [ \`${relativeFilePath}\` ].`, emoji: false }),
         );
       } else {
         catchError(interaction, error, this);

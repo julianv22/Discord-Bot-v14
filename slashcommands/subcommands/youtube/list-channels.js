@@ -38,7 +38,7 @@ module.exports = {
       let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
       const { youtube } = profile;
       if (!profile || youtube.channels.length == 0)
-        return await interaction.reply(errorEmbed({ description: 'Danh sách kênh Youtube trống!', emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: 'Danh sách kênh Youtube trống!', emoji: false }));
       const channelList = await Promise.all(
         youtube.channels.map(async (id, idx) => {
           const title = await getChannelTitle(id, process.env.YT_API_KEY);

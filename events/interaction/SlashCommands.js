@@ -15,7 +15,7 @@ module.exports = {
       if (channel.type === ChannelType.DM) return;
 
       if (!guild) {
-        const reply = errorEmbed({ description: 'No guild found', emoji: false });
+        const reply = errorEmbed({ desc: 'No guild found', emoji: false });
         if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
         else await interaction.editReply(reply);
       }
@@ -25,7 +25,7 @@ module.exports = {
         const subcommand = subCommands.get(subcommandName);
 
         if (command.ownerOnly && member.id !== guild.ownerId) {
-          const reply = errorEmbed({ description: 'You are not the owner', emoji: false });
+          const reply = errorEmbed({ desc: 'You are not the owner', emoji: false });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
         }
@@ -37,7 +37,7 @@ module.exports = {
         if (context) await context.execute(interaction, client);
       }
     } catch (e) {
-      catchError(interaction, e, `Error while executing command ${commandName}`);
+      catchError(interaction, e, `Error while executing command ${chalk.green(commandName)}`);
     }
   },
 };

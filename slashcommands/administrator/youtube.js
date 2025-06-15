@@ -63,7 +63,7 @@ module.exports = {
 
     if (subcommand === 'refresh') {
       await checkVideos();
-      return await interaction.reply(errorEmbed({ description: 'Refesh successfully!', emoji: true }));
+      return await interaction.reply(errorEmbed({ desc: 'Refesh successfully!', emoji: true }));
     } else if (subcommand === 'alerts') {
       let profile = await serverProfile.findOne({ guildID: guild.id });
       const { youtube } = profile;

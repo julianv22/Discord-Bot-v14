@@ -24,9 +24,7 @@ module.exports = {
         .catch(console.error);
 
       if (!results)
-        return await interaction.reply(
-          errorEmbed({ description: 'There is no thanks data in this server!', emoji: false }),
-        );
+        return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!', emoji: false }));
 
       let text = '';
 

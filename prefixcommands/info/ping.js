@@ -14,14 +14,13 @@ module.exports = {
    * @param {Client} client - Client object
    */
   async execute(message, args, client) {
-    if (args.join(' ').trim() === '?') return client.cmdGuide(message, this.name, this.description);
+    const { cmdGuide, errorEmbed, ws } = client;
+    if (args.join(' ').trim() === '?') return cmdGuide(message, this.name, this.description);
 
-    const ping = client.ws.ping;
+    const ping = ws.ping;
     const delay = Math.abs(Date.now() - message.createdTimestamp); // Đảm bảo luôn dương
-    let color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
+    const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
 
-    const embed = new EmbedBuilder().setColor(color).setDescription(`**⏱ | Ping:** ${ping} / *${delay}ms*`);
-
-    return await message.reply({ embeds: [embed] }).catch(console.error);
+    return await message.reply(errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }));
   },
 };

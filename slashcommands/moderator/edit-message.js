@@ -30,9 +30,7 @@ module.exports = {
 
     try {
       if (msgEdit === undefined)
-        return await interaction.reply(
-          errorEmbed({ description: `Message ID \`${msgid}\` is incorrect!`, emoji: false }),
-        );
+        return await interaction.reply(errorEmbed({ desc: `Message ID \`${msgid}\` is incorrect!`, emoji: false }));
 
       if (msgEdit.author.id !== client.user.id)
         return await interaction.reply(

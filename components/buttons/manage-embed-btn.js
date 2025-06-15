@@ -27,7 +27,7 @@ module.exports = {
       ActionRowBuilder.from(message.components[1]),
     ];
 
-    if (!message) return await interaction.reply(errorEmbed({ description: 'No message found', emoji: false }));
+    if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
 
     /**
      * Create modal
@@ -141,7 +141,7 @@ module.exports = {
               const msg = await channel.messages.fetch(messageId);
               if (!msg)
                 return await interaction.reply(
-                  errorEmbed({ description: 'Không tìm thấy message hoặc không ở channel này.', emoji: false }),
+                  errorEmbed({ desc: 'Không tìm thấy message hoặc không ở channel này.', emoji: false }),
                 );
 
               await msg.edit({ embeds: [getEmbeds] }).catch(console.error);
@@ -157,7 +157,7 @@ module.exports = {
           } catch (e) {
             const error = 'Error while updating embed message\n';
             console.error(chalk.red(error), e);
-            return await interaction.reply(errorEmbed({ title: `\\❌ ${error}`, description: e, color: Colors.Red }));
+            return await interaction.reply(errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red }));
           }
         },
       };

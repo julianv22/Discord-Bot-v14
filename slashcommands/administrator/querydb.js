@@ -43,11 +43,11 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     if (user.id !== cfg.ownerID && user.id !== owner.id)
-      return await interaction.editReply(errorEmbed({ description: 'Owner permission only', emoji: false }));
+      return await interaction.editReply(errorEmbed({ desc: 'Owner permission only', emoji: false }));
 
     try {
       let profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
-      if (!profile) return await interaction.reply(errorEmbed({ description: 'No database!', emoji: false }));
+      if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!', emoji: false }));
       /**
        * Send a message
        * @param {string} message - Nội dung message
@@ -91,7 +91,7 @@ module.exports = {
           .catch(console.error);
       } else
         await interaction.editReply(
-          errorEmbed({ description: 'Can not parse sourcebin now. Try again later!', emoji: false }),
+          errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!', emoji: false }),
         );
     } catch (e) {
       catchError(interaction, e, this);

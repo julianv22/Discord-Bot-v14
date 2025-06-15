@@ -23,7 +23,7 @@ module.exports = {
     // Verified
     if (!options.getBoolean('confirm'))
       return await interaction.reply(
-        errorEmbed({ description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '[\\❗]' }),
+        errorEmbed({ desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '❗' }),
       );
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -33,7 +33,7 @@ module.exports = {
       return await interaction.reply(
         errorEmbed({
           description: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
-          emoji: '\\🏆',
+          emoji: '🏆',
           color: Colors.Red,
         }),
       );
@@ -43,12 +43,12 @@ module.exports = {
       let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
 
       if (!tourProfile || !tourProfile?.status)
-        return await interaction.reply(errorEmbed({ description: `${user} chưa đăng ký giải đấu!`, emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!`, emoji: false }));
       // Kiểm tra role giải đấu
       const role = guild.roles.cache.get(profile?.tournament?.id);
       if (!role)
         return await interaction.reply(
-          errorEmbed({ description: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!', emoji: false }),
+          errorEmbed({ desc: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!', emoji: false }),
         );
       // Set Tournament's Status
       tourProfile.status = false;
@@ -59,7 +59,7 @@ module.exports = {
       if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
         if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
           return await interaction.followUp(
-            errorEmbed({ description: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false }),
+            errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false }),
           );
         }
         if (bot.roles.highest.position <= role.position) {
@@ -73,7 +73,7 @@ module.exports = {
       } else await guild.members.cache.get(user.id).roles.remove(role);
 
       await interaction.reply(
-        errorEmbed({ description: `${user} huỷ đăng ký giải ${role}!!`, emoji: '\\🏆', color: Colors.Green }),
+        errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.Green }),
       );
     } catch (e) {
       catchError(interaction, e, this);

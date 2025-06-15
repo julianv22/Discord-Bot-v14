@@ -23,7 +23,7 @@ module.exports = {
         .then((res) => res.json())
         .then(async (body) => {
           if (!body || body.message === 'Not Found')
-            return await interaction.reply(errorEmbed({ description: 'Can not find this user!', emoji: false }));
+            return await interaction.reply(errorEmbed({ desc: 'Can not find this user!', emoji: false }));
 
           let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
             body;

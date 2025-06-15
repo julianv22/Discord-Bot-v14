@@ -29,7 +29,7 @@ module.exports = {
 
       if (amount > profile.bank)
         return await interaction.reply(
-          errorEmbed({ description: 'Số \\💲 rút không được lớn hơn số tiền hiện có!', emoji: false }),
+          errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!', emoji: false }),
         );
 
       profile.bank -= amount;

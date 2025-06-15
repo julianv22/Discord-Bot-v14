@@ -23,7 +23,7 @@ module.exports = {
       .then(async (body) => {
         if (body.status === 404)
           return await interaction.reply(
-            errorEmbed({ description: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false }),
+            errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false }),
           );
 
         // Fallback nếu thiếu dữ liệu
