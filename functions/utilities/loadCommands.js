@@ -101,10 +101,10 @@ module.exports = (client) => {
             // Logic phân biệt bot chính và bot phụ
             if (clientId === '995949416273940623') {
               // Đăng ký Guild Commands cho bot phụ chỉ trên guildId cụ thể
-              data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] });
+              data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
             } else {
               // Đăng ký Global Commands cho bot chính
-              data = await rest.put(Routes.applicationCommands(clientId), { body: [] });
+              data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
             }
 
             console.log(chalk.green(`\n✅ Successfully reloaded ${data.length} application (/) commands.\n`));
