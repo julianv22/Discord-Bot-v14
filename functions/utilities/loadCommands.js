@@ -70,7 +70,7 @@ module.exports = (client) => {
         }
       }
       table.setTitle(`Load ${type.name} [${totalCount}]`);
-      // console.log(table.toString());
+      console.log(table.toString());
     };
 
     await LoadCommands(commandTypes.Prefix);

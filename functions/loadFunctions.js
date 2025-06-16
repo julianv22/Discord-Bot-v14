@@ -49,7 +49,7 @@ module.exports = (client) => {
         }
       }
       table.setTitle(`Load Functions [${totalCount}]`);
-      // console.log(table.toString());
+      console.log(table.toString());
     } catch (e) {
       console.error(chalk.yellow('Error while executing loadFunctions\n'), e);
     }
