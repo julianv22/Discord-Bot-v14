@@ -55,7 +55,7 @@ module.exports = (client) => {
         }
       }
       table.setTitle(`Load Events [${totalCount}]`);
-      console.log(table.toString());
+      // console.log(table.toString());
     } catch (e) {
       console.error(chalk.yellow('Error while executing loadEvents function\n'), e);
     }

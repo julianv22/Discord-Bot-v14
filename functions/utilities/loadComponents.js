@@ -75,7 +75,7 @@ module.exports = (client) => {
       }
 
       table.setTitle(`Load Components [${totalCount}]`);
-      console.log(table.toString());
+      // console.log(table.toString());
     } catch (e) {
       console.error(chalk.yellow('Error while executing loadComponents function\n'), e);
     }

@@ -105,6 +105,7 @@ function requireCommands(filePath, folderName, collection) {
       return null;
     }
 
+    let logCommand = [];
     const setCollection = {
       prefixcommands: () => {
         if (command.name && command.execute) collection.set(command.name, command);
@@ -132,6 +133,7 @@ function requireCommands(filePath, folderName, collection) {
       default: () => {
         if (command.data && command.data.name && command.execute) {
           collection.set(command.data.name, command);
+          if (folderName === 'slashcommands') logCommand.push(command.category, command.data.name);
         } else
           console.warn(
             chalk.yellow('[Warn] Command'),
@@ -144,6 +146,7 @@ function requireCommands(filePath, folderName, collection) {
     };
 
     (setCollection[folderName] || setCollection.default)();
+    if (folderName === 'slashcommands') console.log(logCommand);
 
     return command;
   } catch (e) {

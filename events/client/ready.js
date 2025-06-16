@@ -48,6 +48,7 @@ module.exports = {
       ],
       tab: 0,
     });
+    table({ name: '📆 Last update:', value: '18:00 Thứ Hai, 16/6/2025 (GMT+7)' });
     log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
     log(`${'-'.repeat(12)}[ Project is started ]${'-'.repeat(12)}\n`, 'bgYellow');
 
