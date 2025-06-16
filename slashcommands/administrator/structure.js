@@ -17,14 +17,17 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('structure')
-    .setDescription('Show folder structure of project'),
+    .setDescription('Show folder structure of project')
+    .addStringOption((opt) => opt.setName('path').setDescription('Structure path')),
   /**
    * Project structure
    * @param {ChatInputCommandInteraction} interaction Interaction
    * @param {Client} client Client
    */
   async execute(interaction, client) {
+    const { options, user } = interaction;
     const { catchError } = client;
+    const strPaht = options.getString('path');
     const root = path.resolve(__dirname, '..', '..');
 
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
@@ -82,13 +85,14 @@ module.exports = {
     try {
       await interaction.deferReply({ flags: 64 });
 
-      const structure = await directoryStructure(root);
+      const structure = await directoryStructure(strPaht ? strPaht : root);
 
       const embed = new EmbedBuilder()
-        .setColor('Blue')
-        .setTitle('\\📁 Cấu trúc Project')
+        .setColor('Random')
+        .setTitle(`\\📁 [\`${strPaht ? strPaht : 'Root'}\`] folder structure:`)
         .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
-        .setFooter({ text: `Yêu cầu bởi ${interaction.user.tag}` });
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
       await interaction.editReply({ embeds: [embed], flags: 64 });
 

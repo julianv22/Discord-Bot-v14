@@ -15,7 +15,6 @@ module.exports = {
 
     try {
       const prefix = customId ? customId.split(':')[0] : '';
-      console.log('customId', customId ? prefix : undefined);
 
       let componentKey;
       if (interaction.isButton()) componentKey = 'buttons|';
