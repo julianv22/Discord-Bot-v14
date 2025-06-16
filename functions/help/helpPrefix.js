@@ -12,20 +12,20 @@ module.exports = (client) => {
     const { commands = '❌ | No commands', count = 0 } = listCommands(prefixCommands);
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(`Prefix Commands (${prefix}) List`)
+      .setTitle(`Prefix Commands [\`${prefix}\`] List`)
       .setDescription(`If you need more help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .addFields([
         {
           name: `Total commands: [${count}]`,
-          value: `Command prefix: \`${prefix}\``,
+          value: `Command prefix: [\`${prefix}\`]`,
         },
       ])
       .addFields(commands)
       .addFields([
         {
           name: `\u200b`,
-          value: `\`${prefix}<command> ?\` to show more details`,
+          value: `\`${prefix}command ?\` to show more details`,
         },
       ])
       .setThumbnail(cfg.helpPNG)

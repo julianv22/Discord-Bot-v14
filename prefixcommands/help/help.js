@@ -30,21 +30,21 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(`Danh sách Prefix Command (${prefix})`)
+      .setTitle(`Danh sách Prefix Command [\`${prefix}\`]`)
       .setDescription(`Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setColor('Random')
       .setThumbnail(cfg.helpPNG)
       .addFields([
         {
           name: `Tổng số command: [${count}]`,
-          value: `Command prefix: \`${prefix}\``,
+          value: `Command prefix: [\`${prefix}\`]`,
         },
       ])
       .addFields(commands)
       .addFields([
         {
           name: `\u200b`,
-          value: `\`${prefix}<command> ?\` để xem hướng dẫn chi tiết của command`,
+          value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command`,
         },
       ])
       .setFooter({

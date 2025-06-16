@@ -36,13 +36,13 @@ module.exports = {
                 .setTitle('Thống kê Slash Command & Sub Command')
                 .addFields([
                   {
-                    name: `\\📂 Slash Commands\nCommands: [${
+                    name: `\\📂 Slash Commands\n[\`Commands: ${
                       slashCommands.size - contextMenus.length
-                    }] --- Categories: [${slashFolders.length}]`,
+                    } --- Categories: ${slashFolders.length}\`]`,
                     value: `\`\`\`ansi\n\x1b[36m${slashFolders.join(' | ')}\x1b[0m\`\`\``,
                   },
                   {
-                    name: `\\📂 Sub Commands\nCommands: [${subCommands.size}] --- Categories: [${subFolders.length}]`,
+                    name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subFolders.length}\`]`,
                     value: `\`\`\`ansi\n\x1b[36m${subFolders.join(' | ')}\x1b[0m\`\`\``,
                   },
                   {

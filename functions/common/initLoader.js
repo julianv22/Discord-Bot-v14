@@ -63,10 +63,9 @@ function readFiles(folderPath, options = {}) {
         console.warn(
           chalk.yellow('[Warn] Filter of'),
           FileType.toLowerCase(),
-          chalk.yellow('in'),
+          chalk.yellow('from'),
           chalk.green(folderPath),
-          chalk.yellow('folder is not a function:\n'),
-          chalk.cyan(filter),
+          chalk.yellow('folder is not a function:'),
         );
 
     return result;
@@ -89,8 +88,7 @@ function readFiles(folderPath, options = {}) {
  * @returns {object|null} Đối tượng command hoặc null nếu không hợp lệ
  */
 function requireCommands(filePath, folderName, collection) {
-  const parts = filePath.split(path.sep);
-  const relativePath = parts.slice(parts.length - 3, parts.length - 1).join(path.sep);
+  const fileName = filePath.split(path.sep).pop();
 
   try {
     // Xóa cache để đảm bảo tải lại file nếu có thay đổi (hữu ích cho hot-reloading)
@@ -100,8 +98,8 @@ function requireCommands(filePath, folderName, collection) {
     if (!command) {
       console.warn(
         chalk.yellow('[Warn] Invalid file or empty at'),
-        filePath.split(path.sep).pop(),
-        chalk.yellow('in'),
+        fileName,
+        chalk.yellow('from'),
         chalk.green(folderName),
       );
       return null;
@@ -113,21 +111,21 @@ function requireCommands(filePath, folderName, collection) {
         else
           console.warn(
             chalk.yellow('[Warn] Prefix command'),
-            filePath.split('\\').pop(),
-            chalk.yellow('in'),
+            fileName,
+            chalk.yellow('from'),
             chalk.green(relativePath),
             chalk.yellow("is missing 'name' or 'execute' property"),
           );
       },
-      'slashcommands/subcommands': () => {
+      [path.join('slashcommands', 'subcommands')]: () => {
         if (command.parent && command.data && command.data.name && command.execute) {
           collection.set(`${command.parent}|${command.data.name}`, command);
         } else
           console.warn(
             chalk.yellow('[Warn] Sub Command'),
-            filePath.split('\\').pop(),
-            chalk.yellow('in'),
-            chalk.green(relativePath),
+            fileName,
+            chalk.yellow('from'),
+            chalk.green(folderName),
             chalk.yellow("is missing 'parent' or 'data.name' or 'execute' property"),
           );
       },
@@ -137,21 +135,23 @@ function requireCommands(filePath, folderName, collection) {
         } else
           console.warn(
             chalk.yellow('[Warn] Command'),
-            filePath.split('\\').pop(),
-            chalk.yellow('in'),
-            chalk.green(relativePath),
+            fileName,
+            chalk.yellow('from'),
+            chalk.green(folderName),
             chalk.yellow("is missing 'data.name' or 'execute' property"),
           );
       },
     };
+
     (setCollection[folderName] || setCollection.default)();
+
     return command;
   } catch (e) {
     console.error(
       chalk.red('Error while requiring file'),
-      filePath.split('\\').pop(),
-      chalk.red('in'),
-      chalk.green(`${relativePath}\n`),
+      fileName,
+      chalk.red('from'),
+      chalk.green(`${folderName}\n`),
       e,
     );
     return null;

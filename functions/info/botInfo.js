@@ -119,7 +119,7 @@ module.exports = (client) => {
             value: `${moment(new Date()).format('HH:mm ddd, DD/MM/YYYY')}`,
             inline: true,
           },
-          { name: '⏱ Uptime', value: convertUpTime(), inline: true },
+          { name: '⏱️ Uptime', value: convertUpTime(), inline: true },
           {
             name: `📦 Packages [${Object.keys(package.dependencies).length}]:`,
             value: `\`\`\`yaml\n\n${mapPackages}\`\`\``,
