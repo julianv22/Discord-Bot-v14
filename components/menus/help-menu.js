@@ -3,6 +3,7 @@ const { capitalize } = require('../../functions/common/utilities');
 const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {
+  type: 'menus',
   data: { name: 'help-menu' },
   /**
    * Help Menu

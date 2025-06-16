@@ -48,8 +48,7 @@ module.exports = {
       };
 
       if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
-
-      await CommandsType[subCommand]();
+      else await CommandsType[subCommand]();
 
       setTimeout(async () => {
         await interaction.editReply(

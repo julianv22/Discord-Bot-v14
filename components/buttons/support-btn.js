@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'support-btn' },
   /**
    * Support Button
@@ -22,8 +23,7 @@ module.exports = {
       };
 
       if (!types[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
-
-      return await interaction.reply({ content: types[button](), flags: 64 });
+      else return await interaction.reply({ content: types[button](), flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

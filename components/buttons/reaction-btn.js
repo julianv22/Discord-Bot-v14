@@ -4,6 +4,7 @@ const { setTextInput } = require('../../functions/common/components');
 const reactionMap = new Map();
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'reaction-btn' },
   /**
    * Reaction Button
@@ -125,8 +126,7 @@ module.exports = {
       };
 
       if (!Reaction[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
-
-      await Reaction[buttonId](interaction);
+      else await Reaction[buttonId](interaction);
     } catch (e) {
       return await catchError(interaction, e, this);
     }

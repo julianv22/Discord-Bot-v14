@@ -8,29 +8,23 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const { catchError, buttonCollection, menuCollection, modalCollection } = client;
+    const { catchError, envCollection } = client;
     const { channel, customId } = interaction;
 
     if (channel.type === ChannelType.DM) return;
-    //Method object của components
-    const interactionTypes = {
-      isButton: buttonCollection,
-      isStringSelectMenu: menuCollection,
-      isModalSubmit: modalCollection,
-    };
-    //Handler component
-    let component;
+
     try {
-      //Duyệt qua các components
-      for ([method, iType] of Object.entries(interactionTypes)) {
-        //Kiểm tra method của component
-        if (typeof interaction[method] === 'function' && interaction[method]()) {
-          //Lấy customId
-          const prefix = customId ? customId.split(':')[0] : null;
-          component = iType.get(prefix);
-        }
-      }
-      //Thực thi component nếu có tồn tại
+      const prefix = customId ? customId.split(':')[0] : '';
+      console.log('customId', customId ? prefix : undefined);
+
+      let componentKey;
+      if (interaction.isButton()) componentKey = 'buttons|';
+      else if (interaction.isStringSelectMenu()) componentKey = 'menus|';
+      else if (interaction.isModalSubmit()) componentKey = 'modals|';
+      else return;
+      componentKey += prefix;
+
+      const component = envCollection.get(componentKey);
       if (component) await component.execute(interaction, client);
     } catch (e) {
       return await catchError(interaction, e, `Error while executing interaction component ${chalk.green(customId)}`);

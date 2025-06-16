@@ -3,6 +3,7 @@ const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'rps-btn' },
   /**
    * RPS Game

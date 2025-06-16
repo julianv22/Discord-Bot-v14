@@ -11,6 +11,7 @@ const {
 const { setTextInput } = require('../../functions/common/components');
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'manage-embed-btn' },
   /**
    * Create a embed
@@ -163,8 +164,7 @@ module.exports = {
       };
 
       if (!Selected[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
-
-      return await Selected[button]();
+      else return await Selected[button]();
     } catch (e) {
       return await catchError(interaction, e, this);
     }

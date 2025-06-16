@@ -13,8 +13,19 @@ const path = require('path');
  * @returns {string[]} Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc.
  */
 function readFiles(folderPath, options = {}) {
-  const { all = false, isDir = false, extension = '.js', filter } = options;
-  const FileType = all ? 'AllFiles' : isDir ? 'Directories' : `[ ${extension} ] files`;
+  const { all = false, isDir = false, extension = '.js', filter: func } = options;
+  const FileType = all ? 'AllFiles' : isDir ? 'Directories' : extension + ' files';
+
+  const logError = (item, path, e, isWarn = false) => {
+    const func = isWarn ? console.warn : console.error;
+    const color = isWarn ? 'yellow' : 'red';
+    const start = isWarn ? chalk[color]('[Warn]') : chalk[color]('Error');
+    const todo = isWarn ? chalk[color]('Custom filter provided for') : chalk[color]('while reading');
+    const itemType = isDir ? chalk[color]('folder') : chalk[color]('file');
+
+    if (isWarn) func(start, todo, itemType, chalk[color]('in'), chalk.green(path), chalk[color]('is not a function'));
+    else func(start, todo, itemType, `[ ${item} ]`, chalk[color]('in'), chalk.green(`${path}\n`), e);
+  };
 
   try {
     const Read = {
@@ -26,13 +37,7 @@ function readFiles(folderPath, options = {}) {
           try {
             return statSync(path.join(folderPath, folder)).isDirectory();
           } catch (e) {
-            console.error(
-              chalk.red('Error while reading folder'),
-              folder,
-              chalk.red('from'),
-              chalk.green(`${folderPath}\n`),
-              e,
-            );
+            logError(folder, folderPath, e);
             return false;
           }
         });
@@ -42,13 +47,7 @@ function readFiles(folderPath, options = {}) {
           try {
             return statSync(path.join(folderPath, file)).isFile() && file.endsWith(extension);
           } catch (e) {
-            console.warn(
-              chalk.red('Error while reading file'),
-              file,
-              chalk.red('from'),
-              chalk.green(`${folderPath}\n`),
-              e,
-            );
+            logError(file, folderPath, e);
             return false;
           }
         });
@@ -57,26 +56,13 @@ function readFiles(folderPath, options = {}) {
 
     let result = (Read[FileType] || Read.default)();
 
-    if (filter)
-      if (typeof filter === 'function') result = result.filter(filter);
-      else
-        console.warn(
-          chalk.yellow('[Warn] Filter of'),
-          FileType.toLowerCase(),
-          chalk.yellow('from'),
-          chalk.green(folderPath),
-          chalk.yellow('folder is not a function:'),
-        );
+    if (func)
+      if (typeof func === 'function') result = result.filter(func);
+      else logError(null, folderPath, null, true);
 
     return result;
   } catch (e) {
-    console.error(
-      chalk.red('Error while reading'),
-      FileType.toLowerCase(),
-      chalk.red('from'),
-      chalk.green(`${folderPath}\n`),
-      e,
-    );
+    logError(FileType.toLowerCase(), folderPath, e);
     return [];
   }
 }
@@ -88,7 +74,9 @@ function readFiles(folderPath, options = {}) {
  * @returns {object|null} Đối tượng command hoặc null nếu không hợp lệ
  */
 function requireCommands(filePath, folderName, collection) {
-  const fileName = filePath.split(path.sep).pop();
+  const parts = filePath.split(path.sep);
+  const file = parts.pop();
+  const folder = parts.slice(-1);
 
   try {
     // Xóa cache để đảm bảo tải lại file nếu có thay đổi (hữu ích cho hot-reloading)
@@ -96,63 +84,58 @@ function requireCommands(filePath, folderName, collection) {
     const command = require(filePath);
 
     if (!command) {
-      console.warn(
-        chalk.yellow('[Warn] Invalid file or empty at'),
-        fileName,
-        chalk.yellow('from'),
-        chalk.green(folderName),
-      );
+      console.warn(chalk.yellow('[Warn] Invalid file or empty at'), file, chalk.yellow('in'), chalk.green(folder));
       return null;
     }
 
+    const logWarn = (commandName, errMessage) => {
+      let message =
+        'is missing ' +
+        errMessage
+          .split(',')
+          .map((m) => `'${m}'`)
+          .join(' or ') +
+        ' property';
+      if (errMessage === 'execute') message = "is missing 'execute' property or is not function";
+
+      console.warn(
+        chalk.yellow('[Warn] ' + commandName),
+        file,
+        chalk.yellow('in'),
+        chalk.green(folder),
+        chalk.yellow(message),
+      );
+    };
+
     const setCollection = {
       prefixcommands: () => {
-        if (command.name && command.execute) collection.set(command.name, command);
-        else
-          console.warn(
-            chalk.yellow('[Warn] Prefix command'),
-            fileName,
-            chalk.yellow('from'),
-            chalk.green(relativePath),
-            chalk.yellow("is missing 'name' or 'execute' property"),
-          );
+        if (!command.name) logWarn('Prefix Command', 'name');
+        else if (!command.execute || typeof command.execute !== 'function') logWarn('Prefix Command', 'execute');
+        else collection.set(command.name, command);
+      },
+      slashcommands: () => {
+        if (!command.data || !command?.data.name) logWarn('Slash Command', 'data,data.name');
+        else if (!command.execute || typeof command.execute !== 'function') logWarn('Slash Command', 'execute');
+        else collection.set(command.data.name, command);
       },
       [path.join('slashcommands', 'subcommands')]: () => {
-        if (command.parent && command.data && command.data.name && command.execute)
-          collection.set(`${command.parent}|${command.data.name}`, command);
-        else
-          console.warn(
-            chalk.yellow('[Warn] Sub Command'),
-            fileName,
-            chalk.yellow('from'),
-            chalk.green(folderName),
-            chalk.yellow("is missing 'parent' or 'data.name' or 'execute' property"),
-          );
+        if (!command.parent || !command.data || !command?.data.name) logWarn('Sub Command', 'parent,data,data.name');
+        else if (!command.execute || typeof command.execute !== 'function') logWarn('Sub Command', 'execute');
+        else collection.set(`${command.parent}|${command.data.name}`, command);
       },
-      default: () => {
-        if (command.data && command.data.name && command.execute) collection.set(command.data.name, command);
-        else
-          console.warn(
-            chalk.yellow('[Warn] Command'),
-            fileName,
-            chalk.yellow('from'),
-            chalk.green(folderName),
-            chalk.yellow("is missing 'data.name' or 'execute' property"),
-          );
+      components: () => {
+        if (!command.type || !command.data || !command?.data.name) logWarn('Component', 'type,data,data.name');
+        else if (!command.execute || typeof command.execute !== 'function') logWarn('Component', 'execute');
+        else collection.set(`${command.type}|${command.data.name}`, command);
       },
     };
 
-    (setCollection[folderName] || setCollection.default)();
+    if (!setCollection[folderName]) throw new Error(chalk.yellow(`Invalid folderName ${chalk.green(folderName)}`));
+    else setCollection[folderName]();
 
     return command;
   } catch (e) {
-    console.error(
-      chalk.red('Error while requiring file'),
-      fileName,
-      chalk.red('from'),
-      chalk.green(`${folderName}\n`),
-      e,
-    );
+    console.error(chalk.red('Error while requiring file'), file, chalk.red('in'), chalk.green(`${folder}\n`), e);
     return null;
   }
 }

@@ -1,6 +1,7 @@
 const { EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
+  type: 'modals',
   data: { name: 'suggest-md' },
   /**
    * Suggest Modal

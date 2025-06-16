@@ -2,6 +2,7 @@ const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('d
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'transfer-btn' },
   /**
    * Transfer Money Button

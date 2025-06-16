@@ -12,6 +12,7 @@ const { capitalize } = require('../../functions/common/utilities');
 const { disableButtons } = require('../../functions/common/components');
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'disable-btn' },
   /**
    * Disable Features Button
@@ -77,8 +78,7 @@ module.exports = {
         };
 
         if (!Disable[confirm]) throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
-
-        await Disable[confirm]();
+        else await Disable[confirm]();
 
         await profile.save().catch(console.error);
         return await interaction.update({

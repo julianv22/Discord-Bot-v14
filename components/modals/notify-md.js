@@ -2,6 +2,7 @@ const { EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('d
 const { checkURL } = require('../../functions/common/utilities');
 
 module.exports = {
+  type: 'modals',
   data: { name: 'notify-md' },
   /**
    * Notify Modal

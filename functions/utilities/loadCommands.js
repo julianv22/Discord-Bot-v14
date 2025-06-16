@@ -1,7 +1,8 @@
-const { Client, Collection, REST, Routes } = require('discord.js');
+const { Client, Collection, REST, Routes, heading } = require('discord.js');
 const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
+const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
@@ -10,7 +11,7 @@ module.exports = (client) => {
    * @param {boolean} [reload = false]  True if reload
    */
   client.loadCommands = async (reload = false) => {
-    const { prefixCommands, slashCommands, subCommands } = client;
+    const { prefixCommands, slashCommands, subCommands, envCollection } = client;
 
     prefixCommands.clear();
     slashCommands.clear();
@@ -40,42 +41,75 @@ module.exports = (client) => {
      * @param {CommandTypeConfig} type Loại command trong commandTypes
      */
     const LoadCommands = async (type) => {
-      const table = new ascii()
-        .setHeading('Folder', '♻', 'Command Name')
-        .setAlignCenter(1)
-        .setBorder('│', '─', '✧', '✧');
-
       const ignoreFolders = ['subcommands'];
       const commandFolders = readFiles(type.folder, {
         isDir: true,
-        filter: (folder) => !ignoreFolders.includes(folder),
+        function: (folder) => !ignoreFolders.includes(folder),
       });
 
-      let totalCount = 0;
       for (const folder of commandFolders) {
         const folderPath = path.join(type.folder, folder);
         const commandFiles = readFiles(folderPath);
 
-        table.addRow(`📂 ${folder.toUpperCase()} [${commandFiles.length}]`, '─', '─'.repeat(12));
-        let folderCount = 0;
-
         for (const file of commandFiles) {
           const filePath = path.join(process.cwd(), folderPath, file);
-          const command = requireCommands(filePath, type.folder, type.collection);
-
-          if (command) {
-            table.addRow('', ++folderCount, command.data ? command.data.name : command.name);
-            totalCount++;
-          }
+          requireCommands(filePath, type.folder, type.collection);
         }
       }
-      table.setTitle(`Load ${type.name} [${totalCount}]`);
-      console.log(table.toString());
     };
 
     await LoadCommands(commandTypes.Prefix);
     await LoadCommands(commandTypes.Slash);
     await LoadCommands(commandTypes.Sub);
+    /**
+     * List command filter by property
+     * @param {Collection<string, object} command Command's collection
+     * @param {string|'category'} [property] Property filter
+     * @returns {string[]} Command name with count array filtered by property
+     */
+    const ListByFilter = (command, property = 'category') => {
+      const commandFilter = Array.from(command.values()).reduce((acc, cmd) => {
+        acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
+        return acc;
+      }, {});
+
+      return Object.entries(commandFilter).map(([name, count]) => `📂 ${capitalize(name)} [${count}]`);
+    };
+    /**
+     *
+     * @param {Array<string>[]} data Array of 2 commands
+     * @param {object} options Ascii table options
+     * @param {string} options.title table.setTitle
+     * @param {string[]} options.heading table.setHeading
+     */
+    const logAsciiTable = (data, { title, heading }) => {
+      const table = new ascii().setBorder('│', '─', '✧', '✧');
+      if (title) table.setTitle(title);
+      if (heading) table.setHeading(heading);
+
+      const maxRows = Math.max(...data.map((col) => col.length));
+      for (let i = 0; i < maxRows; i++) {
+        const rowData = data.map((col) => col[i]) || '';
+        table.addRow(...rowData);
+      }
+
+      console.log(table.toString());
+    };
+
+    const slashList = ListByFilter(slashCommands);
+    const subList = ListByFilter(subCommands, 'parent');
+    const prefixList = ListByFilter(prefixCommands);
+    const componentList = ListByFilter(envCollection, 'type');
+
+    logAsciiTable([prefixList, componentList], {
+      title: 'Load Prefix Commands & Components',
+      heading: [commandTypes.Prefix.name + `[${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
+    });
+
+    logAsciiTable([slashList, subList], {
+      title: 'Load Slash/Sub Commands',
+      heading: [commandTypes.Slash.name + ` [${slashCommands.size}]`, commandTypes.Sub.name + ` [${subCommands.size}]`],
+    });
 
     if (!reload) {
       (async () => {
@@ -97,8 +131,6 @@ module.exports = (client) => {
 
         try {
           if (slashArray.length > 0) {
-            console.log(chalk.green(`🔃 Start refreshing ${slashArray.length} aplication (/) commands.`));
-
             const rest = new REST({ version: 10 }).setToken(token);
             let data = [];
 
@@ -108,7 +140,7 @@ module.exports = (client) => {
             // Đăng ký Global Commands cho bot chính
             else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
 
-            console.log(chalk.green(`\n✅ Successfully reloaded ${data.length} application (/) commands.\n`));
+            console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
           } else
             console.log(
               chalk.yellow(

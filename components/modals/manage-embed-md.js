@@ -3,6 +3,7 @@ const { getEmbedColor } = require('../../functions/common/manage-embed');
 const { checkURL, replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
+  type: 'modals',
   data: { name: 'manage-embed-md' },
   /**
    * Embed Modal
@@ -68,8 +69,7 @@ module.exports = {
       };
 
       if (!editEmbed[part]) throw new Error(chalk.yellow("Invalid Modal's customId ") + chalk.green(part));
-
-      await editEmbed[part]();
+      else await editEmbed[part]();
       return await interaction.update({ embeds: [getEmbeds], components: [Button0, Button1] });
     } catch (e) {
       return await catchError(interaction, e, this);

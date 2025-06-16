@@ -2,6 +2,7 @@ const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.j
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
+  type: 'buttons',
   data: { name: 'youtube-alert-btn' },
   /**
    * Youtube Alert Role Button

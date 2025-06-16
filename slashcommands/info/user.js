@@ -35,7 +35,6 @@ module.exports = {
     };
 
     if (!showInfo[subCommand]) throw new Error(`Invalid SubCommand ${chalk.green(subCommand)}`);
-
-    await (showInfo[subCommand] || showInfo.default)();
+    else await (showInfo[subCommand] || showInfo.default)();
   },
 };

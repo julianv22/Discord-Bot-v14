@@ -66,8 +66,7 @@ function setRowComponent(options, type) {
   };
 
   if (!setRowComponent[type]) throw new Error(chalk.yellow('Invalid ComponentType ') + chalk.green(type));
-
-  return setRowComponent[type]();
+  else return setRowComponent[type]();
 }
 /**
  * Set Text Input Component
