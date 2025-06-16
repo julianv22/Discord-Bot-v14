@@ -89,8 +89,8 @@ function readFiles(folderPath, options = {}) {
  * @returns {object|null} Đối tượng command hoặc null nếu không hợp lệ
  */
 function requireCommands(filePath, folderName, collection) {
-  const parts = filePath.split('\\');
-  const relativePath = parts.slice(parts.length - 3, parts.length - 1).join('\\');
+  const parts = filePath.split(path.sep);
+  const relativePath = parts.slice(parts.length - 3, parts.length - 1).join(path.sep);
 
   try {
     // Xóa cache để đảm bảo tải lại file nếu có thay đổi (hữu ích cho hot-reloading)
@@ -100,7 +100,7 @@ function requireCommands(filePath, folderName, collection) {
     if (!command) {
       console.warn(
         chalk.yellow('[Warn] Invalid file or empty at'),
-        filePath.split('\\').pop(),
+        filePath.split(path.sep).pop(),
         chalk.yellow('in'),
         chalk.green(folderName),
       );
