@@ -15,10 +15,9 @@ module.exports = {
    * @returns
    */
   toCurrency: (balance, userLocale = 'vi-VN') => {
-    console.log('🚀 ~ userLocale:', userLocale);
     const CurrencyMap = {
       'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
-      'en-GB': 'USD',
+      'en-GB': 'VND',
       'vi-VN': 'VND', // Tiếng Việt -> Đồng Việt Nam
       ja: 'JPY', // Tiếng Nhật -> Yên Nhật
       'zh-CN': 'CNY', // Tiếng Trung giản thể (Trung Quốc) -> Nhân dân tệ
@@ -29,7 +28,7 @@ module.exports = {
     };
 
     try {
-      return balance.toLocaleString(userLocale, {
+      return balance.toLocaleString('vi-VN', {
         style: 'currency',
         currency: CurrencyMap[userLocale] || 'VND',
         minimumFractionDigits: 0, // Điều chỉnh số chữ số thập phân tối thiểu
