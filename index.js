@@ -1,6 +1,6 @@
 const { Client, Collection, Partials } = require('discord.js');
 const mongoose = require('mongoose');
-const alive = require('./alive.js'); // Keep Alive
+// const alive = require('./alive.js'); // Keep Alive
 
 // require('dotenv').config();
 global.chalk = require('chalk');
@@ -18,8 +18,6 @@ client.slashCommands = new Collection();
 client.subCommands = new Collection();
 client.envCollection = new Collection();
 client.snipes = new Collection();
-
-console.log(chalk.bgYellow('\n---------------Project is running---------------\n'));
 
 // Kiểm tra biến môi trường
 if (!process.env.mongodb) {

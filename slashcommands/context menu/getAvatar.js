@@ -16,9 +16,6 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const { targetUser } = interaction;
-    const { getAvatar } = client;
-
-    await getAvatar(targetUser, interaction);
+    await client.getAvatar(interaction.targetUser, interaction);
   },
 };

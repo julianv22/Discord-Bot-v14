@@ -1,3 +1,5 @@
+const asciiTable = require('ascii-table');
+
 /**
  * Get the latest video of the YouTube channel
  * @param {string} channelId - Channel ID
@@ -60,4 +62,40 @@ function capitalize(str) {
   if (!str) return ''; // Xử lý string rỗng hoặc undefined
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-module.exports = { getLatestVideoId, checkURL, replaceVar, capitalize };
+/**
+ * List command filter by property
+ * @param {Collection<string, object} command Command's collection
+ * @param {string|'category'} [property] Property filter
+ * @returns {string[]} Command name with count array filtered by property
+ */
+function ListByFilter(command, property = 'category') {
+  const commandFilter = Array.from(command.values()).reduce((acc, cmd) => {
+    acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
+    return acc;
+  }, {});
+  return Object.entries(commandFilter).map(([name, count]) => `📂 ${capitalize(name)} [${count}]`);
+}
+/**
+ *
+ * @param {Array<string>[]} data Array of 2 commands
+ * @param {object} options Ascii table options
+ * @param {string} options.title table.setTitle
+ * @param {string[]} options.heading table.setHeading
+ */
+const logAsciiTable = (data, { title, heading }) => {
+  if (!data || !Array.isArray(data))
+    return console.warn(chalk.yellow("[Warn] Values from 'data' is undefined or not an array:"), typeof data);
+  if (data.length > 2)
+    return console.warn(chalk.yellow("[Warn] Array 'data' length is more than 2 items:"), data.length);
+
+  const table = new asciiTable().setBorder('│', '─', '✧', '✧');
+  if (title) table.setTitle(title);
+  if (heading) table.setHeading(heading);
+
+  const maxRows = Math.max(...data.map((col) => col.length));
+  for (let i = 0; i < maxRows; i++) {
+    table.addRow(...(data.map((col) => col[i]) || ''));
+  }
+  console.log(table.toString());
+};
+module.exports = { getLatestVideoId, checkURL, replaceVar, capitalize, ListByFilter, logAsciiTable };

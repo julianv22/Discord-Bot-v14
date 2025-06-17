@@ -13,8 +13,6 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const username = interaction.options.getString('username');
-
-    await client.githubInfo(username, interaction);
+    await client.githubInfo(interaction.options.getString('username'), interaction);
   },
 };

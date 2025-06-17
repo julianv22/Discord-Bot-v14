@@ -10,16 +10,16 @@ module.exports = (client) => {
    * @returns {Promise<void>}
    */
   client.snipeMessage = async (target, object) => {
-    const { errorEmbed, catchError } = client;
+    const { errorEmbed, catchError, messageSnipes } = client;
     const user = object.user || object.author;
 
     try {
       const { guildId, channelId } = object;
-      const snipe = await client.snipes.get(target ? guildId + '' + target.id : channelId);
+      const snipe = await messageSnipes.get(target ? guildId + target.id : channelId);
 
       if (!snipe)
         return await object.reply(errorEmbed({ desc: `There is nothing to snipe.`, emoji: false })).then((m) => {
-          if (object == message)
+          if (object.author)
             setTimeout(async () => {
               await m.delete().catch(console.error);
             }, 5000);

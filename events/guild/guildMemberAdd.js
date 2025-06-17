@@ -123,7 +123,7 @@ module.exports = {
       client.serverStats(client, guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
     } catch (e) {
-      console.error(chalk.red(`Error while executing ${this.name} event\n`), e);
+      client.logError({ item: this.name, desc: 'event' }, e);
     }
   },
 };

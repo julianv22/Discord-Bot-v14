@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { toCurrency } = require('../../functions/common/ultils');
 
 module.exports = {
   category: 'economy',
@@ -28,12 +29,12 @@ module.exports = {
       }
 
       // Lấy thông tin
-      const balance = (profile.balance || 0).toLocaleString();
-      const bank = (profile.bank || 0).toLocaleString();
+      const balance = toCurrency(profile.balance || 0, interaction.locale);
+      const bank = toCurrency(profile.bank || 0, interaction.locale);
       const streak = (profile.streak || 0).toLocaleString();
       const maxStreak = (profile.maxStreak || 0).toLocaleString();
-      const totalEarned = (profile.totalEarned || 0).toLocaleString();
-      const totalSpent = (profile.totalSpent || 0).toLocaleString();
+      const totalEarned = toCurrency(profile.totalEarned || 0, interaction.locale);
+      const totalSpent = toCurrency(profile.totalSpent || 0, interaction.locale);
       const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫';
       const achievements =
         profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫';
@@ -44,11 +45,11 @@ module.exports = {
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle('\\💳 Economy Information')
         .addFields(
-          { name: '\\💰 Balance', value: `${balance}\\💲`, inline: true },
-          { name: '\\🏦 Bank', value: `${bank}\\💲`, inline: true },
+          { name: '\\💰 Balance', value: balance, inline: true },
+          { name: '\\🏦 Bank', value: bank, inline: true },
           { name: '\\🔥 Streak', value: `${streak} / (max: ${maxStreak})`, inline: true },
-          { name: 'Tổng số \\💲 đã kiếm được', value: `${totalEarned}\\💲`, inline: true },
-          { name: 'Tổng số \\💲 đã chi tiêu', value: `${totalSpent}\\💲`, inline: true },
+          { name: 'Tổng số \\💲 đã kiếm được', value: totalEarned, inline: true },
+          { name: 'Tổng số \\💲 đã chi tiêu', value: totalSpent, inline: true },
           {
             name: '\u200b',
             value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',

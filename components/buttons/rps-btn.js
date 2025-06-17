@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
+const { toVND } = require('../../functions/common/ultils');
 
 module.exports = {
   type: 'buttons',
@@ -36,7 +37,7 @@ module.exports = {
       if (profile.balance < bet) {
         return await interaction.update(
           errorEmbed({
-            description: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toLocaleString()}\\💲`,
+            description: `Bạn không đủ tiền để cược! Số dư: ${toVND(profile.balance)}`,
             emoji: false,
           }),
         );
@@ -51,7 +52,7 @@ module.exports = {
         0: () => {
           profile.balance -= bet;
           profile.totalSpent -= bet;
-          return `Bạn thua và bị trừ **${bet.toLocaleString()}\\💲**!`;
+          return `Bạn thua và bị trừ **${toVND(bet)}**!`;
         },
         1: () => {
           return 'Hòa, bạn không bị trừ tiền!';
@@ -59,7 +60,7 @@ module.exports = {
         2: () => {
           profile.balance += winAmount;
           profile.totalEarned += winAmount;
-          return `Bạn thắng và nhận được **${winAmount.toLocaleString()}\\💲**!`;
+          return `Bạn thắng và nhận được **${toVND(winAmount)}**!`;
         },
       };
       // Tăng số lần chơi và cập nhật ngày
@@ -78,17 +79,17 @@ module.exports = {
         .setDescription(
           `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
             profile.rpsCount
-          }/50**\nSố dư: **${profile.balance.toLocaleString()}\\💲**`,
+          }/50**\nSố dư: **${toVND(profile.balance)}**`,
         )
         .addFields([
           {
             name: '\\💰 Tổng tiền đã nhận',
-            value: `${profile.totalEarned?.toLocaleString() || 0}\\💲`,
+            value: toVND(profile.totalEarned) || 0,
             inline: true,
           },
           {
             name: '\\💸 Tổng tiền đã chi',
-            value: `${profile.totalSpent?.toLocaleString() || 0}\\💲`,
+            value: toVND(profile.totalSpent) || 0,
             inline: true,
           },
         ]);

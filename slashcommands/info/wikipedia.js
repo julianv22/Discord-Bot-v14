@@ -13,8 +13,6 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const keyword = interaction.options.getString('keyword');
-
-    await client.wikipedia(keyword, interaction);
+    await client.wikipedia(interaction.options.getString('keyword'), interaction);
   },
 };

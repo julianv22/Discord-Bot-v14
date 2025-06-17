@@ -1,5 +1,5 @@
 const { ChatInputCommandInteraction, Client, Message, EmbedBuilder } = require('discord.js');
-const { capitalize } = require('../common/utilities');
+const { capitalize } = require('../common/miscellaneous');
 
 /** * @param {Client} client */
 module.exports = (client) => {

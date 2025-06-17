@@ -1,5 +1,5 @@
 const { Client, Collection } = require('discord.js');
-const { capitalize } = require('../common/utilities');
+const { capitalize } = require('../common/miscellaneous');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
@@ -29,7 +29,7 @@ module.exports = (client) => {
 
       return { commands: commands, count: count };
     } catch (e) {
-      console.error(chalk.red('Error while executing listCommands function\n'), e);
+      client.logError({ item: 'listCommands', desc: 'function' }, e);
     }
   };
 };

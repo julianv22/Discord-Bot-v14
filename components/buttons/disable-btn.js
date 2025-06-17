@@ -8,7 +8,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { capitalize } = require('../../functions/common/utilities');
+const { capitalize } = require('../../functions/common/miscellaneous');
 const { disableButtons } = require('../../functions/common/components');
 
 module.exports = {

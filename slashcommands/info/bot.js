@@ -8,7 +8,7 @@ module.exports = {
     .setDescription("Get bot's informations")
     .addSubcommand((sub) => sub.setName('info').setDescription('Bot info')),
   /**
-   * Donate for Julian-V
+   * Bot informations
    * @param {ChatInputCommandInteraction} interaction - Interaction object
    * @param {Client} client - Client
    */

@@ -9,24 +9,24 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(message, client) {
-    try {
-      const { guildId, channelId, id, author, content } = message;
+    const { guildId, channelId, id, author, content } = message;
+    const { messageSnipes, logError } = client;
 
+    try {
       await reactionRole
         .findOneAndDelete({ guildID: guildId, channelId: channelId, messageId: id })
         .catch(console.error);
 
       if (content) {
-        const { snipes } = client;
-        snipes.set(channelId, { author: author, content: content });
-        snipes.set(guildId + '' + author.id, {
+        await messageSnipes.set(channelId, { author: author, content: content });
+        await messageSnipes.set(guildId + author.id, {
           channelId: channelId,
           author: author,
           content: content,
         });
       }
     } catch (e) {
-      console.error(chalk.red('Error while executing Snipe Message event\n'), e);
+      logError({ item: 'snipe message', desc: 'event' }, e);
     }
   },
 };

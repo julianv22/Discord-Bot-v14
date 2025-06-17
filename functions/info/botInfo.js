@@ -1,12 +1,4 @@
-const {
-  Client,
-  GuildMember,
-  ChatInputCommandInteraction,
-  Message,
-  EmbedBuilder,
-  UserFlags,
-  ChannelType,
-} = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, EmbedBuilder, UserFlags, ChannelType } = require('discord.js');
 const { connection, version } = require('mongoose');
 const os = require('os');
 const moment = require('moment-timezone');
@@ -17,7 +9,6 @@ const { infoButtons } = require('../common/components');
 module.exports = (client) => {
   /**
    * Bot information
-   * @param {GuildMember} author - Author
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
    * @returns {Promise<void>}
    */

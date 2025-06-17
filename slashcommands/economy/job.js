@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
+const { toCurrency } = require('../../functions/common/ultils');
 
 module.exports = {
   category: 'economy',
@@ -60,7 +61,10 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('Bạn đã nhận một công việc mới!')
         .setDescription(
-          `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toLocaleString()}**\\💲!\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
+          `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${toCurrency(
+            workMinutes,
+            interaction.locale,
+          )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
         )
         .setColor('Random')
         .setThumbnail(cfg.economyPNG)
@@ -75,7 +79,7 @@ module.exports = {
           .send(
             `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
               guild.name
-            }**\n\n💰 Bạn đã nhận được **${reward.toLocaleString()}**💲!${
+            }**\n\n💰 Bạn đã nhận được **${toCurrency(reward, interaction.locale)}**${
               lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
             }`,
           )

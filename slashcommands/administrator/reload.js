@@ -28,27 +28,22 @@ module.exports = {
     const { options } = interaction;
     const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;
     const subCommand = options.getSubcommand();
-    const embed = new EmbedBuilder().setColor(Colors.Green);
+    await interaction.deferReply({ flags: 64 });
 
     try {
       const CommandsType = {
         commands: async () => {
           await loadCommands(true);
           await loadComponents();
-          await interaction.reply(errorEmbed({ desc: 'Reloading commands, please wait...', emoji: true }));
         },
-        events: async () => {
-          await loadEvents();
-          await interaction.reply(errorEmbed({ desc: 'Reloading events, please wait...', emoji: true }));
-        },
-        functions: async () => {
-          await loadFunctions();
-          await interaction.reply(errorEmbed({ desc: 'Reloading functions, please wait...', emoji: true }));
-        },
+        events: async () => await loadEvents(),
+        functions: async () => await loadFunctions(),
       };
 
       if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
       else await CommandsType[subCommand]();
+
+      await interaction.editReply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
 
       setTimeout(async () => {
         await interaction.editReply(

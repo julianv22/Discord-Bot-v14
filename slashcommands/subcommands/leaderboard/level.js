@@ -1,5 +1,5 @@
 const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
-const { checkURL } = require('../../../functions/common/utilities');
+const { checkURL } = require('../../../functions/common/miscellaneous');
 
 module.exports = {
   category: 'sub command',

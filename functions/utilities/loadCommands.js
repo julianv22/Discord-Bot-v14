@@ -1,8 +1,7 @@
 const { Client, Collection, REST, Routes, heading } = require('discord.js');
-const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
-const { capitalize } = require('../common/utilities');
+const { ListByFilter, logAsciiTable } = require('../common/miscellaneous');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
@@ -11,7 +10,7 @@ module.exports = (client) => {
    * @param {boolean} [reload = false]  True if reload
    */
   client.loadCommands = async (reload = false) => {
-    const { prefixCommands, slashCommands, subCommands, envCollection } = client;
+    const { prefixCommands, slashCommands, subCommands, envCollection, logError } = client;
 
     prefixCommands.clear();
     slashCommands.clear();
@@ -61,40 +60,6 @@ module.exports = (client) => {
     await LoadCommands(commandTypes.Prefix);
     await LoadCommands(commandTypes.Slash);
     await LoadCommands(commandTypes.Sub);
-    /**
-     * List command filter by property
-     * @param {Collection<string, object} command Command's collection
-     * @param {string|'category'} [property] Property filter
-     * @returns {string[]} Command name with count array filtered by property
-     */
-    const ListByFilter = (command, property = 'category') => {
-      const commandFilter = Array.from(command.values()).reduce((acc, cmd) => {
-        acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
-        return acc;
-      }, {});
-
-      return Object.entries(commandFilter).map(([name, count]) => `📂 ${capitalize(name)} [${count}]`);
-    };
-    /**
-     *
-     * @param {Array<string>[]} data Array of 2 commands
-     * @param {object} options Ascii table options
-     * @param {string} options.title table.setTitle
-     * @param {string[]} options.heading table.setHeading
-     */
-    const logAsciiTable = (data, { title, heading }) => {
-      const table = new ascii().setBorder('│', '─', '✧', '✧');
-      if (title) table.setTitle(title);
-      if (heading) table.setHeading(heading);
-
-      const maxRows = Math.max(...data.map((col) => col.length));
-      for (let i = 0; i < maxRows; i++) {
-        const rowData = data.map((col) => col[i]) || '';
-        table.addRow(...rowData);
-      }
-
-      console.log(table.toString());
-    };
 
     const slashList = ListByFilter(slashCommands);
     const subList = ListByFilter(subCommands, 'parent');
@@ -103,7 +68,7 @@ module.exports = (client) => {
 
     logAsciiTable([prefixList, componentList], {
       title: 'Load Prefix Commands & Components',
-      heading: [commandTypes.Prefix.name + `[${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
+      heading: [commandTypes.Prefix.name + ` [${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
     });
 
     logAsciiTable([slashList, subList], {
@@ -126,7 +91,7 @@ module.exports = (client) => {
             slashArray.push(command[1].data.toJSON());
           }
         } catch (e) {
-          return console.error(chalk.red(`Error while pushing SlashCommand toJSON [ 'slashArray' ] data\n`), e);
+          return logError({ todo: 'pushing', item: 'slashCommands', desc: 'collection toJSON data' }, e);
         }
 
         try {
@@ -134,23 +99,23 @@ module.exports = (client) => {
             const rest = new REST({ version: 10 }).setToken(token);
             let data = [];
 
-            // Đăng ký Guild Commands cho bot phụ chỉ trên guildId cụ thể
             if (clientId === '995949416273940623')
               data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
-            // Đăng ký Global Commands cho bot chính
             else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
 
             console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
           } else
-            console.log(
-              chalk.yellow(
-                `[Warn] Cannot load application (/) commands to Discord API: ${chalk.red(
-                  `No data in [ 'slashArray' ]`,
-                )}`,
-              ),
+            logError(
+              {
+                todo: 'Can not load',
+                item: 'application (/) commands',
+                desc: `to Discord API: ${chalk.reset(`No data in 'slashArray':`)}`,
+                isWarn: true,
+              },
+              slashArray,
             );
         } catch (e) {
-          return console.error(chalk.yellow('Error while realoading application (/) commands to Discord API\n'), e);
+          return logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e);
         }
       })().catch(console.error);
     }

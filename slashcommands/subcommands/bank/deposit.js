@@ -1,6 +1,7 @@
 const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 const { EmbedBuilder } = require('@discordjs/builders');
+const { toCurrency } = require('../../../functions/common/ultils');
 
 module.exports = {
   category: 'sub command',
@@ -48,11 +49,19 @@ module.exports = {
           new EmbedBuilder()
             .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
             .setTitle('\\🏦 Deposit')
-            .setDescription(`\\✅ Gửi ${amount.toLocaleString()}\\💲 vào ngân hàng thành công!`)
+            .setDescription(`\\✅ Gửi ${toCurrency(amount, interaction.locale)} vào ngân hàng thành công!`)
             .addFields(
               { name: 'Số dư hiện có:', value: `\u200b`, inline: false },
-              { name: '\\💰 Balance', value: `${profile.balance.toLocaleString()}\\💲`, inline: true },
-              { name: '\\🏦 Bank', value: `${profile.bank.toLocaleString()}\\💲`, inline: true },
+              {
+                name: '\\💰 Balance',
+                value: toCurrency(profile.balance, interaction.locale),
+                inline: true,
+              },
+              {
+                name: '\\🏦 Bank',
+                value: toCurrency(profile.bank, interaction.locale),
+                inline: true,
+              },
             )
             .setColor(0x00ff00)
             .setThumbnail(cfg.economyPNG)

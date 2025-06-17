@@ -52,7 +52,7 @@ module.exports = {
         if (context) await context.execute(interaction, client);
       }
     } catch (e) {
-      return await catchError(interaction, e, `Error while executing command ${chalk.green(commandName)}`);
+      return await catchError(interaction, e, `Error while executing ${chalk.green('/' + commandName)} command`);
     }
   },
 };

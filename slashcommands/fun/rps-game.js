@@ -8,6 +8,7 @@ const {
   ComponentType,
 } = require('discord.js');
 const { setRowComponent } = require('../../functions/common/components');
+const { toCurrency } = require('../../functions/common/ultils');
 
 module.exports = {
   category: 'fun',
@@ -16,7 +17,7 @@ module.exports = {
     .setName('rps-game')
     .setDescription('RPS game.')
     .addIntegerOption((opt) =>
-      opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(100).setMaxValue(1000000),
+      opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(500).setMaxValue(1000000),
     ),
   /**
    * Play RPS game
@@ -50,7 +51,10 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle('Rock - Paper - Scissors Game')
       .setDescription(
-        `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${bet.toLocaleString()}\\💲 bạn đặt cược. Tối đa 10 lần/ngày.`,
+        `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
+          bet,
+          interaction.locale,
+        )} bạn đặt cược. Tối đa 10 lần/ngày.`,
       )
       .setColor('Random')
       .setImage(

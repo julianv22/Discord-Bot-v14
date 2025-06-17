@@ -5,7 +5,7 @@ const { readFiles, requireCommands } = require('../common/initLoader');
 /** @param {Client} client - Client */
 module.exports = (client) => {
   client.loadComponents = async () => {
-    const { envCollection } = client;
+    const { envCollection, logError } = client;
     envCollection.clear();
     const compFolder = 'components';
 
@@ -22,7 +22,7 @@ module.exports = (client) => {
         }
       }
     } catch (e) {
-      console.error(chalk.yellow('Error while executing loadComponents function\n'), e);
+      logError({ item: 'loadComponents', desc: 'function' }, e);
     }
   };
 };

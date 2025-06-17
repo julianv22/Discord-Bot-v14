@@ -1,11 +1,11 @@
 const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('./common/initLoader');
-const { capitalize } = require('./common/utilities');
+const { capitalize } = require('./common/miscellaneous');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
-  client.loadFunctions = () => {
+  client.loadFunctions = async () => {
     try {
       const funcFolder = 'functions';
       const ignoreFolders = ['common'];
@@ -39,9 +39,13 @@ module.exports = (client) => {
           }
         }
       }
-      client.envCollection.set(funcFolder, { name: `${capitalize(funcFolder)} [${totalCount}]`, value: funcArray });
+
+      await client.envCollection.set(funcFolder, {
+        name: `${capitalize(funcFolder)} [${totalCount}]`,
+        value: funcArray,
+      });
     } catch (e) {
-      console.error(chalk.yellow('Error while executing loadFunctions\n'), e);
+      client.logError({ item: 'loadFunctions', desc: 'function' }, e);
     }
   };
 };

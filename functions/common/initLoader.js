@@ -1,6 +1,7 @@
 const { Collection } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
 const path = require('path');
+const { logError } = require('./ultils');
 /**
  * Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
  * @param {string} folderPath Đường dẫn đến folder cần đọc.
@@ -14,30 +15,18 @@ const path = require('path');
  */
 function readFiles(folderPath, options = {}) {
   const { all = false, isDir = false, extension = '.js', filter: func } = options;
-  const FileType = all ? 'AllFiles' : isDir ? 'Directories' : extension + ' files';
-
-  const logError = (item, path, e, isWarn = false) => {
-    const func = isWarn ? console.warn : console.error;
-    const color = isWarn ? 'yellow' : 'red';
-    const start = isWarn ? chalk[color]('[Warn]') : chalk[color]('Error');
-    const todo = isWarn ? chalk[color]('Custom filter provided for') : chalk[color]('while reading');
-    const itemType = isDir ? chalk[color]('folder') : chalk[color]('file');
-
-    if (isWarn) func(start, todo, itemType, chalk[color]('in'), chalk.green(path), chalk[color]('is not a function'));
-    else func(start, todo, itemType, `[ ${item} ]`, chalk[color]('in'), chalk.green(`${path}\n`), e);
-  };
-
+  const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
   try {
     const Read = {
       AllFiles: () => {
         return readdirSync(folderPath);
       },
-      Directories: () => {
+      folders: () => {
         return readdirSync(folderPath).filter((folder) => {
           try {
             return statSync(path.join(folderPath, folder)).isDirectory();
           } catch (e) {
-            logError(folder, folderPath, e);
+            logError({ todo: 'reading', item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
             return false;
           }
         });
@@ -47,7 +36,7 @@ function readFiles(folderPath, options = {}) {
           try {
             return statSync(path.join(folderPath, file)).isFile() && file.endsWith(extension);
           } catch (e) {
-            logError(file, folderPath, e);
+            logError({ todo: 'reading', item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
             return false;
           }
         });
@@ -58,11 +47,20 @@ function readFiles(folderPath, options = {}) {
 
     if (func)
       if (typeof func === 'function') result = result.filter(func);
-      else logError(null, folderPath, null, true);
+      else
+        logError(
+          {
+            isWarn: true,
+            todo: 'Custom filter provided for',
+            item: FileType,
+            desc: `in ${chalk.green(folderPath)} folder is not a function:`,
+          },
+          typeof func,
+        );
 
     return result;
   } catch (e) {
-    logError(FileType.toLowerCase(), folderPath, e);
+    logError({ item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
     return [];
   }
 }
@@ -78,54 +76,60 @@ function requireCommands(filePath, folderName, collection) {
   const file = parts.pop();
   const folder = parts.slice(-1);
 
+  const missingWarn = (commandName, errMessage) => {
+    let message =
+      'is missing ' +
+      errMessage
+        .split(',')
+        .map((m) => `'${m}'`)
+        .join(' or ') +
+      ' property';
+    if (errMessage === 'execute') message = "is missing 'execute' property or is not function";
+
+    console.warn(
+      chalk.yellow('[Warn] ' + commandName),
+      file,
+      chalk.yellow('in'),
+      chalk.green(folder),
+      chalk.yellow(message),
+    );
+  };
+
   try {
     // Xóa cache để đảm bảo tải lại file nếu có thay đổi (hữu ích cho hot-reloading)
     delete require.cache[require.resolve(filePath)];
     const command = require(filePath);
 
     if (!command) {
-      console.warn(chalk.yellow('[Warn] Invalid file or empty at'), file, chalk.yellow('in'), chalk.green(folder));
+      logError({
+        isWarn: true,
+        todo: 'Invalid or empty file at',
+        item: file,
+        desc: `in ${chalk.green(folder)} folder`,
+      });
       return null;
     }
 
-    const logWarn = (commandName, errMessage) => {
-      let message =
-        'is missing ' +
-        errMessage
-          .split(',')
-          .map((m) => `'${m}'`)
-          .join(' or ') +
-        ' property';
-      if (errMessage === 'execute') message = "is missing 'execute' property or is not function";
-
-      console.warn(
-        chalk.yellow('[Warn] ' + commandName),
-        file,
-        chalk.yellow('in'),
-        chalk.green(folder),
-        chalk.yellow(message),
-      );
-    };
-
     const setCollection = {
       prefixcommands: () => {
-        if (!command.name) logWarn('Prefix Command', 'name');
-        else if (!command.execute || typeof command.execute !== 'function') logWarn('Prefix Command', 'execute');
+        if (!command.name) missingWarn('Prefix Command', 'name');
+        else if (!command.execute || typeof command.execute !== 'function') missingWarn('Prefix Command', 'execute');
         else collection.set(command.name, command);
       },
       slashcommands: () => {
-        if (!command.data || !command?.data.name) logWarn('Slash Command', 'data,data.name');
-        else if (!command.execute || typeof command.execute !== 'function') logWarn('Slash Command', 'execute');
+        if (!command.data || !command?.data.name) missingWarn('Slash Command', 'data,data.name');
+        else if (!command.execute || typeof command.execute !== 'function') missingWarn('Slash Command', 'execute');
         else collection.set(command.data.name, command);
       },
       [path.join('slashcommands', 'subcommands')]: () => {
-        if (!command.parent || !command.data || !command?.data.name) logWarn('Sub Command', 'parent,data,data.name');
-        else if (!command.execute || typeof command.execute !== 'function') logWarn('Sub Command', 'execute');
+        if (!command.parent || !command.data || !command?.data.name)
+          missingWarn('Sub Command', 'parent,data,data.name');
+        else if (!command.execute || typeof command.execute !== 'function') missingWarn('Sub Command', 'execute');
         else collection.set(`${command.parent}|${command.data.name}`, command);
       },
       components: () => {
-        if (!command.type || !command.data || !command?.data.name) logWarn('Component', 'type,data,data.name');
-        else if (!command.execute || typeof command.execute !== 'function') logWarn('Component', 'execute');
+        if (!command.type || !command.data || !command?.data.name) missingWarn('Component', 'type,data,data.name');
+        else if (!command.execute || typeof command.execute !== 'function') missingWarn('Component', 'execute');
         else collection.set(`${command.type}|${command.data.name}`, command);
       },
     };
@@ -135,7 +139,7 @@ function requireCommands(filePath, folderName, collection) {
 
     return command;
   } catch (e) {
-    console.error(chalk.red('Error while requiring file'), file, chalk.red('in'), chalk.green(`${folder}\n`), e);
+    logError({ todo: 'requiring file', item: file, desc: `in ${chalk.green(folder)} folder` }, e);
     return null;
   }
 }

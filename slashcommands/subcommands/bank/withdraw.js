@@ -1,5 +1,6 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
+const { toCurrency } = require('../../../functions/common/ultils');
 
 module.exports = {
   category: 'sub command',
@@ -33,7 +34,7 @@ module.exports = {
         );
 
       profile.bank -= amount;
-      const fee = Math.floor(amount * 0.01).toLocaleString();
+      const fee = Math.floor(amount * 0.01);
       profile.balance += amount - fee;
       await profile.save().catch(console.error);
 
@@ -43,14 +44,23 @@ module.exports = {
             .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
             .setTitle('\\🏦 Withdraw')
             .setDescription(
-              `\\✅ Rút ${amount.toLocaleString()}\\💲 thành công!\n\nBạn bị trừ ${fee}\\💲 (1%) phí rút tiền còn ${(
-                amount - fee
-              ).toLocaleString()}\\💲.`,
+              `\\✅ Rút ${toCurrency(amount, interaction.locale)} thành công!\n\nBạn bị trừ ${toCurrency(
+                fee,
+                interaction.locale,
+              )} (1%) phí rút tiền còn ${toCurrency(amount - fee, interaction.locale)}.`,
             )
             .addFields(
               { name: 'Số dư hiện có:', value: '\u200b', inline: false },
-              { name: '\\💰 Balance', value: `${profile.balance.toLocaleString()}\\💲`, inline: true },
-              { name: '\\🏦 Bank', value: `${profile.bank.toLocaleString()}\\💲`, inline: true },
+              {
+                name: '\\💰 Balance',
+                value: toCurrency(profile.balance, interaction.locale),
+                inline: true,
+              },
+              {
+                name: '\\🏦 Bank',
+                value: toCurrency(profile.bank, interaction.locale),
+                inline: true,
+              },
             )
             .setColor(0x00ff00)
             .setThumbnail(cfg.economyPNG)

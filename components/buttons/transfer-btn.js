@@ -54,7 +54,19 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('\\✅ Chuyển tiền thành công!')
         .setDescription(
-          `\\♻️ Bạn đã chuyển **${amount.toLocaleString()}\\💲** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toLocaleString()}\\💲**\n\n\\💸 Tổng trừ: **${total.toLocaleString()}\\💲**\n\n\\🏦 Số dư còn lại: **${profile.bank.toLocaleString()}\\💲**`,
+          `\\♻️ Bạn đã chuyển **${amount.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          })}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          })}**\n\n\\💸 Tổng trừ: **${total.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          })}**\n\n\\🏦 Số dư còn lại: **${profile.bank.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          })}**`,
         )
         .setColor(Colors.Green)
         .setThumbnail(cfg.economyPNG)
@@ -66,9 +78,12 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('Bạn vừa nhận được tiền!')
         .setDescription(
-          `Bạn vừa nhận được **${amount.toLocaleString()}\\💲** từ <@${user.id}> trong guild ${
-            guild.name
-          }.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toLocaleString()}\\💲**`,
+          `Bạn vừa nhận được **${amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}** từ <@${
+            user.id
+          }> trong guild ${guild.name}.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          })}**`,
         )
         .setColor(Colors.Green)
         .setThumbnail(cfg.economyPNG)

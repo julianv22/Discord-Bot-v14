@@ -1,5 +1,7 @@
 const { Client } = require('discord.js');
+const os = require('os');
 const pkg = require('../../package.json');
+const listCommands = require('../../functions/utilities/listCommands');
 
 module.exports = {
   name: 'ready',
@@ -9,7 +11,7 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(client) {
-    const { setPresence, serverStats, checkVideos, user, guilds, channels } = client;
+    const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
     const log = (message, color = 'reset') => console.log(chalk[color](message));
     const table = ({ name, value, nameColor = 'blue', valueColor = 'cyan', tab = 1 }) => {
       if (Array.isArray(name) && Array.isArray(value)) {
@@ -40,6 +42,7 @@ module.exports = {
       name: ['💻 System', '💾 Memory'],
       value: [`${process.platform} ${process.arch}`, (process.memoryUsage().rss / 1024 / 1024).toFixed(1) + ' MB'],
     });
+    table({ name: '⚛️  Core', value: os.cpus()[0].model });
     table({
       name: ['🟢 Heap Used', '🟡 Total'],
       value: [
@@ -48,9 +51,8 @@ module.exports = {
       ],
       tab: 0,
     });
-    table({ name: '📆 Last update:', value: '18:00 Thứ Hai, 16/6/2025 (GMT+7)' });
+    table({ name: '📆 Last update:', value: '02:20 Thứ Tư, 18 tháng 6, 2025' });
     log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
-    log(`${'-'.repeat(12)}[ Project is started ]${'-'.repeat(12)}\n`, 'bgYellow');
 
     try {
       const servers = guilds.cache.map((g) => g);
@@ -84,7 +86,7 @@ module.exports = {
         }, 5 * 60 * 1000);
       }
     } catch (e) {
-      console.error(chalk.red('Error while running event ready\n'), e);
+      logError({ todo: 'running', item: 'ready', desc: `event from ${chalk.green('client events')}` }, e);
     }
   },
 };

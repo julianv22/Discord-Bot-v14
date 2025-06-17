@@ -1,13 +1,12 @@
 const { Client } = require('discord.js');
-const ascii = require('ascii-table');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
-const { capitalize } = require('../common/utilities');
+const { capitalize, logAsciiTable } = require('../common/miscellaneous');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
-  client.loadEvents = () => {
-    const { envCollection } = client;
+  client.loadEvents = async () => {
+    const { envCollection, logError } = client;
     try {
       const eventFolder = 'events';
       const eventFolders = readFiles(eventFolder, { isDir: true });
@@ -52,22 +51,15 @@ module.exports = (client) => {
         }
       }
 
-      client.envCollection.set(eventFolder, {
-        name: `${capitalize(eventFolder)} [${totalCount}]`,
-        value: eventArray,
-      });
+      await envCollection.set(eventFolder, { name: `${capitalize(eventFolder)} [${totalCount}]`, value: eventArray });
 
       const [functions, events] = [envCollection.get('functions'), envCollection.get(eventFolder)];
-      const table = new ascii()
-        .setTitle('Load Functions & Events')
-        .setHeading(functions.name, events.name)
-        .setBorder('│', '─', '✧', '✧');
-
-      const maxRows = Math.max(functions.value.length, events.value.length);
-      for (let i = 0; i < maxRows; i++) table.addRow(functions.value[i] || '', events.value[i] || '');
-      console.log(table.toString());
+      logAsciiTable([functions.value, events.value], {
+        title: 'Load Functions & Events',
+        heading: [functions.name, events.name],
+      });
     } catch (e) {
-      console.error(chalk.yellow('Error while executing loadEvents function\n'), e);
+      logError({ item: 'loadEvents', desc: 'function' }, e);
     }
   };
 };

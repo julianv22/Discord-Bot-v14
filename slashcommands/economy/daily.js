@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
+const { toCurrency } = require('../../functions/common/ultils');
 
 module.exports = {
   category: 'economy',
@@ -93,7 +94,10 @@ module.exports = {
         if (achv) {
           profile.balance += achv.reward;
           profile.totalEarned += achv.reward;
-          bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${achv.reward.toLocaleString()}** \\💲!`;
+          bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${toCurrency(
+            achv.reward,
+            interaction.locale,
+          )}**`;
           // Thêm achievement nếu chưa có
           if (!profile.achievements.includes(achv.name)) {
             profile.achievements.push(achv.name);
@@ -122,7 +126,13 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('Nhận \\💲 hằng ngày!')
         .setDescription(
-          `Bạn đã nhận thành công **${dailyAmount.toLocaleString()}**\\💲 ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toLocaleString()}**\\💲.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
+          `Bạn đã nhận thành công **${toCurrency(
+            dailyAmount,
+            interaction.locale,
+          )}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
+            profile.balance,
+            interaction.locale,
+          )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
         )
         .setColor('Random')
         .setThumbnail(cfg.economyPNG)

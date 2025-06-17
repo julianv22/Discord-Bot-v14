@@ -13,7 +13,6 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, guildId } = interaction;
     const { errorEmbed, catchError } = client;
-
     try {
       /**
        * Get channel title
