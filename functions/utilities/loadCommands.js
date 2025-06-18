@@ -1,7 +1,7 @@
-const { Client, Collection, REST, Routes, heading } = require('discord.js');
+const { Client, Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
-const { ListByFilter, logAsciiTable } = require('../common/miscellaneous');
+const { ListByFilter, logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
@@ -65,6 +65,7 @@ module.exports = (client) => {
     const subList = ListByFilter(subCommands, 'parent');
     const prefixList = ListByFilter(prefixCommands);
     const componentList = ListByFilter(envCollection, 'type');
+    console.log('🚀', componentList);
 
     logAsciiTable([prefixList, componentList], {
       title: 'Load Prefix Commands & Components',

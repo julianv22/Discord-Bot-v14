@@ -13,15 +13,6 @@ module.exports = {
    * @param {Client} client - Client
    */
   async execute(interaction, client) {
-    const { options } = interaction;
-    const { botInfo } = client;
-    const subCommand = options.getSubcommand();
-
-    const showInfo = {
-      info: async () => await botInfo(interaction),
-    };
-
-    if (!showInfo[subCommand]) throw new Error(`Invalid SubCommand ${chalk.green(subCommand)}`);
-    else await showInfo[subCommand]();
+    await client.botInfo(interaction);
   },
 };

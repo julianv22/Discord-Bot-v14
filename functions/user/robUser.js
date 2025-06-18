@@ -1,6 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const { toCurrency } = require('../common/ultils');
+const { toCurrency } = require('../common/utilities');
 
 /** @param {Client} client - Client. */
 module.exports = (client) => {

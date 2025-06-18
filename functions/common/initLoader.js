@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
 const { readdirSync, statSync } = require('fs');
 const path = require('path');
-const { logError } = require('./ultils');
+const { logError } = require('./utilities');
 /**
  * Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
  * @param {string} folderPath Đường dẫn đến folder cần đọc.

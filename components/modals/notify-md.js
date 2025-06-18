@@ -1,5 +1,5 @@
 const { EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
-const { checkURL } = require('../../functions/common/miscellaneous');
+const { checkURL } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',

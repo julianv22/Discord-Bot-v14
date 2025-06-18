@@ -6,20 +6,23 @@ module.exports = (client) => {
    * Catch Error function
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
    * @param {Error} e - Error when catched
-   * @param {string|ChatInputCommandInteraction} message Error message
+   * @param {string|ChatInputCommandInteraction} description Error description
    */
-  client.catchError = async (object, e, message) => {
-    let errorMessage = 'Unknown error';
+  client.catchError = async (object, e, description) => {
+    const errorMessage = () => {
+      if (!description) return 'Unknown error';
 
-    if (typeof message === 'string') errorMessage = message;
-    else
-      errorMessage = chalk.red(
-        `Error while executing ${chalk.green(`/${message.parent + ' ' || ''}${message.data.name}`)} command`,
-      );
+      if (typeof description === 'string') return description;
 
-    const embed = client.errorEmbed({ title: `\\❌ ${errorMessage}`, desc: e, color: Colors.Red });
+      if (typeof description === 'object')
+        return `Error while executing ${chalk.green(
+          `/${description.parent ? description.parent + ' ' : ''}${description.data.name}`,
+        )} command`;
+    };
 
-    console.error(chalk.red(errorMessage + '\n'), e);
+    const embed = client.errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.Red });
+
+    console.error(chalk.red(errorMessage() + '\n'), e);
 
     if (object.author)
       return await object.reply(embed).then((m) =>
@@ -77,8 +80,8 @@ module.exports = (client) => {
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
-    let second = chalk.reset(item);
-    second += (item ? ' ' : '') + chalk.green(desc);
+    let second = chalk.green(item);
+    second += (item ? ' ' : '') + chalk[color](desc);
     second += '\n';
 
     const func = isWarn ? console.warn : console.error;

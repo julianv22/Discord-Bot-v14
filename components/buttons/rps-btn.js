@@ -1,7 +1,7 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
-const { toVND } = require('../../functions/common/ultils');
+const { toVND } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'buttons',

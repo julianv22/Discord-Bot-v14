@@ -35,11 +35,15 @@ mongoose
   .then(() => {
     console.log(chalk.green.bold('✅ Connected to mongodb'));
 
-    require(`./functions/loadFunctions`)(client);
+    require('./functions/tool/catchError')(client); // Đăng ký function catchError vào client
+    require('./functions/common/utilities').init(client); // Đăng ký và truyền client vào ultilities
+    require('./functions/loadFunctions')(client); // Đăng ký function loadFunctions vào client
+
     client.loadFunctions();
     client.loadCommands();
     client.loadComponents();
     client.loadEvents();
+
     client.login(process.env.token).catch((e) => {
       console.error(chalk.red(e));
     });

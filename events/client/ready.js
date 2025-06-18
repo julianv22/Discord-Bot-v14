@@ -1,7 +1,6 @@
 const { Client } = require('discord.js');
 const os = require('os');
 const pkg = require('../../package.json');
-const listCommands = require('../../functions/utilities/listCommands');
 
 module.exports = {
   name: 'ready',

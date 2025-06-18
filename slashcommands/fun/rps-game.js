@@ -8,7 +8,7 @@ const {
   ComponentType,
 } = require('discord.js');
 const { setRowComponent } = require('../../functions/common/components');
-const { toCurrency } = require('../../functions/common/ultils');
+const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'fun',

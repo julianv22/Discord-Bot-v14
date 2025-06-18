@@ -1,7 +1,7 @@
 const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
-const { capitalize, logAsciiTable } = require('../common/miscellaneous');
+const { capitalize, logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {

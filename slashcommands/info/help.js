@@ -7,7 +7,7 @@ const {
   ComponentType,
 } = require('discord.js');
 const { setRowComponent, infoButtons } = require('../../functions/common/components');
-const { capitalize } = require('../../functions/common/miscellaneous');
+const { capitalize } = require('../../functions/common/utilities');
 const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {

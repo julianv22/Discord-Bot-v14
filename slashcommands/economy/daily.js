@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
-const { toCurrency } = require('../../functions/common/ultils');
+const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'economy',

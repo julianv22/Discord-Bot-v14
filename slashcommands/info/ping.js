@@ -16,7 +16,6 @@ module.exports = {
     // const delay = sent.createdTimestamp - interaction.createdTimestamp;
     const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
     const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
-
     return await interaction.editReply(
       errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }),
     );

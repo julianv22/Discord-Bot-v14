@@ -1,6 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { getEmbedColor } = require('../../functions/common/manage-embed');
-const { checkURL, replaceVar } = require('../../functions/common/miscellaneous');
+const { checkURL, replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',

@@ -1,0 +1,152 @@
+const { Locale, Collection } = require('discord.js');
+const asciiTable = require('ascii-table');
+const path = require('path');
+
+let _client;
+
+module.exports = {
+  init: (client) => (_client = client),
+  logError: (...args) => {
+    if (!_client)
+      return console.error(
+        chalk.red('Client not initialized for'),
+        chalk.green(path.join('functions', 'common', 'utilities.js')),
+      );
+    _client.logError(...args);
+  },
+  /**
+   * Chuyển đổi tiền tệ
+   * @param {number} balance Số tiền
+   * @param {Locale} userLocale Mã khu vực (vd: `'vi-VN'`)
+   * @returns
+   */
+  toCurrency: (balance, userLocale = 'vi-VN') => {
+    const CurrencyMap = {
+      'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
+      'en-GB': 'VND', // Tiếng Anh (Anh) -> Đô la Mỹ
+      'vi-VN': 'VND', // Tiếng Việt -> Đồng Việt Nam
+      ja: 'JPY', // Tiếng Nhật -> Yên Nhật
+      'zh-CN': 'CNY', // Tiếng Trung giản thể (Trung Quốc) -> Nhân dân tệ
+      ko: 'KRW', // Tiếng Hàn -> Won Hàn Quốc
+      fr: 'EUR', // Tiếng Pháp (hoặc các ngôn ngữ châu Âu khác) -> Euro
+      de: 'EUR', // Tiếng Đức -> Euro
+      'es-ES': 'EUR', // Tiếng Tây Ban Nha -> Euro
+    };
+
+    try {
+      return balance.toLocaleString('vi-VN', {
+        style: 'currency',
+        currency: CurrencyMap[userLocale] || 'VND',
+        minimumFractionDigits: 0, // Điều chỉnh số chữ số thập phân tối thiểu
+        maximumFractionDigits: 2, // Điều chỉnh số chữ số thập phân tối đa
+      });
+    } catch (e) {
+      _client.logError({ todo: 'Lỗi định dạng số tiền cho locale', item: userLocale, desc: 'và tiền tệ' }, e);
+      return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+  },
+  /**
+   * Lấy video mới nhất từ các kênh Youtube
+   * @param {string} channelId - Channel ID
+   * @returns {object} - Return videoId, channelTitle, videoTitle
+   */ getLatestVideoId: async (channelId) => {
+    try {
+      const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
+      if (!res.ok) return { videoId: null, title: null };
+      const xml = await res.text();
+      const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+      const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
+      // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
+      const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
+      const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
+      return { videoId: match ? match[1] : null, channelTitle, videoTitle };
+    } catch {
+      return { videoId: null, channelTitle: null, videoTitle: null };
+    }
+  },
+  /**
+   * Check URL
+   * @param {string} strInput - String input
+   * @returns {boolean|null} - Return true if the string is a valid URL, otherwise return false
+   */
+  checkURL: (strInput) => {
+    try {
+      if (strInput) {
+        let res = strInput.match(
+          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+        );
+        return res !== null;
+      }
+      return false;
+    } catch (e) {
+      _client.logError({ item: 'checkURL', desc: 'function' }, e);
+      return null;
+    }
+  },
+  /**
+   * Tìm kiếm và thay thế các biến trong chuỗi
+   * @param {string} str - String cần thay thế
+   * @param {object} replacements - Object chứa các biến và giá trị tương ứng
+   * @returns {string} - String đã được thay thế
+   */
+  replaceVar: (str, replacements) => {
+    // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
+    // Ví dụ: {user}, {guild}, {avatar}
+    return str.replace(/\{(\w+)\}/g, (match, key) => {
+      // Nếu key tồn tại trong đối tượng replacements, trả về giá trị đó.
+      // Nếu không, trả về lại match gốc để không thay đổi phần đó.
+      return replacements[key] !== undefined ? replacements[key] : match;
+    });
+  },
+  /**
+   * Viết hoa chữ cái đầu tiên của string
+   * @param {string} str - String cần viết hoa
+   * @returns {string} - String đã được viết hoa
+   */
+  capitalize: (str) => {
+    if (!str) return ''; // Xử lý string rỗng hoặc undefined
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  },
+  /**
+   * Thống kê các command từ Collection ra mảng
+   * @param {Collection<string, object} command Command collection
+   * @param {string|'category'} [property] Bộ lọc theo key của collection
+   * @returns {string[]} Return mảng danh sách command đã được thống kê theo key
+   * Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`
+   */
+  ListByFilter: (command, property = 'category') => {
+    const commandFilter = Array.from(command.values()).reduce((acc, cmd) => {
+      acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
+      return acc;
+    }, {});
+    return Object.entries(commandFilter).map(([name, count]) => `📂 ${module.exports.capitalize(name)} [${count}]`);
+  },
+  /**
+   * Log 2 mảng dữ liệu ra asciiTable
+   * @param {Array<string>[]} data Mảng dữ liệu
+   * @param {object} options Các thuộc tính của bảng asciiTable
+   * @param {string} options.title `table.setTitle` Tiêu đề của bảng asciiTable
+   * @param {string[]} options.heading `table.setHeading` Tên các cột của bảng asciiTable
+   */
+  logAsciiTable: (data, { title, heading }) => {
+    if (!data || !Array.isArray(data))
+      return console.warn(chalk.yellow("[Warn] Values from 'data' is undefined or not an array:"), typeof data);
+    if (data.length > 2)
+      return _client.logError({
+        isWarn: true,
+        todo: `Array 'data' length is more than 2 items:`,
+        item: data.length,
+        desc: 'items',
+      });
+
+    const table = new asciiTable().setBorder('│', '─', '✧', '✧');
+    if (title) table.setTitle(title);
+    if (heading) table.setHeading(heading);
+
+    const maxRows = Math.max(...data.map((col) => col.length));
+    for (let i = 0; i < maxRows; i++) {
+      table.addRow(...(data.map((col) => col[i]) || ''));
+    }
+    console.log(table.toString());
+  },
+};

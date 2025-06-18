@@ -1,11 +1,12 @@
 const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('./common/initLoader');
-const { capitalize } = require('./common/miscellaneous');
+const { capitalize } = require('./common/utilities');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
   client.loadFunctions = async () => {
+    client.logError({ item: 1, desc: 2 });
     try {
       const funcFolder = 'functions';
       const ignoreFolders = ['common'];

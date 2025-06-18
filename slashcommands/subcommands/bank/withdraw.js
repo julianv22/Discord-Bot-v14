@@ -1,6 +1,6 @@
 const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
-const { toCurrency } = require('../../../functions/common/ultils');
+const { toCurrency } = require('../../../functions/common/utilities');
 
 module.exports = {
   category: 'sub command',
