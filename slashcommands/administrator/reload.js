@@ -28,27 +28,26 @@ module.exports = {
     const { options } = interaction;
     const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;
     const subCommand = options.getSubcommand();
-    await interaction.deferReply({ flags: 64 });
 
     try {
       const CommandsType = {
         commands: async () => {
-          await loadCommands(true);
+          await loadCommands();
           await loadComponents();
           return;
         },
         events: async () => {
-          return await loadEvents();
+          return await loadEvents(true);
         },
         functions: async () => {
-          return await loadFunctions();
+          return await loadFunctions(true);
         },
       };
 
       if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
       else await CommandsType[subCommand]();
 
-      await interaction.editReply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
+      await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
 
       setTimeout(async () => {
         await interaction.editReply(

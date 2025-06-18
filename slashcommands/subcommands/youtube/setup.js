@@ -1,20 +1,6 @@
 const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-/**
- * Validate Youtube channel
- * @param {string} channelId - ID of the Youtube channel
- * @param {string} apiKey - API key for Youtube
- * @returns {Promise<{ valid: boolean, title: string | null }>}
- */
-const validateYoutubeChannel = async (channelId, apiKey) => {
-  const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if (data.items && data.items.length > 0) {
-    return { valid: true, title: data.items[0].snippet.title };
-  }
-  return { valid: false, title: null };
-};
+
 module.exports = {
   category: 'sub command',
   parent: 'youtube',
@@ -29,6 +15,21 @@ module.exports = {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;
     const [yt_channel, action] = [options.getString('channel-id'), options.getString('action')];
+    /**
+     * Validate Youtube channel
+     * @param {string} channelId - ID of the Youtube channel
+     * @param {string} apiKey - API key for Youtube
+     * @returns {Promise<{ valid: boolean, title: string | null }>}
+     */
+    const validateYoutubeChannel = async (channelId, apiKey) => {
+      const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        return { valid: true, title: data.items[0].snippet.title };
+      }
+      return { valid: false, title: null };
+    };
 
     try {
       // Xác thực channel ID và lấy tên kênh

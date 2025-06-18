@@ -15,7 +15,6 @@ module.exports = {
   async execute(message, args, client) {
     const { commandUsage, prefixCommands, listCommands } = client;
     const { author: user, guild } = message;
-    const { commands, count } = listCommands(prefixCommands);
 
     if (args.join(' ').trim() === '?')
       return await commandUsage(
@@ -36,11 +35,11 @@ module.exports = {
       .setThumbnail(cfg.helpPNG)
       .addFields([
         {
-          name: `Tổng số command: [${count}]`,
+          name: `Tổng số command: [${prefixCommands.size}]`,
           value: `Command prefix: [\`${prefix}\`]`,
         },
       ])
-      .addFields(commands)
+      .addFields(listCommands(prefixCommands))
       .addFields([
         {
           name: `\u200b`,

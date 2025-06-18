@@ -5,7 +5,7 @@ const { capitalize } = require('./common/utilities');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
-  client.loadFunctions = async () => {
+  client.loadFunctions = async (reload = false) => {
     const { logError } = client;
 
     try {
@@ -36,10 +36,11 @@ module.exports = (client) => {
         }
       }
 
-      await client.envCollection.set(funcFolder, {
-        name: `${capitalize(funcFolder)} [${totalCount}]`,
-        value: funcArray,
-      });
+      if (!reload)
+        await client.envCollection.set(funcFolder, {
+          name: `${capitalize(funcFolder)} [${totalCount}]`,
+          value: funcArray,
+        });
     } catch (e) {
       return logError({ item: 'loadFunctions', desc: 'function' }, e);
     }

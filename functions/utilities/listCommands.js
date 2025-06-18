@@ -5,29 +5,28 @@ const { capitalize } = require('../common/utilities');
 module.exports = (client) => {
   /**
    * List of commands
-   * @param {Collection} CommandType - CommandType object
-   * @returns {object} - Return object with commands and count
+   * @param {Collection<string, object>} command
+   * @param {string|'category'} [property]
+   * @returns {Array<object>}
    */
-  client.listCommands = (CommandType) => {
+  client.listCommands = (command, property = 'category') => {
     try {
+      const commandCat = command.reduce((acc, cmd) => {
+        acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
+        return acc;
+      }, {});
+
       let commands = [];
-      const cmdCategories = CommandType.map((cmd) => cmd.category);
-      const filters = cmdCategories.filter((item, index) => cmdCategories.indexOf(item) === index);
+      Object.entries(commandCat).forEach(([prop, count]) => {
+        let cmds = command.filter((cmd) => cmd[property] === prop).map((c) => c?.data?.name || c?.name);
 
-      let count = 0;
-      for (const category of filters) {
-        let cmd;
-        cmd = CommandType.map((cmd) => cmd).filter((cmd) => cmd.category === category);
-        count += cmd.length;
         commands.push({
-          name: `\\📂 ${capitalize(category)} [${cmd.length}]`,
-          value: `\`\`\`ansi\n\x1b[36m${cmd
-            .map((cmd) => (cmd.data ? cmd.data.name : cmd.name))
-            .join(' | ')}\x1b[0m\`\`\``,
+          name: `\\📂 ${capitalize(prop)} [${count}]`,
+          value: `\`\`\`ansi\n\x1b[36m${cmds.join(' | ')}\x1b[0m\`\`\``,
         });
-      }
+      });
 
-      return { commands: commands, count: count };
+      return commands;
     } catch (e) {
       client.logError({ item: 'listCommands', desc: 'function' }, e);
     }

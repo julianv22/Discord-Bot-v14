@@ -5,7 +5,7 @@ const { capitalize, logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Client */
 module.exports = (client) => {
-  client.loadEvents = async () => {
+  client.loadEvents = async (reload = false) => {
     const { envCollection, logError } = client;
 
     try {
@@ -44,15 +44,18 @@ module.exports = (client) => {
         }
       }
 
-      await envCollection.set(eventFolder, { name: `${capitalize(eventFolder)} [${totalCount}]`, value: eventArray });
+      if (!reload) {
+        await envCollection.set(eventFolder, { name: `${capitalize(eventFolder)} [${totalCount}]`, value: eventArray });
 
-      const functions = envCollection.get('functions');
-      const events = envCollection.get(eventFolder);
+        const functions = envCollection.get('functions');
+        const events = envCollection.get(eventFolder);
 
-      logAsciiTable([functions.value, events.value], {
-        title: 'Load Functions & Events',
-        heading: [functions.name, events.name],
-      });
+        if (functions && events)
+          logAsciiTable([functions?.value, events?.value], {
+            title: 'Load Functions & Events',
+            heading: [functions?.name, events?.name],
+          });
+      }
     } catch (e) {
       return logError({ item: 'loadEvents', desc: 'function' }, e);
     }

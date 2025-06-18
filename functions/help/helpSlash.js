@@ -9,7 +9,7 @@ module.exports = (client) => {
    * @param {ChatInputCommandInteraction} interaction - Interaction object.
    */
   client.helpSlash = async (CommandType, interaction) => {
-    const { slashCommands, subCommands } = client;
+    const { slashCommands, subCommands, listCommands } = client;
     const { guild, user } = interaction;
     /**
      * Help Embed
@@ -34,32 +34,19 @@ module.exports = (client) => {
     let commands = [];
     const ShowCommand = {
       subcommands: async () => {
-        let parents = Array.from(subCommands.values()).map((sub) => sub.parent);
-        parents = parents.filter((item, index) => parents.indexOf(item) === index);
-
-        let totalCount = 0;
-        for (const parent of parents) {
-          const command = subCommands.filter((sub) => sub.parent === parent);
-          commands.push({
-            name: `/${parent} [${command.size}]`,
-            value: `\`\`\`ansi\n\x1b[36m${command
-              .map((cmd) => `${cmd.data?.name || cmd.name}`)
-              .join(' | ')}\x1b[0m\`\`\``,
-          });
-          totalCount += command.size;
-        }
-        return await interaction.update({ embeds: [helpEmbed('Sub', commands, totalCount)] });
+        return await interaction.update({
+          embeds: [helpEmbed('Sub', listCommands(subCommands, 'parent'), subCommands.size)],
+        });
       },
       default: async () => {
-        commands = Array.from(slashCommands.values()).filter(
-          (cmd) => cmd.category.toLowerCase() === CommandType.toLowerCase(),
-        );
-        commands = commands.map((cmd) => ({
-          name: `/${cmd.data?.name || cmd.name}`,
-          value: `\`\`\`ansi\n\x1b[36m${cmd.data?.description || cmd.description}\x1b[0m\`\`\``,
-        }));
+        const commands = slashCommands
+          .filter((cmd) => cmd.category.toLowerCase() === CommandType.toLowerCase())
+          .map((cmd) => ({
+            name: `/${cmd?.data?.name || cmd?.name}`,
+            value: `\`\`\`ansi\n\x1b[36m${cmd?.data?.description || cmd?.description}\x1b[0m\`\`\``,
+          }));
         return await interaction.update({
-          embeds: [helpEmbed(CommandType, commands, commands.length)],
+          embeds: [helpEmbed(CommandType, commands, CommandType.length)],
         });
       },
     };

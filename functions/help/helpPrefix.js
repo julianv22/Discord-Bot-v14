@@ -9,7 +9,6 @@ module.exports = (client) => {
   client.helpPrefix = async (interaction) => {
     const { guild, user } = interaction;
     const { prefixCommands, listCommands } = client;
-    const { commands = '❌ | No commands', count = 0 } = listCommands(prefixCommands);
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle(`Prefix Commands [\`${prefix}\`] List`)
@@ -17,11 +16,11 @@ module.exports = (client) => {
       .setColor('Random')
       .addFields([
         {
-          name: `Total commands: [${count}]`,
+          name: `Total commands: [${prefixCommands.size}]`,
           value: `Command prefix: [\`${prefix}\`]`,
         },
       ])
-      .addFields(commands)
+      .addFields(listCommands(prefixCommands))
       .addFields([
         {
           name: `\u200b`,

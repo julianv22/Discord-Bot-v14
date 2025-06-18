@@ -17,7 +17,7 @@ module.exports = {
   /**
    * Chuyển đổi tiền tệ
    * @param {number} balance Số tiền
-   * @param {Locale} userLocale Mã khu vực (vd: `'vi-VN'`)
+   * @param {Locale|'vi-VN'} [userLocale] Mã khu vực (vd: `'vi-VN'`)
    * @returns
    */
   toCurrency: (balance, userLocale = 'vi-VN') => {
@@ -109,35 +109,39 @@ module.exports = {
   },
   /**
    * Thống kê các command từ Collection ra mảng
-   * @param {Collection<string, object} command Command collection
+   * @param {Collection<string, object>} command Command collection
    * @param {string|'category'} [property] Bộ lọc theo key của collection
    * @returns {string[]} Return mảng danh sách command đã được thống kê theo key
    * Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`
    */
   ListByFilter: (command, property = 'category') => {
-    const commandFilter = Array.from(command.values()).reduce((acc, cmd) => {
+    const commandFilter = command.reduce((acc, cmd) => {
       acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
       return acc;
     }, {});
+
     return Object.entries(commandFilter).map(([name, count]) => `📂 ${module.exports.capitalize(name)} [${count}]`);
   },
   /**
    * Log 2 mảng dữ liệu ra asciiTable
-   * @param {Array<string>[]} data Mảng dữ liệu
-   * @param {object} options Các thuộc tính của bảng asciiTable
-   * @param {string} options.title `table.setTitle` Tiêu đề của bảng asciiTable
-   * @param {string[]} options.heading `table.setHeading` Tên các cột của bảng asciiTable
+   * @param {string[]} data Mảng dữ liệu
+   * @param {object} [seting] Các thuộc tính của bảng asciiTable
+   * @param {string} [seting.title] `table.setTitle` Tiêu đề của bảng asciiTable
+   * @param {string[]} [seting.heading] `table.setHeading` Tên các cột của bảng asciiTable
    */
-  logAsciiTable: (data, { title, heading }) => {
-    if (!data || !Array.isArray(data))
-      return console.warn(chalk.yellow("[Warn] Values from 'data' is undefined or not an array:"), typeof data);
-    if (data.length > 2)
+  logAsciiTable: (data, seting = {}) => {
+    const { title, heading } = seting;
+
+    if (!Array.isArray(data))
       return _client.logError({
         isWarn: true,
-        todo: `Array 'data' length is more than 2 items:`,
-        item: data.length,
-        desc: 'items',
+        todo: `Type of 'data' is not an array:`,
+        item: typeof data,
       });
+
+    for (const dat of data) {
+      if (!dat) return _client.logError({ isWarn: true, todo: `Type of an item in 'data' is:`, item: typeof dat });
+    }
 
     const table = new asciiTable().setBorder('│', '─', '✧', '✧');
     if (title) table.setTitle(title);

@@ -7,7 +7,7 @@ module.exports = {
   /**
    * Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
    * @param {string} folderPath Đường dẫn đến folder cần đọc.
-   * @param {object} [options={}] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
+   * @param {object} [options] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
    * @param {boolean} [options.all] Nếu `true`, hàm sẽ trả về **tất cả** các file và subfolder `folderPath`.
    * @param {boolean} [options.isDir] Nếu `true`, hàm sẽ chỉ trả về danh sách các **subfolder** trong `folderPath`.
    * @param {string} [options.extension] Phần mở rộng của file để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
@@ -71,8 +71,7 @@ module.exports = {
    * Require file và thêm vào collection tương ứng
    * @param {string} filePath Đường dẫn của file
    * @param {string} folderName Tên folder
-   * @param {Collection} collection Collection của file
-   * @returns {object|null} Đối tượng command hoặc null nếu không hợp lệ
+   * @param {Collection<string, object>} collection Collection của file
    */
   requireCommands: (filePath, folderName, collection) => {
     const parts = filePath.split(path.sep);
@@ -144,8 +143,6 @@ module.exports = {
 
       if (!setCollection[folderName]) throw new Error(chalk.yellow(`Invalid folderName ${chalk.green(folderName)}`));
       else setCollection[folderName]();
-
-      return command;
     } catch (e) {
       logError({ todo: 'requiring file', item: file, desc: `in ${chalk.green(folder)} folder` }, e);
       return null;

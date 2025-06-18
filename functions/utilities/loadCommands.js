@@ -9,7 +9,7 @@ module.exports = (client) => {
    * Load commands from ./prefixcommands and ./slashcommands
    * @param {boolean} [reload = false]  True if reload
    */
-  client.loadCommands = async (reload = false) => {
+  client.loadCommands = async () => {
     const { prefixCommands, slashCommands, subCommands, envCollection, logError } = client;
 
     prefixCommands.clear();
@@ -76,48 +76,46 @@ module.exports = (client) => {
       heading: [commandTypes.Slash.name + ` [${slashCommands.size}]`, commandTypes.Sub.name + ` [${subCommands.size}]`],
     });
 
-    if (!reload) {
-      (async () => {
-        const token = process.env.token || client.token;
-        const clientId = process.env.clientID || cfg.clientID;
-        const guildId = '1368536666066649148'; // Guild ID cụ thể cho bot phụ
+    (async () => {
+      const token = process.env.token || client.token;
+      const clientId = process.env.clientID || cfg.clientID;
+      const guildId = '1368536666066649148'; // Guild ID cụ thể cho bot phụ
 
-        if (!token) throw new Error('Không xác định được token của bot');
-        if (!clientId) throw new Error('Không xác định được clientId của bot');
+      if (!token) throw new Error('Không xác định được token của bot');
+      if (!clientId) throw new Error('Không xác định được clientId của bot');
 
-        let slashArray = [];
-        try {
-          for (const command of slashCommands) {
-            slashArray.push(command[1].data.toJSON());
-          }
-        } catch (e) {
-          return logError({ todo: 'pushing', item: 'slashCommands', desc: 'collection toJSON data' }, e);
+      let slashArray = [];
+      try {
+        for (const command of slashCommands) {
+          slashArray.push(command[1].data.toJSON());
         }
+      } catch (e) {
+        return logError({ todo: 'pushing', item: 'slashCommands', desc: 'collection toJSON data' }, e);
+      }
 
-        try {
-          if (slashArray.length > 0) {
-            const rest = new REST({ version: 10 }).setToken(token);
-            let data = [];
+      try {
+        if (slashArray.length > 0) {
+          const rest = new REST({ version: 10 }).setToken(token);
+          let data = [];
 
-            if (clientId === '995949416273940623')
-              data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
-            else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+          if (clientId === '995949416273940623')
+            data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
+          else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
 
-            console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
-          } else
-            logError(
-              {
-                todo: 'Can not load',
-                item: 'application (/) commands',
-                desc: `to Discord API: ${chalk.reset(`No data in 'slashArray':`)}`,
-                isWarn: true,
-              },
-              slashArray,
-            );
-        } catch (e) {
-          return logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e);
-        }
-      })().catch(console.error);
-    }
+          console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
+        } else
+          logError(
+            {
+              todo: 'Can not load',
+              item: 'application (/) commands',
+              desc: `to Discord API: ${chalk.reset(`No data in 'slashArray':`)}`,
+              isWarn: true,
+            },
+            slashArray,
+          );
+      } catch (e) {
+        return logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e);
+      }
+    })().catch(console.error);
   };
 };
