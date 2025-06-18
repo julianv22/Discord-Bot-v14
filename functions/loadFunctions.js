@@ -6,7 +6,8 @@ const { capitalize } = require('./common/utilities');
 /** @param {Client} client - Client */
 module.exports = (client) => {
   client.loadFunctions = async () => {
-    client.logError({ item: 1, desc: 2 });
+    const { logError } = client;
+
     try {
       const funcFolder = 'functions';
       const ignoreFolders = ['common'];
@@ -30,13 +31,7 @@ module.exports = (client) => {
             delete require.cache[require.resolve(filePath)];
             require(filePath)(client);
           } catch (e) {
-            console.error(
-              chalk.red('Error while requiring function'),
-              file,
-              chalk.red('in'),
-              chalk.green(`${folderPath}\n`),
-              e,
-            );
+            return logError({ todo: 'requiring', item: file, desc: `in ${chalk.yellow(folderPath)}` }, e);
           }
         }
       }
@@ -46,7 +41,7 @@ module.exports = (client) => {
         value: funcArray,
       });
     } catch (e) {
-      client.logError({ item: 'loadFunctions', desc: 'function' }, e);
+      return logError({ item: 'loadFunctions', desc: 'function' }, e);
     }
   };
 };

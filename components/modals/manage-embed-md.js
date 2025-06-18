@@ -35,33 +35,35 @@ module.exports = {
           if (strInput.length > 256) strInput = strInput.slice(0, 256);
           const authorIcon = fields.getTextInputValue('authorIcon');
           const iconURL = replaceVar(authorIcon, replaceKey);
-          getEmbeds.setAuthor({
+          return getEmbeds.setAuthor({
             name: replaceVar(strInput, replaceKey) || null,
             iconURL: checkURL(iconURL) ? iconURL : null,
           });
         },
         title: () => {
           if (strInput.length > 256) strInput = strInput.slice(0, 256);
-          getEmbeds.setTitle(strInput);
+          return getEmbeds.setTitle(strInput);
         },
         description: () => {
           if (strInput.length > 4096) strInput = strInput.slice(0, 4096);
-          getEmbeds.setDescription(replaceVar(strInput, replaceKey));
+          return getEmbeds.setDescription(replaceVar(strInput, replaceKey));
         },
-        color: () => getEmbeds.setColor(getEmbedColor(strInput)),
+        color: () => {
+          return getEmbeds.setColor(getEmbedColor(strInput));
+        },
         image: () => {
-          if (!strInput) getEmbeds.setImage(null);
-          else if (checkURL(strInput)) getEmbeds.setImage(strInput);
+          if (!strInput) return getEmbeds.setImage(null);
+          else if (checkURL(strInput)) return getEmbeds.setImage(strInput);
         },
         thumbnail: () => {
-          if (!strInput) getEmbeds.setThumbnail(null);
-          else if (checkURL(strInput)) getEmbeds.setThumbnail(strInput);
+          if (!strInput) return getEmbeds.setThumbnail(null);
+          else if (checkURL(strInput)) return getEmbeds.setThumbnail(strInput);
         },
         footer: async () => {
           if (strInput.length > 2048) strInput = strInput.slice(0, 2048);
           const footerIcon = fields.getTextInputValue('footerIcon');
           const iconUrl = replaceVar(footerIcon, replaceKey);
-          getEmbeds.setFooter({
+          return getEmbeds.setFooter({
             text: replaceVar(strInput, replaceKey) || null,
             iconURL: checkURL(iconUrl) ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp',
           });

@@ -7,7 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('list')
-    .setDescription(`${cfg.modRole} only`)
+    .setDescription(`List members. ${cfg.modRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('members')

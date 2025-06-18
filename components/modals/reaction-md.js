@@ -21,8 +21,12 @@ module.exports = {
 
     try {
       const inputModal = {
-        title: () => reactionEmbed.setTitle(stringInput),
-        color: () => reactionEmbed.setColor(getEmbedColor(stringInput)),
+        title: () => {
+          return reactionEmbed.setTitle(stringInput);
+        },
+        color: () => {
+          return reactionEmbed.setColor(getEmbedColor(stringInput));
+        },
       };
 
       if (!inputModal[textInput])

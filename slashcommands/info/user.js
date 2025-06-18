@@ -30,8 +30,12 @@ module.exports = {
     const target = options.getUser('target') || user;
 
     const showInfo = {
-      info: async () => await userInfo(target, interaction),
-      avatar: async () => await getAvatar(target, interaction),
+      info: async () => {
+        return await userInfo(target, interaction);
+      },
+      avatar: async () => {
+        return await getAvatar(target, interaction);
+      },
     };
 
     if (!showInfo[subCommand]) throw new Error(`Invalid SubCommand ${chalk.green(subCommand)}`);

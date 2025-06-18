@@ -42,7 +42,7 @@ module.exports = {
     };
 
     try {
-      const Selected = {
+      const showModal = {
         author: async () => {
           const modal = createModal({
             id: 'author',
@@ -56,19 +56,20 @@ module.exports = {
               placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
             }),
           );
-          await interaction.showModal(modal);
+          return await interaction.showModal(modal);
         },
-        title: async () =>
-          await interaction.showModal(
+        title: async () => {
+          return await interaction.showModal(
             createModal({
               id: 'title',
               label: 'Embed Title',
               placeholder: '{guild} = Server name, {user} = Username',
               required: true,
             }),
-          ),
-        description: async () =>
-          await interaction.showModal(
+          );
+        },
+        description: async () => {
+          return await interaction.showModal(
             createModal({
               id: 'description',
               label: 'Description',
@@ -76,32 +77,36 @@ module.exports = {
               style: TextInputStyle.Paragraph,
               required: true,
             }),
-          ),
-        color: async () =>
-          await interaction.showModal(
+          );
+        },
+        color: async () => {
+          return await interaction.showModal(
             createModal({
               id: 'color',
               label: 'Color (Empty = Random)',
               placeholder: Object.keys(Colors).join(',').slice(14, 114),
               required: true,
             }),
-          ),
-        image: async () =>
-          await interaction.showModal(
+          );
+        },
+        image: async () => {
+          return await interaction.showModal(
             createModal({
               id: 'image',
               label: 'Image (Empty = Delete)',
               placeholder: 'Enter the image url, Empty = Delete',
             }),
-          ),
-        thumbnail: async () =>
-          await interaction.showModal(
+          );
+        },
+        thumbnail: async () => {
+          return await interaction.showModal(
             createModal({
               id: 'thumbnail',
               label: 'Thumbnail (Empty = Delete)',
               placeholder: 'Enter the thumbnail url, Empty = Delete',
             }),
-          ),
+          );
+        },
         footer: async () => {
           const modal = createModal({
             id: 'footer',
@@ -115,7 +120,7 @@ module.exports = {
               placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
             }),
           );
-          await interaction.showModal(modal);
+          return await interaction.showModal(modal);
         },
         timestamp: async () => {
           if (Button1.components[2].data.style === ButtonStyle.Danger) {
@@ -125,7 +130,8 @@ module.exports = {
             getEmbeds.setTimestamp();
             Button1.components[2].setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
           }
-          await interaction.update({
+
+          return await interaction.update({
             embeds: [getEmbeds],
             components: [Button0, Button1],
             flags: 64,
@@ -146,7 +152,7 @@ module.exports = {
                 );
 
               await msg.edit({ embeds: [getEmbeds] }).catch(console.error);
-              await interaction.update({
+              return await interaction.update({
                 embeds: [
                   new EmbedBuilder()
                     .setTitle('\\✅ Update successfully!')
@@ -163,8 +169,8 @@ module.exports = {
         },
       };
 
-      if (!Selected[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
-      else return await Selected[button]();
+      if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+      else return await showModal[button]();
     } catch (e) {
       return await catchError(interaction, e, this);
     }

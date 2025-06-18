@@ -35,9 +35,14 @@ module.exports = {
         commands: async () => {
           await loadCommands(true);
           await loadComponents();
+          return;
         },
-        events: async () => await loadEvents(),
-        functions: async () => await loadFunctions(),
+        events: async () => {
+          return await loadEvents();
+        },
+        functions: async () => {
+          return await loadFunctions();
+        },
       };
 
       if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));

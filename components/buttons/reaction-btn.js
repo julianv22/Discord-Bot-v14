@@ -16,11 +16,39 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
+    /**
+     * Create modal
+     * @param {string} placeholder - Placeholder
+     * @param {string} modalId - Modal ID
+     * @param {string} modalTitle - Modal Title
+     * @returns {ModalBuilder} - Return ModalBuilder
+     */
+    const reactionModal = (
+      placeholder = '',
+      modalId = `reaction-md:${buttonId}`,
+      modalTitle = 'Manager Reaction Role',
+    ) => {
+      return new ModalBuilder()
+        .setCustomId(modalId)
+        .setTitle(modalTitle)
+        .setComponents(
+          setTextInput({
+            id: buttonId,
+            label: `Reaction Role ${buttonId}`,
+            style: TextInputStyle.Short,
+            placeholder: placeholder,
+          }),
+        );
+    };
 
     try {
-      const Reaction = {
-        title: async () => await interaction.showModal(reactionModal('Enter the reaction role title')),
-        color: async () => await interaction.showModal(reactionModal(Object.keys(Colors).join(',').slice(14, 114))),
+      const reactionButton = {
+        title: async () => {
+          return await interaction.showModal(reactionModal('Enter the reaction role title'));
+        },
+        color: async () => {
+          return await interaction.showModal(reactionModal(Object.keys(Colors).join(',').slice(14, 114)));
+        },
         add: async () => {
           if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
           const emojiArray = reactionMap.get(message.id);
@@ -90,6 +118,7 @@ module.exports = {
           collector.on('end', async (collected, reason) => {
             if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập', emoji: false }));
           });
+          return;
         },
         finish: async () => {
           const emojiArray = reactionMap.get(message.id) || [];
@@ -122,37 +151,14 @@ module.exports = {
           await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
 
           reactionMap.delete(message.id);
+          return;
         },
       };
 
-      if (!Reaction[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
-      else await Reaction[buttonId](interaction);
+      if (!reactionButton[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
+      else await reactionButton[buttonId]();
     } catch (e) {
       return await catchError(interaction, e, this);
     }
-    /**
-     * Create modal
-     * @param {string} placeholder - Placeholder
-     * @param {string} modalId - Modal ID
-     * @param {string} modalTitle - Modal Title
-     * @returns {ModalBuilder} - Return ModalBuilder
-     */
-    const reactionModal = (
-      placeholder = '',
-      modalId = `reaction-md:${buttonId}`,
-      modalTitle = 'Manager Reaction Role',
-    ) => {
-      return new ModalBuilder()
-        .setCustomId(modalId)
-        .setTitle(modalTitle)
-        .setComponents(
-          setTextInput({
-            id: buttonId,
-            label: `Reaction Role ${buttonId}`,
-            style: TextInputStyle.Short,
-            placeholder: placeholder,
-          }),
-        );
-    };
   },
 };

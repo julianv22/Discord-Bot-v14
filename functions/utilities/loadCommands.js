@@ -39,7 +39,7 @@ module.exports = (client) => {
      * Load các command (Prefix, Slash, Sub)
      * @param {CommandTypeConfig} type Loại command trong commandTypes
      */
-    const LoadCommands = async (type) => {
+    const loadCommands = async (type) => {
       const ignoreFolders = ['subcommands'];
       const commandFolders = readFiles(type.folder, {
         isDir: true,
@@ -57,15 +57,14 @@ module.exports = (client) => {
       }
     };
 
-    await LoadCommands(commandTypes.Prefix);
-    await LoadCommands(commandTypes.Slash);
-    await LoadCommands(commandTypes.Sub);
+    await loadCommands(commandTypes.Prefix);
+    await loadCommands(commandTypes.Slash);
+    await loadCommands(commandTypes.Sub);
 
     const slashList = ListByFilter(slashCommands);
     const subList = ListByFilter(subCommands, 'parent');
     const prefixList = ListByFilter(prefixCommands);
     const componentList = ListByFilter(envCollection, 'type');
-    console.log('🚀', componentList);
 
     logAsciiTable([prefixList, componentList], {
       title: 'Load Prefix Commands & Components',

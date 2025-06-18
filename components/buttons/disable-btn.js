@@ -68,12 +68,20 @@ module.exports = {
           starboard: () => {
             starboard.channel = '';
             starboard.star = 0;
+            return;
           },
-          suggest: () => (suggest = ''),
-          youtube: () => (youtube.notifyChannel = ''),
+          suggest: () => {
+            suggest = '';
+            return;
+          },
+          youtube: () => {
+            youtube.notifyChannel = '';
+            return;
+          },
           welcome: () => {
             welcome.channel = '';
             welcome.log = '';
+            return;
           },
         };
 

@@ -7,6 +7,7 @@ const { capitalize, logAsciiTable } = require('../common/utilities');
 module.exports = (client) => {
   client.loadEvents = async () => {
     const { envCollection, logError } = client;
+
     try {
       const eventFolder = 'events';
       const eventFolders = readFiles(eventFolder, { isDir: true });
@@ -27,39 +28,33 @@ module.exports = (client) => {
             const event = require(filePath);
 
             if (!event.name || !event.execute) {
-              console.warn(
-                chalk.yellow('[Warn] Event'),
-                file,
-                chalk.yellow('in'),
-                chalk.green(folderPath),
-                chalk.yellow("is missing 'name' or 'execute' property"),
-              );
+              logError({
+                isWarn: true,
+                todo: 'Event',
+                item: file,
+                desc: `in ${chalk.cyan(folderPath)} is missing 'name' or 'execute' property`,
+              });
               continue;
             }
-
             if (event.once) client.once(event.name, (...args) => event.execute(...args, client));
             else client.on(event.name, (...args) => event.execute(...args, client));
           } catch (e) {
-            console.error(
-              chalk.red('Error while requiring event'),
-              file,
-              chalk.red('in'),
-              chalk.green(`${folderPath}\n`),
-              e,
-            );
+            return logError({ todo: 'requiring', item: file, desc: `in ${chalk.yellow(folderPath)}` }, e);
           }
         }
       }
 
       await envCollection.set(eventFolder, { name: `${capitalize(eventFolder)} [${totalCount}]`, value: eventArray });
 
-      const [functions, events] = [envCollection.get('functions'), envCollection.get(eventFolder)];
+      const functions = envCollection.get('functions');
+      const events = envCollection.get(eventFolder);
+
       logAsciiTable([functions.value, events.value], {
         title: 'Load Functions & Events',
         heading: [functions.name, events.name],
       });
     } catch (e) {
-      logError({ item: 'loadEvents', desc: 'function' }, e);
+      return logError({ item: 'loadEvents', desc: 'function' }, e);
     }
   };
 };

@@ -80,7 +80,7 @@ module.exports = {
           tournament.name = getRole.name;
           await profile.save().catch(console.error);
 
-          await interaction.reply(
+          return await interaction.reply(
             errorEmbed({
               desc: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
               emoji: '🏆',
@@ -104,7 +104,7 @@ module.exports = {
           tournament.name = null;
           await profile.save().catch(console.error);
 
-          await interaction.reply(
+          return await interaction.reply(
             errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.Green }),
           );
         },
@@ -167,6 +167,7 @@ module.exports = {
               await interaction.followUp({ embeds: [embeds[i]] });
             }
           }
+          return;
         },
         'close-all': async () => {
           const verified = options.getBoolean('confirm');
@@ -199,7 +200,7 @@ module.exports = {
           tournament.name = null;
           await profile.save().catch(console.error);
 
-          await interaction.reply(
+          return await interaction.reply(
             errorEmbed({
               desc: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
               emoji: '🏆',
@@ -208,6 +209,7 @@ module.exports = {
           );
         },
       };
+
       if (!tourActions[tourCommand]) {
         await interaction.reply(errorEmbed({ desc: 'Subcommand không hợp lệ!', emoji: false }));
         throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));

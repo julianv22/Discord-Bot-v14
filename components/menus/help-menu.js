@@ -27,10 +27,14 @@ module.exports = {
         .map((cmd) => cmd.data.name);
 
       const ShowHelp = {
-        default: async () => await helpSlash(CommandType, interaction),
-        prefix: async () => await helpPrefix(interaction),
+        default: async () => {
+          return await helpSlash(CommandType, interaction);
+        },
+        prefix: async () => {
+          return await helpPrefix(interaction);
+        },
         slash: async () => {
-          await interaction.update({
+          return await interaction.update({
             embeds: [
               new EmbedBuilder()
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -63,6 +67,7 @@ module.exports = {
           });
         },
       };
+
       (ShowHelp[CommandType] || ShowHelp.default)();
     } catch (e) {
       return await catchError(interaction, e, this);
