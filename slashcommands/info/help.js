@@ -13,8 +13,8 @@ const { readFiles } = require('../../functions/common/initLoader');
 module.exports = {
   category: 'info',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
-  /** - Show command list
+  data: new SlashCommandBuilder().setName('help').setDescription('Command help'),
+  /** - Command help
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -34,7 +34,7 @@ module.exports = {
       },
     ];
 
-    const ignoreFolders = ['context menu'];
+    const ignoreFolders = 'context menu';
     const slashFolders = readFiles('slashcommands', {
       isDir: true,
       filter: (folder) => !ignoreFolders.includes(folder),

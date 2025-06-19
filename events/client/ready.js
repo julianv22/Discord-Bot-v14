@@ -39,7 +39,7 @@ module.exports = {
       name: ['💻 System', '💾 Memory'],
       value: [`${process.platform} ${process.arch}`, (process.memoryUsage().rss / 1024 / 1024).toFixed(1) + ' MB'],
     });
-    table({ name: '⚛️  Core', value: os.cpus()[0].model });
+    table({ name: '⚛️ Core', value: os.cpus()[0].model });
     table({
       name: ['🟢 Heap Used', '🟡 Total'],
       value: [

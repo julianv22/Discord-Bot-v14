@@ -6,7 +6,7 @@ module.exports = (client) => {
   /** - List of command name filtered by property from Command Collection
    * @param {Collection<string, object>} command Command Collection
    * @param {string|'category'} [property] Filter by property
-   * @returns {Array<object>} */
+   * @returns {object[]} */
   client.listCommands = (command, property = 'category') => {
     try {
       const commandCat = command.reduce((acc, cmd) => {

@@ -15,7 +15,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('edit')
-    .setDescription(`Edit embed or be messageId. ${cfg.modRole} only`)
+    .setDescription(`Edit embed or message. ${cfg.modRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('embed')
@@ -29,7 +29,7 @@ module.exports = {
         .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true))
         .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
     ),
-  /** - Edit/Create Embed
+  /** - Create/edit embed or message
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

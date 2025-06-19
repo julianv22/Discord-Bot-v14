@@ -111,6 +111,6 @@ module.exports = (client) => {
       } catch (e) {
         return logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e);
       }
-    })().catch(console.error);
+    })();
   };
 };

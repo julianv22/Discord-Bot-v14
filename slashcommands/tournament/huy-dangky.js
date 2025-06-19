@@ -11,7 +11,7 @@ module.exports = {
     .addBooleanOption((option) =>
       option.setName('confirm').setDescription('Hãy chắc chắn trước khi đưa ra quyết định‼').setRequired(true),
     ),
-  /** - Unregister for a tournament
+  /** - Huỷ đăng ký giải
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

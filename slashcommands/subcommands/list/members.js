@@ -13,7 +13,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('members'),
 
-  /** - Get members of a role
+  /** - Get members list by role
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

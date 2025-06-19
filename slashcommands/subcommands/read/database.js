@@ -10,6 +10,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
+  ownerOnly: true,
   category: 'sub command',
   parent: 'read',
   scooldown: 0,
@@ -19,16 +20,16 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user, options } = interaction;
+    const { guild, options } = interaction;
     const { errorEmbed, catchError } = client;
     const choice = options.getString('profile');
-    const owner = await guild.fetchOwner();
+    // const owner = await guild.fetchOwner();
     const serverProfile = require(`../../../config/${choice}`);
 
     await interaction.deferReply({ flags: 64 });
 
-    if (user.id !== cfg.ownerID && user.id !== owner.id)
-      return await interaction.editReply(errorEmbed({ desc: 'Owner permission only', emoji: false }));
+    // if (user.id !== cfg.ownerID && user.id !== owner.id)
+    //   return await interaction.editReply(errorEmbed({ desc: 'Owner permission only', emoji: false }));
 
     /**
      * Send a message

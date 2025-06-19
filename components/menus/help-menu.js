@@ -15,14 +15,13 @@ module.exports = {
 
     try {
       const ignoreFolders = ['context menu', 'subcommands'];
-      const slashFolders = readFiles('slashcommands', {
-        isDir: true,
-        filter: (folder) => !ignoreFolders.includes(folder),
-      }).map((folder) => capitalize(folder));
-      const subFolders = readFiles('slashcommands/subcommands', { isDir: true }).map((folder) => capitalize(folder));
-      const contextMenus = Array.from(slashCommands.values())
-        .filter((cmd) => cmd.category === ignoreFolders[0])
-        .map((cmd) => cmd.data.name);
+      const slashCategory = [
+        ...new Set(
+          slashCommands.filter((cmd) => !ignoreFolders.includes(cmd.category)).map((cmd) => capitalize(cmd.category)),
+        ),
+      ];
+      const subCategory = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
+      const contextMenus = slashCommands.filter((cmd) => cmd.category === ignoreFolders[0]).map((cmd) => cmd.data.name);
 
       const ShowHelp = {
         default: async () => {
@@ -41,12 +40,12 @@ module.exports = {
                   {
                     name: `\\📂 Slash Commands\n[\`Commands: ${
                       slashCommands.size - contextMenus.length
-                    } --- Categories: ${slashFolders.length}\`]`,
-                    value: `\`\`\`ansi\n\x1b[36m${slashFolders.join(' | ')}\x1b[0m\`\`\``,
+                    } --- Categories: ${slashCategory.length}\`]`,
+                    value: `\`\`\`ansi\n\x1b[36m${slashCategory.join(' | ')}\x1b[0m\`\`\``,
                   },
                   {
-                    name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subFolders.length}\`]`,
-                    value: `\`\`\`ansi\n\x1b[36m${subFolders.join(' | ')}\x1b[0m\`\`\``,
+                    name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subCategory.length}\`]`,
+                    value: `\`\`\`ansi\n\x1b[36m${subCategory.join(' | ')}\x1b[0m\`\`\``,
                   },
                   {
                     name: `\\📂 Context Menus [**${contextMenus.length}**]`,

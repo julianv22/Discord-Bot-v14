@@ -9,7 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('read')
-    .setDescription(`Read JavaScript file content or Database content. ${cfg.adminRole} only`)
+    .setDescription(`Read JavaScript file content/MongoDB database/Command Collection. ${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('file')
@@ -50,7 +50,7 @@ module.exports = {
             ]),
         ),
     ),
-  /** - Read slash command
+  /** - Read file content/MongoDB/Command Collection
    * @param {ChatInputCommandInteraction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {},

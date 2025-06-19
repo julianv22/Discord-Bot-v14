@@ -37,7 +37,24 @@ module.exports = {
           opt.setName('starnum').setDescription('Number of stars').setMinValue(1).setMaxValue(20).setRequired(true),
         ),
     )
-    .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`)),
+    .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`))
+    .addSubcommand((sub) =>
+      sub
+        .setName('statistics')
+        .setDescription(`Setup server statistics. ${cfg.adminRole} only`)
+        .addChannelOption((opt) =>
+          opt.setName('total-count-channel').setDescription('Total Count Channel').setRequired(true),
+        )
+        .addChannelOption((opt) =>
+          opt.setName('member-count-channel').setDescription('Members Count Channel').setRequired(true),
+        )
+        .addChannelOption((opt) =>
+          opt.setName('bot-count-channel').setDescription('Bots Count Channel').setRequired(true),
+        )
+        .addChannelOption((opt) =>
+          opt.setName('presence-count-channel').setDescription('Presences Count Channel').setRequired(true),
+        ),
+    ),
   /** - Setup server
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

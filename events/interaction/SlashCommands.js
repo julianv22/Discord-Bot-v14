@@ -7,7 +7,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { slashCommands, subCommands, errorEmbed, catchError } = client;
-    const { guild, member, options, channel, commandName } = interaction;
+    const { guild, user, channel, options, commandName } = interaction;
 
     try {
       if (channel.type === ChannelType.DM) return;
@@ -29,7 +29,7 @@ module.exports = {
           return;
         }
 
-        if (command.ownerOnly && member.id !== guild.ownerId) {
+        if (command.ownerOnly && user.id !== guild.ownerId && user.id !== cfg.ownerID) {
           const reply = errorEmbed({ desc: 'You are not the owner', emoji: false });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
