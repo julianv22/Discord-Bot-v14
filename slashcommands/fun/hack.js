@@ -7,11 +7,9 @@ module.exports = {
     .setName('hack')
     .setDescription('Hacking someone! J4F 😝')
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
-  /**
-   * Hack someone! J4F 😝
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Hack someone! J4F 😝
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed } = client;

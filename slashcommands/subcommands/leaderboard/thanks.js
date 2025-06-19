@@ -12,11 +12,9 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('thanks'),
-  /**
-   * Get thanks leaderboard
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Get thanks leaderboard
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed, catchError } = client;

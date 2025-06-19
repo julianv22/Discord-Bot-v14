@@ -6,12 +6,10 @@ module.exports = {
   description: 'Hack ai đó! J4F 😝',
   category: 'misc',
   cooldown: 0,
-  /**
-   * Hack someone
+  /** Hack someone
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { errorEmbed, commandUsage } = client;
     const { mentions, guild, author } = message;

@@ -6,11 +6,9 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('starboard'),
-  /**
-   * Setup starboard
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Setup starboard
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;

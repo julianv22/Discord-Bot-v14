@@ -6,12 +6,10 @@ module.exports = {
   description: 'Xem thông tin tài khoản Github.',
   category: 'info',
   cooldown: 0,
-  /**
-   * Get Github account information
+  /** Get Github account information
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { errorEmbed, commandUsage, githubInfo } = client;
 

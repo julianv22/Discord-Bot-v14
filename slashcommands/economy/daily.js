@@ -7,11 +7,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system!'),
-  /**
-   * Claim daily 💲 from the economy system
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Claim daily 💲 from the economy system
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { errorEmbed, catchError } = client;

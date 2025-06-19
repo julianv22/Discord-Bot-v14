@@ -2,11 +2,9 @@ const { Client, ChatInputCommandInteraction, ChannelType } = require('discord.js
 
 module.exports = {
   name: 'interactionCreate',
-  /**
-   * Button Interaction Event
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Button Interaction Event
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { catchError, envCollection } = client;
     const { channel, customId } = interaction;

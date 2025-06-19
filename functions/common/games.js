@@ -1,13 +1,11 @@
 module.exports = {
-  /**
-   * RPS Game
+  /** RPS Game
    * @param {number} userMove - Nước đi của người dùng
    * @returns {object} - Trả về object gồm:
    * - result: Kết quả RPS
    * - color: Màu sắc cho embed
    * - description: Mô tả cho embed
-   * - res: Kết quả RPS dạng số
-   */
+   * - res: Kết quả RPS dạng số */
   rpsGame: (userMove) => {
     const botMove = Math.floor(Math.random() * 3);
     /**

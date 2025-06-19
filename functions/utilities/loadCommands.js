@@ -3,12 +3,10 @@ const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { ListByFilter, logAsciiTable } = require('../common/utilities');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /**
-   * Load commands from ./prefixcommands and ./slashcommands
-   * @param {boolean} [reload = false]  True if reload
-   */
+  /** Load commands from ./prefixcommands and ./slashcommands
+   * @param {boolean} [reload = false]  True if reload */
   client.loadCommands = async () => {
     const { prefixCommands, slashCommands, subCommands, envCollection, logError } = client;
 
@@ -19,7 +17,7 @@ module.exports = (client) => {
      * @typedef {Object} CommandTypeConfig Định nghĩa thuộc tính CommandTypeConfig
      * @property {String} name Tên hiển thị của command
      * @property {String} folder Tên thư mục chứa các command
-     * @property {Collection} collection Collection dùng để lưu trữ các command
+     * @property {Collection<string, object>} collection Collection dùng để lưu trữ các command
      */
     /**
      * Object chứa cấu hình cho các loại command khác nhau.

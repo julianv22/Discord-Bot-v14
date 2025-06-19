@@ -24,10 +24,8 @@ module.exports = {
     .addSubcommand((sub) =>
       sub.setName('economy').setDescription('Show Economy Leaderboard (top 💲, streak, max streak)'),
     ),
-  /**
-   * Show leaderboard
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Show leaderboard
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {},
 };

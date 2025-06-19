@@ -4,11 +4,9 @@ module.exports = {
   category: 'fun',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
-  /**
-   * Get random meme from Reddit
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Get random meme from Reddit
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user } = interaction;
     const { errorEmbed, catchError } = client;

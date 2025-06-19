@@ -7,11 +7,9 @@ module.exports = {
     .setName('wikipedia')
     .setDescription('Search Vietnamese Wikipedia articles by keyword')
     .addStringOption((opt) => opt.setName('keyword').setDescription('Keyword').setRequired(true)),
-  /**
-   * Search Vietnamese Wikipedia articles by keyword
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Search Vietnamese Wikipedia articles by keyword
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     await client.wikipedia(interaction.options.getString('keyword'), interaction);
   },

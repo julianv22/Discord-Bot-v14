@@ -6,12 +6,10 @@ module.exports = {
   description: 'Xem avatar của thành viên.',
   category: 'info',
   cooldown: 0,
-  /**
-   * Get user avatar
+  /** Get user avatar
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { getAvatar, commandUsage } = client;
     const { author, guild, mentions } = message;

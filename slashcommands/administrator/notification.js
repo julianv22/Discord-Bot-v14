@@ -17,11 +17,9 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('notification')
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
-  /**
-   * Send a notification
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Send a notification
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const modal = new ModalBuilder().setCustomId('notify-md').setTitle('Notification:');
 

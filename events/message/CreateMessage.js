@@ -2,11 +2,9 @@ const { Message, Client, ChannelType, EmbedBuilder, Colors } = require('discord.
 
 module.exports = {
   name: 'messageCreate',
-  /**
-   * Message Content Event
+  /** Message Content Event
    * @param {Message} message - Message
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, client) {
     const { author, channel, content } = message;
 

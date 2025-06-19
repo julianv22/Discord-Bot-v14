@@ -50,10 +50,8 @@ module.exports = {
             ]),
         ),
     ),
-  /**
-   * Read slash command
+  /** Read slash command
    * @param {ChatInputCommandInteraction} interaction Interaction
-   * @param {Client} client Client
-   */
+   * @param {Client} client Client */
   async execute(interaction, client) {},
 };

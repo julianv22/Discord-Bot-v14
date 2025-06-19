@@ -6,12 +6,10 @@ module.exports = {
   description: 'Tạo một random react! 😎',
   category: 'misc',
   cooldown: 0,
-  /**
-   * React with something cool! 😎
+  /** React with something cool! 😎
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
 

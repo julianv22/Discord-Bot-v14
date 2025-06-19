@@ -3,10 +3,8 @@ const reactionRole = require('../../config/reactionRole');
 
 module.exports = {
   name: 'messageReactionRemove',
-  /**
-   * @param {MessageReaction} reaction
-   * @param {User} user
-   */
+  /** @param {MessageReaction} reaction
+   * @param {User} user */
   async execute(reaction, user) {
     if (user.bot) return;
 

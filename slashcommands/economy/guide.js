@@ -4,11 +4,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('economy-guide').setDescription('Guide to the economy system'),
-  /**
-   * Get economy guide
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Get economy guide
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const embed = new EmbedBuilder()

@@ -6,11 +6,9 @@ const reactionMap = new Map();
 module.exports = {
   type: 'buttons',
   data: { name: 'reaction-btn' },
-  /**
-   * Reaction Button
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Reaction Button
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, guild, channel, message, user } = interaction;
     const { errorEmbed, catchError } = client;

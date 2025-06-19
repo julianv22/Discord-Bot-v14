@@ -29,11 +29,9 @@ module.exports = {
         .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true))
         .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
     ),
-  /**
-   * Edit/Create Embed
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Edit/Create Embed
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const {
       user,

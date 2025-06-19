@@ -8,11 +8,9 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('balance')
     .setDescription('View your balance, streak, bank, inventory and achievements'),
-  /**
-   * View balance, streak, bank, inventory and achievements of a user
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** View balance, streak, bank, inventory and achievements of a user
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { errorEmbed, catchError } = client;

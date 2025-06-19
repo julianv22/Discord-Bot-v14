@@ -19,11 +19,9 @@ module.exports = {
     .addIntegerOption((opt) =>
       opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(500).setMaxValue(1000000),
     ),
-  /**
-   * Play RPS game
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Play RPS game
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const bet = interaction.options.getInteger('bet');
 

@@ -3,12 +3,10 @@ const { capitalize } = require('../common/utilities');
 
 /** * @param {Client} client */
 module.exports = (client) => {
-  /**
-   * Search Vietnamese Wikipedia articles by keyword
+  /** Search Vietnamese Wikipedia articles by keyword
    * @param {string} keyword Search keyword
    * @param {ChatInputCommandInteraction|Message} object Interaction or Message
-   * @returns {Promise<void>}
-   */
+   * @returns {Promise<void>} */
   client.wikipedia = async (keyword, object) => {
     const { errorEmbed, catchError } = client;
     const author = object.user || object.author;

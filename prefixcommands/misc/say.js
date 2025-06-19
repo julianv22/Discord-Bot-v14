@@ -6,12 +6,10 @@ module.exports = {
   description: 'Bot nói gì đó 🗣️',
   category: 'misc',
   cooldown: 0,
-  /**
-   * Send a message to the bot
+  /** Send a message to the bot
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
     let toSay = args.join(' ');

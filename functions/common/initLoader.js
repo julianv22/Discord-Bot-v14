@@ -4,8 +4,7 @@ const path = require('path');
 const { logError } = require('./utilities');
 
 module.exports = {
-  /**
-   * Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
+  /** Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
    * @param {string} folderPath Đường dẫn đến folder cần đọc.
    * @param {object} [options] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
    * @param {boolean} [options.all] Nếu `true`, hàm sẽ trả về **tất cả** các file và subfolder `folderPath`.
@@ -13,8 +12,7 @@ module.exports = {
    * @param {string} [options.extension] Phần mở rộng của file để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
    * @param {function(string): boolean} [options.filter] Hàm lọc tùy chỉnh bổ sung (nếu có).
    * Hàm này được áp dụng sau bước lọc chính (all/isDir/extension).
-   * @returns {string[]} Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc.
-   */
+   * @returns {string[]} Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc. */
   readFiles: (folderPath, options = {}) => {
     const { all = false, isDir = false, extension = '.js', filter: func } = options;
     const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
@@ -67,12 +65,10 @@ module.exports = {
       return [];
     }
   },
-  /**
-   * Require file và thêm vào collection tương ứng
+  /** Require file và thêm vào collection tương ứng
    * @param {string} filePath Đường dẫn của file
    * @param {string} folderName Tên folder
-   * @param {Collection<string, object>} collection Collection của file
-   */
+   * @param {Collection<string, object>} collection Collection của file */
   requireCommands: (filePath, folderName, collection) => {
     const parts = filePath.split(path.sep);
     const file = parts.pop();

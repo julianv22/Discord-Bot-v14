@@ -1,14 +1,12 @@
 const { Client, EmbedBuilder, ActionRowBuilder } = require('discord.js');
-const { getEmbedColor } = require('../../functions/common/manage-embed');
+const { getEmbedColor } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
   data: { name: 'reaction-md' },
-  /**
-   * Reaction Modal
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Reaction Modal
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message } = interaction;
     const { catchError } = client;

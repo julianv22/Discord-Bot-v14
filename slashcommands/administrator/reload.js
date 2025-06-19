@@ -19,11 +19,9 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('events').setDescription(`Reload all events. ${cfg.adminRole} only`))
     .addSubcommand((sub) => sub.setName('functions').setDescription(`Reload all functions. ${cfg.adminRole} only`)),
   // ownerOnly: true,
-  /**
-   * Reload all commands and events
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Reload all commands and events
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
     const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;

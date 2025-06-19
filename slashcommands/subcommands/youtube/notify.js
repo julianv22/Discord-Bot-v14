@@ -6,12 +6,10 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('notify'),
-  /**
-   * Setup Youtube notify channel
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   * @returns {Promise<void>}
-   */
+  /** Setup Youtube notify channel
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client
+   * @returns {Promise<void>} */
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;

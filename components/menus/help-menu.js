@@ -5,11 +5,9 @@ const { readFiles } = require('../../functions/common/initLoader');
 module.exports = {
   type: 'menus',
   data: { name: 'help-menu' },
-  /**
-   * Help Menu
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Help Menu
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user } = interaction;
     const { slashCommands, subCommands, helpSlash, helpPrefix, catchError } = client;

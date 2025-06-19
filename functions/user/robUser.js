@@ -2,12 +2,10 @@ const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.j
 const economyProfile = require('../../config/economyProfile');
 const { toCurrency } = require('../common/utilities');
 
-/** @param {Client} client - Client. */
+/** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /**
-   * Tranfers
-   * @param {ChatInputCommandInteraction} interaction - Interaction object.
-   */
+  /** Tranfers
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
   client.robUser = async (target, interaction) => {
     const { user, guild } = interaction;
     const { errorEmbed, catchError, user: bot } = client;

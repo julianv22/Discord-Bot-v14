@@ -18,11 +18,9 @@ module.exports = {
         .setDescription("Get user's avatar")
         .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get avatar')),
     ),
-  /**
-   * User commands
+  /** User commands
    * @param {ChatInputCommandInteraction} interaction
-   * @param {Client} client
-   */
+   * @param {Client} client */
   async execute(interaction, client) {
     const { user, options } = interaction;
     const { userInfo, getAvatar } = client;

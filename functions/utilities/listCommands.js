@@ -1,14 +1,12 @@
 const { Client, Collection } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /**
-   * List of commands
+  /** List of commands
    * @param {Collection<string, object>} command
    * @param {string|'category'} [property]
-   * @returns {Array<object>}
-   */
+   * @returns {Array<object>} */
   client.listCommands = (command, property = 'category') => {
     try {
       const commandCat = command.reduce((acc, cmd) => {

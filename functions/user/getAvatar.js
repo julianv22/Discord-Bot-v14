@@ -1,13 +1,11 @@
 const { Client, ChatInputCommandInteraction, Message, GuildMember, EmbedBuilder } = require('discord.js');
 
-/** @param {Client} client */
+/** @param {Client} client Client*/
 module.exports = (client) => {
-  /**
-   * Get user's avatar
+  /** Get user's avatar
    * @param {GuildMember} target Target user
    * @param {ChatInputCommandInteraction|Message} object Interaction or Message
-   * @returns {Promise<void>}
-   */
+   * @returns {Promise<void>} */
   client.getAvatar = async (target, object) => {
     const { catchError } = client;
     const author = object.user || object.author;

@@ -2,6 +2,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   TextInputBuilder,
+  ButtonComponent,
   TextInputStyle,
   ComponentType,
   ButtonStyle,
@@ -9,8 +10,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  /**
-   * Set Row Component
+  /** Set Row Component
    * @param {object} options - Options
    * @param {string} [options.customId] - Component customId
    * @param {string} options.label - Component label
@@ -25,8 +25,7 @@ module.exports = {
    * @param {number} [options.minLength] - Component minLength
    * @param {number} [options.maxLength] - Component maxLength
    * @param {ComponentType} type - Component type
-   * @returns {ButtonBuilder|SelectMenuComponentOptionData|TextInputBuilder} - Return ActionRowBuilder
-   */
+   * @returns {ButtonBuilder|SelectMenuComponentOptionData|TextInputBuilder} - Return ActionRowBuilder */
   setRowComponent: (options, type) => {
     const setRowComponent = {
       // Return ButtonBuilder options
@@ -69,16 +68,14 @@ module.exports = {
     if (!setRowComponent[type]) throw new Error(chalk.yellow('Invalid ComponentType ') + chalk.green(type));
     else return setRowComponent[type]();
   },
-  /**
-   * Set Text Input Component
+  /** Set Text Input Component
    * @param {object} options - Options object
    * @param {string} options.id - The id of the text input
    * @param {string} options.label - The label of the text input
    * @param {string|TextInputStyle.Short} [options.style] - The style of the text input
    * @param {string} [options.placeholder] - The placeholder of the text input
    * @param {boolean} [options.required] - Whether the text input is required
-   * @returns {ActionRowBuilder} - Return ActionRowBuilder
-   */
+   * @returns {ActionRowBuilder} - Return ActionRowBuilder */
   setTextInput: ({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) => {
     return new ActionRowBuilder().addComponents(
       new TextInputBuilder()
@@ -89,11 +86,9 @@ module.exports = {
         .setRequired(required),
     );
   },
-  /**
-   * Disable Buttons
-   * @param {ButtonBuilder} buttons - Buttons
-   * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons
-   */
+  /** Disable Buttons
+   * @param {ButtonComponent} buttons
+   * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons */
   disableButtons: (buttons) => {
     const disableRow = new ActionRowBuilder();
     for (const button of buttons) {
@@ -105,10 +100,8 @@ module.exports = {
     }
     return disableRow;
   },
-  /**
-   * Info Buttons
-   * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with info buttons
-   */
+  /** Info Buttons
+   * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with info buttons */
   infoButtons: () => {
     const buttons = [
       { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },

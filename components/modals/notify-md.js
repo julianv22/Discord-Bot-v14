@@ -4,11 +4,9 @@ const { checkURL } = require('../../functions/common/utilities');
 module.exports = {
   type: 'modals',
   data: { name: 'notify-md' },
-  /**
-   * Notify Modal
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Notify Modal
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
     const { catchError } = client;

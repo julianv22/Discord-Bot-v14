@@ -1,13 +1,11 @@
 const { Client, ChatInputCommandInteraction, Colors, Message, EmbedBuilder, MessageFlags } = require('discord.js');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /**
-   * Catch Error function
+  /** Catch Error function
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
    * @param {Error} e - Error when catched
-   * @param {string|ChatInputCommandInteraction} description Error description
-   */
+   * @param {string|ChatInputCommandInteraction} description Error description */
   client.catchError = async (object, e, description) => {
     const errorMessage = () => {
       if (!description) return 'Unknown error';
@@ -35,16 +33,14 @@ module.exports = (client) => {
       else return await object.editReply(embed);
     }
   };
-  /**
-   * Tạo một embed thông báo lỗi.
+  /** Tạo một embed thông báo lỗi.
    * @param {object} options - Các tùy chọn cho embed lỗi.
    * @param {string} options.title - Tiêu đề của embed.
    * @param {string} options.description - Mô tả chi tiết của lỗi.
    * @param {string} [options.color] - Màu sắc của embed. Mặc định là 'Random'.
    * @param {boolean|string} [options.emoji] - Emoji để thêm vào tiêu đề hoặc mô tả. Mặc định là chuỗi rỗng.
    * @param {boolean} [options.flags] - Cờ (flags) để xác định hành vi của embed (ví dụ: ephemeral). Mặc định là `true`.
-   * @returns {EmbedBuilder} EmbedBuilder
-   */
+   * @returns {EmbedBuilder} EmbedBuilder */
   client.errorEmbed = ({ title, desc, color = 'Random', emoji = false, flags = true }) => {
     const embed = new EmbedBuilder();
 
@@ -67,16 +63,14 @@ module.exports = (client) => {
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };
-  /**
-   * - Gửi `console.error` hoặc `console.warn`
+  /** - Gửi `console.error` hoặc `console.warn`
    * @param {object} options Log options
    * @param {string} [options.todo]  Lỗi khi đang làm gì (executing)
    * @param {string} [options.item]  Đối tượng tương tác
    * @param {string} [options.desc] Mô tả lỗi
    * @param {boolean} [options.isWarn] isWarn = false: `console.warn`, isWarn = true: `console.error`
    * @param {Error} [e] Error
-   * - Ví dụ: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)`
-   */
+   * - Ví dụ: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);

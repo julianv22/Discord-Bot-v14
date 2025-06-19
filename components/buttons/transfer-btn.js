@@ -4,11 +4,9 @@ const economyProfile = require('../../config/economyProfile');
 module.exports = {
   type: 'buttons',
   data: { name: 'transfer-btn' },
-  /**
-   * Transfer Money Button
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Transfer Money Button
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
     const { errorEmbed, catchError } = client;

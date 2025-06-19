@@ -8,11 +8,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('file'),
 
-  /**
-   * Read file from project
+  /** Read file from project
    * @param {ChatInputCommandInteraction} interaction - Interaction
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { errorEmbed, catchError } = client;
     await interaction.deferReply({ flags: 64 });

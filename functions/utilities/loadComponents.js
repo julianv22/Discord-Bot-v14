@@ -2,7 +2,7 @@ const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
   client.loadComponents = async () => {
     const { envCollection, logError } = client;

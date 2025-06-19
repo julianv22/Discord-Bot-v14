@@ -7,11 +7,9 @@ module.exports = {
   description: 'Đọc kỹ hướng dẫn SD trước khi dùng!',
   category: 'help',
   cooldown: 0,
-  /**
-   * @param {Message} message - Message
+  /** @param {Message} message - Message
    * @param {Array} args - Array of arguments
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { commandUsage, prefixCommands, listCommands } = client;
     const { author: user, guild } = message;

@@ -7,11 +7,9 @@ module.exports = {
   scooldown: 0,
   parent: 'bank',
   data: new SlashCommandSubcommandBuilder().setName('withdraw'),
-  /**
-   * Withdraw money
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Withdraw money
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { errorEmbed, catchError, user: bot } = client;

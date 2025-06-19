@@ -3,10 +3,8 @@ const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   name: 'messageReactionRemove',
-  /**
-   * @param {MessageReaction} reaction
-   * @param {User} user
-   */
+  /** @param {MessageReaction} reaction
+   * @param {User} user */
   async execute(reaction, user) {
     try {
       if (user.bot) return;

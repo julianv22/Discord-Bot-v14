@@ -7,11 +7,9 @@ module.exports = {
     .setName('bot')
     .setDescription("Get bot's informations")
     .addSubcommand((sub) => sub.setName('info').setDescription('Bot info')),
-  /**
-   * Bot informations
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Bot informations
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     await client.botInfo(interaction);
   },

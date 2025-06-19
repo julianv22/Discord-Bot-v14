@@ -4,11 +4,9 @@ const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'buttons',
   data: { name: 'youtube-alert-btn' },
-  /**
-   * Youtube Alert Role Button
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Youtube Alert Role Button
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, channel, message } = interaction;
     const { errorEmbed } = client;

@@ -1,15 +1,12 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
-const { getEmbedColor } = require('../../functions/common/manage-embed');
-const { checkURL, replaceVar } = require('../../functions/common/utilities');
+const { checkURL, replaceVar, getEmbedColor } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
   data: { name: 'manage-embed-md' },
-  /**
-   * Embed Modal
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Embed Modal
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message, user, guild } = interaction;
     const { catchError } = client;

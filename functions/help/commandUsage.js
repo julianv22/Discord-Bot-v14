@@ -1,17 +1,15 @@
 const { EmbedBuilder, Message, Client, Colors } = require('discord.js');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /**
-   * Command Usage
+  /** Command Usage
    * @param {Message} message - Message
    * @param {object} command Prefix command's options
    * @param {string} command.name Prefix command name
    * @param {string[]} command.aliases Prefix command aliases
    * @param {string} command.description Command description
    * @param {string} [usage] - Command usage
-   * @param {Promise<void>}
-   */
+   * @param {Promise<void>} */
   client.commandUsage = async (message, command, usage) => {
     const { catchError } = client;
     const { guild, author } = message;

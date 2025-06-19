@@ -3,11 +3,9 @@ const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   name: 'guildMemberRemove',
-  /**
-   * Guild Member Remove Event
+  /** Guild Member Remove Event
    * @param {GuildMember} member - Guild Member object
-   * @param {Client} client - Client
-   */
+   * @param {Client} client - Discord Client */
   async execute(member, client) {
     try {
       const { guild, user } = member;

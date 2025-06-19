@@ -16,11 +16,9 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('Deny Suggest')
     .setType(ApplicationCommandType.Message),
-  /**
-   * Deny suggestion
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Deny suggestion
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
     const { errorEmbed, catchError, users, user: bot } = client;

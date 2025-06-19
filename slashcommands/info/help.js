@@ -14,11 +14,9 @@ module.exports = {
   category: 'info',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('help').setDescription('Commands List'),
-  /**
-   * Show command list
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Show command list
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { prefixCommands, slashCommands, subCommands } = client;
     let menus = [

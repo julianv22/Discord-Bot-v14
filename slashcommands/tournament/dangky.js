@@ -9,11 +9,9 @@ module.exports = {
     .setName('dang-ky')
     .setDescription('Register Tournament!')
     .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
-  /**
-   * Register for a tournament
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Register for a tournament
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed, catchError } = client;

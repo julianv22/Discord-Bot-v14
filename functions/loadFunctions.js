@@ -3,7 +3,7 @@ const path = require('path');
 const { readFiles } = require('./common/initLoader');
 const { capitalize } = require('./common/utilities');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
   client.loadFunctions = async (reload = false) => {
     const { logError } = client;

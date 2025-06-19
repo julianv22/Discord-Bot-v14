@@ -5,10 +5,8 @@ const pkg = require('../../package.json');
 module.exports = {
   name: 'ready',
   once: true,
-  /**
-   * Bot ready event
-   * @param {Client} client - Client
-   */
+  /** Bot ready event
+   * @param {Client} client - Discord Client */
   async execute(client) {
     const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
     const log = (message, color = 'reset') => console.log(chalk[color](message));
@@ -50,7 +48,7 @@ module.exports = {
       ],
       tab: 0,
     });
-    table({ name: '📆 Last update:', value: '02:20 Thứ Tư, 18 tháng 6, 2025' });
+    table({ name: '📆 Last update:', value: '02:20 Thứ Năm, 19 tháng 6, 2025' });
     log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
     try {

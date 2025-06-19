@@ -2,27 +2,9 @@ const { Colors, ActionRowBuilder, ButtonStyle, ComponentType } = require('discor
 const { setRowComponent } = require('./components');
 
 module.exports = {
-  /**
-   * Get embed color
-   * @param {string} color - Color input
-   * @returns {string|'Random'} - Return valid color name. If invalid, return 'Random'
-   */
-  getEmbedColor: (color) => {
-    // Nomarlize color input
-    const normalizedColor = color.toLowerCase().replace(/\s/g, '');
-
-    // Check valid color name
-    for (const colorName of Object.keys(Colors)) {
-      if (colorName.toLowerCase() === normalizedColor) return colorName;
-    }
-
-    return 'Random'; // Return Random if invalid
-  },
-  /**
-   * Create embed buttons
+  /** Create embed buttons
    * @param {string} messageId - Message ID if edit embed
-   * @returns {[ActionRowBuilder]} - Return ActionRowBuilder
-   */
+   * @returns {[ActionRowBuilder]} - Return ActionRowBuilder */
   embedButtons: (messageId) => {
     const button1 = [
       { customId: `manage-embed-btn:title:${messageId}`, label: '💬Title', style: ButtonStyle.Primary },
@@ -42,10 +24,8 @@ module.exports = {
       new ActionRowBuilder().addComponents(setRowComponent(button2, ComponentType.Button)),
     ];
   },
-  /**
-   * Create reaction buttons
-   * @returns {ActionRowBuilder} - Return ActionRowBuilder
-   */
+  /** Create reaction buttons
+   * @returns {ActionRowBuilder} - Return ActionRowBuilder */
   reactionButtons: () => {
     const button1 = [
       { customId: 'reaction-btn:title', label: '💬Title', style: ButtonStyle.Primary },

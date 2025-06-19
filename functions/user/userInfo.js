@@ -11,16 +11,14 @@ const {
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /**
-   * User information
+  /** User information
    * @param {Guild} guild - Guild
    * @param {GuildMember} target - Target user
    * @param {GuildMember} author - Author
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
-   * @returns {Promise<void>}
-   */
+   * @returns {Promise<void>} */
   client.userInfo = async (target, object) => {
     const { errorEmbed, catchError } = client;
     const [guild, author] = [object.guild, object.user || object.author];

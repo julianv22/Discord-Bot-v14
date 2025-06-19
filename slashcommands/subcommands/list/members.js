@@ -13,11 +13,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('members'),
 
-  /**
-   * Get members of a role
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Get members of a role
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, options, member } = interaction;
     const { errorEmbed, catchError } = client;

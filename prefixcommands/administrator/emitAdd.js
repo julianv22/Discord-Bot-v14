@@ -7,12 +7,10 @@ module.exports = {
   category: 'administrator',
   cooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
-  /**
-   * Emit Add Member
+  /** Emit Add Member
    * @param {Message} message - Đối tượng message
    * @param {Array} args - Mảng args
-   * @param {Client} client - Đối tượng client
-   */
+   * @param {Client} client - Đối tượng client */
   async execute(message, args, client) {
     const { member: user, mentions } = message;
     const member = mentions.members.first() || user;

@@ -1,10 +1,11 @@
-const { Locale, Collection } = require('discord.js');
+const { Client, Locale, Collection } = require('discord.js');
 const asciiTable = require('ascii-table');
 const path = require('path');
 
 let _client;
 
 module.exports = {
+  /** @param {Client} client Discord Client */
   init: (client) => (_client = client),
   logError: (...args) => {
     if (!_client)
@@ -14,12 +15,10 @@ module.exports = {
       );
     _client.logError(...args);
   },
-  /**
-   * Chuyển đổi tiền tệ
+  /** Chuyển đổi tiền tệ
    * @param {number} balance Số tiền
    * @param {Locale|'vi-VN'} [userLocale] Mã khu vực (vd: `'vi-VN'`)
-   * @returns
-   */
+   * @returns {string} Số tiền với đơn vị tiền tệ tương ứng */
   toCurrency: (balance, userLocale = 'vi-VN') => {
     const CurrencyMap = {
       'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
@@ -45,11 +44,10 @@ module.exports = {
       return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
   },
-  /**
-   * Lấy video mới nhất từ các kênh Youtube
+  /** Lấy video mới nhất từ các kênh Youtube
    * @param {string} channelId - Channel ID
-   * @returns {object} - Return videoId, channelTitle, videoTitle
-   */ getLatestVideoId: async (channelId) => {
+   * @returns {object} - Return videoId, channelTitle, videoTitle */
+  getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
       if (!res.ok) return { videoId: null, title: null };
@@ -64,11 +62,9 @@ module.exports = {
       return { videoId: null, channelTitle: null, videoTitle: null };
     }
   },
-  /**
-   * Check URL
+  /** Check URL
    * @param {string} strInput - String input
-   * @returns {boolean|null} - Return true if the string is a valid URL, otherwise return false
-   */
+   * @returns {boolean|null} - Return true if the string is a valid URL, otherwise return false */
   checkURL: (strInput) => {
     try {
       if (strInput) {
@@ -83,12 +79,24 @@ module.exports = {
       return null;
     }
   },
-  /**
-   * Tìm kiếm và thay thế các biến trong chuỗi
+  /** Get embed color
+   * @param {string} color - Color input
+   * @returns {string|'Random'} - Return valid color name. If invalid, return 'Random' */
+  getEmbedColor: (color) => {
+    // Nomarlize color input
+    const normalizedColor = color.toLowerCase().replace(/\s/g, '');
+
+    // Check valid color name
+    for (const colorName of Object.keys(Colors)) {
+      if (colorName.toLowerCase() === normalizedColor) return colorName;
+    }
+
+    return 'Random'; // Return Random if invalid
+  },
+  /** Tìm kiếm và thay thế các biến trong chuỗi
    * @param {string} str - String cần thay thế
    * @param {object} replacements - Object chứa các biến và giá trị tương ứng
-   * @returns {string} - String đã được thay thế
-   */
+   * @returns {string} - String đã được thay thế */
   replaceVar: (str, replacements) => {
     // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
     // Ví dụ: {user}, {guild}, {avatar}
@@ -98,22 +106,18 @@ module.exports = {
       return replacements[key] !== undefined ? replacements[key] : match;
     });
   },
-  /**
-   * Viết hoa chữ cái đầu tiên của string
+  /** Viết hoa chữ cái đầu tiên của string
    * @param {string} str - String cần viết hoa
-   * @returns {string} - String đã được viết hoa
-   */
+   * @returns {string} - String đã được viết hoa */
   capitalize: (str) => {
     if (!str) return ''; // Xử lý string rỗng hoặc undefined
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
-  /**
-   * Thống kê các command từ Collection ra mảng
+  /** Thống kê các command từ Collection ra mảng
    * @param {Collection<string, object>} command Command collection
    * @param {string|'category'} [property] Bộ lọc theo key của collection
    * @returns {string[]} Return mảng danh sách command đã được thống kê theo key
-   * Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`
-   */
+   * Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
   ListByFilter: (command, property = 'category') => {
     const commandFilter = command.reduce((acc, cmd) => {
       acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
@@ -122,13 +126,11 @@ module.exports = {
 
     return Object.entries(commandFilter).map(([name, count]) => `📂 ${module.exports.capitalize(name)} [${count}]`);
   },
-  /**
-   * Log 2 mảng dữ liệu ra asciiTable
+  /** Log 2 mảng dữ liệu ra asciiTable
    * @param {string[]} data Mảng dữ liệu
    * @param {object} [seting] Các thuộc tính của bảng asciiTable
    * @param {string} [seting.title] `table.setTitle` Tiêu đề của bảng asciiTable
-   * @param {string[]} [seting.heading] `table.setHeading` Tên các cột của bảng asciiTable
-   */
+   * @param {string[]} [seting.heading] `table.setHeading` Tên các cột của bảng asciiTable */
   logAsciiTable: (data, seting = {}) => {
     const { title, heading } = seting;
 

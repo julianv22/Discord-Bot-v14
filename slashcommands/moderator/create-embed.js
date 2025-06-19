@@ -17,11 +17,9 @@ module.exports = {
     .setName('create')
     .setDescription(`Create embed. ${cfg.modRole} only`)
     .addSubcommand((sub) => sub.setName('embed').setDescription('Create an embed')),
-  /**
-   * Create a embed
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Create a embed
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const subCommand = options.getSubcommand();

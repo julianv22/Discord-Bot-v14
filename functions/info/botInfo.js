@@ -5,13 +5,11 @@ const moment = require('moment-timezone');
 const package = require('../../package.json');
 const { infoButtons } = require('../common/components');
 
-/** @param {Client} client - Client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /**
-   * Bot information
+  /** Bot information
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
-   * @returns {Promise<void>}
-   */
+   * @returns {Promise<void>} */
   client.botInfo = async (object) => {
     const {
       catchError,

@@ -9,11 +9,9 @@ module.exports = {
     .addUserOption((option) =>
       option.setName('target').setDescription('The user you want to rob 💲 from').setRequired(true),
     ),
-  /**
-   * Rob 💲 from others (has risk and cooldown)
-   * @param {ChatInputCommandInteraction} interaction - Interaction object
-   * @param {Client} client - Client
-   */
+  /** Rob 💲 from others (has risk and cooldown)
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     await client.robUser(interaction.options.getUser('target'), interaction);
   },
