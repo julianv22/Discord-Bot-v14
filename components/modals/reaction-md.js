@@ -4,7 +4,7 @@ const { getEmbedColor } = require('../../functions/common/utilities');
 module.exports = {
   type: 'modals',
   data: { name: 'reaction-md' },
-  /** Reaction Modal
+  /** - Reaction Modal
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

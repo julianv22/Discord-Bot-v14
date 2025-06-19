@@ -4,14 +4,14 @@ module.exports = {
   category: 'misc',
   scooldown: 10,
   data: new SlashCommandBuilder().setName('quote').setDescription('Get a random quote from https://zenquotes.io'),
-  /** Get a random quote from ZenQuotes
+  /** - Get a random quote from ZenQuotes
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { catchError } = client;
 
-    /** @returns {Promise<string>} */
+    /** - @returns {Promise<string>} */
     const getQuote = () => {
       return fetch('https://zenquotes.io/api/random')
         .then((res) => {

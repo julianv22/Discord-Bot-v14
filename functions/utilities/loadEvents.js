@@ -5,6 +5,7 @@ const { capitalize, logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
+  /** @param {boolean} [reload] `false`: Logs ascii-table to terminal */
   client.loadEvents = async (reload = false) => {
     const { envCollection, logError } = client;
 

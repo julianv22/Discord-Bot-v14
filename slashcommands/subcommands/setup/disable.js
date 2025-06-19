@@ -15,7 +15,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('disable'),
-  /** Disable a feature
+  /** - Disable a feature
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

@@ -17,7 +17,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('notification')
     .setDescription(`Send a notification. ${cfg.adminRole} only`),
-  /** Send a notification
+  /** - Send a notification
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

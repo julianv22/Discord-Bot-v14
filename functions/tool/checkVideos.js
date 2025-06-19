@@ -3,8 +3,7 @@ const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo
-   * @returns {Promise<void>} */
+  /** - Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo */
   client.checkVideos = async () => {
     /**
      * Get the latest video of the YouTube channel

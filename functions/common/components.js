@@ -10,7 +10,7 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  /** Set Row Component
+  /** - Set Row Component
    * @param {object} options - Options
    * @param {string} [options.customId] - Component customId
    * @param {string} options.label - Component label
@@ -68,7 +68,7 @@ module.exports = {
     if (!setRowComponent[type]) throw new Error(chalk.yellow('Invalid ComponentType ') + chalk.green(type));
     else return setRowComponent[type]();
   },
-  /** Set Text Input Component
+  /** - Set Text Input Component
    * @param {object} options - Options object
    * @param {string} options.id - The id of the text input
    * @param {string} options.label - The label of the text input
@@ -86,7 +86,7 @@ module.exports = {
         .setRequired(required),
     );
   },
-  /** Disable Buttons
+  /** - Disable Buttons
    * @param {ButtonComponent} buttons
    * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons */
   disableButtons: (buttons) => {
@@ -100,7 +100,7 @@ module.exports = {
     }
     return disableRow;
   },
-  /** Info Buttons
+  /** - Info Buttons
    * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with info buttons */
   infoButtons: () => {
     const buttons = [

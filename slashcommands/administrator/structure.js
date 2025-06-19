@@ -19,7 +19,7 @@ module.exports = {
     .setName('structure')
     .setDescription('Show folder structure of project')
     .addStringOption((opt) => opt.setName('path').setDescription('Structure path')),
-  /** Project structure
+  /** - Project structure
    * @param {ChatInputCommandInteraction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {

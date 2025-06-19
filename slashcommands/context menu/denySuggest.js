@@ -16,7 +16,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('Deny Suggest')
     .setType(ApplicationCommandType.Message),
-  /** Deny suggestion
+  /** - Deny suggestion
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

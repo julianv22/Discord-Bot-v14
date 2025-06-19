@@ -2,7 +2,7 @@ const { Colors, ActionRowBuilder, ButtonStyle, ComponentType } = require('discor
 const { setRowComponent } = require('./components');
 
 module.exports = {
-  /** Create embed buttons
+  /** - Create embed buttons
    * @param {string} messageId - Message ID if edit embed
    * @returns {[ActionRowBuilder]} - Return ActionRowBuilder */
   embedButtons: (messageId) => {
@@ -24,7 +24,7 @@ module.exports = {
       new ActionRowBuilder().addComponents(setRowComponent(button2, ComponentType.Button)),
     ];
   },
-  /** Create reaction buttons
+  /** - Create reaction buttons
    * @returns {ActionRowBuilder} - Return ActionRowBuilder */
   reactionButtons: () => {
     const button1 = [

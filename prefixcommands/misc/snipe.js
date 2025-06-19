@@ -6,7 +6,7 @@ module.exports = {
   description: 'Snipe tin nhắn bị xoá',
   category: 'misc',
   cooldown: 0,
-  /** Snipe deleted messages
+  /** - Snipe deleted messages
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
    * @param {Client} client - Discord Client */

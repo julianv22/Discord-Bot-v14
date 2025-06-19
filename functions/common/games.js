@@ -1,5 +1,5 @@
 module.exports = {
-  /** RPS Game
+  /** - RPS Game
    * @param {number} userMove - Nước đi của người dùng
    * @returns {object} - Trả về object gồm:
    * - result: Kết quả RPS

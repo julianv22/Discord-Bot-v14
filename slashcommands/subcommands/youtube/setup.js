@@ -6,7 +6,7 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('setup'),
-  /** Setup Youtube channel
+  /** - Setup Youtube channel
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

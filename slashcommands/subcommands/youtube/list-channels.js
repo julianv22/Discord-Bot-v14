@@ -5,7 +5,7 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('list-channels'),
-  /** Get list of Youtube channels
+  /** - Get list of Youtube channels
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

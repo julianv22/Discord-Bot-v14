@@ -19,7 +19,7 @@ module.exports = {
         .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))
         .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline')),
     ),
-  /** List members of a role
+  /** - List members of a role
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {},

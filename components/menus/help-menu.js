@@ -5,7 +5,7 @@ const { readFiles } = require('../../functions/common/initLoader');
 module.exports = {
   type: 'menus',
   data: { name: 'help-menu' },
-  /** Help Menu
+  /** - Help Menu
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

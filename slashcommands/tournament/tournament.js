@@ -38,7 +38,7 @@ module.exports = {
         .setDescription(`Huỷ đăng ký của tất cả thành viên trong guild.\n${cfg.adminRole} only`)
         .addBooleanOption((opt) => opt.setName('confirm').setDescription('Xác nhận').setRequired(true)),
     ),
-  /** Execute the tournament command
+  /** - Execute the tournament command
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

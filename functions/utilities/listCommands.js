@@ -3,9 +3,9 @@ const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** List of commands
-   * @param {Collection<string, object>} command
-   * @param {string|'category'} [property]
+  /** - List of command name filtered by property from Command Collection
+   * @param {Collection<string, object>} command Command Collection
+   * @param {string|'category'} [property] Filter by property
    * @returns {Array<object>} */
   client.listCommands = (command, property = 'category') => {
     try {

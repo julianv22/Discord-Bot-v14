@@ -2,7 +2,7 @@ const { Message, Client, ChannelType, Colors } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
-  /** Message Command Event
+  /** - Message PrefixCommand Event
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
   async execute(message, client) {

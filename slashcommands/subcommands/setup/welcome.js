@@ -12,7 +12,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('welcome'),
-  /** Setup welcome channel with welcome message and log channel
+  /** - Setup welcome channel with welcome message and log channel
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

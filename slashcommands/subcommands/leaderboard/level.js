@@ -6,7 +6,7 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('level'),
-  /** Get level leaderboard
+  /** - Get level leaderboard
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

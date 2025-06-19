@@ -3,7 +3,7 @@ const reactionRole = require('../../config/reactionRole');
 
 module.exports = {
   name: 'messageReactionAdd',
-  /** Message Reaction Add Event
+  /** - MessageReaction Add Event
    * @param {MessageReaction} reaction - Message Reaction object
    * @param {User} user - User object */
   async execute(reaction, user) {

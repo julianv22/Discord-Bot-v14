@@ -5,22 +5,19 @@ const { ListByFilter, logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Load commands from ./prefixcommands and ./slashcommands
-   * @param {boolean} [reload = false]  True if reload */
   client.loadCommands = async () => {
     const { prefixCommands, slashCommands, subCommands, envCollection, logError } = client;
 
     prefixCommands.clear();
     slashCommands.clear();
     subCommands.clear();
-    /**
+    /** Command types object
      * @typedef {Object} CommandTypeConfig Định nghĩa thuộc tính CommandTypeConfig
      * @property {String} name Tên hiển thị của command
      * @property {String} folder Tên thư mục chứa các command
      * @property {Collection<string, object>} collection Collection dùng để lưu trữ các command
      */
-    /**
-     * Object chứa cấu hình cho các loại command khác nhau.
+    /** - Object chứa cấu hình cho các loại command khác nhau.
      * Mỗi thuộc tính đại diện cho một loại command (Prefix, Slash, Sub) và chứa các thông tin cần thiết để tải và quản lý chúng.
      * @type {{
      * Prefix: CommandTypeConfig,

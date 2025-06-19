@@ -4,7 +4,7 @@ const { checkURL, replaceVar, getEmbedColor } = require('../../functions/common/
 module.exports = {
   type: 'modals',
   data: { name: 'manage-embed-md' },
-  /** Embed Modal
+  /** - Embed Modal
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

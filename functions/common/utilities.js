@@ -15,7 +15,7 @@ module.exports = {
       );
     _client.logError(...args);
   },
-  /** Chuyển đổi tiền tệ
+  /** - Chuyển đổi tiền tệ
    * @param {number} balance Số tiền
    * @param {Locale|'vi-VN'} [userLocale] Mã khu vực (vd: `'vi-VN'`)
    * @returns {string} Số tiền với đơn vị tiền tệ tương ứng */
@@ -44,7 +44,7 @@ module.exports = {
       return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
   },
-  /** Lấy video mới nhất từ các kênh Youtube
+  /** - Lấy video mới nhất từ các kênh Youtube
    * @param {string} channelId - Channel ID
    * @returns {object} - Return videoId, channelTitle, videoTitle */
   getLatestVideoId: async (channelId) => {
@@ -62,7 +62,7 @@ module.exports = {
       return { videoId: null, channelTitle: null, videoTitle: null };
     }
   },
-  /** Check URL
+  /** - Check URL
    * @param {string} strInput - String input
    * @returns {boolean|null} - Return true if the string is a valid URL, otherwise return false */
   checkURL: (strInput) => {
@@ -79,7 +79,7 @@ module.exports = {
       return null;
     }
   },
-  /** Get embed color
+  /** - Get embed color
    * @param {string} color - Color input
    * @returns {string|'Random'} - Return valid color name. If invalid, return 'Random' */
   getEmbedColor: (color) => {
@@ -93,7 +93,7 @@ module.exports = {
 
     return 'Random'; // Return Random if invalid
   },
-  /** Tìm kiếm và thay thế các biến trong chuỗi
+  /** - Tìm kiếm và thay thế các biến trong chuỗi
    * @param {string} str - String cần thay thế
    * @param {object} replacements - Object chứa các biến và giá trị tương ứng
    * @returns {string} - String đã được thay thế */
@@ -106,14 +106,14 @@ module.exports = {
       return replacements[key] !== undefined ? replacements[key] : match;
     });
   },
-  /** Viết hoa chữ cái đầu tiên của string
+  /** - Viết hoa chữ cái đầu tiên của string
    * @param {string} str - String cần viết hoa
    * @returns {string} - String đã được viết hoa */
   capitalize: (str) => {
     if (!str) return ''; // Xử lý string rỗng hoặc undefined
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
-  /** Thống kê các command từ Collection ra mảng
+  /** - Thống kê các command từ Collection ra mảng
    * @param {Collection<string, object>} command Command collection
    * @param {string|'category'} [property] Bộ lọc theo key của collection
    * @returns {string[]} Return mảng danh sách command đã được thống kê theo key
@@ -126,7 +126,7 @@ module.exports = {
 
     return Object.entries(commandFilter).map(([name, count]) => `📂 ${module.exports.capitalize(name)} [${count}]`);
   },
-  /** Log 2 mảng dữ liệu ra asciiTable
+  /** - Log 2 mảng dữ liệu ra asciiTable
    * @param {string[]} data Mảng dữ liệu
    * @param {object} [seting] Các thuộc tính của bảng asciiTable
    * @param {string} [seting.title] `table.setTitle` Tiêu đề của bảng asciiTable

@@ -16,7 +16,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('Accept Suggest')
     .setType(ApplicationCommandType.Message),
-  /** Accept suggestion
+  /** - Accept suggestion
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

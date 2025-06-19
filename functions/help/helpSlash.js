@@ -3,7 +3,7 @@ const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /** Show slash commands list.
+  /** - Show slash commands list.
    * @param {string} CommandType - Command type.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
   client.helpSlash = async (CommandType, interaction) => {
@@ -29,7 +29,7 @@ module.exports = (client) => {
         })
         .addFields(commands);
     };
-    let commands = [];
+
     const ShowCommand = {
       subcommands: async () => {
         return await interaction.update({

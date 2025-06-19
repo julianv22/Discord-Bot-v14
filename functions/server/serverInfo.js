@@ -11,11 +11,10 @@ const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Server information
+  /** - Server information
    * @param {Guild} guild - Guild
    * @param {GuildMember} author - Author
-   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
-   * @returns {Promise<void>} */
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.serverInfo = async (object) => {
     const { catchError } = client;
     const [guild, author] = [object.guild, object.user || object.author];

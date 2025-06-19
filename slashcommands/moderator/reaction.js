@@ -17,7 +17,7 @@ module.exports = {
     .setName('reaction')
     .setDescription(`Create reaction role. ${cfg.modRole} only`)
     .addSubcommand((sub) => sub.setName('role').setDescription('Reaction role')),
-  /** Execute the reaction-role command
+  /** - Execute the reaction-role command
    * @param {Client} client - The client instance
    * @param {ChatInputCommandInteraction} interaction - The Command Interaction */
   async execute(interaction, client) {

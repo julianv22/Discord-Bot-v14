@@ -7,7 +7,7 @@ module.exports = {
   description: 'Kiểm tra độ trễ của bot',
   category: 'info',
   cooldown: 0,
-  /** Check bot latency
+  /** - Check bot latency
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
    * @param {Client} client - Discord Client */

@@ -6,7 +6,7 @@ module.exports = {
   description: 'Wow! 😍',
   category: 'misc',
   cooldown: 0,
-  /** Wow! 😍
+  /** - Wow! 😍
    * @param {Message} message - Message
    * @param {Array} args - Array of arguments
    * @param {Client} client - Discord Client */

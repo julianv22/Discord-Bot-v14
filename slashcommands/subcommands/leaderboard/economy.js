@@ -12,7 +12,7 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('economy'),
-  /** Get economy leaderboard
+  /** - Get economy leaderboard
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

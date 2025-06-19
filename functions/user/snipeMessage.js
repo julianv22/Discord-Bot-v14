@@ -2,11 +2,9 @@ const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder,
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Snipe deleted message
-   * @param {GuildMember} user - User object
-   * @param {GuildMember} target - Target object
-   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
-   * @returns {Promise<void>} */
+  /** - Snipe deleted message
+   * @param {GuildMember} target - Target user
+   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.snipeMessage = async (target, object) => {
     const { errorEmbed, catchError, messageSnipes } = client;
     const user = object.user || object.author;

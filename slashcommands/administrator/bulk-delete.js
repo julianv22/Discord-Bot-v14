@@ -17,7 +17,7 @@ module.exports = {
         .setRequired(true),
     )
     .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
-  /** Bulk delete messages
+  /** - Bulk delete messages
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

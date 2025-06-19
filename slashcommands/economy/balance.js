@@ -8,7 +8,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('balance')
     .setDescription('View your balance, streak, bank, inventory and achievements'),
-  /** View balance, streak, bank, inventory and achievements of a user
+  /** - View balance, streak, bank, inventory and achievements of a user
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

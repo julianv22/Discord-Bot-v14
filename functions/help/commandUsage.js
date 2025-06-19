@@ -2,7 +2,7 @@ const { EmbedBuilder, Message, Client, Colors } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Command Usage
+  /** - Command Usage
    * @param {Message} message - Message
    * @param {object} command Prefix command's options
    * @param {string} command.name Prefix command name

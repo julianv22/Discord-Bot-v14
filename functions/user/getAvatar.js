@@ -2,10 +2,9 @@ const { Client, ChatInputCommandInteraction, Message, GuildMember, EmbedBuilder 
 
 /** @param {Client} client Client*/
 module.exports = (client) => {
-  /** Get user's avatar
+  /** - Get user's avatar
    * @param {GuildMember} target Target user
-   * @param {ChatInputCommandInteraction|Message} object Interaction or Message
-   * @returns {Promise<void>} */
+   * @param {ChatInputCommandInteraction|Message} object Interaction or Message */
   client.getAvatar = async (target, object) => {
     const { catchError } = client;
     const author = object.user || object.author;

@@ -32,7 +32,7 @@ module.exports = {
           opt.setName('presence-count-channel').setDescription('Presences Count Channel').setRequired(true),
         ),
     ),
-  /** Show bot or server or user's info
+  /** - Show bot or server or user's info
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

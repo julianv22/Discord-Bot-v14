@@ -4,7 +4,7 @@ module.exports = {
   category: 'info',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('donate').setDescription('Donate for Julian-V'),
-  /** Donate for Julian-V
+  /** - Donate for Julian-V
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

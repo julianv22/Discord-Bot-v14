@@ -38,7 +38,7 @@ module.exports = {
         ),
     )
     .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`)),
-  /** Setup server
+  /** - Setup server
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {},

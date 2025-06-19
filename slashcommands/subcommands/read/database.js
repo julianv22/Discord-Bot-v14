@@ -15,7 +15,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('database'),
 
-  /** Read database from MongoDB
+  /** - Read database from MongoDB
    * @param {ChatInputCommandInteraction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

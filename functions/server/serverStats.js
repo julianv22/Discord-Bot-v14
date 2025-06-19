@@ -3,7 +3,7 @@ const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Server statistics
+  /** - Server statistics
    * @param {Client} client - Discord Client
    * @param {string} guildID - Guild ID */
   client.serverStats = async (client, guildID) => {

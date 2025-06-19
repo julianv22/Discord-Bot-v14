@@ -14,7 +14,7 @@ const { disableButtons } = require('../../functions/common/components');
 module.exports = {
   type: 'buttons',
   data: { name: 'disable-btn' },
-  /** Disable Features Button
+  /** - Disable Features Button
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

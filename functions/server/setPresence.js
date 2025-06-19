@@ -2,7 +2,7 @@ const { Client, ActivityType } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Set the presence and activity of the bot
+  /** - Set the presence and activity of the bot
    * @param {Client} client - Discord Client */
   client.setPresence = (client) => {
     const { guilds, user } = client;

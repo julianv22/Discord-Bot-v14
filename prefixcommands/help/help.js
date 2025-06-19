@@ -7,7 +7,8 @@ module.exports = {
   description: 'Đọc kỹ hướng dẫn SD trước khi dùng!',
   category: 'help',
   cooldown: 0,
-  /** @param {Message} message - Message
+  /** - Help prefix command
+   * @param {Message} message - Message
    * @param {Array} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {

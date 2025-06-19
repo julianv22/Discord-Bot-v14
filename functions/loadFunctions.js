@@ -5,6 +5,7 @@ const { capitalize } = require('./common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
+  /** @param {boolean} [reload] `false`: Logs ascii-table to terminal */
   client.loadFunctions = async (reload = false) => {
     const { logError } = client;
 

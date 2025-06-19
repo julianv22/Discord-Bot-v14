@@ -4,7 +4,7 @@ const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'buttons',
   data: { name: 'youtube-alert-btn' },
-  /** Youtube Alert Role Button
+  /** - Youtube Alert Role Button
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

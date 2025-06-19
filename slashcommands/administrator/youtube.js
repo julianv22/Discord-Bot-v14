@@ -51,7 +51,7 @@ module.exports = {
       (sub) => sub.setName('alerts').setDescription(`Set alert role for Youtube notifications. ${cfg.adminRole} only`),
       // .addRoleOption((opt) => opt.setName('role').setDescription('Choice alert role, set empty for removing')),
     ),
-  /** Setup YouTube
+  /** - Setup YouTube
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

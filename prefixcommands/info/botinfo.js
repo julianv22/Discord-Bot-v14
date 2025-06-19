@@ -6,7 +6,7 @@ module.exports = {
   description: 'Xem thông tin bot',
   category: 'info',
   cooldown: 0,
-  /** Get bot information
+  /** - Get bot information
    * @param {Message} message Message
    * @param {Array} args Array of arguments
    * @param {Client} client Client */

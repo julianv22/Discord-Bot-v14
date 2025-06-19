@@ -1,12 +1,11 @@
 const { ChatInputCommandInteraction, Client, Message, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
-/** * @param {Client} client */
+/** - * @param {Client} client */
 module.exports = (client) => {
-  /** Search Vietnamese Wikipedia articles by keyword
+  /** - Search Vietnamese Wikipedia articles by keyword
    * @param {string} keyword Search keyword
-   * @param {ChatInputCommandInteraction|Message} object Interaction or Message
-   * @returns {Promise<void>} */
+   * @param {ChatInputCommandInteraction|Message} object Interaction or Message */
   client.wikipedia = async (keyword, object) => {
     const { errorEmbed, catchError } = client;
     const author = object.user || object.author;

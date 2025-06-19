@@ -5,7 +5,7 @@ const pkg = require('../../package.json');
 module.exports = {
   name: 'ready',
   once: true,
-  /** Bot ready event
+  /** - Bot ready event
    * @param {Client} client - Discord Client */
   async execute(client) {
     const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;

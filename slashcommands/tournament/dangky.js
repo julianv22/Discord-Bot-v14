@@ -9,7 +9,7 @@ module.exports = {
     .setName('dang-ky')
     .setDescription('Register Tournament!')
     .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
-  /** Register for a tournament
+  /** - Register for a tournament
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

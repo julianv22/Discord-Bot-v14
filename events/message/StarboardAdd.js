@@ -3,7 +3,7 @@ const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   name: 'messageReactionAdd',
-  /** Message Reaction Add Event
+  /** - Message Reaction Starboard Add Event
    * @param {MessageReaction} reaction - Message Reaction object
    * @param {User} user - User object */
   async execute(reaction, user) {

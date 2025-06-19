@@ -27,7 +27,7 @@ module.exports = {
           opt.setName('amount').setDescription('Amount of 💲 to withdraw').setMinValue(100).setRequired(true),
         ),
     ),
-  /** Deposit/withdraw money from balance to bank
+  /** - Deposit/withdraw money from balance to bank
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {},

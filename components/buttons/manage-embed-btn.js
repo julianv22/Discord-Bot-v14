@@ -13,7 +13,7 @@ const { setTextInput } = require('../../functions/common/components');
 module.exports = {
   type: 'buttons',
   data: { name: 'manage-embed-btn' },
-  /** Create a embed
+  /** - Create/edit embed
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

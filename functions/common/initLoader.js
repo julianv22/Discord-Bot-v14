@@ -4,10 +4,10 @@ const path = require('path');
 const { logError } = require('./utilities');
 
 module.exports = {
-  /** Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
+  /** - Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
    * @param {string} folderPath Đường dẫn đến folder cần đọc.
    * @param {object} [options] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
-   * @param {boolean} [options.all] Nếu `true`, hàm sẽ trả về **tất cả** các file và subfolder `folderPath`.
+   * @param {boolean} [options.all] Nếu `true`, hàm sẽ trả về **tất cả** các file và subfolder trong `folderPath`.
    * @param {boolean} [options.isDir] Nếu `true`, hàm sẽ chỉ trả về danh sách các **subfolder** trong `folderPath`.
    * @param {string} [options.extension] Phần mở rộng của file để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
    * @param {function(string): boolean} [options.filter] Hàm lọc tùy chỉnh bổ sung (nếu có).
@@ -65,10 +65,9 @@ module.exports = {
       return [];
     }
   },
-  /** Require file và thêm vào collection tương ứng
+  /** - Require file và thêm vào collection tương ứng
    * @param {string} filePath Đường dẫn của file
-   * @param {string} folderName Tên folder
-   * @param {Collection<string, object>} collection Collection của file */
+   * @param {string} folderName Tên folder */
   requireCommands: (filePath, folderName, collection) => {
     const parts = filePath.split(path.sep);
     const file = parts.pop();
@@ -99,13 +98,12 @@ module.exports = {
       const command = require(filePath);
 
       if (!command) {
-        logError({
+        return logError({
           isWarn: true,
           todo: 'Invalid or empty file at',
           item: file,
           desc: `in ${chalk.green(folder)} folder`,
         });
-        return null;
       }
 
       const setCollection = {
@@ -140,8 +138,7 @@ module.exports = {
       if (!setCollection[folderName]) throw new Error(chalk.yellow(`Invalid folderName ${chalk.green(folderName)}`));
       else setCollection[folderName]();
     } catch (e) {
-      logError({ todo: 'requiring file', item: file, desc: `in ${chalk.green(folder)} folder` }, e);
-      return null;
+      return logError({ todo: 'requiring file', item: file, desc: `in ${chalk.green(folder)} folder` }, e);
     }
   },
 };

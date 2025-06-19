@@ -6,7 +6,7 @@ const { toVND } = require('../../functions/common/utilities');
 module.exports = {
   type: 'buttons',
   data: { name: 'rps-btn' },
-  /** RPS Game
+  /** - RPS Game
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

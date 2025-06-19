@@ -3,7 +3,7 @@ const reactionRole = require('../../config/reactionRole');
 
 module.exports = {
   name: 'messageDelete',
-  /** Delete message event
+  /** - Delete message event
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
   async execute(message, client) {

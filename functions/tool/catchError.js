@@ -2,7 +2,7 @@ const { Client, ChatInputCommandInteraction, Colors, Message, EmbedBuilder, Mess
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** Catch Error function
+  /** - Show error when catched
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
    * @param {Error} e - Error when catched
    * @param {string|ChatInputCommandInteraction} description Error description */
@@ -33,7 +33,7 @@ module.exports = (client) => {
       else return await object.editReply(embed);
     }
   };
-  /** Tạo một embed thông báo lỗi.
+  /** - Tạo một embed thông báo lỗi.
    * @param {object} options - Các tùy chọn cho embed lỗi.
    * @param {string} options.title - Tiêu đề của embed.
    * @param {string} options.description - Mô tả chi tiết của lỗi.

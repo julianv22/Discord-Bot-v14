@@ -9,7 +9,7 @@ module.exports = {
     .addStringOption((option) =>
       option.setName('prompt').setDescription('Your message to Gemini AI').setRequired(true),
     ),
-  /** Chat with Gemini AI (Google GenAI)
+  /** - Chat with Gemini AI (Google GenAI)
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

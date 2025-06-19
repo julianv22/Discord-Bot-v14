@@ -6,7 +6,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('starboard'),
-  /** Setup starboard
+  /** - Setup starboard
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
