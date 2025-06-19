@@ -11,7 +11,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, guildId } = interaction;
+    const { user, guild, guildId, locale } = interaction;
     const { errorEmbed, catchError } = client;
 
     try {
@@ -61,7 +61,7 @@ module.exports = {
         .setDescription(
           `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${toCurrency(
             workMinutes,
-            interaction.locale,
+            locale,
           )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
         )
         .setColor('Random')
@@ -77,7 +77,7 @@ module.exports = {
           .send(
             `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
               guild.name
-            }**\n\n💰 Bạn đã nhận được **${toCurrency(reward, interaction.locale)}**${
+            }**\n\n💰 Bạn đã nhận được **${toCurrency(reward, locale)}**${
               lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
             }`,
           )

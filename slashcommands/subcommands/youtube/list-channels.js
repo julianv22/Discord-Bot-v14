@@ -12,8 +12,7 @@ module.exports = {
     const { guild, user, guildId } = interaction;
     const { errorEmbed, catchError } = client;
     try {
-      /**
-       * Get channel title
+      /** - Get channel title
        * @param {string} channelId - ID of the Youtube channel
        * @param {string} apiKey - API key for Youtube
        * @returns {Promise<string>}

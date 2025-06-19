@@ -67,7 +67,8 @@ module.exports = {
   },
   /** - Require file và thêm vào collection tương ứng
    * @param {string} filePath Đường dẫn của file
-   * @param {string} folderName Tên folder */
+   * @param {string} folderName Tên folder
+   * @param {Collection<string, object>} collection Command Collection */
   requireCommands: (filePath, folderName, collection) => {
     const parts = filePath.split(path.sep);
     const file = parts.pop();

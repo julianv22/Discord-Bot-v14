@@ -3,17 +3,15 @@ const {
   GuildMember,
   ChatInputCommandInteraction,
   EmbedBuilder,
-  Guild,
   Message,
   PermissionFlagsBits,
-  Colors,
 } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - User information
+  /** - Get User information
    * @param {GuildMember} target - Target user
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.userInfo = async (target, object) => {

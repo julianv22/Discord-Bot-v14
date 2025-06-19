@@ -1,6 +1,5 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
-const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {
   type: 'menus',

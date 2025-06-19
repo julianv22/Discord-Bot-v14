@@ -23,7 +23,8 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const bet = interaction.options.getInteger('bet');
+    const { options, locale } = interaction;
+    const bet = options.getInteger('bet');
 
     const buttons = [
       {
@@ -51,7 +52,7 @@ module.exports = {
       .setDescription(
         `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
           bet,
-          interaction.locale,
+          locale,
         )} bạn đặt cược. Tối đa 10 lần/ngày.`,
       )
       .setColor('Random')

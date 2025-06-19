@@ -1,7 +1,7 @@
 const { Client, Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
-const { ListByFilter, logAsciiTable } = require('../common/utilities');
+const { listByFilter, logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -11,7 +11,7 @@ module.exports = (client) => {
     prefixCommands.clear();
     slashCommands.clear();
     subCommands.clear();
-    /** Command types object
+    /** - Command types object
      * @typedef {Object} CommandTypeConfig Định nghĩa thuộc tính CommandTypeConfig
      * @property {String} name Tên hiển thị của command
      * @property {String} folder Tên thư mục chứa các command
@@ -30,8 +30,7 @@ module.exports = (client) => {
       Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
       Sub: { name: 'Sub Commands', folder: path.join('slashcommands', 'subcommands'), collection: subCommands },
     };
-    /**
-     * Load các command (Prefix, Slash, Sub)
+    /** - Load các command (Prefix, Slash, Sub)
      * @param {CommandTypeConfig} type Loại command trong commandTypes
      */
     const loadCommands = async (type) => {
@@ -52,16 +51,18 @@ module.exports = (client) => {
       }
     };
 
-    await loadCommands(commandTypes.Prefix);
-    await loadCommands(commandTypes.Slash);
-    await loadCommands(commandTypes.Sub);
+    await Promise.all([
+      await loadCommands(commandTypes.Prefix),
+      await loadCommands(commandTypes.Slash),
+      await loadCommands(commandTypes.Sub),
+    ]);
 
-    const slashList = ListByFilter(slashCommands);
-    const subList = ListByFilter(subCommands, 'parent');
-    const prefixList = ListByFilter(prefixCommands);
-    const componentList = ListByFilter(envCollection, 'type');
+    const slashList = listByFilter(slashCommands);
+    const subList = listByFilter(subCommands, 'parent');
+    const prefixList = listByFilter(prefixCommands);
+    const componentList = listByFilter(envCollection, 'type');
 
-    logAsciiTable([prefixList, componentList], {
+    logAsciiTable([prefixList, componentList, 1], {
       title: 'Load Prefix Commands & Components',
       heading: [commandTypes.Prefix.name + ` [${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
     });

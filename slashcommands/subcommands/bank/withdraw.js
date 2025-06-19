@@ -11,7 +11,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const { user, guild, locale } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
 
@@ -42,21 +42,21 @@ module.exports = {
             .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
             .setTitle('\\🏦 Withdraw')
             .setDescription(
-              `\\✅ Rút ${toCurrency(amount, interaction.locale)} thành công!\n\nBạn bị trừ ${toCurrency(
+              `\\✅ Rút ${toCurrency(amount, locale)} thành công!\n\nBạn bị trừ ${toCurrency(
                 fee,
-                interaction.locale,
-              )} (1%) phí rút tiền còn ${toCurrency(amount - fee, interaction.locale)}.`,
+                locale,
+              )} (1%) phí rút tiền còn ${toCurrency(amount - fee, locale)}.`,
             )
             .addFields(
               { name: 'Số dư hiện có:', value: '\u200b', inline: false },
               {
                 name: '\\💰 Balance',
-                value: toCurrency(profile.balance, interaction.locale),
+                value: toCurrency(profile.balance, locale),
                 inline: true,
               },
               {
                 name: '\\🏦 Bank',
-                value: toCurrency(profile.bank, interaction.locale),
+                value: toCurrency(profile.bank, locale),
                 inline: true,
               },
             )

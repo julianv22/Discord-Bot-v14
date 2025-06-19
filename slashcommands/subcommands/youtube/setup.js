@@ -13,8 +13,7 @@ module.exports = {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;
     const [yt_channel, action] = [options.getString('channel-id'), options.getString('action')];
-    /**
-     * Validate Youtube channel
+    /** - Validate Youtube channel
      * @param {string} channelId - ID of the Youtube channel
      * @param {string} apiKey - API key for Youtube
      * @returns {Promise<{ valid: boolean, title: string | null }>}

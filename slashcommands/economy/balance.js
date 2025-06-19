@@ -12,7 +12,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const { user, guild, locale } = interaction;
     const { errorEmbed, catchError } = client;
 
     try {
@@ -27,12 +27,12 @@ module.exports = {
       }
 
       // Lấy thông tin
-      const balance = toCurrency(profile.balance || 0, interaction.locale);
-      const bank = toCurrency(profile.bank || 0, interaction.locale);
+      const balance = toCurrency(profile.balance || 0, locale);
+      const bank = toCurrency(profile.bank || 0, locale);
       const streak = (profile.streak || 0).toLocaleString();
       const maxStreak = (profile.maxStreak || 0).toLocaleString();
-      const totalEarned = toCurrency(profile.totalEarned || 0, interaction.locale);
-      const totalSpent = toCurrency(profile.totalSpent || 0, interaction.locale);
+      const totalEarned = toCurrency(profile.totalEarned || 0, locale);
+      const totalSpent = toCurrency(profile.totalSpent || 0, locale);
       const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫';
       const achievements =
         profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫';

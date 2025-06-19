@@ -28,8 +28,7 @@ module.exports = {
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
 
-    /**
-     * Create modal
+    /** - Create modal
      * @param {object} options - Modal Components
      * @param {string} modalId - Modal custom ID
      * @param {string} modalTitle - Modal title

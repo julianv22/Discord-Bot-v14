@@ -31,8 +31,7 @@ module.exports = {
     // if (user.id !== cfg.ownerID && user.id !== owner.id)
     //   return await interaction.editReply(errorEmbed({ desc: 'Owner permission only', emoji: false }));
 
-    /**
-     * Send a message
+    /** - Send a message
      * @param {string} message - Nội dung message
      * @param {string} key - Key của sourcebin
      */

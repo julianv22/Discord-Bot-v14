@@ -12,9 +12,9 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const { user, guild, options, locale } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
-    const amount = interaction.options.getInteger('amount');
+    const amount = options.getInteger('amount');
 
     if (amount <= 0) return await interaction.reply(errorEmbed({ desc: 'Số \\💲 gửi phải lớn hơn 0!', emoji: false }));
 
@@ -47,17 +47,17 @@ module.exports = {
           new EmbedBuilder()
             .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
             .setTitle('\\🏦 Deposit')
-            .setDescription(`\\✅ Gửi ${toCurrency(amount, interaction.locale)} vào ngân hàng thành công!`)
+            .setDescription(`\\✅ Gửi ${toCurrency(amount, locale)} vào ngân hàng thành công!`)
             .addFields(
               { name: 'Số dư hiện có:', value: `\u200b`, inline: false },
               {
                 name: '\\💰 Balance',
-                value: toCurrency(profile.balance, interaction.locale),
+                value: toCurrency(profile.balance, locale),
                 inline: true,
               },
               {
                 name: '\\🏦 Bank',
-                value: toCurrency(profile.bank, interaction.locale),
+                value: toCurrency(profile.bank, locale),
                 inline: true,
               },
             )

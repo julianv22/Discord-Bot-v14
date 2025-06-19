@@ -9,7 +9,7 @@ module.exports = (client) => {
   client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands, subCommands, listCommands } = client;
     const { guild, user } = interaction;
-    /** Help Embed
+    /** - Help Embed
      * @param {string} commandName - Name of the command
      * @param {object[]} commands - Commands to display
      * @param {number} count - Count of commands

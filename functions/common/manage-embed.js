@@ -1,4 +1,4 @@
-const { Colors, ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
+const { ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const { setRowComponent } = require('./components');
 
 module.exports = {

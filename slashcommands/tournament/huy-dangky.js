@@ -6,10 +6,15 @@ module.exports = {
   category: 'tournament',
   scooldown: 0,
   data: new SlashCommandBuilder()
-    .setName('huy-dang-ky')
+    .setName('huy')
     .setDescription('Unregister Tournament!')
-    .addBooleanOption((option) =>
-      option.setName('confirm').setDescription('Hãy chắc chắn trước khi đưa ra quyết định‼').setRequired(true),
+    .addSubcommand((sub) =>
+      sub
+        .setName('dangky')
+        .setDescription('Huỷ đăng ký giải đấu')
+        .addBooleanOption((option) =>
+          option.setName('confirm').setDescription('Hãy chắc chắn trước khi đưa ra quyết định‼').setRequired(true),
+        ),
     ),
   /** - Huỷ đăng ký giải
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
@@ -30,7 +35,7 @@ module.exports = {
     if (!register)
       return await interaction.reply(
         errorEmbed({
-          description: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
+          desc: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
           emoji: '🏆',
           color: Colors.Red,
         }),

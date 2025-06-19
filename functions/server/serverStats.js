@@ -3,7 +3,7 @@ const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Server statistics
+  /** - Setup server statistics command
    * @param {Client} client - Discord Client
    * @param {string} guildID - Guild ID */
   client.serverStats = async (client, guildID) => {
@@ -13,16 +13,14 @@ module.exports = (client) => {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
       const { statistics } = profile;
-      /**
-       * Get the number of members with the given status
+      /** - Get the number of members with the given status
        * @param {string} stats - Member status
        * @returns {number} - Number of members with the given status
        */
       const getPressence = (stats) => {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
       };
-      /**
-       * Set channel name
+      /** - Set channel name
        * @param {string} id - Channel ID
        * @param {string} name - Channel name
        */

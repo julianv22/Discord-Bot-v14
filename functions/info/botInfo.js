@@ -7,7 +7,7 @@ const { infoButtons } = require('../common/components');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Get Bot Information
+  /** - Get Bot information
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.botInfo = async (object) => {
     const {

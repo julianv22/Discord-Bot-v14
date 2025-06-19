@@ -1,7 +1,7 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
-const { toVND } = require('../../functions/common/utilities');
+const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'buttons',
@@ -10,7 +10,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, customId } = interaction;
+    const { user, guild, customId, locale } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, betStr] = customId.split(':');
     const [bet, userMove] = [parseInt(betStr, 10), parseInt(button, 10)];
@@ -35,7 +35,7 @@ module.exports = {
       if (profile.balance < bet) {
         return await interaction.update(
           errorEmbed({
-            description: `Bạn không đủ tiền để cược! Số dư: ${toVND(profile.balance)}`,
+            description: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance, locale)}`,
             emoji: false,
           }),
         );

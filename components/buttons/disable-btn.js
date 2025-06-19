@@ -15,8 +15,8 @@ module.exports = {
   type: 'buttons',
   data: { name: 'disable-btn' },
   /** - Disable Features Button
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+   * @param {ChatInputCommandInteraction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
       guild,
@@ -40,11 +40,10 @@ module.exports = {
           .setStyle(ButtonStyle.Success),
         new ButtonBuilder().setCustomId('disable-btn:cancel').setLabel('❌Cancel').setStyle(ButtonStyle.Danger),
       );
-      /**
-       * Confirm Embed
-       * @param {string} title - Title of the embed (optional)
-       * @param {string} description - Description of the embed (optional)
-       * @returns {EmbedBuilder} - Return EmbedBuilder
+      /** - Confirm Embed
+       * @param {string} title Embed title
+       * @param {string} description Embed description (optional)
+       * @returns {EmbedBuilder} Return EmbedBuilder
        */
       const confirmEmbed = (
         title,

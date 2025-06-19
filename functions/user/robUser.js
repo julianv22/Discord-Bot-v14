@@ -8,7 +8,7 @@ module.exports = (client) => {
    * @param {GuildMember} target - Target user
    * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
   client.robUser = async (target, interaction) => {
-    const { user, guild } = interaction;
+    const { user, guild, locale } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
     const [guildID, userID] = [guild.id, user.id];
     const now = new Date();
@@ -69,16 +69,16 @@ module.exports = (client) => {
         amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có
         profile.balance += amount;
         targetProfile.balance -= amount;
-        resultMsg = `\\💸 Đã giật thành công **${toCurrency(amount, interaction.locale)}**`;
+        resultMsg = `\\💸 Đã giật thành công **${toCurrency(amount, locale)}**`;
       } else {
         amount = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
         amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
         profile.balance -= amount;
         targetProfile.balance += Math.round(amount / 2);
-        resultMsg = `\\❌ Thất bại và bị mất **${toCurrency(
-          amount,
-          interaction.locale,
-        )}**, đối phương nhận được **${toCurrency(Math.round(amount / 2), interaction.locale)}**`;
+        resultMsg = `\\❌ Thất bại và bị mất **${toCurrency(amount, locale)}**, đối phương nhận được **${toCurrency(
+          Math.round(amount / 2),
+          locale,
+        )}**`;
       }
 
       profile.lastRob = now;
@@ -91,12 +91,12 @@ module.exports = (client) => {
         .addFields(
           {
             name: `Số dư của ${user.displayName || user.username}`,
-            value: toCurrency(profile.balance, interaction.locale),
+            value: toCurrency(profile.balance, locale),
             inline: true,
           },
           {
             name: `Số dư của ${target.displayName || target.username}`,
-            value: toCurrency(targetProfile.balance, interaction.locale),
+            value: toCurrency(targetProfile.balance, locale),
             inline: true,
           },
         )

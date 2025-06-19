@@ -46,7 +46,7 @@ module.exports = {
   },
   /** - Lấy video mới nhất từ các kênh Youtube
    * @param {string} channelId - Channel ID
-   * @returns {object} - Return videoId, channelTitle, videoTitle */
+   * @returns {object} - Return `{ videoId, channelTitle, videoTitle }` */
   getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -94,13 +94,20 @@ module.exports = {
     return 'Random'; // Return Random if invalid
   },
   /** - Tìm kiếm và thay thế các biến trong chuỗi
-   * @param {string} str - String cần thay thế
-   * @param {object} replacements - Object chứa các biến và giá trị tương ứng
-   * @returns {string} - String đã được thay thế */
-  replaceVar: (str, replacements) => {
+   * @param {string} stringInput String cần thay thế
+   * @param {object} replacements Object chứa các biến và giá trị tương ứng
+   * @returns {string} - String đã được thay thế
+   * - Ví dụ:
+   * const replaceKey = {
+   * user: user.displayName || user.username,
+   * guild: guild.name,
+   * iconURL: guild.iconURL(),
+   * avatar: user.avatarURL(),
+   * }; */
+  replaceVar: (stringInput, replacements) => {
     // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
     // Ví dụ: {user}, {guild}, {avatar}
-    return str.replace(/\{(\w+)\}/g, (match, key) => {
+    return stringInput.replace(/\{(\w+)\}/g, (match, key) => {
       // Nếu key tồn tại trong đối tượng replacements, trả về giá trị đó.
       // Nếu không, trả về lại match gốc để không thay đổi phần đó.
       return replacements[key] !== undefined ? replacements[key] : match;
@@ -114,12 +121,12 @@ module.exports = {
     return str.charAt(0).toUpperCase() + str.slice(1);
   },
   /** - Thống kê các command từ Collection ra mảng
-   * @param {Collection<string, object>} command Command collection
+   * @param {Collection<string, object>} collection Command collection
    * @param {string|'category'} [property] Bộ lọc theo key của collection
    * @returns {string[]} Return mảng danh sách command đã được thống kê theo key
    * Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
-  ListByFilter: (command, property = 'category') => {
-    const commandFilter = command.reduce((acc, cmd) => {
+  listByFilter: (collection, property = 'category') => {
+    const commandFilter = collection.reduce((acc, cmd) => {
       acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
       return acc;
     }, {});
@@ -142,7 +149,8 @@ module.exports = {
       });
 
     for (const dat of data) {
-      if (!dat) return _client.logError({ isWarn: true, todo: `Type of an item in 'data' is:`, item: typeof dat });
+      if (!dat || !Array.isArray(dat))
+        return _client.logError({ isWarn: true, todo: `Empty 'data' or type of an item is:`, item: typeof dat });
     }
 
     const table = new asciiTable().setBorder('│', '─', '✧', '✧');

@@ -14,8 +14,7 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
-    /**
-     * Create modal
+    /** - Create modal
      * @param {string} placeholder - Placeholder
      * @param {string} modalId - Modal ID
      * @param {string} modalTitle - Modal Title

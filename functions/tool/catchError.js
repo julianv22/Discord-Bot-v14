@@ -3,8 +3,8 @@ const { Client, ChatInputCommandInteraction, Colors, Message, EmbedBuilder, Mess
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Show error when catched
-   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message
-   * @param {Error} e - Error when catched
+   * @param {ChatInputCommandInteraction|Message} object Interaction or Message
+   * @param {Error} e Error message
    * @param {string|ChatInputCommandInteraction} description Error description */
   client.catchError = async (object, e, description) => {
     const errorMessage = () => {
@@ -22,14 +22,14 @@ module.exports = (client) => {
 
     console.error(chalk.red(errorMessage() + '\n'), e);
 
-    if (object.author)
-      return await object.reply(embed).then((m) =>
-        setTimeout(async () => {
-          m.delete().catch(console.error);
-        }, 10 * 1000),
-      );
-    else {
-      if (!object.replied && !object.deferred) return await object.reply(embed);
+    if (object) {
+      if (object.author)
+        return await object.reply(embed).then((m) =>
+          setTimeout(async () => {
+            m.delete().catch(console.error);
+          }, 10 * 1000),
+        );
+      else if (!object.replied && !object.deferred) return await object.reply(embed);
       else return await object.editReply(embed);
     }
   };
@@ -69,7 +69,7 @@ module.exports = (client) => {
    * @param {string} [options.item]  Đối tượng tương tác
    * @param {string} [options.desc] Mô tả lỗi
    * @param {boolean} [options.isWarn] isWarn = false: `console.warn`, isWarn = true: `console.error`
-   * @param {Error} [e] Error
+   * @param {Error} [e] Error message
    * - Ví dụ: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
     const color = isWarn ? 'yellow' : 'red';

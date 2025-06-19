@@ -3,7 +3,7 @@ const moment = require('moment-timezone');
 
 /** @param {Client} client Client */
 module.exports = (client) => {
-  /** - Get Github Information
+  /** - Get Github information
    * @param {string} gitUserName Github username
    * @param {ChatInputCommandInteraction|Message} object Interaction or Message */
   client.githubInfo = async (gitUserName, object) => {

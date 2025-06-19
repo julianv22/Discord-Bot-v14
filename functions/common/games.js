@@ -8,8 +8,7 @@ module.exports = {
    * - res: Kết quả RPS dạng số */
   rpsGame: (userMove) => {
     const botMove = Math.floor(Math.random() * 3);
-    /**
-     * RPS Config
+    /** - RPS Config
      * @type {object}
      * @property {object} Emojis - Các emoji cho từng nước đi
      * @property {object} Results - Kết quả RPS dạng số

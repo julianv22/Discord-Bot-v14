@@ -5,11 +5,9 @@ const serverProfile = require('../../config/serverProfile');
 module.exports = (client) => {
   /** - Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo */
   client.checkVideos = async () => {
-    /**
-     * Get the latest video of the YouTube channel
+    /** - Get the latest video of the YouTube channel
      * @param {string} channelId - Channel ID
-     * @returns {object} - Return videoId, channelTitle, videoTitle
-     */
+     * @returns {object} - Return videoId, channelTitle, videoTitle */
     const getLatestVideoId = async (channelId) => {
       try {
         const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);

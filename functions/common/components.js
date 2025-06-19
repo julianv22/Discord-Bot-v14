@@ -75,7 +75,7 @@ module.exports = {
    * @param {string|TextInputStyle.Short} [options.style] - The style of the text input
    * @param {string} [options.placeholder] - The placeholder of the text input
    * @param {boolean} [options.required] - Whether the text input is required
-   * @returns {ActionRowBuilder} - Return ActionRowBuilder */
+   * @returns {ActionRowBuilder<TextInputBuilder>} - Return ActionRowBuilder */
   setTextInput: ({ id, label, style = TextInputStyle.Short, placeholder = '', required = false }) => {
     return new ActionRowBuilder().addComponents(
       new TextInputBuilder()
