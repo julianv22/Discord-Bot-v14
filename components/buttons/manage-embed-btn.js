@@ -6,9 +6,10 @@ const {
   ButtonStyle,
   TextInputStyle,
   ModalBuilder,
+  ComponentType,
   Colors,
 } = require('discord.js');
-const { setTextInput } = require('../../functions/common/components');
+const { rowComponents } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
@@ -27,97 +28,108 @@ module.exports = {
     ];
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
-
-    /** - Create modal
-     * @param {object} options - Modal Components
-     * @param {string} modalId - Modal custom ID
-     * @param {string} modalTitle - Modal title
-     * @returns {ModalBuilder} - Return ModalBuilder
-     */
-    const createModal = (options, modalId = `manage-embed-md:${button}`, modalTitle = 'Embed Manager') => {
-      return new ModalBuilder().setCustomId(modalId).setTitle(modalTitle).setComponents(setTextInput(options));
+    /**
+     * @param {object[]} options
+     * @returns {ModalBuilder} */
+    const createModal = (options) => {
+      const textInputs = rowComponents(options, ComponentType.TextInput);
+      const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
+      const modal = new ModalBuilder().setCustomId(`manage-embed-md:${button}`).setTitle('Embed Manager');
+      actionRows.forEach((row) => modal.addComponents(row));
+      return modal;
     };
 
     try {
       const showModal = {
         author: async () => {
-          const modal = createModal({
-            id: 'author',
-            label: 'Embed Author, variable: {guild}, {user}',
-            placeholder: '{guild} = Server name, {user} = Username',
-          });
-          modal.addComponents(
-            setTextInput({
-              id: 'authorIcon',
-              label: 'Author icon (*.webp)',
-              placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
-            }),
+          return await interaction.showModal(
+            createModal([
+              {
+                customId: 'author',
+                label: 'Embed Author, variable: {guild}, {user}',
+                placeholder: '{guild} = Server name, {user} = Username',
+              },
+              {
+                customId: 'authorIcon',
+                label: 'Author icon (*.webp)',
+                placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
+              },
+            ]),
           );
-          return await interaction.showModal(modal);
         },
         title: async () => {
           return await interaction.showModal(
-            createModal({
-              id: 'title',
-              label: 'Embed Title',
-              placeholder: '{guild} = Server name, {user} = Username',
-              required: true,
-            }),
+            createModal([
+              {
+                customId: 'title',
+                label: 'Embed Title',
+                placeholder: '{guild} = Server name, {user} = Username',
+                required: true,
+              },
+            ]),
           );
         },
         description: async () => {
           return await interaction.showModal(
-            createModal({
-              id: 'description',
-              label: 'Description',
-              placeholder: 'Enter the embed description\n{guild} = Server name\n{user} = Username',
-              style: TextInputStyle.Paragraph,
-              required: true,
-            }),
+            createModal([
+              {
+                customId: 'description',
+                label: 'Description',
+                placeholder: 'Enter the embed description\n{guild} = Server name\n{user} = Username',
+                style: TextInputStyle.Paragraph,
+                required: true,
+              },
+            ]),
           );
         },
         color: async () => {
           return await interaction.showModal(
-            createModal({
-              id: 'color',
-              label: 'Color (Empty = Random)',
-              placeholder: Object.keys(Colors).join(',').slice(14, 114),
-              required: true,
-            }),
+            createModal([
+              {
+                customId: 'color',
+                label: 'Color (Empty = Random)',
+                placeholder: Object.keys(Colors).join(',').slice(14, 114),
+              },
+            ]),
           );
         },
         image: async () => {
           return await interaction.showModal(
-            createModal({
-              id: 'image',
-              label: 'Image (Empty = Delete)',
-              placeholder: 'Enter the image url, Empty = Delete',
-            }),
+            createModal([
+              {
+                customId: 'image',
+                label: 'Image (Empty = Delete)',
+                placeholder: 'Enter the image url, Empty = Delete',
+              },
+            ]),
           );
         },
         thumbnail: async () => {
           return await interaction.showModal(
-            createModal({
-              id: 'thumbnail',
-              label: 'Thumbnail (Empty = Delete)',
-              placeholder: 'Enter the thumbnail url, Empty = Delete',
-            }),
+            createModal([
+              {
+                customId: 'thumbnail',
+                label: 'Thumbnail (Empty = Delete)',
+                placeholder: 'Enter the thumbnail url, Empty = Delete',
+              },
+            ]),
           );
         },
         footer: async () => {
-          const modal = createModal({
-            id: 'footer',
-            label: 'Footer (Empty = Delete)',
-            placeholder: '{guild} = Server name, {user} = Username',
-          });
-          modal.addComponents(
-            setTextInput({
-              id: 'footerIcon',
-              label: 'Footer icon (*.webp)',
-              placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
-            }),
+          return await interaction.showModal(
+            createModal([
+              {
+                customId: 'footer',
+                label: 'Footer (Empty = Delete)',
+                placeholder: '{guild} = Server name, {user} = Username',
+              },
+              {
+                customId: 'footerIcon',
+                label: 'Footer icon (*.webp)',
+                placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
+              },
+            ]),
           );
-          return await interaction.showModal(modal);
         },
         timestamp: async () => {
           if (Button1.components[2].data.style === ButtonStyle.Danger) {

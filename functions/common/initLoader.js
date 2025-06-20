@@ -82,6 +82,7 @@ module.exports = {
           .map((m) => `'${m}'`)
           .join(' or ') +
         ' property';
+
       if (errMessage === 'execute') message = "is missing 'execute' property or is not function";
 
       console.warn(

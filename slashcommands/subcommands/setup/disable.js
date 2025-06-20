@@ -8,7 +8,7 @@ const {
   ComponentType,
   Colors,
 } = require('discord.js');
-const { setRowComponent } = require('../../../functions/common/components');
+const { rowComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -63,8 +63,8 @@ module.exports = {
     await interaction.reply({
       embeds: [embed],
       components: [
-        new ActionRowBuilder().addComponents(setRowComponent(buttons1, ComponentType.Button)),
-        new ActionRowBuilder().addComponents(setRowComponent(buttons2, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(rowComponents(buttons1, ComponentType.Button)),
+        new ActionRowBuilder().addComponents(rowComponents(buttons2, ComponentType.Button)),
       ],
       flags: 64,
     });

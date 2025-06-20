@@ -1,5 +1,5 @@
 const { ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
-const { setRowComponent } = require('./components');
+const { rowComponents } = require('./components');
 
 module.exports = {
   /** - Create embed buttons
@@ -20,8 +20,8 @@ module.exports = {
       { customId: `manage-embed-btn:send:${messageId}`, label: '✅Send Embed', style: ButtonStyle.Success },
     ];
     return [
-      new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button)),
-      new ActionRowBuilder().addComponents(setRowComponent(button2, ComponentType.Button)),
+      new ActionRowBuilder().addComponents(rowComponents(button1, ComponentType.Button)),
+      new ActionRowBuilder().addComponents(rowComponents(button2, ComponentType.Button)),
     ];
   },
   /** - Create reaction buttons
@@ -34,6 +34,6 @@ module.exports = {
       { customId: 'reaction-btn:finish', label: '✅Finish', style: ButtonStyle.Success },
       // { customId: 'reaction-btn:cancel', label: '❌Cancel', style: ButtonStyle.Danger },
     ];
-    return new ActionRowBuilder().addComponents(setRowComponent(button1, ComponentType.Button));
+    return new ActionRowBuilder().addComponents(rowComponents(button1, ComponentType.Button));
   },
 };

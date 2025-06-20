@@ -1,6 +1,14 @@
-const { Client, ModalBuilder, TextInputStyle, EmbedBuilder, Colors } = require('discord.js');
+const {
+  Client,
+  ModalBuilder,
+  TextInputStyle,
+  EmbedBuilder,
+  Colors,
+  ComponentType,
+  ActionRowBuilder,
+} = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
-const { setTextInput } = require('../../functions/common/components');
+const { rowComponents } = require('../../functions/common/components');
 const reactionMap = new Map();
 
 module.exports = {
@@ -14,37 +22,27 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
-    /** - Create modal
-     * @param {string} placeholder - Placeholder
-     * @param {string} modalId - Modal ID
-     * @param {string} modalTitle - Modal Title
-     * @returns {ModalBuilder} - Return ModalBuilder
-     */
-    const reactionModal = (
-      placeholder = '',
-      modalId = `reaction-md:${buttonId}`,
-      modalTitle = 'Manager Reaction Role',
-    ) => {
-      return new ModalBuilder()
-        .setCustomId(modalId)
-        .setTitle(modalTitle)
-        .setComponents(
-          setTextInput({
-            id: buttonId,
-            label: `Reaction Role ${buttonId}`,
-            style: TextInputStyle.Short,
-            placeholder: placeholder,
-          }),
-        );
+    /**
+     * @param {string} placeholder TextInput placeholder
+     * @returns {ModalBuilder} */
+    const createModal = (placeholder) => {
+      const textInputs = rowComponents(
+        [{ customId: buttonId, label: `Reaction Role ${buttonId}`, style: TextInputStyle.Short, placeholder }],
+        ComponentType.TextInput,
+      );
+      const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
+      const modal = new ModalBuilder().setCustomId(`reaction-md:${buttonId}`).setTitle('Manager Reaction Role');
+      actionRows.forEach((row) => modal.addComponents(row));
+      return modal;
     };
 
     try {
       const reactionButton = {
         title: async () => {
-          return await interaction.showModal(reactionModal('Enter the reaction role title'));
+          return await interaction.showModal(createModal('Enter the reaction role title'));
         },
         color: async () => {
-          return await interaction.showModal(reactionModal(Object.keys(Colors).join(',').slice(14, 114)));
+          return await interaction.showModal(createModal(Object.keys(Colors).join(',').slice(14, 114)));
         },
         add: async () => {
           if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);

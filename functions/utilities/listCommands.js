@@ -16,7 +16,7 @@ module.exports = (client) => {
 
       let commands = [];
       Object.entries(commandCat).forEach(([prop, count]) => {
-        let cmds = command.filter((cmd) => cmd[property] === prop).map((c) => c?.data?.name || c?.name);
+        let cmds = command.filter((cmd) => cmd[property] === prop).map((cmd) => cmd?.data?.name || cmd?.name);
 
         commands.push({
           name: `\\📂 ${capitalize(prop)} [${count}]`,

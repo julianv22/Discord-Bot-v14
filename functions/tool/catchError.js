@@ -8,14 +8,16 @@ module.exports = (client) => {
    * @param {string|ChatInputCommandInteraction} description Error description */
   client.catchError = async (object, e, description) => {
     const errorMessage = () => {
-      if (!description) return 'Unknown error';
+      if (description) {
+        if (typeof description === 'string') return description;
 
-      if (typeof description === 'string') return description;
+        if (typeof description === 'object')
+          return `Error while executing ${chalk.green(
+            `/${description.parent ? description.parent + ' ' : ''}${description.data.name}`,
+          )} command`;
+      }
 
-      if (typeof description === 'object')
-        return `Error while executing ${chalk.green(
-          `/${description.parent ? description.parent + ' ' : ''}${description.data.name}`,
-        )} command`;
+      return 'Unknown error';
     };
 
     const embed = client.errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.Red });
@@ -76,9 +78,8 @@ module.exports = (client) => {
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
     let second = chalk.green(item);
     second += (item ? ' ' : '') + chalk[color](desc);
-    second += '\n';
 
     const func = isWarn ? console.warn : console.error;
-    func(first, second, e ? e : '');
+    func(first, second, e ? '\n' + e : '');
   };
 };

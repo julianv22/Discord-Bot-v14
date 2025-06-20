@@ -6,7 +6,7 @@ const {
   StringSelectMenuBuilder,
   ComponentType,
 } = require('discord.js');
-const { setRowComponent, infoButtons } = require('../../functions/common/components');
+const { rowComponents, infoButtons } = require('../../functions/common/components');
 const { capitalize } = require('../../functions/common/utilities');
 const { readFiles } = require('../../functions/common/initLoader');
 
@@ -52,7 +52,7 @@ module.exports = {
             .setCustomId('help-menu')
             .setMinValues(1)
             .setMaxValues(1)
-            .setOptions(setRowComponent(menus, ComponentType.StringSelect))
+            .setOptions(rowComponents(menus, ComponentType.StringSelect))
             .addOptions(slashFolders.map((folder) => ({ label: `📂 ${capitalize(folder)}`, value: folder }))),
         ),
         infoButtons(),

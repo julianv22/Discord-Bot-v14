@@ -7,7 +7,7 @@ const {
   ButtonStyle,
   ComponentType,
 } = require('discord.js');
-const { setRowComponent } = require('../../functions/common/components');
+const { rowComponents } = require('../../functions/common/components');
 const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -62,7 +62,7 @@ module.exports = {
 
     await interaction.reply({
       embeds: [embed],
-      components: [new ActionRowBuilder().addComponents(setRowComponent(buttons, ComponentType.Button))],
+      components: [new ActionRowBuilder().addComponents(rowComponents(buttons, ComponentType.Button))],
       flags: 64,
     });
   },

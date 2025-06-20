@@ -57,16 +57,15 @@ module.exports = (client) => {
       await loadCommands(commandTypes.Sub),
     ]);
 
-    const slashList = listByFilter(slashCommands);
-    const subList = listByFilter(subCommands, 'parent');
     const prefixList = listByFilter(prefixCommands);
     const componentList = listByFilter(envCollection, 'type');
-
-    logAsciiTable([prefixList, componentList, 1], {
+    logAsciiTable([prefixList, componentList], {
       title: 'Load Prefix Commands & Components',
       heading: [commandTypes.Prefix.name + ` [${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
     });
 
+    const slashList = listByFilter(slashCommands);
+    const subList = listByFilter(subCommands, 'parent');
     logAsciiTable([slashList, subList], {
       title: 'Load Slash/Sub Commands',
       heading: [commandTypes.Slash.name + ` [${slashCommands.size}]`, commandTypes.Sub.name + ` [${subCommands.size}]`],

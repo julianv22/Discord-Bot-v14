@@ -1,4 +1,4 @@
-const { Client, Locale, Collection } = require('discord.js');
+const { Client, Locale, Collection, Colors } = require('discord.js');
 const asciiTable = require('ascii-table');
 const path = require('path');
 
