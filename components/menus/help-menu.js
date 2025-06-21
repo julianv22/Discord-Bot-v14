@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandSubcommandBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -13,14 +13,14 @@ module.exports = {
     const CommandType = interaction.values[0];
 
     try {
-      const ignoreFolders = ['context menu', 'subcommands'];
-      const slashCategory = [
+      const ignore = 'context menu';
+      const slashCategories = [
         ...new Set(
-          slashCommands.filter((cmd) => !ignoreFolders.includes(cmd.category)).map((cmd) => capitalize(cmd.category)),
+          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category)),
         ),
       ];
-      const subCategory = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
-      const contextMenus = slashCommands.filter((cmd) => cmd.category === ignoreFolders[0]).map((cmd) => cmd.data.name);
+      const subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
+      const contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
 
       const ShowHelp = {
         default: async () => {
@@ -39,12 +39,12 @@ module.exports = {
                   {
                     name: `\\📂 Slash Commands\n[\`Commands: ${
                       slashCommands.size - contextMenus.length
-                    } --- Categories: ${slashCategory.length}\`]`,
-                    value: `\`\`\`ansi\n\x1b[36m${slashCategory.join(' | ')}\x1b[0m\`\`\``,
+                    } --- Categories: ${slashCategories.length}\`]`,
+                    value: `\`\`\`ansi\n\x1b[36m${slashCategories.join(' | ')}\x1b[0m\`\`\``,
                   },
                   {
-                    name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subCategory.length}\`]`,
-                    value: `\`\`\`ansi\n\x1b[36m${subCategory.join(' | ')}\x1b[0m\`\`\``,
+                    name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subCategories.length}\`]`,
+                    value: `\`\`\`ansi\n\x1b[36m${subCategories.join(' | ')}\x1b[0m\`\`\``,
                   },
                   {
                     name: `\\📂 Context Menus [**${contextMenus.length}**]`,

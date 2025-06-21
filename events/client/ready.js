@@ -11,13 +11,19 @@ module.exports = {
     const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
     const log = (message, color = 'reset') => console.log(chalk[color](message));
     const table = ({ name, value, nameColor = 'blue', valueColor = 'cyan', tab = 1 }) => {
+      if (typeof name === 'string' && typeof value === 'string')
+        return console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
+
       if (Array.isArray(name) && Array.isArray(value)) {
         const loop = Math.min(name.length, value.length);
         const logs = [];
-        for (let i = 0; i < loop; i++) logs.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
+        for (let i = 0; i < loop; i++) {
+          logs.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
+        }
+        return console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
+      }
 
-        console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
-      } else console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
+      return null;
     };
 
     log(`\n${'-'.repeat(12)}[ Server Statistics ]${'-'.repeat(12)}\n`, 'red');

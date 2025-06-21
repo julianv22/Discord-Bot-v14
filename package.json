@@ -20,7 +20,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "build": "npm i discord.js@14 mongoose @google/genai moment-timezone ascii-table path chalk@4 && npm run start",
+    "build": "npm run init && npm run start",
+    "init": "npm i discord.js@14 mongoose @google/genai moment-timezone ascii-table path chalk@4",
     "start": "node ."
   },
   "dependencies": {}

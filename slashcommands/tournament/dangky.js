@@ -6,14 +6,9 @@ module.exports = {
   category: 'tournament',
   cooldown: 0,
   data: new SlashCommandBuilder()
-    .setName('dang')
+    .setName('dangky')
     .setDescription('Register Tournament!')
-    .addSubcommand((sub) =>
-      sub
-        .setName('ky')
-        .setDescription('Đăng ký giải đấu')
-        .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
-    ),
+    .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
   /** - Đăng ký giải đấu
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

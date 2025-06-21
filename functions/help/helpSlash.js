@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandSubcommandBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
@@ -7,7 +7,7 @@ module.exports = (client) => {
    * @param {string} CommandType - Command type.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
   client.helpSlash = async (CommandType, interaction) => {
-    const { slashCommands, subCommands, listCommands } = client;
+    const { slashCommands } = client;
     const { guild, user } = interaction;
     /** - Help Embed
      * @param {object[]} commands - Commands list
@@ -31,22 +31,30 @@ module.exports = (client) => {
         ],
       });
     };
-    // ;
-    const ShowCommand = {
-      subcommands: async () => {
-        return helpEmbed(listCommands(subCommands, 'parent'), subCommands.size);
-      },
-      default: async () => {
-        const commands = slashCommands
-          .filter((cmd) => cmd.category === CommandType)
-          .map((cmd) => ({
-            name: `/${cmd?.data?.name || cmd?.name}`,
-            value: `\`\`\`ansi\n\x1b[36m${cmd?.data?.description || cmd?.description}\x1b[0m\`\`\``,
-          }));
 
-        return helpEmbed(commands, commands.length);
-      },
-    };
-    (ShowCommand[CommandType] || ShowCommand.default)();
+    const commands = slashCommands
+      .filter((cmd) => cmd.category === CommandType)
+      .map((cmd) => {
+        const subName = cmd?.data?.options
+          ?.filter((opt) => opt instanceof SlashCommandSubcommandBuilder)
+          .map((cmd) => cmd?.name);
+
+        return {
+          name: `/${cmd?.data?.name || cmd?.name}`,
+          value: `\n\`\`\`ansi\n\x1b[36m${cmd?.data?.description}\n${
+            subName.length > 0
+              ? `\x1b[35mSub commands:\x1b[34m\n` +
+                subName
+                  .map((sub, index, array) => {
+                    const isLast = index === array.length - 1;
+                    return `${isLast ? '└──' : '├──'}${cmd?.data?.name} ${sub}`;
+                  })
+                  .join('\n')
+              : ''
+          }\`\`\``,
+        };
+      });
+
+    return helpEmbed(commands, commands.length);
   };
 };

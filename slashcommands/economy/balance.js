@@ -43,19 +43,19 @@ module.exports = {
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle('\\💳 Economy Information')
         .addFields(
-          { name: '\\💰 Balance', value: balance, inline: true },
-          { name: '\\🏦 Bank', value: bank, inline: true },
-          { name: '\\🔥 Streak', value: `${streak} / (max: ${maxStreak})`, inline: true },
-          { name: 'Tổng số \\💲 đã kiếm được', value: totalEarned, inline: true },
-          { name: 'Tổng số \\💲 đã chi tiêu', value: totalSpent, inline: true },
+          { name: '\\💰 Balance:', value: balance, inline: true },
+          { name: '\\🏦 Bank:', value: bank, inline: true },
+          { name: '\\🔥 Streak:', value: `${streak} / (max: ${maxStreak})`, inline: true },
+          { name: '\\💲 Tổng thu:', value: totalEarned, inline: true },
+          { name: '\\💲 Tổng chi:', value: totalSpent, inline: true },
           {
             name: '\u200b',
             value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',
             inline: false,
           },
-          { name: '\\💼 Job', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
-          { name: '\\📦 Inventory', value: inventory, inline: false },
-          { name: '\\🏆 Achievements', value: achievements, inline: false },
+          { name: '\\💼 Job:', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
+          { name: '\\📦 Inventory:', value: inventory, inline: false },
+          { name: '\\🏆 Achievements:', value: achievements, inline: false },
         )
         .setColor('Random')
         .setThumbnail(cfg.economyPNG)

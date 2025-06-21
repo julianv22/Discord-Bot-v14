@@ -34,11 +34,10 @@ module.exports = {
       },
     ];
 
-    const ignoreFolders = 'context menu';
-    const slashFolders = readFiles('slashcommands', {
-      isDir: true,
-      filter: (folder) => !ignoreFolders.includes(folder),
-    });
+    const ignore = 'context menu';
+    const slashCategories = new Set(
+      slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category),
+    );
     await interaction.reply({
       embeds: [
         {
@@ -53,7 +52,7 @@ module.exports = {
             .setMinValues(1)
             .setMaxValues(1)
             .setOptions(rowComponents(menus, ComponentType.StringSelect))
-            .addOptions(slashFolders.map((folder) => ({ label: `📂 ${capitalize(folder)}`, value: folder }))),
+            .addOptions(Array.from(slashCategories).map((value) => ({ label: `📂 ${capitalize(value)}`, value }))),
         ),
         infoButtons(),
       ],
