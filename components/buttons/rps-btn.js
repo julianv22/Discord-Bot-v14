@@ -50,7 +50,7 @@ module.exports = {
         0: () => {
           profile.balance -= bet;
           profile.totalSpent -= bet;
-          return `Bạn thua và bị trừ **${toVND(bet)}**!`;
+          return `Bạn thua và bị trừ **${toCurrency(bet, locale)}**!`;
         },
         1: () => {
           return 'Hòa, bạn không bị trừ tiền!';
@@ -58,7 +58,7 @@ module.exports = {
         2: () => {
           profile.balance += winAmount;
           profile.totalEarned += winAmount;
-          return `Bạn thắng và nhận được **${toVND(winAmount)}**!`;
+          return `Bạn thắng và nhận được **${toCurrency(winAmount, locale)}**!`;
         },
       };
       // Tăng số lần chơi và cập nhật ngày
@@ -77,17 +77,17 @@ module.exports = {
         .setDescription(
           `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
             profile.rpsCount
-          }/50**\nSố dư: **${toVND(profile.balance)}**`,
+          }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`,
         )
         .addFields([
           {
             name: '\\💰 Tổng tiền đã nhận',
-            value: toVND(profile.totalEarned) || 0,
+            value: toCurrency(profile.totalEarned, locale) || 0,
             inline: true,
           },
           {
             name: '\\💸 Tổng tiền đã chi',
-            value: toVND(profile.totalSpent) || 0,
+            value: toCurrency(profile.totalSpent, locale) || 0,
             inline: true,
           },
         ]);
