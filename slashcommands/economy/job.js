@@ -19,7 +19,7 @@ module.exports = {
       if (!profile)
         return await interaction.reply(
           errorEmbed({
-            description: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
+            desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
           }),
         );
@@ -32,7 +32,7 @@ module.exports = {
         const timeleft = Math.floor(finishTime.getTime() / 1000);
         return await interaction.reply(
           errorEmbed({
-            description: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
+            desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
             emoji: false,
           }),
         );
