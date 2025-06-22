@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -9,45 +9,39 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user } = interaction;
-    const [img, thumb] = [
-      'https://media.discordapp.net/attachments/976364997066231828/997976998527914124/Header.png',
-      'https://cdn.discordapp.com/avatars/566891661616218132/ba6efb8ea73083a217e45c977e70a921.webp',
-    ];
+    const thumbnail = {
+      url: 'https://cdn.discordapp.com/avatars/566891661616218132/ba6efb8ea73083a217e45c977e70a921.webp',
+    };
 
-    const embed = new EmbedBuilder()
-      .setAuthor({
-        name: 'Donate for Julian-V',
-        iconURL: thumb,
-        url: cfg.youtube,
-      })
-      .setTitle('Thanks for donating!')
-      .setDescription('Payment methods:')
-      .setColor('Navy')
-      .setThumbnail(user.displayAvatarURL(true))
-      .setImage(img)
-      .addFields([
+    return await interaction.reply({
+      embeds: [
         {
-          name: 'Donate',
-          value: '[PlayerDuo](https://playerduo.com/julianvduo)',
-          inline: true,
+          author: { name: 'Donate for Julian-V', iconURL: thumbnail.url, url: cfg.youtube },
+          title: 'Thanks for donating!',
+          description: 'Payment methods:',
+          color: Colors.Navy,
+          fields: [
+            {
+              name: 'Donate',
+              value: '[PlayerDuo](https://playerduo.com/julianvduo)',
+              inline: true,
+            },
+            {
+              name: 'Momo',
+              value: '[0974.626.222](https://me.momo.vn/vjIyu4FJf2sMtqsQtptn)',
+              inline: true,
+            },
+            {
+              name: 'Tip',
+              value: '[StreamElements](https://streamelements.com/julianv-4174/tip)',
+              inline: true,
+            },
+          ],
+          thumbnail,
+          timestamp: new Date(),
+          footer: { text: `Requested bye ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
         },
-        {
-          name: 'Momo',
-          value: '[0974.626.222](https://me.momo.vn/vjIyu4FJf2sMtqsQtptn)',
-          inline: true,
-        },
-        {
-          name: 'Tip',
-          value: '[StreamElements](https://streamelements.com/julianv-4174/tip)',
-          inline: true,
-        },
-      ])
-      .setFooter({
-        text: 'Requested by ' + (user.displayName || user.username),
-        iconURL: user.displayAvatarURL(true),
-      })
-      .setTimestamp();
-
-    return await interaction.reply({ embeds: [embed] });
+      ],
+    });
   },
 };

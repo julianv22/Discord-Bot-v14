@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
 const { toCurrency } = require('../../functions/common/utilities');
@@ -120,21 +120,26 @@ module.exports = {
           )
           .catch(console.error);
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle('Nhận \\💲 hằng ngày!')
-        .setDescription(
-          `Bạn đã nhận thành công **${toCurrency(dailyAmount, locale)}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
-            profile.balance,
-            locale,
-          )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
-        )
-        .setColor('Random')
-        .setThumbnail(cfg.economyPNG)
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
-        .setTimestamp();
-
-      return await interaction.reply({ embeds: [embed], flags: 64 });
+      return await interaction.reply({
+        embeds: [
+          {
+            author: { name: guild.name, iconURL: guild.iconURL(true) },
+            title: 'Nhận \\💲 hằng ngày!',
+            description: `Bạn đã nhận thành công **${toCurrency(
+              dailyAmount,
+              locale,
+            )}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
+              profile.balance,
+              locale,
+            )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
+            color: Math.floor(Math.random() * 0xffffff),
+            thumbnail: { url: cfg.economyPNG },
+            timestamp: new Date(),
+            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() },
+          },
+        ],
+        flags: 64,
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

@@ -72,7 +72,7 @@ module.exports = {
       // if (guild.name.length > 40) ctx.font = '26px Consolas';
       // ctx.fillText(`${guild.name}'s Server`, c.w / 2, c.h - 40);
 
-      const embWelcome = new EmbedBuilder()
+      const welcomeEmbed = new EmbedBuilder()
         .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL(true) })
         .setTitle('Welcome 👋')
         .setDescription(`Chào mừng ${user} tham gia server **${guild.name}!**  😍`)
@@ -87,7 +87,7 @@ module.exports = {
         .setImage(cfg.welcomePNG)
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
         .setTimestamp();
-      if (welcome.message) embWelcome.addFields([{ name: `Server's Information:`, value: welcome.message }]);
+      if (welcome.message) welcomeEmbed.addFields([{ name: `Server's Information:`, value: welcome.message }]);
 
       // const attachment = new AttachmentBuilder(await canvas.encode('png'), {
       //   name: 'welcome.png',
@@ -95,28 +95,30 @@ module.exports = {
 
       const channel = guild.channels.cache.get(welcome.channel);
       if (channel) {
-        await channel.send({ embeds: [embWelcome] });
+        await channel.send({ embeds: [welcomeEmbed] });
         // await channel.send({ files: [attachment] });
       }
 
-      const emLog = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle('👋 Thành viên mới tham gia!')
-        .setDescription(`${user} đã tham gia server!`)
-        .setColor(0x00bce3)
-        .setThumbnail(
-          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png',
-        )
-        .setTimestamp()
-        .addFields(
-          { name: 'Tên người dùng:', value: user.tag, inline: true },
-          { name: 'ID:', value: `||${user.id}||`, inline: true },
-        );
-
       const logChannel = guild.channels.cache.get(welcome.log);
-      if (logChannel) {
-        await logChannel.send({ embeds: [emLog] });
-      }
+      if (logChannel)
+        await logChannel.send({
+          embeds: [
+            {
+              author: { name: guild.name, iconURL: guild.iconURL(true) },
+              title: '👋 Thành viên mới tham gia!',
+              description: `${user} đã tham gia server!`,
+              color: 0x00bce3,
+              fields: [
+                { name: 'Tên người dùng:', value: user.tag, inline: true },
+                { name: 'ID:', value: `||${user.id}||`, inline: true },
+              ],
+              thumbnail: {
+                url: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png',
+              },
+              timestamp: new Date(),
+            },
+          ],
+        });
 
       client.serverStats(client, guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);

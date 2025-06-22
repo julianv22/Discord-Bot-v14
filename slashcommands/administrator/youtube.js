@@ -3,7 +3,6 @@ const {
   Client,
   ChatInputCommandInteraction,
   PermissionFlagsBits,
-  EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
@@ -67,18 +66,19 @@ module.exports = {
       const { youtube } = profile;
       const role = guild.roles.cache.get(youtube.alert);
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setColor(Colors.Orange)
-        .setTitle('Role thông báo khi Youtube có video mới ')
-        .setDescription(role ? `Alert role: ${role}` : 'Chưa có YouTube alert role nào được thiết lập.')
-        .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
-        )
-        .setTimestamp();
-
       await interaction.reply({
-        embeds: [embed],
+        embeds: [
+          {
+            author: { name: guild.name, iconURL: guild.iconURL(true) },
+            title: 'Role thông báo khi Youtube có video mới:',
+            description: role ? `Alert role: ${role}` : 'Chưa có YouTube alert role nào được thiết lập.',
+            color: Colors.Orange,
+            thumbnail: {
+              url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
+            },
+            timestamp: new Date(),
+          },
+        ],
         components: [
           new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId('youtube-alert-btn').setLabel('Set Role').setStyle(ButtonStyle.Primary),

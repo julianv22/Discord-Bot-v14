@@ -13,12 +13,12 @@ module.exports = (client) => {
   client.commandUsage = async (message, command, usage) => {
     const { catchError } = client;
     const { guild, author } = message;
-    const { name, aliases, description } = command;
+    const { name, aliases, description: desc } = command;
 
     try {
-      let strDesc = '⤷' + description;
+      let description = '⤷' + desc;
 
-      if (Array.isArray(aliases)) strDesc += `\n\nAlias: [\`${aliases.join(' | ')}\`]`;
+      if (Array.isArray(aliases) && aliases.length > 0) description += `\n\nAlias: [\`${aliases.join(' | ')}\`]`;
 
       if (!usage) {
         usage = prefix + name;
@@ -30,7 +30,7 @@ module.exports = (client) => {
           {
             author: { name: guild.name, iconURL: guild.iconURL(true) },
             title: `Huớng dẫn sử dụng command [\`${prefix + name}\`]`,
-            description: strDesc,
+            description,
             color: Colors.Aqua,
             fields: [{ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` }],
             timestamp: new Date(),
