@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
@@ -36,23 +36,15 @@ module.exports = (client) => {
         };
       });
 
-    return interaction.update({
-      embeds: [
-        {
-          author: { name: guild.name, iconURL: guild.iconURL(true) },
-          title: `\\📂 Danh sách ${capitalize(CommandType === 'subcommands' ? 'sub' : CommandType)} Commands [${
-            commands.length
-          }]`,
-          color: Math.floor(Math.random() * 0xffffff),
-          fields: commands,
-          thumbnail: { url: cfg.slashPNG },
-          timestamp: new Date(),
-          footer: {
-            text: `Requested by ${user.displayName || user.username}`,
-            iconURL: user.displayAvatarURL(true),
-          },
-        },
-      ],
-    });
+    const helpEmbed = new EmbedBuilder()
+      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setTitle(`\\📂 ${capitalize(CommandType)} Commands [${commands.length}]`)
+      .setColor('Random')
+      .setThumbnail(cfg.slashPNG)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+      .addFields(commands);
+
+    return interaction.update({ embeds: [helpEmbed] });
   };
 };

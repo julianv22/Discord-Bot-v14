@@ -1,9 +1,9 @@
 const {
   SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
   ChatInputCommandInteraction,
   Client,
+  EmbedBuilder,
+  PermissionFlagsBits,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
 const { toCurrency } = require('../../functions/common/utilities');
@@ -78,23 +78,21 @@ module.exports = {
         }
       }, workMinutes * 60 * 1000);
 
-      return await interaction.reply({
-        embeds: [
-          {
-            author: { name: guild.name, iconURL: guild.iconURL(true) },
-            title: 'Bạn đã nhận một công việc mới!',
-            description: `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${toCurrency(
-              workMinutes,
-              locale,
-            )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
-            color: Math.floor(Math.random() * 0xffffff),
-            thumbnail: { url: cfg.economyPNG },
-            timestamp: new Date(),
-            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() },
-          },
-        ],
-        flags: 64,
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle('Bạn đã nhận một công việc mới!')
+        .setDescription(
+          `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${toCurrency(
+            workMinutes,
+            locale,
+          )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
+        )
+        .setColor('Random')
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() });
+
+      return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

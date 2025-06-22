@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 const { toCurrency } = require('../../../functions/common/utilities');
 
@@ -40,32 +46,28 @@ module.exports = {
       profile.bank += amount;
       await profile.save().catch(console.error);
 
-      return await interaction.reply({
-        embeds: [
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setTitle('\\🏦 Deposit')
+        .setDescription(`\\✅ Gửi ${toCurrency(amount, locale)} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
+        .setColor(Colors.Green)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
+        .addFields(
           {
-            author: { name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) },
-            title: '\\🏦 Deposit',
-            description: `\\✅ Gửi ${toCurrency(amount, locale)} vào ngân hàng thành công!\n\n**Số dư hiện có:**`,
-            fields: [
-              {
-                name: '\\💰 Balance',
-                value: toCurrency(profile.balance, locale),
-                inline: true,
-              },
-              {
-                name: '\\🏦 Bank',
-                value: toCurrency(profile.bank, locale),
-                inline: true,
-              },
-            ],
-            color: Colors.Green,
-            thumbnail: { url: cfg.economyPNG },
-            timestamp: new Date(),
-            footer: { text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) },
+            name: '\\💰 Balance',
+            value: toCurrency(profile.balance, locale),
+            inline: true,
           },
-        ],
-        flags: 64,
-      });
+          {
+            name: '\\🏦 Bank',
+            value: toCurrency(profile.bank, locale),
+            inline: true,
+          },
+        );
+
+      return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

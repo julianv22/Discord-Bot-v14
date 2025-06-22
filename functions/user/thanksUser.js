@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, ChatInputCommandInteraction } = require('discord.js');
+const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -75,27 +75,20 @@ module.exports = (client) => {
         .tz('Asia/Ho_Chi_Minh')
         .format('HH:mm ddd, Do MMMM YYYY');
 
-      await object.reply({
-        embeds: [
-          {
-            author: { name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) },
-            title: '💖 Special Thanks!',
-            description: `${author} special thanks to ${target}!`,
-            color: Math.floor(Math.random() * 0xffffff),
-            fields: [
-              {
-                name: `Thanks count: [${count}]`,
-                value: '\u200b',
-                inline: true,
-              },
-              { name: 'Last thanks:', value: lastThanks, inline: true },
-            ],
-            image: { url: imgURL[Math.floor(Math.random() * imgURL.length)] },
-            timestamp: new Date(),
-            footer: { text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) },
-          },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
+        .setTitle('💖 Special Thanks!')
+        .setDescription(`${author} special thanks to ${target}!`)
+        .setColor('Random')
+        .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
+        .setTimestamp()
+        .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
+        .addFields(
+          { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
+          { name: 'Last thanks:', value: lastThanks, inline: true },
+        );
+
+      await object.reply({ embeds: [embed] });
 
       // Update thanksCount
       thanks.guildName = guild.name;

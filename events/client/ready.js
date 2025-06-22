@@ -54,7 +54,7 @@ module.exports = {
       ],
       tab: 0,
     });
-    table({ name: '📆 Last update:', value: '17:41 Chủ Nhật, 22 tháng 6, 2025' });
+    table({ name: '📆 Last update:', value: '20:07 Chủ Nhật, 22 tháng 6, 2025' });
     log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
     try {

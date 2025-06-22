@@ -30,15 +30,13 @@ module.exports = {
       const fileContent = readFileSync(absoluteFilePath, 'utf8');
 
       const MAX_LENGTH = 1990;
-      await interaction.editReply({
-        embeds: [
-          {
-            title: '\\✅ Loaded file successfully!',
-            description: 'Đọc nội dung file [ `' + relativeFilePath + '` ] thành công:',
-            color: Colors.Green,
-          },
-        ],
-      });
+      await interaction.editReply(
+        errorEmbed({
+          title: '\\✅ Loaded file successfully!',
+          desc: 'Đọc nội dung file [ `' + relativeFilePath + '` ] thành công:',
+          color: Colors.Green,
+        }),
+      );
 
       for (let i = 0; i < fileContent.length; i += MAX_LENGTH) {
         await interaction.followUp({

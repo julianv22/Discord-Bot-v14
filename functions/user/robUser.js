@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, GuildMember, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, GuildMember, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { toCurrency } = require('../common/utilities');
 
@@ -85,33 +85,30 @@ module.exports = (client) => {
       await profile.save().catch(console.error);
       await targetProfile.save().catch(console.error);
 
-      return await interaction.reply({
-        embeds: [
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
+        .setColor(isSuccess ? Colors.Green : Colors.DarkVividPink)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({
+          text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
+          iconURL: bot.displayAvatarURL(),
+        })
+        .addFields(
           {
-            author: { name: guild.name, iconURL: guild.iconURL(true) },
-            description: `**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg,
-            color: isSuccess ? Colors.Green : Colors.DarkVividPink,
-            fields: [
-              {
-                name: `Số dư của ${user.displayName || user.username}`,
-                value: toCurrency(profile.balance, locale),
-                inline: true,
-              },
-              {
-                name: `Số dư của ${target.displayName || target.username}`,
-                value: toCurrency(targetProfile.balance, locale),
-                inline: true,
-              },
-            ],
-            thumbnail: { url: cfg.economyPNG },
-            timestamp: new Date(),
-            footer: {
-              text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
-              iconURL: bot.displayAvatarURL(),
-            },
+            name: `Số dư của ${user.displayName || user.username}`,
+            value: toCurrency(profile.balance, locale),
+            inline: true,
           },
-        ],
-      });
+          {
+            name: `Số dư của ${target.displayName || target.username}`,
+            value: toCurrency(targetProfile.balance, locale),
+            inline: true,
+          },
+        );
+
+      return await interaction.reply({ embeds: [embed] });
     } catch (e) {
       return await catchError(interaction, e, `Error while executing ${chalk.green('robUser')} function`);
     }

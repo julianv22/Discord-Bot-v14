@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   category: 'economy',
@@ -10,32 +10,30 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild } = interaction;
 
-    return await interaction.reply({
-      embeds: [
-        {
-          author: { name: guild.name, iconURL: guild.iconURL(true) },
-          title: 'Economy System - User Guide',
-          description: `Hello **${
-            user.displayName || user.username
-          }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`,
-          color: Math.floor(Math.random() * 0xffffff),
-          fields: [
-            { name: '/daily', value: '```Nhận 💲 miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.```' },
-            { name: '/balance', value: '```Xem số dư, streak, bank, inventory, achievements.```' },
-            { name: '/job', value: '```Nhận công việc ngẫu nhiên, làm việc và nhận 💲 (cooldown).```' },
-            { name: '/rob', value: '```Giật 💲 của người khác (có rủi ro và cooldown).```' },
-            { name: '/leaderboard', value: '```Xem bảng xếp hạng top 🔟 user giàu nhất.```' },
-            { name: '/shop', value: '```Mua vật phẩm bằng 💲.```' },
-            { name: '/inventory', value: '```Xem kho đồ vật phẩm bạn sở hữu.\n(Đang xây dựng)```' },
-            { name: '/bank', value: '```Gửi/rút 💲 vào ngân hàng.```' },
-            { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' },
-          ],
-          thumbnail: { url: cfg.economyPNG },
-          timestamp: new Date(),
-          footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
-        },
-      ],
-      flags: 64,
-    });
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setTitle('Economy System - User Guide')
+      .setDescription(
+        `Hello **${
+          user.displayName || user.username
+        }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`,
+      )
+      .setColor('Random')
+      .setThumbnail(cfg.economyPNG)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+      .addFields(
+        { name: '/daily', value: '```Nhận 💲 miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.```' },
+        { name: '/balance', value: '```Xem số dư, streak, bank, inventory, achievements.```' },
+        { name: '/job', value: '```Nhận công việc ngẫu nhiên, làm việc và nhận 💲 (cooldown).```' },
+        { name: '/rob', value: '```Giật 💲 của người khác (có rủi ro và cooldown).```' },
+        { name: '/leaderboard', value: '```Xem bảng xếp hạng top 🔟 user giàu nhất.```' },
+        { name: '/shop', value: '```Mua vật phẩm bằng 💲.```' },
+        { name: '/inventory', value: '```Xem kho đồ vật phẩm bạn sở hữu.\n(Đang xây dựng)```' },
+        { name: '/bank', value: '```Gửi/rút 💲 vào ngân hàng.```' },
+        { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' },
+      );
+
+    return await interaction.reply({ embeds: [embed], flags: 64 });
   },
 };

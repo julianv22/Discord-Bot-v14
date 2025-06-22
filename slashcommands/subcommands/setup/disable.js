@@ -1,8 +1,9 @@
 const {
   SlashCommandSubcommandBuilder,
-  ActionRowBuilder,
   Client,
   ChatInputCommandInteraction,
+  EmbedBuilder,
+  ActionRowBuilder,
   ButtonStyle,
   ComponentType,
   Colors,
@@ -48,22 +49,21 @@ module.exports = {
       },
     ];
 
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: 'Disable Features', iconURL: user.displayAvatarURL(true) })
+      .setColor(Colors.Orange)
+      .setThumbnail(guild.iconURL(true))
+      .setTimestamp()
+      .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+      .addFields(
+        { name: '\\⭐ Disable Starboard System', value: '`Tắt chức năng Starboard System`' },
+        { name: '\\💡 Disable Suggest Channel', value: '`Tắt chức năng Suggestion`' },
+        { name: '\\🎬 Disable Youtube Notify', value: '`Tắt thông báo video mới trên Youtube`' },
+        { name: '\\🎉 Disable Welcome System', value: '`Tắt chức năng chào mừng thành viên mới`' },
+      );
+
     await interaction.reply({
-      embeds: [
-        {
-          author: { name: 'Disable Features', iconURL: user.displayAvatarURL(true) },
-          color: Colors.Orange,
-          fields: [
-            { name: '\\⭐ Disable Starboard System', value: '`Tắt chức năng Starboard System`' },
-            { name: '\\💡 Disable Suggest Channel', value: '`Tắt chức năng Suggestion`' },
-            { name: '\\🎬 Disable Youtube Notify', value: '`Tắt thông báo video mới trên Youtube`' },
-            { name: '\\🎉 Disable Welcome System', value: '`Tắt chức năng chào mừng thành viên mới`' },
-          ],
-          thumbnail: { url: guild.iconURL(true) },
-          timestamp: new Date(),
-          footer: { text: guild.name, iconURL: guild.iconURL(true) },
-        },
-      ],
+      embeds: [embed],
       components: [
         new ActionRowBuilder().addComponents(rowComponents(buttons1, ComponentType.Button)),
         new ActionRowBuilder().addComponents(rowComponents(buttons2, ComponentType.Button)),

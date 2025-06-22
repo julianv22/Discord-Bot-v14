@@ -37,6 +37,7 @@ module.exports = {
     const slashCategories = new Set(
       slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category),
     );
+
     await interaction.reply({
       embeds: [
         {

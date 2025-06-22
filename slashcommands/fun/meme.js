@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   category: 'fun',
@@ -21,21 +21,17 @@ module.exports = {
         );
       }
 
-      return await interaction.editReply({
-        embeds: [
-          {
-            author: { name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
-            title: data.title || 'Meme',
-            image: { url: data.url },
-            color: Math.floor(Math.random() * 0xffffff),
-            footer: {
-              text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${
-                data.subreddit || ''
-              }`,
-            },
-          },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTitle(data.title || 'Meme')
+        .setDescription()
+        .setColor('Random')
+        .setImage(data.url)
+        .setFooter({
+          text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${data.subreddit || ''}`,
+        });
+
+      return await interaction.editReply({ embeds: [embed] });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

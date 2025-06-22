@@ -47,18 +47,17 @@ module.exports = {
     await author
       .send({
         embeds: [
-          {
-            author: {
+          new EmbedBuilder()
+            .setAuthor({
               name: 'Accept suggestion',
               iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
-            },
-            title: `Your suggestion has been accepted by ${user.displayName || user.username}!`,
-            description: `[Jump Link](${msg.url})`,
-            color: Colors.Green,
-            thumbnail: { url: user.displayAvatarURL(true) },
-            timestamp: new Date(),
-            footer: { text: guild.name, iconURL: guild.iconURL(true) },
-          },
+            })
+            .setTitle(`Your suggestion has been accepted by ${user.displayName || user.username}!`)
+            .setDescription(`[Jump Link](${msg.url})`)
+            .setColor(Colors.Green)
+            .setThumbnail(user.displayAvatarURL(true))
+            .setTimestamp()
+            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),
         ],
       })
       .catch((e) => {

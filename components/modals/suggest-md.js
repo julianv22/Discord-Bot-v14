@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'modals',
@@ -24,28 +24,17 @@ module.exports = {
 
       const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
 
-      const msg = await sgtChannel.send({
-        embeds: [
-          {
-            author: {
-              name: `${user.tag}'s suggestions`,
-              iconURL: user.displayAvatarURL(true),
-            },
-            title: "Suggest's content:",
-            description,
-            color: Colors.Yellow,
-            fields: [
-              {
-                name: '\u200b',
-                value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!',
-              },
-            ],
-            thumbnail: { url: cfg.suggestPNG },
-            timestamp: new Date(),
-            footer: { text: guild.name, iconURL: guild.iconURL(true) },
-          },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
+        .setTitle("Suggest's content:")
+        .setDescription(description)
+        .setColor(Colors.Yellow)
+        .setThumbnail(cfg.suggestPNG)
+        .setTimestamp()
+        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+        .addFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' });
+
+      const msg = await sgtChannel.send({ embeds: [embed] });
 
       await interaction
         .reply(

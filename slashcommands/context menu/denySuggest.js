@@ -54,15 +54,14 @@ module.exports = {
     await author
       .send({
         embeds: [
-          {
-            author: { name: 'Deny suggestion', iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif' },
-            title: `Your suggestion has been denied by ${user.displayName || user.username}!`,
-            description: `[Jump Link](${msg.url})`,
-            color: Colors.DarkVividPink,
-            thumbnail: { url: user.defaultAvatarURL(true) },
-            timestamp: new Date(),
-            footer: { text: guild.name, iconURL: guild.iconURL(true) },
-          },
+          new EmbedBuilder()
+            .setAuthor({ name: 'Deny suggestion', iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif' })
+            .setTitle(`Your suggestion has been denied by ${user.displayName || user.username}!`)
+            .setDescription(`[Jump Link](${msg.url})`)
+            .setColor(Colors.DarkVividPink)
+            .setThumbnail(user.defaultAvatarURL(true))
+            .setTimestamp()
+            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),
         ],
       })
       .catch((e) => {

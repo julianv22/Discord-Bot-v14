@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -29,27 +35,19 @@ module.exports = {
       welcome.message = welcomeMsg;
       await profile.save().catch(console.error);
 
-      return await interaction.reply({
-        embeds: [
-          {
-            author: { name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) },
-            title: "Welcome's setup information",
-            color: Colors.Aqua,
-            fields: [
-              {
-                name: 'Welcome channel:',
-                value: welcomeChannel.toString(),
-                inline: true,
-              },
-              { name: 'Log channel:', value: logChannel.toString(), inline: true },
-              { name: 'Welcome message:', value: welcomeMsg || 'None' },
-            ],
-            timestamp: new Date(),
-            footer: { text: guild.name, iconURL: guild.iconURL(true) },
-          },
-        ],
-        flags: 64,
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setTitle("Welcome's setup information")
+        .setColor(Colors.Aqua)
+        .setTimestamp()
+        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+        .addFields(
+          { name: 'Welcome channel:', value: welcomeChannel.toString(), inline: true },
+          { name: 'Log channel:', value: logChannel.toString(), inline: true },
+          { name: 'Welcome message:', value: welcomeMsg || 'None' },
+        );
+
+      return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       const error = `Error while executing ${this.category} /${this.parent} ${this.data.name}\n`;
       const embed = errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink });

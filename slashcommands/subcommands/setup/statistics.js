@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, ChatInputCommandInteraction, Client, Colors } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  ChatInputCommandInteraction,
+  Client,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -42,24 +48,20 @@ module.exports = {
 
       serverStats(client, guild.id);
 
-      return await interaction.reply({
-        embeds: [
-          {
-            author: { name: guild.name, iconURL: guild.iconURL(true) },
-            title: '\\✅ Server stats set up successfully!',
-            color: Colors.Green,
-            fields: [
-              { name: 'Total Count Channel:', value: `${totalChannel}` },
-              { name: 'Members Count Channel:', value: `${memberChannel}` },
-              { name: 'Bots Count Channel:', value: `${botChannel}` },
-              { name: 'Preseneces Count Channel:', value: `${presenceChannel}` },
-            ],
-            timestamp: new Date(),
-            thumbnail: { url: 'https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png' },
-          },
-        ],
-        flags: 64,
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle('\\✅ Server stats set up successfully!')
+        .setColor(Colors.Green)
+        .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')
+        .setTimestamp()
+        .addFields(
+          { name: 'Total Count Channel:', value: `${totalChannel}` },
+          { name: 'Members Count Channel:', value: `${memberChannel}` },
+          { name: 'Bots Count Channel:', value: `${botChannel}` },
+          { name: 'Preseneces Count Channel:', value: `${presenceChannel}` },
+        );
+
+      return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, { ...this, parent: 'server', data: { name: 'info' } });
     }

@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const thanksProfile = require('../../../config/thanksProfile');
 
 module.exports = {
@@ -33,19 +39,15 @@ module.exports = {
         thanksList += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
       }
 
-      return await interaction.reply({
-        embeds: [
-          {
-            author: { name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) },
-            title: `Top 10 Thanks${time ? ` ${time}` : ''}:`,
-            description: thanksList,
-            color: Colors.Gold,
-            thumbnail: { url: cfg.thanksPNG },
-            timestamp: new Date(),
-            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
-          },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
+        .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
+        .setDescription(thanksList)
+        .setColor(Colors.Gold)
+        .setThumbnail(cfg.thanksPNG)
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
+
+      return await interaction.reply({ embeds: [embed] });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

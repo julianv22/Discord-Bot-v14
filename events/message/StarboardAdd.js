@@ -86,7 +86,7 @@ module.exports = {
             if (sentMsg) {
               await sentMsg.edit({
                 content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
-                embeds: embeds,
+                embeds,
                 components: [jumpButton],
               });
               // Cập nhật lại thời gian cuối cùng update (không cần thiết cho cooldown, nhưng có thể lưu để log)
@@ -97,7 +97,7 @@ module.exports = {
               if (!starboardData.lastTime || now - starboardData.lastTime >= 300000) {
                 const newMsg = await starboardChannel.send({
                   content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
-                  embeds: embeds,
+                  embeds,
                   components: [jumpButton],
                 });
                 starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
@@ -109,7 +109,7 @@ module.exports = {
             if (!starboardData || !starboardData.lastTime || now - starboardData.lastTime >= 300000) {
               const newMsg = await starboardChannel.send({
                 content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
-                embeds: embeds,
+                embeds,
                 components: [jumpButton],
               });
               starboard.messages[message.id] = { id: newMsg.id, lastTime: now };

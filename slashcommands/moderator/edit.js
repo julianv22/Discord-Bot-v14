@@ -1,9 +1,9 @@
 const {
-  SlashCommandBuilder,
-  ChatInputCommandInteraction,
   Client,
-  PermissionFlagsBits,
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
   EmbedBuilder,
+  PermissionFlagsBits,
 } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 
@@ -63,34 +63,25 @@ module.exports = {
         const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
         const [row1, row2] = embedButtons(messageId);
 
-        return await interaction.reply({
-          embeds: [msgEmbed],
-          components: [row1, row2],
-          flags: 64,
-        });
+        return await interaction.reply({ embeds: [msgEmbed], components: [row1, row2], flags: 64 });
       },
       message: async () => {
         return await msg.edit(content).then(async () => {
-          await interaction.reply({
-            embeds: [
-              {
-                author: { name: guild.name, icon_url: guild.iconURL(true) },
-                title: '\\✅ Message edited successfully!',
-                description: `**Message ID:** [\`${msg.id}\`](${msg.url})`,
-                color: Math.floor(Math.random() * 0xffffff),
-                timestamp: new Date(),
-                thumbnail: {
-                  url: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png',
-                },
-                fields: [{ name: 'Edited content:', value: '> ' + content }],
-                footer: {
-                  text: `Edited by ${user.displayName || user.username}`,
-                  iconURL: user.displayAvatarURL(true),
-                },
-              },
-            ],
-            flags: 64,
-          });
+          const embed = new EmbedBuilder()
+            .setAuthor({ name: guild.name, icon_url: guild.iconURL(true) })
+            .setTitle('\\✅ Message edited successfully!')
+            .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
+            .setColor('Random')
+            .setThumbnail(
+              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png',
+            )
+            .setTimestamp()
+            .setFooter({
+              text: `Edited by ${user.displayName || user.username}`,
+              iconURL: user.displayAvatarURL(true),
+            });
+
+          await interaction.reply({ embeds: [embed], flags: 64 });
         });
       },
     };

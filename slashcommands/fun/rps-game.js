@@ -2,6 +2,7 @@ const {
   SlashCommandBuilder,
   Client,
   ChatInputCommandInteraction,
+  EmbedBuilder,
   ActionRowBuilder,
   ButtonStyle,
   ComponentType,
@@ -46,20 +47,21 @@ module.exports = {
       },
     ];
 
+    const embed = new EmbedBuilder()
+      .setTitle('Rock - Paper - Scissors Game')
+      .setDescription(
+        `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
+          bet,
+          locale,
+        )} bạn đặt cược. Tối đa 10 lần/ngày.`,
+      )
+      .setColor('Random')
+      .setImage(
+        'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png',
+      );
+
     await interaction.reply({
-      embeds: [
-        {
-          title: 'Rock - Paper - Scissors Game',
-          description: `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
-            bet,
-            locale,
-          )} bạn đặt cược. Tối đa 10 lần/ngày.`,
-          color: Math.floor(Math.random() * 0xffffff),
-          image: {
-            url: 'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png',
-          },
-        },
-      ],
+      embeds: [embed],
       components: [new ActionRowBuilder().addComponents(rowComponents(buttons, ComponentType.Button))],
       flags: 64,
     });

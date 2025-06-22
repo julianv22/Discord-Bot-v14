@@ -1,4 +1,4 @@
-const { Message, Client, ChannelType, Colors } = require('discord.js');
+const { Message, Client, ChannelType, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
@@ -9,17 +9,14 @@ module.exports = {
     const { author, channel, content } = message;
 
     if (channel && channel.type === ChannelType.DM && content.includes('help')) {
-      await message.reply({
-        embeds: [
-          {
-            author: { name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) },
-            title: 'You can not use commands here!',
-            description: 'Please use commands in a server I have joined!',
-            color: Colors.Orange,
-            thumbnail: { url: author.displayAvatarURL(true) },
-          },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
+        .setTitle('You can not use commands here!')
+        .setDescription('Please use commands in a server I have joined!')
+        .setColor(Colors.Orange)
+        .setThumbnail(author.displayAvatarURL(true));
+
+      return await message.reply({ embeds: [embed] });
     }
 
     if (!content.startsWith(prefix)) {

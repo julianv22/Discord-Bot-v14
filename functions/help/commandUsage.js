@@ -1,4 +1,4 @@
-const { Message, Client, Colors } = require('discord.js');
+const { Message, Client, EmbedBuilder, Colors } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -25,20 +25,17 @@ module.exports = (client) => {
         if (Array.isArray(aliases)) usage += ' | ' + aliases.map((a) => prefix + a).join(' | ');
       }
 
-      return await message.reply({
-        embeds: [
-          {
-            author: { name: guild.name, iconURL: guild.iconURL(true) },
-            title: `Huớng dẫn sử dụng command [\`${prefix + name}\`]`,
-            description,
-            color: Colors.Aqua,
-            fields: [{ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` }],
-            timestamp: new Date(),
-            thumbnail: { url: cfg.helpPNG },
-            footer: { text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) },
-          },
-        ],
-      });
+      const usageEmbed = new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle(`Huớng dẫn sử dụng command [\`${prefix + name}\`]`)
+        .setDescription(description)
+        .setColor(Colors.Aqua)
+        .setThumbnail(cfg.helpPNG)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
+        .addFields({ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` });
+
+      return await message.reply({ embeds: [usageEmbed] });
     } catch (e) {
       catchError(message, e, `Error while executing ${chalk.green('commandUsage')} function`);
     }

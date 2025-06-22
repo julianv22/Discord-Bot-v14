@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, Message, GuildMember } = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, GuildMember, EmbedBuilder } = require('discord.js');
 
 /** @param {Client} client Client*/
 module.exports = (client) => {
@@ -10,17 +10,14 @@ module.exports = (client) => {
     const author = object.user || object.author;
 
     try {
-      return await object.reply({
-        embeds: [
-          {
-            description: `${target}'s Avatar:`,
-            color: Math.floor(Math.random() * 0xffffff),
-            image: { url: target.displayAvatarURL({ dynamic: true, size: 1024 }) },
-            timestamp: new Date(),
-            footer: { text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) },
-          },
-        ],
-      });
+      const embed = new EmbedBuilder()
+        .setDescription(`${target}'s Avatar:`)
+        .setColor('Random')
+        .setImage(target.displayAvatarURL({ dynamic: true, size: 1024 }))
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) });
+
+      return await object.reply({ embeds: [embed] });
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('getAvatar')} function`);
     }

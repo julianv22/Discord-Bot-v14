@@ -163,9 +163,10 @@ module.exports = {
               await msg.edit({ embeds: [getEmbeds] }).catch(console.error);
               return await interaction.update({
                 embeds: [
-                  new EmbedBuilder()
-                    .setTitle('\\✅ Update successfully!')
-                    .setDescription(`Message đã được update thành công.\n\n[Jump to message](${msg.url})`),
+                  {
+                    title: '\\✅ Update successfully!',
+                    description: `Message đã được update thành công.\n\n[Jump to message](${msg.url})`,
+                  },
                 ],
                 components: [Button0, Button1],
               });

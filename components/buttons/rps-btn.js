@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 const { toCurrency } = require('../../functions/common/utilities');
@@ -66,35 +66,31 @@ module.exports = {
       profile.lastPlayRPS = today;
       await profile.save().catch(console.error);
       // Trả về kết quả
-      return await interaction.update({
-        embeds: [
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTitle('You ' + rps.result)
+        .setDescription(
+          `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
+            profile.rpsCount
+          }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`,
+        )
+        .setColor(rps.Color)
+        .setThumbnail(user.displayAvatarURL(true))
+        .setTimestamp()
+        .addFields(
           {
-            author: {
-              name: `Hi, ${user.displayName || user.username}`,
-              iconURL: user.displayAvatarURL(true),
-            },
-            title: 'You ' + rps.result,
-            description: `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
-              profile.rpsCount
-            }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`,
-            color: rps.Color,
-            thumbnail: { url: user.displayAvatarURL(true) },
-            fields: [
-              {
-                name: '\\💰 Tổng tiền đã nhận',
-                value: toCurrency(profile.totalEarned, locale) || 0,
-                inline: true,
-              },
-              {
-                name: '\\💸 Tổng tiền đã chi',
-                value: toCurrency(profile.totalSpent, locale) || 0,
-                inline: true,
-              },
-            ],
-            timestamp: new Date(),
+            name: '\\💰 Tổng tiền đã nhận',
+            value: toCurrency(profile.totalEarned, locale) || 0,
+            inline: true,
           },
-        ],
-      });
+          {
+            name: '\\💸 Tổng tiền đã chi',
+            value: toCurrency(profile.totalSpent, locale) || 0,
+            inline: true,
+          },
+        );
+
+      return await interaction.update({ embeds: [embed] });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

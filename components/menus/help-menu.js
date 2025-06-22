@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -30,41 +30,35 @@ module.exports = {
           return await helpPrefix(interaction);
         },
         slash: async () => {
-          return await interaction.update({
-            embeds: [
+          const embed = new EmbedBuilder()
+            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+            .setTitle('Thống kê Slash Command & Sub Command')
+            .setColor('Random')
+            .setThumbnail(cfg.slashPNG)
+            .setTimestamp()
+            .setFooter({
+              text: `Requested by ${user.displayName || user.username}`,
+              iconURL: user.displayAvatarURL(true),
+            })
+            .addFields(
               {
-                author: {
-                  name: guild.name,
-                  iconURL: guild.iconURL(true),
-                },
-                title: 'Thống kê Slash Command & Sub Command',
-                color: Math.floor(Math.random() * 0xffffff),
-                fields: [
-                  {
-                    name: `\\📂 Slash Commands\n[\`Commands: ${
-                      slashCommands.size - contextMenus.length
-                    } --- Categories: ${slashCategories.length}\`]`,
-                    value: `\`\`\`ansi\n\x1b[36m${slashCategories.join(' | ')}\x1b[0m\`\`\``,
-                  },
-                  {
-                    name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subCategories.length}\`]`,
-                    value: `\`\`\`ansi\n\x1b[36m${subCategories.join(' | ')}\x1b[0m\`\`\``,
-                  },
-                  {
-                    name: `\\📂 Context Menus [**${contextMenus.length}**]`,
-                    value: `\`\`\`ansi\n\x1b[36m${contextMenus.join(' | ')}\x1b[0m\`\`\``,
-                  },
-                  { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
-                ],
-                thumbnail: { url: cfg.slashPNG },
-                timestamp: new Date(),
-                footer: {
-                  text: `Requested by ${user.displayName || user.username}`,
-                  iconURL: user.displayAvatarURL(true),
-                },
+                name: `\\📂 Slash Commands\n[\`Commands: ${slashCommands.size - contextMenus.length} --- Categories: ${
+                  slashCategories.length
+                }\`]`,
+                value: `\`\`\`ansi\n\x1b[36m${slashCategories.join(' | ')}\x1b[0m\`\`\``,
               },
-            ],
-          });
+              {
+                name: `\\📂 Sub Commands\n[\`Commands: ${subCommands.size} --- Categories: ${subCategories.length}\`]`,
+                value: `\`\`\`ansi\n\x1b[36m${subCategories.join(' | ')}\x1b[0m\`\`\``,
+              },
+              {
+                name: `\\📂 Context Menus [**${contextMenus.length}**]`,
+                value: `\`\`\`ansi\n\x1b[36m${contextMenus.join(' | ')}\x1b[0m\`\`\``,
+              },
+              { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
+            );
+
+          return await interaction.update({ embeds: [embed] });
         },
       };
 

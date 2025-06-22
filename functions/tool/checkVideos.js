@@ -1,4 +1,4 @@
-const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
@@ -51,27 +51,24 @@ module.exports = (client) => {
             if (guild) {
               const channel = guild.channels.cache.get(notifyChannel);
               const role = guild.roles.cache.get(alert);
+              const videoURL = 'https://youtu.be/' + latestVideoId;
+
+              const embed = new EmbedBuilder()
+                .setTitle(videoTitle || 'New video')
+                .setColor('Random')
+                .setURL(videoURL)
+                .setImage(`https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg`)
+                .setFooter({ text: channelTitle || 'Youtube' });
 
               if (channel) {
                 await channel.send({
                   content: `${role ? `${role} ` : ''}\\🎬 **[${
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:`,
-                  embeds: [
-                    {
-                      title: videoTitle || 'New video:',
-                      url: 'https://youtu.be/' + latestVideoId,
-                      color: Math.floor(Math.random() * 0xffffff),
-                      image: { url: `https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg` },
-                      footer: { text: channelTitle || 'Youtube' },
-                    },
-                  ],
+                  embeds: [embed],
                   components: [
                     new ActionRowBuilder().addComponents(
-                      new ButtonBuilder()
-                        .setStyle(ButtonStyle.Link)
-                        .setLabel('🔗Xem trên Youtube')
-                        .setURL(`https://youtu.be/${latestVideoId}`),
+                      new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('🔗Xem trên Youtube').setURL(videoURL),
                     ),
                   ],
                 });

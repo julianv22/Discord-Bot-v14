@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, Client, Message } = require('discord.js');
+const { ChatInputCommandInteraction, Client, Message, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** - * @param {Client} client */
@@ -24,38 +24,35 @@ module.exports = (client) => {
             });
 
         // Fallback nếu thiếu dữ liệu
-        let title = body.title || keyword;
-        let description = body.description || 'Không có mô tả';
-        let thumbnail =
+        const bodyTitle = body.title || keyword;
+        const title = body.description || 'Không có mô tả';
+        const thumbnail =
           body.thumbnail?.source ||
           'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png';
-        let extract = body.extract || 'Không có nội dung.';
-        let page_url =
+        const description = body.extract || 'Không có nội dung.';
+        const page_url =
           body.content_urls?.desktop?.page || `https://vi.wikipedia.org/wiki/${encodeURIComponent(keyword)}`;
 
-        return await object.reply({
-          embeds: [
-            {
-              author: {
-                name: title,
-                iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
-                url: page_url,
-              },
-              title: capitalize(description),
-              url: page_url,
-              description: extract,
-              color: Math.floor(Math.random() * 0xffffff),
-              thumbnail: {
-                url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png',
-              },
-              timestamp: new Date(),
-              footer: { text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) },
-            },
-          ],
-        });
+        const embed = new EmbedBuilder()
+          .setAuthor({
+            name: bodyTitle,
+            iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
+            url: page_url,
+          })
+          .setTitle(title)
+          .setDescription(description)
+          .setColor('Random')
+          .setThumbnail(thumbnail)
+          .setTimestamp()
+          .setFooter({
+            text: `Requested by ${author.displayName || author.username}`,
+            iconURL: author.displayAvatarURL(true),
+          });
+
+        return await object.reply({ embeds: [embed] });
       })
       .catch((e) => {
-        return catchError(object, 'Error fetching Wikipedia API', e);
+        return catchError(object, e, 'Error fetching Wikipedia API');
       });
   };
 };

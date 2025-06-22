@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { toCurrency } = require('../../functions/common/utilities');
 
@@ -39,34 +39,30 @@ module.exports = {
       const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
       const lastJob = profile.lastJob || new Date();
 
-      return await interaction.reply({
-        embeds: [
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setTitle('\\💳 Economy Information')
+        .setColor('Random')
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+        .addFields(
+          { name: '\\💰 Balance:', value: balance, inline: true },
+          { name: '\\🏦 Bank:', value: bank, inline: true },
+          { name: '\\🔥 Streak:', value: `${streak} / (max: ${maxStreak})`, inline: true },
+          { name: '\\💲 Tổng thu:', value: totalEarned, inline: true },
+          { name: '\\💲 Tổng chi:', value: totalSpent, inline: true },
           {
-            author: { name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) },
-            title: '\\💳 Economy Information',
-            color: Math.floor(Math.random() * 0xffffff),
-            fields: [
-              { name: '\\💰 Balance:', value: balance, inline: true },
-              { name: '\\🏦 Bank:', value: bank, inline: true },
-              { name: '\\🔥 Streak:', value: `${streak} / (max: ${maxStreak})`, inline: true },
-              { name: '\\💲 Tổng thu:', value: totalEarned, inline: true },
-              { name: '\\💲 Tổng chi:', value: totalSpent, inline: true },
-              {
-                name: '\u200b',
-                value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',
-                inline: false,
-              },
-              { name: '\\💼 Job:', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
-              { name: '\\📦 Inventory:', value: inventory, inline: false },
-              { name: '\\🏆 Achievements:', value: achievements, inline: false },
-            ],
-            thumbnail: { url: cfg.economyPNG },
-            timestamp: new Date(),
-            footer: { text: guild.name, iconURL: guild.iconURL(true) },
+            name: '\u200b',
+            value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',
+            inline: false,
           },
-        ],
-        flags: 64,
-      });
+          { name: '\\💼 Job:', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
+          { name: '\\📦 Inventory:', value: inventory, inline: false },
+          { name: '\\🏆 Achievements:', value: achievements, inline: false },
+        );
+
+      return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

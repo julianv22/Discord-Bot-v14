@@ -2,6 +2,7 @@ const {
   Client,
   ChatInputCommandInteraction,
   SlashCommandBuilder,
+  EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
@@ -219,26 +220,27 @@ module.exports = {
         vtGuiLink = `https://www.virustotal.com/gui/url/${analysisReport.id}/detection`;
       }
 
+      const resultEmbed = new EmbedBuilder()
+        .setAuthor({ name: `${guild.name}`, iconURL: guild.iconURL() })
+        .setTitle(
+          `Kết quả kiểm tra VirusTotal cho ${
+            displayUrl.length > 50 ? `${displayUrl.substring(0, 47)}...` : displayUrl
+          }`,
+        )
+        .setColor(stats.malicious > 0 ? Colors.Red : Colors.Green)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
+        .addFields(
+          { name: 'Tổng số engine', value: `${total}`, inline: true },
+          { name: 'Độc hại', value: `${stats.malicious || 0}`, inline: true },
+          { name: 'Nguy hiểm tiềm tàng', value: `${stats.suspicious || 0}`, inline: true },
+          { name: 'Vô hại', value: `${stats.harmless || 0}`, inline: true },
+          { name: 'Không phát hiện', value: `${stats.undetected || 0}`, inline: true },
+          { name: 'Hết giờ', value: `${stats.timeout || 0}`, inline: true },
+        );
+
       return await interaction.editReply({
-        embeds: [
-          {
-            author: { name: `${guild.name}`, iconURL: guild.iconURL() },
-            title: `Kết quả kiểm tra VirusTotal cho ${
-              displayUrl.length > 50 ? `${displayUrl.substring(0, 47)}...` : displayUrl
-            }`,
-            color: stats.malicious > 0 ? Colors.Red : Colors.Green,
-            fields: [
-              { name: 'Tổng số engine', value: `${total}`, inline: true },
-              { name: 'Độc hại', value: `${stats.malicious || 0}`, inline: true },
-              { name: 'Nguy hiểm tiềm tàng', value: `${stats.suspicious || 0}`, inline: true },
-              { name: 'Vô hại', value: `${stats.harmless || 0}`, inline: true },
-              { name: 'Không phát hiện', value: `${stats.undetected || 0}`, inline: true },
-              { name: 'Hết giờ', value: `${stats.timeout || 0}`, inline: true },
-            ],
-            timestamp: new Date(),
-            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() },
-          },
-        ],
+        embeds: [resultEmbed],
         components: [
           new ActionRowBuilder().addComponents(
             new ButtonBuilder().setLabel('🔗Xem chi tiết trên VirusTotal').setURL(vtGuiLink).setStyle(ButtonStyle.Link),
