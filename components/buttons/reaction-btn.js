@@ -136,10 +136,7 @@ module.exports = {
             .catch(console.error);
 
           await interaction.update({
-            ...errorEmbed({
-              desc: `Reaction role đã được tạo: [Jump Link](${msg.url})`,
-              emoji: true,
-            }),
+            ...errorEmbed({ desc: `Reaction role đã được tạo: [Jump Link](${msg.url})`, emoji: true }),
             components: [],
           });
 

@@ -116,12 +116,7 @@ module.exports = {
               }),
             );
 
-          let memberList = await tournamentProfile
-            .find({
-              guildID: guild.id,
-              status: true,
-            })
-            .catch(console.error);
+          let memberList = await tournamentProfile.find({ guildID: guild.id, status: true }).catch(console.error);
 
           if (!memberList || memberList.length === 0)
             return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: false }));

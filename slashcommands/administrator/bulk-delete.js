@@ -28,8 +28,8 @@ module.exports = {
     try {
       const messages = await channel.messages.fetch({ limit: amount });
       const actualAmount = Math.min(messages.size, amount);
-      let filtered = [];
 
+      let filtered = [];
       if (user) {
         let i = 0;
         messages.filter((m) => {

@@ -28,11 +28,13 @@ module.exports = {
       profile = await serverProfile
         .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
         .catch(console.error);
+
     try {
       const { welcome } = profile.setup;
       welcome.channel = welcomeChannel.id;
       welcome.log = logChannel.id;
       welcome.message = welcomeMsg;
+
       await profile.save().catch(console.error);
 
       const embed = new EmbedBuilder()
@@ -49,11 +51,7 @@ module.exports = {
 
       return await interaction.reply({ embeds: [embed], flags: 64 });
     } catch (e) {
-      const error = `Error while executing ${this.category} /${this.parent} ${this.data.name}\n`;
-      const embed = errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink });
-      console.error(chalk.red(error), e);
-      if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
-      else return await interaction.editReply(embed);
+      client.catchError(interaction, e, this);
     }
   },
 };

@@ -20,6 +20,7 @@ module.exports = {
         profile = await serverProfile
           .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
           .catch(console.error);
+
       const { starboard } = profile.setup;
       starboard.channel = channel.id;
       starboard.star = number;

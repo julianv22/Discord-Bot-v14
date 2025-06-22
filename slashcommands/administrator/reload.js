@@ -36,7 +36,8 @@ module.exports = {
       };
 
       if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
-      else await CommandsType[subCommand]();
+
+      await CommandsType[subCommand]();
 
       await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
 

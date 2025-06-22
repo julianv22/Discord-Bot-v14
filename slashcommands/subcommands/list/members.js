@@ -16,18 +16,16 @@ module.exports = {
     const title = options.getString('title') || `Danh sách thành viên ${role}`;
     const isMention = options.getBoolean('mention');
     const inline = options.getBoolean('inline');
-
     const members = isMention
       ? role.members.map((m) => m.user)
       : role.members.map((m) => m.user.displayName || m.user.username);
-    const strJoin = inline === true ? ' | ' : '\n';
 
     try {
       if (members.length > 0) {
         await interaction.reply({
           embeds: [
             {
-              description: `**${title}**:\n\n` + members.join(strJoin),
+              description: `**${title}**:\n\n` + members.join(inline ? ' | ' : '\n'),
               color: Colors.Aqua,
               footer: { text: `Tổng số: [${members.length}]` },
             },

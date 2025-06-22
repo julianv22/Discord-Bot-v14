@@ -116,12 +116,6 @@ module.exports = {
           else return collection.set(command.name, command);
         },
         slashcommands: () => {
-          // console.log(
-          //   command?.data?.options
-          //     ?.filter((opt) => opt instanceof SlashCommandSubcommandBuilder)
-          //     .map((cmd) => cmd.name),
-          // );
-
           if (!command.data || !command?.data.name) return missingWarn('Slash Command', 'data,data.name');
           else if (!command.execute || typeof command.execute !== 'function')
             return missingWarn('Slash Command', 'execute');
@@ -144,9 +138,10 @@ module.exports = {
       };
 
       if (!setCollection[folderName]) throw new Error(chalk.yellow(`Invalid folderName ${chalk.green(folderName)}`));
-      else setCollection[folderName]();
+
+      setCollection[folderName]();
     } catch (e) {
-      return logError({ todo: 'requiring file', item: file, desc: `in ${chalk.green(folder)} folder` }, e);
+      return logError({ todo: 'requiring file', item: file, desc: `in ${chalk.yellow(folder)} folder` }, e);
     }
   },
 };

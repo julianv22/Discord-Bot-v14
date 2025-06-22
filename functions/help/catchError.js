@@ -113,9 +113,9 @@ module.exports = (client) => {
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
     let second = chalk.green(item);
-    second += (item ? ' ' : '') + chalk[color](desc);
+    second += (item && ' ') + chalk[color](desc);
 
     const func = isWarn ? console.warn : console.error;
-    func(first, second, e ? '\n' + e : '');
+    func(first, second, e && '\n' + e);
   };
 };
