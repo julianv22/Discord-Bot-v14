@@ -1,4 +1,12 @@
-const { Client, ChatInputCommandInteraction, Colors, Message, EmbedBuilder, MessageFlags } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  Message,
+  EmbedBuilder,
+  MessageFlags,
+  ChannelType,
+  Colors,
+} = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -7,6 +15,8 @@ module.exports = (client) => {
    * @param {Error} e Error message
    * @param {string|ChatInputCommandInteraction} description Error description */
   client.catchError = async (object, e, description) => {
+    const { errorEmbed, logError, guilds } = client;
+
     const errorMessage = () => {
       if (description) {
         if (typeof description === 'string') return description;
@@ -20,19 +30,49 @@ module.exports = (client) => {
       return 'Unknown error';
     };
 
-    const embed = client.errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.DarkVividPink });
+    const embed = errorEmbed({
+      title: `\\❌ ${errorMessage()}`,
+      desc: e,
+      color: Colors.DarkVividPink,
+    });
 
+    try {
+      const guild = guilds.cache.get(cfg.bugGuildId);
+      const channel = guild.channels.cache.get(cfg.bugChannelId);
+
+      if (!guild) logError({ todo: 'finding Bug Guild Report with id:', item: cfg.bugGuildId });
+      else if (!channel || channel.type !== ChannelType.GuildText)
+        logError({ todo: 'finding Bug Channel Report with id:', item: cfg.bugChannelId });
+      else {
+        regex = /\x1b\[[0-9;]*m/g;
+
+        const bugEmbed = new EmbedBuilder()
+          .setTitle('\\❌ ' + errorMessage().replace(regex, ''))
+          .setDescription(`Message: \`${e.message || 'Unknown message'}\``)
+          .setColor(Colors.DarkVividPink)
+          .setTimestamp()
+          .setFooter({ text: 'Error reports', iconURL: guild.iconURL(true) });
+
+        if (e.stack)
+          bugEmbed.addFields({ name: 'Stack:', value: '```ansi\n\x1b[33m' + (e.stack || 'undefined') + '\x1b[0m```' });
+
+        if (e.cause)
+          bugEmbed.addFields({ name: 'Cause:', value: '```ansi\n\x1b[36m' + (e.cause || 'undefined') + '\x1b[0m```' });
+
+        await channel.send({ embeds: [bugEmbed] }).catch(console.error);
+      }
+    } catch (e) {}
     console.error(chalk.red(errorMessage() + '\n'), e);
 
     if (object) {
       if (object.author)
-        return await object.reply(embed).then((m) =>
+        await object.reply(embed).then((m) =>
           setTimeout(async () => {
             m.delete().catch(console.error);
           }, 10 * 1000),
         );
       else if (!object.replied && !object.deferred) return await object.reply(embed);
-      else return await object.editReply(embed);
+      else await object.editReply(embed);
     }
   };
   /** - Tạo một embed thông báo lỗi.

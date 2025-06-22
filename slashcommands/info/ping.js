@@ -9,7 +9,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { ws, errorEmbed } = client;
-    const sent = await interaction.deferReply({ withResponse: true });
+    // const sent = await interaction.deferReply({ withResponse: true });
     const ping = ws.ping;
     // const delay = sent.createdTimestamp - interaction.createdTimestamp;
     const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
