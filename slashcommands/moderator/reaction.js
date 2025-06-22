@@ -1,11 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
-  EmbedBuilder,
-  Colors,
-} = require('discord.js');
+const { Client, ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder, Colors } = require('discord.js');
 const { reactionButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {
@@ -21,23 +14,24 @@ module.exports = {
    * @param {Client} client - The client instance
    * @param {ChatInputCommandInteraction} interaction - The Command Interaction */
   async execute(interaction, client) {
-    const { guild, options } = interaction;
-    const subCommand = options.getSubcommand();
+    const { guild } = interaction;
 
-    if (subCommand === 'role') {
-      const reactionEmbed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setColor('Random')
-        .setTitle('`💬Title`: Đặt tiêu đề cho reaction role')
-        .setDescription(
-          `Vui lòng tạo role trước khi thêm reaction role!\n\n\`🎨Color\`: Đặt màu sắc cho embed\n\`\`\`fix\n${Object.keys(
-            Colors,
-          ).join(', ')}\`\`\`\n\`🟢Add Role\`: Thêm role vào reaction role`,
-        )
-        .setTimestamp()
-        .setFooter({ text: 'Select your role ⤵️' });
-
-      await interaction.reply({ embeds: [reactionEmbed], components: [reactionButtons()], flags: 64 });
-    }
+    await interaction.reply({
+      embeds: [
+        {
+          author: { name: guild.name, iconURL: guild.iconURL(true) },
+          title: '`💬Title`: Đặt tiêu đề cho reaction role',
+          description:
+            'Vui lòng tạo role trước khi thêm reaction role!\n\n`🎨Color`: Đặt màu sắc cho embed\n```fix\n' +
+            Object.keys(Colors).join(', ') +
+            '```\n`➕Add Role`: Thêm role vào reaction role',
+          color: Math.floor(Math.random() * 0xffffff),
+          timestamp: new Date(),
+          footer: { text: 'Select your role ⤵️' },
+        },
+      ],
+      components: [reactionButtons()],
+      flags: 64,
+    });
   },
 };

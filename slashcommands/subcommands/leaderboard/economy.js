@@ -1,10 +1,4 @@
-const {
-  EmbedBuilder,
-  SlashCommandSubcommandBuilder,
-  ChatInputCommandInteraction,
-  Client,
-  Colors,
-} = require('discord.js');
+const { SlashCommandSubcommandBuilder, ChatInputCommandInteraction, Client, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -37,18 +31,21 @@ module.exports = {
         })
         .join('\n');
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
-        .setTitle(`Top \\🔟 richest users in ${interaction.guild.name}`)
-        .setDescription(leaderboard)
-        .setColor(Colors.Gold)
-        .setThumbnail(
-          'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg',
-        )
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTimestamp();
-
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.reply({
+        embeds: [
+          {
+            author: { name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) },
+            title: `Top \\🔟 richest users in ${interaction.guild.name}`,
+            description: leaderboard,
+            color: Colors.Gold,
+            thumbnail: {
+              url: 'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg',
+            },
+            timestamp: new Date(),
+            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

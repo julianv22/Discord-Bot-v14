@@ -53,7 +53,7 @@ module.exports = {
 
         await interaction.reply(
           errorEmbed({
-            description: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
+            desc: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
             emoji: '\\🏆',
             color: Colors.Green,
           }),
@@ -73,7 +73,7 @@ module.exports = {
           if (bot.roles.highest.position <= role.position) {
             return await interaction.followUp(
               errorEmbed({
-                description: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
+                desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
                 emoji: false,
               }),
             );

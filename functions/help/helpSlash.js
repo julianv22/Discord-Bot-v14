@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandSubcommandBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
@@ -12,25 +12,6 @@ module.exports = (client) => {
     /** - Help Embed
      * @param {object[]} commands - Commands list
      * @param {number} count - Commands count */
-    const helpEmbed = async (commands, count) => {
-      return await interaction.update({
-        embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-            .setTitle(
-              `\\📂 Danh sách ${capitalize(CommandType === 'subcommands' ? 'sub' : CommandType)} Commands [${count}]`,
-            )
-            .setColor('Random')
-            .setThumbnail(cfg.slashPNG)
-            .setTimestamp()
-            .setFooter({
-              text: `Requested by ${user.displayName || user.username}`,
-              iconURL: user.displayAvatarURL(true),
-            })
-            .addFields(commands),
-        ],
-      });
-    };
 
     const commands = slashCommands
       .filter((cmd) => cmd.category === CommandType)
@@ -55,6 +36,23 @@ module.exports = (client) => {
         };
       });
 
-    return helpEmbed(commands, commands.length);
+    return interaction.update({
+      embeds: [
+        {
+          author: { name: guild.name, iconURL: guild.iconURL(true) },
+          title: `\\📂 Danh sách ${capitalize(CommandType === 'subcommands' ? 'sub' : CommandType)} Commands [${
+            commands.length
+          }]`,
+          color: Math.floor(Math.random() * 0xffffff),
+          fields: commands,
+          thumbnail: { url: cfg.slashPNG },
+          timestamp: new Date(),
+          footer: {
+            text: `Requested by ${user.displayName || user.username}`,
+            iconURL: user.displayAvatarURL(true),
+          },
+        },
+      ],
+    });
   };
 };

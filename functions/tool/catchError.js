@@ -20,7 +20,7 @@ module.exports = (client) => {
       return 'Unknown error';
     };
 
-    const embed = client.errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.Red });
+    const embed = client.errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.DarkVividPink });
 
     console.error(chalk.red(errorMessage() + '\n'), e);
 

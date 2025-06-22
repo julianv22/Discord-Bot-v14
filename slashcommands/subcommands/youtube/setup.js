@@ -69,7 +69,7 @@ module.exports = {
       }
       return await interaction.reply(
         errorEmbed({
-          description: `Đã ${
+          desc: `Đã ${
             action === 'add' ? 'thêm' : 'xoá'
           } kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** trong danh sách theo dõi của server`,
           emoji: true,

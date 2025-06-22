@@ -83,7 +83,7 @@ module.exports = {
         };
 
         if (!Disable[confirm]) throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
-        else await Disable[confirm]();
+        await Disable[confirm]();
 
         await profile.save().catch(console.error);
         return await interaction.update({

@@ -1,4 +1,4 @@
-const { Message, Client, ChannelType, EmbedBuilder, Colors } = require('discord.js');
+const { Message, Client, ChannelType, Colors } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',
@@ -11,19 +11,20 @@ module.exports = {
     if (channel && channel.type === ChannelType.DM && content.includes('help')) {
       await message.reply({
         embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
-            .setTitle('You can not use commands here.')
-            .setDescription('Please use commands in a server I have joined!')
-            .setThumbnail(author.displayAvatarURL(true))
-            .setColor(Colors.Orange),
+          {
+            author: { name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) },
+            title: 'You can not use commands here!',
+            description: 'Please use commands in a server I have joined!',
+            color: Colors.Orange,
+            thumbnail: { url: author.displayAvatarURL(true) },
+          },
         ],
       });
     }
 
     if (!content.startsWith(prefix)) {
       const hint = client.errorEmbed({
-        description: `Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
+        desc: `Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
         color: 16757248,
         emoji: '\\💡',
       });

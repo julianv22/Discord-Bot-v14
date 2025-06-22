@@ -15,8 +15,8 @@ module.exports = {
         .addRoleOption((opt) =>
           opt.setName('role').setDescription('Select the role you want to list').setRequired(true),
         )
-        .addBooleanOption((opt) => opt.setName('mention').setDescription('Mentions?').setRequired(true))
-        .addStringOption((opt) => opt.setName('description').setDescription('Description Config'))
+        .addBooleanOption((opt) => opt.setName('mention').setDescription('Mentionable').setRequired(true))
+        .addStringOption((opt) => opt.setName('title').setDescription('List title'))
         .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline')),
     ),
   /** - List members of a role

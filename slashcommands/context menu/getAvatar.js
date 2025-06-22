@@ -1,6 +1,5 @@
 const {
   ContextMenuCommandBuilder,
-  EmbedBuilder,
   Client,
   ChatInputCommandInteraction,
   ApplicationCommandType,

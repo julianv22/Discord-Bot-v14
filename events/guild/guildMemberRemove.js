@@ -20,7 +20,7 @@ module.exports = {
         .setThumbnail(
           'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/name-badge_1f4db.png',
         )
-        .setColor(Colors.Red)
+        .setColor(Colors.DarkVividPink)
         .setTimestamp()
         .addFields(
           { name: 'UserName:', value: user.tag, inline: true },

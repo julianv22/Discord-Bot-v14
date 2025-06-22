@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, GuildMember, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, GuildMember, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { toCurrency } = require('../common/utilities');
 
@@ -28,7 +28,7 @@ module.exports = (client) => {
       if (!profile || !targetProfile)
         return await interaction.reply(
           errorEmbed({
-            description: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
+            desc: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
             emoji: false,
           }),
         );
@@ -85,30 +85,33 @@ module.exports = (client) => {
       await profile.save().catch(console.error);
       await targetProfile.save().catch(console.error);
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
-        .addFields(
+      return await interaction.reply({
+        embeds: [
           {
-            name: `Số dư của ${user.displayName || user.username}`,
-            value: toCurrency(profile.balance, locale),
-            inline: true,
+            author: { name: guild.name, iconURL: guild.iconURL(true) },
+            description: `**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg,
+            color: isSuccess ? Colors.Green : Colors.DarkVividPink,
+            fields: [
+              {
+                name: `Số dư của ${user.displayName || user.username}`,
+                value: toCurrency(profile.balance, locale),
+                inline: true,
+              },
+              {
+                name: `Số dư của ${target.displayName || target.username}`,
+                value: toCurrency(targetProfile.balance, locale),
+                inline: true,
+              },
+            ],
+            thumbnail: { url: cfg.economyPNG },
+            timestamp: new Date(),
+            footer: {
+              text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
+              iconURL: bot.displayAvatarURL(),
+            },
           },
-          {
-            name: `Số dư của ${target.displayName || target.username}`,
-            value: toCurrency(targetProfile.balance, locale),
-            inline: true,
-          },
-        )
-        .setColor(isSuccess ? 'Green' : 'Red')
-        .setThumbnail(cfg.economyPNG)
-        .setFooter({
-          text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
-          iconURL: bot.displayAvatarURL(),
-        })
-        .setTimestamp();
-
-      return await interaction.reply({ embeds: [embed] });
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, `Error while executing ${chalk.green('robUser')} function`);
     }

@@ -1,6 +1,5 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
-const { EmbedBuilder } = require('@discordjs/builders');
 const { toCurrency } = require('../../../functions/common/utilities');
 
 module.exports = {
@@ -24,7 +23,7 @@ module.exports = {
       if (!profile)
         return await interaction.reply(
           errorEmbed({
-            description: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
+            desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
           }),
         );
@@ -32,8 +31,7 @@ module.exports = {
       if (amount > profile.balance)
         return await interaction.reply(
           errorEmbed({
-            description:
-              'Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng `/balance` để kiểm tra số 💲 hiện có',
+            desc: 'Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng `/balance` để kiểm tra số 💲 hiện có',
             emoji: false,
           }),
         );
@@ -44,12 +42,11 @@ module.exports = {
 
       return await interaction.reply({
         embeds: [
-          new EmbedBuilder()
-            .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-            .setTitle('\\🏦 Deposit')
-            .setDescription(`\\✅ Gửi ${toCurrency(amount, locale)} vào ngân hàng thành công!`)
-            .addFields(
-              { name: 'Số dư hiện có:', value: `\u200b`, inline: false },
+          {
+            author: { name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) },
+            title: '\\🏦 Deposit',
+            description: `\\✅ Gửi ${toCurrency(amount, locale)} vào ngân hàng thành công!\n\n**Số dư hiện có:**`,
+            fields: [
               {
                 name: '\\💰 Balance',
                 value: toCurrency(profile.balance, locale),
@@ -60,11 +57,12 @@ module.exports = {
                 value: toCurrency(profile.bank, locale),
                 inline: true,
               },
-            )
-            .setColor(0x00ff00)
-            .setThumbnail(cfg.economyPNG)
-            .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
-            .setTimestamp(),
+            ],
+            color: Colors.Green,
+            thumbnail: { url: cfg.economyPNG },
+            timestamp: new Date(),
+            footer: { text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) },
+          },
         ],
         flags: 64,
       });

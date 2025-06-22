@@ -43,7 +43,7 @@ module.exports = {
       if (!profile || !targetProfile)
         return await interaction.reply(
           errorEmbed({
-            description: !profile
+            desc: !profile
               ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
               : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
             emoji: false,
@@ -51,7 +51,7 @@ module.exports = {
         );
 
       if (amount > profile.bank)
-        return await interaction.reply(errorEmbed({ description: 'Bạn không có đủ \\💲 để chuyển!', emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển!', emoji: false }));
 
       const fee = Math.round(amount * 0.01);
       const total = amount + fee;

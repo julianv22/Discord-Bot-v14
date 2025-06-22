@@ -28,7 +28,7 @@ module.exports = {
 
       return await interaction.reply(
         errorEmbed({
-          description: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`,
+          desc: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`,
           emoji: true,
         }),
       );

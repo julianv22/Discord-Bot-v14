@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandSubcommandBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -32,10 +32,14 @@ module.exports = {
         slash: async () => {
           return await interaction.update({
             embeds: [
-              new EmbedBuilder()
-                .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-                .setTitle('Thống kê Slash Command & Sub Command')
-                .addFields([
+              {
+                author: {
+                  name: guild.name,
+                  iconURL: guild.iconURL(true),
+                },
+                title: 'Thống kê Slash Command & Sub Command',
+                color: Math.floor(Math.random() * 0xffffff),
+                fields: [
                   {
                     name: `\\📂 Slash Commands\n[\`Commands: ${
                       slashCommands.size - contextMenus.length
@@ -51,14 +55,14 @@ module.exports = {
                     value: `\`\`\`ansi\n\x1b[36m${contextMenus.join(' | ')}\x1b[0m\`\`\``,
                   },
                   { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
-                ])
-                .setThumbnail(cfg.slashPNG)
-                .setColor('Random')
-                .setTimestamp()
-                .setFooter({
+                ],
+                thumbnail: { url: cfg.slashPNG },
+                timestamp: new Date(),
+                footer: {
                   text: `Requested by ${user.displayName || user.username}`,
                   iconURL: user.displayAvatarURL(true),
-                }),
+                },
+              },
             ],
           });
         },

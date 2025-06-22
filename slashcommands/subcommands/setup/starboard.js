@@ -26,7 +26,7 @@ module.exports = {
       await profile.save().catch(console.error);
       return await interaction.reply(
         errorEmbed({
-          description: `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`,
+          desc: `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`,
           emoji: true,
         }),
       );

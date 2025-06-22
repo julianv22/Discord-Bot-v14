@@ -173,13 +173,15 @@ module.exports = {
           } catch (e) {
             const error = 'Error while updating embed message\n';
             console.error(chalk.red(error), e);
-            return await interaction.reply(errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red }));
+            return await interaction.reply(
+              errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink }),
+            );
           }
         },
       };
 
       if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
-      else return await showModal[button]();
+      return await showModal[button]();
     } catch (e) {
       return await catchError(interaction, e, this);
     }

@@ -28,7 +28,7 @@ module.exports = {
 
       return await interaction.reply(
         errorEmbed({
-          description: `Channel to send suggestions has been changed to ${channel}!`,
+          desc: `Channel to send suggestions has been changed to ${channel}!`,
           emoji: true,
         }),
       );

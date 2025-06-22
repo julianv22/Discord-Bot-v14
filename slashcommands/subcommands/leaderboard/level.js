@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const { checkURL } = require('../../../functions/common/utilities');
 
 module.exports = {
@@ -18,19 +18,21 @@ module.exports = {
       if (!checkURL(imgURL))
         return await interaction.reply(errorEmbed({ desc: 'Vui lòng nhập chính xác Image URL', emoji: false }));
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })
-        .setTitle('Bảng xếp hạng level tuần #' + week)
-        .setDescription(
-          'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)',
-        )
-        .setColor('Random')
-        .setThumbnail(cfg.thumbnailURL)
-        .setImage(imgURL)
-        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
-        .setTimestamp();
-
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.reply({
+        embeds: [
+          {
+            author: { name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) },
+            title: 'Bảng xếp hạng level tuần #' + week,
+            description:
+              'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)',
+            color: Math.floor(Math.random() * 0xffffff),
+            thumbnail: { url: cfg.thumbnailURL },
+            image: { url: imgURL },
+            timestamp: new Date(),
+            footer: { text: guild.name, iconURL: guild.iconURL(true) },
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

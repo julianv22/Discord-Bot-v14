@@ -1,4 +1,4 @@
-const { EmbedBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'modals',
@@ -9,7 +9,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
     const { errorEmbed, catchError } = client;
-    const content = interaction.fields.getTextInputValue('content');
+    const description = interaction.fields.getTextInputValue('content');
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -17,34 +17,40 @@ module.exports = {
       if (!profile || !profile?.setup?.suggest)
         return await interaction.reply(
           errorEmbed({
-            description: `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
+            desc: `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
             emoji: false,
           }),
         );
 
       const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `${user.tag}'s suggestions`,
-          iconURL: user.displayAvatarURL(true),
-        })
-        .setTitle("Suggest's content:")
-        .setDescription(content)
-        .setColor(Colors.Yellow)
-        .addFields({
-          name: '\u200b',
-          value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!',
-        })
-        .setThumbnail(cfg.suggestPNG)
-        .setTimestamp()
-        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) });
 
-      const msg = await sgtChannel.send({ embeds: [embed] });
+      const msg = await sgtChannel.send({
+        embeds: [
+          {
+            author: {
+              name: `${user.tag}'s suggestions`,
+              iconURL: user.displayAvatarURL(true),
+            },
+            title: "Suggest's content:",
+            description,
+            color: Colors.Yellow,
+            fields: [
+              {
+                name: '\u200b',
+                value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!',
+              },
+            ],
+            thumbnail: { url: cfg.suggestPNG },
+            timestamp: new Date(),
+            footer: { text: guild.name, iconURL: guild.iconURL(true) },
+          },
+        ],
+      });
 
       await interaction
         .reply(
           errorEmbed({
-            description: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`,
+            desc: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`,
             emoji: true,
           }),
         )

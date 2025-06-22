@@ -17,7 +17,7 @@ module.exports = {
 
     const ping = ws.ping;
     const delay = Math.abs(Date.now() - message.createdTimestamp); // Đảm bảo luôn dương
-    const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.Red : Colors.Orange;
+    const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
     return await message.reply(errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }));
   },

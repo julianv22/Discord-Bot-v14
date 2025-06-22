@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
@@ -53,19 +53,19 @@ module.exports = (client) => {
               const role = guild.roles.cache.get(alert);
 
               if (channel) {
-                // Thông báo text với tên kênh và link + embed nhúng video
-                const embed = new EmbedBuilder()
-                  .setTitle(videoTitle || 'Video mới')
-                  .setURL(`https://youtu.be/${latestVideoId}`)
-                  // .setDescription(`[Xem trên YouTube](https://youtu.be/${latestVideoId})`)
-                  .setColor('Random')
-                  .setImage(`https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg`)
-                  .setFooter({ text: channelTitle || 'Youtube' });
                 await channel.send({
                   content: `${role ? `${role} ` : ''}\\🎬 **[${
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:`,
-                  embeds: [embed],
+                  embeds: [
+                    {
+                      title: videoTitle || 'New video:',
+                      url: 'https://youtu.be/' + latestVideoId,
+                      color: Math.floor(Math.random() * 0xffffff),
+                      image: { url: `https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg` },
+                      footer: { text: channelTitle || 'Youtube' },
+                    },
+                  ],
                   components: [
                     new ActionRowBuilder().addComponents(
                       new ButtonBuilder()

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'fun',
@@ -20,16 +20,22 @@ module.exports = {
           errorEmbed({ desc: 'Could not fetch meme, please try again later!', emoji: false }),
         );
       }
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTitle(data.title || 'Meme')
-        .setImage(data.url)
-        .setURL(data.postLink)
-        .setColor('Random')
-        .setFooter({
-          text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${data.subreddit || ''}`,
-        });
-      return await interaction.editReply({ embeds: [embed] });
+
+      return await interaction.editReply({
+        embeds: [
+          {
+            author: { name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
+            title: data.title || 'Meme',
+            image: { url: data.url },
+            color: Math.floor(Math.random() * 0xffffff),
+            footer: {
+              text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${
+                data.subreddit || ''
+              }`,
+            },
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

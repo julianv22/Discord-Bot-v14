@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -24,18 +24,21 @@ module.exports = {
 
     getQuote()
       .then(async (quote) => {
-        const embed = new EmbedBuilder()
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-          .setDescription(quote)
-          .setColor('Random')
-          .setThumbnail(cfg.thumbnailURL)
-          .setFooter({
-            text: `Requested by ${user.displayName || user.username}`,
-            iconURL: user.displayAvatarURL(true),
-          })
-          .setTimestamp();
-
-        return await interaction.reply({ embeds: [embed] });
+        return await interaction.reply({
+          embeds: [
+            {
+              author: { name: guild.name, iconURL: guild.iconURL(true) },
+              description: quote,
+              color: Math.floor(Math.random() * 0xffffff),
+              thumbnail: { url: cfg.thumbnailURL },
+              timestamp: new Date(),
+              footer: {
+                text: `Requested by ${user.displayName || user.username}`,
+                iconURL: user.displayAvatarURL(true),
+              },
+            },
+          ],
+        });
       })
       .catch((e) => {
         return catchError(interaction, e, this);

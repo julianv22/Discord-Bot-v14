@@ -58,22 +58,22 @@ module.exports = {
 
     await interaction.reply(text[randomText]);
     setTimeout(async () => {
-      await interaction.editReply(process1[randomProcess1]).catch(console.error);
+      await interaction.editReply(process1[randomProcess1]);
     }, 1500);
     setTimeout(async () => {
-      await interaction.editReply(process2[randomProcess2]).catch(console.error);
+      await interaction.editReply(process2[randomProcess2]);
     }, 2500);
     setTimeout(async () => {
-      await interaction.editReply(process3[randomProcess3]).catch(console.error);
+      await interaction.editReply(process3[randomProcess3]);
     }, 3500);
     setTimeout(async () => {
-      await interaction.editReply(processEnd).catch(console.error);
+      await interaction.editReply(processEnd);
     }, 4500);
     setTimeout(async () => {
-      await interaction.editReply(endText).catch(console.error);
+      await interaction.editReply(endText);
     }, 5500);
     setTimeout(async () => {
-      await interaction.editReply(result).catch(console.error);
+      await interaction.editReply(result);
     }, 6000);
   },
 };

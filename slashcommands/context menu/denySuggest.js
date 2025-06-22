@@ -33,7 +33,7 @@ module.exports = {
     if (embed.title !== "Suggest's content:")
       return await interaction.reply(errorEmbed({ desc: 'This is not suggest message!', emoji: false }));
 
-    const edit = EmbedBuilder.from(embed).setColor(Colors.Red).spliceFields(0, 1).setTimestamp().setFooter({
+    const edit = EmbedBuilder.from(embed).setColor(Colors.DarkVividPink).spliceFields(0, 1).setTimestamp().setFooter({
       text: 'Đề xuất không được chấp nhận',
       iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
     });
@@ -41,9 +41,9 @@ module.exports = {
 
     await interaction.reply(
       errorEmbed({
-        description: `Suggestion has been denied! [[Jump Link](${msg.url})]`,
+        desc: `Suggestion has been denied! [[Jump Link](${msg.url})]`,
         emoji: '\\🚫',
-        color: Colors.Red,
+        color: Colors.DarkVividPink,
       }),
     );
 
@@ -54,17 +54,15 @@ module.exports = {
     await author
       .send({
         embeds: [
-          new EmbedBuilder()
-            .setAuthor({
-              name: 'Deny suggestion',
-              iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
-            })
-            .setTitle(`Your suggestion has been denied by ${user.displayName || user.username}!`)
-            .setDescription(`[Jump Link](${msg.url})`)
-            .setColor(Colors.Red)
-            .setThumbnail(user.displayAvatarURL(true))
-            .setTimestamp()
-            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),
+          {
+            author: { name: 'Deny suggestion', iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif' },
+            title: `Your suggestion has been denied by ${user.displayName || user.username}!`,
+            description: `[Jump Link](${msg.url})`,
+            color: Colors.DarkVividPink,
+            thumbnail: { url: user.defaultAvatarURL(true) },
+            timestamp: new Date(),
+            footer: { text: guild.name, iconURL: guild.iconURL(true) },
+          },
         ],
       })
       .catch((e) => {

@@ -73,7 +73,7 @@ module.exports = {
         );
         return await interaction.editReply(
           errorEmbed({
-            description: `Không thể lấy báo cáo URL hiện có: ${
+            desc: `Không thể lấy báo cáo URL hiện có: ${
               errorDetail.error ? errorDetail.error.message : getReportRes.statusText
             }`,
             emoji: false,
@@ -153,7 +153,7 @@ module.exports = {
             );
             return await interaction.editReply(
               errorEmbed({
-                description: `Không thể lấy báo cáo phân tích: ${
+                desc: `Không thể lấy báo cáo phân tích: ${
                   errorDetail.error ? errorDetail.error.message : analysisRes.statusText
                 }`,
                 emoji: false,
@@ -192,7 +192,7 @@ module.exports = {
         console.error('[VIRUS-CHECK] Lỗi trong quá trình gửi/phân tích URL mới:', e);
         return await interaction.editReply(
           errorEmbed({
-            description: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}`,
+            desc: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}`,
             emoji: false,
           }),
         );
@@ -252,7 +252,7 @@ module.exports = {
       // Trường hợp này chỉ xảy ra nếu có lỗi không mong muốn hoặc phân tích không bao giờ hoàn tất
       return await interaction.editReply(
         errorEmbed({
-          description: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.',
+          desc: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.',
           emoji: false,
         }),
       );

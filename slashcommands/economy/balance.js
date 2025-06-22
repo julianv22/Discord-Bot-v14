@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const { toCurrency, ultilsTest } = require('../../functions/common/utilities');
+const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'economy',
@@ -20,7 +20,7 @@ module.exports = {
       if (!profile) {
         return await interaction.reply(
           errorEmbed({
-            description: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
+            desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
           }),
         );

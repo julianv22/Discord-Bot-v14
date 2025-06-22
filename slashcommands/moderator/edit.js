@@ -4,7 +4,6 @@ const {
   Client,
   PermissionFlagsBits,
   EmbedBuilder,
-  Colors,
 } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 
@@ -74,20 +73,21 @@ module.exports = {
         return await msg.edit(content).then(async () => {
           await interaction.reply({
             embeds: [
-              new EmbedBuilder()
-                .setAuthor({ name: guild.name, icon_url: guild.iconURL(true) })
-                .setTitle('\\✅ Message edited successfully!')
-                .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
-                .setColor(Colors.Green)
-                .setThumbnail(
-                  'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png',
-                )
-                .addFields([{ name: 'Edited content:', value: '> ' + content }])
-                .setTimestamp()
-                .setFooter({
+              {
+                author: { name: guild.name, icon_url: guild.iconURL(true) },
+                title: '\\✅ Message edited successfully!',
+                description: `**Message ID:** [\`${msg.id}\`](${msg.url})`,
+                color: Math.floor(Math.random() * 0xffffff),
+                timestamp: new Date(),
+                thumbnail: {
+                  url: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png',
+                },
+                fields: [{ name: 'Edited content:', value: '> ' + content }],
+                footer: {
                   text: `Edited by ${user.displayName || user.username}`,
                   iconURL: user.displayAvatarURL(true),
-                }),
+                },
+              },
             ],
             flags: 64,
           });

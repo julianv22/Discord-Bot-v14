@@ -1,21 +1,19 @@
 const {
-  SlashCommandBuilder,
   Client,
   ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
   PermissionFlagsBits,
   EmbedBuilder,
-  Embed,
 } = require('discord.js');
 const { promises } = require('fs');
 const path = require('path');
 
 /** @param {Client} client Client */
 module.exports = {
-  category: 'administrator',
+  category: 'sub command',
+  parent: 'read',
   scooldown: 0,
-  permissions: PermissionFlagsBits.Administrator,
-  data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+  data: new SlashCommandSubcommandBuilder()
     .setName('structure')
     .setDescription('Show folder structure of project')
     .addStringOption((opt) => opt.setName('path').setDescription('Structure path')),

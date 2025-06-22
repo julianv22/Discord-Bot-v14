@@ -8,7 +8,6 @@ const {
 } = require('discord.js');
 const { rowComponents, infoButtons } = require('../../functions/common/components');
 const { capitalize } = require('../../functions/common/utilities');
-const { readFiles } = require('../../functions/common/initLoader');
 
 module.exports = {
   category: 'info',

@@ -36,19 +36,9 @@ module.exports = {
     )
     .addSubcommand((sub) =>
       sub
-        .setName('commands')
-        .setDescription('Read all commands data from server')
-        .addStringOption((opt) =>
-          opt
-            .setName('command')
-            .setDescription('Choose command')
-            .setRequired(true)
-            .addChoices([
-              { name: 'Slash Commands', value: 'slashcommands' },
-              { name: 'Sub Commands', value: 'subcommands' },
-              { name: 'Prefix Commands', value: 'prefixcommands' },
-            ]),
-        ),
+        .setName('structure')
+        .setDescription('Read project structure from path')
+        .addStringOption((opt) => opt.setName('path').setDescription('Structure path')),
     ),
   /** - Read file content/MongoDB/Command Collection
    * @param {ChatInputCommandInteraction} interaction Interaction

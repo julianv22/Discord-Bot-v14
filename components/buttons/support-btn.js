@@ -11,7 +11,7 @@ module.exports = {
     const [, button] = interaction.customId.split(':');
 
     try {
-      const types = {
+      const showContent = {
         youtube: () => {
           return `Hãy like, share và subscrible để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`;
         },
@@ -20,8 +20,8 @@ module.exports = {
         },
       };
 
-      if (!types[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
-      else return await interaction.reply({ content: types[button](), flags: 64 });
+      if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+      return await interaction.reply({ content: showContent[button](), flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

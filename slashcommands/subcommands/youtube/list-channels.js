@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 module.exports = {
   category: 'sub command',
@@ -42,24 +42,22 @@ module.exports = {
         }),
       );
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
-        )
-        .setTitle('Danh sách kênh Youtube đã đăng ký:')
-        .setDescription(channelList.join('\n'))
-        .addFields({
-          name: 'Kênh thông báo video mới:',
-          value: youtube.notifyChannel
-            ? `<#${youtube.notifyChannel}>`
-            : '\\⚠️ Vui lòng sử dụng `/youtube notify` để thiết lập \\⚠️',
-        })
-        .setColor('Random')
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
-
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.reply({
+        embeds: [
+          {
+            author: { name: guild.name, iconURL: guild.iconURL(true) },
+            title: 'Danh sách kênh Youtube đã đăng ký:',
+            description: channelList.join('\n'),
+            color: Math.floor(Math.random() * 0xffffff),
+            fields,
+            thumbnail: {
+              url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
+            },
+            timestamp: new Date(),
+            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

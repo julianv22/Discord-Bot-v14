@@ -23,14 +23,9 @@ module.exports = {
     const { guild, options } = interaction;
     const { errorEmbed, catchError } = client;
     const choice = options.getString('profile');
-    // const owner = await guild.fetchOwner();
     const serverProfile = require(`../../../config/${choice}`);
 
     await interaction.deferReply({ flags: 64 });
-
-    // if (user.id !== cfg.ownerID && user.id !== owner.id)
-    //   return await interaction.editReply(errorEmbed({ desc: 'Owner permission only', emoji: false }));
-
     /** - Send a message
      * @param {string} message - Nội dung message
      * @param {string} key - Key của sourcebin

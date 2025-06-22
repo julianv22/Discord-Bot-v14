@@ -1,6 +1,6 @@
 const { Collection } = require('discord.js');
-const { readdirSync, statSync } = require('fs');
 const path = require('path');
+const { readdirSync, statSync } = require('fs');
 const { logError } = require('./utilities');
 
 module.exports = {

@@ -68,22 +68,22 @@ module.exports = {
     const randomProcess3 = Math.floor(Math.random() * process3.length);
     const msg = await message.reply(text[randomText]);
     setTimeout(async () => {
-      await msg.edit(process1[randomProcess1]).catch(console.error);
+      await msg.edit(process1[randomProcess1]);
     }, 1500);
     setTimeout(async () => {
-      await msg.edit(process2[randomProcess2]).catch(console.error);
+      await msg.edit(process2[randomProcess2]);
     }, 2500);
     setTimeout(async () => {
-      await msg.edit(process3[randomProcess3]).catch(console.error);
+      await msg.edit(process3[randomProcess3]);
     }, 3500);
     setTimeout(async () => {
-      await msg.edit(processEnd).catch(console.error);
+      await msg.edit(processEnd);
     }, 4500);
     setTimeout(async () => {
-      await msg.edit(endText).catch(console.error);
+      await msg.edit(endText);
     }, 5500);
     setTimeout(async () => {
-      await msg.edit(result).catch(console.error);
+      await msg.edit(result);
     }, 6000);
   },
 };

@@ -37,7 +37,7 @@ module.exports = {
         errorEmbed({
           desc: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
           emoji: '🏆',
-          color: Colors.Red,
+          color: Colors.DarkVividPink,
         }),
       );
 

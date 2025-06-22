@@ -18,7 +18,7 @@ module.exports = {
     ];
 
     try {
-      const inputModal = {
+      const editEmbed = {
         title: () => {
           return reactionEmbed.setTitle(stringInput);
         },
@@ -27,10 +27,10 @@ module.exports = {
         },
       };
 
-      if (!inputModal[textInput])
+      if (!editEmbed[textInput])
         throw new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(textInput));
 
-      await inputModal[textInput]();
+      await editEmbed[textInput]();
       return interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
     } catch (e) {
       return await catchError(interaction, e, this);

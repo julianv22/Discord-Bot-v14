@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, GuildMember, Message, ChatInputCommandInteraction } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -75,30 +75,27 @@ module.exports = (client) => {
         .tz('Asia/Ho_Chi_Minh')
         .format('HH:mm ddd, Do MMMM YYYY');
 
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: author.displayName,
-          iconURL: author.displayAvatarURL(true),
-        })
-        .setTitle('💖 Special Thanks!')
-        .setDescription(`${author} special thanks to ${target}!`)
-        .setColor('Random')
-        .addFields([
+      await object.reply({
+        embeds: [
           {
-            name: `Thanks count: [${count}]`,
-            value: '\u200b',
-            inline: true,
+            author: { name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) },
+            title: '💖 Special Thanks!',
+            description: `${author} special thanks to ${target}!`,
+            color: Math.floor(Math.random() * 0xffffff),
+            fields: [
+              {
+                name: `Thanks count: [${count}]`,
+                value: '\u200b',
+                inline: true,
+              },
+              { name: 'Last thanks:', value: lastThanks, inline: true },
+            ],
+            image: { url: imgURL[Math.floor(Math.random() * imgURL.length)] },
+            timestamp: new Date(),
+            footer: { text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) },
           },
-          { name: 'Last thanks:', value: lastThanks, inline: true },
-        ])
-        .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
-        .setFooter({
-          text: 'Use /thanks to thank someone.',
-          iconURL: guild.iconURL(true),
-        })
-        .setTimestamp();
-
-      await object.reply({ embeds: [embed] });
+        ],
+      });
 
       // Update thanksCount
       thanks.guildName = guild.name;

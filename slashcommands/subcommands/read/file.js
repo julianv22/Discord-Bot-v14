@@ -52,7 +52,7 @@ module.exports = {
         // File hoặc thư mục không tồn tại
         return interaction.editReply(
           errorEmbed({
-            description: `Không tìm thấy file [ \`${relativeFilePath}\` ]. Vui lòng kiểm tra lại đường dẫn.`,
+            desc: `Không tìm thấy file [ \`${relativeFilePath}\` ]. Vui lòng kiểm tra lại đường dẫn.`,
             emoji: false,
           }),
         );

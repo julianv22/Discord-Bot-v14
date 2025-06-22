@@ -1,10 +1,4 @@
-const {
-  SlashCommandSubcommandBuilder,
-  EmbedBuilder,
-  Client,
-  ChatInputCommandInteraction,
-  Colors,
-} = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const thanksProfile = require('../../../config/thanksProfile');
 
 module.exports = {
@@ -30,27 +24,28 @@ module.exports = {
       if (!results)
         return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!', emoji: false }));
 
-      let text = '';
+      let thanksList = '';
 
       for (let i = 0; i < results.length; i++) {
         const { userID, thanksCount } = results[i];
         const emojis = ['1️⃣', '2️⃣', '3️⃣'];
-        text += `${i < 3 ? emojis[i] : `**${i + 1}.**`} <@${userID}> `;
-        text += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
+        thanksList += `${i < 3 ? emojis[i] : `**${i + 1}.**`} <@${userID}> `;
+        thanksList += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
       }
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
-        .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
-        .setDescription(text)
-        .setColor(Colors.Gold)
-        .setThumbnail(cfg.thanksPNG)
-        .setFooter({
-          text: `Requested by ${user.displayName || user.username}`,
-          iconURL: user.displayAvatarURL(true),
-        })
-        .setTimestamp();
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.reply({
+        embeds: [
+          {
+            author: { name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) },
+            title: `Top 10 Thanks${time ? ` ${time}` : ''}:`,
+            description: thanksList,
+            color: Colors.Gold,
+            thumbnail: { url: cfg.thanksPNG },
+            timestamp: new Date(),
+            footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) },
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

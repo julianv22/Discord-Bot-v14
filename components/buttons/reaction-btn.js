@@ -81,7 +81,7 @@ module.exports = {
                   errorEmbed({
                     title: '\\❌ Không tìm thấy Role',
                     description: `Role \`${roleInput}\` không tồn tại, hãy thử lại!`,
-                    color: Colors.Red,
+                    color: Colors.DarkVividPink,
                   }),
                 );
             } catch (e) {
@@ -151,7 +151,7 @@ module.exports = {
       };
 
       if (!reactionButton[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
-      else await reactionButton[buttonId]();
+      await reactionButton[buttonId]();
     } catch (e) {
       return await catchError(interaction, e, this);
     }

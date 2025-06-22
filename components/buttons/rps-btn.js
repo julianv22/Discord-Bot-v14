@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 const { toCurrency } = require('../../functions/common/utilities');
@@ -13,7 +13,7 @@ module.exports = {
     const { user, guild, customId, locale } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, betStr] = customId.split(':');
-    const [bet, userMove] = [parseInt(betStr, 10), parseInt(button, 10)];
+    const [userMove, bet] = [parseInt(button, 10), parseInt(betStr, 10)];
 
     try {
       let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
@@ -35,7 +35,7 @@ module.exports = {
       if (profile.balance < bet) {
         return await interaction.update(
           errorEmbed({
-            description: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance, locale)}`,
+            desc: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance, locale)}`,
             emoji: false,
           }),
         );
@@ -61,40 +61,40 @@ module.exports = {
           return `Bạn thắng và nhận được **${toCurrency(winAmount, locale)}**!`;
         },
       };
-      // Tăng số lần chơi và cập nhật ngày
+      // Tăng số lần chơi và cập nhật
       profile.rpsCount += 1;
       profile.lastPlayRPS = today;
-      // Tạo embed thông báo kết quả
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: `Hi, ${user.displayName || user.username}`,
-          iconURL: user.displayAvatarURL(true),
-        })
-        .setColor(rps.color)
-        .setThumbnail(user.displayAvatarURL(true))
-        .setTimestamp()
-        .setTitle('You ' + rps.result)
-        .setDescription(
-          `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
-            profile.rpsCount
-          }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`,
-        )
-        .addFields([
-          {
-            name: '\\💰 Tổng tiền đã nhận',
-            value: toCurrency(profile.totalEarned, locale) || 0,
-            inline: true,
-          },
-          {
-            name: '\\💸 Tổng tiền đã chi',
-            value: toCurrency(profile.totalSpent, locale) || 0,
-            inline: true,
-          },
-        ]);
-      // Cập nhật tài khoản
       await profile.save().catch(console.error);
       // Trả về kết quả
-      return await interaction.update({ embeds: [embed] });
+      return await interaction.update({
+        embeds: [
+          {
+            author: {
+              name: `Hi, ${user.displayName || user.username}`,
+              iconURL: user.displayAvatarURL(true),
+            },
+            title: 'You ' + rps.result,
+            description: `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
+              profile.rpsCount
+            }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`,
+            color: rps.Color,
+            thumbnail: { url: user.displayAvatarURL(true) },
+            fields: [
+              {
+                name: '\\💰 Tổng tiền đã nhận',
+                value: toCurrency(profile.totalEarned, locale) || 0,
+                inline: true,
+              },
+              {
+                name: '\\💸 Tổng tiền đã chi',
+                value: toCurrency(profile.totalSpent, locale) || 0,
+                inline: true,
+              },
+            ],
+            timestamp: new Date(),
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(interaction, e, this);
     }

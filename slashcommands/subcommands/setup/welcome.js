@@ -1,10 +1,4 @@
-const {
-  SlashCommandSubcommandBuilder,
-  EmbedBuilder,
-  Client,
-  ChatInputCommandInteraction,
-  Colors,
-} = require('discord.js');
+const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, Colors } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -35,26 +29,30 @@ module.exports = {
       welcome.message = welcomeMsg;
       await profile.save().catch(console.error);
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-        .setTitle("Welcome's setup information")
-        .setColor(Colors.Aqua)
-        .setTimestamp()
-        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
-        .addFields([
+      return await interaction.reply({
+        embeds: [
           {
-            name: 'Welcome channel:',
-            value: welcomeChannel.toString(),
-            inline: true,
+            author: { name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) },
+            title: "Welcome's setup information",
+            color: Colors.Aqua,
+            fields: [
+              {
+                name: 'Welcome channel:',
+                value: welcomeChannel.toString(),
+                inline: true,
+              },
+              { name: 'Log channel:', value: logChannel.toString(), inline: true },
+              { name: 'Welcome message:', value: welcomeMsg || 'None' },
+            ],
+            timestamp: new Date(),
+            footer: { text: guild.name, iconURL: guild.iconURL(true) },
           },
-          { name: 'Log channel:', value: logChannel.toString(), inline: true },
-          { name: 'Welcome message:', value: welcomeMsg || 'None' },
-        ]);
-
-      return await interaction.reply({ embeds: [embed], flags: 64 });
+        ],
+        flags: 64,
+      });
     } catch (e) {
       const error = `Error while executing ${this.category} /${this.parent} ${this.data.name}\n`;
-      const embed = errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.Red });
+      const embed = errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink });
       console.error(chalk.red(error), e);
       if (!interaction.replied && !interaction.deferred) return await interaction.reply(embed);
       else return await interaction.editReply(embed);

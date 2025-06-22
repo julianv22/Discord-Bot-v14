@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, GuildMember, Message, ChatInputCommandInteraction, Colors } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -23,31 +23,36 @@ module.exports = (client) => {
 
       const { author, channelId: snpChannel, content } = snipe;
 
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: target
-            ? `${user.displayName || user.username} snipped message of ${
-                target.displayName || (target.user && target.user.displayName) || 'Unknown'
-              }`
-            : 'Last deleted message:',
-          iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
-        })
-        .setColor(Colors.DarkVividPink)
-        .setTimestamp()
-        .setThumbnail(author.displayAvatarURL(true))
-        .setFooter({
-          text: `Requested by ${user.displayName || user.username}`,
-          iconURL: user.displayAvatarURL(true),
-        })
-        .addFields([{ name: 'Author:', value: `${author}`, inline: true }])
-        .addFields({
-          name: target ? 'Channel:' : '\u200b',
-          value: target ? `<#${snpChannel}>` : '\u200b',
-          inline: true,
-        })
-        .addFields([{ name: 'Content:', value: `${content}` }]);
-
-      return await object.reply({ embeds: [embed] });
+      return await object.reply({
+        embeds: [
+          {
+            author: {
+              name: target
+                ? `${user.displayName || user.username} snipped message of ${
+                    target.displayName || (target.user && target.user.displayName) || 'Unknown'
+                  }`
+                : 'Last deleted message:',
+              iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
+            },
+            color: Colors.DarkVividPink,
+            fields: [
+              { name: 'Author:', value: `${author}`, inline: true },
+              {
+                name: target ? 'Channel:' : '\u200b',
+                value: target ? `<#${snpChannel}>` : '\u200b',
+                inline: true,
+              },
+              { name: 'Content:', value: `${content}` },
+            ],
+            thumbnail: { url: author.displayAvatarURL(true) },
+            timestamp: new Date(),
+            footer: {
+              text: `Requested by ${user.displayName || user.username}`,
+              iconURL: user.displayAvatarURL(true),
+            },
+          },
+        ],
+      });
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('snipeMessage')} function`);
     }

@@ -63,7 +63,7 @@ module.exports = {
           if (tournament.status && getRole.id !== tournament.id)
             return await interaction.reply(
               errorEmbed({
-                description: `Đang có giải đấu \`${tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
+                desc: `Đang có giải đấu \`${tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
                 emoji: false,
               }),
             );
@@ -109,7 +109,11 @@ module.exports = {
         list: async () => {
           if (!tournament.status)
             return await interaction.reply(
-              errorEmbed({ desc: 'Hiện không có giải đấu nào đang diễn ra!', emoji: '🏆', color: Colors.Red }),
+              errorEmbed({
+                desc: 'Hiện không có giải đấu nào đang diễn ra!',
+                emoji: '🏆',
+                color: Colors.DarkVividPink,
+              }),
             );
 
           let memberList = await tournamentProfile
@@ -174,7 +178,7 @@ module.exports = {
           if (!verified)
             return await interaction.reply(
               errorEmbed({
-                description: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
+                desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
                 emoji: '❗',
                 color: Colors.Orange,
               }),
