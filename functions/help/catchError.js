@@ -30,11 +30,7 @@ module.exports = (client) => {
       return 'Unknown error';
     };
 
-    const embed = errorEmbed({
-      title: `\\❌ ${errorMessage()}`,
-      desc: e,
-      color: Colors.DarkVividPink,
-    });
+    const embed = errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.DarkVividPink });
 
     try {
       const guild = guilds.cache.get(cfg.bugGuildId);
@@ -48,7 +44,7 @@ module.exports = (client) => {
 
         const bugEmbed = new EmbedBuilder()
           .setTitle('\\❌ ' + errorMessage().replace(regex, ''))
-          .setDescription(`Message: \`${e.message || 'Unknown message'}\``)
+          .setDescription(`Error message: \`${e.message || 'Unknown message'}\``)
           .setColor(Colors.DarkVividPink)
           .setTimestamp()
           .setFooter({ text: 'Error reports', iconURL: guild.iconURL(true) });

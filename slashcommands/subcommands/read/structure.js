@@ -35,20 +35,19 @@ module.exports = {
         if (name === pattern) {
           return true;
         }
-        // 2. Mẫu kết thúc bằng '/' (chỉ áp dụng cho thư mục)
+        // 2. Pattern thúc bằng '/' (chỉ áp dụng cho thư mục)
         if (pattern.endsWith('/') && name === pattern.slice(0, -1)) {
-          // Đây là một thư mục và tên khớp với mẫu thư mục
           return true;
         }
-        // 3. Mẫu có wildcard đơn giản '*' ở cuối (ví dụ: *.log)
+        // 3. Pattern có wildcard đơn giản '*' ở cuối (ví dụ: *.log)
         if (pattern.startsWith('*.') && name.endsWith(pattern.slice(1))) {
           return true;
         }
-        // 4. Mẫu có wildcard đơn giản '*' ở đầu (ví dụ: temp*)
+        // 4. Pattern có wildcard đơn giản '*' ở đầu (ví dụ: temp*)
         if (pattern.endsWith('*') && name.startsWith(pattern.slice(0, -1))) {
           return true;
         }
-        // 5. Kiểm tra nếu tên thư mục/file chứa mẫu (có thể không mong muốn với .gitignore)
+        // 5. Kiểm tra nếu tên thư mục/file chứa pattern (có thể không mong muốn với .gitignore)
         // if (name.includes(pattern)) {
         //     return true;
         // }
@@ -84,8 +83,8 @@ module.exports = {
       const structure = await directoryStructure(strPaht ? strPaht : root);
 
       const embed = new EmbedBuilder()
-        .setColor('Random')
-        .setTitle(`\\📁 [\`${strPaht ? strPaht : 'Root'}\`] folder structure:`)
+        .setColor(0xfed678)
+        .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
         .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
@@ -94,8 +93,10 @@ module.exports = {
 
       if (structure.length > 4000) {
         for (let i = 4000; i < structure.length; i += 4000) {
-          let nextEmbed = EmbedBuilder.from(embed);
+          const nextEmbed = EmbedBuilder.from(embed);
+
           nextEmbed.setDescription(`\`\`\`\n${structure.slice(i, i + 4000)}\n\`\`\``);
+
           await interaction.followUp({ embeds: [nextEmbed], flags: 64 });
         }
       }

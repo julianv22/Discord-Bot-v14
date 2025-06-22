@@ -24,24 +24,23 @@ module.exports = (client) => {
 
     try {
       const guilds = client.guilds.cache.map((g) => g);
-
-      const textChannels = channels.cache.filter((c) => c.type === ChannelType.GuildText).size.toLocaleString();
-      const voiceChannels = channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size.toLocaleString();
-
-      let totalmembers = 0;
-      for (const guild of guilds) totalmembers += guild.memberCount;
-
+      const totalmembers = guilds.reduce((total, guild) => total + guild.memberCount, 0).toLocaleString();
+      const textChannels = channels.cache
+        .filter((channel) => channel.type === ChannelType.GuildText)
+        .size.toLocaleString();
+      const voiceChannels = channels.cache
+        .filter((channel) => channel.type === ChannelType.GuildVoice)
+        .size.toLocaleString();
       const [status, emoji] = [
         ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
         ['\\❌', '\\✅', '\\🔄', '\\🆘'],
       ];
-
-      await bot.fetch();
-      await application.fetch();
-
       const mapPackages = Object.entries(package.dependencies)
         .map(([a, b]) => `${a}: ${b}`)
         .join('\n');
+
+      await bot.fetch();
+      await application.fetch();
 
       const embed = new EmbedBuilder()
         .setColor('Random')
@@ -77,7 +76,7 @@ module.exports = (client) => {
 
           {
             name: `💎 Server(s) [${guilds.length}]:`,
-            value: `Members: ${totalmembers.toLocaleString()}\nChannels:\n\`💬 ${textChannels} | 🔊 ${voiceChannels}\``,
+            value: `Members: ${totalmembers}\nChannels:\n\`💬 ${textChannels} | 🔊 ${voiceChannels}\``,
             inline: true,
           },
           {
