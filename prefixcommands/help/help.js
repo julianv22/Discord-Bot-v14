@@ -23,7 +23,7 @@ module.exports = {
           prefix + this.name
         } để xem danh sách các command\n\n${prefix}[tên command] ? để xen hướng dẫn chi tiết của command đó\n\n⤷${
           this.description
-        }`,
+        }`
       );
 
     await message.delete().then(async () => {
@@ -31,7 +31,7 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`Danh sách Prefix Command [\`${prefix}\`]`)
         .setDescription(
-          `Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`,
+          `Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`
         )
         .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.helpPNG)
@@ -40,7 +40,7 @@ module.exports = {
         .addFields(
           { name: `Tổng số command: [${prefixCommands.size}]`, value: `Command prefix: [\`${prefix}\`]` },
           ...listCommands(prefixCommands),
-          { name: `\u200b`, value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command` },
+          { name: `\u200b`, value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command` }
         );
 
       await message.channel.send({ embeds: [embed], components: [infoButtons()] });

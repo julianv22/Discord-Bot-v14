@@ -18,8 +18,8 @@ module.exports = {
           option
             .setName('filepath')
             .setDescription('JavaScript file relative file path (ex: ./commands/ping.js)')
-            .setRequired(true),
-        ),
+            .setRequired(true)
+        )
     )
     .addSubcommand((sub) =>
       sub
@@ -31,14 +31,14 @@ module.exports = {
             .setDescription('Choose which profile type to query')
             .setRequired(true)
             .addChoices(profiles.map((p) => ({ name: p.split('.')[0], value: p.split('.')[0] })))
-            .addChoices({ name: 'reactionRole', value: 'reactionRole' }),
-        ),
+            .addChoices({ name: 'reactionRole', value: 'reactionRole' })
+        )
     )
     .addSubcommand((sub) =>
       sub
         .setName('structure')
         .setDescription('Read project structure from path')
-        .addStringOption((opt) => opt.setName('path').setDescription('Structure path')),
+        .addStringOption((opt) => opt.setName('path').setDescription('Structure path'))
     ),
   /** - Read file content/MongoDB/Command Collection
    * @param {ChatInputCommandInteraction} interaction Interaction

@@ -23,7 +23,7 @@ module.exports = (client) => {
 
         if (typeof description === 'object')
           return `Error while executing ${chalk.green(
-            `/${description.parent ? description.parent + ' ' : ''}${description.data.name}`,
+            `/${description.parent ? description.parent + ' ' : ''}${description.data.name}`
           )} command`;
       }
 
@@ -65,7 +65,7 @@ module.exports = (client) => {
         await object.reply(embed).then((m) =>
           setTimeout(async () => {
             m.delete().catch(console.error);
-          }, 10 * 1000),
+          }, 10 * 1000)
         );
       else if (!object.replied && !object.deferred) return await object.reply(embed);
       else await object.editReply(embed);

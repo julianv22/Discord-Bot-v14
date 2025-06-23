@@ -66,7 +66,7 @@ module.exports = {
         servers.reduce((servers, g) => {
           servers[g.name] = g.id;
           return servers;
-        }, {}),
+        }, {})
         // guilds.map((g) => ({ [g.name]: g.id })),
       );
 
@@ -76,7 +76,7 @@ module.exports = {
         () => {
           checkVideos();
         },
-        30 * 60 * 1000,
+        30 * 60 * 1000
       );
 
       // Set Client's Pressence
@@ -85,7 +85,7 @@ module.exports = {
         () => {
           setPresence(client);
         },
-        5 * 60 * 1000,
+        5 * 60 * 1000
       );
 
       for (const server of servers) {
@@ -94,7 +94,7 @@ module.exports = {
           async () => {
             await serverStats(client, server.id);
           },
-          5 * 60 * 1000,
+          5 * 60 * 1000
         );
       }
     } catch (e) {

@@ -24,7 +24,7 @@ module.exports = {
 
       if (!profile)
         return await interaction.reply(
-          errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false }),
+          errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false })
         );
 
       const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';
@@ -50,7 +50,7 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setDescription('‼️ Thông tin các thiết lập trong server')
         .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png'
         )
         .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
         .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: true })

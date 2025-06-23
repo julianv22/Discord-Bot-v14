@@ -26,7 +26,7 @@ module.exports = {
     } else {
       if (!content)
         return await interaction.reply(
-          errorEmbed({ desc: 'You must provide some text for the bot to say!', emoji: false }),
+          errorEmbed({ desc: 'You must provide some text for the bot to say!', emoji: false })
         );
       else await interaction.reply(content);
     }

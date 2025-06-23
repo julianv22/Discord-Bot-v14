@@ -38,7 +38,7 @@ module.exports = {
           .setCustomId(`disable-btn:confirm:${feature}`)
           .setLabel('✅Confirm')
           .setStyle(ButtonStyle.Success),
-        new ButtonBuilder().setCustomId('disable-btn:cancel').setLabel('❌Cancel').setStyle(ButtonStyle.Danger),
+        new ButtonBuilder().setCustomId('disable-btn:cancel').setLabel('❌Cancel').setStyle(ButtonStyle.Danger)
       );
       /** - Confirm Embed
        * @param {string} title Embed title
@@ -48,7 +48,7 @@ module.exports = {
       const confirmEmbed = (
         title,
         description = `🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
-        color = Colors.Orange,
+        color = Colors.Orange
       ) => {
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -91,7 +91,7 @@ module.exports = {
             confirmEmbed(
               `\\✅ Đã tắt tính năng **${capitalize(confirm)}**!`,
               `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
-              'Green',
+              'Green'
             ),
           ],
           components: [disableButtons(oldComponents)],

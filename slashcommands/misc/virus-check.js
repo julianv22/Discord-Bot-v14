@@ -16,7 +16,7 @@ module.exports = {
     .setName('virus-check')
     .setDescription('Check a URL with VirusTotal.')
     .addStringOption((option) =>
-      option.setName('url').setDescription('URL to check (example: https://example.com)').setRequired(true),
+      option.setName('url').setDescription('URL to check (example: https://example.com)').setRequired(true)
     ),
   /** - Kiểm tra một URL có độc hại không bằng VirusTotal
    * @param {ChatInputCommandInteraction} interaction - Đối tượng tương tác (SlashChatInputCommandInteraction)
@@ -62,14 +62,14 @@ module.exports = {
         // URL chưa có báo cáo, cần gửi để phân tích mới
         await sendResponseEmbed(
           'Đang quét URL...',
-          `URL '${inputUrl}' chưa có báo cáo sẵn. Đang gửi để phân tích mới. Vui lòng chờ...`,
+          `URL '${inputUrl}' chưa có báo cáo sẵn. Đang gửi để phân tích mới. Vui lòng chờ...`
         );
       } else {
         // Xử lý các lỗi khác khi lấy báo cáo (ví dụ: 403 Forbidden, 429 Too Many Requests)
         const errorDetail = await getReportRes.json();
         console.error(
           `[VIRUS-CHECK] Lỗi khi lấy báo cáo URL theo hash: ${getReportRes.status} - ${JSON.stringify(errorDetail)}`,
-          'Red',
+          'Red'
         );
         return await interaction.editReply(
           errorEmbed({
@@ -77,7 +77,7 @@ module.exports = {
               errorDetail.error ? errorDetail.error.message : getReportRes.statusText
             }`,
             emoji: false,
-          }),
+          })
         );
       }
     } catch (e) {
@@ -97,13 +97,13 @@ module.exports = {
               'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: `url=${encodeURIComponent(inputUrl)}`, // Đảm bảo URL được encode đúng cách cho body
-          },
+          }
         );
 
         if (!submitRes.ok) {
           const errorDetail = await submitRes.json();
           console.error(
-            `[VIRUS-CHECK] Lỗi khi gửi URL để phân tích: ${submitRes.status} - ${JSON.stringify(errorDetail)}`,
+            `[VIRUS-CHECK] Lỗi khi gửi URL để phân tích: ${submitRes.status} - ${JSON.stringify(errorDetail)}`
           );
           return await interaction.editReply(
             errorEmbed({
@@ -111,14 +111,14 @@ module.exports = {
                 errorDetail.error ? errorDetail.error.message : submitRes.statusText
               }`,
               emoji: false,
-            }),
+            })
           );
         }
 
         const submitData = await submitRes.json();
         if (!submitData.data || !submitData.data.id) {
           return await interaction.editReply(
-            errorEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.', emoji: false }),
+            errorEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.', emoji: false })
           );
         }
         scanId = submitData.data.id;
@@ -130,7 +130,7 @@ module.exports = {
 
         await sendResponseEmbed(
           'Đang phân tích...',
-          `Đang chờ VirusTotal hoàn tất phân tích cho URL của bạn. Vui lòng đợi trong giây lát...`,
+          `Đang chờ VirusTotal hoàn tất phân tích cho URL của bạn. Vui lòng đợi trong giây lát...`
         );
 
         while (attempts < maxAttempts) {
@@ -143,13 +143,13 @@ module.exports = {
                 'x-apikey': process.env.VIRUSTOTAL_API_KEY,
                 Accept: 'application/json',
               },
-            },
+            }
           );
 
           if (!analysisRes.ok) {
             const errorDetail = await analysisRes.json();
             console.error(
-              `[VIRUS-CHECK] Lỗi khi lấy báo cáo phân tích: ${analysisRes.status} - ${JSON.stringify(errorDetail)}`,
+              `[VIRUS-CHECK] Lỗi khi lấy báo cáo phân tích: ${analysisRes.status} - ${JSON.stringify(errorDetail)}`
             );
             return await interaction.editReply(
               errorEmbed({
@@ -157,7 +157,7 @@ module.exports = {
                   errorDetail.error ? errorDetail.error.message : analysisRes.statusText
                 }`,
                 emoji: false,
-              }),
+              })
             );
           }
 
@@ -175,7 +175,7 @@ module.exports = {
           if (attempts < maxAttempts) {
             await sendResponseEmbed(
               'Đang phân tích...',
-              `Phân tích chưa hoàn tất. Đang thử lại (${attempts}/${maxAttempts})...`,
+              `Phân tích chưa hoàn tất. Đang thử lại (${attempts}/${maxAttempts})...`
             );
           }
         }
@@ -185,7 +185,7 @@ module.exports = {
             errorEmbed({
               desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.',
               emoji: false,
-            }),
+            })
           );
         }
       } catch (e) {
@@ -194,7 +194,7 @@ module.exports = {
           errorEmbed({
             desc: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}`,
             emoji: false,
-          }),
+          })
         );
       }
     }
@@ -223,7 +223,7 @@ module.exports = {
       const resultEmbed = new EmbedBuilder()
         .setAuthor({ name: `${guild.name}`, iconURL: guild.iconURL() })
         .setTitle(
-          `Kết quả kiểm tra VirusTotal cho ${displayUrl.length > 50 ? `${displayUrl.substring(0, 47)}...` : displayUrl}`,
+          `Kết quả kiểm tra VirusTotal cho ${displayUrl.length > 50 ? `${displayUrl.substring(0, 47)}...` : displayUrl}`
         )
         .setColor(stats.malicious > 0 ? Colors.Red : Colors.Green)
         .setTimestamp()
@@ -234,14 +234,14 @@ module.exports = {
           { name: 'Nguy hiểm tiềm tàng', value: `${stats.suspicious || 0}`, inline: true },
           { name: 'Vô hại', value: `${stats.harmless || 0}`, inline: true },
           { name: 'Không phát hiện', value: `${stats.undetected || 0}`, inline: true },
-          { name: 'Hết giờ', value: `${stats.timeout || 0}`, inline: true },
+          { name: 'Hết giờ', value: `${stats.timeout || 0}`, inline: true }
         );
 
       return await interaction.editReply({
         embeds: [resultEmbed],
         components: [
           new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setLabel('🔗Xem chi tiết trên VirusTotal').setURL(vtGuiLink).setStyle(ButtonStyle.Link),
+            new ButtonBuilder().setLabel('🔗Xem chi tiết trên VirusTotal').setURL(vtGuiLink).setStyle(ButtonStyle.Link)
           ),
         ],
       });
@@ -251,7 +251,7 @@ module.exports = {
         errorEmbed({
           desc: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.',
           emoji: false,
-        }),
+        })
       );
     }
   },

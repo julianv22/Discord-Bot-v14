@@ -31,7 +31,7 @@ module.exports = {
           errorEmbed({
             desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
-          }),
+          })
         );
 
       if (amount > profile.balance)
@@ -39,7 +39,7 @@ module.exports = {
           errorEmbed({
             desc: 'Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng `/balance` để kiểm tra số 💲 hiện có',
             emoji: false,
-          }),
+          })
         );
 
       profile.balance -= amount;
@@ -64,7 +64,7 @@ module.exports = {
             name: '\\🏦 Bank',
             value: toCurrency(profile.bank, locale),
             inline: true,
-          },
+          }
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

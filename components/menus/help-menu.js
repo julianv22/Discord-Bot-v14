@@ -16,7 +16,7 @@ module.exports = {
       const ignore = 'context menu';
       const slashCategories = [
         ...new Set(
-          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category)),
+          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))
         ),
       ];
       const subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
@@ -55,7 +55,7 @@ module.exports = {
                 name: `\\📂 Context Menus [**${contextMenus.length}**]`,
                 value: `\`\`\`ansi\n\x1b[36m${contextMenus.join(' | ')}\x1b[0m\`\`\``,
               },
-              { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
+              { name: '\u200b', value: 'Select Slash Command Category \\⤵️' }
             );
 
           return await interaction.update({ embeds: [embed] });

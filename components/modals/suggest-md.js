@@ -19,7 +19,7 @@ module.exports = {
           errorEmbed({
             desc: `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
             emoji: false,
-          }),
+          })
         );
 
       const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
@@ -38,7 +38,7 @@ module.exports = {
 
       await interaction
         .reply(
-          errorEmbed({ desc: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`, emoji: true }),
+          errorEmbed({ desc: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`, emoji: true })
         )
         .then(() => ['👍', '👎'].forEach(async (e) => await msg.react(e)));
     } catch (e) {

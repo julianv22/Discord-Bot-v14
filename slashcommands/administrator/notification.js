@@ -29,11 +29,11 @@ module.exports = {
         .setLabel('Notify =1 / Update = 2')
         .setValue('1')
         .setRequired(true)
-        .setStyle(TextInputStyle.Short),
+        .setStyle(TextInputStyle.Short)
     );
 
     const titleInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('title').setLabel('Title:').setRequired(true).setStyle(TextInputStyle.Short),
+      new TextInputBuilder().setCustomId('title').setLabel('Title:').setRequired(true).setStyle(TextInputStyle.Short)
     );
 
     const descriptionInput = new ActionRowBuilder().addComponents(
@@ -41,7 +41,7 @@ module.exports = {
         .setCustomId('description')
         .setLabel('Description:')
         .setRequired(true)
-        .setStyle(TextInputStyle.Paragraph),
+        .setStyle(TextInputStyle.Paragraph)
     );
 
     const imageInput = new ActionRowBuilder().addComponents(
@@ -49,7 +49,7 @@ module.exports = {
         .setCustomId('imageURL')
         .setLabel('Image URL')
         .setRequired(false)
-        .setStyle(TextInputStyle.Short),
+        .setStyle(TextInputStyle.Short)
     );
 
     modal.addComponents(typeInput, titleInput, descriptionInput, imageInput);

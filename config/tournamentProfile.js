@@ -12,5 +12,5 @@ const tournamentProfile = new mongoose.Schema({
 module.exports = mongoose.model(
   'tournamentProfile',
   tournamentProfile,
-  `tournamentProfile [${cfg.mongodb}] - ${cfg.clientID}`,
+  `tournamentProfile [${cfg.mongodb}] - ${cfg.clientID}`
 );

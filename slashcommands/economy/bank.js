@@ -16,16 +16,16 @@ module.exports = {
             .setDescription('Amount of 💲 to deposit')
             .setMinValue(1000)
             .setMaxValue(1000000)
-            .setRequired(true),
-        ),
+            .setRequired(true)
+        )
     )
     .addSubcommand((sub) =>
       sub
         .setName('withdraw')
         .setDescription('Withdraw 💲 from bank to balance')
         .addIntegerOption((opt) =>
-          opt.setName('amount').setDescription('Amount of 💲 to withdraw').setMinValue(100).setRequired(true),
-        ),
+          opt.setName('amount').setDescription('Amount of 💲 to withdraw').setMinValue(100).setRequired(true)
+        )
     ),
   /** - Deposit/withdraw money from balance to bank
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

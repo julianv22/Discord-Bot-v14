@@ -19,7 +19,7 @@ module.exports = {
     .setDescription('Transfer 💲 to other users')
     .addUserOption((opt) => opt.setName('target').setDescription('Target user').setRequired(true))
     .addIntegerOption((opt) =>
-      opt.setName('amount').setMinValue(500).setDescription('Amount of 💲 to transfer').setRequired(true),
+      opt.setName('amount').setMinValue(500).setDescription('Amount of 💲 to transfer').setRequired(true)
     ),
   /** - Transfer 💲 to other users
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
@@ -48,7 +48,7 @@ module.exports = {
               ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
               : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
             emoji: false,
-          }),
+          })
         );
 
       if (amount > profile.bank)
@@ -76,11 +76,11 @@ module.exports = {
         .setDescription(
           `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${toCurrency(
             amount,
-            locale,
+            locale
           )} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${toCurrency(
             total,
-            locale,
-          )}.\n\n❗ Bạn có muốn tiếp tục?`,
+            locale
+          )}.\n\n❗ Bạn có muốn tiếp tục?`
         )
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)
@@ -95,8 +95,8 @@ module.exports = {
         components: [
           new ActionRowBuilder().addComponents(
             buttons.map((data) =>
-              new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style),
-            ),
+              new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style)
+            )
           ),
         ],
         flags: 64,

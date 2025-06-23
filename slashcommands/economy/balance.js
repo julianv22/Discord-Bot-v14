@@ -19,7 +19,7 @@ module.exports = {
       let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
       if (!profile) {
         return await interaction.reply(
-          errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁', emoji: false }),
+          errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁', emoji: false })
         );
       }
 
@@ -56,7 +56,7 @@ module.exports = {
           },
           { name: '\\💼 Job:', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
           { name: '\\📦 Inventory:', value: inventory, inline: false },
-          { name: '\\🏆 Achievements:', value: achievements, inline: false },
+          { name: '\\🏆 Achievements:', value: achievements, inline: false }
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

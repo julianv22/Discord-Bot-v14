@@ -58,7 +58,7 @@ module.exports = {
           { name: 'Total Count Channel:', value: `${totalChannel}` },
           { name: 'Members Count Channel:', value: `${memberChannel}` },
           { name: 'Bots Count Channel:', value: `${botChannel}` },
-          { name: 'Preseneces Count Channel:', value: `${presenceChannel}` },
+          { name: 'Preseneces Count Channel:', value: `${presenceChannel}` }
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

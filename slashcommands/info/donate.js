@@ -33,7 +33,7 @@ module.exports = {
           name: 'Tip',
           value: '[StreamElements](https://streamelements.com/julianv-4174/tip)',
           inline: true,
-        },
+        }
       );
 
     return await interaction.reply({ embeds: [embed] });

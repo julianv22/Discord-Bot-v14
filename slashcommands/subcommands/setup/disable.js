@@ -59,7 +59,7 @@ module.exports = {
         { name: '\\⭐ Disable Starboard System', value: '`Tắt chức năng Starboard System`' },
         { name: '\\💡 Disable Suggest Channel', value: '`Tắt chức năng Suggestion`' },
         { name: '\\🎬 Disable Youtube Notify', value: '`Tắt thông báo video mới trên Youtube`' },
-        { name: '\\🎉 Disable Welcome System', value: '`Tắt chức năng chào mừng thành viên mới`' },
+        { name: '\\🎉 Disable Welcome System', value: '`Tắt chức năng chào mừng thành viên mới`' }
       );
 
     await interaction.reply({

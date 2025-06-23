@@ -17,7 +17,7 @@ module.exports = {
       const data = await response.json();
       if (!data || !data.url) {
         return await interaction.editReply(
-          errorEmbed({ desc: 'Could not fetch meme, please try again later!', emoji: false }),
+          errorEmbed({ desc: 'Could not fetch meme, please try again later!', emoji: false })
         );
       }
 

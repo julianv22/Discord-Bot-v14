@@ -10,13 +10,13 @@ module.exports = {
       sub
         .setName('info')
         .setDescription("Get user's info")
-        .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get info')),
+        .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get info'))
     )
     .addSubcommand((sub) =>
       sub
         .setName('avatar')
         .setDescription("Get user's avatar")
-        .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get avatar')),
+        .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get avatar'))
     ),
   /** - User informations
    * @param {ChatInputCommandInteraction} interaction

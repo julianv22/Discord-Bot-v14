@@ -19,7 +19,7 @@ module.exports = {
       .setDescription(
         `Hello **${
           user.displayName || user.username
-        }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`,
+        }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`
       )
       .setColor(Colors.DarkGold)
       .setThumbnail(cfg.economyPNG)
@@ -34,7 +34,7 @@ module.exports = {
         { name: '/shop', value: '```Mua vật phẩm bằng 💲.```' },
         { name: '/inventory', value: '```Xem kho đồ vật phẩm bạn sở hữu.\n(Đang xây dựng)```' },
         { name: '/bank', value: '```Gửi/rút 💲 vào ngân hàng.```' },
-        { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' },
+        { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' }
       );
 
     return await interaction.reply({ embeds: [embed], flags: 64 });

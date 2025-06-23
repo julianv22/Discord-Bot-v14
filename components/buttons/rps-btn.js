@@ -37,7 +37,7 @@ module.exports = {
           errorEmbed({
             desc: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance, locale)}`,
             emoji: false,
-          }),
+          })
         );
       }
 
@@ -72,7 +72,7 @@ module.exports = {
         .setDescription(
           `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
             profile.rpsCount
-          }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`,
+          }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`
         )
         .setColor(rps.Color)
         .setThumbnail(user.displayAvatarURL(true))
@@ -87,7 +87,7 @@ module.exports = {
             name: '\\💸 Tổng tiền đã chi',
             value: toCurrency(profile.totalSpent, locale) || 0,
             inline: true,
-          },
+          }
         );
 
       return await interaction.update({ embeds: [embed] });

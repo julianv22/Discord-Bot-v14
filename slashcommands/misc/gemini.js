@@ -7,7 +7,7 @@ module.exports = {
     .setName('gemini')
     .setDescription('Chat with Gemini AI (Google GenAI)')
     .addStringOption((option) =>
-      option.setName('prompt').setDescription('Your message to Gemini AI').setRequired(true),
+      option.setName('prompt').setDescription('Your message to Gemini AI').setRequired(true)
     ),
   /** - Chat with Gemini AI (Google GenAI)
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
