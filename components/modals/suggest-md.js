@@ -27,7 +27,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
         .setTitle("Suggest's content:")
-        .setDescription(description)
+        .setDescription(description.length > 4096 ? `${description.slice(0, 4093)}...` : description)
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.suggestPNG)
         .setTimestamp()

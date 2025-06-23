@@ -4,31 +4,46 @@ const { Client, ActivityType } = require('discord.js');
 module.exports = (client) => {
   /** - Set the presence and activity of the bot
    * @param {Client} client - Discord Client */
-  client.setPresence = (client) => {
-    const { guilds, user } = client;
-    try {
-      const count = guilds.cache.map((g) => g).length;
-      const [type, status] = [
-        [
-          ActivityType.Playing,
-          ActivityType.Streaming,
-          ActivityType.Listening,
-          ActivityType.Watching,
-          ActivityType.Competing,
-        ],
-        ['online', 'dnd', 'idle'],
-      ];
-      let typeIndex = Math.floor(Math.random() * type.length);
-      let statusIndex = Math.floor(Math.random() * status.length);
-      let activities = {
-        name: `/help in ${count} server${count > 1 ? 's' : ''}`,
-        type: type[typeIndex],
-        url: cfg.youtube,
-      };
+  client.setPresence = async (client) => {
+    const { guilds, user, logError } = client;
 
-      user.setPresence({ activities: [activities], status: status[statusIndex] });
+    const lastestVideo = async (channelId) => {
+      try {
+        const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
+
+        if (!res.ok) return null;
+
+        const xml = await res.text(),
+          match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+
+        return match ? match[1] : null;
+      } catch (e) {
+        logError({ todo: 'fetching lastest Youtube video from channelId:', item: channelId }, e);
+        return null;
+      }
+    };
+
+    try {
+      const count = guilds.cache.map((g) => g).length,
+        videoId = (await lastestVideo('UC8QPaA8hLDhroGdBtAImmbQ')) || cfg.youtube,
+        url = 'https://www.youtube.com/watch?v=' + videoId,
+        [ActivityTypes, status] = [
+          [
+            ActivityType.Playing,
+            ActivityType.Streaming,
+            ActivityType.Listening,
+            ActivityType.Watching,
+            ActivityType.Competing,
+          ],
+          ['online', 'dnd', 'idle'],
+        ],
+        typeIdx = Math.floor(Math.random() * ActivityTypes.length),
+        statsIdx = Math.floor(Math.random() * status.length),
+        activities = { name: `/help in ${count} server${count > 1 ? 's' : ''}`, type: ActivityTypes[typeIdx], url };
+
+      user.setPresence({ activities: [activities], status: status[statsIdx] });
     } catch (e) {
-      client.logError({ item: 'setPresence', desc: 'function' }, e);
+      logError({ item: 'setPresence', desc: 'function' }, e);
     }
   };
 };

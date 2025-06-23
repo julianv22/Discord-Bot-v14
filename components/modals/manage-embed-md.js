@@ -11,57 +11,53 @@ module.exports = {
     const { customId, fields, message, user, guild } = interaction;
     const { catchError } = client;
     const [, input] = customId.split(':');
-    const strInput = fields.getTextInputValue(input);
-    const embed = EmbedBuilder.from(message.embeds[0]);
-    const [Button0, Button1] = [
-      ActionRowBuilder.from(message.components[0]),
-      ActionRowBuilder.from(message.components[1]),
-    ];
-    const replaceKey = {
-      user: user.displayName || user.username,
-      guild: guild.name,
-      iconURL: guild.iconURL(),
-      avatar: user.avatarURL(),
-    };
+    const strInput = fields.getTextInputValue(input),
+      embed = EmbedBuilder.from(message.embeds[0]),
+      Button0 = ActionRowBuilder.from(message.components[0]),
+      Button1 = ActionRowBuilder.from(message.components[1]),
+      replaceKey = {
+        user: user.displayName || user.username,
+        guild: guild.name,
+        iconURL: guild.iconURL(),
+        avatar: user.avatarURL(),
+      };
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
 
     try {
       const editEmbed = {
         author: () => {
-          if (strInput.length > 256) strInput = strInput.slice(0, 256);
-          const authorIcon = fields.getTextInputValue('authorIcon');
-          const iconURL = replaceVar(authorIcon, replaceKey);
+          const authorIcon = fields.getTextInputValue('authorIcon'),
+            iconURL = replaceVar(authorIcon, replaceKey);
+
           return embed.setAuthor({
-            name: replaceVar(strInput, replaceKey) || null,
+            name: replaceVar(strInput.length > 256 ? strInput.slice(0, 256) : strInput, replaceKey) || null,
             iconURL: checkURL(iconURL) ? iconURL : null,
           });
         },
         title: () => {
-          if (strInput.length > 256) strInput = strInput.slice(0, 256);
-          return embed.setTitle(strInput);
+          return embed.setTitle(strInput.length > 256 ? strInput.slice(0, 256) : strInput);
         },
         description: () => {
-          if (strInput.length > 4096) strInput = strInput.slice(0, 4096);
-          return embed.setDescription(replaceVar(strInput, replaceKey));
+          return embed.setDescription(
+            replaceVar(strInput.length > 4096 ? strInput.slice(0, 4096) : strInput, replaceKey)
+          );
         },
         color: () => {
           return embed.setColor(getEmbedColor(strInput));
         },
         image: () => {
-          if (!strInput) return embed.setImage(null);
-          else if (checkURL(strInput)) return embed.setImage(strInput);
+          return embed.setImage(strInput && checkURL(strInput) ? strInput : null);
         },
         thumbnail: () => {
-          if (!strInput) return embed.setThumbnail(null);
-          else if (checkURL(strInput)) return embed.setThumbnail(strInput);
+          return embed.setThumbnail(strInput && checkURL(strInput) ? strInput : null);
         },
         footer: async () => {
-          if (strInput.length > 2048) strInput = strInput.slice(0, 2048);
-          const footerIcon = fields.getTextInputValue('footerIcon');
-          const iconUrl = replaceVar(footerIcon, replaceKey);
+          const footerIcon = fields.getTextInputValue('footerIcon'),
+            iconUrl = replaceVar(footerIcon, replaceKey);
+
           return embed.setFooter({
-            text: replaceVar(strInput, replaceKey) || null,
+            text: replaceVar(strInput.length > 2048 ? strInput.slice(0, 2048) : strInput, replaceKey) || null,
             iconURL: checkURL(iconUrl) ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp',
           });
         },

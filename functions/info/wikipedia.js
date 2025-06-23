@@ -24,14 +24,13 @@ module.exports = (client) => {
             });
 
         // Fallback nếu thiếu dữ liệu
-        const bodyTitle = body.title || keyword;
-        const title = body.description || 'Không có mô tả';
-        const thumbnail =
-          body.thumbnail?.source ||
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png';
-        const description = body.extract || 'Không có nội dung.';
-        const page_url =
-          body.content_urls?.desktop?.page || `https://vi.wikipedia.org/wiki/${encodeURIComponent(keyword)}`;
+        const bodyTitle = body.title || keyword,
+          title = body.description || 'Không có mô tả',
+          thumbnail =
+            body.thumbnail?.source ||
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png',
+          description = body.extract || 'Không có nội dung.',
+          page_url = body.content_urls?.desktop?.page || `https://vi.wikipedia.org/wiki/${encodeURIComponent(keyword)}`;
 
         const embed = new EmbedBuilder()
           .setAuthor({

@@ -8,6 +8,7 @@ module.exports = {
   async execute(interaction, client) {
     const { slashCommands, subCommands, errorEmbed, catchError } = client;
     const { guild, user, channel, options, commandName } = interaction;
+    const owner = await guild.fetchOwner();
 
     try {
       if (channel.type === ChannelType.DM) return;
@@ -29,7 +30,7 @@ module.exports = {
           return;
         }
 
-        if (command.ownerOnly && user.id !== guild.ownerId && user.id !== cfg.ownerID) {
+        if (command.ownerOnly && user.id !== owner.id && user.id !== cfg.ownerID) {
           const reply = errorEmbed({ desc: 'You are not the owner', emoji: false });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);

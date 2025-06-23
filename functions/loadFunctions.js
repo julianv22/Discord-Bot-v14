@@ -10,18 +10,18 @@ module.exports = (client) => {
     const { logError } = client;
 
     try {
-      const funcFolder = 'functions';
-      const ignoreFolders = ['common'];
-      const functionFolders = readFiles(funcFolder, {
-        isDir: true,
-        filter: (folder) => !ignoreFolders.includes(folder),
-      });
+      const funcFolder = 'functions',
+        ignoreFolders = ['common'],
+        functionFolders = readFiles(funcFolder, {
+          isDir: true,
+          filter: (folder) => !ignoreFolders.includes(folder),
+        });
 
       let funcArray = [];
       let totalCount = 0;
       for (const folder of functionFolders) {
-        const folderPath = path.join(funcFolder, folder);
-        const functionFiles = readFiles(folderPath);
+        const folderPath = path.join(funcFolder, folder),
+          functionFiles = readFiles(folderPath);
 
         funcArray.push(`📂 ${capitalize(folder)} [${functionFiles.length}]`);
         totalCount += functionFiles.length;

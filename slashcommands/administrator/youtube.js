@@ -64,8 +64,8 @@ module.exports = {
       return await interaction.reply(errorEmbed({ desc: 'Refesh successfully!', emoji: true }));
     } else if (subcommand === 'alerts') {
       let profile = await serverProfile.findOne({ guildID: guild.id });
-      const { youtube } = profile;
-      const role = guild.roles.cache.get(youtube.alert);
+      const { youtube } = profile,
+        role = guild.roles.cache.get(youtube.alert);
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

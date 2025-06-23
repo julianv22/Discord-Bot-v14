@@ -35,6 +35,7 @@ module.exports = {
       text: 'Đề xuất đã được chấp nhận',
       iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
     });
+
     await msg.edit({ embeds: [edit] });
 
     await interaction.reply(
@@ -42,6 +43,7 @@ module.exports = {
     );
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
+
     if (!author) return interaction.followUp?.(errorEmbed({ desc: 'Không tìm thấy user để gửi DM!', emoji: false }));
 
     await author

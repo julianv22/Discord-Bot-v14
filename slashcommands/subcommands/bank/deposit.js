@@ -25,7 +25,6 @@ module.exports = {
 
     try {
       let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
-
       if (!profile)
         return await interaction.reply(
           errorEmbed({

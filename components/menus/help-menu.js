@@ -15,24 +15,27 @@ module.exports = {
     try {
       const ignore = 'context menu';
       const slashCategories = [
-        ...new Set(
-          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))
-        ),
-      ];
-      const subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
-      const contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
+          ...new Set(
+            slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))
+          ),
+        ],
+        subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))],
+        contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
 
       const ShowHelp = {
         default: async () => {
+          // Các lệnh slash command theo category
           return await helpSlash(CommandType, interaction);
         },
         prefix: async () => {
+          // Các lệnh prefix command
           return await helpPrefix(interaction);
         },
         slash: async () => {
+          // Thống kê tổng hợp các slash command
           const embed = new EmbedBuilder()
             .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-            .setTitle('Thống kê Slash Command & Sub Command')
+            .setTitle('Slash Command & Sub Command Statistics')
             .setColor(Colors.DarkGreen)
             .setThumbnail(cfg.slashPNG)
             .setTimestamp()

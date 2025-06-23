@@ -23,21 +23,19 @@ module.exports = (client) => {
     const author = object.user || object.author;
 
     try {
-      const guilds = client.guilds.cache.map((g) => g);
-      const totalmembers = guilds.reduce((total, guild) => total + guild.memberCount, 0).toLocaleString();
-      const textChannels = channels.cache
-        .filter((channel) => channel.type === ChannelType.GuildText)
-        .size.toLocaleString();
-      const voiceChannels = channels.cache
-        .filter((channel) => channel.type === ChannelType.GuildVoice)
-        .size.toLocaleString();
-      const [status, emoji] = [
-        ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
-        ['\\❌', '\\✅', '\\🔄', '\\🆘'],
-      ];
-      const mapPackages = Object.entries(package.dependencies)
-        .map(([a, b]) => `${a}: ${b}`)
-        .join('\n');
+      const guilds = client.guilds.cache.map((g) => g),
+        totalmembers = guilds.reduce((total, guild) => total + guild.memberCount, 0).toLocaleString(),
+        textChannels = channels.cache.filter((channel) => channel.type === ChannelType.GuildText).size.toLocaleString(),
+        voiceChannels = channels.cache
+          .filter((channel) => channel.type === ChannelType.GuildVoice)
+          .size.toLocaleString(),
+        [status, emoji] = [
+          ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
+          ['`❌', '`✅', '`🔄', '`🆘'],
+        ],
+        mapPackages = Object.entries(package.dependencies)
+          .map(([a, b]) => `${a}: ${b}`)
+          .join('\n');
 
       await bot.fetch();
       await application.fetch();
@@ -49,7 +47,7 @@ module.exports = (client) => {
           iconURL: bot.displayAvatarURL(true),
         })
         .setTitle('Description:')
-        .setDescription(application.description || null)
+        .setDescription(application.description || '\u200b')
         .setThumbnail(cfg.discordQR_PNG)
         .addFields(
           { name: '👤 Username:', value: `${bot}`, inline: true },
@@ -70,7 +68,7 @@ module.exports = (client) => {
           },
           {
             name: `Prefix Commands [${prefixCommands.size}]:`,
-            value: `Prefix: \`${prefix}\`\n(\`${prefix}help | /help\`)`,
+            value: `Prefix: \`${prefix}\`\n[\`${prefix}help | /help\`]`,
             inline: true,
           },
 
@@ -88,16 +86,16 @@ module.exports = (client) => {
           { name: '📝 Node Version:', value: process.version, inline: true },
           {
             name: '📚 Database:',
-            value: emoji[connection.readyState] + status[connection.readyState] + `\nVersion: ${version}`,
+            value: emoji[connection.readyState] + status[connection.readyState] + `\`\nVersion: ${version}`,
             inline: true,
           },
           {
-            name: '💾 System:',
+            name: '💻 System:',
             value: os.cpus()[0].model,
             inline: true,
           },
           {
-            name: `💻 Platform: \`${process.platform} ${process.arch}\``,
+            name: `💽 OS: ${process.platform} ${process.arch}`,
             value: `💾 **RSS:** ${(process.memoryUsage().rss / 1024 / 1024).toFixed(1)} MB`,
             inline: true,
           },

@@ -22,8 +22,8 @@ module.exports = {
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name === '⭐') {
         // Đếm số lượng reaction "⭐" trên message
-        const starReaction = message.reactions.cache.get('⭐');
-        const count = starReaction ? starReaction.count : 0;
+        const starReaction = message.reactions.cache.get('⭐'),
+          count = starReaction ? starReaction.count : 0;
 
         // Đủ số lượng starCount mới gửi
         if (count < starboard.star) return;
@@ -32,8 +32,9 @@ module.exports = {
         if (message.author.id === user.id) return;
 
         // Lấy channel starboard
-        const guild = message.guild;
-        const starboardChannel = guild.channels.cache.get(starboard.channel);
+        const guild = message.guild,
+          starboardChannel = guild.channels.cache.get(starboard.channel);
+
         if (!starboardChannel) return;
 
         // Nếu có attachment thì bỏ qua
@@ -77,8 +78,8 @@ module.exports = {
         if (embeds.length > 0) {
           if (!starboard.messages) starboard.messages = {};
 
-          const starboardData = starboard.messages[message.id];
-          const now = Date.now();
+          const starboardData = starboard.messages[message.id],
+            now = Date.now();
 
           if (starboardData && starboardData.id) {
             // Đã có message trên starboard, luôn update số star và embed ngay lập tức

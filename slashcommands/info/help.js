@@ -33,10 +33,10 @@ module.exports = {
       },
     ];
 
-    const ignore = 'context menu';
-    const slashCategories = new Set(
-      slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category)
-    );
+    const ignore = 'context menu',
+      slashCategories = new Set(
+        slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category)
+      );
 
     await interaction.reply({
       embeds: [

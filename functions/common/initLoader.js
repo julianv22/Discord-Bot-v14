@@ -14,8 +14,8 @@ module.exports = {
    * Hàm này được áp dụng sau bước lọc chính (all/isDir/extension).
    * @returns {string[]} Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc. */
   readFiles: (folderPath, options = {}) => {
-    const { all = false, isDir = false, extension = '.js', filter: func } = options;
-    const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
+    const { all = false, isDir = false, extension = '.js', filter: func } = options,
+      FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
 
     try {
       const readFiles = {
@@ -70,9 +70,9 @@ module.exports = {
    * @param {string} folderName Tên folder
    * @param {Collection<string, object>} collection Command Collection */
   requireCommands: (filePath, folderName, collection) => {
-    const parts = filePath.split(path.sep);
-    const file = parts.pop();
-    const folder = parts.slice(-1);
+    const parts = filePath.split(path.sep),
+      file = parts.pop(),
+      folder = parts.slice(-1);
 
     const missingWarn = (commandName, errMessage) => {
       let message =

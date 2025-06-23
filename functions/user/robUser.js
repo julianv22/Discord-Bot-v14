@@ -1,18 +1,19 @@
-const { Client, ChatInputCommandInteraction, GuildMember, EmbedBuilder, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, User, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { toCurrency } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
   /** - Tranfers
-   * @param {GuildMember} target - Target user
+   * @param {User} target - Target user
    * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
   client.robUser = async (target, interaction) => {
     const { user, guild, locale } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
-    const [guildID, userID] = [guild.id, user.id];
-    const now = new Date();
-    const cooldownMs = 30 * 60 * 1000; // 30 phút
+    const guildID = guild.id,
+      userID = user.id,
+      now = new Date(),
+      cooldownMs = 30 * 60 * 1000; // 30 phút
 
     if (target.bot)
       return await interaction.reply(errorEmbed({ desc: 'Bạn không thể giật \\💲 của bot!', emoji: false }));
@@ -43,8 +44,9 @@ module.exports = (client) => {
 
       // Cooldown
       if (profile.lastRob && now - profile.lastRob < cooldownMs) {
-        const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
-        const timeleft = Math.floor(nextRob.getTime() / 1000);
+        const nextRob = new Date(profile.lastRob.getTime() + cooldownMs),
+          timeleft = Math.floor(nextRob.getTime() / 1000);
+
         return await interaction.reply(
           errorEmbed({ desc: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false })
         );
@@ -56,14 +58,15 @@ module.exports = (client) => {
       const guildOwnerId = guild.ownerId;
       if (target.id === guildOwnerId) successRate = 0.1;
       // Nếu target có role cao hơn
-      const member = await guild.members.fetch(userID);
-      const targetMember = await guild.members.fetch(target.id);
+      const member = await guild.members.fetch(userID),
+        targetMember = await guild.members.fetch(target.id);
+
       if (targetMember.roles.highest.comparePositionTo(member.roles.highest) > 0) successRate = 0.4;
 
       // Xác định thành công/thất bại
       const isSuccess = Math.random() < successRate;
-      let amount = 0;
-      let resultMsg = '';
+      let amount = 0,
+        resultMsg = '';
       if (isSuccess) {
         amount = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
         amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có

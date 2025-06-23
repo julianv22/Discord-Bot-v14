@@ -11,8 +11,7 @@ module.exports = {
    * @param {Array} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
-    let toSay = args.join(' ');
+    const toSay = args.join(' ');
 
     if (!toSay)
       return await message
@@ -22,6 +21,8 @@ module.exports = {
             await m.delete();
           }, 10000);
         });
+
+    if (toSay.trim() === '?') return await client.commandUsage(message, this);
 
     if (message.deletable) await message.delete().then(async () => await message.channel.send(toSay));
   },

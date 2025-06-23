@@ -26,15 +26,15 @@ module.exports = {
         .sort({ thanksCount: -1 })
         .limit(10)
         .catch(console.error);
-
       if (!results)
         return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!', emoji: false }));
 
       let thanksList = '';
 
       for (let i = 0; i < results.length; i++) {
-        const { userID, thanksCount } = results[i];
-        const emojis = ['1️⃣', '2️⃣', '3️⃣'];
+        const { userID, thanksCount } = results[i],
+          emojis = ['1️⃣', '2️⃣', '3️⃣'];
+
         thanksList += `${i < 3 ? emojis[i] : `**${i + 1}.**`} <@${userID}> `;
         thanksList += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
       }

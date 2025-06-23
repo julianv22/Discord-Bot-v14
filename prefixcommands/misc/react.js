@@ -24,8 +24,9 @@ module.exports = {
       ];
 
       if (message.deletable) await message.delete();
-      const reactId = Math.floor(Math.random() * reactArray.length);
-      const reactMessage = await message.channel.send(reactArray[reactId][0]);
+      const reactId = Math.floor(Math.random() * reactArray.length),
+        reactMessage = await message.channel.send(reactArray[reactId][0]);
+
       await reactMessage.react(reactArray[reactId][1]);
     } catch (e) {
       console.error(chalk.red('Error while reacting message'), e);

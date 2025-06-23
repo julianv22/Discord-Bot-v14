@@ -21,6 +21,7 @@ module.exports = {
       };
 
       if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+
       return await interaction.reply({ content: showContent[button](), flags: 64 });
     } catch (e) {
       return await catchError(interaction, e, this);

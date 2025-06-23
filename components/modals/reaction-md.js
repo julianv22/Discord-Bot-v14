@@ -11,11 +11,9 @@ module.exports = {
     const { customId, fields, message } = interaction;
     const { catchError } = client;
     const [, textInput] = customId.split(':');
-    const [stringInput, reactionEmbed, reactionButton] = [
-      fields.getTextInputValue(textInput),
-      EmbedBuilder.from(message.embeds[0]),
-      ActionRowBuilder.from(message.components[0]),
-    ];
+    const stringInput = fields.getTextInputValue(textInput),
+      reactionEmbed = EmbedBuilder.from(message.embeds[0]),
+      reactionButton = ActionRowBuilder.from(message.components[0]);
 
     try {
       const editEmbed = {

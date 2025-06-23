@@ -44,13 +44,13 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed, catchError } = client;
-    const [tourCommand, getRole] = [options.getSubcommand(), options.getRole('ten-giai')];
+    const tourCommand = options.getSubcommand(),
+      getRole = options.getRole('ten-giai');
 
     try {
       if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Bạn chưa chọn role giải đấu!', emoji: false }));
 
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-
       if (!profile)
         profile = serverProfile
           .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
@@ -117,21 +117,18 @@ module.exports = {
             );
 
           let memberList = await tournamentProfile.find({ guildID: guild.id, status: true }).catch(console.error);
-
           if (!memberList || memberList.length === 0)
             return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: false }));
 
-          const role = guild.roles.cache.get(tournament.id);
-          const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
+          const role = guild.roles.cache.get(tournament.id),
+            tengiai = `**Tên giải:** ${role || 'Không có tên'}`,
+            // Tạo danh sách thành viên, mỗi dòng 1 người
+            memberLines = memberList.map((member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`),
+            maxDescLength = 4000,
+            embeds = [];
 
-          // Tạo danh sách thành viên, mỗi dòng 1 người
-          const memberLines = memberList.map(
-            (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`
-          );
-          const maxDescLength = 4000;
-          const embeds = [];
-          let page = 0;
-          let current = 0;
+          let page = 0,
+            current = 0;
           while (current < memberLines.length) {
             let desc = '';
             // Nếu là embed đầu tiên, thêm tên giải ở đầu
@@ -141,6 +138,7 @@ module.exports = {
               desc += memberLines[current] + '\n';
               current++;
             }
+
             const embed = new EmbedBuilder()
               .setAuthor({
                 name: '🏆 Danh sách thành viên tham gia giải đấu',
@@ -167,8 +165,8 @@ module.exports = {
           return;
         },
         'close-all': async () => {
-          const verified = options.getBoolean('confirm');
-          const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(console.error);
+          const verified = options.getBoolean('confirm'),
+            tourList = await tournamentProfile.find({ guildID: guild.id }).catch(console.error);
 
           if (!verified)
             return await interaction.reply(

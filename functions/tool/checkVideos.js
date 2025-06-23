@@ -11,20 +11,22 @@ module.exports = (client) => {
     const getLatestVideoId = async (channelId) => {
       try {
         const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
+
         if (!res.ok) return { videoId: null, title: null };
-        const xml = await res.text();
-        const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-        const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
-        // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
-        const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
-        const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
+
+        const xml = await res.text(),
+          match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/),
+          titleMatch = xml.match(/<title>(.*?)<\/title>/g),
+          // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
+          videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null,
+          channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
+
         return { videoId: match ? match[1] : null, channelTitle, videoTitle };
       } catch {
         return { videoId: null, channelTitle: null, videoTitle: null };
       }
     };
     try {
-      // console.log(chalk.red('Checking videos...'));
       let servers = await serverProfile.find({}).catch(console.error);
       for (const server of servers) {
         const {
@@ -49,9 +51,9 @@ module.exports = (client) => {
             const guild = client.guilds.cache.get(guildID);
 
             if (guild) {
-              const channel = guild.channels.cache.get(notifyChannel);
-              const role = guild.roles.cache.get(alert);
-              const videoURL = 'https://youtu.be/' + latestVideoId;
+              const channel = guild.channels.cache.get(notifyChannel),
+                role = guild.roles.cache.get(alert),
+                videoURL = 'https://youtu.be/' + latestVideoId;
 
               const embed = new EmbedBuilder()
                 .setTitle(videoTitle || 'New video')

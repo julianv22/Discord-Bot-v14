@@ -20,11 +20,11 @@ module.exports = (client) => {
     const [guild, author] = [object.guild, object.user || object.author];
 
     try {
-      const bots = guild.members.cache.filter((m) => m.user.bot).size;
-      const channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size;
-      const voices = guild.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size;
-      const categories = guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size;
-      const owner = await guild.fetchOwner();
+      const bots = guild.members.cache.filter((m) => m.user.bot).size,
+        channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size,
+        voices = guild.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size,
+        categories = guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size,
+        owner = await guild.fetchOwner();
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

@@ -1,16 +1,20 @@
-const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, User, Message, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Thanks user
-   * @param {GuildMember} target - Target user
+   * @param {User} target - Target user
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;
     const { guild, user, author: objAuthor } = object;
-    const author = user || objAuthor;
+    const author = user || objAuthor,
+      guildID = guild.id,
+      guildName = guild.name,
+      userID = target.id,
+      usertag = target.tag;
 
     try {
       const imgURL = [
@@ -54,15 +58,15 @@ module.exports = (client) => {
             }, 10000);
         });
 
-      const thanks = await serverThanks.findOne({ guildID: guild.id, userID: target.id }).catch(console.error);
+      const thanks = await serverThanks.findOne({ guildID, userID }).catch(console.error);
       let count = 1;
       if (!thanks) {
         thanks = await serverThanks
           .create({
-            guildID: guild.id,
-            guildName: guild.name,
-            userID: target.id,
-            usertag: target.tag,
+            guildID,
+            guildName,
+            userID,
+            usertag,
             thanksCount: count,
             lastThanks: Date.now(),
           })
@@ -91,8 +95,8 @@ module.exports = (client) => {
       await object.reply({ embeds: [embed] });
 
       // Update thanksCount
-      thanks.guildName = guild.name;
-      thanks.usertag = target.tag;
+      thanks.guildName = guildName;
+      thanks.usertag = usertag;
       thanks.thanksCount = count;
       thanks.lastThanks = Date.now();
       return await thanks.save().catch(console.error);

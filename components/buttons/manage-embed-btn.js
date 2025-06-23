@@ -21,11 +21,9 @@ module.exports = {
     const { customId, message, channel } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, messageId] = customId.split(':');
-    const getEmbeds = EmbedBuilder.from(message.embeds[0]);
-    const [Button0, Button1] = [
-      ActionRowBuilder.from(message.components[0]),
-      ActionRowBuilder.from(message.components[1]),
-    ];
+    const getEmbeds = EmbedBuilder.from(message.embeds[0]),
+      Button0 = ActionRowBuilder.from(message.components[0]),
+      Button1 = ActionRowBuilder.from(message.components[1]);
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
     /**
@@ -172,16 +170,13 @@ module.exports = {
               });
             }
           } catch (e) {
-            const error = 'Error while updating embed message\n';
-            console.error(chalk.red(error), e);
-            return await interaction.reply(
-              errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink })
-            );
+            catchError(interaction, e, 'Error while updating embed message');
           }
         },
       };
 
       if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+
       return await showModal[button]();
     } catch (e) {
       return await catchError(interaction, e, this);

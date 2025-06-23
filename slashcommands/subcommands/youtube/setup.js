@@ -12,16 +12,18 @@ module.exports = {
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;
-    const [yt_channel, action] = [options.getString('channel-id'), options.getString('action')];
+    const yt_channel = options.getString('channel-id'),
+      action = options.getString('action');
     /** - Validate Youtube channel
      * @param {string} channelId - ID of the Youtube channel
      * @param {string} apiKey - API key for Youtube
      * @returns {Promise<{ valid: boolean, title: string | null }>}
      */
     const validateYoutubeChannel = async (channelId, apiKey) => {
-      const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`,
+        res = await fetch(url),
+        data = await res.json();
+
       if (data.items && data.items.length > 0) {
         return { valid: true, title: data.items[0].snippet.title };
       }
@@ -44,16 +46,12 @@ module.exports = {
           return await interaction.reply(errorEmbed({ desc: 'Server chưa có kênh Youtube nào!', emoji: false }));
 
         profile = await serverProfile
-          .create({
-            guildID: guild.id,
-            guildName: guild.name,
-            prefix: prefix,
-            youtube: { channels: [yt_channel] },
-          })
+          .create({ guildID: guild.id, guildName: guild.name, prefix: prefix, youtube: { channels: [yt_channel] } })
           .catch(console.error);
       } else {
         let changed = false;
         if (!Array.isArray(youtube.channels)) youtube.channels = [];
+
         if (action === 'add') {
           if (!youtube.channels.includes(yt_channel)) {
             youtube.channels.push(yt_channel);
@@ -66,6 +64,7 @@ module.exports = {
             changed = true;
           }
         }
+
         if (changed) await profile.save().catch(console.error);
       }
       return await interaction.reply(

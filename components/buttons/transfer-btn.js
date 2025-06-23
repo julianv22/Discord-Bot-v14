@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'buttons',
@@ -8,15 +9,16 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, customId } = interaction;
+    const { user, guild, customId, locale } = interaction;
     const { errorEmbed, catchError } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
     if (amountStr === 'cancel') return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
 
-    const [amount, fee] = [parseInt(amountStr, 10), parseInt(feeStr, 10)];
-    const total = amount + fee;
+    const amount = parseInt(amountStr, 10),
+      fee = parseInt(feeStr, 10),
+      total = amount + fee;
 
     try {
       // Lấy profile của người chuyển và người nhận
@@ -30,12 +32,7 @@ module.exports = {
         return await interaction.update(errorEmbed({ desc: 'Không kết nối được với database', emoji: false }));
       if (!targetProfile)
         targetProfile = await economyProfile
-          .create({
-            guildID: guild.id,
-            guildName: guild.name,
-            userID: targetId,
-            bank: 0,
-          })
+          .create({ guildID: guild.id, guildName: guild.name, userID: targetId, bank: 0 })
           .catch(console.error);
       if (amount > profile.bank)
         return await interaction.update(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển', emoji: false }));
@@ -46,25 +43,21 @@ module.exports = {
 
       await profile.save().catch(console.error);
       await targetProfile.save().catch(console.error);
-
       // Tạo embed thông báo cho người chuyển
       const embedSender = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('\\✅ Chuyển tiền thành công!')
         .setDescription(
-          `\\♻️ Bạn đã chuyển **${amount.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          })}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          })}**\n\n\\💸 Tổng trừ: **${total.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          })}**\n\n\\🏦 Số dư còn lại: **${profile.bank.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          })}**`
+          `\\♻️ Bạn đã chuyển **${toCurrency(
+            amount,
+            locale
+          )}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${toCurrency(
+            fee,
+            locale
+          )}**\n\n\\💸 Tổng trừ: **${toCurrency(total, locale)}**\n\n\\🏦 Số dư còn lại: **${toCurrency(
+            profile.bank,
+            locale
+          )}**`
         )
         .setColor(Colors.Green)
         .setThumbnail(cfg.economyPNG)
@@ -76,12 +69,9 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('Bạn vừa nhận được tiền!')
         .setDescription(
-          `Bạn vừa nhận được **${amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}** từ <@${
-            user.id
-          }> trong guild ${guild.name}.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toLocaleString('vi-VN', {
-            style: 'currency',
-            currency: 'VND',
-          })}**`
+          `Bạn vừa nhận được **${toCurrency(amount, locale)}** từ <@${user.id}> trong guild ${
+            guild.name
+          }.\n\n\\🏦 Số dư mới: **${toCurrency(targetProfile.bank, locale)}**`
         )
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)

@@ -12,7 +12,7 @@ const {
 module.exports = (client) => {
   /** - Show error when catched
    * @param {ChatInputCommandInteraction|Message} object Interaction or Message
-   * @param {Error} e Error message
+   * @param {Error} e Error content
    * @param {string|ChatInputCommandInteraction} description Error description */
   client.catchError = async (object, e, description) => {
     const { errorEmbed, logError, guilds } = client;
@@ -30,15 +30,13 @@ module.exports = (client) => {
       return 'Unknown error';
     };
 
-    const embed = errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.DarkVividPink });
-
     try {
-      const guild = guilds.cache.get(cfg.bugGuildId);
-      const channel = guild.channels.cache.get(cfg.bugChannelId);
+      const guild = guilds.cache.get(cfg.bugGuildId),
+        channel = guild.channels.cache.get(cfg.bugChannelId);
 
-      if (!guild) logError({ todo: 'finding Bug Guild Report with id:', item: cfg.bugGuildId });
+      if (!guild) logError({ todo: 'finding error reporting guild with ID:', item: cfg.bugGuildId });
       else if (!channel || channel.type !== ChannelType.GuildText)
-        logError({ todo: 'finding Bug Channel Report with id:', item: cfg.bugChannelId });
+        logError({ todo: 'finding error reporting text channel with ID:', item: cfg.bugChannelId });
       else {
         regex = /\x1b\[[0-9;]*m/g;
 
@@ -57,8 +55,11 @@ module.exports = (client) => {
 
         await channel.send({ embeds: [bugEmbed] }).catch(console.error);
       }
-    } catch (e) {}
-    console.error(chalk.red(errorMessage() + '\n'), e);
+    } catch (e) {
+      console.error(chalk.red('An error occurred while sending the report to the error channel log\n'), e);
+    }
+
+    const embed = errorEmbed({ title: `\\❌ ${errorMessage()}`, desc: e, color: Colors.DarkVividPink });
 
     if (object) {
       if (object.author)
@@ -70,6 +71,8 @@ module.exports = (client) => {
       else if (!object.replied && !object.deferred) return await object.reply(embed);
       else await object.editReply(embed);
     }
+
+    return console.error(chalk.red(errorMessage() + '\n'), e);
   };
   /** - Tạo một embed thông báo lỗi.
    * @param {object} options - Các tùy chọn cho embed lỗi.
@@ -110,8 +113,9 @@ module.exports = (client) => {
    * @param {Error} [e] Error message
    * - Ví dụ: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
-    const color = isWarn ? 'yellow' : 'red';
-    const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
+    const color = isWarn ? 'yellow' : 'red',
+      first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
+
     let second = chalk.green(item);
     second += (item && ' ') + chalk[color](desc);
 

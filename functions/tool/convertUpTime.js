@@ -7,9 +7,9 @@ module.exports = (client) => {
   client.convertUpTime = () => {
     try {
       const { readyTimestamp } = client;
-      const uptime = process.uptime();
-      const date = new Date(uptime * 1000);
-      const days = date.getUTCDate() - 1,
+      const uptime = process.uptime(),
+        date = new Date(uptime * 1000),
+        days = date.getUTCDate() - 1,
         hours = date.getUTCHours(),
         minutes = date.getUTCMinutes(),
         seconds = date.getUTCSeconds();

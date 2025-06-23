@@ -21,33 +21,33 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
     const buttons1 = [
-      {
-        label: '⭐ Disable Starboard System',
-        customId: 'disable-btn:starboard',
-        style: ButtonStyle.Primary,
-        // 'Tắt chức năng Starboard System',
-      },
-      {
-        label: '💡 Disable Suggest Channel',
-        customId: 'disable-btn:suggest',
-        style: ButtonStyle.Primary,
-        // 'Tắt chức năng Suggestion',
-      },
-    ];
-    const buttons2 = [
-      {
-        label: '🎬 Disable Youtube Notify',
-        customId: 'disable-btn:youtube',
-        style: ButtonStyle.Danger,
-        // 'Tắt thông báo video mới trên Youtube',
-      },
-      {
-        label: '🎉 Disable Welcome System',
-        customId: 'disable-btn:welcome',
-        style: ButtonStyle.Success,
-        // 'Tắt chức năng chào mừng thành viên mới',
-      },
-    ];
+        {
+          label: '⭐ Disable Starboard System',
+          customId: 'disable-btn:starboard',
+          style: ButtonStyle.Primary,
+          // 'Tắt chức năng Starboard System',
+        },
+        {
+          label: '💡 Disable Suggest Channel',
+          customId: 'disable-btn:suggest',
+          style: ButtonStyle.Primary,
+          // 'Tắt chức năng Suggestion',
+        },
+      ],
+      buttons2 = [
+        {
+          label: '🎬 Disable Youtube Notify',
+          customId: 'disable-btn:youtube',
+          style: ButtonStyle.Danger,
+          // 'Tắt thông báo video mới trên Youtube',
+        },
+        {
+          label: '🎉 Disable Welcome System',
+          customId: 'disable-btn:welcome',
+          style: ButtonStyle.Success,
+          // 'Tắt chức năng chào mừng thành viên mới',
+        },
+      ];
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: 'Disable Features', iconURL: user.displayAvatarURL(true) })

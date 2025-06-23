@@ -37,6 +37,7 @@ module.exports = {
       text: 'Đề xuất không được chấp nhận',
       iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
     });
+
     await msg.edit({ embeds: [edit] });
 
     await interaction.reply(
@@ -48,6 +49,7 @@ module.exports = {
     );
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
+
     if (!author)
       return await interaction.followUp?.(errorEmbed({ desc: 'Không tìm thấy user để gửi DM!', emoji: false }));
 

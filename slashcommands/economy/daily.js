@@ -46,6 +46,7 @@ module.exports = {
         const nextDaily = new Date();
         nextDaily.setHours(24, 0, 0, 0);
         const timeleft = Math.floor(nextDaily.getTime() / 1000);
+
         return await interaction.reply(
           errorEmbed({ desc: `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false })
         );
@@ -53,10 +54,11 @@ module.exports = {
 
       // Số \\💲 daily, random từ 500 tới 1000, ưu tiên gần 1000
       // Sử dụng phân phối bình phương để tăng xác suất số lớn
-      const min = 500;
-      const max = 1000;
-      const rand = Math.random();
-      const dailyAmount = Math.floor((max - min + 1) * Math.pow(rand, 0.5) + min); // sqrt bias
+      const min = 500,
+        max = 1000,
+        rand = Math.random(),
+        dailyAmount = Math.floor((max - min + 1) * Math.pow(rand, 0.5) + min); // sqrt bias
+
       profile.balance += dailyAmount;
       profile.totalEarned += dailyAmount;
       profile.dailyCooldown = new Date();
@@ -65,12 +67,13 @@ module.exports = {
       const yesterday = new Date();
       yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
-      let streak = profile.streak || 0;
-      let maxStreak = profile.maxStreak || 0;
-      let lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null;
-      let bonusMsg = '';
-      let resetStreak = false;
-      let prevStreak = streak;
+      let streak = profile.streak || 0,
+        maxStreak = profile.maxStreak || 0,
+        lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null,
+        bonusMsg = '',
+        resetStreak = false,
+        prevStreak = streak;
+
       if (lastDaily && lastDaily.getTime() === yesterday.getTime()) {
         streak += 1;
       } else if (lastDaily && lastDaily.getTime() === today.getTime()) {
@@ -83,8 +86,8 @@ module.exports = {
       if (streak > maxStreak) maxStreak = streak;
 
       // Đọc achievements từ file JSON
-      const achvs = achievementsConfig.streak;
-      const streakMilestones = Object.keys(achvs).map(Number);
+      const achvs = achievementsConfig.streak,
+        streakMilestones = Object.keys(achvs).map(Number);
 
       let achievementMsg = '';
       if (streakMilestones.includes(streak)) {

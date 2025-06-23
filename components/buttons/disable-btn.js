@@ -60,48 +60,53 @@ module.exports = {
         return embed;
       };
 
-      if (feature === 'confirm') {
-        const Disable = {
-          starboard: () => {
-            starboard.channel = '';
-            starboard.star = 0;
-            return;
-          },
-          suggest: () => {
-            suggest = '';
-            return;
-          },
-          youtube: () => {
-            youtube.notifyChannel = '';
-            return;
-          },
-          welcome: () => {
-            welcome.channel = '';
-            welcome.log = '';
-            return;
-          },
-        };
+      switch (feature) {
+        case 'confrm':
+          const Disable = {
+            starboard: () => {
+              starboard.channel = '';
+              starboard.star = 0;
+              return;
+            },
+            suggest: () => {
+              return (suggest = '');
+            },
+            youtube: () => {
+              return (youtube.notifyChannel = '');
+            },
+            welcome: () => {
+              welcome.channel = '';
+              welcome.log = '';
+              return;
+            },
+          };
 
-        if (!Disable[confirm]) throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
-        await Disable[confirm]();
+          if (!Disable[confirm]) throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
 
-        await profile.save().catch(console.error);
-        return await interaction.update({
-          embeds: [
-            confirmEmbed(
-              `\\✅ Đã tắt tính năng **${capitalize(confirm)}**!`,
-              `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
-              'Green'
-            ),
-          ],
-          components: [disableButtons(oldComponents)],
-        });
-      } else if (feature === 'cancel') {
-        return await interaction.update({
-          embeds: [confirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', 'DarkVividPink')],
-          components: [disableButtons(oldComponents)],
-        });
-      } else await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
+          await Disable[confirm]();
+          await profile.save().catch(console.error);
+
+          await interaction.update({
+            embeds: [
+              confirmEmbed(
+                `\\✅ Đã tắt tính năng **${capitalize(confirm)}**!`,
+                `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
+                'Green'
+              ),
+            ],
+            components: [disableButtons(oldComponents)],
+          });
+          break;
+        case 'cancel':
+          await interaction.update({
+            embeds: [confirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', 'DarkVividPink')],
+            components: [disableButtons(oldComponents)],
+          });
+          break;
+        default:
+          await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
+          break;
+      }
     } catch (e) {
       return await catchError(interaction, e, this);
     }

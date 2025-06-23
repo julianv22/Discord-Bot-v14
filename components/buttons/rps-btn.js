@@ -13,7 +13,8 @@ module.exports = {
     const { user, guild, customId, locale } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, betStr] = customId.split(':');
-    const [userMove, bet] = [parseInt(button, 10), parseInt(betStr, 10)];
+    const userMove = parseInt(button, 10),
+      bet = parseInt(betStr, 10);
 
     try {
       let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
@@ -21,9 +22,10 @@ module.exports = {
       if (!profile)
         return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!', emoji: false }));
       // Reset count nếu sang ngày mới
-      const today = new Date();
-      const lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null;
-      const isNewDay = !lastPlay || today.toDateString() !== lastPlay.toDateString();
+      const today = new Date(),
+        lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null,
+        isNewDay = !lastPlay || today.toDateString() !== lastPlay.toDateString();
+
       if (isNewDay) {
         profile.rpsCount = 0;
         profile.lastPlayRPS = today;

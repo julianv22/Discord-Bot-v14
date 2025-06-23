@@ -12,7 +12,8 @@ module.exports = {
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed, catchError } = client;
-    const [channel, number] = [options.getChannel('starboard-channel'), options.getInteger('starnum')];
+    const channel = options.getChannel('starboard-channel'),
+      number = options.getInteger('starnum');
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -24,6 +25,7 @@ module.exports = {
       const { starboard } = profile.setup;
       starboard.channel = channel.id;
       starboard.star = number;
+
       await profile.save().catch(console.error);
       return await interaction.reply(
         errorEmbed({

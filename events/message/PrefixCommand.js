@@ -13,11 +13,11 @@ module.exports = {
     if (author.bot) return;
 
     if (content.startsWith(prefix)) {
-      const args = content.slice(prefix.length).split(/ +/);
-      const commandName = args.shift().toLowerCase();
-      const command =
-        prefixCommands.get(commandName) ||
-        prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
+      const args = content.slice(prefix.length).split(/ +/),
+        commandName = args.shift().toLowerCase(),
+        command =
+          prefixCommands.get(commandName) ||
+          prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
       if (!command)
         return await message

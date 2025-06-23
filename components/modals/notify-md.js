@@ -10,19 +10,17 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
     const { catchError } = client;
-    const [notifytype, title, description, imageURL, thumbnail] = [
-      fields.getTextInputValue('type'),
-      fields.getTextInputValue('title'),
-      fields.getTextInputValue('description'),
-      fields.getTextInputValue('imageURL'),
-      [cfg.thongbaoPNG, cfg.updatePNG],
-    ];
+    const notifytype = fields.getTextInputValue('type'),
+      title = fields.getTextInputValue('title'),
+      description = fields.getTextInputValue('description'),
+      imageURL = fields.getTextInputValue('imageURL'),
+      thumbnail = [cfg.thongbaoPNG, cfg.updatePNG];
 
     try {
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle(title)
-        .setDescription(description)
+        .setTitle(title.length > 256 ? title.slice(0, 256) : title)
+        .setDescription(description.length > 4096 ? description.slice(0, 4096) : description)
         .setColor(Colors.DarkVividPink)
         .setThumbnail(thumbnail[notifytype - 1])
         .setImage(checkURL(imageURL) ? imageURL : null)

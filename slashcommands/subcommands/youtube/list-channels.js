@@ -17,6 +17,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, guildId } = interaction;
     const { errorEmbed, catchError } = client;
+
     try {
       /** - Get channel title
        * @param {string} channelId - ID of the Youtube channel
@@ -25,9 +26,10 @@ module.exports = {
        */
       const getChannelTitle = async (channelId, apiKey) => {
         try {
-          const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
-          const res = await fetch(url);
-          const data = await res.json();
+          const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`,
+            res = await fetch(url),
+            data = await res.json();
+
           if (data.items && data.items.length > 0) {
             return data.items[0].snippet.title;
           }

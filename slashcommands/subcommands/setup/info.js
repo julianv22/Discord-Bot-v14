@@ -27,22 +27,20 @@ module.exports = {
           errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false })
         );
 
-      const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';
-      const welcomeMessage = profile?.setup?.welcome?.message || '\\⚠️ `/setup welcome`';
-      const logChannel = channels.cache.get(profile?.setup?.welcome?.log) || '\\⚠️ Not set';
-      const starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel) || '\\⚠️ `/setup starboard`';
-      const youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel) || '\\⚠️ `/youtube notify`';
-      const ytChannels = profile?.youtube?.channels?.length;
-      const alertRole = profile?.youtube.alert
-        ? `${guild.roles.cache.get(profile.youtube.alert)}`
-        : '\\⚠️ `/youtube alerts`';
-      const suggestChannel = channels.cache.get(profile?.setup?.suggest) || '\\⚠️ `/setup suggest`';
-      const tourName = profile?.tournament?.id
-        ? `${guild.roles.cache.get(profile.tournament.id)}`
-        : '\\⚠️ `/tournament`';
-      const tourStatus = profile?.tournament?.status ? '\\✅ Open' : '\\❌ Closed';
-      const starCount = profile?.setup?.starboard?.star;
-      const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
+      const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`',
+        welcomeMessage = profile?.setup?.welcome?.message || '\\⚠️ `/setup welcome`',
+        logChannel = channels.cache.get(profile?.setup?.welcome?.log) || '\\⚠️ Not set',
+        starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel) || '\\⚠️ `/setup starboard`',
+        youtubeNotifyChannel = channels.cache.get(profile?.youtube?.notifyChannel) || '\\⚠️ `/youtube notify`',
+        ytChannels = profile?.youtube?.channels?.length,
+        alertRole = profile?.youtube.alert
+          ? `${guild.roles.cache.get(profile.youtube.alert)}`
+          : '\\⚠️ `/youtube alerts`',
+        suggestChannel = channels.cache.get(profile?.setup?.suggest) || '\\⚠️ `/setup suggest`',
+        tourName = profile?.tournament?.id ? `${guild.roles.cache.get(profile.tournament.id)}` : '\\⚠️ `/tournament`',
+        tourStatus = profile?.tournament?.status ? '\\✅ Open' : '\\❌ Closed',
+        starCount = profile?.setup?.starboard?.star,
+        serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
 
       const embed = new EmbedBuilder()
         .setColor(Colors.DarkAqua)

@@ -16,15 +16,15 @@ module.exports = {
 
     if (reaction.partial) await reaction.fetch();
 
-    const member = await guild.members.fetch(user.id);
-    const bot = guild.members.me;
-    const config = await reactionRole
-      .findOne({
-        guildID: guild.id,
-        channelId: channel.id,
-        messageId: message.id,
-      })
-      .catch(console.error); // Keep catch for findOne errors
+    const member = await guild.members.fetch(user.id),
+      bot = guild.members.me,
+      config = await reactionRole
+        .findOne({
+          guildID: guild.id,
+          channelId: channel.id,
+          messageId: message.id,
+        })
+        .catch(console.error); // Keep catch for findOne errors
 
     if (!config) return; // Return if config or roles is not valid or not an array
 

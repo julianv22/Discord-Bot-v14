@@ -70,8 +70,8 @@ module.exports = {
 
             let role = roleInput;
             try {
-              const roleMatch = roleInput.match(/^<@&(\d+)>$/);
-              const roleId = roleMatch ? roleMatch[1] : null;
+              const roleMatch = roleInput.match(/^<@&(\d+)>$/),
+                roleId = roleMatch ? roleMatch[1] : null;
 
               if (roleId) role = await guild.roles.cache.get(roleId);
               else role = await guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
@@ -118,7 +118,7 @@ module.exports = {
         finish: async () => {
           const emojiArray = reactionMap.get(message.id) || [];
 
-          if (emojiArray.length <= 0)
+          if (emojiArray.length <= 1)
             return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!', emoji: false }));
 
           const msg = await channel.send({ embeds: [reactionEmbed] });
@@ -148,6 +148,7 @@ module.exports = {
       };
 
       if (!reactionButton[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
+
       await reactionButton[buttonId]();
     } catch (e) {
       return await catchError(interaction, e, this);

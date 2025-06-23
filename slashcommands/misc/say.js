@@ -14,7 +14,8 @@ module.exports = {
   async execute(interaction, client) {
     const { options } = interaction;
     const { errorEmbed } = client;
-    const [content, target] = [options.getString('content'), options.getUser('user')];
+    const content = options.getString('content'),
+      target = options.getUser('user');
 
     if (target) {
       if (!content) {

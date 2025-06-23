@@ -15,9 +15,9 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     await interaction.deferReply({ flags: 64 });
     // Lấy đường dẫn file từ tùy chọn của lệnh
-    const relativeFilePath = interaction.options.getString('filepath');
-    // Tạo đường dẫn tuyệt đối cho file.
-    const absoluteFilePath = path.join(process.cwd(), relativeFilePath);
+    const relativeFilePath = interaction.options.getString('filepath'),
+      // Tạo đường dẫn tuyệt đối cho file.
+      absoluteFilePath = path.join(process.cwd(), relativeFilePath);
 
     await interaction.editReply(errorEmbed({ desc: `Loading file [ \`${relativeFilePath}\` ]...`, emoji: '🔃' }));
     // Kiểm tra xem file có phải là file .js không
@@ -27,9 +27,9 @@ module.exports = {
 
     try {
       // Đọc nội dung file
-      const fileContent = readFileSync(absoluteFilePath, 'utf8');
+      const fileContent = readFileSync(absoluteFilePath, 'utf8'),
+        MAX_LENGTH = 1990;
 
-      const MAX_LENGTH = 1990;
       await interaction.editReply(
         errorEmbed({
           title: '\\✅ Loaded file successfully!',
