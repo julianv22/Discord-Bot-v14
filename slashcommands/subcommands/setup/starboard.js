@@ -29,7 +29,7 @@ module.exports = {
         errorEmbed({
           desc: `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`,
           emoji: true,
-        })
+        }),
       );
     } catch (e) {
       return await catchError(interaction, e, this);

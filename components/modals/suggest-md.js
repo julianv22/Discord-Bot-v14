@@ -19,7 +19,7 @@ module.exports = {
           errorEmbed({
             desc: `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
             emoji: false,
-          })
+          }),
         );
 
       const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
@@ -28,7 +28,7 @@ module.exports = {
         .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
         .setTitle("Suggest's content:")
         .setDescription(description)
-        .setColor(Colors.Yellow)
+        .setColor(Colors.DarkGold)
         .setThumbnail(cfg.suggestPNG)
         .setTimestamp()
         .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
@@ -38,7 +38,7 @@ module.exports = {
 
       await interaction
         .reply(
-          errorEmbed({ desc: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`, emoji: true })
+          errorEmbed({ desc: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`, emoji: true }),
         )
         .then(() => ['👍', '👎'].forEach(async (e) => await msg.react(e)));
     } catch (e) {

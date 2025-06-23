@@ -18,7 +18,7 @@ module.exports = {
       return await commandUsage(
         message,
         this,
-        prefix + this.name + ' @username' + ' | ' + prefix + this.aliases + ' @username'
+        prefix + this.name + ' @username' + ' | ' + prefix + this.aliases + ' @username',
       );
 
     const target = mentions.users.first() || guild.members.cache.get(args[0]) || author;

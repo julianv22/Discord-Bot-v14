@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {
@@ -18,7 +24,7 @@ module.exports = {
 
       if (!profile)
         return await interaction.reply(
-          errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false })
+          errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false }),
         );
 
       const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';
@@ -39,12 +45,12 @@ module.exports = {
       const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
 
       const embed = new EmbedBuilder()
-        .setColor('Random')
+        .setColor(Colors.DarkAqua)
         .setTitle(`Setup's Information`)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setDescription('‼️ Thông tin các thiết lập trong server')
         .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png'
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png',
         )
         .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
         .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: true })

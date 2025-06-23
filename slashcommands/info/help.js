@@ -35,7 +35,7 @@ module.exports = {
 
     const ignore = 'context menu';
     const slashCategories = new Set(
-      slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category)
+      slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category),
     );
 
     await interaction.reply({
@@ -52,7 +52,7 @@ module.exports = {
             .setMinValues(1)
             .setMaxValues(1)
             .setOptions(rowComponents(menus, ComponentType.StringSelect))
-            .addOptions(Array.from(slashCategories).map((value) => ({ label: `📂 ${capitalize(value)}`, value })))
+            .addOptions(Array.from(slashCategories).map((value) => ({ label: `📂 ${capitalize(value)}`, value }))),
         ),
         infoButtons(),
       ],

@@ -43,7 +43,7 @@ module.exports = {
         .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
         .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
         .setDescription(thanksList)
-        .setColor(Colors.Gold)
+        .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.thanksPNG)
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 

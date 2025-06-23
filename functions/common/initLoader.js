@@ -56,7 +56,7 @@ module.exports = {
               item: FileType,
               desc: `in ${chalk.green(folderPath)} folder is not a function:`,
             },
-            typeof func
+            typeof func,
           );
 
       return result;
@@ -90,7 +90,7 @@ module.exports = {
         file,
         chalk.yellow('in'),
         chalk.green(folder),
-        chalk.yellow(message)
+        chalk.yellow(message),
       );
     };
 

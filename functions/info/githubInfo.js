@@ -46,7 +46,7 @@ module.exports = (client) => {
                 name: 'Account Created',
                 value: moment.utc(created_at).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY'),
                 inline: true,
-              }
+              },
             );
 
           return await object.reply({ embeds: [embed] });

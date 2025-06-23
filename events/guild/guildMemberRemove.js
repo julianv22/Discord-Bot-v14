@@ -18,13 +18,13 @@ module.exports = {
         .setTitle('👋 Good bye!')
         .setDescription(`${user} đã rời khỏi server!`)
         .setThumbnail(
-          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/name-badge_1f4db.png'
+          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/name-badge_1f4db.png',
         )
         .setColor(Colors.DarkVividPink)
         .setTimestamp()
         .addFields(
           { name: 'UserName:', value: user.tag, inline: true },
-          { name: 'UserID:', value: `||${user.id}||`, inline: true }
+          { name: 'UserID:', value: `||${user.id}||`, inline: true },
         );
 
       const logChannel = guild.channels.cache.get(welcome.log);

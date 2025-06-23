@@ -43,7 +43,7 @@ module.exports = {
 
       setTimeout(async () => {
         await interaction.editReply(
-          errorEmbed({ desc: `Successfully reloaded application ${subCommand}!`, emoji: true })
+          errorEmbed({ desc: `Successfully reloaded application ${subCommand}!`, emoji: true }),
         );
       }, 2500);
     } catch (e) {

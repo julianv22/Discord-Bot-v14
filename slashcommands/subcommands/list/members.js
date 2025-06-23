@@ -26,7 +26,7 @@ module.exports = {
           embeds: [
             {
               description: `**${title}**:\n\n` + members.join(inline ? ' | ' : '\n'),
-              color: Colors.Aqua,
+              color: Colors.Blurple,
               footer: { text: `Tổng số: [${members.length}]` },
             },
           ],

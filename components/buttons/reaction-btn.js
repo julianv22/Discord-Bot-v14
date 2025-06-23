@@ -28,7 +28,7 @@ module.exports = {
     const createModal = (placeholder) => {
       const textInputs = rowComponents(
         [{ customId: buttonId, label: `Reaction Role ${buttonId}`, style: TextInputStyle.Short, placeholder }],
-        ComponentType.TextInput
+        ComponentType.TextInput,
       );
       const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
       const modal = new ModalBuilder().setCustomId(`reaction-md:${buttonId}`).setTitle('Manager Reaction Role');
@@ -82,7 +82,7 @@ module.exports = {
                     title: '\\❌ Không tìm thấy Role',
                     description: `Role \`${roleInput}\` không tồn tại, hãy thử lại!`,
                     color: Colors.DarkVividPink,
-                  })
+                  }),
                 );
             } catch (e) {
               return console.error(chalk.red('Error while fetching role\n'), e);
@@ -95,7 +95,7 @@ module.exports = {
 
               if (!client.emojis.cache.get(emojiMatch[3]))
                 return interaction.followUp(
-                  errorEmbed({ desc: `Bot không truy cập được custom emoji: ${emojiInput}` })
+                  errorEmbed({ desc: `Bot không truy cập được custom emoji: ${emojiInput}` }),
                 );
             }
 

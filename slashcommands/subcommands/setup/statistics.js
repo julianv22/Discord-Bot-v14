@@ -51,14 +51,14 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('\\✅ Server stats set up successfully!')
-        .setColor(Colors.Green)
+        .setColor(Colors.DarkGreen)
         .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')
         .setTimestamp()
         .addFields(
           { name: 'Total Count Channel:', value: `${totalChannel}` },
           { name: 'Members Count Channel:', value: `${memberChannel}` },
           { name: 'Bots Count Channel:', value: `${botChannel}` },
-          { name: 'Preseneces Count Channel:', value: `${presenceChannel}` }
+          { name: 'Preseneces Count Channel:', value: `${presenceChannel}` },
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

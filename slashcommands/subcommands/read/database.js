@@ -41,7 +41,7 @@ module.exports = {
               new ButtonBuilder()
                 .setStyle(ButtonStyle.Link)
                 .setURL(`https://sourceb.in/${key}`)
-                .setLabel('🔗 View Database')
+                .setLabel('🔗 View Database'),
             ),
           ],
         });
@@ -72,7 +72,7 @@ module.exports = {
           .catch(console.error);
       } else
         await interaction.editReply(
-          errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!', emoji: false })
+          errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!', emoji: false }),
         );
     } catch (e) {
       return await catchError(interaction, e, this);

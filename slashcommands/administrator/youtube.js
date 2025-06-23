@@ -28,27 +28,27 @@ module.exports = {
             .setName('action')
             .setDescription('Add or remove channel')
             .setRequired(true)
-            .addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' })
-        )
+            .addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' }),
+        ),
     )
     .addSubcommand((sub) =>
       sub
         .setName('notify')
         .setDescription(`Set the notification channel for YouTube. ${cfg.adminRole} only`)
         .addChannelOption((opt) =>
-          opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true)
-        )
+          opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true),
+        ),
     )
     .addSubcommand((sub) =>
-      sub.setName('refresh').setDescription(`Refresh YouTube notifications. ${cfg.adminRole} only`)
+      sub.setName('refresh').setDescription(`Refresh YouTube notifications. ${cfg.adminRole} only`),
     )
     .addSubcommand((sub) =>
       sub
         .setName('list-channels')
-        .setDescription(`List YouTube channels that have been registered. ${cfg.adminRole} only`)
+        .setDescription(`List YouTube channels that have been registered. ${cfg.adminRole} only`),
     )
     .addSubcommand(
-      (sub) => sub.setName('alerts').setDescription(`Set alert role for Youtube notifications. ${cfg.adminRole} only`)
+      (sub) => sub.setName('alerts').setDescription(`Set alert role for Youtube notifications. ${cfg.adminRole} only`),
       // .addRoleOption((opt) => opt.setName('role').setDescription('Choice alert role, set empty for removing')),
     ),
   /** - Setup YouTube
@@ -73,7 +73,7 @@ module.exports = {
         .setDescription(role ? `Alert role: ${role}` : 'Chưa có YouTube alert role nào được thiết lập.')
         .setColor(Colors.Orange)
         .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png'
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
         )
         .setTimestamp();
 
@@ -81,7 +81,7 @@ module.exports = {
         embeds: [embed],
         components: [
           new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('youtube-alert-btn').setLabel('Set Role').setStyle(ButtonStyle.Primary)
+            new ButtonBuilder().setCustomId('youtube-alert-btn').setLabel('Set Role').setStyle(ButtonStyle.Primary),
           ),
         ],
       });

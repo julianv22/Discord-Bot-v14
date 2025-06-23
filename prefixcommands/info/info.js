@@ -18,7 +18,7 @@ module.exports = {
       return await commandUsage(
         message,
         this,
-        `Xem thông tin server: ${prefix + this.name}\n\nXem thông tin thành viên: ${prefix + this.name} @user`
+        `Xem thông tin server: ${prefix + this.name}\n\nXem thông tin thành viên: ${prefix + this.name} @user`,
       );
 
     const member = message.mentions.members.first() || message.member || guild.members.cache.get(args[0]);

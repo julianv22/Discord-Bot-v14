@@ -1,4 +1,10 @@
-const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
@@ -39,7 +45,7 @@ module.exports = (client) => {
     const helpEmbed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle(`\\📂 ${capitalize(CommandType)} Commands [${commands.length}]`)
-      .setColor('Random')
+      .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.slashPNG)
       .setTimestamp()
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })

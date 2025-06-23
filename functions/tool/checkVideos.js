@@ -68,7 +68,7 @@ module.exports = (client) => {
                   embeds: [embed],
                   components: [
                     new ActionRowBuilder().addComponents(
-                      new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('🔗Xem trên Youtube').setURL(videoURL)
+                      new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('🔗Xem trên Youtube').setURL(videoURL),
                     ),
                   ],
                 });

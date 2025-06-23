@@ -27,7 +27,7 @@ module.exports = {
       await profile.save().catch(console.error);
 
       return await interaction.reply(
-        errorEmbed({ desc: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`, emoji: true })
+        errorEmbed({ desc: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`, emoji: true }),
       );
     } catch (e) {
       return await catchError(interaction, e, this);

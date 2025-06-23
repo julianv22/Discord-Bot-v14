@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
       const ignore = 'context menu';
       const slashCategories = [
         ...new Set(
-          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))
+          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category)),
         ),
       ];
       const subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
@@ -33,7 +33,7 @@ module.exports = {
           const embed = new EmbedBuilder()
             .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
             .setTitle('Thống kê Slash Command & Sub Command')
-            .setColor('Random')
+            .setColor(Colors.DarkGreen)
             .setThumbnail(cfg.slashPNG)
             .setTimestamp()
             .setFooter({
@@ -55,7 +55,7 @@ module.exports = {
                 name: `\\📂 Context Menus [**${contextMenus.length}**]`,
                 value: `\`\`\`ansi\n\x1b[36m${contextMenus.join(' | ')}\x1b[0m\`\`\``,
               },
-              { name: '\u200b', value: 'Select Slash Command Category \\⤵️' }
+              { name: '\u200b', value: 'Select Slash Command Category \\⤵️' },
             );
 
           return await interaction.update({ embeds: [embed] });

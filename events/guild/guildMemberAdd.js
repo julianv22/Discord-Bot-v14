@@ -108,12 +108,12 @@ module.exports = {
           .setDescription(`${user} đã tham gia server!`)
           .setColor(0x00bce3)
           .setThumbnail(
-            'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png'
+            'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png',
           )
           .setTimestamp()
           .addFields(
             { name: 'Tên người dùng:', value: user.tag, inline: true },
-            { name: 'ID:', value: `||${user.id}||`, inline: true }
+            { name: 'ID:', value: `||${user.id}||`, inline: true },
           );
 
         await logChannel.send({ embeds: [logEmbed] });

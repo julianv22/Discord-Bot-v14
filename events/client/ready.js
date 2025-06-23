@@ -56,7 +56,7 @@ module.exports = {
         ],
         tab: 0,
       });
-      table({ name: '📆 Last update:', value: '12:17 Thứ Hai, 23 tháng 6, 2025' });
+      table({ name: '📆 Last update:', value: '12:47 Thứ Hai, 23 tháng 6, 2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
@@ -66,27 +66,36 @@ module.exports = {
         servers.reduce((servers, g) => {
           servers[g.name] = g.id;
           return servers;
-        }, {})
+        }, {}),
         // guilds.map((g) => ({ [g.name]: g.id })),
       );
 
       // Lastest youtube videos
       await checkVideos();
-      setInterval(() => {
-        checkVideos();
-      }, 30 * 60 * 1000);
+      setInterval(
+        () => {
+          checkVideos();
+        },
+        30 * 60 * 1000,
+      );
 
       // Set Client's Pressence
       setPresence(client);
-      setInterval(() => {
-        setPresence(client);
-      }, 5 * 60 * 1000);
+      setInterval(
+        () => {
+          setPresence(client);
+        },
+        5 * 60 * 1000,
+      );
 
       for (const server of servers) {
         await serverStats(client, server.id);
-        setInterval(async () => {
-          await serverStats(client, server.id);
-        }, 5 * 60 * 1000);
+        setInterval(
+          async () => {
+            await serverStats(client, server.id);
+          },
+          5 * 60 * 1000,
+        );
       }
     } catch (e) {
       logError({ todo: 'running', item: 'ready', desc: `event from ${chalk.green('client events')}` }, e);

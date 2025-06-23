@@ -47,7 +47,7 @@ module.exports = {
         nextDaily.setHours(24, 0, 0, 0);
         const timeleft = Math.floor(nextDaily.getTime() / 1000);
         return await interaction.reply(
-          errorEmbed({ desc: `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false })
+          errorEmbed({ desc: `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
         );
       }
 
@@ -94,7 +94,7 @@ module.exports = {
           profile.totalEarned += achv.reward;
           bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${toCurrency(
             achv.reward,
-            locale
+            locale,
           )}**`;
           // Thêm achievement nếu chưa có
           if (!profile.achievements.includes(achv.name)) {
@@ -116,7 +116,7 @@ module.exports = {
           .send(
             `Bạn vừa bỏ lỡ chuỗi điểm danh liên tiếp **${prevStreak.toLocaleString()} ngày**! Chuỗi đã bị reset về 1. Hãy cố gắng duy trì streak lần sau nhé!\n\nFrom: ${
               guild.name
-            }`
+            }`,
           )
           .catch(console.error);
 
@@ -127,10 +127,10 @@ module.exports = {
             title: 'Nhận \\💲 hằng ngày!',
             description: `Bạn đã nhận thành công **${toCurrency(
               dailyAmount,
-              locale
+              locale,
             )}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
               profile.balance,
-              locale
+              locale,
             )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
             color: Math.floor(Math.random() * 0xffffff),
             thumbnail: { url: cfg.economyPNG },

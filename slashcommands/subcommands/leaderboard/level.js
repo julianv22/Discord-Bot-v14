@@ -1,4 +1,10 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const {
+  SlashCommandSubcommandBuilder,
+  Client,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  Colors,
+} = require('discord.js');
 const { checkURL } = require('../../../functions/common/utilities');
 
 module.exports = {
@@ -22,9 +28,9 @@ module.exports = {
         .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })
         .setTitle('Bảng xếp hạng level tuần #' + week)
         .setDescription(
-          'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)'
+          'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)',
         )
-        .setColor('Random')
+        .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.thumbnailURL)
         .setImage(imgURL)
         .setTimestamp()

@@ -1,9 +1,12 @@
-const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   category: 'economy',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('economy-guide').setDescription('Guide to the economy system'),
+  data: new SlashCommandBuilder()
+    .setName('economy')
+    .setDescription('Economy system')
+    .addSubcommand((sub) => sub.setName('guide').setDescription('The economy system guide')),
   /** - Get economy guide
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
@@ -16,9 +19,9 @@ module.exports = {
       .setDescription(
         `Hello **${
           user.displayName || user.username
-        }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`
+        }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`,
       )
-      .setColor('Random')
+      .setColor(Colors.DarkGold)
       .setThumbnail(cfg.economyPNG)
       .setTimestamp()
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
@@ -31,7 +34,7 @@ module.exports = {
         { name: '/shop', value: '```Mua vật phẩm bằng 💲.```' },
         { name: '/inventory', value: '```Xem kho đồ vật phẩm bạn sở hữu.\n(Đang xây dựng)```' },
         { name: '/bank', value: '```Gửi/rút 💲 vào ngân hàng.```' },
-        { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' }
+        { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' },
       );
 
     return await interaction.reply({ embeds: [embed], flags: 64 });

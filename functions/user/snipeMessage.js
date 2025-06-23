@@ -39,7 +39,7 @@ module.exports = (client) => {
         .addFields(
           { name: 'Author:', value: `${author}`, inline: true },
           { name: target ? 'Channel:' : '\u200b', value: target ? `<#${snpChannel}>` : '\u200b', inline: true },
-          { name: 'Content:', value: `${content}` }
+          { name: 'Content:', value: `${content}` },
         );
 
       return await object.reply({ embeds: [embed] });

@@ -30,7 +30,7 @@ module.exports = (client) => {
           errorEmbed({
             desc: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
             emoji: false,
-          })
+          }),
         );
 
       if (profile.balance < 500) {
@@ -46,7 +46,7 @@ module.exports = (client) => {
         const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
         const timeleft = Math.floor(nextRob.getTime() / 1000);
         return await interaction.reply(
-          errorEmbed({ desc: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false })
+          errorEmbed({ desc: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: false }),
         );
       }
 
@@ -77,7 +77,7 @@ module.exports = (client) => {
         targetProfile.balance += Math.round(amount / 2);
         resultMsg = `\\❌ Thất bại và bị mất **${toCurrency(amount, locale)}**, đối phương nhận được **${toCurrency(
           Math.round(amount / 2),
-          locale
+          locale,
         )}**`;
       }
 
@@ -105,7 +105,7 @@ module.exports = (client) => {
             name: `Số dư của ${target.displayName || target.username}`,
             value: toCurrency(targetProfile.balance, locale),
             inline: true,
-          }
+          },
         );
 
       return await interaction.reply({ embeds: [embed] });

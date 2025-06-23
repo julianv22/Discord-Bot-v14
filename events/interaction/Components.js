@@ -27,7 +27,7 @@ module.exports = {
       return await catchError(
         interaction,
         e,
-        `Error while executing ${chalk.green(customId)} interactionCreate event `
+        `Error while executing ${chalk.green(customId)} interactionCreate event `,
       );
     }
   },

@@ -29,12 +29,12 @@ module.exports = {
           errorEmbed({
             desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
             emoji: false,
-          })
+          }),
         );
 
       if (amount > profile.bank)
         return await interaction.reply(
-          errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!', emoji: false })
+          errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!', emoji: false }),
         );
 
       profile.bank -= amount;
@@ -48,10 +48,10 @@ module.exports = {
         .setDescription(
           `\\✅ Rút ${toCurrency(amount, locale)} thành công!\n\nBạn bị trừ ${toCurrency(
             fee,
-            locale
-          )} (1%) phí rút tiền còn ${toCurrency(amount - fee, locale)}.\n\n**Số dư hiện có:**`
+            locale,
+          )} (1%) phí rút tiền còn ${toCurrency(amount - fee, locale)}.\n\n**Số dư hiện có:**`,
         )
-        .setColor(Colors.DarkVividPink)
+        .setColor(Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)
         .setTimestamp()
         .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
@@ -65,7 +65,7 @@ module.exports = {
             name: '\\🏦 Bank',
             value: toCurrency(profile.bank, locale),
             inline: true,
-          }
+          },
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

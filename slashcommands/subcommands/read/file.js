@@ -35,7 +35,7 @@ module.exports = {
           title: '\\✅ Loaded file successfully!',
           desc: 'Đọc nội dung file [ `' + relativeFilePath + '` ] thành công:',
           color: Colors.Green,
-        })
+        }),
       );
 
       for (let i = 0; i < fileContent.length; i += MAX_LENGTH) {
@@ -52,17 +52,17 @@ module.exports = {
           errorEmbed({
             desc: `Không tìm thấy file [ \`${relativeFilePath}\` ]. Vui lòng kiểm tra lại đường dẫn.`,
             emoji: false,
-          })
+          }),
         );
       } else if (error.code === 'EISDIR') {
         // Đường dẫn trỏ đến một thư mục
         return interaction.editReply(
-          errorEmbed({ desc: `[ \`${relativeFilePath}\` ] là một thư mục, không phải một file.`, emoji: false })
+          errorEmbed({ desc: `[ \`${relativeFilePath}\` ] là một thư mục, không phải một file.`, emoji: false }),
         );
       } else if (error.code === 'EACCES' || error.code === 'EPERM') {
         // Lỗi quyền truy cập
         return interaction.editReply(
-          errorEmbed({ desc: `Không có quyền truy cập để đọc file [ \`${relativeFilePath}\` ].`, emoji: false })
+          errorEmbed({ desc: `Không có quyền truy cập để đọc file [ \`${relativeFilePath}\` ].`, emoji: false }),
         );
       } else {
         return await catchError(interaction, error, this);

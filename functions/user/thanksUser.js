@@ -1,4 +1,4 @@
-const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, GuildMember, Message, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -79,13 +79,13 @@ module.exports = (client) => {
         .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
         .setTitle('💖 Special Thanks!')
         .setDescription(`${author} special thanks to ${target}!`)
-        .setColor('Random')
+        .setColor(Colors.Aqua)
         .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
         .setTimestamp()
         .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
         .addFields(
           { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
-          { name: 'Last thanks:', value: lastThanks, inline: true }
+          { name: 'Last thanks:', value: lastThanks, inline: true },
         );
 
       await object.reply({ embeds: [embed] });

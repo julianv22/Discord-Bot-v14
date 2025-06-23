@@ -106,7 +106,7 @@ module.exports = (client) => {
               desc: `to Discord API: ${chalk.reset(`No data in 'slashArray':`)}`,
               isWarn: true,
             },
-            slashArray
+            slashArray,
           );
       } catch (e) {
         return logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e);

@@ -1,4 +1,4 @@
-const { Message, Client, EmbedBuilder } = require('discord.js');
+const { Message, Client, EmbedBuilder, Colors } = require('discord.js');
 const { infoButtons } = require('../../functions/common/components');
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
           prefix + this.name
         } để xem danh sách các command\n\n${prefix}[tên command] ? để xen hướng dẫn chi tiết của command đó\n\n⤷${
           this.description
-        }`
+        }`,
       );
 
     await message.delete().then(async () => {
@@ -31,16 +31,16 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`Danh sách Prefix Command [\`${prefix}\`]`)
         .setDescription(
-          `Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`
+          `Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`,
         )
-        .setColor('Random')
+        .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.helpPNG)
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
         .addFields(
           { name: `Tổng số command: [${prefixCommands.size}]`, value: `Command prefix: [\`${prefix}\`]` },
           ...listCommands(prefixCommands),
-          { name: `\u200b`, value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command` }
+          { name: `\u200b`, value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command` },
         );
 
       await message.channel.send({ embeds: [embed], components: [infoButtons()] });

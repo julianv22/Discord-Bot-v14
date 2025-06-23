@@ -64,7 +64,7 @@ module.exports = {
           })}**\n\n\\🏦 Số dư còn lại: **${profile.bank.toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND',
-          })}**`
+          })}**`,
         )
         .setColor(Colors.Green)
         .setThumbnail(cfg.economyPNG)
@@ -81,9 +81,9 @@ module.exports = {
           }> trong guild ${guild.name}.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toLocaleString('vi-VN', {
             style: 'currency',
             currency: 'VND',
-          })}**`
+          })}**`,
         )
-        .setColor(Colors.Green)
+        .setColor(Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)
         .setTimestamp()
         .setFooter({
