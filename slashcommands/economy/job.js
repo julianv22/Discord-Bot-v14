@@ -18,7 +18,7 @@ module.exports = {
       let profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
       if (!profile)
         return await interaction.reply(
-          errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁', emoji: false }),
+          errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁', emoji: false })
         );
 
       // Cooldown cố định 6 tiếng
@@ -31,7 +31,7 @@ module.exports = {
           errorEmbed({
             desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
             emoji: false,
-          }),
+          })
         );
       }
 
@@ -52,28 +52,31 @@ module.exports = {
           ? `**${Math.floor(workMinutes / 60)} giờ${workMinutes % 60 ? ` : ${workMinutes % 60} phút` : ''}**`
           : `**${workMinutes} phút**`;
 
-      setTimeout(async () => {
-        let reward = workMinutes;
-        let lucky = Math.random() < 0.25;
-        if (lucky) reward *= 2;
-        await user
-          .send(
-            `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
-              guild.name
-            }**\n\n💰 Bạn đã nhận được **${toCurrency(reward, locale)}**${
-              lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
-            }`,
-          )
-          .catch(console.error);
+      setTimeout(
+        async () => {
+          let reward = workMinutes;
+          let lucky = Math.random() < 0.25;
+          if (lucky) reward *= 2;
+          await user
+            .send(
+              `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
+                guild.name
+              }**\n\n💰 Bạn đã nhận được **${toCurrency(reward, locale)}**${
+                lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
+              }`
+            )
+            .catch(console.error);
 
-        let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
-        if (p) {
-          p.balance += reward;
-          p.totalEarned += reward;
-          p.lastRob = null;
-          await p.save().catch(console.error);
-        }
-      }, workMinutes * 60 * 1000);
+          let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
+          if (p) {
+            p.balance += reward;
+            p.totalEarned += reward;
+            p.lastRob = null;
+            await p.save().catch(console.error);
+          }
+        },
+        workMinutes * 60 * 1000
+      );
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -81,8 +84,8 @@ module.exports = {
         .setDescription(
           `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${toCurrency(
             workMinutes,
-            locale,
-          )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`,
+            locale
+          )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
         )
         .setColor('Random')
         .setThumbnail(cfg.economyPNG)

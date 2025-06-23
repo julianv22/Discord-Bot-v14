@@ -110,7 +110,7 @@ module.exports = (client) => {
           {
             name: `📦 Packages [${Object.keys(package.dependencies).length}]:`,
             value: `\`\`\`yaml\n\n${mapPackages}\`\`\``,
-          },
+          }
         )
         .setTimestamp()
         .setFooter({

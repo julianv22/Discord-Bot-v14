@@ -23,7 +23,7 @@ module.exports = {
         .setCustomId('content')
         .setLabel("Suggest's Content")
         .setRequired(true)
-        .setStyle(TextInputStyle.Paragraph),
+        .setStyle(TextInputStyle.Paragraph)
     );
 
     modal.addComponents(contentInput);

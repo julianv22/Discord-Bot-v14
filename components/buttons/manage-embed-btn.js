@@ -54,7 +54,7 @@ module.exports = {
                 label: 'Author icon (*.webp)',
                 placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
               },
-            ]),
+            ])
           );
         },
         title: async () => {
@@ -66,7 +66,7 @@ module.exports = {
                 placeholder: '{guild} = Server name, {user} = Username',
                 required: true,
               },
-            ]),
+            ])
           );
         },
         description: async () => {
@@ -79,7 +79,7 @@ module.exports = {
                 style: TextInputStyle.Paragraph,
                 required: true,
               },
-            ]),
+            ])
           );
         },
         color: async () => {
@@ -90,7 +90,7 @@ module.exports = {
                 label: 'Color (Empty = Random)',
                 placeholder: Object.keys(Colors).join(',').slice(14, 114),
               },
-            ]),
+            ])
           );
         },
         image: async () => {
@@ -101,7 +101,7 @@ module.exports = {
                 label: 'Image (Empty = Delete)',
                 placeholder: 'Enter the image url, Empty = Delete',
               },
-            ]),
+            ])
           );
         },
         thumbnail: async () => {
@@ -112,7 +112,7 @@ module.exports = {
                 label: 'Thumbnail (Empty = Delete)',
                 placeholder: 'Enter the thumbnail url, Empty = Delete',
               },
-            ]),
+            ])
           );
         },
         footer: async () => {
@@ -128,7 +128,7 @@ module.exports = {
                 label: 'Footer icon (*.webp)',
                 placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
               },
-            ]),
+            ])
           );
         },
         timestamp: async () => {
@@ -157,7 +157,7 @@ module.exports = {
               const msg = await channel.messages.fetch(messageId);
               if (!msg)
                 return await interaction.reply(
-                  errorEmbed({ desc: 'Không tìm thấy message hoặc không ở channel này.', emoji: false }),
+                  errorEmbed({ desc: 'Không tìm thấy message hoặc không ở channel này.', emoji: false })
                 );
 
               await msg.edit({ embeds: [getEmbeds] }).catch(console.error);
@@ -175,7 +175,7 @@ module.exports = {
             const error = 'Error while updating embed message\n';
             console.error(chalk.red(error), e);
             return await interaction.reply(
-              errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink }),
+              errorEmbed({ title: `\\❌ ${error}`, desc: e, color: Colors.DarkVividPink })
             );
           }
         },

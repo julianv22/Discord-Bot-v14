@@ -14,7 +14,7 @@ module.exports = {
         .setDescription('Number of messages (between 1 and 100)')
         .setMinValue(1)
         .setMaxValue(100)
-        .setRequired(true),
+        .setRequired(true)
     )
     .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
   /** - Bulk delete messages
@@ -42,7 +42,7 @@ module.exports = {
 
       await channel.bulkDelete(user ? filtered : actualAmount, user ? null : true);
       return await interaction.reply(
-        errorEmbed({ desc: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true }),
+        errorEmbed({ desc: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true })
       );
     } catch (e) {
       return await catchError(interaction, e, this);

@@ -38,7 +38,7 @@ module.exports = {
     await msg.edit({ embeds: [edit] });
 
     await interaction.reply(
-      errorEmbed({ desc: `Suggestion has been accepted! [[Jump Link](${msg.url}]`, emoji: true }),
+      errorEmbed({ desc: `Suggestion has been accepted! [[Jump Link](${msg.url}]`, emoji: true })
     );
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);

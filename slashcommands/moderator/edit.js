@@ -19,14 +19,14 @@ module.exports = {
       sub
         .setName('embed')
         .setDescription('Edit embed by messageId')
-        .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true)),
+        .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true))
     )
     .addSubcommand((sub) =>
       sub
         .setName('message')
         .setDescription('Edit message by messageId')
         .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true))
-        .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true)),
+        .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true))
     ),
   /** - Create/edit embed or message
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
@@ -48,7 +48,7 @@ module.exports = {
         errorEmbed({
           des: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
           emoji: false,
-        }),
+        })
       );
     });
 
@@ -73,7 +73,7 @@ module.exports = {
             .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
             .setColor('Random')
             .setThumbnail(
-              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png',
+              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png'
             )
             .setTimestamp()
             .setFooter({

@@ -85,7 +85,7 @@ module.exports = (client) => {
         .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
         .addFields(
           { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
-          { name: 'Last thanks:', value: lastThanks, inline: true },
+          { name: 'Last thanks:', value: lastThanks, inline: true }
         );
 
       await object.reply({ embeds: [embed] });

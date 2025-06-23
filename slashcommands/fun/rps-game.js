@@ -17,7 +17,7 @@ module.exports = {
     .setName('rps-game')
     .setDescription('RPS game.')
     .addIntegerOption((opt) =>
-      opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(500).setMaxValue(1000000),
+      opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(500).setMaxValue(1000000)
     ),
   /** - Play RPS game
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
@@ -52,12 +52,12 @@ module.exports = {
       .setDescription(
         `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
           bet,
-          locale,
-        )} bạn đặt cược. Tối đa 10 lần/ngày.`,
+          locale
+        )} bạn đặt cược. Tối đa 10 lần/ngày.`
       )
       .setColor('Random')
       .setImage(
-        'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png',
+        'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png'
       );
 
     await interaction.reply({

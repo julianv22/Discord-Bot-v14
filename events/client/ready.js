@@ -11,7 +11,7 @@ module.exports = {
     const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
     const servers = guilds.cache.map((g) => g);
     const log = (message, color = 'reset') => console.log(chalk[color](message));
-    const table = ({ name, value, nameColor = 'blue', valueColor = 'cyan', tab = 1 }) => {
+    const table = ({ name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 }) => {
       if (typeof name === 'string' && typeof value === 'string')
         return console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
 
@@ -56,7 +56,7 @@ module.exports = {
         ],
         tab: 0,
       });
-      table({ name: '📆 Last update:', value: '01:16 Thứ Hai, 23 tháng 6, 2025' });
+      table({ name: '📆 Last update:', value: '12:17 Thứ Hai, 23 tháng 6, 2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
@@ -66,7 +66,7 @@ module.exports = {
         servers.reduce((servers, g) => {
           servers[g.name] = g.id;
           return servers;
-        }, {}),
+        }, {})
         // guilds.map((g) => ({ [g.name]: g.id })),
       );
 

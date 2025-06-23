@@ -56,18 +56,18 @@ module.exports = {
             desc: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
             emoji: '\\🏆',
             color: Colors.Green,
-          }),
+          })
         );
 
         await interaction.followUp(
-          errorEmbed({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: true }),
+          errorEmbed({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: true })
         );
         // Add Role
         const bot = guild.members.me || (await guild.members.fetch(client.user.id));
         if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
           if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
             return await interaction.followUp(
-              errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false }),
+              errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false })
             );
           }
           if (bot.roles.highest.position <= role.position) {
@@ -75,7 +75,7 @@ module.exports = {
               errorEmbed({
                 desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
                 emoji: false,
-              }),
+              })
             );
           }
         } else await guild.members.cache.get(user.id).roles.add(role);

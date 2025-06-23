@@ -7,7 +7,7 @@ module.exports = {
     .setName('rob')
     .setDescription('Rob 💲 from others (has risk and cooldown)')
     .addUserOption((option) =>
-      option.setName('target').setDescription('The user you want to rob 💲 from').setRequired(true),
+      option.setName('target').setDescription('The user you want to rob 💲 from').setRequired(true)
     ),
   /** - Rob 💲 from others (has risk and cooldown)
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

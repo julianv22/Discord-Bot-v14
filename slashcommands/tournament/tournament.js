@@ -21,22 +21,22 @@ module.exports = {
       sub
         .setName('open')
         .setDescription(`Mở đăng ký giải đấu.\n${cfg.adminRole} only`)
-        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn giải đấu').setRequired(true)),
+        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn giải đấu').setRequired(true))
     )
     .addSubcommand((sub) =>
       sub
         .setName('close')
         .setDescription(`Đóng đăng ký giải đấu.\n${cfg.adminRole} only`)
-        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn giải đấu').setRequired(true)),
+        .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn giải đấu').setRequired(true))
     )
     .addSubcommand((sub) =>
-      sub.setName('list').setDescription(`Danh sách thành viên tham gia giải đấu.\n${cfg.adminRole} only`),
+      sub.setName('list').setDescription(`Danh sách thành viên tham gia giải đấu.\n${cfg.adminRole} only`)
     )
     .addSubcommand((sub) =>
       sub
         .setName('close-all')
         .setDescription(`Huỷ đăng ký của tất cả thành viên trong guild.\n${cfg.adminRole} only`)
-        .addBooleanOption((opt) => opt.setName('confirm').setDescription('Xác nhận').setRequired(true)),
+        .addBooleanOption((opt) => opt.setName('confirm').setDescription('Xác nhận').setRequired(true))
     ),
   /** - Setup giải đấu (open/close/list ds thành viên tham gia)
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
@@ -65,12 +65,12 @@ module.exports = {
               errorEmbed({
                 desc: `Đang có giải đấu \`${tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
                 emoji: false,
-              }),
+              })
             );
 
           if (tournament.status)
             return await interaction.reply(
-              errorEmbed({ desc: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false }),
+              errorEmbed({ desc: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false })
             );
 
           tournament.status = true;
@@ -83,18 +83,18 @@ module.exports = {
               desc: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
               emoji: '🏆',
               color: Colors.Green,
-            }),
+            })
           );
         },
         close: async () => {
           if (tournament.id && getRole.id !== tournament.id)
             return await interaction.reply(
-              errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false }),
+              errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false })
             );
 
           if (!tournament.status)
             return await interaction.reply(
-              errorEmbed({ desc: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false }),
+              errorEmbed({ desc: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false })
             );
 
           tournament.status = false;
@@ -103,7 +103,7 @@ module.exports = {
           await profile.save().catch(console.error);
 
           return await interaction.reply(
-            errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.Green }),
+            errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.Green })
           );
         },
         list: async () => {
@@ -113,7 +113,7 @@ module.exports = {
                 desc: 'Hiện không có giải đấu nào đang diễn ra!',
                 emoji: '🏆',
                 color: Colors.DarkVividPink,
-              }),
+              })
             );
 
           let memberList = await tournamentProfile.find({ guildID: guild.id, status: true }).catch(console.error);
@@ -126,7 +126,7 @@ module.exports = {
 
           // Tạo danh sách thành viên, mỗi dòng 1 người
           const memberLines = memberList.map(
-            (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`,
+            (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`
           );
           const maxDescLength = 4000;
           const embeds = [];
@@ -176,7 +176,7 @@ module.exports = {
                 desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
                 emoji: '❗',
                 color: Colors.Orange,
-              }),
+              })
             );
 
           if (!tourList || tourList.length === 0)
@@ -184,7 +184,7 @@ module.exports = {
               errorEmbed({
                 desc: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!',
                 emoji: false,
-              }),
+              })
             );
 
           for (const tour of tourList) {
@@ -202,7 +202,7 @@ module.exports = {
               desc: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
               emoji: '🏆',
               color: Colors.Green,
-            }),
+            })
           );
         },
       };
@@ -215,7 +215,7 @@ module.exports = {
       return await catchError(
         interaction,
         e,
-        `Error while executing command ${chalk.green(`/tournament ${tourCommand}`)}`,
+        `Error while executing command ${chalk.green(`/tournament ${tourCommand}`)}`
       );
     }
   },

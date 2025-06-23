@@ -46,7 +46,7 @@ module.exports = {
         .addFields(
           { name: 'Welcome channel:', value: welcomeChannel.toString(), inline: true },
           { name: 'Log channel:', value: logChannel.toString(), inline: true },
-          { name: 'Welcome message:', value: welcomeMsg || 'None' },
+          { name: 'Welcome message:', value: welcomeMsg || 'None' }
         );
 
       return await interaction.reply({ embeds: [embed], flags: 64 });

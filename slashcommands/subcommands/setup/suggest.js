@@ -27,7 +27,7 @@ module.exports = {
       await profile.save().catch(console.error);
 
       return await interaction.reply(
-        errorEmbed({ desc: `Channel to send suggestions has been changed to ${channel}!`, emoji: true }),
+        errorEmbed({ desc: `Channel to send suggestions has been changed to ${channel}!`, emoji: true })
       );
     } catch (e) {
       return await catchError(interaction, e, this);

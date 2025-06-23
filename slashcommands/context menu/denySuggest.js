@@ -44,7 +44,7 @@ module.exports = {
         desc: `Suggestion has been denied! [[Jump Link](${msg.url})]`,
         emoji: '\\🚫',
         color: Colors.DarkVividPink,
-      }),
+      })
     );
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);

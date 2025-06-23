@@ -17,7 +17,7 @@ module.exports = {
       return await commandUsage(
         message,
         this,
-        prefix + this.name + ' keyword' + ' | ' + prefix + this.aliases + ' keyword',
+        prefix + this.name + ' keyword' + ' | ' + prefix + this.aliases + ' keyword'
       );
 
     const keyword = args.join(' ');

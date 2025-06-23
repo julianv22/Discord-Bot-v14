@@ -29,7 +29,7 @@ module.exports = {
       .setDescription(
         'Vui lòng tạo role trước khi thêm reaction role!\n\n`🎨Color`: Đặt màu sắc cho embed\n```fix\n' +
           Object.keys(Colors).join(', ') +
-          '```\n`➕Add Role`: Thêm role vào reaction role',
+          '```\n`➕Add Role`: Thêm role vào reaction role'
       )
       .setColor('Random')
       .setTimestamp()

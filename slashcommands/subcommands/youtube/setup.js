@@ -33,7 +33,7 @@ module.exports = {
       const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
       if (!valid) {
         return await interaction.reply(
-          errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!', emoji: false }),
+          errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!', emoji: false })
         );
       }
 
@@ -74,7 +74,7 @@ module.exports = {
             action === 'add' ? 'thêm' : 'xoá'
           } kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** trong danh sách theo dõi của server`,
           emoji: true,
-        }),
+        })
       );
     } catch (e) {
       return await catchError(interaction, e, this);

@@ -25,7 +25,7 @@ module.exports = {
             errorEmbed({
               desc: `Command [\`${prefix + commandName}\`] không chính xác hoặc không tồn tại!`,
               emoji: false,
-            }),
+            })
           )
           .then((m) => {
             setTimeout(async () => {

@@ -41,7 +41,7 @@ module.exports = {
         youtube.channels.map(async (id, idx) => {
           const title = await getChannelTitle(id, process.env.YT_API_KEY);
           return `${idx + 1}. [${title}](https://www.youtube.com/channel/${id}) - \`${id}\``;
-        }),
+        })
       );
 
       const embed = new EmbedBuilder()
@@ -50,7 +50,7 @@ module.exports = {
         .setDescription(channelList.join('\n'))
         .setColor('Random')
         .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png'
         )
         .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
