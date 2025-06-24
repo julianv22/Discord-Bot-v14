@@ -34,16 +34,14 @@ module.exports = {
       // Xác thực channel ID và lấy tên kênh
       const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
       if (!valid) {
-        return await interaction.reply(
-          errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!', emoji: false })
-        );
+        return await interaction.reply(errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!' }));
       }
 
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       const { youtube } = profile;
       if (!profile) {
         if (action === 'remove')
-          return await interaction.reply(errorEmbed({ desc: 'Server chưa có kênh Youtube nào!', emoji: false }));
+          return await interaction.reply(errorEmbed({ desc: 'Server chưa có kênh Youtube nào!' }));
 
         profile = await serverProfile
           .create({ guildID: guild.id, guildName: guild.name, prefix: prefix, youtube: { channels: [yt_channel] } })

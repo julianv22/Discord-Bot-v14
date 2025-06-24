@@ -20,8 +20,7 @@ module.exports = (client) => {
 
     try {
       const member = guild.members.cache.get(target.id);
-      if (!member)
-        return await (interaction || message).reply(errorEmbed({ desc: 'User is not in this server.', emoji: false }));
+      if (!member) return await (interaction || message).reply(errorEmbed({ desc: 'User is not in this server.' }));
 
       const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
       const isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);

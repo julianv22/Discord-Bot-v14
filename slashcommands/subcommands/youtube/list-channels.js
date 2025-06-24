@@ -43,7 +43,7 @@ module.exports = {
       const { youtube } = profile;
 
       if (!profile || youtube.channels.length == 0)
-        return await interaction.reply(errorEmbed({ desc: 'Danh sách kênh Youtube trống!', emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: 'Danh sách kênh Youtube trống!' }));
 
       const channelList = await Promise.all(
         youtube.channels.map(async (id, idx) => {

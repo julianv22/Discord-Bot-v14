@@ -14,7 +14,7 @@ module.exports = {
       if (channel.type === ChannelType.DM) return;
 
       if (!guild) {
-        const reply = errorEmbed({ desc: 'No guild found', emoji: false });
+        const reply = errorEmbed({ desc: 'No guild found' });
         if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
         else await interaction.editReply(reply);
         return;
@@ -24,14 +24,14 @@ module.exports = {
         const command = slashCommands.get(commandName);
 
         if (!command) {
-          const reply = errorEmbed({ desc: `Can not find  command ${commandName}`, emoji: false });
+          const reply = errorEmbed({ desc: `Can not find  command ${commandName}` });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
           return;
         }
 
         if (command.ownerOnly && user.id !== owner.id && user.id !== cfg.ownerID) {
-          const reply = errorEmbed({ desc: 'You are not the owner', emoji: false });
+          const reply = errorEmbed({ desc: 'You are not the owner' });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
           return;

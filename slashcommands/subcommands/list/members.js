@@ -32,7 +32,7 @@ module.exports = {
           ],
         });
       } else {
-        await interaction.reply(errorEmbed({ desc: 'Can not find members or role is incorrect!', emoji: false }));
+        await interaction.reply(errorEmbed({ desc: 'Can not find members or role is incorrect!' }));
       }
     } catch (e) {
       return await catchError(interaction, e, this);

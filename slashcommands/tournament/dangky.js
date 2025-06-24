@@ -19,8 +19,7 @@ module.exports = {
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     const register = profile.tournament.status;
 
-    if (!register)
-      return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
+    if (!register) return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
 
     const roleID = profile?.tournament?.id;
     const role = guild.roles.cache.get(roleID);
@@ -67,7 +66,7 @@ module.exports = {
         if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
           if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
             return await interaction.followUp(
-              errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false })
+              errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` })
             );
           }
           if (bot.roles.highest.position <= role.position) {

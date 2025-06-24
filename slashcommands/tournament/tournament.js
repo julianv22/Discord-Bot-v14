@@ -48,7 +48,7 @@ module.exports = {
     const getRole = options.getRole('ten-giai');
 
     try {
-      if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Bạn chưa chọn role giải đấu!', emoji: false }));
+      if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Bạn chưa chọn role giải đấu!' }));
 
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile)
@@ -69,9 +69,7 @@ module.exports = {
             );
 
           if (tournament.status)
-            return await interaction.reply(
-              errorEmbed({ desc: `Giải \`${tournament.name}\` đang diễn ra rồi!`, emoji: false })
-            );
+            return await interaction.reply(errorEmbed({ desc: `Giải \`${tournament.name}\` đang diễn ra rồi!` }));
 
           tournament.status = true;
           tournament.id = getRole.id;
@@ -88,13 +86,11 @@ module.exports = {
         },
         close: async () => {
           if (tournament.id && getRole.id !== tournament.id)
-            return await interaction.reply(
-              errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\``, emoji: false })
-            );
+            return await interaction.reply(errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\`` }));
 
           if (!tournament.status)
             return await interaction.reply(
-              errorEmbed({ desc: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!`, emoji: false })
+              errorEmbed({ desc: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!` })
             );
 
           tournament.status = false;
@@ -118,7 +114,7 @@ module.exports = {
 
           let memberList = await tournamentProfile.find({ guildID: guild.id, status: true }).catch(console.error);
           if (!memberList || memberList.length === 0)
-            return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: false }));
+            return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
           const role = guild.roles.cache.get(tournament.id);
           const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
@@ -209,7 +205,7 @@ module.exports = {
       };
 
       if (!tourActions[tourCommand]) {
-        await interaction.reply(errorEmbed({ desc: 'Subcommand không hợp lệ!', emoji: false }));
+        await interaction.reply(errorEmbed({ desc: 'Subcommand không hợp lệ!' }));
         throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
       } else await tourActions[tourCommand]();
     } catch (e) {

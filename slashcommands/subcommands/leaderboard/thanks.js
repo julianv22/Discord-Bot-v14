@@ -26,8 +26,7 @@ module.exports = {
         .sort({ thanksCount: -1 })
         .limit(10)
         .catch(console.error);
-      if (!results)
-        return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!', emoji: false }));
+      if (!results) return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!' }));
 
       let thanksList = '';
 

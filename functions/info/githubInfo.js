@@ -15,14 +15,12 @@ module.exports = (client) => {
         .then((res) => res.json())
         .then(async (body) => {
           if (!body || body.message === 'Not Found')
-            return await object
-              .reply(errorEmbed({ desc: 'Can not find user ' + gitUserName, emoji: false }))
-              .then((m) => {
-                if (object.author)
-                  setTimeout(async () => {
-                    await m.delete().catch(console.error);
-                  }, 10 * 1000);
-              });
+            return await object.reply(errorEmbed({ desc: 'Can not find user ' + gitUserName })).then((m) => {
+              if (object.author)
+                setTimeout(async () => {
+                  await m.delete().catch(console.error);
+                }, 10 * 1000);
+            });
 
           let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
             body;

@@ -29,11 +29,10 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     const [targetUser, amount] = [options.getUser('target'), options.getInteger('amount')];
 
-    if (targetUser.bot)
-      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho bot!', emoji: false }));
+    if (targetUser.bot) return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho bot!' }));
 
     if (targetUser.id === user.id)
-      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho chính mình!', emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho chính mình!' }));
 
     try {
       let [profile, targetProfile] = await Promise.all([
@@ -52,7 +51,7 @@ module.exports = {
         );
 
       if (amount > profile.bank)
-        return await interaction.reply(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển!', emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển!' }));
 
       const fee = Math.round(amount * 0.01);
       const total = amount + fee;

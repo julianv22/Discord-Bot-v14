@@ -21,7 +21,7 @@ module.exports = {
     const { errorEmbed, catchError, user: bot } = client;
     const amount = options.getInteger('amount');
 
-    if (amount <= 0) return await interaction.reply(errorEmbed({ desc: 'Số \\💲 gửi phải lớn hơn 0!', emoji: false }));
+    if (amount <= 0) return await interaction.reply(errorEmbed({ desc: 'Số \\💲 gửi phải lớn hơn 0!' }));
 
     try {
       let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);

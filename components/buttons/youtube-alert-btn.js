@@ -32,9 +32,7 @@ module.exports = {
         if (input === 'delete') {
           newEmbed.setDescription('Chưa có YouTube Alert Role nào được thiết lập.');
           await message.edit({ embeds: [newEmbed] });
-          await interaction.followUp(
-            errorEmbed({ desc: `YouTube Alert Role <@${youtube.alert}> đã được xóa`, emoji: false })
-          );
+          await interaction.followUp(errorEmbed({ desc: `YouTube Alert Role <@${youtube.alert}> đã được xóa` }));
           youtube.alert = null;
           await profile.save().catch(console.error);
         } else {
@@ -55,7 +53,7 @@ module.exports = {
 
       collector.on('end', (collected, reason) => {
         if (reason === 'time') {
-          interaction.followUp(errorEmbed({ desc: 'Hết thời gian chờ!', emoji: false }));
+          interaction.followUp(errorEmbed({ desc: 'Hết thời gian chờ!' }));
         }
       });
     } catch (e) {

@@ -50,7 +50,7 @@ module.exports = {
     try {
       const profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
 
-      if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!', emoji: false }));
+      if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!' }));
 
       const db = JSON.stringify(profile, null, 2);
       const bin = await fetch('https://sourceb.in/api/bins', {
@@ -70,10 +70,7 @@ module.exports = {
             }
           })
           .catch(console.error);
-      } else
-        await interaction.editReply(
-          errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!', emoji: false })
-        );
+      } else await interaction.editReply(errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!' }));
     } catch (e) {
       return await catchError(interaction, e, this);
     }

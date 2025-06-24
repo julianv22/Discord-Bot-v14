@@ -111,15 +111,14 @@ module.exports = {
           });
 
           collector.on('end', async (collected, reason) => {
-            if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập', emoji: false }));
+            if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
           });
           return;
         },
         finish: async () => {
           const emojiArray = reactionMap.get(message.id) || [];
 
-          if (emojiArray.length <= 1)
-            return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!', emoji: false }));
+          if (emojiArray.length <= 1) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
 
           const msg = await channel.send({ embeds: [reactionEmbed] });
 

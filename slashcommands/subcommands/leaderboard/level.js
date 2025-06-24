@@ -22,8 +22,7 @@ module.exports = {
     const imgURL = options.getString('image');
 
     try {
-      if (!checkURL(imgURL))
-        return await interaction.reply(errorEmbed({ desc: 'Vui lòng nhập chính xác Image URL', emoji: false }));
+      if (!checkURL(imgURL)) return await interaction.reply(errorEmbed({ desc: 'Vui lòng nhập chính xác Image URL' }));
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })

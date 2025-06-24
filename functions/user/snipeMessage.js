@@ -14,7 +14,7 @@ module.exports = (client) => {
       const snipe = await messageSnipes.get(target ? guildId + target.id : channelId);
 
       if (!snipe)
-        return await object.reply(errorEmbed({ desc: `There is nothing to snipe.`, emoji: false })).then((m) => {
+        return await object.reply(errorEmbed({ desc: `There is nothing to snipe.` })).then((m) => {
           if (object.author)
             setTimeout(async () => {
               await m.delete().catch(console.error);

@@ -22,7 +22,7 @@ module.exports = {
 
     const keyword = args.join(' ');
     if (!keyword)
-      return await message.reply(errorEmbed({ desc: 'Vui lòng nhập từ khóa tìm kiếm!', emoji: false })).then((m) => {
+      return await message.reply(errorEmbed({ desc: 'Vui lòng nhập từ khóa tìm kiếm!' })).then((m) => {
         setTimeout(async () => {
           await m.delete().catch(console.error);
         }, 10000);

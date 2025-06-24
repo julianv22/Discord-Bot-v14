@@ -33,7 +33,7 @@ module.exports = (client) => {
       ];
 
       if (!target)
-        return await object.reply(errorEmbed({ desc: 'You must mention someone!', emoji: false })).then((m) => {
+        return await object.reply(errorEmbed({ desc: 'You must mention someone!' })).then((m) => {
           if (objAuthor)
             setTimeout(async () => {
               await m.delete().catch(console.error);
@@ -41,17 +41,15 @@ module.exports = (client) => {
         });
 
       if (target.user ? target.user.bot : target.bot)
-        return await object
-          .reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝', emoji: false }))
-          .then((m) => {
-            if (objAuthor)
-              setTimeout(async () => {
-                await m.delete().catch(console.error);
-              }, 10000);
-          });
+        return await object.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝' })).then((m) => {
+          if (objAuthor)
+            setTimeout(async () => {
+              await m.delete().catch(console.error);
+            }, 10000);
+        });
 
       if (target.id === author.id)
-        return object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅', emoji: false })).then((m) => {
+        return object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅' })).then((m) => {
           if (objAuthor)
             setTimeout(async () => {
               await m.delete().catch(console.error);

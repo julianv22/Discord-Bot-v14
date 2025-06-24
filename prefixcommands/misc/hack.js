@@ -18,22 +18,22 @@ module.exports = {
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
       return await message
-        .reply(errorEmbed({ desc: 'Phải @ đến nạn nhân để hack 🤣!', emoji: false }))
+        .reply(errorEmbed({ desc: 'Phải @ đến nạn nhân để hack 🤣!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     if (target.id === author.id)
       return await message
-        .reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!', emoji: false }))
+        .reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     if (target.id === guild.ownerId)
       return await message
-        .reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá! 🎭', emoji: false }))
+        .reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá! 🎭' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     if (target.id === cfg.clientID)
       return await message
-        .reply(errorEmbed({ desc: 'Are you sure 🤔', emoji: false }))
+        .reply(errorEmbed({ desc: 'Are you sure 🤔' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
 
     const username = target.displayName || target.user?.tag || target.id,

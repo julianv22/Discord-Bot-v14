@@ -24,7 +24,7 @@ module.exports = {
       let topUsers = await economyProfile.find({ guildID: guildId }).sort({ balance: -1 }).limit(10).lean();
 
       if (!topUsers.length) {
-        return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild!', emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild!' }));
       }
 
       const emojis = ['1️⃣', '2️⃣', '3️⃣'];

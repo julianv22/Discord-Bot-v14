@@ -22,7 +22,7 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
+    if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found' }));
 
     try {
       const editEmbed = {

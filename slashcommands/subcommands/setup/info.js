@@ -23,9 +23,7 @@ module.exports = {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
       if (!profile)
-        return await interaction.reply(
-          errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name, emoji: false })
-        );
+        return await interaction.reply(errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name }));
 
       const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';
       const welcomeMessage = profile?.setup?.welcome?.message || '\\⚠️ `/setup welcome`';

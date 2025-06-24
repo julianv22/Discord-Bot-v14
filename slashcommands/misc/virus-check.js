@@ -117,9 +117,7 @@ module.exports = {
 
         const submitData = await submitRes.json();
         if (!submitData.data || !submitData.data.id) {
-          return await interaction.editReply(
-            errorEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.', emoji: false })
-          );
+          return await interaction.editReply(errorEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.' }));
         }
         scanId = submitData.data.id;
 

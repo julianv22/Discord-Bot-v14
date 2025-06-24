@@ -16,14 +16,13 @@ module.exports = {
     const target = options.getUser('target');
 
     // Validate context
-    if (!target) return await interaction.reply(errorEmbed({ desc: 'Target user not found!', emoji: false }));
-    if (!guild) return await interaction.reply(errorEmbed({ desc: 'Lệnh này chỉ dùng trong server!', emoji: false }));
+    if (!target) return await interaction.reply(errorEmbed({ desc: 'Target user not found!' }));
+    if (!guild) return await interaction.reply(errorEmbed({ desc: 'Lệnh này chỉ dùng trong server!' }));
     if (target.id === user.id)
-      return await interaction.reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!', emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }));
     if (target.id === guild.ownerId)
-      return await interaction.reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá!', emoji: false }));
-    if (target.id === cfg.clientID)
-      return await interaction.reply(errorEmbed({ desc: 'Are you sure 🤔⁉️', emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá!' }));
+    if (target.id === cfg.clientID) return await interaction.reply(errorEmbed({ desc: 'Are you sure 🤔⁉️' }));
 
     const username = target.displayName || target.tag || 'Unknown',
       text = [

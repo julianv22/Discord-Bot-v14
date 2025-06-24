@@ -52,12 +52,11 @@ module.exports = {
     });
 
     if (msg.author.id !== bot.id)
-      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${bot}!`, emoji: false }));
+      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${bot}!` }));
 
     const editMessage = {
       embed: async () => {
-        if (!msg.embeds.length)
-          return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!', emoji: false }));
+        if (!msg.embeds.length) return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!' }));
 
         const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
         const [row1, row2] = embedButtons(messageId);

@@ -16,9 +16,7 @@ module.exports = {
       const response = await fetch('https://meme-api.com/gimme');
       const data = await response.json();
       if (!data || !data.url) {
-        return await interaction.editReply(
-          errorEmbed({ desc: 'Could not fetch meme, please try again later!', emoji: false })
-        );
+        return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme, please try again later!' }));
       }
 
       const embed = new EmbedBuilder()

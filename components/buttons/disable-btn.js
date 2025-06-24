@@ -29,7 +29,7 @@ module.exports = {
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
-      if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!', emoji: false }));
+      if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!' }));
 
       const { starboard, suggest, youtube, welcome } = profile.setup;
       // Confirm Button & Cancel Button

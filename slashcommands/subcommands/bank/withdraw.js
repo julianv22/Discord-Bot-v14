@@ -32,9 +32,7 @@ module.exports = {
         );
 
       if (amount > profile.bank)
-        return await interaction.reply(
-          errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!', emoji: false })
-        );
+        return await interaction.reply(errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!' }));
 
       profile.bank -= amount;
       const fee = Math.floor(amount * 0.01);

@@ -26,7 +26,11 @@ module.exports = {
     // Verified
     if (!options.getBoolean('confirm'))
       return await interaction.reply(
-        errorEmbed({ desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '❗' })
+        errorEmbed({
+          desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
+          emoji: '❗',
+          color: Colors.DarkVividPink,
+        })
       );
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
@@ -46,13 +50,11 @@ module.exports = {
       let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
 
       if (!tourProfile || !tourProfile?.status)
-        return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!`, emoji: false }));
+        return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!` }));
       // Kiểm tra role giải đấu
       const role = guild.roles.cache.get(profile?.tournament?.id);
       if (!role)
-        return await interaction.reply(
-          errorEmbed({ desc: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!', emoji: false })
-        );
+        return await interaction.reply(errorEmbed({ desc: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!' }));
       // Set Tournament's Status
       tourProfile.status = false;
       await tourProfile.save().catch(console.error);
@@ -62,7 +64,7 @@ module.exports = {
       if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
         if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
           return await interaction.followUp(
-            errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!`, emoji: false })
+            errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` })
           );
         }
         if (bot.roles.highest.position <= role.position) {
