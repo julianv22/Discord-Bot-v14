@@ -7,24 +7,19 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { catchError } = client;
     const [, button] = interaction.customId.split(':');
 
-    try {
-      const showContent = {
-        youtube: () => {
-          return `Hãy like, share và subscrible để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`;
-        },
-        server: () => {
-          return `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink;
-        },
-      };
+    const showContent = {
+      youtube: () => {
+        return `Hãy like, share và subscrible để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`;
+      },
+      server: () => {
+        return `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink;
+      },
+    };
 
-      if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+    if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
 
-      return await interaction.reply({ content: showContent[button](), flags: 64 });
-    } catch (e) {
-      return await catchError(interaction, e, this);
-    }
+    return await interaction.reply({ content: showContent[button](), flags: 64 });
   },
 };

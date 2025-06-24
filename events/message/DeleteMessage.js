@@ -16,15 +16,11 @@ module.exports = {
         .catch(console.error);
 
       if (content) {
-        await messageSnipes.set(channelId, { author: author, content: content });
-        await messageSnipes.set(guildId + author.id, {
-          channelId: channelId,
-          author: author,
-          content: content,
-        });
+        await messageSnipes.set(channelId, { author, content });
+        await messageSnipes.set(guildId + author.id, { channelId, author, content });
       }
     } catch (e) {
-      logError({ item: 'snipe message', desc: 'event' }, e);
+      logError({ item: 'sniping delete message', desc: 'event' }, e);
     }
   },
 };

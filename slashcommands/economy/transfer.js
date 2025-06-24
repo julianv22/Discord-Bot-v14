@@ -34,74 +34,69 @@ module.exports = {
     if (targetUser.id === user.id)
       return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho chính mình!' }));
 
-    try {
-      let [profile, targetProfile] = await Promise.all([
-        await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
-        await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
-      ]);
+    let [profile, targetProfile] = await Promise.all([
+      await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
+      await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
+    ]);
 
-      if (!profile || !targetProfile)
-        return await interaction.reply(
-          errorEmbed({
-            desc: !profile
-              ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
-              : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
-            emoji: false,
-          })
-        );
+    if (!profile || !targetProfile)
+      return await interaction.reply(
+        errorEmbed({
+          desc: !profile
+            ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
+            : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
+          emoji: false,
+        })
+      );
 
-      if (amount > profile.bank)
-        return await interaction.reply(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển!' }));
+    if (amount > profile.bank) return await interaction.reply(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển!' }));
 
-      const fee = Math.round(amount * 0.01);
-      const total = amount + fee;
+    const fee = Math.round(amount * 0.01);
+    const total = amount + fee;
 
-      const buttons = [
-        {
-          customId: `transfer-btn:${amount}:${fee}:${targetUser.id}`,
-          label: 'Transfer',
-          style: ButtonStyle.Success,
-        },
-        {
-          customId: 'transfer-btn:cancel',
-          label: 'Cancel',
-          style: ButtonStyle.Danger,
-        },
-      ];
+    const buttons = [
+      {
+        customId: `transfer-btn:${amount}:${fee}:${targetUser.id}`,
+        label: 'Transfer',
+        style: ButtonStyle.Success,
+      },
+      {
+        customId: 'transfer-btn:cancel',
+        label: 'Cancel',
+        style: ButtonStyle.Danger,
+      },
+    ];
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: `${guild.name} Economy Transfer`, iconURL: guild.iconURL(true) })
-        .setTitle(`Hiện có ${toCurrency(profile.bank, locale)} trong tài khoản \\🏦 của bạn`)
-        .setDescription(
-          `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${toCurrency(
-            amount,
-            locale
-          )} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${toCurrency(
-            total,
-            locale
-          )}.\n\n❗ Bạn có muốn tiếp tục?`
-        )
-        .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
-        .setFooter({
-          text: `Requested bye ${user.displayName || user.username}`,
-          iconURL: user.displayAvatarURL(true),
-        });
-
-      return await interaction.reply({
-        embeds: [embed],
-        components: [
-          new ActionRowBuilder().addComponents(
-            buttons.map((data) =>
-              new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style)
-            )
-          ),
-        ],
-        flags: 64,
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: `${guild.name} Economy Transfer`, iconURL: guild.iconURL(true) })
+      .setTitle(`Hiện có ${toCurrency(profile.bank, locale)} trong tài khoản \\🏦 của bạn`)
+      .setDescription(
+        `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${toCurrency(
+          amount,
+          locale
+        )} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${toCurrency(
+          total,
+          locale
+        )}.\n\n❗ Bạn có muốn tiếp tục?`
+      )
+      .setColor(Colors.DarkGold)
+      .setThumbnail(cfg.economyPNG)
+      .setTimestamp()
+      .setFooter({
+        text: `Requested bye ${user.displayName || user.username}`,
+        iconURL: user.displayAvatarURL(true),
       });
-    } catch (e) {
-      return await catchError(interaction, e, this);
-    }
+
+    return await interaction.reply({
+      embeds: [embed],
+      components: [
+        new ActionRowBuilder().addComponents(
+          buttons.map((data) =>
+            new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style)
+          )
+        ),
+      ],
+      flags: 64,
+    });
   },
 };

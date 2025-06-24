@@ -24,11 +24,7 @@ module.exports = {
       const component = envCollection.get(componentKey);
       if (component) await component.execute(interaction, client);
     } catch (e) {
-      return await catchError(
-        interaction,
-        e,
-        `Error while executing ${chalk.green(customId)} interactionCreate event `
-      );
+      return await catchError(interaction, e, `Error while executing ${chalk.green(customId)} component`);
     }
   },
 };

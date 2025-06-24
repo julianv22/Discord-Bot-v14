@@ -21,7 +21,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { errorEmbed } = client;
 
     // Verified
     if (!options.getBoolean('confirm'))
@@ -29,7 +29,7 @@ module.exports = {
         errorEmbed({
           desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
           emoji: '❗',
-          color: Colors.DarkVividPink,
+          color: Colors.Orange,
         })
       );
 
@@ -44,44 +44,37 @@ module.exports = {
           color: Colors.DarkVividPink,
         })
       );
+    // Check Tournament's Status
+    let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
 
-    try {
-      // Check Tournament's Status
-      let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    if (!tourProfile || !tourProfile?.status)
+      return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!` }));
+    // Kiểm tra role giải đấu
+    const role = guild.roles.cache.get(profile?.tournament?.id);
+    if (!role)
+      return await interaction.reply(errorEmbed({ desc: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!' }));
+    // Set Tournament's Status
+    tourProfile.status = false;
+    await tourProfile.save().catch(console.error);
+    // Remove Role
+    const bot = guild.members.me || (await guild.members.fetch(client.user.id));
 
-      if (!tourProfile || !tourProfile?.status)
-        return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!` }));
-      // Kiểm tra role giải đấu
-      const role = guild.roles.cache.get(profile?.tournament?.id);
-      if (!role)
-        return await interaction.reply(errorEmbed({ desc: 'Giải đấu không tồn tại! Vui lòng liên hệ ban quản trị!' }));
-      // Set Tournament's Status
-      tourProfile.status = false;
-      await tourProfile.save().catch(console.error);
-      // Remove Role
-      const bot = guild.members.me || (await guild.members.fetch(client.user.id));
+    if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
+      if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
+        return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` }));
+      }
+      if (bot.roles.highest.position <= role.position) {
+        return await interaction.followUp(
+          errorEmbed({
+            desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`,
+            emoji: false,
+          })
+        );
+      }
+    } else await guild.members.cache.get(user.id).roles.remove(role);
 
-      if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
-        if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
-          return await interaction.followUp(
-            errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` })
-          );
-        }
-        if (bot.roles.highest.position <= role.position) {
-          return await interaction.followUp(
-            errorEmbed({
-              desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`,
-              emoji: false,
-            })
-          );
-        }
-      } else await guild.members.cache.get(user.id).roles.remove(role);
-
-      await interaction.reply(
-        errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.Green })
-      );
-    } catch (e) {
-      return await catchError(interaction, e, this);
-    }
+    await interaction.reply(
+      errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.Green })
+    );
   },
 };

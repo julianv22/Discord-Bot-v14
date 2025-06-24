@@ -17,37 +17,33 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
-    const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed, catchError } = client;
+    const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed } = client;
     const subCommand = options.getSubcommand();
 
-    try {
-      const CommandsType = {
-        commands: async () => {
-          await loadCommands();
-          await loadComponents();
-          return;
-        },
-        events: async () => {
-          return await loadEvents(true);
-        },
-        functions: async () => {
-          return await loadFunctions(true);
-        },
-      };
+    const CommandsType = {
+      commands: async () => {
+        await loadCommands();
+        await loadComponents();
+        return;
+      },
+      events: async () => {
+        return await loadEvents(true);
+      },
+      functions: async () => {
+        return await loadFunctions(true);
+      },
+    };
 
-      if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
+    if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
 
-      await CommandsType[subCommand]();
+    await CommandsType[subCommand]();
 
-      await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
+    await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
 
-      setTimeout(async () => {
-        await interaction.editReply(
-          errorEmbed({ desc: `Successfully reloaded application ${subCommand}!`, emoji: true })
-        );
-      }, 2500);
-    } catch (e) {
-      return await catchError(interaction, e, this);
-    }
+    setTimeout(async () => {
+      await interaction.editReply(
+        errorEmbed({ desc: `Successfully reloaded application ${subCommand}!`, emoji: true })
+      );
+    }, 2500);
   },
 };

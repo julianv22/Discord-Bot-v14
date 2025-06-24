@@ -22,7 +22,6 @@ module.exports = {
    * @param {Client} client Client */
   async execute(interaction, client) {
     const { options, user } = interaction;
-    const { catchError } = client;
     const strPaht = options.getString('path');
     const root = path.resolve(__dirname, '..', '..');
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
@@ -76,31 +75,27 @@ module.exports = {
       return structure;
     };
 
-    try {
-      await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply({ flags: 64 });
 
-      const structure = await directoryStructure(strPaht ? strPaht : root);
+    const structure = await directoryStructure(strPaht ? strPaht : root);
 
-      const embed = new EmbedBuilder()
-        .setColor(0xfed678)
-        .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
-        .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
+    const embed = new EmbedBuilder()
+      .setColor(0xfed678)
+      .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
+      .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
-      await interaction.editReply({ embeds: [embed], flags: 64 });
+    await interaction.editReply({ embeds: [embed], flags: 64 });
 
-      if (structure.length > 4000) {
-        for (let i = 4000; i < structure.length; i += 4000) {
-          const nextEmbed = EmbedBuilder.from(embed);
+    if (structure.length > 4000) {
+      for (let i = 4000; i < structure.length; i += 4000) {
+        const nextEmbed = EmbedBuilder.from(embed);
 
-          nextEmbed.setDescription(`\`\`\`\n${structure.slice(i, i + 4000)}\n\`\`\``);
+        nextEmbed.setDescription(`\`\`\`\n${structure.slice(i, i + 4000)}\n\`\`\``);
 
-          await interaction.followUp({ embeds: [nextEmbed], flags: 64 });
-        }
+        await interaction.followUp({ embeds: [nextEmbed], flags: 64 });
       }
-    } catch (e) {
-      catchError(interaction, e, this);
     }
   },
 };

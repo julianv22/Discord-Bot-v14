@@ -10,27 +10,23 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction */
   async execute(interaction, client) {
     const { options, guild } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { errorEmbed } = client;
     const notifyChannel = options.getChannel('notify-channel');
 
-    try {
-      let profile = await serverProfile.findOne({ guildID: guild.id });
+    let profile = await serverProfile.findOne({ guildID: guild.id });
 
-      if (!profile)
-        profile = await serverProfile
-          .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
-          .catch(console.error);
+    if (!profile)
+      profile = await serverProfile
+        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
+        .catch(console.error);
 
-      if (!profile.youtube) profile.youtube = {};
+    if (!profile.youtube) profile.youtube = {};
 
-      profile.youtube.notifyChannel = notifyChannel.id;
-      await profile.save().catch(console.error);
+    profile.youtube.notifyChannel = notifyChannel.id;
+    await profile.save().catch(console.error);
 
-      return await interaction.reply(
-        errorEmbed({ desc: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`, emoji: true })
-      );
-    } catch (e) {
-      return await catchError(interaction, e, this);
-    }
+    return await interaction.reply(
+      errorEmbed({ desc: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`, emoji: true })
+    );
   },
 };

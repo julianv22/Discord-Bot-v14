@@ -9,29 +9,26 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { errorEmbed } = client;
 
     await interaction.deferReply();
-    try {
-      const response = await fetch('https://meme-api.com/gimme');
-      const data = await response.json();
-      if (!data || !data.url) {
-        return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme, please try again later!' }));
-      }
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTitle(data.title || 'Meme')
-        .setDescription()
-        .setColor('Random')
-        .setImage(data.url)
-        .setFooter({
-          text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${data.subreddit || ''}`,
-        });
-
-      return await interaction.editReply({ embeds: [embed] });
-    } catch (e) {
-      return await catchError(interaction, e, this);
+    const response = await fetch('https://meme-api.com/gimme');
+    const data = await response.json();
+    if (!data || !data.url) {
+      return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme, please try again later!' }));
     }
+
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+      .setTitle(data.title || 'Meme')
+      .setDescription()
+      .setColor('Random')
+      .setImage(data.url)
+      .setFooter({
+        text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${data.subreddit || ''}`,
+      });
+
+    return await interaction.editReply({ embeds: [embed] });
   },
 };

@@ -21,7 +21,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { errorEmbed } = client;
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 
@@ -47,32 +47,28 @@ module.exports = {
         });
       else await interaction.editReply({ embeds: [embed] });
     };
-    try {
-      const profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
 
-      if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!' }));
+    let profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
+    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!' }));
 
-      const db = JSON.stringify(profile, null, 2);
-      const bin = await fetch('https://sourceb.in/api/bins', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          files: [{ content: `${guild.name} **${choice}** database:\n\n${db}` }],
-        }),
-      });
+    const db = JSON.stringify(profile, null, 2);
+    const bin = await fetch('https://sourceb.in/api/bins', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        files: [{ content: `${guild.name} **${choice}** database:\n\n${db}` }],
+      }),
+    });
 
-      if (bin.ok) {
-        const { key } = await bin.json();
-        await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database successfully!`, key)
-          .then(async () => {
-            for (let i = 0; i < db.length; i += 2000) {
-              await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
-            }
-          })
-          .catch(console.error);
-      } else await interaction.editReply(errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!' }));
-    } catch (e) {
-      return await catchError(interaction, e, this);
-    }
+    if (bin.ok) {
+      const { key } = await bin.json();
+      await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database successfully!`, key)
+        .then(async () => {
+          for (let i = 0; i < db.length; i += 2000) {
+            await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
+          }
+        })
+        .catch(console.error);
+    } else await interaction.editReply(errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!' }));
   },
 };
