@@ -68,12 +68,12 @@ module.exports = {
       yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
 
-      const streak = profile.streak || 0;
-      const maxStreak = profile.maxStreak || 0;
-      const lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null;
-      const bonusMsg = '';
-      const resetStreak = false;
-      const prevStreak = streak;
+      let streak = profile.streak || 0;
+      let maxStreak = profile.maxStreak || 0;
+      let lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null;
+      let bonusMsg = '';
+      let resetStreak = false;
+      let prevStreak = streak;
 
       if (lastDaily && lastDaily.getTime() === yesterday.getTime()) {
         streak += 1;
