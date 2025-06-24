@@ -42,7 +42,9 @@ module.exports = (client) => {
 
         const bugEmbed = new EmbedBuilder()
           .setTitle('\\❌ ' + errorMessage().replace(regex, ''))
-          .setDescription(`Error message: \`${e.message || 'Unknown message'}\``)
+          .setDescription(
+            `**Guild:** ${object.guild.name} [ ${object.guild.id} ]\n\n**Channel:** ${object.channel.name} [ ${object.channel.id} ]\n\n**Error Message:** ${e.message}`
+          )
           .setColor(Colors.DarkVividPink)
           .setTimestamp()
           .setFooter({ text: 'Error reports', iconURL: guild.iconURL(true) });
