@@ -10,14 +10,14 @@ module.exports = (client) => {
     const { envCollection, logError } = client;
 
     try {
-      const eventFolder = 'events',
-        eventFolders = readFiles(eventFolder, { isDir: true });
+      const eventFolder = 'events';
+      const eventFolders = readFiles(eventFolder, { isDir: true });
 
-      let eventArray = [],
-        totalCount = 0;
+      let eventArray = [];
+      let totalCount = 0;
       for (const folder of eventFolders) {
-        const folderPath = path.join(eventFolder, folder),
-          eventFiles = readFiles(folderPath);
+        const folderPath = path.join(eventFolder, folder);
+        const eventFiles = readFiles(folderPath);
 
         eventArray.push(`📂 ${capitalize(folder)} [${eventFiles.length}]`);
         totalCount += eventFiles.length;
@@ -48,8 +48,8 @@ module.exports = (client) => {
       if (!reload) {
         await envCollection.set(eventFolder, { name: `${capitalize(eventFolder)} [${totalCount}]`, value: eventArray });
 
-        const functions = envCollection.get('functions'),
-          events = envCollection.get(eventFolder);
+        const functions = envCollection.get('functions');
+        const events = envCollection.get(eventFolder);
 
         if (functions && events)
           logAsciiTable([functions?.value, events?.value], {

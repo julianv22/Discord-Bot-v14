@@ -39,17 +39,17 @@ module.exports = {
       channel: { messages },
     } = interaction;
     const { errorEmbed, user: bot } = client;
-    const editType = options.getSubcommand(),
-      messageId = options.getString('message_id'),
-      content = options.getString('content'),
-      msg = await messages.fetch(messageId).catch(async () => {
-        return await interaction.reply(
-          errorEmbed({
-            des: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
-            emoji: false,
-          })
-        );
-      });
+    const editType = options.getSubcommand();
+    const messageId = options.getString('message_id');
+    const content = options.getString('content');
+    const msg = await messages.fetch(messageId).catch(async () => {
+      return await interaction.reply(
+        errorEmbed({
+          des: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
+          emoji: false,
+        })
+      );
+    });
 
     if (msg.author.id !== bot.id)
       return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${bot}!`, emoji: false }));
@@ -59,8 +59,8 @@ module.exports = {
         if (!msg.embeds.length)
           return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!', emoji: false }));
 
-        const msgEmbed = EmbedBuilder.from(msg.embeds[0]),
-          [row1, row2] = embedButtons(messageId);
+        const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
+        const [row1, row2] = embedButtons(messageId);
 
         return await interaction.reply({ embeds: [msgEmbed], components: [row1, row2], flags: 64 });
       },

@@ -16,6 +16,7 @@ module.exports = {
   scooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
   data: new SlashCommandBuilder()
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('youtube')
     .setDescription(`Set up YouTube (Add/remove follow channels, notify channel). ${cfg.adminRole} only`)
     .addSubcommand((sub) =>
@@ -64,8 +65,8 @@ module.exports = {
       return await interaction.reply(errorEmbed({ desc: 'Refesh successfully!', emoji: true }));
     } else if (subcommand === 'alerts') {
       let profile = await serverProfile.findOne({ guildID: guild.id });
-      const { youtube } = profile,
-        role = guild.roles.cache.get(youtube.alert);
+      const { youtube } = profile;
+      const role = guild.roles.cache.get(youtube.alert);
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

@@ -10,22 +10,22 @@ module.exports = {
   async execute(client) {
     const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
     const servers = guilds.cache.map((g) => g);
-    const log = (message, color = 'reset') => console.log(chalk[color](message)),
-      table = ({ name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 }) => {
-        if (typeof name === 'string' && typeof value === 'string')
-          return console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
+    const log = (message, color = 'reset') => console.log(chalk[color](message));
+    const table = ({ name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 }) => {
+      if (typeof name === 'string' && typeof value === 'string')
+        return console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
 
-        if (Array.isArray(name) && Array.isArray(value)) {
-          const loop = Math.min(name.length, value.length);
-          const logs = [];
-          for (let i = 0; i < loop; i++) {
-            logs.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
-          }
-          return console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
+      if (Array.isArray(name) && Array.isArray(value)) {
+        const loop = Math.min(name.length, value.length);
+        const logs = [];
+        for (let i = 0; i < loop; i++) {
+          logs.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
         }
+        return console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
+      }
 
-        return null;
-      };
+      return null;
+    };
 
     try {
       log(`\n${'-'.repeat(12)}[ Server Statistics ]${'-'.repeat(12)}\n`, 'red');
@@ -56,7 +56,7 @@ module.exports = {
         ],
         tab: 0,
       });
-      table({ name: '📆 Last update:', value: '22:20 Thứ Hai, 23 tháng 6, 2025' });
+      table({ name: '📆 Last update:', value: '12:12 Thứ Ba, 24 tháng 6, 2025 ' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

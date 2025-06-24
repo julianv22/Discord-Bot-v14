@@ -10,11 +10,11 @@ module.exports = (client) => {
   client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;
     const { guild, user, author: objAuthor } = object;
-    const author = user || objAuthor,
-      guildID = guild.id,
-      guildName = guild.name,
-      userID = target.id,
-      usertag = target.tag;
+    const author = user || objAuthor;
+    const guildID = guild.id;
+    const guildName = guild.name;
+    const userID = target.id;
+    const usertag = target.tag;
 
     try {
       const imgURL = [

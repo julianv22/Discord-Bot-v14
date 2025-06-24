@@ -23,9 +23,9 @@ module.exports = {
   async execute(interaction, client) {
     const { options, user } = interaction;
     const { catchError } = client;
-    const strPaht = options.getString('path'),
-      root = path.resolve(__dirname, '..', '..'),
-      ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
+    const strPaht = options.getString('path');
+    const root = path.resolve(__dirname, '..', '..');
+    const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
     const isIgnored = (name, ignorePatterns) => {
       for (const pattern of ignorePatterns) {
@@ -61,9 +61,9 @@ module.exports = {
       for (const file of files) {
         if (isIgnored(file.name, ignorePatterns)) continue;
 
-        const fullPath = path.join(dirPath, file.name),
-          isLast = files.indexOf(file) === files.length - 1,
-          prefix = indent + (isLast ? '└── ' : '├── ');
+        const fullPath = path.join(dirPath, file.name);
+        const isLast = files.indexOf(file) === files.length - 1;
+        const prefix = indent + (isLast ? '└── ' : '├── ');
 
         if (file.isDirectory()) {
           structure += `${prefix}${file.name}/\n`;

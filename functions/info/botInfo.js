@@ -23,19 +23,21 @@ module.exports = (client) => {
     const author = object.user || object.author;
 
     try {
-      const guilds = client.guilds.cache.map((g) => g),
-        totalmembers = guilds.reduce((total, guild) => total + guild.memberCount, 0).toLocaleString(),
-        textChannels = channels.cache.filter((channel) => channel.type === ChannelType.GuildText).size.toLocaleString(),
-        voiceChannels = channels.cache
-          .filter((channel) => channel.type === ChannelType.GuildVoice)
-          .size.toLocaleString(),
-        [status, emoji] = [
-          ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
-          ['`❌', '`✅', '`🔄', '`🆘'],
-        ],
-        mapPackages = Object.entries(package.dependencies)
-          .map(([a, b]) => `${a}: ${b}`)
-          .join('\n');
+      const guilds = client.guilds.cache.map((g) => g);
+      const totalmembers = guilds.reduce((total, guild) => total + guild.memberCount, 0).toLocaleString();
+      const textChannels = channels.cache
+        .filter((channel) => channel.type === ChannelType.GuildText)
+        .size.toLocaleString();
+      const voiceChannels = channels.cache
+        .filter((channel) => channel.type === ChannelType.GuildVoice)
+        .size.toLocaleString();
+      const [status, emoji] = [
+        ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
+        ['`❌', '`✅', '`🔄', '`🆘'],
+      ];
+      const mapPackages = Object.entries(package.dependencies)
+        .map(([a, b]) => `${a}: ${b}`)
+        .join('\n');
 
       await bot.fetch();
       await application.fetch();

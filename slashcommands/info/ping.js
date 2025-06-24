@@ -10,10 +10,10 @@ module.exports = {
   async execute(interaction, client) {
     const { ws, errorEmbed } = client;
     // const sent = await interaction.deferReply({ withResponse: true });
-    const ping = ws.ping,
-      // const delay = sent.createdTimestamp - interaction.createdTimestamp;
-      delay = Math.abs(Date.now()) - interaction.createdTimestamp,
-      color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
+    const ping = ws.ping;
+    // const delay = sent.createdTimestamp - interaction.createdTimestamp;
+    const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
+    const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
     return await interaction.reply(
       errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️', flags: false })

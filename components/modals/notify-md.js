@@ -10,11 +10,11 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
     const { catchError } = client;
-    const notifytype = fields.getTextInputValue('type'),
-      title = fields.getTextInputValue('title'),
-      description = fields.getTextInputValue('description'),
-      imageURL = fields.getTextInputValue('imageURL'),
-      thumbnail = [cfg.thongbaoPNG, cfg.updatePNG];
+    const notifytype = fields.getTextInputValue('type');
+    const title = fields.getTextInputValue('title');
+    const description = fields.getTextInputValue('description');
+    const imageURL = fields.getTextInputValue('imageURL');
+    const thumbnail = [cfg.thongbaoPNG, cfg.updatePNG];
 
     try {
       const embed = new EmbedBuilder()

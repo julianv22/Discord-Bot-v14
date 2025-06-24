@@ -2,6 +2,7 @@ const { Client, Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { listByFilter, logAsciiTable } = require('../common/utilities');
+const { compareCommands } = require('../common/compareCommands');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -34,15 +35,15 @@ module.exports = (client) => {
      * @param {CommandTypeConfig} type Loại command trong commandTypes
      */
     const loadCommands = async (type) => {
-      const ignoreFolders = ['subcommands'],
-        commandFolders = readFiles(type.folder, {
-          isDir: true,
-          function: (folder) => !ignoreFolders.includes(folder),
-        });
+      const ignoreFolders = ['subcommands'];
+      const commandFolders = readFiles(type.folder, {
+        isDir: true,
+        function: (folder) => !ignoreFolders.includes(folder),
+      });
 
       for (const folder of commandFolders) {
-        const folderPath = path.join(type.folder, folder),
-          commandFiles = readFiles(folderPath);
+        const folderPath = path.join(type.folder, folder);
+        const commandFiles = readFiles(folderPath);
 
         for (const file of commandFiles) {
           const filePath = path.join(process.cwd(), folderPath, file);
@@ -57,24 +58,24 @@ module.exports = (client) => {
       await loadCommands(commandTypes.Sub),
     ]);
 
-    const prefixList = listByFilter(prefixCommands),
-      componentList = listByFilter(envCollection, 'type');
+    const prefixList = listByFilter(prefixCommands);
+    const componentList = listByFilter(envCollection, 'type');
     logAsciiTable([prefixList, componentList], {
       title: 'Load Prefix Commands & Components',
       heading: [commandTypes.Prefix.name + ` [${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
     });
 
-    const slashList = listByFilter(slashCommands),
-      subList = listByFilter(subCommands, 'parent');
+    const slashList = listByFilter(slashCommands);
+    const subList = listByFilter(subCommands, 'parent');
     logAsciiTable([slashList, subList], {
       title: 'Load Slash/Sub Commands',
       heading: [commandTypes.Slash.name + ` [${slashCommands.size}]`, commandTypes.Sub.name + ` [${subCommands.size}]`],
     });
 
     (async () => {
-      const token = process.env.token || client.token,
-        clientId = process.env.clientID || cfg.clientID,
-        guildId = '1368536666066649148'; // Guild ID cụ thể cho bot phụ
+      const token = process.env.token || client.token;
+      const clientId = process.env.clientID || cfg.clientID;
+      const guildId = '1368536666066649148'; // Guild ID cụ thể cho bot phụ
 
       if (!token) throw new Error('Không xác định được token của bot');
       if (!clientId) throw new Error('Không xác định được clientId của bot');
@@ -91,8 +92,11 @@ module.exports = (client) => {
       try {
         if (slashArray.length > 0) {
           const rest = new REST({ version: 10 }).setToken(token);
-          let data = [];
 
+          const currentCommands = await rest.get(Routes.applicationGuildCommands(clientId, guildId));
+          compareCommands(currentCommands, slashArray);
+
+          let data = [];
           if (clientId === '995949416273940623')
             data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
           else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });

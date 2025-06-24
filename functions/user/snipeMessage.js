@@ -10,8 +10,8 @@ module.exports = (client) => {
     const user = object.user || object.author;
 
     try {
-      const { guildId, channelId } = object,
-        snipe = await messageSnipes.get(target ? guildId + target.id : channelId);
+      const { guildId, channelId } = object;
+      const snipe = await messageSnipes.get(target ? guildId + target.id : channelId);
 
       if (!snipe)
         return await object.reply(errorEmbed({ desc: `There is nothing to snipe.`, emoji: false })).then((m) => {

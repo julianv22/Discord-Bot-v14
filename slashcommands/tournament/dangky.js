@@ -22,8 +22,8 @@ module.exports = {
     if (!register)
       return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!', emoji: false }));
 
-    const roleID = profile?.tournament?.id,
-      role = guild.roles.cache.get(roleID);
+    const roleID = profile?.tournament?.id;
+    const role = guild.roles.cache.get(roleID);
 
     try {
       if (role) {

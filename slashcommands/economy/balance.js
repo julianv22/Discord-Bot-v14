@@ -24,16 +24,17 @@ module.exports = {
       }
 
       // Lấy thông tin
-      const balance = toCurrency(profile.balance || 0, locale),
-        bank = toCurrency(profile.bank || 0, locale),
-        streak = (profile.streak || 0).toLocaleString(),
-        maxStreak = (profile.maxStreak || 0).toLocaleString(),
-        totalEarned = toCurrency(profile.totalEarned || 0, locale),
-        totalSpent = toCurrency(profile.totalSpent || 0, locale),
-        inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫',
-        achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫',
-        work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)',
-        lastJob = profile.lastJob || new Date();
+      const balance = toCurrency(profile.balance || 0, locale);
+      const bank = toCurrency(profile.bank || 0, locale);
+      const streak = (profile.streak || 0).toLocaleString();
+      const maxStreak = (profile.maxStreak || 0).toLocaleString();
+      const totalEarned = toCurrency(profile.totalEarned || 0, locale);
+      const totalSpent = toCurrency(profile.totalSpent || 0, locale);
+      const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫';
+      const achievements =
+        profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫';
+      const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
+      const lastJob = profile.lastJob || new Date();
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })

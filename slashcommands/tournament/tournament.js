@@ -44,8 +44,8 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed, catchError } = client;
-    const tourCommand = options.getSubcommand(),
-      getRole = options.getRole('ten-giai');
+    const tourCommand = options.getSubcommand();
+    const getRole = options.getRole('ten-giai');
 
     try {
       if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Bạn chưa chọn role giải đấu!', emoji: false }));
@@ -120,15 +120,18 @@ module.exports = {
           if (!memberList || memberList.length === 0)
             return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: false }));
 
-          const role = guild.roles.cache.get(tournament.id),
-            tengiai = `**Tên giải:** ${role || 'Không có tên'}`,
-            // Tạo danh sách thành viên, mỗi dòng 1 người
-            memberLines = memberList.map((member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`),
-            maxDescLength = 4000,
-            embeds = [];
+          const role = guild.roles.cache.get(tournament.id);
+          const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
+          // Tạo danh sách thành viên, mỗi dòng 1 người
+          const memberLines = memberList.map(
+            (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`
+          );
+          const maxDescLength = 4000;
 
-          let page = 0,
-            current = 0;
+          const embeds = [];
+
+          let page = 0;
+          let current = 0;
           while (current < memberLines.length) {
             let desc = '';
             // Nếu là embed đầu tiên, thêm tên giải ở đầu

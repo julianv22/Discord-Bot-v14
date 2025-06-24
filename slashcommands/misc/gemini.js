@@ -15,8 +15,8 @@ module.exports = {
   async execute(interaction, client) {
     const { user } = interaction;
     const { catchError } = client;
-    const chatHistories = new Map(),
-      prompt = interaction.options.getString('prompt');
+    const chatHistories = new Map();
+    const prompt = interaction.options.getString('prompt');
 
     if (!prompt) {
       return await interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', flags: 64 });
@@ -30,14 +30,14 @@ module.exports = {
     try {
       await interaction.deferReply();
       // Import động ESM module
-      const mod = await import('@google/genai'),
-        GoogleGenAI = mod.GoogleGenAI || mod.default,
-        gemini = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY }),
-        contents = history.map((msg) => msg.text).join('\n'),
-        res = await gemini.models.generateContent({
-          model: 'gemini-2.0-flash',
-          contents,
-        });
+      const mod = await import('@google/genai');
+      const GoogleGenAI = mod.GoogleGenAI || mod.default;
+      const gemini = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+      const contents = history.map((msg) => msg.text).join('\n');
+      const res = await gemini.models.generateContent({
+        model: 'gemini-2.0-flash',
+        contents,
+      });
 
       let reply = res?.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(res);
 

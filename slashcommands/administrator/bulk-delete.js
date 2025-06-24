@@ -23,12 +23,12 @@ module.exports = {
   async execute(interaction, client) {
     const { options, channel, user: author } = interaction;
     const { errorEmbed, catchError } = client;
-    const amount = options.getInteger('amount'),
-      user = options.getUser('user');
+    const amount = options.getInteger('amount');
+    const user = options.getUser('user');
 
     try {
-      const messages = await channel.messages.fetch({ limit: amount }),
-        actualAmount = Math.min(messages.size, amount);
+      const messages = await channel.messages.fetch({ limit: amount });
+      const actualAmount = Math.min(messages.size, amount);
 
       let filtered = [];
       if (user) {

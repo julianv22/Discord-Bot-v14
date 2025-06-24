@@ -31,8 +31,8 @@ module.exports = (client) => {
     };
 
     try {
-      const guild = guilds.cache.get(cfg.bugGuildId),
-        channel = guild.channels.cache.get(cfg.bugChannelId);
+      const guild = guilds.cache.get(cfg.bugGuildId);
+      const channel = guild.channels.cache.get(cfg.bugChannelId);
 
       if (!guild) logError({ todo: 'finding error reporting guild with ID:', item: cfg.bugGuildId });
       else if (!channel || channel.type !== ChannelType.GuildText)
@@ -113,9 +113,8 @@ module.exports = (client) => {
    * @param {Error} [e] Error message
    * - Ví dụ: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
-    const color = isWarn ? 'yellow' : 'red',
-      first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
-
+    const color = isWarn ? 'yellow' : 'red';
+    const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
     let second = chalk.green(item);
     second += (item && ' ') + chalk[color](desc);
 

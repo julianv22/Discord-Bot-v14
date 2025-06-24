@@ -24,8 +24,8 @@ module.exports = {
   async execute(interaction, client) {
     const { user, options } = interaction;
     const { userInfo, getAvatar } = client;
-    const subCommand = options.getSubcommand(),
-      target = options.getUser('target') || user;
+    const subCommand = options.getSubcommand();
+    const target = options.getUser('target') || user;
 
     const showInfo = {
       info: async () => {

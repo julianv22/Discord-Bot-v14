@@ -11,9 +11,9 @@ const { reactionButtons } = require('../../functions/common/manage-embed');
 module.exports = {
   category: 'moderator',
   scooldown: 0,
-  permissions: PermissionFlagsBits.ManageRoles,
+  permissions: [PermissionFlagsBits.ManageRoles, PermissionFlagsBits.ManageMessages],
   data: new SlashCommandBuilder()
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.ManageMessages)
     .setName('reaction')
     .setDescription(`Create reaction role. ${cfg.modRole} only`)
     .addSubcommand((sub) => sub.setName('role').setDescription('Reaction role')),

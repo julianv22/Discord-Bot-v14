@@ -26,8 +26,8 @@ module.exports = {
         if (!profile) return;
         const { youtube } = profile;
 
-        const originalEmbed = message.embeds[0],
-          newEmbed = EmbedBuilder.from(originalEmbed);
+        const originalEmbed = message.embeds[0];
+        const newEmbed = EmbedBuilder.from(originalEmbed);
 
         if (input === 'delete') {
           newEmbed.setDescription('Chưa có YouTube Alert Role nào được thiết lập.');
@@ -38,8 +38,8 @@ module.exports = {
           youtube.alert = null;
           await profile.save().catch(console.error);
         } else {
-          const roleId = input.replace(/<@&(\d+)>/, '$1'),
-            role = guild.roles.cache.get(roleId); // Extract role ID from mention
+          const roleId = input.replace(/<@&(\d+)>/, '$1');
+          const role = guild.roles.cache.get(roleId); // Extract role ID from mention
 
           if (role) {
             youtube.alert = role.id;

@@ -13,8 +13,8 @@ module.exports = (client) => {
 
         if (!res.ok) return null;
 
-        const xml = await res.text(),
-          match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+        const xml = await res.text();
+        const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
 
         return match ? match[1] : null;
       } catch (e) {
@@ -24,22 +24,26 @@ module.exports = (client) => {
     };
 
     try {
-      const count = guilds.cache.map((g) => g).length,
-        videoId = (await lastestVideo('UC8QPaA8hLDhroGdBtAImmbQ')) || cfg.youtube,
-        url = 'https://www.youtube.com/watch?v=' + videoId,
-        [ActivityTypes, status] = [
-          [
-            ActivityType.Playing,
-            ActivityType.Streaming,
-            ActivityType.Listening,
-            ActivityType.Watching,
-            ActivityType.Competing,
-          ],
-          ['online', 'dnd', 'idle'],
+      const count = guilds.cache.map((g) => g).length;
+      const videoId = (await lastestVideo('UC8QPaA8hLDhroGdBtAImmbQ')) || cfg.youtube;
+      const url = 'https://www.youtube.com/watch?v=' + videoId;
+      const [ActivityTypes, status] = [
+        [
+          ActivityType.Playing,
+          ActivityType.Streaming,
+          ActivityType.Listening,
+          ActivityType.Watching,
+          ActivityType.Competing,
         ],
-        typeIdx = Math.floor(Math.random() * ActivityTypes.length),
-        statsIdx = Math.floor(Math.random() * status.length),
-        activities = { name: `/help in ${count} server${count > 1 ? 's' : ''}`, type: ActivityTypes[typeIdx], url };
+        ['online', 'dnd', 'idle'],
+      ];
+      const typeIdx = Math.floor(Math.random() * ActivityTypes.length);
+      const statsIdx = Math.floor(Math.random() * status.length);
+      const activities = {
+        name: `/help in ${count} server${count > 1 ? 's' : ''}`,
+        type: ActivityTypes[typeIdx],
+        url,
+      };
 
       user.setPresence({ activities: [activities], status: status[statsIdx] });
     } catch (e) {

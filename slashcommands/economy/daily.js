@@ -54,10 +54,10 @@ module.exports = {
 
       // Số \\💲 daily, random từ 500 tới 1000, ưu tiên gần 1000
       // Sử dụng phân phối bình phương để tăng xác suất số lớn
-      const min = 500,
-        max = 1000,
-        rand = Math.random(),
-        dailyAmount = Math.floor((max - min + 1) * Math.pow(rand, 0.5) + min); // sqrt bias
+      const min = 500;
+      const max = 1000;
+      const rand = Math.random();
+      const dailyAmount = Math.floor((max - min + 1) * Math.pow(rand, 0.5) + min); // sqrt bias
 
       profile.balance += dailyAmount;
       profile.totalEarned += dailyAmount;
@@ -67,12 +67,13 @@ module.exports = {
       const yesterday = new Date();
       yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
-      let streak = profile.streak || 0,
-        maxStreak = profile.maxStreak || 0,
-        lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null,
-        bonusMsg = '',
-        resetStreak = false,
-        prevStreak = streak;
+
+      const streak = profile.streak || 0;
+      const maxStreak = profile.maxStreak || 0;
+      const lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null;
+      const bonusMsg = '';
+      const resetStreak = false;
+      const prevStreak = streak;
 
       if (lastDaily && lastDaily.getTime() === yesterday.getTime()) {
         streak += 1;
@@ -86,8 +87,8 @@ module.exports = {
       if (streak > maxStreak) maxStreak = streak;
 
       // Đọc achievements từ file JSON
-      const achvs = achievementsConfig.streak,
-        streakMilestones = Object.keys(achvs).map(Number);
+      const achvs = achievementsConfig.streak;
+      const streakMilestones = Object.keys(achvs).map(Number);
 
       let achievementMsg = '';
       if (streakMilestones.includes(streak)) {

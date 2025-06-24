@@ -19,21 +19,21 @@ module.exports = {
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name === '⭐') {
         // Đếm lại số lượng reaction "⭐" trên message
-        const fetchedMsg = await message.fetch(),
-          starReaction = fetchedMsg.reactions.cache.get('⭐'),
-          count = starReaction ? starReaction.count : 0;
+        const fetchedMsg = await message.fetch();
+        const starReaction = fetchedMsg.reactions.cache.get('⭐');
+        const count = starReaction ? starReaction.count : 0;
 
         // Nếu số lượng ⭐ < starCount, xoá message trên starboard
         if (count < starboard.star) {
-          const guild = message.guild,
-            starboardChannel = guild.channels.cache.get(starboard.channel);
+          const guild = message.guild;
+          const starboardChannel = guild.channels.cache.get(starboard.channel);
 
           if (!starboardChannel) return;
 
           // Xoá message starboard dựa vào messageId đã lưu (dạng object: { id, lastTime })
           if (starboard.messages && starboard.messages[message.id] && starboard.messages[message.id].id) {
-            const starMsgId = starboard.messages[message.id].id,
-              starMsg = await starboardChannel.messages.fetch(starMsgId).catch(console.error);
+            const starMsgId = starboard.messages[message.id].id;
+            const starMsg = await starboardChannel.messages.fetch(starMsgId).catch(console.error);
 
             if (starMsg) await starMsg.delete().catch(console.error);
             // Xoá mapping khỏi profile
@@ -41,8 +41,8 @@ module.exports = {
             await profile.save().catch(console.error);
           } else {
             // Nếu không lưu, fallback: tìm bằng nội dung như cũ
-            const fetched = await starboardChannel.messages.fetch({ limit: 100 }),
-              starMsg = fetched.find((m) => m.embeds.length > 0 && m.embeds[0]?.description === message.content);
+            const fetched = await starboardChannel.messages.fetch({ limit: 100 });
+            const starMsg = fetched.find((m) => m.embeds.length > 0 && m.embeds[0]?.description === message.content);
             if (starMsg) await starMsg.delete().catch(console.error);
           }
         }

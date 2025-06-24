@@ -23,8 +23,8 @@ module.exports = (client) => {
       if (!member)
         return await (interaction || message).reply(errorEmbed({ desc: 'User is not in this server.', emoji: false }));
 
-      const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator),
-        isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);
+      const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
+      const isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);
 
       // Acknowledgements
       let acknowledgements = '';

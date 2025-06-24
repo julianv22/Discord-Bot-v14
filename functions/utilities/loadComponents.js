@@ -13,8 +13,8 @@ module.exports = (client) => {
       const componentFolders = readFiles(compFolder, { isDir: true });
 
       for (const folder of componentFolders) {
-        const folderPath = path.join(compFolder, folder),
-          componentFiles = readFiles(folderPath);
+        const folderPath = path.join(compFolder, folder);
+        const componentFiles = readFiles(folderPath);
 
         for (const file of componentFiles) {
           const filePath = path.join(process.cwd(), compFolder, folder, file);

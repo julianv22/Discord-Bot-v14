@@ -15,9 +15,9 @@ module.exports = {
     const { commandUsage, errorEmbed, ws } = client;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
-    const ping = ws.ping,
-      delay = Math.abs(Date.now() - message.createdTimestamp),
-      color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
+    const ping = ws.ping;
+    const delay = Math.abs(Date.now() - message.createdTimestamp);
+    const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
     return await message.reply(errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }));
   },

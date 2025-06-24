@@ -21,9 +21,9 @@ module.exports = {
     const { customId, message, channel } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, messageId] = customId.split(':');
-    const getEmbeds = EmbedBuilder.from(message.embeds[0]),
-      Button0 = ActionRowBuilder.from(message.components[0]),
-      Button1 = ActionRowBuilder.from(message.components[1]);
+    const getEmbeds = EmbedBuilder.from(message.embeds[0]);
+    const Button0 = ActionRowBuilder.from(message.components[0]);
+    const Button1 = ActionRowBuilder.from(message.components[1]);
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
     /**

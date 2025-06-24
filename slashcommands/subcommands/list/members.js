@@ -12,13 +12,13 @@ module.exports = {
   async execute(interaction, client) {
     const { options } = interaction;
     const { errorEmbed, catchError } = client;
-    const role = options.getRole('role'),
-      title = options.getString('title') || `Danh sách thành viên ${role}`,
-      isMention = options.getBoolean('mention'),
-      inline = options.getBoolean('inline'),
-      members = isMention
-        ? role.members.map((m) => m.user)
-        : role.members.map((m) => m.user.displayName || m.user.username);
+    const role = options.getRole('role');
+    const title = options.getString('title') || `Danh sách thành viên ${role}`;
+    const isMention = options.getBoolean('mention');
+    const inline = options.getBoolean('inline');
+    const members = isMention
+      ? role.members.map((m) => m.user)
+      : role.members.map((m) => m.user.displayName || m.user.username);
 
     try {
       if (members.length > 0) {

@@ -35,13 +35,13 @@ module.exports = (client) => {
         const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // Thống kê số thành viên theo memberRole
         const botRole = guild.roles.cache.get(statistics?.botRole).name; // Lấy role của bot
         */
-        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(), // Thống kê  số thành viên không phải là bot trong server
-          botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString(), // Đếm số bot trong server
-          statsChannels = [
-            { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
-            { id: statistics?.memberChannel, name: `🤵〔Members〕: ${memberCount}` },
-            { id: statistics?.botChannel, name: `🎯〔Bots〕: ${botCount}` },
-          ];
+        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // Thống kê  số thành viên không phải là bot trong server
+        const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString(); // Đếm số bot trong server
+        const statsChannels = [
+          { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
+          { id: statistics?.memberChannel, name: `🤵〔Members〕: ${memberCount}` },
+          { id: statistics?.botChannel, name: `🎯〔Bots〕: ${botCount}` },
+        ];
 
         for (const channel of statsChannels) setChannelName(channel.id, channel.name);
       } catch (e) {

@@ -18,10 +18,10 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { serverStats, catchError } = client;
-    const totalChannel = options.getChannel('total-count-channel'),
-      memberChannel = options.getChannel('member-count-channel'),
-      botChannel = options.getChannel('bot-count-channel'),
-      presenceChannel = options.getChannel('presence-count-channel');
+    const totalChannel = options.getChannel('total-count-channel');
+    const memberChannel = options.getChannel('member-count-channel');
+    const botChannel = options.getChannel('bot-count-channel');
+    const presenceChannel = options.getChannel('presence-count-channel');
 
     try {
       let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);

@@ -11,24 +11,24 @@ module.exports = {
     const { customId, fields, message, user, guild } = interaction;
     const { catchError } = client;
     const [, input] = customId.split(':');
-    const strInput = fields.getTextInputValue(input),
-      embed = EmbedBuilder.from(message.embeds[0]),
-      Button0 = ActionRowBuilder.from(message.components[0]),
-      Button1 = ActionRowBuilder.from(message.components[1]),
-      replaceKey = {
-        user: user.displayName || user.username,
-        guild: guild.name,
-        iconURL: guild.iconURL(),
-        avatar: user.avatarURL(),
-      };
+    const strInput = fields.getTextInputValue(input);
+    const embed = EmbedBuilder.from(message.embeds[0]);
+    const Button0 = ActionRowBuilder.from(message.components[0]);
+    const Button1 = ActionRowBuilder.from(message.components[1]);
+    const replaceKey = {
+      user: user.displayName || user.username,
+      guild: guild.name,
+      iconURL: guild.iconURL(),
+      avatar: user.avatarURL(),
+    };
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found', emoji: false }));
 
     try {
       const editEmbed = {
         author: () => {
-          const authorIcon = fields.getTextInputValue('authorIcon'),
-            iconURL = replaceVar(authorIcon, replaceKey);
+          const authorIcon = fields.getTextInputValue('authorIcon');
+          const iconURL = replaceVar(authorIcon, replaceKey);
 
           return embed.setAuthor({
             name: replaceVar(strInput.length > 256 ? strInput.slice(0, 256) : strInput, replaceKey) || null,
@@ -53,8 +53,8 @@ module.exports = {
           return embed.setThumbnail(strInput && checkURL(strInput) ? strInput : null);
         },
         footer: async () => {
-          const footerIcon = fields.getTextInputValue('footerIcon'),
-            iconUrl = replaceVar(footerIcon, replaceKey);
+          const footerIcon = fields.getTextInputValue('footerIcon');
+          const iconUrl = replaceVar(footerIcon, replaceKey);
 
           return embed.setFooter({
             text: replaceVar(strInput.length > 2048 ? strInput.slice(0, 2048) : strInput, replaceKey) || null,
