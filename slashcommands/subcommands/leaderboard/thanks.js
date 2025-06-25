@@ -20,22 +20,23 @@ module.exports = {
     const { errorEmbed } = client;
     const time = options.getString('time');
 
-    let results = await thanksProfile
+    let topUsers = await thanksProfile
       .find({ guildID: guild.id })
       .sort({ thanksCount: -1 })
       .limit(10)
       .catch(console.error);
-    if (!results) return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!' }));
+    if (!topUsers || !topUsers.length)
+      return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!' }));
 
-    let thanksList = '';
+    const emojis = ['1️⃣', '2️⃣', '3️⃣'];
+    const thanksList = topUsers
+      .map((thanks, i) => {
+        const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
+        const { thanksCount: count, userID } = thanks;
 
-    for (let i = 0; i < results.length; i++) {
-      const { userID, thanksCount } = results[i];
-      const emojis = ['1️⃣', '2️⃣', '3️⃣'];
-
-      thanksList += `${i < 3 ? emojis[i] : `**${i + 1}.**`} <@${userID}> `;
-      thanksList += `with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}\n\n`;
-    }
+        return rank + `<@${userID}> with ${count} thank${count > 1 ? 's' : ''}`;
+      })
+      .join('\n\n');
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })

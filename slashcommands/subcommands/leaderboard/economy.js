@@ -6,6 +6,7 @@ const {
   Colors,
 } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
+const { toCurrency } = require('../../../functions/common/utilities');
 
 module.exports = {
   category: 'sub command',
@@ -16,25 +17,25 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, guildId } = interaction;
+    const { user, guild, locale } = interaction;
     const { errorEmbed } = client;
 
     // Lấy top 10 user theo balance
-    let topUsers = await economyProfile.find({ guildID: guildId }).sort({ balance: -1 }).limit(10).lean();
+    let topUsers = await economyProfile.find({ guildID: guild.id }).sort({ balance: -1 }).limit(10).lean();
 
-    if (!topUsers.length) {
+    if (!topUsers || !topUsers.length)
       return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild!' }));
-    }
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const leaderboard = topUsers
       .map((user, i) => {
         const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
-        return `${rank} <@${
-          user.userID
-        }> \\💰: ${user.balance.toLocaleString()}\\💲 | \\🏦: ${user.bank.toLocaleString()}\\💲`;
+        return `${rank} <@${user.userID}> \\💰: ${toCurrency(user.balance, locale)} | \\🏦: ${toCurrency(
+          user.bank,
+          locale
+        )}`;
       })
-      .join('\n');
+      .join('\n\n');
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })

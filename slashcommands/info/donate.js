@@ -11,7 +11,7 @@ module.exports = {
     const { user } = interaction;
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: 'Donate for Julian-V', iconURL: thumbnail.url, url: cfg.youtube })
+      .setAuthor({ name: 'Donate for Julian-V', iconURL: cfg.thumbnailURL, url: cfg.youtube })
       .setTitle('Thanks for donating!')
       .setDescription('Payment methods:')
       .setColor(Colors.Navy)
