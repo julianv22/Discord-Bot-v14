@@ -35,7 +35,7 @@ mongoose
   .then(() => {
     console.log(chalk.green.bold('✅ Connected to mongodb'));
 
-    require('./functions/help/catchError')(client); // Đăng ký function catchError vào client
+    require('./functions/misc/catchError')(client); // Đăng ký function catchError vào client
     require('./functions/common/utilities').init(client); // Đăng ký và truyền client vào ultilities
     require('./functions/loadFunctions')(client); // Đăng ký function loadFunctions vào client
 

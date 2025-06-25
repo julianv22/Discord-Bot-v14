@@ -49,7 +49,7 @@ module.exports = (client) => {
           )
           .setColor(Colors.DarkVividPink)
           .setTimestamp()
-          .setFooter({ text: 'Error reports', iconURL: guild.iconURL(true) });
+          .setFooter({ text: 'Error reports', iconURL: object.guild.iconURL(true) });
 
         if (e.stack)
           bugEmbed.addFields({ name: 'Stack:', value: '```ansi\n\x1b[33m' + (e.stack || 'undefined') + '\x1b[0m```' });
@@ -77,39 +77,15 @@ module.exports = (client) => {
       console.error(chalk.red('An error occurred while sending the report to the error channel log\n'), e);
     }
   };
-  /** - Tạo một embed thông báo lỗi.
-   * @param {object} options - Các tùy chọn cho embed lỗi.
-   * @param {string} options.title - Tiêu đề của error embed.
-   * @param {string} options.description - Mô tả chi tiết về lỗi.
-   * @param {boolean|string} options.emoji - Emoji để thêm vào tiêu đề hoặc mô tả.
-   * @param {boolean} [options.flags] - Cờ (flags) để xác định hành vi của embed (ví dụ: ephemeral). Mặc định là `true`.
-   * @param {string} [options.color] - Màu sắc của embed.
-   * @returns {EmbedBuilder} EmbedBuilder */
-  client.errorEmbed = ({ title, desc, emoji = false, flags = true, color }) => {
-    const embed = new EmbedBuilder();
 
-    let prefix = '\\';
-    if (typeof emoji === 'boolean') prefix += emoji ? '✅' : '❌';
-    else prefix += emoji;
-    prefix += ' ';
-
-    embed.setColor(color ? color : emoji ? Colors.Green : Colors.Red);
-
-    if (title) embed.setTitle(prefix + title.replace(regex, ''));
-
-    const description = title ? `\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\`` : prefix + desc;
-    embed.setDescription(description);
-
-    return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
-  };
-  /** - Gửi `console.error` hoặc `console.warn`
+  /** - Send `console.error` or `console.warn`
    * @param {object} options Log options
-   * @param {string} [options.todo]  Lỗi khi đang làm gì (executing)
-   * @param {string} [options.item]  Đối tượng tương tác
-   * @param {string} [options.desc] Mô tả lỗi
+   * @param {string} [options.todo]  Error when (ex: When executing)
+   * @param {string} [options.item] Highlight
+   * @param {string} [options.desc] Description
    * @param {boolean} [options.isWarn] isWarn = false: `console.warn`, isWarn = true: `console.error`
    * @param {Error} [e] Error message
-   * - Ví dụ: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
+   * - Ex: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
