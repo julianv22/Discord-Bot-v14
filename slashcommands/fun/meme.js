@@ -15,17 +15,18 @@ module.exports = {
 
     const response = await fetch('https://meme-api.com/gimme');
     const data = await response.json();
+
     if (!data || !data.url) {
       return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme, please try again later!' }));
     }
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+      .setAuthor({ name: 'Meme' + (data.author && ` by ${data.author}`), url: data.postLink })
       .setTitle(data.title || 'Meme')
       .setColor('Random')
       .setImage(data.url)
       .setFooter({
-        text: `👍 Upvotes: ${data.ups ?? 0} | 💬 Comments: ${data.num_comments ?? 0} | 🗨️ r/${data.subreddit || ''}`,
+        text: `👍 Upvotes: ${data.ups.toLocaleString() ?? 0} | 🗨️ r/${data.subreddit || ''}`,
       });
 
     return await interaction.editReply({ embeds: [embed] });
