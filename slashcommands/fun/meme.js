@@ -22,7 +22,6 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setAuthor({ name: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTitle(data.title || 'Meme')
-      .setDescription()
       .setColor('Random')
       .setImage(data.url)
       .setFooter({

@@ -41,7 +41,11 @@ module.exports = (client) => {
         const bugEmbed = new EmbedBuilder()
           .setTitle('\\❌ ' + errorMessage().replace(regex, ''))
           .setDescription(
-            `**Guild:** ${object.guild.name} [ \`${object.guild.id}\` ]\n\n**Channel:** ${object.channel.name} [ \`${object.channel.id}\` ]`
+            `**Used:** ${object.user.displayName || object.author.displayName} [ \`${
+              object.user.id || object.author.id
+            }\` ]\n\n**Guild: [${object.guild.name}](https://discord.com/channels/${object.guild.id}) \n\nChannel: [# ${
+              object.channel.name
+            }](https://discord.com/channels/${object.guild.id}/${object.channel.id})**`
           )
           .setColor(Colors.DarkVividPink)
           .setTimestamp()
