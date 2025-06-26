@@ -90,7 +90,7 @@ module.exports = (client) => {
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
-        .setColor(isSuccess ? Colors.Green : Colors.DarkVividPink)
+        .setColor(isSuccess ? Colors.DarkGreen : Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)
         .setTimestamp()
         .setFooter({

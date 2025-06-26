@@ -74,7 +74,7 @@ module.exports = {
     } else await guild.members.cache.get(user.id).roles.remove(role);
 
     await interaction.reply(
-      errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.Green })
+      errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.DarkGreen })
     );
   },
 };

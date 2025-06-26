@@ -53,7 +53,7 @@ module.exports = {
         errorEmbed({
           desc: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
           emoji: '\\🏆',
-          color: Colors.Green,
+          color: Colors.DarkGreen,
         })
       );
 

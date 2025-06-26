@@ -1,7 +1,8 @@
-const { Client, EmbedBuilder, Colors } = require('discord.js');
+const { Client, EmbedBuilder, Colors, MessageFlags } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
+  const regex = /\x1b\[[0-9;]*m/g;
   /** - Tạo một embed thông báo lỗi.
    * @param {object} options - Các tùy chọn cho embed lỗi.
    * @param {string} options.title - Tiêu đề của error embed.

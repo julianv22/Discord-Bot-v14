@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { SlashCommandBuilder, Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
 const { toCurrency } = require('../../functions/common/utilities');
@@ -123,25 +123,20 @@ module.exports = {
         )
         .catch(console.error);
 
-    return await interaction.reply({
-      embeds: [
-        {
-          author: { name: guild.name, iconURL: guild.iconURL(true) },
-          title: 'Nhận \\💲 hằng ngày!',
-          description: `Bạn đã nhận thành công **${toCurrency(
-            dailyAmount,
-            locale
-          )}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
-            profile.balance,
-            locale
-          )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`,
-          color: Math.floor(Math.random() * 0xffffff),
-          thumbnail: { url: cfg.economyPNG },
-          timestamp: new Date(),
-          footer: { text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() },
-        },
-      ],
-      flags: 64,
-    });
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setTitle('Nhận \\💲 hằng ngày!')
+      .setDescription(
+        `Bạn đã nhận thành công **${toCurrency(dailyAmount, locale)}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
+          profile.balance,
+          locale
+        )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
+      )
+      .setColor(Colors.DarkGreen)
+      .setThumbnail(cfg.economyPNG)
+      .setTimestamp()
+      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() });
+
+    return await interaction.reply({ embeds: [embed], flags: 64 });
   },
 };

@@ -87,7 +87,7 @@ module.exports = {
           locale
         )}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
       )
-      .setColor(Colors.DarkGold)
+      .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)
       .setTimestamp()
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() });

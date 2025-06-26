@@ -34,7 +34,7 @@ module.exports = {
         errorEmbed({
           title: '\\✅ Loaded file successfully!',
           desc: 'Đọc nội dung file [ `' + relativeFilePath + '` ] thành công:',
-          color: Colors.Green,
+          color: Colors.DarkGreen,
         })
       );
 

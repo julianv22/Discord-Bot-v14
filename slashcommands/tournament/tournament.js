@@ -77,7 +77,7 @@ module.exports = {
           errorEmbed({
             desc: `Đã mở đăng ký giải đấu ${getRole} thành công!`,
             emoji: '🏆',
-            color: Colors.Green,
+            color: Colors.DarkGreen,
           })
         );
       },
@@ -96,7 +96,7 @@ module.exports = {
         await profile.save().catch(console.error);
 
         return await interaction.reply(
-          errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.Green })
+          errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.DarkGreen })
         );
       },
       list: async () => {
@@ -195,7 +195,7 @@ module.exports = {
           errorEmbed({
             desc: 'Đã huỷ toàn bộ giải đấu và đăng ký của tất cả thành viên!',
             emoji: '🏆',
-            color: Colors.Green,
+            color: Colors.DarkGreen,
           })
         );
       },

@@ -53,7 +53,7 @@ module.exports = {
           locale
         )}**`
       )
-      .setColor(Colors.Green)
+      .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)
       .setTimestamp()
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
@@ -67,7 +67,7 @@ module.exports = {
           guild.name
         }.\n\n\\🏦 Số dư mới: **${toCurrency(targetProfile.bank, locale)}**`
       )
-      .setColor(Colors.DarkGold)
+      .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)
       .setTimestamp()
       .setFooter({
