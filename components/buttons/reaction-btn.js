@@ -48,8 +48,15 @@ module.exports = {
         const emojiArray = reactionMap.get(message.id);
 
         await interaction.update({
-          content:
-            'Vui lòng nhập **emoji và tên role** theo định dạng `emoji | @tên_role` (ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`).\nBạn có 5 phút để nhập. Để kết thúc nhập `Done`',
+          embeds: [
+            reactionEmbed.addFields(
+              {
+                name: 'Vui lòng nhập **emoji và tên role** theo định dạng `emoji | @tên_role`',
+                value: 'ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`',
+              },
+              { name: 'Bạn có 5 phút để nhập', value: 'Để kết thúc nhập `Done`' }
+            ),
+          ],
         });
 
         const filter = (m) => m.author.id === user.id && m.channel.id === channel.id;
@@ -60,6 +67,10 @@ module.exports = {
           if (m && m.deletable) await m.delete().catch(console.error);
           if (input === 'done') {
             collector.stop('finish');
+            reactionEmbed.setFields([]);
+
+            await interaction.editReply({ embeds: [reactionEmbed] });
+
             return interaction.followUp(errorEmbed({ desc: 'Kết thúc thêm reaction role!', emoji: true }));
           }
 

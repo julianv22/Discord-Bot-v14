@@ -82,9 +82,10 @@ module.exports = {
         embeds: [embed],
         components: [
           new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('youtube-alert-btn').setLabel('Set Role').setStyle(ButtonStyle.Primary)
+            new ButtonBuilder().setCustomId('ytb-alert-btn').setLabel('Set Role').setStyle(ButtonStyle.Primary)
           ),
         ],
+        flags: 64,
       });
     }
   },

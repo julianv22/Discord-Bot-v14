@@ -18,12 +18,12 @@ module.exports = (client) => {
         const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
         const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
         // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
-        const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
+        // const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
         const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
 
-        return { videoId: match ? match[1] : null, channelTitle, videoTitle };
+        return { videoId: match ? match[1] : null, channelTitle /** videoTitle */ };
       } catch {
-        return { videoId: null, channelTitle: null, videoTitle: null };
+        return { videoId: null, channelTitle: null /** videoTitle: null */ };
       }
     };
     try {
@@ -38,7 +38,7 @@ module.exports = (client) => {
         let updated = false;
         for (let i = 0; i < channels.length; i++) {
           const channelId = channels[i];
-          const { videoId: latestVideoId, channelTitle, videoTitle } = await getLatestVideoId(channelId);
+          const { videoId: latestVideoId, channelTitle } = await getLatestVideoId(channelId);
 
           if (!latestVideoId) continue;
 
@@ -55,19 +55,13 @@ module.exports = (client) => {
               const role = guild.roles.cache.get(alert);
               const videoURL = 'https://youtu.be/' + latestVideoId;
 
-              const embed = new EmbedBuilder()
-                .setTitle(videoTitle || 'New video')
-                .setColor('Random')
-                .setURL(videoURL)
-                .setImage(`https://img.youtube.com/vi/${latestVideoId}/maxresdefault.jpg`)
-                .setFooter({ text: channelTitle || 'Youtube' });
-
               if (channel) {
                 await channel.send({
-                  content: `${role ? `${role} ` : ''}\\🎬 **[${
-                    channelTitle || 'Youtube Channel'
-                  }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:`,
-                  embeds: [embed],
+                  content:
+                    `${role ? `${role} ` : ''}\\🎬 **[${
+                      channelTitle || 'Youtube Channel'
+                    }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:\n` + videoURL,
+                  // embeds: [embed],
                   components: [
                     new ActionRowBuilder().addComponents(
                       new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('🔗Xem trên Youtube').setURL(videoURL)

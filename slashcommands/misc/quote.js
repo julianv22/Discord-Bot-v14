@@ -12,17 +12,15 @@ module.exports = {
     const { catchError } = client;
 
     /** - @returns {Promise<string>} */
-    const getQuote = () => {
+    const getQuote = async () => {
       return fetch('https://zenquotes.io/api/random')
-        .then((res) => {
-          return res.json();
-        })
+        .then((res) => res.json())
         .then((data) => {
           return '❝ **' + data[0]['q'] + '** ❞\n\n- ' + data[0]['a'] + ' -';
         });
     };
 
-    getQuote()
+    await getQuote()
       .then(async (quote) => {
         const embed = new EmbedBuilder()
           .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

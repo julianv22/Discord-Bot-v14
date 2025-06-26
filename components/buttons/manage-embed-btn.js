@@ -21,7 +21,7 @@ module.exports = {
     const { customId, message, channel } = interaction;
     const { errorEmbed, catchError } = client;
     const [, button, messageId] = customId.split(':');
-    const getEmbeds = EmbedBuilder.from(message.embeds[0]);
+    const editEmbed = EmbedBuilder.from(message.embeds[0]);
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
 
@@ -130,15 +130,15 @@ module.exports = {
       },
       timestamp: async () => {
         if (Button1.components[2].data.style === ButtonStyle.Danger) {
-          getEmbeds.setTimestamp(null);
+          editEmbed.setTimestamp(null);
           Button1.components[2].setLabel('✅Timestamp').setStyle(ButtonStyle.Success);
         } else {
-          getEmbeds.setTimestamp();
+          editEmbed.setTimestamp();
           Button1.components[2].setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
         }
 
         return await interaction.update({
-          embeds: [getEmbeds],
+          embeds: [editEmbed],
           components: [Button0, Button1],
           flags: 64,
         });
@@ -148,14 +148,14 @@ module.exports = {
           for (const button of [...Button0.components, ...Button1.components]) button.data.disabled = true;
 
           if (!messageId || messageId === 'undefined') {
-            await channel.send({ embeds: [getEmbeds] });
+            await channel.send({ embeds: [editEmbed] });
             await interaction.update({ components: [Button0, Button1] });
           } else {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
               return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy message hoặc không ở channel này.' }));
 
-            await msg.edit({ embeds: [getEmbeds] }).catch(console.error);
+            await msg.edit({ embeds: [editEmbed] }).catch(console.error);
             return await interaction.update({
               embeds: [
                 {
