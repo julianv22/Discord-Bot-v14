@@ -9,7 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('read')
-    .setDescription(`Read JavaScript file content/MongoDB database/Command Collection. ${cfg.adminRole} only`)
+    .setDescription(`Read JavaScript file content/MongoDB/Project Structure. ${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('file')

@@ -33,7 +33,7 @@ module.exports = {
     const gemini = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
     const contents = history.map((msg) => msg.text).join('\n');
     const res = await gemini.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash',
       contents,
     });
 
@@ -47,8 +47,9 @@ module.exports = {
 
     chatHistories.set(user.id, history);
 
+    await interaction.editReply(prompt);
+
     for (let i = 0; i < reply.length; i += 2000) {
-      await interaction.editReply(prompt);
       await interaction.followUp({ content: reply.slice(i, i + 2000) });
     }
   },

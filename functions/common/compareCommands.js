@@ -1,8 +1,7 @@
 module.exports = {
-  /**
+  /** Compare Slash commands
    * @param {REST} rest
-   * @param {object[]} newCommands
-   */
+   * @param {object[]} newCommands */
   compareCommands: async (currentCommands, newCommands) => {
     const curCmdName = new Set(currentCommands.map((cmd) => cmd.name));
     const newCmdName = new Set(newCommands.map((cmd) => cmd.name));

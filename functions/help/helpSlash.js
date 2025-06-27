@@ -15,30 +15,28 @@ module.exports = (client) => {
   client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands } = client;
     const { guild, user } = interaction;
-    /** - Help Embed
-     * @param {object[]} commands - Commands list
-     * @param {number} count - Commands count */
 
     const commands = slashCommands
       .filter((cmd) => cmd.category === CommandType)
       .map((cmd) => {
-        const subName = cmd?.data?.options
+        const subNames = cmd?.data?.options
           ?.filter((opt) => opt instanceof SlashCommandSubcommandBuilder)
           .map((cmd) => cmd?.name);
 
+        const subTree =
+          subNames.length > 0
+            ? '\n\x1b[35mSub commands:\x1b[34m\n' +
+              subNames
+                .map((subName, index, array) => {
+                  const isLast = index === array.length - 1;
+                  return (isLast ? '└──' : '├──') + `${cmd?.data?.name} ${subName}`;
+                })
+                .join('\n')
+            : '';
+
         return {
           name: `/${cmd?.data?.name || cmd?.name}`,
-          value: `\n\`\`\`ansi\n\x1b[36m${cmd?.data?.description}\n${
-            subName.length > 0
-              ? `\x1b[35mSub commands:\x1b[34m\n` +
-                subName
-                  .map((sub, index, array) => {
-                    const isLast = index === array.length - 1;
-                    return `${isLast ? '└──' : '├──'}${cmd?.data?.name} ${sub}`;
-                  })
-                  .join('\n')
-              : ''
-          }\`\`\``,
+          value: '\n```ansi\n\x1b[36m' + cmd?.data?.description + subTree + '```',
         };
       });
 
