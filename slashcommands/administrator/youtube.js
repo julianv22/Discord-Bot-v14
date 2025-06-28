@@ -73,9 +73,7 @@ module.exports = {
         .setTitle('Role thông báo khi Youtube có video mới:')
         .setDescription(role ? `Alert role: ${role}` : 'Chưa có YouTube alert role nào được thiết lập.')
         .setColor(Colors.Orange)
-        .setThumbnail(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png'
-        )
+        .setThumbnail(cfg.youtubePNG)
         .setTimestamp();
 
       await interaction.reply({

@@ -36,38 +36,51 @@ module.exports = {
       return await interaction.reply(errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!' }));
     }
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    const { youtube } = profile;
-    if (!profile) {
-      if (action === 'remove') return await interaction.reply(errorEmbed({ desc: 'Server chưa có kênh Youtube nào!' }));
-
-      profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix, youtube: { channels: [yt_channel] } })
-        .catch(console.error);
-    } else {
-      let changed = false;
-      if (!Array.isArray(youtube.channels)) youtube.channels = [];
-
-      if (action === 'add') {
-        if (!youtube.channels.includes(yt_channel)) {
-          youtube.channels.push(yt_channel);
-          changed = true;
-        }
-      } else if (action === 'remove') {
-        const idx = youtube.channels.indexOf(yt_channel);
-        if (idx !== -1) {
-          youtube.channels.splice(idx, 1);
-          changed = true;
-        }
+    if (action === 'add') {
+      // Check for existence first to provide a clean error message
+      const existing = await serverProfile.findOne({ guildID: guild.id, 'youtube.channels': yt_channel });
+      if (existing) {
+        return await interaction.reply(
+          errorEmbed({
+            desc: `Kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** đã tồn tại trong danh sách theo dõi.`,
+          })
+        );
       }
 
-      if (changed) await profile.save().catch(console.error);
+      // Use $addToSet to add the channel if it doesn't exist, and upsert to create the server profile if it doesn't exist.
+      await serverProfile
+        .updateOne(
+          { guildID: guild.id },
+          {
+            $addToSet: { 'youtube.channels': yt_channel },
+            $setOnInsert: { guildName: guild.name }, // Only sets guildName on creation
+          },
+          { upsert: true }
+        )
+        .catch(console.error);
+    } else if (action === 'remove') {
+      const result = await serverProfile
+        .updateOne({ guildID: guild.id }, { $pull: { 'youtube.channels': yt_channel } })
+        .catch(console.error);
+
+      // If no document was modified, the channel wasn't in the list.
+      if (!result || result.modifiedCount === 0) {
+        return await interaction.reply(
+          errorEmbed({
+            desc: `Kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** không có trong danh sách theo dõi.`,
+          })
+        );
+      }
     }
+
+    // Success message for both actions
     return await interaction.reply(
       errorEmbed({
         desc: `Đã ${
           action === 'add' ? 'thêm' : 'xoá'
-        } kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** trong danh sách theo dõi của server`,
+        } thành công kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** ${
+          action === 'add' ? 'vào' : 'khỏi'
+        } danh sách theo dõi của server.`,
         emoji: true,
       })
     );

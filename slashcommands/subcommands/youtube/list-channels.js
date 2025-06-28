@@ -56,9 +56,7 @@ module.exports = {
       .setTitle('Danh sách kênh Youtube đã đăng ký:')
       .setDescription(channelList.join('\n'))
       .setColor(Colors.DarkAqua)
-      .setThumbnail(
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/250px-YouTube_2024.svg.png'
-      )
+      .setThumbnail(cfg.youtubePNG)
       .setTimestamp()
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
