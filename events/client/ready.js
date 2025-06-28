@@ -62,7 +62,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '22:24 Thứ Sáu, 27 tháng 6, 2025' });
+      table({ name: '📆 Last update:', value: '02:16 Chủ Nhật, 29 tháng 6, 2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
