@@ -6,7 +6,6 @@ const {
   TextInputStyle,
   ComponentType,
   ButtonStyle,
-  SelectMenuComponentOptionData,
 } = require('discord.js');
 
 module.exports = {
@@ -24,8 +23,7 @@ module.exports = {
    * @param {boolean} [options.required] - Component require
    * @param {number} [options.minLength] - Component minLength
    * @param {number} [options.maxLength] - Component maxLength
-   * @param {ComponentType} type - Component type
-   * @returns {ButtonBuilder|SelectMenuComponentOptionData|TextInputBuilder} */
+   * @param {ComponentType} type - Component type (Button, StringSelect, TextInput) */
   rowComponents: (options, type) => {
     const rowComponents = {
       // Return ButtonBuilder options
@@ -77,11 +75,10 @@ module.exports = {
     };
 
     if (!rowComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType ') + chalk.green(type));
-    else return rowComponents[type]();
+
+    return rowComponents[type]();
   },
-  /** - Disable Buttons
-   * @param {ButtonComponent} buttons
-   * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with disabled buttons */
+  /** @param {ButtonComponent} buttons Disable Buttons */
   disableButtons: (buttons) => {
     const disableRow = new ActionRowBuilder();
     for (const button of buttons) {
@@ -94,8 +91,7 @@ module.exports = {
 
     return disableRow;
   },
-  /** - Info Buttons
-   * @returns {ActionRowBuilder} - Return a new ActionRowBuilder with info buttons */
+  /** Create info buttons */
   infoButtons: () => {
     const buttons = [
       { customId: 'support-btn:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },

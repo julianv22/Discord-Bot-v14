@@ -1,4 +1,4 @@
-const { Client, Locale, Collection, Colors } = require('discord.js');
+const { Client, Collection, Locale, Colors } = require('discord.js');
 const asciiTable = require('ascii-table');
 const path = require('path');
 
@@ -15,10 +15,9 @@ module.exports = {
       );
     _client.logError(...args);
   },
-  /** - Chuyển đổi tiền tệ
+  /** - Chuyển đổi tiền tệ đơn vị tiền tệ tương ứng
    * @param {number} balance Số tiền
-   * @param {Locale|'vi-VN'} [userLocale] Mã khu vực (vd: `'vi-VN'`)
-   * @returns {string} Số tiền với đơn vị tiền tệ tương ứng */
+   * @param {Locale|'vi-VN'} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
   toCurrency: (balance, userLocale = 'vi-VN') => {
     const CurrencyMap = {
       'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
@@ -33,7 +32,7 @@ module.exports = {
     };
 
     try {
-      return balance.toLocaleString('vi-VN', {
+      return balance.toLocaleString('vi-VN' /** userLocale */, {
         style: 'currency',
         currency: CurrencyMap[userLocale] || 'VND',
         minimumFractionDigits: 0, // Điều chỉnh số chữ số thập phân tối thiểu
@@ -44,9 +43,7 @@ module.exports = {
       return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
   },
-  /** - Lấy video mới nhất từ các kênh Youtube
-   * @param {string} channelId - Channel ID
-   * @returns {object} - Return `{ videoId, channelTitle, videoTitle }` */
+  /** - Lấy video mới nhất từ các kênh Youtube @param {string} channelId - Youtube channelId */
   getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -64,13 +61,12 @@ module.exports = {
       return { videoId: null, channelTitle: null, videoTitle: null };
     }
   },
-  /** - Check URL
-   * @param {string} strInput - String input
-   * @returns {boolean|null} - Return true if the string is a valid URL, otherwise return false */
-  checkURL: (strInput) => {
+  /** - Check URL, returns true if the string is a valid URL, otherwise return false
+   * @param {string} stringInput - String input */
+  checkURL: (stringInput) => {
     try {
-      if (strInput) {
-        let res = strInput.match(
+      if (stringInput) {
+        let res = stringInput.match(
           /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
         );
         return res !== null;
@@ -81,9 +77,8 @@ module.exports = {
       return null;
     }
   },
-  /** - Get embed color
-   * @param {string} color - Color input
-   * @returns {string|'Random'} - Return valid color name. If invalid, return 'Random' */
+  /** - Get embed color, returns valid color name. If invalid, return 'Random'
+   * @param {string} color - Color input */
   getEmbedColor: (color) => {
     // Nomarlize color input
     const normalizedColor = color.toLowerCase().replace(/\s/g, '');
@@ -98,14 +93,7 @@ module.exports = {
   /** - Tìm kiếm và thay thế các biến trong chuỗi
    * @param {string} stringInput String cần thay thế
    * @param {object} replacements Object chứa các biến và giá trị tương ứng
-   * @returns {string} - String đã được thay thế
-   * - Ví dụ:
-   * const replaceKey = {
-   * user: user.displayName || user.username,
-   * guild: guild.name,
-   * iconURL: guild.iconURL(),
-   * avatar: user.avatarURL(),
-   * }; */
+   * - Ví dụ: ```const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };``` */
   replaceVar: (stringInput, replacements) => {
     // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
     // Ví dụ: {user}, {guild}, {avatar}
@@ -116,17 +104,16 @@ module.exports = {
     });
   },
   /** - Viết hoa chữ cái đầu tiên của string
-   * @param {string} str - String cần viết hoa
-   * @returns {string} - String đã được viết hoa */
-  capitalize: (str) => {
-    if (!str) return ''; // Xử lý string rỗng hoặc undefined
-    return str.charAt(0).toUpperCase() + str.slice(1);
+   * @param {string} string - String cần viết hoa */
+  capitalize: (string) => {
+    if (!string) return ''; // Xử lý string rỗng hoặc undefined
+    return string.charAt(0).toUpperCase() + string.slice(1);
   },
   /** - Thống kê các command từ Collection ra mảng
    * @param {Collection<string, object>} collection Command collection
-   * @param {string|'category'} [property] Bộ lọc theo key của collection
-   * @returns {string[]} Return mảng danh sách command đã được thống kê theo key
-   * Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
+   * @param {string} [property] Bộ lọc theo key của collection
+   * - Returns mảng danh sách command đã được thống kê theo key
+   * - Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
   listByFilter: (collection, property = 'category') => {
     const commandFilter = collection.reduce((acc, cmd) => {
       acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;

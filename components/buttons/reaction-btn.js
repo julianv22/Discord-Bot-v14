@@ -22,9 +22,8 @@ module.exports = {
     const { errorEmbed } = client;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
-    /**
-     * @param {string} placeholder TextInput placeholder
-     * @returns {ModalBuilder} */
+    /** - Create Interaction Modal
+     * @param {string} placeholder TextInput placeholder */
     const createModal = (placeholder) => {
       const textInputs = rowComponents(
         [{ customId: buttonId, label: `Reaction Role ${buttonId}`, style: TextInputStyle.Short, placeholder }],

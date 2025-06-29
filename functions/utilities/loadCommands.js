@@ -75,7 +75,7 @@ module.exports = (client) => {
     (async () => {
       const token = process.env.token || client.token;
       const clientId = process.env.clientID || cfg.clientID;
-      const guildId = '1368536666066649148'; // Guild ID cụ thể cho bot phụ
+      const guildId = '1388619729429598358'; // Guild ID cụ thể cho bot phụ
 
       if (!token) throw new Error('Không xác định được token của bot');
       if (!clientId) throw new Error('Không xác định được clientId của bot');

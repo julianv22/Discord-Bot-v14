@@ -23,7 +23,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { options, locale } = interaction;
+    const { options } = interaction;
     const bet = options.getInteger('bet');
 
     const buttons = [
@@ -51,8 +51,7 @@ module.exports = {
       .setTitle('Rock - Paper - Scissors Game')
       .setDescription(
         `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
-          bet,
-          locale
+          bet
         )} bạn đặt cược. Tối đa 10 lần/ngày.`
       )
       .setColor('Random')

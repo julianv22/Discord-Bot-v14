@@ -8,7 +8,7 @@ module.exports = (client) => {
    * @param {User} target - Target user
    * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
   client.robUser = async (target, interaction) => {
-    const { user, guild, locale } = interaction;
+    const { user, guild } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
     const guildID = guild.id;
     const userID = user.id;
@@ -33,13 +33,11 @@ module.exports = (client) => {
           })
         );
 
-      if (profile.balance < 500) {
+      if (profile.balance < 500)
         return await interaction.reply(errorEmbed({ desc: 'Bạn cần ít nhất 500₫ để thực hiện giật!' }));
-      }
 
-      if (targetProfile.balance < 100) {
+      if (targetProfile.balance < 100)
         return await interaction.reply(errorEmbed({ desc: 'Người này không đủ \\💲 để bị giật!' }));
-      }
 
       // Cooldown
       if (profile.lastRob && now - profile.lastRob < cooldownMs) {
@@ -71,15 +69,14 @@ module.exports = (client) => {
         amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có
         profile.balance += amount;
         targetProfile.balance -= amount;
-        resultMsg = `\\💸 Đã giật thành công **${toCurrency(amount, locale)}**`;
+        resultMsg = `\\💸 Đã giật thành công **${toCurrency(amount)}**`;
       } else {
         amount = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
         amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
         profile.balance -= amount;
         targetProfile.balance += Math.round(amount / 2);
-        resultMsg = `\\❌ Thất bại và bị mất **${toCurrency(amount, locale)}**, đối phương nhận được **${toCurrency(
-          Math.round(amount / 2),
-          locale
+        resultMsg = `\\❌ Thất bại và bị mất **${toCurrency(amount)}**, đối phương nhận được **${toCurrency(
+          Math.round(amount / 2)
         )}**`;
       }
 
@@ -100,12 +97,12 @@ module.exports = (client) => {
         .addFields(
           {
             name: `Số dư của ${user.displayName || user.username}`,
-            value: toCurrency(profile.balance, locale),
+            value: toCurrency(profile.balance),
             inline: true,
           },
           {
             name: `Số dư của ${target.displayName || target.username}`,
-            value: toCurrency(targetProfile.balance, locale),
+            value: toCurrency(targetProfile.balance),
             inline: true,
           }
         );

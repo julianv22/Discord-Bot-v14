@@ -23,8 +23,7 @@ module.exports = (client) => {
 
     if (title) embed.setTitle(prefix + title.replace(regex, ''));
 
-    const description = title ? `\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\`` : prefix + desc;
-    embed.setDescription(description);
+    embed.setDescription(title ? `\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\`` : prefix + desc);
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };

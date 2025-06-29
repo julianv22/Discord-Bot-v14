@@ -11,8 +11,8 @@ module.exports = {
    * @param {boolean} [options.isDir] Nếu `true`, hàm sẽ chỉ trả về danh sách các **subfolder** trong `folderPath`.
    * @param {string} [options.extension] Phần mở rộng của file để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
    * @param {function(string): boolean} [options.filter] Hàm lọc tùy chỉnh bổ sung (nếu có).
-   * Hàm này được áp dụng sau bước lọc chính (all/isDir/extension).
-   * @returns {string[]} Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc. */
+   * - Hàm này được áp dụng sau bước lọc chính (all/isDir/extension).
+   * - Returns Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc. */
   readFiles: (folderPath, options = {}) => {
     const { all = false, isDir = false, extension = '.js', filter: func } = options;
     const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;

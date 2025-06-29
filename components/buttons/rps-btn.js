@@ -10,7 +10,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, customId, locale } = interaction;
+    const { user, guild, customId } = interaction;
     const { errorEmbed } = client;
     const [, button, betStr] = customId.split(':');
     const userMove = parseInt(button, 10);
@@ -35,7 +35,7 @@ module.exports = {
     if (profile.balance < bet) {
       return await interaction.update(
         errorEmbed({
-          desc: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance, locale)}`,
+          desc: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance)}`,
           emoji: false,
         })
       );
@@ -50,7 +50,7 @@ module.exports = {
       0: () => {
         profile.balance -= bet;
         profile.totalSpent -= bet;
-        return `Bạn thua và bị trừ **${toCurrency(bet, locale)}**!`;
+        return `Bạn thua và bị trừ **${toCurrency(bet)}**!`;
       },
       1: () => {
         return 'Hòa, bạn không bị trừ tiền!';
@@ -58,7 +58,7 @@ module.exports = {
       2: () => {
         profile.balance += winAmount;
         profile.totalEarned += winAmount;
-        return `Bạn thắng và nhận được **${toCurrency(winAmount, locale)}**!`;
+        return `Bạn thắng và nhận được **${toCurrency(winAmount)}**!`;
       },
     };
     // Tăng số lần chơi và cập nhật
@@ -72,7 +72,7 @@ module.exports = {
       .setDescription(
         `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
           profile.rpsCount
-        }/50**\nSố dư: **${toCurrency(profile.balance, locale)}**`
+        }/50**\nSố dư: **${toCurrency(profile.balance)}**`
       )
       .setColor(rps.Color)
       .setThumbnail(user.displayAvatarURL(true))
@@ -80,12 +80,12 @@ module.exports = {
       .addFields(
         {
           name: '\\💰 Tổng tiền đã nhận',
-          value: toCurrency(profile.totalEarned, locale) || 0,
+          value: toCurrency(profile.totalEarned) || 0,
           inline: true,
         },
         {
           name: '\\💸 Tổng tiền đã chi',
-          value: toCurrency(profile.totalSpent, locale) || 0,
+          value: toCurrency(profile.totalSpent) || 0,
           inline: true,
         }
       );

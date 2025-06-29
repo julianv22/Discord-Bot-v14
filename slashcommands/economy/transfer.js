@@ -25,7 +25,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, options, locale } = interaction;
+    const { user, guild, options } = interaction;
     const { errorEmbed, catchError } = client;
     const [targetUser, amount] = [options.getUser('target'), options.getInteger('amount')];
 
@@ -69,14 +69,12 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: `${guild.name} Economy Transfer`, iconURL: guild.iconURL(true) })
-      .setTitle(`Hiện có ${toCurrency(profile.bank, locale)} trong tài khoản \\🏦 của bạn`)
+      .setTitle(`Hiện có ${toCurrency(profile.bank)} trong tài khoản \\🏦 của bạn`)
       .setDescription(
         `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${toCurrency(
-          amount,
-          locale
+          amount
         )} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${toCurrency(
-          total,
-          locale
+          total
         )}.\n\n❗ Bạn có muốn tiếp tục?`
       )
       .setColor(Colors.DarkGold)

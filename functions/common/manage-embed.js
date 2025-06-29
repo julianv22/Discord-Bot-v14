@@ -3,8 +3,7 @@ const { rowComponents } = require('./components');
 
 module.exports = {
   /** - Create embed buttons
-   * @param {string} messageId - Message ID if edit embed
-   * @returns {[ActionRowBuilder]} - Return ActionRowBuilder */
+   * @param {string} messageId - Message ID if edit embed */
   embedButtons: (messageId) => {
     const button1 = [
         { customId: `manage-embed-btn:title:${messageId}`, label: '💬Title', style: ButtonStyle.Primary },
@@ -24,8 +23,7 @@ module.exports = {
       new ActionRowBuilder().addComponents(rowComponents(button2, ComponentType.Button)),
     ];
   },
-  /** - Create reaction buttons
-   * @returns {ActionRowBuilder} - Return ActionRowBuilder */
+  /** - Create reaction buttons */
   reactionButtons: () => {
     const button1 = [
       { customId: 'reaction-btn:title', label: '💬Title', style: ButtonStyle.Primary },

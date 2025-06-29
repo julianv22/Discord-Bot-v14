@@ -12,7 +12,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, locale } = interaction;
+    const { user, guild } = interaction;
     const { errorEmbed } = client;
 
     let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
@@ -22,12 +22,12 @@ module.exports = {
       );
     }
     // Lấy thông tin
-    const balance = toCurrency(profile.balance || 0, locale);
-    const bank = toCurrency(profile.bank || 0, locale);
+    const balance = toCurrency(profile.balance || 0);
+    const bank = toCurrency(profile.bank || 0);
     const streak = (profile.streak || 0).toLocaleString();
     const maxStreak = (profile.maxStreak || 0).toLocaleString();
-    const totalEarned = toCurrency(profile.totalEarned || 0, locale);
-    const totalSpent = toCurrency(profile.totalSpent || 0, locale);
+    const totalEarned = toCurrency(profile.totalEarned || 0);
+    const totalSpent = toCurrency(profile.totalSpent || 0);
     const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫';
     const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫';
     const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';

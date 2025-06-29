@@ -41,9 +41,7 @@ module.exports = {
     );
     /** - Confirm Embed
      * @param {string} title Embed title
-     * @param {string} description Embed description (optional)
-     * @returns {EmbedBuilder} Return EmbedBuilder
-     */
+     * @param {string} [description] Embed description (optional) */
     const confirmEmbed = (
       title,
       description = `🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
@@ -53,9 +51,9 @@ module.exports = {
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setColor(color)
         .setDescription(description);
-      if (title) {
-        embed.setTitle(title).setTimestamp();
-      }
+
+      if (title) embed.setTitle(title).setTimestamp();
+
       return embed;
     };
 
@@ -90,7 +88,7 @@ module.exports = {
             confirmEmbed(
               `\\✅ Đã tắt tính năng **${capitalize(confirm)}**!`,
               `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
-              'Green'
+              Colors.Green
             ),
           ],
           components: [disableButtons(oldComponents)],
@@ -98,7 +96,7 @@ module.exports = {
         break;
       case 'cancel':
         await interaction.update({
-          embeds: [confirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', 'DarkVividPink')],
+          embeds: [confirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', Colors.DarkVividPink)],
           components: [disableButtons(oldComponents)],
         });
         break;

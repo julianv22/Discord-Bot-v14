@@ -11,7 +11,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, locale } = interaction;
+    const { user, guild } = interaction;
     const { errorEmbed } = client;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -96,8 +96,7 @@ module.exports = {
         profile.balance += achv.reward;
         profile.totalEarned += achv.reward;
         bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${toCurrency(
-          achv.reward,
-          locale
+          achv.reward
         )}**`;
         // Thêm achievement nếu chưa có
         if (!profile.achievements.includes(achv.name)) {
@@ -127,9 +126,8 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Nhận \\💲 hằng ngày!')
       .setDescription(
-        `Bạn đã nhận thành công **${toCurrency(dailyAmount, locale)}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
-          profile.balance,
-          locale
+        `Bạn đã nhận thành công **${toCurrency(dailyAmount)}** ngày hôm nay!\nSố dư hiện tại: **${toCurrency(
+          profile.balance
         )}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
       )
       .setColor(Colors.DarkGreen)

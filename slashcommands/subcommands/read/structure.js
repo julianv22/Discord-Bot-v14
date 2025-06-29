@@ -26,6 +26,9 @@ module.exports = {
     const root = path.resolve(__dirname, '..', '..');
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
+    /** - Check if a file or folder name should be ignored.
+     * @param {string} name The name of the file or folder.
+     * @param {string[]} ignorePatterns An array of patterns to ignore. */
     const isIgnored = (name, ignorePatterns) => {
       for (const pattern of ignorePatterns) {
         // Xử lý các trường hợp cơ bản:
@@ -53,6 +56,9 @@ module.exports = {
       return false;
     };
 
+    /** - Recursively builds a string representing the directory structure.
+     * @param {string} dirPath The path to the directory.
+     * @param {string} [indent=''] The indentation to use for the current level. */
     const directoryStructure = async (dirPath, indent = '') => {
       let structure = '';
       const files = await promises.readdir(dirPath, { withFileTypes: true });
@@ -65,11 +71,13 @@ module.exports = {
         const prefix = indent + (isLast ? '└── ' : '├── ');
 
         if (file.isDirectory()) {
-          structure += `${prefix}${file.name}/\n`;
+          structure += `${prefix}${file.name}/
+`;
           // Gọi đệ quy cho thư mục con
           structure += await directoryStructure(fullPath, indent + (isLast ? '    ' : '│   '));
         } else {
-          structure += `${prefix}${file.name}\n`;
+          structure += `${prefix}${file.name}
+`;
         }
       }
       return structure;

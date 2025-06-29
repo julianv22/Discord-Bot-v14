@@ -17,7 +17,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, locale } = interaction;
+    const { user, guild } = interaction;
     const { errorEmbed } = client;
 
     // Lấy top 10 user theo balance
@@ -30,10 +30,7 @@ module.exports = {
     const leaderboard = topUsers
       .map((user, i) => {
         const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
-        return `${rank} <@${user.userID}> \\💰: ${toCurrency(user.balance, locale)} | \\🏦: ${toCurrency(
-          user.bank,
-          locale
-        )}`;
+        return `${rank} <@${user.userID}> \\💰: ${toCurrency(user.balance)} | \\🏦: ${toCurrency(user.bank)}`;
       })
       .join('\n\n');
 

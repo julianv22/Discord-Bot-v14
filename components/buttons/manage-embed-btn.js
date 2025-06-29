@@ -26,9 +26,8 @@ module.exports = {
     const Button1 = ActionRowBuilder.from(message.components[1]);
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found' }));
-    /**
-     * @param {object[]} options
-     * @returns {ModalBuilder} */
+    /** - Create Interaction Modal
+     * @param {object[]} options */
     const createModal = (options) => {
       const textInputs = rowComponents(options, ComponentType.TextInput);
       const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));

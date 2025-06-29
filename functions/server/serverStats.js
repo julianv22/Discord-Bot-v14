@@ -15,16 +15,13 @@ module.exports = (client) => {
       if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
       const { statistics } = profile;
       /** - Get the number of members with the given status
-       * @param {string} stats - Member status
-       * @returns {number} - Number of members with the given status
-       */
+       * @param {string} stats - Member status */
       const getPressence = (stats) => {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
       };
       /** - Set channel name
        * @param {string} id - Channel ID
-       * @param {string} name - Channel name
-       */
+       * @param {string} name - Channel name */
       const setChannelName = async (id, name) => {
         await guild.channels.cache.get(id).setName(name).catch(console.error);
       };

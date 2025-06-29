@@ -9,7 +9,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, customId, locale } = interaction;
+    const { user, guild, customId } = interaction;
     const { errorEmbed } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
@@ -45,13 +45,9 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('\\✅ Chuyển tiền thành công!')
       .setDescription(
-        `\\♻️ Bạn đã chuyển **${toCurrency(amount, locale)}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${toCurrency(
-          fee,
-          locale
-        )}**\n\n\\💸 Tổng trừ: **${toCurrency(total, locale)}**\n\n\\🏦 Số dư còn lại: **${toCurrency(
-          profile.bank,
-          locale
-        )}**`
+        `\\♻️ Bạn đã chuyển **${toCurrency(amount)}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${toCurrency(
+          fee
+        )}**\n\n\\💸 Tổng trừ: **${toCurrency(total)}**\n\n\\🏦 Số dư còn lại: **${toCurrency(profile.bank)}**`
       )
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)
@@ -63,9 +59,9 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Bạn vừa nhận được tiền!')
       .setDescription(
-        `Bạn vừa nhận được **${toCurrency(amount, locale)}** từ <@${user.id}> trong guild ${
+        `Bạn vừa nhận được **${toCurrency(amount)}** từ <@${user.id}> trong guild ${
           guild.name
-        }.\n\n\\🏦 Số dư mới: **${toCurrency(targetProfile.bank, locale)}**`
+        }.\n\n\\🏦 Số dư mới: **${toCurrency(targetProfile.bank)}**`
       )
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)
