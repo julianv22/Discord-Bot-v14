@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, Client, Message, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, EmbedBuilder } = require('discord.js');
 const { capitalize } = require('../common/utilities');
 
 /** - * @param {Client} client */

@@ -93,9 +93,6 @@ module.exports = (client) => {
         if (slashArray.length > 0) {
           const rest = new REST({ version: 10 }).setToken(token);
 
-          const currentCommands = await rest.get(Routes.applicationGuildCommands(clientId, guildId));
-          compareCommands(currentCommands, slashArray);
-
           let data = [];
           if (clientId === '995949416273940623')
             data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });

@@ -1,10 +1,10 @@
 const {
-  ContextMenuCommandBuilder,
   Client,
   ChatInputCommandInteraction,
+  ContextMenuCommandBuilder,
+  EmbedBuilder,
   ApplicationCommandType,
   PermissionFlagsBits,
-  EmbedBuilder,
   Colors,
 } = require('discord.js');
 

@@ -1,12 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  Message,
-  EmbedBuilder,
-  MessageFlags,
-  ChannelType,
-  Colors,
-} = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, EmbedBuilder, ChannelType, Colors } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -93,6 +85,6 @@ module.exports = (client) => {
     second += (item && ' ') + chalk[color](desc);
 
     const func = isWarn ? console.warn : console.error;
-    func(first, second, e && '\n' + e);
+    func(first, second, e ? '\n' + e : '');
   };
 };

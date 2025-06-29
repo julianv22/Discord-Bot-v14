@@ -1,4 +1,4 @@
-const { Message, Client } = require('discord.js');
+const { Client, Message } = require('discord.js');
 
 module.exports = {
   name: 'snipe',
@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 0,
   /** - Snipe deleted messages
    * @param {Message} message - Message
-   * @param {Array} args - Array of arguments
+   * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { commandUsage, snipeMessage } = client;

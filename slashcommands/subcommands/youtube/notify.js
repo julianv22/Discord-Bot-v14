@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Client, ChatInputCommandInteraction } = require('discord.js');
+const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
 module.exports = {

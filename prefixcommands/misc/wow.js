@@ -1,4 +1,4 @@
-const { Message, Client, EmbedBuilder } = require('discord.js');
+const { Client, Message, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'wow',
@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 0,
   /** - Wow! 😍
    * @param {Message} message - Message
-   * @param {Array} args - Array of arguments
+   * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { author } = message;

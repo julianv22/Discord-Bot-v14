@@ -73,25 +73,21 @@ module.exports = {
     const parts = filePath.split(path.sep);
     const file = parts.pop();
     const folder = parts.slice(-1);
-
-    const missingWarn = (commandName, errMessage) => {
+    /** - Log cảnh báo ra console khi thiếu các thuộc tính name hoặc execute...
+     * @param {string} commandType Loại command (Prefix, Slash, Sub, Component)
+     * @param {string} parts Các thuộc tính bị thiếu, phân cách bởi dấu `,` */
+    const missingWarn = (commandType, parts) => {
       let message =
         'is missing ' +
-        errMessage
+        parts
           .split(',')
           .map((m) => `'${m}'`)
           .join(' or ') +
         ' property';
 
-      if (errMessage === 'execute') message = "is missing 'execute' property or is not function";
+      if (parts === 'execute') message = "is missing 'execute' property or is not function";
 
-      console.warn(
-        chalk.yellow('[Warn] ' + commandName),
-        file,
-        chalk.yellow('in'),
-        chalk.green(folder),
-        chalk.yellow(message)
-      );
+      logError({ isWarn: true, todo: commandType, item: file, desc: `in ${chalk.white(folder)} ${message}` });
     };
 
     try {
@@ -99,14 +95,13 @@ module.exports = {
       delete require.cache[require.resolve(filePath)];
       const command = require(filePath);
 
-      if (!command) {
+      if (!command)
         return logError({
           isWarn: true,
           todo: 'Invalid or empty file at',
           item: file,
           desc: `in ${chalk.green(folder)} folder`,
         });
-      }
 
       const setCollection = {
         prefixcommands: () => {

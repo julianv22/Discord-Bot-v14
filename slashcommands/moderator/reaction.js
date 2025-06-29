@@ -2,8 +2,8 @@ const {
   Client,
   ChatInputCommandInteraction,
   EmbedBuilder,
-  PermissionFlagsBits,
   SlashCommandBuilder,
+  PermissionFlagsBits,
   Colors,
 } = require('discord.js');
 const { reactionButtons } = require('../../functions/common/manage-embed');

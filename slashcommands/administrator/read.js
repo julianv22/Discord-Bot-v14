@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, Client, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { readFiles } = require('../../functions/common/initLoader');
 const profiles = readFiles('config', { filter: (file) => file.endsWith('Profile.js') });
 

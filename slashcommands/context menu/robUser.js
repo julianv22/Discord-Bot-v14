@@ -1,7 +1,7 @@
 const {
-  ContextMenuCommandBuilder,
   Client,
   ChatInputCommandInteraction,
+  ContextMenuCommandBuilder,
   ApplicationCommandType,
 } = require('discord.js');
 

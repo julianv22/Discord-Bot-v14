@@ -1,4 +1,4 @@
-const { Message, Client, PermissionFlagsBits } = require('discord.js');
+const { Client, Message, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   name: 'emitAdd',
@@ -9,7 +9,7 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   /** - Emit Add Member
    * @param {Message} message - Đối tượng message
-   * @param {Array} args - Mảng args
+   * @param {string[]} args - Mảng args
    * @param {Client} client - Đối tượng client */
   async execute(message, args, client) {
     const { member: user, mentions } = message;

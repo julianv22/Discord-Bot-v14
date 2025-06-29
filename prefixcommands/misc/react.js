@@ -1,4 +1,4 @@
-const { Message, Client } = require('discord.js');
+const { Client, Message } = require('discord.js');
 
 module.exports = {
   name: 'react',
@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 0,
   /** - React with something cool! 😎
    * @param {Message} message - Message
-   * @param {Array} args - Array of arguments
+   * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);

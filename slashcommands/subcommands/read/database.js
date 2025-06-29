@@ -1,12 +1,12 @@
 const {
-  SlashCommandSubcommandBuilder,
   Client,
   ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
   EmbedBuilder,
-  Colors,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  Colors,
 } = require('discord.js');
 
 module.exports = {

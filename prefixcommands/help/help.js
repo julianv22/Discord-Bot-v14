@@ -1,4 +1,4 @@
-const { Message, Client, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Message, EmbedBuilder, Colors } = require('discord.js');
 const { infoButtons } = require('../../functions/common/components');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
   cooldown: 0,
   /** - Help prefix command
    * @param {Message} message - Message
-   * @param {Array} args - Array of arguments
+   * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { commandUsage, prefixCommands, listCommands } = client;

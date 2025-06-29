@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { getEmbedColor } = require('../../functions/common/utilities');
 
 module.exports = {

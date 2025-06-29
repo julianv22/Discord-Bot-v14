@@ -1,11 +1,11 @@
-const { Client, User, Message, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, GuildMember, EmbedBuilder, Colors } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Thanks user
-   * @param {User} target - Target user
+   * @param {GuildMember} target - Target user
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;

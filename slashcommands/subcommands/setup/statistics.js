@@ -1,7 +1,7 @@
 const {
-  SlashCommandSubcommandBuilder,
-  ChatInputCommandInteraction,
   Client,
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
   EmbedBuilder,
   Colors,
 } = require('discord.js');

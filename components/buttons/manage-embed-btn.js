@@ -3,9 +3,9 @@ const {
   ChatInputCommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
+  ModalBuilder,
   ButtonStyle,
   TextInputStyle,
-  ModalBuilder,
   ComponentType,
   Colors,
 } = require('discord.js');

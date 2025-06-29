@@ -1,19 +1,9 @@
-const {
-  Client,
-  GuildMember,
-  ChatInputCommandInteraction,
-  EmbedBuilder,
-  ChannelType,
-  Guild,
-  Message,
-} = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, EmbedBuilder, ChannelType } = require('discord.js');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Get Server information
-   * @param {Guild} guild - Guild
-   * @param {GuildMember} author - Author
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.serverInfo = async (object) => {
     const { catchError } = client;

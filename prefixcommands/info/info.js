@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 0,
   /** - Get server/member information
    * @param {Message} message - Message
-   * @param {Array} args - Array of arguments
+   * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { commandUsage, userInfo, serverInfo } = client;

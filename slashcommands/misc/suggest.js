@@ -1,10 +1,10 @@
 const {
+  Client,
+  ChatInputCommandInteraction,
   SlashCommandBuilder,
   ModalBuilder,
   ActionRowBuilder,
   TextInputBuilder,
-  Client,
-  ChatInputCommandInteraction,
   TextInputStyle,
 } = require('discord.js');
 

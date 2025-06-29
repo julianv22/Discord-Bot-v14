@@ -1,3 +1,5 @@
+const { Colors } = require('discord.js');
+
 module.exports = {
   /** - RPS Game
    * @param {number} userMove - Nước đi của người dùng
@@ -9,28 +11,26 @@ module.exports = {
   rpsGame: (userMove) => {
     const botMove = Math.floor(Math.random() * 3);
     /** - RPS Config
-     * @type {object}
+     * @typedef {object} rpsConfig
      * @property {object} Emojis - Các emoji cho từng nước đi
      * @property {object} Results - Kết quả RPS dạng số
-     * @property {object} Compares - So sánh giữa người dùng và bot
+     * @property {object} resCompares - So sánh giữa người dùng và bot
      * @property {object} ResultStrings - Kết quả RPS dạng string
-     * @property {object} Colors - Màu sắc cho từng kết quả
-     * @property {object} Functions - Hàm xử lý kết quả RPS
-     */
+     * @property {object} Colors - Màu sắc cho từng kết quả */
     const rpsConfig = {
       Emojis: { 0: '🔨', 1: '📄', 2: '✂️' },
       Results: { Lose: 0, Tie: 1, Win: 2 },
-      Compares: { 0: '<', 1: '=', 2: '>' },
-      ResultStrings: { 0: 'Lose \\🏳️', 1: 'Tie \\🤝', 2: 'Win \\🎉' },
-      Colors: { 0: 'Red', 1: 'Orange', 2: 'Green' },
+      resCompares: { 0: '<', 1: '=', 2: '>' },
+      resStrings: { 0: 'Lose \\🏳️', 1: 'Tie \\🤝', 2: 'Win \\🎉' },
+      resColors: { 0: Colors.Red, 1: Colors.Orange, 2: Colors.Green },
     };
 
     const {
       Emojis,
       Results: { Tie, Win, Lose },
-      Compares,
-      ResultStrings,
-      Colors,
+      resCompares,
+      resStrings,
+      resColors,
     } = rpsConfig;
 
     const resultMatrix = [
@@ -42,9 +42,9 @@ module.exports = {
     const res = resultMatrix[userMove][botMove];
 
     return {
-      result: ResultStrings[res],
-      color: Colors[res],
-      description: `〔You ${Emojis[userMove]}〕 ${Compares[res]} 〔Bot ${Emojis[botMove]}〕`,
+      result: resStrings[res],
+      color: resColors[res],
+      description: `〔You ${Emojis[userMove]}〕 ${resCompares[res]} 〔Bot ${Emojis[botMove]}〕`,
       res,
     };
   },

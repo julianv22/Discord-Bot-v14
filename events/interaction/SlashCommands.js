@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, Client, ChannelType } = require('discord.js');
+const { Client, ChatInputCommandInteraction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',

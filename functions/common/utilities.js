@@ -43,7 +43,8 @@ module.exports = {
       return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
   },
-  /** - Lấy video mới nhất từ các kênh Youtube @param {string} channelId - Youtube channelId */
+  /** - Lấy video mới nhất từ các kênh Youtube
+   * @param {string} channelId - Youtube channelId */
   getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);

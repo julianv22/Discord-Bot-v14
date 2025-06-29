@@ -1,4 +1,4 @@
-const { Message, Client } = require('discord.js');
+const { Client, Message } = require('discord.js');
 
 module.exports = {
   name: 'botinfo',
@@ -8,7 +8,7 @@ module.exports = {
   cooldown: 0,
   /** - Get bot information
    * @param {Message} message Message
-   * @param {Array} args Array of arguments
+   * @param {string[]} args Array of arguments
    * @param {Client} client Client */
   async execute(message, args, client) {
     const { commandUsage, botInfo } = client;
