@@ -60,7 +60,7 @@ module.exports = (client) => {
           },
           {
             name: '👑 Owner:',
-            value: application.owner ? `<@${application.owner.id}>` : 'Unknown',
+            value: application.owner ? `<@${application.owner.ownerId || application.owner.id}>` : 'Unknown',
             inline: false,
           },
           {

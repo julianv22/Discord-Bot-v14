@@ -17,7 +17,7 @@ module.exports = {
   },
   /** - Chuyển đổi tiền tệ đơn vị tiền tệ tương ứng
    * @param {number} balance Số tiền
-   * @param {Locale|'vi-VN'} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
+   * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
   toCurrency: (balance, userLocale = 'vi-VN') => {
     const CurrencyMap = {
       'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ

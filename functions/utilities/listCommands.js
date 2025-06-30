@@ -5,7 +5,7 @@ const { capitalize } = require('../common/utilities');
 module.exports = (client) => {
   /** - List of command name filtered by property from Command Collection
    * @param {Collection<string, object>} commands Command Collection
-   * @param {string|'category'} [property] Filter by property
+   * @param {string} [property] Filter by property
    * @returns {object[]} */
   client.listCommands = (commands, property = 'category') => {
     try {

@@ -1,9 +1,9 @@
 const {
   Client,
-  GuildMember,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   Message,
+  GuildMember,
+  EmbedBuilder,
   PermissionFlagsBits,
 } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');

@@ -2,7 +2,6 @@ const { Client, Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { listByFilter, logAsciiTable } = require('../common/utilities');
-const { compareCommands } = require('../common/compareCommands');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
