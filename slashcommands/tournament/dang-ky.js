@@ -6,8 +6,8 @@ module.exports = {
   category: 'tournament',
   cooldown: 0,
   data: new SlashCommandBuilder()
-    .setName('dangky')
-    .setDescription('Register Tournament!')
+    .setName('dang-ky')
+    .setDescription('🏆 Đăng ký giải đấu')
     .addStringOption((option) => option.setName('ingame').setDescription('ingame').setRequired(true)),
   /** - Đăng ký giải đấu
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

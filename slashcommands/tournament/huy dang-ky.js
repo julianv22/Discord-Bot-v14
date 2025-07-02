@@ -7,11 +7,11 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('huy')
-    .setDescription('Unregister Tournament!')
+    .setDescription('🏆 Huỷ đăng ký giải đấu')
     .addSubcommand((sub) =>
       sub
-        .setName('dangky')
-        .setDescription('Huỷ đăng ký giải đấu')
+        .setName('dang-ky')
+        .setDescription('🏆 Huỷ đăng ký giải đấu')
         .addBooleanOption((option) =>
           option.setName('confirm').setDescription('Hãy chắc chắn trước khi đưa ra quyết định‼').setRequired(true)
         )

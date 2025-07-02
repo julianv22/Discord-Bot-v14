@@ -14,12 +14,10 @@ module.exports = {
 
     const ignore = 'context menu';
     const slashCategories = [
-        ...new Set(
-          slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))
-        ),
-      ],
-      subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))],
-      contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
+      ...new Set(slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))),
+    ];
+    const subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
+    const contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
 
     const ShowHelp = {
       default: async () => {

@@ -10,8 +10,11 @@ module.exports = {
   async execute(client) {
     const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
     const servers = guilds.cache.map((g) => g);
+    /** - Print console log with chalk options
+     * @param {string} message Message content
+     * @param {string} [color] Chalk color */
     const log = (message, color = 'reset') => console.log(chalk[color](message));
-    /** - Print table console log
+    /** - Print table console log with chalk options
      * @param {object} options Table options
      * @param {string|string[]} options.name Name column
      * @param {string|string[]} options.value Value column
@@ -19,6 +22,8 @@ module.exports = {
      * @param {string} [options.valueColor] Value color column
      * @param {number} [options.tab] Seperator tab */
     const table = ({ name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 }) => {
+      if (!name || !value) return null;
+
       if (typeof name === 'string' && typeof value === 'string')
         return console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
 
@@ -62,7 +67,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '21:53 - 30 tháng 6, 2025' });
+      table({ name: '📆 Last update:', value: '11:50 - 1 tháng 7, 2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

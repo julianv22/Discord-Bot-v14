@@ -16,26 +16,26 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('tournament')
-    .setDescription(`Set up tournament.\n${cfg.adminRole} only`)
+    .setDescription(`🏆 Set up tournament.\n${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('open')
-        .setDescription(`Mở đăng ký giải đấu.\n${cfg.adminRole} only`)
+        .setDescription(`🏆 Mở đăng ký giải đấu.\n${cfg.adminRole} only`)
         .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn giải đấu').setRequired(true))
     )
     .addSubcommand((sub) =>
       sub
         .setName('close')
-        .setDescription(`Đóng đăng ký giải đấu.\n${cfg.adminRole} only`)
+        .setDescription(`🏆 Đóng đăng ký giải đấu.\n${cfg.adminRole} only`)
         .addRoleOption((opt) => opt.setName('ten-giai').setDescription('Chọn giải đấu').setRequired(true))
     )
     .addSubcommand((sub) =>
-      sub.setName('list').setDescription(`Danh sách thành viên tham gia giải đấu.\n${cfg.adminRole} only`)
+      sub.setName('list').setDescription(`🏆 Danh sách thành viên tham gia giải đấu.\n${cfg.adminRole} only`)
     )
     .addSubcommand((sub) =>
       sub
         .setName('close-all')
-        .setDescription(`Huỷ đăng ký của tất cả thành viên trong guild.\n${cfg.adminRole} only`)
+        .setDescription(`🏆 Huỷ đăng ký của tất cả thành viên trong guild.\n${cfg.adminRole} only`)
         .addBooleanOption((opt) => opt.setName('confirm').setDescription('Xác nhận').setRequired(true))
     ),
   /** - Setup giải đấu (open/close/list ds thành viên tham gia)
@@ -46,8 +46,6 @@ module.exports = {
     const { errorEmbed } = client;
     const tourCommand = options.getSubcommand();
     const getRole = options.getRole('ten-giai');
-
-    if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Bạn chưa chọn role giải đấu!' }));
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
@@ -114,7 +112,7 @@ module.exports = {
           return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         const role = guild.roles.cache.get(tournament.id);
-        const tengiai = `**Tên giải:** ${role || 'Không có tên'}`;
+        const tengiai = `**Tên giải:** ${role || 'Unnamed'}`;
         // Tạo danh sách thành viên, mỗi dòng 1 người
         const memberLines = memberList.map(
           (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`
