@@ -11,7 +11,6 @@ module.exports = {
     const { user, guild } = interaction;
     const { catchError } = client;
 
-    /** - @returns {Promise<string>} */
     const getQuote = async () => {
       return fetch('https://zenquotes.io/api/random')
         .then((res) => res.json())

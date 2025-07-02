@@ -16,9 +16,7 @@ module.exports = {
     const action = options.getString('action');
     /** - Validate Youtube channel
      * @param {string} channelId - ID of the Youtube channel
-     * @param {string} apiKey - API key for Youtube
-     * @returns {Promise<{ valid: boolean, title: string | null }>}
-     */
+     * @param {string} apiKey - API key for Youtube */
     const validateYoutubeChannel = async (channelId, apiKey) => {
       const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
       const res = await fetch(url);

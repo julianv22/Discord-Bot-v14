@@ -9,8 +9,7 @@ module.exports = (client) => {
    * @param {string} options.description - Mô tả chi tiết về lỗi.
    * @param {boolean|string} options.emoji - Emoji để thêm vào tiêu đề hoặc mô tả.
    * @param {boolean} [options.flags] - Cờ (flags) để xác định hành vi của embed (ví dụ: ephemeral). Mặc định là `true`.
-   * @param {string|Colors} [options.color] - Màu sắc của embed.
-   * @returns {EmbedBuilder} EmbedBuilder */
+   * @param {string|Colors} [options.color] - Màu sắc của embed. */
   client.errorEmbed = ({ title, desc, emoji = false, flags = true, color }) => {
     const embed = new EmbedBuilder();
 
