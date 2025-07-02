@@ -132,7 +132,7 @@ module.exports = {
         },
       };
 
-      if (!setCollection[folderName]) throw new Error(chalk.yellow(`Invalid folderName ${chalk.green(folderName)}`));
+      if (!setCollection[folderName]) throw new Error(chalk.yellow('Invalid folderName ') + chalk.green(folderName));
 
       setCollection[folderName]();
     } catch (e) {

@@ -1,5 +1,4 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
-const { checkURL } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
@@ -21,7 +20,7 @@ module.exports = {
       .setDescription(description.length > 4096 ? description.slice(0, 4096) : description)
       .setColor(Colors.DarkVividPink)
       .setThumbnail(thumbnail[notifytype - 1])
-      .setImage(checkURL(imageURL) ? imageURL : null)
+      .setImage(imageURL.checkURL() ? imageURL : null)
       .setTimestamp()
       .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) });
 

@@ -1,5 +1,4 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
-const { getEmbedColor } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
@@ -19,7 +18,7 @@ module.exports = {
         return reactionEmbed.setTitle(stringInput);
       },
       color: () => {
-        return reactionEmbed.setColor(getEmbedColor(stringInput));
+        return reactionEmbed.setColor(stringInput.toEmbedColor());
       },
     };
 

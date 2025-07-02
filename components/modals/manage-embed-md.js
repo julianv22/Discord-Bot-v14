@@ -1,5 +1,5 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
-const { checkURL, replaceVar, getEmbedColor } = require('../../functions/common/utilities');
+const { replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
@@ -30,7 +30,7 @@ module.exports = {
 
         return embed.setAuthor({
           name: replaceVar(strInput.length > 256 ? strInput.slice(0, 256) : strInput, replaceKey) || null,
-          iconURL: checkURL(iconURL) ? iconURL : null,
+          iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
       title: () => {
@@ -42,13 +42,13 @@ module.exports = {
         );
       },
       color: () => {
-        return embed.setColor(getEmbedColor(strInput));
+        return embed.setColor(strInput.toEmbedColor());
       },
       image: () => {
-        return embed.setImage(strInput && checkURL(strInput) ? strInput : null);
+        return embed.setImage(strInput && strInput.checkURL() ? strInput : null);
       },
       thumbnail: () => {
-        return embed.setThumbnail(strInput && checkURL(strInput) ? strInput : null);
+        return embed.setThumbnail(strInput && strInput.checkURL() ? strInput : null);
       },
       footer: async () => {
         const footerIcon = fields.getTextInputValue('footerIcon');
@@ -56,7 +56,7 @@ module.exports = {
 
         return embed.setFooter({
           text: replaceVar(strInput.length > 2048 ? strInput.slice(0, 2048) : strInput, replaceKey) || null,
-          iconURL: checkURL(iconUrl) ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp',
+          iconURL: iconUrl.checkURL() ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp',
         });
       },
     };

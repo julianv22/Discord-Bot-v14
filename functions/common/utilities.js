@@ -15,34 +15,6 @@ module.exports = {
       );
     _client.logError(...args);
   },
-  /** - Chuyển đổi tiền tệ đơn vị tiền tệ tương ứng
-   * @param {number} balance Số tiền
-   * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
-  toCurrency: (balance, userLocale = 'vi-VN') => {
-    const CurrencyMap = {
-      'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
-      'en-GB': 'VND', // Tiếng Anh (Anh) -> Đô la Mỹ
-      'vi-VN': 'VND', // Tiếng Việt -> Đồng Việt Nam
-      ja: 'JPY', // Tiếng Nhật -> Yên Nhật
-      'zh-CN': 'CNY', // Tiếng Trung giản thể (Trung Quốc) -> Nhân dân tệ
-      ko: 'KRW', // Tiếng Hàn -> Won Hàn Quốc
-      fr: 'EUR', // Tiếng Pháp (hoặc các ngôn ngữ châu Âu khác) -> Euro
-      de: 'EUR', // Tiếng Đức -> Euro
-      'es-ES': 'EUR', // Tiếng Tây Ban Nha -> Euro
-    };
-
-    try {
-      return balance.toLocaleString('vi-VN' /** userLocale */, {
-        style: 'currency',
-        currency: CurrencyMap[userLocale] || 'VND',
-        minimumFractionDigits: 0, // Điều chỉnh số chữ số thập phân tối thiểu
-        maximumFractionDigits: 2, // Điều chỉnh số chữ số thập phân tối đa
-      });
-    } catch (e) {
-      _client.logError({ todo: 'Lỗi định dạng số tiền cho locale', item: userLocale, desc: 'và tiền tệ' }, e);
-      return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-    }
-  },
   /** - Lấy video mới nhất từ các kênh Youtube
    * @param {string} channelId - Youtube channelId */
   getLatestVideoId: async (channelId) => {
@@ -62,35 +34,6 @@ module.exports = {
       return { videoId: null, channelTitle: null, videoTitle: null };
     }
   },
-  /** - Check URL, returns true if the string is a valid URL, otherwise return false
-   * @param {string} stringInput - String input */
-  checkURL: (stringInput) => {
-    try {
-      if (stringInput) {
-        let res = stringInput.match(
-          /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
-        );
-        return res !== null;
-      }
-      return false;
-    } catch (e) {
-      _client.logError({ item: 'checkURL', desc: 'function' }, e);
-      return null;
-    }
-  },
-  /** - Get embed color, returns valid color name. If invalid, return 'Random'
-   * @param {string} color - Color input */
-  getEmbedColor: (color) => {
-    // Nomarlize color input
-    const normalizedColor = color.toLowerCase().replace(/\s/g, '');
-
-    // Check valid color name
-    for (const colorName of Object.keys(Colors)) {
-      if (colorName.toLowerCase() === normalizedColor) return colorName;
-    }
-
-    return 'Random'; // Return Random if invalid
-  },
   /** - Tìm kiếm và thay thế các biến trong chuỗi
    * @param {string} stringInput String cần thay thế
    * @param {object} replacements Object chứa các biến và giá trị tương ứng
@@ -103,25 +46,6 @@ module.exports = {
       // Nếu không, trả về lại match gốc để không thay đổi phần đó.
       return replacements[key] !== undefined ? replacements[key] : match;
     });
-  },
-  /** - Viết hoa chữ cái đầu tiên của string
-   * @param {string} string - String cần viết hoa */
-  capitalize: (string) => {
-    if (!string) return ''; // Xử lý string rỗng hoặc undefined
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  },
-  /** - Thống kê các command từ Collection ra mảng
-   * @param {Collection<string, object>} collection Command collection
-   * @param {string} [property] Bộ lọc theo key của collection
-   * - Returns mảng danh sách command đã được thống kê theo key
-   * - Ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
-  listByFilter: (collection, property = 'category') => {
-    const commandFilter = collection.reduce((acc, cmd) => {
-      acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
-      return acc;
-    }, {});
-
-    return Object.entries(commandFilter).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
   },
   /** - Log 2 mảng dữ liệu ra asciiTable
    * @param {string[]} data Mảng dữ liệu
@@ -153,14 +77,78 @@ module.exports = {
     }
     console.log(table.toString());
   },
-};
+  /** - Chuyển đổi tiền tệ đơn vị tiền tệ tương ứng
+   * @param {number} balance Số tiền
+   * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */ toCurrency: (balance, userLocale) => {
+    const CurrencyMap = {
+      'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
+      'en-GB': 'VND', // Tiếng Anh (Anh) -> Đô la Mỹ
+      'vi-VN': 'VND', // Tiếng Việt -> Đồng Việt Nam
+      ja: 'JPY', // Tiếng Nhật -> Yên Nhật
+      'zh-CN': 'CNY', // Tiếng Trung giản thể (Trung Quốc) -> Nhân dân tệ
+      ko: 'KRW', // Tiếng Hàn -> Won Hàn Quốc
+      fr: 'EUR', // Tiếng Pháp (hoặc các ngôn ngữ châu Âu khác) -> Euro
+      de: 'EUR', // Tiếng Đức -> Euro
+      'es-ES': 'EUR', // Tiếng Tây Ban Nha -> Euro
+    };
 
-/** - Chuyển đổi số thành định dạng tiền tệ mặc định là vi-VN, VND
+    try {
+      return balance.toLocaleString(userLocale, {
+        style: 'currency',
+        currency: CurrencyMap[userLocale] || 'VND',
+        minimumFractionDigits: 0, // Điều chỉnh số chữ số thập phân tối thiểu
+        maximumFractionDigits: 2, // Điều chỉnh số chữ số thập phân tối đa
+      });
+    } catch (e) {
+      _client.logError({ todo: 'Lỗi định dạng số tiền cho locale', item: userLocale, desc: 'và tiền tệ' }, e);
+      return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+  },
+};
+// Start define prototype functions
+/** - Chuyển đổi số thành định dạng tiền tệ mặc định là `vi-VN, VND`
  * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
-Number.prototype.toCurrency = function (userLocale = 'vi-VN') {
-  return module.exports.toCurrency(this, userLocale);
+Number.prototype.toCurrency = function (userLocale) {
+  if (!userLocale) return this.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  else return module.exports.toCurrency(this, userLocale);
 };
-/** - Viết hoa chữ cái đầu tiên của chuỗi */
+/** - Viết hoa chữ cái đầu */
 String.prototype.toCapitalize = function () {
-  return module.exports.capitalize(this);
+  if (!this) return ''; // Xử lý string rỗng hoặc undefined
+  return this.charAt(0).toUpperCase() + this.slice(1);
 };
+/** - Convert string to EmbedColor */
+String.prototype.toEmbedColor = function () {
+  // Nomarlize color input
+  const normalizedColor = this.toLowerCase().replace(/\s/g, '');
+  // Check valid color name
+  for (const colorName of Object.keys(Colors)) {
+    if (colorName.toLowerCase() === normalizedColor) return colorName;
+  }
+  // Return Random if invalid
+  return 'Random';
+};
+/** - Check string is URL or not */
+String.prototype.checkURL = function () {
+  try {
+    const res = this.match(
+      /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+    );
+    return res !== null;
+  } catch (e) {
+    _client.logError({ item: 'checkURL', desc: 'function' }, e);
+    return null;
+  }
+};
+/** - Nhóm các phần tử trong Collection theo một thuộc tính và trả về danh sách đếm được định dạng.
+ * @param {string} [property] Thuộc tính để nhóm các phần tử (mặc định là 'category').
+ * - Trả về một mảng các chuỗi được định dạng, ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
+Collection.prototype.toGroupedCountList = function (property = 'category') {
+  const groupedCounts = this.reduce((acc, item) => {
+    acc[item[property]] = (acc[item[property]] || 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(groupedCounts).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
+};
+// End define prototype functions

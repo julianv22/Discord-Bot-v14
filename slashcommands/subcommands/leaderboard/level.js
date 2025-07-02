@@ -5,7 +5,6 @@ const {
   EmbedBuilder,
   Colors,
 } = require('discord.js');
-const { checkURL } = require('../../../functions/common/utilities');
 
 module.exports = {
   category: 'sub command',
@@ -21,7 +20,7 @@ module.exports = {
     const week = options.getInteger('week');
     const imgURL = options.getString('image');
 
-    if (!checkURL(imgURL)) return await interaction.reply(errorEmbed({ desc: 'Vui lòng nhập chính xác Image URL' }));
+    if (!imgURL.checkURL()) return await interaction.reply(errorEmbed({ desc: 'Vui lòng nhập chính xác Image URL' }));
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })

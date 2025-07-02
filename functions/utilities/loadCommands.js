@@ -1,7 +1,7 @@
 const { Client, Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
-const { listByFilter, logAsciiTable } = require('../common/utilities');
+const { logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -57,16 +57,12 @@ module.exports = (client) => {
       await loadCommands(commandTypes.Sub),
     ]);
 
-    const prefixList = listByFilter(prefixCommands);
-    const componentList = listByFilter(envCollection, 'type');
-    logAsciiTable([prefixList, componentList], {
+    logAsciiTable([prefixCommands.toGroupedCountList(), envCollection.toGroupedCountList('type')], {
       title: 'Load Prefix Commands & Components',
       heading: [commandTypes.Prefix.name + ` [${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
     });
 
-    const slashList = listByFilter(slashCommands);
-    const subList = listByFilter(subCommands, 'parent');
-    logAsciiTable([slashList, subList], {
+    logAsciiTable([slashCommands.toGroupedCountList(), subCommands.toGroupedCountList('parent')], {
       title: 'Load Slash/Sub Commands',
       heading: [commandTypes.Slash.name + ` [${slashCommands.size}]`, commandTypes.Sub.name + ` [${subCommands.size}]`],
     });
