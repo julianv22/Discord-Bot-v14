@@ -121,7 +121,7 @@ module.exports = {
       return acc;
     }, {});
 
-    return Object.entries(commandFilter).map(([name, count]) => `📂 ${module.exports.capitalize(name)} [${count}]`);
+    return Object.entries(commandFilter).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
   },
   /** - Log 2 mảng dữ liệu ra asciiTable
    * @param {string[]} data Mảng dữ liệu
@@ -153,4 +153,14 @@ module.exports = {
     }
     console.log(table.toString());
   },
+};
+
+/** - Chuyển đổi số thành định dạng tiền tệ mặc định là vi-VN, VND
+ * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
+Number.prototype.toCurrency = function (userLocale = 'vi-VN') {
+  return module.exports.toCurrency(this, userLocale);
+};
+/** - Viết hoa chữ cái đầu tiên của chuỗi */
+String.prototype.toCapitalize = function () {
+  return module.exports.capitalize(this);
 };

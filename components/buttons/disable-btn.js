@@ -8,7 +8,6 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { capitalize } = require('../../functions/common/utilities');
 const { disableButtons } = require('../../functions/common/components');
 
 module.exports = {
@@ -44,7 +43,7 @@ module.exports = {
      * @param {string} [description] Embed description (optional) */
     const confirmEmbed = (
       title,
-      description = `🔴 Bạn có chắc chắn muốn tắt tính năng **${capitalize(feature)}** không?`,
+      description = `🔴 Bạn có chắc chắn muốn tắt tính năng **${feature.toCapitalize()}** không?`,
       color = Colors.Orange
     ) => {
       const embed = new EmbedBuilder()
@@ -86,7 +85,7 @@ module.exports = {
         await interaction.update({
           embeds: [
             confirmEmbed(
-              `\\✅ Đã tắt tính năng **${capitalize(confirm)}**!`,
+              `\\✅ Đã tắt tính năng **${confirm.toCapitalize()}**!`,
               `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
               Colors.Green
             ),

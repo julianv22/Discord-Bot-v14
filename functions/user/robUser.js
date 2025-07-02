@@ -1,6 +1,5 @@
 const { Client, ChatInputCommandInteraction, GuildMember, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const { toCurrency } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -69,15 +68,15 @@ module.exports = (client) => {
         amount = Math.min(amount, targetProfile.balance); // Không giật quá số coin họ có
         profile.balance += amount;
         targetProfile.balance -= amount;
-        resultMsg = `\\💸 Đã giật thành công **${toCurrency(amount)}**`;
+        resultMsg = `\\💸 Đã giật thành công **${amount.toCurrency()}**`;
       } else {
         amount = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
         amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
         profile.balance -= amount;
         targetProfile.balance += Math.round(amount / 2);
-        resultMsg = `\\❌ Thất bại và bị mất **${toCurrency(amount)}**, đối phương nhận được **${toCurrency(
-          Math.round(amount / 2)
-        )}**`;
+        resultMsg = `\\❌ Thất bại và bị mất **${amount.toCurrency()}**, đối phương nhận được **${Math.round(
+          amount / 2
+        ).toCurrency()}**`;
       }
 
       profile.lastRob = now;
@@ -97,12 +96,12 @@ module.exports = (client) => {
         .addFields(
           {
             name: `Số dư của ${user.displayName || user.username}`,
-            value: toCurrency(profile.balance),
+            value: profile.balance.toCurrency(),
             inline: true,
           },
           {
             name: `Số dư của ${target.displayName || target.username}`,
-            value: toCurrency(targetProfile.balance),
+            value: targetProfile.balance.toCurrency(),
             inline: true,
           }
         );

@@ -1,7 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
-const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'buttons',
@@ -35,7 +34,7 @@ module.exports = {
     if (profile.balance < bet) {
       return await interaction.update(
         errorEmbed({
-          desc: `Bạn không đủ tiền để cược! Số dư: ${toCurrency(profile.balance)}`,
+          desc: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toCurrency()}`,
           emoji: false,
         })
       );
@@ -50,7 +49,7 @@ module.exports = {
       0: () => {
         profile.balance -= bet;
         profile.totalSpent -= bet;
-        return `Bạn thua và bị trừ **${toCurrency(bet)}**!`;
+        return `Bạn thua và bị trừ **${bet.toCurrency()}**!`;
       },
       1: () => {
         return 'Hòa, bạn không bị trừ tiền!';
@@ -58,7 +57,7 @@ module.exports = {
       2: () => {
         profile.balance += winAmount;
         profile.totalEarned += winAmount;
-        return `Bạn thắng và nhận được **${toCurrency(winAmount)}**!`;
+        return `Bạn thắng và nhận được **${winAmount.toCurrency()}**!`;
       },
     };
     // Tăng số lần chơi và cập nhật
@@ -72,7 +71,7 @@ module.exports = {
       .setDescription(
         `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
           profile.rpsCount
-        }/50**\nSố dư: **${toCurrency(profile.balance)}**`
+        }/50**\nSố dư: **${profile.balance.toCurrency()}**`
       )
       .setColor(rps.Color)
       .setThumbnail(user.displayAvatarURL(true))
@@ -80,12 +79,12 @@ module.exports = {
       .addFields(
         {
           name: '\\💰 Tổng tiền đã nhận',
-          value: toCurrency(profile.totalEarned) || 0,
+          value: (profile.totalEarned || 0).toCurrency(),
           inline: true,
         },
         {
           name: '\\💸 Tổng tiền đã chi',
-          value: toCurrency(profile.totalSpent) || 0,
+          value: (profile.totalSpent || 0).toCurrency(),
           inline: true,
         }
       );

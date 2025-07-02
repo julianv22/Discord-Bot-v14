@@ -1,5 +1,4 @@
 const { Client, Collection } = require('discord.js');
-const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -18,7 +17,7 @@ module.exports = (client) => {
         const cmds = commands.filter((cmd) => cmd[property] === prop).map((cmd) => cmd?.data?.name || cmd?.name);
 
         commandFields.push({
-          name: `\\📂 ${capitalize(prop)} [${count}]`,
+          name: `\\📂 ${prop.toCapitalize()} [${count}]`,
           value: `\`\`\`ansi\n\x1b[36m${cmds.join(' | ')}\x1b[0m\`\`\``,
         });
       }

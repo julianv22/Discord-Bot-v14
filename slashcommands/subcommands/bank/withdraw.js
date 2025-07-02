@@ -6,7 +6,6 @@ const {
   Colors,
 } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
-const { toCurrency } = require('../../../functions/common/utilities');
 
 module.exports = {
   category: 'sub command',
@@ -42,9 +41,9 @@ module.exports = {
       .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
       .setTitle('\\🏦 Withdraw')
       .setDescription(
-        `\\✅ Rút ${toCurrency(amount)} thành công!\n\nBạn bị trừ ${toCurrency(fee)} (1%) phí rút tiền còn ${toCurrency(
+        `\\✅ Rút ${amount.toCurrency()} thành công!\n\nBạn bị trừ ${fee.toCurrency()} (1%) phí rút tiền còn ${(
           amount - fee
-        )}.\n\n**Số dư hiện có:**`
+        ).toCurrency()}.\n\n**Số dư hiện có:**`
       )
       .setColor(Colors.DarkGold)
       .setThumbnail(cfg.economyPNG)
@@ -53,12 +52,12 @@ module.exports = {
       .addFields(
         {
           name: '\\💰 Balance',
-          value: toCurrency(profile.balance),
+          value: profile.balance.toCurrency(),
           inline: true,
         },
         {
           name: '\\🏦 Bank',
-          value: toCurrency(profile.bank),
+          value: profile.bank.toCurrency(),
           inline: true,
         }
       );

@@ -1,5 +1,4 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
-const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'menus',
@@ -14,9 +13,11 @@ module.exports = {
 
     const ignore = 'context menu';
     const slashCategories = [
-      ...new Set(slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => capitalize(cmd.category))),
+      ...new Set(
+        slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category.toCapitalize())
+      ),
     ];
-    const subCategories = [...new Set(subCommands.map((cmd) => capitalize(cmd.parent)))];
+    const subCategories = [...new Set(subCommands.map((cmd) => cmd.parent.toCapitalize()))];
     const contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
 
     const ShowHelp = {

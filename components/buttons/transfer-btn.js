@@ -1,6 +1,5 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'buttons',
@@ -45,9 +44,7 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('\\✅ Chuyển tiền thành công!')
       .setDescription(
-        `\\♻️ Bạn đã chuyển **${toCurrency(amount)}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${toCurrency(
-          fee
-        )}**\n\n\\💸 Tổng trừ: **${toCurrency(total)}**\n\n\\🏦 Số dư còn lại: **${toCurrency(profile.bank)}**`
+        `\\♻️ Bạn đã chuyển **${amount.toCurrency()}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toCurrency()}**\n\n\\💸 Tổng trừ: **${total.toCurrency()}**\n\n\\🏦 Số dư còn lại: **${profile.bank.toCurrency()}**`
       )
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)
@@ -59,9 +56,9 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('Bạn vừa nhận được tiền!')
       .setDescription(
-        `Bạn vừa nhận được **${toCurrency(amount)}** từ <@${user.id}> trong guild ${
+        `Bạn vừa nhận được **${amount.toCurrency()}** từ <@${user.id}> trong guild ${
           guild.name
-        }.\n\n\\🏦 Số dư mới: **${toCurrency(targetProfile.bank)}**`
+        }.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toCurrency()}**`
       )
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.economyPNG)

@@ -1,7 +1,6 @@
 const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('./common/initLoader');
-const { capitalize } = require('./common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -23,7 +22,7 @@ module.exports = (client) => {
         const folderPath = path.join(funcFolder, folder);
         const functionFiles = readFiles(folderPath);
 
-        funcArray.push(`📂 ${capitalize(folder)} [${functionFiles.length}]`);
+        funcArray.push(`📂 ${folder.toCapitalize()} [${functionFiles.length}]`);
         totalCount += functionFiles.length;
 
         for (const file of functionFiles) {
@@ -39,7 +38,7 @@ module.exports = (client) => {
 
       if (!reload)
         await client.envCollection.set(funcFolder, {
-          name: `${capitalize(funcFolder)} [${totalCount}]`,
+          name: `${funcFolder.toCapitalize()} [${totalCount}]`,
           value: funcArray,
         });
     } catch (e) {

@@ -1,6 +1,5 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'economy',
@@ -22,12 +21,12 @@ module.exports = {
       );
     }
     // Lấy thông tin
-    const balance = toCurrency(profile.balance || 0);
-    const bank = toCurrency(profile.bank || 0);
+    const balance = (profile.balance || 0).toCurrency();
+    const bank = (profile.bank || 0).toCurrency();
     const streak = (profile.streak || 0).toLocaleString();
     const maxStreak = (profile.maxStreak || 0).toLocaleString();
-    const totalEarned = toCurrency(profile.totalEarned || 0);
-    const totalSpent = toCurrency(profile.totalSpent || 0);
+    const totalEarned = (profile.totalEarned || 0).toCurrency();
+    const totalSpent = (profile.totalSpent || 0).toCurrency();
     const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫';
     const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫';
     const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';

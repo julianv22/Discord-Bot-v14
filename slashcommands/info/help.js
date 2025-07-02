@@ -7,7 +7,6 @@ const {
   ComponentType,
 } = require('discord.js');
 const { rowComponents, infoButtons } = require('../../functions/common/components');
-const { capitalize } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'info',
@@ -52,7 +51,7 @@ module.exports = {
             .setMinValues(1)
             .setMaxValues(1)
             .setOptions(rowComponents(menus, ComponentType.StringSelect))
-            .addOptions(Array.from(slashCategories).map((value) => ({ label: `📂 ${capitalize(value)}`, value })))
+            .addOptions(Array.from(slashCategories).map((value) => ({ label: `📂 ${value.toCapitalize()}`, value })))
         ),
         infoButtons(),
       ],

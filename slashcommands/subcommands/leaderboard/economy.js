@@ -6,7 +6,6 @@ const {
   Colors,
 } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
-const { toCurrency } = require('../../../functions/common/utilities');
 
 module.exports = {
   category: 'sub command',
@@ -30,7 +29,7 @@ module.exports = {
     const leaderboard = topUsers
       .map((user, i) => {
         const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
-        return `${rank} <@${user.userID}> \\💰: ${toCurrency(user.balance)} | \\🏦: ${toCurrency(user.bank)}`;
+        return `${rank} <@${user.userID}> \\💰: ${user.balance.toCurrency()} | \\🏦: ${user.bank.toCurrency()}`;
       })
       .join('\n\n');
 

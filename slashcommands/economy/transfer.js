@@ -9,7 +9,6 @@ const {
   Colors,
 } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'economy',
@@ -69,13 +68,9 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: `${guild.name} Economy Transfer`, iconURL: guild.iconURL(true) })
-      .setTitle(`Hiện có ${toCurrency(profile.bank)} trong tài khoản \\🏦 của bạn`)
+      .setTitle(`Hiện có ${profile.bank.toCurrency()} trong tài khoản \\🏦 của bạn`)
       .setDescription(
-        `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${toCurrency(
-          amount
-        )} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${toCurrency(
-          total
-        )}.\n\n❗ Bạn có muốn tiếp tục?`
+        `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${amount.toCurrency()} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${total.toCurrency()}.\n\n❗ Bạn có muốn tiếp tục?`
       )
       .setColor(Colors.DarkGold)
       .setThumbnail(cfg.economyPNG)

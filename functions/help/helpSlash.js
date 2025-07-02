@@ -5,7 +5,6 @@ const {
   EmbedBuilder,
   Colors,
 } = require('discord.js');
-const { capitalize } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -42,7 +41,7 @@ module.exports = (client) => {
 
     const helpEmbed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(`\\📂 ${capitalize(CommandType)} Commands [${commands.length}]`)
+      .setTitle(`\\📂 ${CommandType.toCapitalize()} Commands [${commands.length}]`)
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.slashPNG)
       .setTimestamp()
