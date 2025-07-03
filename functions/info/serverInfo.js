@@ -22,7 +22,7 @@ module.exports = (client) => {
         .setColor('Random')
         .setThumbnail(guild.iconURL(true))
         .setFooter({
-          text: `Requested by ${author.displayName}`,
+          text: `Requested by ${author.displayName || author.username}`,
           iconURL: `${author.displayAvatarURL(true)}`,
         })
         .setTimestamp()
@@ -47,7 +47,7 @@ module.exports = (client) => {
           },
           {
             name: '🚀 Total Boosts:',
-            value: `${guild.premiumSubscriptionCount}`,
+            value: `${guild.premiumSubscriptionCount || 'None'}`,
             inline: true,
           },
           {

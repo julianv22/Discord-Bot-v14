@@ -18,11 +18,11 @@ module.exports = (client) => {
     else prefix += emoji;
     prefix += ' ';
 
-    embed.setColor(color ? color : emoji ? Colors.Green : Colors.Red);
+    embed.setColor(color || (emoji ? Colors.Green : Colors.Red));
 
-    if (title) embed.setTitle(prefix + title.replace(regex, ''));
-
-    embed.setDescription(title ? `\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\`` : prefix + desc);
+    if (title)
+      embed.setTitle(prefix + title.replace(regex, '')).setDescription(`\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\``);
+    else embed.setDescription(prefix + desc);
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };

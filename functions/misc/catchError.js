@@ -9,6 +9,8 @@ module.exports = (client) => {
    * @param {string|ChatInputCommandInteraction} description Error description */
   client.catchError = async (object, e, description) => {
     const { errorEmbed, logError, guilds } = client;
+    const user = object.user || object.author;
+
     const errorMessage = () => {
       if (typeof description === 'string') return description;
 
@@ -33,9 +35,9 @@ module.exports = (client) => {
         const bugEmbed = new EmbedBuilder()
           .setTitle('\\❌ ' + errorMessage().replace(regex, ''))
           .setDescription(
-            `**Used:** ${object.user.displayName || object.author.displayName} [ \`${
-              object.user.id || object.author.id
-            }\` ]\n\n**Guild: [${object.guild.name}](https://discord.com/channels/${object.guild.id}) \n\nChannel: [# ${
+            `**Used:** ${user.displayName || user.username} [ \`${user.id}\` ]\n\n**Guild: [${
+              object.guild.name
+            }](https://discord.com/channels/${object.guild.id}) \n\nChannel: [# ${
               object.channel.name
             }](https://discord.com/channels/${object.guild.id}/${object.channel.id})**`
           )

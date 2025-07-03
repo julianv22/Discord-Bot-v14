@@ -4,9 +4,8 @@ const serverProfile = require('../../config/serverProfile');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Setup server statistics command
-   * @param {Client} client - Discord Client
    * @param {string} guildID - Guild ID */
-  client.serverStats = async (client, guildID) => {
+  client.serverStats = async (guildID) => {
     const { logError, guilds } = client;
     try {
       // Start Server Stats
@@ -42,7 +41,7 @@ module.exports = (client) => {
 
         for (const channel of statsChannels) setChannelName(channel.id, channel.name);
       } catch (e) {
-        logError({ todo: 'caching roles from server', item: guild.name }, e);
+        logError({ todo: 'updating server statistics channels for:', item: guild.name }, e);
       }
 
       const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];

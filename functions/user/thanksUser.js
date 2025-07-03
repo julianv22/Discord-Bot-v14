@@ -32,31 +32,37 @@ module.exports = (client) => {
         'https://png.pngtree.com/thumb_back/fw800/background/20201020/pngtree-rose-thank-you-background-image_425104.jpg',
       ];
 
-      if (!target)
-        return await object.reply(errorEmbed({ desc: 'You must mention someone!' })).then((m) => {
-          if (objAuthor)
-            setTimeout(async () => {
-              await m.delete().catch(console.error);
-            }, 10000);
-        });
+      if (!target) {
+        const replyMessage = await object.reply(errorEmbed({ desc: 'You must mention someone!' }));
+        if (objAuthor) {
+          setTimeout(async () => {
+            await replyMessage.delete().catch(console.error);
+          }, 10000);
+        }
+        return;
+      }
 
-      if (target.user ? target.user.bot : target.bot)
-        return await object.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝' })).then((m) => {
-          if (objAuthor)
-            setTimeout(async () => {
-              await m.delete().catch(console.error);
-            }, 10000);
-        });
+      if (target.user?.bot || target.bot) {
+        const replyMessage = await object.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝' }));
+        if (objAuthor) {
+          setTimeout(async () => {
+            await replyMessage.delete().catch(console.error);
+          }, 10000);
+        }
+        return;
+      }
 
-      if (target.id === author.id)
-        return object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅' })).then((m) => {
-          if (objAuthor)
-            setTimeout(async () => {
-              await m.delete().catch(console.error);
-            }, 10000);
-        });
+      if (target.id === author.id) {
+        const replyMessage = await object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅' }));
+        if (objAuthor) {
+          setTimeout(async () => {
+            await replyMessage.delete().catch(console.error);
+          }, 10000);
+        }
+        return;
+      }
 
-      const thanks = await serverThanks.findOne({ guildID, userID }).catch(console.error);
+      let thanks = await serverThanks.findOne({ guildID, userID }).catch(console.error);
       let count = 1;
       if (!thanks) {
         thanks = await serverThanks
@@ -69,6 +75,8 @@ module.exports = (client) => {
             lastThanks: Date.now(),
           })
           .catch(console.error);
+
+        if (!thanks) return; // If creation failed, stop here
       } else {
         count = thanks.thanksCount + 1;
       }
@@ -97,7 +105,9 @@ module.exports = (client) => {
       thanks.usertag = usertag;
       thanks.thanksCount = count;
       thanks.lastThanks = Date.now();
-      return await thanks.save().catch(console.error);
+      return await thanks
+        .save()
+        .catch((e) => client.logError({ todo: 'saving thanks profile', item: userID, desc: 'in thanksUser' }, e));
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('thanksUser')} function`);
     }

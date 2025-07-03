@@ -20,18 +20,21 @@ module.exports = (client) => {
       if (Array.isArray(aliases) && aliases.length > 0) desc += `\n\nAlias: [\`${aliases.join(' | ')}\`]`;
 
       if (!usage) {
-        usage = prefix + name;
-        if (Array.isArray(aliases)) usage += ' | ' + aliases.map((a) => prefix + a).join(' | ');
+        usage = `${prefix}${name}`;
+        if (Array.isArray(aliases)) usage += ` | ${aliases.map((a) => prefix + a).join(' | ')}`;
       }
 
       const usageEmbed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle(`Huớng dẫn sử dụng command [\`${prefix + name}\`]`)
+        .setTitle(`Hướng dẫn sử dụng command [\`${prefix}${name}\`]`)
         .setDescription(desc)
         .setColor(Colors.Aqua)
         .setThumbnail(cfg.helpPNG)
         .setTimestamp()
-        .setFooter({ text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
+        .setFooter({
+          text: `Requested by ${author.displayName || author.username}`,
+          iconURL: author.displayAvatarURL(true),
+        })
         .addFields({ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` });
 
       return await message.reply({ embeds: [usageEmbed] });

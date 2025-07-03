@@ -20,21 +20,17 @@ module.exports = (client) => {
 
     try {
       const member = guild.members.cache.get(target.id);
-      if (!member) return await (interaction || message).reply(errorEmbed({ desc: 'User is not in this server.' }));
+      if (!member) return await object.reply(errorEmbed({ desc: 'User is not in this server.' }));
 
-      const isAdmin = member.permissions.has(PermissionFlagsBits.Administrator);
-      const isMod = member.permissions.has(PermissionFlagsBits.ManageMessages);
+      const acknowledgements = [];
+      if (target.id === guild.ownerId) acknowledgements.push('Server Owner');
+      if (member.permissions.has(PermissionFlagsBits.Administrator)) acknowledgements.push('Administrator');
+      if (member.permissions.has(PermissionFlagsBits.ManageMessages)) acknowledgements.push('Moderator');
+      if (target.user.bot) acknowledgements.push('Bot');
+      if (member.premiumSince) acknowledgements.push('Server Booster');
 
-      // Acknowledgements
-      let acknowledgements = '';
-      if (target.id === guild.ownerId) acknowledgements = 'Server Owner | ';
-      if (isAdmin) acknowledgements += 'Administrator';
-      if (isMod) acknowledgements += ' | Moderator';
-      if (target.bot) acknowledgements += ' | Bot';
-      if (target.premiumSince) acknowledgements += ' | Server Booster';
-      if (!acknowledgements) acknowledgements = 'None';
-
-      acknowledgements = `\`\`\`fix\n` + acknowledgements + `\`\`\``;
+      const acknowledgementsString =
+        acknowledgements.length > 0 ? `\`\`\`fix\n${acknowledgements.join(' | ')}\`\`\`` : 'None';
 
       const roles = member.roles.cache.filter((r) => r.id !== guild.id).map((r) => r);
       const thanks = await serverThanks.findOne({
@@ -42,23 +38,23 @@ module.exports = (client) => {
         userID: target.id,
       });
 
-      embed = new EmbedBuilder()
+      const embed = new EmbedBuilder()
         .setAuthor({
-          name: target.tag || target.user.tag,
-          iconURL: target.displayAvatarURL(true),
+          name: target.user.tag,
+          iconURL: target.user.displayAvatarURL(true),
         })
         .setTitle('⚠️ Member Info ⚠️')
         .setDescription(`👤 **Username:** ${target}`)
         .setColor('Random')
-        .setThumbnail(target.displayAvatarURL(true))
+        .setThumbnail(target.user.displayAvatarURL(true))
         .setFooter({
-          text: `Requested by ${author.displayName}`,
+          text: `Requested by ${author.displayName || author.username}`,
           iconURL: author.displayAvatarURL(true),
         })
         .setTimestamp()
         .addFields([
           {
-            name: `🆔: ||${target.id || target.user.id}||`,
+            name: `🆔: ||${target.user.id}||`,
             value: '\u200b',
             inline: true,
           },
@@ -75,7 +71,7 @@ module.exports = (client) => {
             name: `📆 Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>`,
             value: `${moment(member.user.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
           },
-          { name: '🎖️ Acknowledgements:', value: `${acknowledgements}` },
+          { name: '🎖️ Acknowledgements:', value: `${acknowledgementsString}` },
           //   {name: 'Permissions', value: `\`\`\`fix\n${msg.channel.permissionsFor(member.user.id).toArray().join(' # ')}\`\`\``},
           {
             name: `📃 Roles [${roles.length}]:`,

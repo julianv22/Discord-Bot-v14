@@ -13,7 +13,7 @@ module.exports = (client) => {
       const minutes = date.getUTCMinutes();
       const seconds = date.getUTCSeconds();
 
-      let time = [];
+      const time = [];
       if (days > 0) time.push(days + ' day' + (days > 1 ? 's' : ''));
       if (hours > 0) time.push(hours + ' hour' + (hours > 1 ? 's' : ''));
       if (minutes > 0) time.push(minutes + ' minute' + (minutes > 1 ? 's' : ''));

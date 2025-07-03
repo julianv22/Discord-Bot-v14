@@ -114,7 +114,7 @@ module.exports = (client) => {
         )
         .setTimestamp()
         .setFooter({
-          text: `Requested by ${author.displayName}`,
+          text: `Requested by ${author.displayName || author.username}`,
           iconURL: author.displayAvatarURL(true),
         });
 

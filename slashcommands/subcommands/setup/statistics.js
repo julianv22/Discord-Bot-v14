@@ -42,7 +42,7 @@ module.exports = {
 
     await profile.save().catch(console.error);
 
-    serverStats(client, guild.id);
+    serverStats(guild.id);
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

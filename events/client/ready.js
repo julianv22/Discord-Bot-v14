@@ -67,7 +67,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '19:46 - 3 tháng 7, 2025' });
+      table({ name: '📆 Last update:', value: '22:40 - 3 tháng 7, 2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
@@ -88,15 +88,15 @@ module.exports = {
       }, 30 * 60 * 1000);
 
       // Set Client's Pressence
-      setPresence(client);
+      setPresence();
       setInterval(() => {
-        setPresence(client);
+        setPresence();
       }, 5 * 60 * 1000);
 
       for (const server of servers) {
-        await serverStats(client, server.id);
+        await serverStats(server.id);
         setInterval(async () => {
-          await serverStats(client, server.id);
+          await serverStats(server.id);
         }, 5 * 60 * 1000);
       }
     } catch (e) {

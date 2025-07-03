@@ -12,7 +12,7 @@ module.exports = (client) => {
         return acc;
       }, {});
 
-      let commandFields = [];
+      const commandFields = [];
       for (const [prop, count] of Object.entries(commandCat)) {
         const cmds = commands.filter((cmd) => cmd[property] === prop).map((cmd) => cmd?.data?.name || cmd?.name);
 

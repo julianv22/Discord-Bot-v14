@@ -15,7 +15,10 @@ module.exports = (client) => {
         .setColor('Random')
         .setImage(target.displayAvatarURL({ dynamic: true, size: 1024 }))
         .setTimestamp()
-        .setFooter({ text: `Requested by ${author.displayName}`, iconURL: author.displayAvatarURL(true) });
+        .setFooter({
+          text: `Requested by ${author.displayName || author.username}`,
+          iconURL: author.displayAvatarURL(true),
+        });
 
       return await object.reply({ embeds: [embed] });
     } catch (e) {

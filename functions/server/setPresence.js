@@ -2,9 +2,8 @@ const { Client, ActivityType } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Set the presence and activity of the bot
-   * @param {Client} client - Discord Client */
-  client.setPresence = async (client) => {
+  /** - Set the presence and activity of the bot */
+  client.setPresence = async () => {
     const { guilds, user, logError } = client;
 
     const lastestVideo = async (channelId) => {

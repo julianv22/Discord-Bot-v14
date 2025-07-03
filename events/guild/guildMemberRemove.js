@@ -32,7 +32,7 @@ module.exports = {
         await logChannel.send({ embeds: [emLog] });
       }
 
-      client.serverStats(client, guild.id);
+      client.serverStats(guild.id);
 
       console.log(chalk.yellow(user.tag + ' left the server'), guild.name);
     } catch (e) {

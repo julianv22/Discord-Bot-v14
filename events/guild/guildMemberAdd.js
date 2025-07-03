@@ -119,7 +119,7 @@ module.exports = {
         await logChannel.send({ embeds: [logEmbed] });
       }
 
-      client.serverStats(client, guild.id);
+      client.serverStats(guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
     } catch (e) {
       client.logError({ item: this.name, desc: 'event' }, e);

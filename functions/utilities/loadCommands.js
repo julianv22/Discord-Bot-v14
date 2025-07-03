@@ -53,19 +53,19 @@ module.exports = (client) => {
     };
 
     await Promise.all([
-      await loadCommands(commandTypes.Prefix),
-      await loadCommands(commandTypes.Slash),
-      await loadCommands(commandTypes.Sub),
+      loadCommands(commandTypes.Prefix),
+      loadCommands(commandTypes.Slash),
+      loadCommands(commandTypes.Sub),
     ]);
 
     logAsciiTable([prefixCommands.toGroupedCountList(), envCollection.toGroupedCountList('type')], {
       title: 'Load Prefix Commands & Components',
-      heading: [commandTypes.Prefix.name + ` [${prefixCommands.size}]`, 'Components' + ` [${envCollection.size}]`],
+      heading: [`${commandTypes.Prefix.name} [${prefixCommands.size}]`, `Components [${envCollection.size}]`],
     });
 
     logAsciiTable([slashCommands.toGroupedCountList(), subCommands.toGroupedCountList('parent')], {
       title: 'Load Slash/Sub Commands',
-      heading: [commandTypes.Slash.name + ` [${slashCommands.size}]`, commandTypes.Sub.name + ` [${subCommands.size}]`],
+      heading: [`${commandTypes.Slash.name} [${slashCommands.size}]`, `${commandTypes.Sub.name} [${subCommands.size}]`],
     });
 
     (async () => {
@@ -73,13 +73,25 @@ module.exports = (client) => {
       const clientId = process.env.clientID || client.user.id;
       const guildId = '1388619729429598358'; // Guild ID cụ thể cho bot phụ
 
-      if (!token) throw new Error('Không xác định được token của bot');
-      if (!clientId) throw new Error('Không xác định được clientId của bot');
+      if (!token) {
+        logError(
+          { todo: 'getting bot token', item: 'token', desc: 'from environment variables' },
+          new Error('Không xác định được token của bot')
+        );
+        return;
+      }
+      if (!clientId) {
+        logError(
+          { todo: 'getting bot client ID', item: 'clientID', desc: 'from environment variables' },
+          new Error('Không xác định được clientId của bot')
+        );
+        return;
+      }
 
-      let slashArray = [];
+      const slashArray = [];
       try {
-        for (const command of slashCommands) {
-          slashArray.push(command[1].data.toJSON());
+        for (const command of slashCommands.values()) {
+          slashArray.push(command.data.toJSON());
         }
       } catch (e) {
         return logError({ todo: 'pushing', item: 'slashCommands', desc: 'collection toJSON data' }, e);
@@ -87,7 +99,7 @@ module.exports = (client) => {
 
       try {
         if (slashArray.length > 0) {
-          const rest = new REST({ version: 10 }).setToken(token);
+          const rest = new REST({ version: '10' }).setToken(token);
 
           const commandRoute =
             clientId === '995949416273940623'
@@ -100,7 +112,7 @@ module.exports = (client) => {
           const data = await rest.put(commandRoute, { body: slashArray });
 
           console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
-        } else
+        } else {
           logError(
             {
               isWarn: true,
@@ -110,6 +122,7 @@ module.exports = (client) => {
             },
             slashArray
           );
+        }
       } catch (e) {
         return logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, e.stack);
       }
