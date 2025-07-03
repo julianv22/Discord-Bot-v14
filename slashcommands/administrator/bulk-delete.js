@@ -7,7 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('bulk-delete')
-    .setDescription(`Bulk delete messages. ${cfg.adminRole} only`)
+    .setDescription('Bulk delete messages.')
     .addIntegerOption((opt) =>
       opt
         .setName('amount')

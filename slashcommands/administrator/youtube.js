@@ -21,7 +21,7 @@ module.exports = {
     .setDescription(`Set up YouTube (Add/remove follow channels, notify channel). ${cfg.adminRole} only`)
     .addSubcommand((sub) =>
       sub
-        .setName('setup')
+        .setName('channel')
         .setDescription(`Add or remove a YouTube channel. ${cfg.adminRole} only`)
         .addStringOption((opt) => opt.setName('channel-id').setDescription('YouTube channel ID').setRequired(true))
         .addStringOption((opt) =>

@@ -1,4 +1,4 @@
-const { Client, Collection, Locale, Colors } = require('discord.js');
+const { Client, Collection, Locale, Colors, SlashCommandSubcommandBuilder } = require('discord.js');
 const asciiTable = require('ascii-table');
 const path = require('path');
 
@@ -150,5 +150,31 @@ Collection.prototype.toGroupedCountList = function (property = 'category') {
   }, {});
 
   return Object.entries(groupedCounts).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
+};
+/** - Chuyển đổi Collection thành định dạng fields cho EmbedBuilder.
+ * @param {string} categoryName - Tên category của command.
+ * - Trả về một mảng các đối tượng có dạng `{ name: string, value: string }` */
+Collection.prototype.toEmbedFields = function (categoryName) {
+  return this.filter((cmd) => cmd.category === categoryName).map((cmd) => {
+    const subNames = cmd?.data?.options
+      ?.filter((opt) => opt instanceof SlashCommandSubcommandBuilder)
+      .map((opt) => opt?.name);
+
+    const subTree =
+      subNames.length > 0
+        ? '\n\x1b[35mSub commands:\x1b[34m\n' +
+          subNames
+            .map((subName, index, array) => {
+              const isLast = index === array.length - 1;
+              return (isLast ? '└──' : '├──') + `${cmd?.data?.name} ${subName}`;
+            })
+            .join('\n')
+        : '';
+
+    return {
+      name: `/${cmd?.data?.name || cmd?.name}`,
+      value: '\n```ansi\n\x1b[36m' + cmd?.data?.description + subTree + '```',
+    };
+  });
 };
 // End define prototype functions

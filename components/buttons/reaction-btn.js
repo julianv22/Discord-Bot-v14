@@ -126,7 +126,7 @@ module.exports = {
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
 
-        if (emojiArray.length <= 1) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
+        if (emojiArray.length === 0) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
 
         const msg = await channel.send({ embeds: [reactionEmbed] });
 

@@ -2,6 +2,7 @@ const { Client, Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { logAsciiTable } = require('../common/utilities');
+const { compareCommands } = require('../common/compareCommands');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -69,7 +70,7 @@ module.exports = (client) => {
 
     (async () => {
       const token = process.env.token || client.token;
-      const clientId = process.env.clientID || cfg.clientID;
+      const clientId = process.env.clientID || client.user.id;
       const guildId = '1388619729429598358'; // Guild ID cụ thể cho bot phụ
 
       if (!token) throw new Error('Không xác định được token của bot');
@@ -88,24 +89,29 @@ module.exports = (client) => {
         if (slashArray.length > 0) {
           const rest = new REST({ version: 10 }).setToken(token);
 
-          let data = [];
-          if (clientId === '995949416273940623')
-            data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: slashArray });
-          else data = await rest.put(Routes.applicationCommands(clientId), { body: slashArray });
+          const commandRoute =
+            clientId === '995949416273940623'
+              ? Routes.applicationGuildCommands(clientId, guildId)
+              : Routes.applicationCommands(clientId);
+
+          const remoteCommands = await rest.get(commandRoute);
+          compareCommands(slashArray, remoteCommands);
+
+          const data = await rest.put(commandRoute, { body: slashArray });
 
           console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
         } else
           logError(
             {
+              isWarn: true,
               todo: 'Can not load',
               item: 'application (/) commands',
               desc: `to Discord API: ${chalk.reset(`No data in 'slashArray':`)}`,
-              isWarn: true,
             },
             slashArray
           );
       } catch (e) {
-        return logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e);
+        return logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, e.stack);
       }
     })();
   };
