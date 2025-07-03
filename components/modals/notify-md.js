@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   type: 'modals',
@@ -12,14 +12,24 @@ module.exports = {
     const title = fields.getTextInputValue('title');
     const description = fields.getTextInputValue('description');
     const imageURL = fields.getTextInputValue('imageURL');
-    const thumbnail = [cfg.thongbaoPNG, cfg.updatePNG];
+    const thumbnailOptions = [cfg.thongbaoPNG, cfg.updatePNG];
+
+    const truncateString = (str, maxLength) => (str.length > maxLength ? str.slice(0, maxLength) : str);
+
+    // Kiểm tra notifytype có hợp lệ không
+    const selectedThumbnail = thumbnailOptions[notifytype - 1];
+    if (selectedThumbnail !== 1 && selectedThumbnail !== 2) {
+      return await interaction.reply(
+        client.errorEmbed({ desc: 'Loại thông báo không hợp lệ. Vui lòng chọn 1 hoặc 2.' })
+      );
+    }
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(title.length > 256 ? title.slice(0, 256) : title)
-      .setDescription(description.length > 4096 ? description.slice(0, 4096) : description)
+      .setTitle(truncateString(title, 256))
+      .setDescription(truncateString(description, 4096))
       .setColor(Colors.DarkVividPink)
-      .setThumbnail(thumbnail[notifytype - 1])
+      .setThumbnail(selectedThumbnail)
       .setImage(imageURL.checkURL() ? imageURL : null)
       .setTimestamp()
       .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) });

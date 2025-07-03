@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
@@ -13,7 +13,9 @@ module.exports = {
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
-    if (amountStr === 'cancel') return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
+    if (amountStr === 'cancel') {
+      return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
+    }
 
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
@@ -21,17 +23,25 @@ module.exports = {
 
     // Lấy profile của người chuyển và người nhận
     let [profile, targetProfile] = await Promise.all([
-      await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
-      await economyProfile.findOne({ guildID: guild.id, userID: targetId }).catch(console.error),
+      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
+      economyProfile.findOne({ guildID: guild.id, userID: targetId }).catch(console.error),
     ]);
 
     // Kiểm tra lại dữ liệu
-    if (!profile) return await interaction.update(errorEmbed({ desc: 'Không kết nối được với database' }));
-    if (!targetProfile)
+    if (!profile) {
+      return await interaction.update(errorEmbed({ desc: 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!' }));
+    }
+    if (!targetProfile) {
       targetProfile = await economyProfile
         .create({ guildID: guild.id, guildName: guild.name, userID: targetId, bank: 0 })
         .catch(console.error);
-    if (amount > profile.bank) return await interaction.update(errorEmbed({ desc: 'Bạn không có đủ \\💲 để chuyển' }));
+    }
+
+    if (profile.bank < total) {
+      return await interaction.update(
+        errorEmbed({ desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile.bank.toCurrency()}` })
+      );
+    }
 
     // Trừ tiền người chuyển, cộng tiền người nhận
     profile.bank -= total;
@@ -69,8 +79,12 @@ module.exports = {
       });
 
     // Gửi thông báo cho người nhận (nếu có thể)
-    const member = await guild.members.fetch(targetId);
-    await member.send({ embeds: [embedReceiver] }).catch(console.error);
+    try {
+      const member = await guild.members.fetch(targetId);
+      await member.send({ embeds: [embedReceiver] });
+    } catch (e) {
+      client.catchError(interaction, e, 'Lỗi khi gửi tin nhắn cho người nhận');
+    }
 
     // Cập nhật lại interaction cho người chuyển
     return await interaction.update({ embeds: [embedSender], components: [] });

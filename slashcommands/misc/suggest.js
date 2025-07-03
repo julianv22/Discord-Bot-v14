@@ -1,12 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  ModalBuilder,
-  ActionRowBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-} = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
 module.exports = {
   category: 'misc',

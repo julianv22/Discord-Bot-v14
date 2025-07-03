@@ -1,5 +1,3 @@
-const { Client, ChatInputCommandInteraction } = require('discord.js');
-
 module.exports = {
   type: 'buttons',
   data: { name: 'support-btn' },

@@ -1,13 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  ModalBuilder,
-  ActionRowBuilder,
-  EmbedBuilder,
-  TextInputStyle,
-  ComponentType,
-  Colors,
-} = require('discord.js');
+const { ModalBuilder, ActionRowBuilder, EmbedBuilder, TextInputStyle, ComponentType, Colors } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 const { rowComponents } = require('../../functions/common/components');
 const reactionMap = new Map();
@@ -23,28 +14,30 @@ module.exports = {
     const { errorEmbed } = client;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
-    /** - Create Interaction Modal
-     * @param {string} placeholder TextInput placeholder */
+    /** - Tạo Modal tương tác
+     * @param {string} placeholder Placeholder cho TextInput */
     const createModal = (placeholder) => {
       const textInputs = rowComponents(
         [{ customId: buttonId, label: `Reaction Role ${buttonId}`, style: TextInputStyle.Short, placeholder }],
         ComponentType.TextInput
       );
-      const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
-      const modal = new ModalBuilder().setCustomId(`reaction-md:${buttonId}`).setTitle('Manager Reaction Role');
+      const actionRows = textInputs.map((textInput) => new ActionRowBuilder().addComponents(textInput));
+      const modal = new ModalBuilder().setCustomId(`reaction-md:${buttonId}`).setTitle('Quản lý Reaction Role');
       actionRows.forEach((row) => modal.addComponents(row));
       return modal;
     };
 
     const reactionButton = {
       title: async () => {
-        return await interaction.showModal(createModal('Enter the reaction role title'));
+        return await interaction.showModal(createModal('Nhập tiêu đề cho reaction role'));
       },
       color: async () => {
         return await interaction.showModal(createModal(Object.keys(Colors).join(',').slice(14, 114)));
       },
       add: async () => {
-        if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
+        if (!reactionMap.has(message.id)) {
+          reactionMap.set(message.id, []);
+        }
         const emojiArray = reactionMap.get(message.id);
 
         await interaction.update({
@@ -64,8 +57,10 @@ module.exports = {
 
         collector.on('collect', async (m) => {
           const input = m.content.trim();
-          if (m && m.deletable) await m.delete().catch(console.error);
-          if (input === 'done') {
+          if (m && m.deletable) {
+            await m.delete().catch(console.error);
+          }
+          if (input.toLowerCase() === 'done') {
             collector.stop('finish');
             reactionEmbed.setFields([]);
 
@@ -75,18 +70,22 @@ module.exports = {
           }
 
           const [emojiInput, roleInput] = input.split('|').map((v) => v.trim());
-          if (!emojiInput || !roleInput)
+          if (!emojiInput || !roleInput) {
             return await interaction.followUp({ content: 'Nhập sai cú pháp `emoji | @tên_role`', flags: 64 });
+          }
 
-          let role = roleInput;
+          let role;
           try {
-            const roleMatch = roleInput.match(/^<@&(\d+)>$/),
-              roleId = roleMatch ? roleMatch[1] : null;
+            const roleMatch = roleInput.match(/^<@&(\d+)>$/);
+            const roleId = roleMatch ? roleMatch[1] : null;
 
-            if (roleId) role = await guild.roles.cache.get(roleId);
-            else role = await guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
+            if (roleId) {
+              role = await guild.roles.cache.get(roleId);
+            } else {
+              role = await guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
+            }
 
-            if (!role)
+            if (!role) {
               return await interaction.followUp(
                 errorEmbed({
                   title: '\\❌ Không tìm thấy Role',
@@ -94,8 +93,9 @@ module.exports = {
                   color: Colors.DarkVividPink,
                 })
               );
+            }
           } catch (e) {
-            return console.error(chalk.red('Error while fetching role\n'), e);
+            return client.catchError(interaction, e, 'Lỗi khi tìm kiếm role');
           }
 
           let emojiReact = emojiInput;
@@ -103,12 +103,15 @@ module.exports = {
           if (emojiMatch) {
             emojiReact = `<${emojiMatch[1] ? 'a' : ''}:${emojiMatch[2]}:${emojiMatch[3]}>`;
 
-            if (!client.emojis.cache.get(emojiMatch[3]))
+            if (!client.emojis.cache.get(emojiMatch[3])) {
               return interaction.followUp(errorEmbed({ desc: `Bot không truy cập được custom emoji: ${emojiInput}` }));
+            }
           }
 
           let desc = reactionEmbed.data.description || '';
-          if (desc.includes('🎨Color')) desc = '';
+          if (desc.includes('🎨Color')) {
+            desc = '';
+          }
           desc = desc + `\n${emojiReact} ${role}`;
 
           emojiArray.push({ emoji: emojiReact, roleId: role.id });
@@ -119,14 +122,18 @@ module.exports = {
         });
 
         collector.on('end', async (collected, reason) => {
-          if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
+          if (reason === 'time') {
+            await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
+          }
         });
         return;
       },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
 
-        if (emojiArray.length === 0) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
+        if (emojiArray.length === 0) {
+          return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
+        }
 
         const msg = await channel.send({ embeds: [reactionEmbed] });
 
@@ -143,7 +150,7 @@ module.exports = {
           .catch(console.error);
 
         await interaction.update({
-          ...errorEmbed({ desc: `Reaction role đã được tạo: [Jump Link](${msg.url})`, emoji: true }),
+          embeds: [errorEmbed({ desc: `Reaction role đã được tạo: [Jump Link](${msg.url})`, emoji: true })],
           components: [],
         });
 
@@ -154,7 +161,9 @@ module.exports = {
       },
     };
 
-    if (!reactionButton[buttonId]) throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
+    if (!reactionButton[buttonId]) {
+      throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
+    }
 
     await reactionButton[buttonId]();
   },

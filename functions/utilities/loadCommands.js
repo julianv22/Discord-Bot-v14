@@ -1,4 +1,4 @@
-const { Client, Collection, REST, Routes } = require('discord.js');
+const { Collection, REST, Routes } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { logAsciiTable } = require('../common/utilities');

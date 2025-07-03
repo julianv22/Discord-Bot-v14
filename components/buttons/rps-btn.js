@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 
@@ -15,9 +15,12 @@ module.exports = {
     const userMove = parseInt(button, 10);
     const bet = parseInt(betStr, 10);
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy
-    if (!profile) return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
+    if (!profile) {
+      return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
+    }
+
     // Reset count nếu sang ngày mới
     const today = new Date();
     const lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null;
@@ -27,9 +30,12 @@ module.exports = {
       profile.rpsCount = 0;
       profile.lastPlayRPS = today;
     }
+
     // Kiểm tra số lần chơi trong ngày
-    if (profile.rpsCount >= 50)
+    if (profile.rpsCount >= 50) {
       return await interaction.update(errorEmbed({ desc: 'Bạn đã chơi hết 50 lần trong ngày!' }));
+    }
+
     // Kiểm tra tiền cược
     if (profile.balance < bet) {
       return await interaction.update(
@@ -42,34 +48,37 @@ module.exports = {
 
     // Tính kết quả
     const rps = rpsGame(userMove, profile, bet);
-    // Tính tiền thắng
-    const winAmount = Math.floor(bet * (1 + Math.random() * 0.5)); // 1x ~ 1.5x
-    // Tạo string cho kết quả
-    const resString = {
-      0: () => {
+    let resultMessage = '';
+    let winAmount = 0;
+
+    switch (rps.res) {
+      case 0: // Thua
         profile.balance -= bet;
-        profile.totalSpent -= bet;
-        return `Bạn thua và bị trừ **${bet.toCurrency()}**!`;
-      },
-      1: () => {
-        return 'Hòa, bạn không bị trừ tiền!';
-      },
-      2: () => {
+        profile.totalSpent += bet;
+        resultMessage = `Bạn thua và bị trừ **${bet.toCurrency()}**!`;
+        break;
+      case 1: // Hòa
+        resultMessage = 'Hòa, bạn không bị trừ tiền!';
+        break;
+      case 2: // Thắng
+        winAmount = Math.floor(bet * (1 + Math.random() * 0.5)); // 1x ~ 1.5x
         profile.balance += winAmount;
         profile.totalEarned += winAmount;
-        return `Bạn thắng và nhận được **${winAmount.toCurrency()}**!`;
-      },
-    };
+        resultMessage = `Bạn thắng và nhận được **${winAmount.toCurrency()}**!`;
+        break;
+    }
+
     // Tăng số lần chơi và cập nhật
     profile.rpsCount += 1;
     profile.lastPlayRPS = today;
     await profile.save().catch(console.error);
+
     // Trả về kết quả
     const embed = new EmbedBuilder()
       .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTitle('You ' + rps.result)
       .setDescription(
-        `${rps.description}\n\n${resString[rps.res]()}\nSố lần chơi hôm nay: **${
+        `${rps.description}\n\n${resultMessage}\nSố lần chơi hôm nay: **${
           profile.rpsCount
         }/50**\nSố dư: **${profile.balance.toCurrency()}**`
       )

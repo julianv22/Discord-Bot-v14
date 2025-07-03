@@ -1,10 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-} = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {

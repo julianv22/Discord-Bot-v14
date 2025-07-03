@@ -1,4 +1,3 @@
-const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('./common/initLoader');
 
@@ -16,7 +15,7 @@ module.exports = (client) => {
         filter: (folder) => !ignoreFolders.includes(folder),
       });
 
-      let funcArray = [];
+      const funcArray = [];
       let totalCount = 0;
       for (const folder of functionFolders) {
         const folderPath = path.join(funcFolder, folder);

@@ -1,4 +1,4 @@
-const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */

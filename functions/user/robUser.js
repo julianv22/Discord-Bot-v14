@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, GuildMember, EmbedBuilder, Colors } = require('discord.js');
+const { EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 /** @param {Client} client - Discord Client. */

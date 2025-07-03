@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -30,7 +30,7 @@ module.exports = {
       const messages = await channel.messages.fetch({ limit: amount });
       const actualAmount = Math.min(messages.size, amount);
 
-      let filtered = [];
+      const filtered = [];
       if (user) {
         let i = 0;
         messages.filter((m) => {

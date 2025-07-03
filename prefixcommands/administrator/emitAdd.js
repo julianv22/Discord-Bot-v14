@@ -1,9 +1,9 @@
-const { Client, Message, PermissionFlagsBits } = require('discord.js');
+const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   name: 'emitAdd',
   aliases: ['add'],
-  description: 'Emit Add Member\n' + cfg.adminRole + 'only',
+  description: `Emit Add Member (${cfg.adminRole} only)`,
   category: 'administrator',
   cooldown: 0,
   permissions: PermissionFlagsBits.Administrator,
@@ -12,8 +12,20 @@ module.exports = {
    * @param {string[]} args - Mảng args
    * @param {Client} client - Đối tượng client */
   async execute(message, args, client) {
-    const { member: user, mentions } = message;
-    const member = mentions.members.first() || user;
-    client.emit('guildMemberAdd', member);
+    const { mentions } = message;
+    const { errorEmbed } = client;
+
+    const memberToEmit = mentions.members.first();
+
+    if (!memberToEmit) {
+      return await message.reply(
+        errorEmbed({ desc: 'Vui lòng mention một thành viên để kích hoạt sự kiện `guildMemberAdd`.' })
+      );
+    }
+
+    client.emit('guildMemberAdd', memberToEmit);
+    await message.reply(
+      errorEmbed({ desc: `Đã kích hoạt sự kiện \`guildMemberAdd\` cho ${memberToEmit.user.tag}.`, emoji: true })
+    );
   },
 };

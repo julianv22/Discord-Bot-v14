@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
@@ -21,7 +21,11 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found' }));
+    if (!message) {
+      return await interaction.reply(client.errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
+    }
+
+    const truncateString = (str, maxLength) => (str.length > maxLength ? str.slice(0, maxLength) : str);
 
     const editEmbed = {
       author: () => {
@@ -29,17 +33,15 @@ module.exports = {
         const iconURL = replaceVar(authorIcon, replaceKey);
 
         return embed.setAuthor({
-          name: replaceVar(strInput.length > 256 ? strInput.slice(0, 256) : strInput, replaceKey) || null,
+          name: replaceVar(truncateString(strInput, 256), replaceKey) || null,
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
       title: () => {
-        return embed.setTitle(strInput.length > 256 ? strInput.slice(0, 256) : strInput);
+        return embed.setTitle(truncateString(strInput, 256));
       },
       description: () => {
-        return embed.setDescription(
-          replaceVar(strInput.length > 4096 ? strInput.slice(0, 4096) : strInput, replaceKey)
-        );
+        return embed.setDescription(replaceVar(truncateString(strInput, 4096), replaceKey));
       },
       color: () => {
         return embed.setColor(strInput.toEmbedColor());
@@ -55,13 +57,20 @@ module.exports = {
         const iconUrl = replaceVar(footerIcon, replaceKey);
 
         return embed.setFooter({
-          text: replaceVar(strInput.length > 2048 ? strInput.slice(0, 2048) : strInput, replaceKey) || null,
-          iconURL: iconUrl.checkURL() ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp',
+          text: replaceVar(truncateString(strInput, 2048), replaceKey) || null,
+          iconURL: iconUrl.checkURL() ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp', // Changed to null, as a default static URL might not be desired.
         });
       },
     };
 
-    if (!editEmbed[input]) throw new Error(chalk.yellow("Invalid Modal's customId ") + chalk.green(input));
+    if (!editEmbed[input]) {
+      client.catchError(
+        interaction,
+        new Error(chalk.yellow("Invalid Modal's customId ") + chalk.green(input)),
+        'Lỗi Modal Embed'
+      );
+      return await interaction.reply(client.errorEmbed({ desc: 'Đã xảy ra lỗi khi xử lý yêu cầu của bạn.' }));
+    }
     await editEmbed[input]();
 
     return await interaction.update({ embeds: [embed], components: [Button0, Button1] });

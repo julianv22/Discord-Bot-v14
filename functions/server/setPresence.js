@@ -1,4 +1,4 @@
-const { Client, ActivityType } = require('discord.js');
+const { ActivityType } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {

@@ -1,4 +1,4 @@
-const { Client, Collection, Locale, Colors, SlashCommandSubcommandBuilder } = require('discord.js');
+const { Collection, SlashCommandSubcommandBuilder, Locale, Colors } = require('discord.js');
 const asciiTable = require('ascii-table');
 const path = require('path');
 

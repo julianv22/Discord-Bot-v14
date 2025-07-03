@@ -1,11 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-  Colors,
-} = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 

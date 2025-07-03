@@ -1,12 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  EmbedBuilder,
-  ButtonBuilder,
-  ActionRowBuilder,
-  ButtonStyle,
-  Colors,
-} = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { disableButtons } = require('../../functions/common/components');
 
@@ -25,9 +17,11 @@ module.exports = {
     const { errorEmbed } = client;
     const [, feature, confirm] = customId.split(':');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
-    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!' }));
+    if (!profile) {
+      return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!' }));
+    }
 
     const { starboard, suggest, youtube, welcome } = profile.setup;
     // Confirm Button & Cancel Button
@@ -41,7 +35,7 @@ module.exports = {
     /** - Confirm Embed
      * @param {string} title Embed title
      * @param {string} [description] Embed description (optional) */
-    const confirmEmbed = (
+    const createConfirmEmbed = (
       title,
       description = `🔴 Bạn có chắc chắn muốn tắt tính năng **${feature.toCapitalize()}** không?`,
       color = Colors.Orange
@@ -51,40 +45,42 @@ module.exports = {
         .setColor(color)
         .setDescription(description);
 
-      if (title) embed.setTitle(title).setTimestamp();
+      if (title) {
+        embed.setTitle(title).setTimestamp();
+      }
 
       return embed;
     };
 
     switch (feature) {
-      case 'confrm':
-        const Disable = {
-          starboard: () => {
-            starboard.channel = '';
-            starboard.star = 0;
-            return;
-          },
-          suggest: () => {
-            return (suggest = '');
-          },
-          youtube: () => {
-            return (youtube.notifyChannel = '');
-          },
-          welcome: () => {
-            welcome.channel = '';
-            welcome.log = '';
-            return;
-          },
+      case 'confrm': {
+        const disableFeature = async () => {
+          switch (confirm) {
+            case 'starboard':
+              profile.setup.starboard.channel = '';
+              profile.setup.starboard.star = 0;
+              break;
+            case 'suggest':
+              profile.setup.suggest = '';
+              break;
+            case 'youtube':
+              profile.setup.youtube.notifyChannel = '';
+              break;
+            case 'welcome':
+              profile.setup.welcome.channel = '';
+              profile.setup.welcome.log = '';
+              break;
+            default:
+              throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
+          }
+          await profile.save().catch(console.error);
         };
 
-        if (!Disable[confirm]) throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(confirm));
-
-        await Disable[confirm]();
-        await profile.save().catch(console.error);
+        await disableFeature();
 
         await interaction.update({
           embeds: [
-            confirmEmbed(
+            createConfirmEmbed(
               `\\✅ Đã tắt tính năng **${confirm.toCapitalize()}**!`,
               `Click vào \`Dismiss message\` để trở về\n\n\`/setup info\` để xem thông tin cấu hình`,
               Colors.Green
@@ -93,14 +89,17 @@ module.exports = {
           components: [disableButtons(oldComponents)],
         });
         break;
+      }
       case 'cancel':
         await interaction.update({
-          embeds: [confirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', Colors.DarkVividPink)],
+          embeds: [
+            createConfirmEmbed('\\❌ Đã hủy bỏ!', 'Click vào `Dismiss message` để trở về', Colors.DarkVividPink),
+          ],
           components: [disableButtons(oldComponents)],
         });
         break;
       default:
-        await interaction.update({ embeds: [confirmEmbed()], components: [confirmButton] });
+        await interaction.update({ embeds: [createConfirmEmbed()], components: [confirmButton] });
         break;
     }
   },

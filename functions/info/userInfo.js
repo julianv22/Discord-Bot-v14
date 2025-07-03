@@ -1,11 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  Message,
-  GuildMember,
-  EmbedBuilder,
-  PermissionFlagsBits,
-} = require('discord.js');
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -26,7 +19,7 @@ module.exports = (client) => {
       if (target.id === guild.ownerId) acknowledgements.push('Server Owner');
       if (member.permissions.has(PermissionFlagsBits.Administrator)) acknowledgements.push('Administrator');
       if (member.permissions.has(PermissionFlagsBits.ManageMessages)) acknowledgements.push('Moderator');
-      if (target.user.bot) acknowledgements.push('Bot');
+      if (target.bot) acknowledgements.push('Bot');
       if (member.premiumSince) acknowledgements.push('Server Booster');
 
       const acknowledgementsString =
@@ -40,13 +33,13 @@ module.exports = (client) => {
 
       const embed = new EmbedBuilder()
         .setAuthor({
-          name: target.user.tag,
-          iconURL: target.user.displayAvatarURL(true),
+          name: target.tag,
+          iconURL: target.displayAvatarURL(true),
         })
         .setTitle('⚠️ Member Info ⚠️')
         .setDescription(`👤 **Username:** ${target}`)
         .setColor('Random')
-        .setThumbnail(target.user.displayAvatarURL(true))
+        .setThumbnail(target.displayAvatarURL(true))
         .setFooter({
           text: `Requested by ${author.displayName || author.username}`,
           iconURL: author.displayAvatarURL(true),
@@ -54,7 +47,7 @@ module.exports = (client) => {
         .setTimestamp()
         .addFields([
           {
-            name: `🆔: ||${target.user.id}||`,
+            name: `🆔: ||${target.id}||`,
             value: '\u200b',
             inline: true,
           },

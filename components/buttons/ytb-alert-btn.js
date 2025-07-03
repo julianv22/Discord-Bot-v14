@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -27,29 +27,44 @@ module.exports = {
 
     collector.on('collect', async (m) => {
       const input = m.content.trim();
-      if (m && m.deletable) await m.delete().catch(console.error);
+      if (m && m.deletable) {
+        await m.delete().catch(console.error);
+      }
 
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-      if (!profile) return;
+      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+      if (!profile) {
+        return await interaction.followUp(errorEmbed({ desc: 'Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!' }));
+      }
 
       const { youtube } = profile;
 
-      if (input === 'delete') {
-        desc = 'Chưa có YouTube Alert Role nào được thiết lập.';
-
-        await interaction.followUp(errorEmbed({ desc: `YouTube Alert Role <@${youtube.alert}> đã được xóa` }));
-
-        youtube.alert = null;
-        await profile.save().catch(console.error);
+      if (input.toLowerCase() === 'delete') {
+        if (youtube.alert) {
+          await interaction.followUp(errorEmbed({ desc: `YouTube Alert Role <@&${youtube.alert}> đã được xóa` }));
+          youtube.alert = null;
+          await profile.save().catch(console.error);
+          desc = 'Chưa có YouTube Alert Role nào được thiết lập.';
+        } else {
+          await interaction.followUp(errorEmbed({ desc: 'Không có YouTube Alert Role nào để xóa.' }));
+        }
       } else {
-        const roleId = input.replace(/<@&(\d+)>/, '$1');
-        const role = guild.roles.cache.get(roleId); // Extract role ID from mention
+        const roleIdMatch = input.match(/^<@&(\d+)>$/);
+        let role = null;
+
+        if (roleIdMatch) {
+          role = guild.roles.cache.get(roleIdMatch[1]);
+        } else {
+          role = guild.roles.cache.find((r) => r.name.toLowerCase() === input.toLowerCase());
+        }
 
         if (role) {
           youtube.alert = role.id;
           await profile.save().catch(console.error);
           desc = `Alert Role: ${role}`;
-        } else desc = 'Alert Role không hợp lệ hoặc role không tồn tại.';
+        } else {
+          desc = 'Alert Role không hợp lệ hoặc role không tồn tại.';
+          await interaction.followUp(errorEmbed({ desc: 'Alert Role không hợp lệ hoặc role không tồn tại.' }));
+        }
       }
 
       await interaction.editReply({ embeds: [newEmbed.setDescription(desc)] });

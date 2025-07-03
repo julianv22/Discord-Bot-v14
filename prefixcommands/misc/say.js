@@ -1,5 +1,3 @@
-const { Client, Message } = require('discord.js');
-
 module.exports = {
   name: 'say',
   aliases: [],
@@ -22,6 +20,9 @@ module.exports = {
 
     if (toSay.trim() === '?') return await client.commandUsage(message, this);
 
-    if (message.deletable) await message.delete().then(async () => await message.channel.send(toSay));
+    if (message.deletable) {
+      await message.delete();
+      await message.channel.send(toSay);
+    }
   },
 };

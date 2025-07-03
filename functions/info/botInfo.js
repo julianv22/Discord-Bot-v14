@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, Message, EmbedBuilder, UserFlags, ChannelType } = require('discord.js');
+const { EmbedBuilder, UserFlags, ChannelType } = require('discord.js');
 const { connection, version } = require('mongoose');
 const os = require('os');
 const moment = require('moment-timezone');

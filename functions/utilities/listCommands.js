@@ -1,4 +1,4 @@
-const { Client, Collection } = require('discord.js');
+const { Collection } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {

@@ -11,22 +11,31 @@ module.exports = {
     const { errorEmbed } = client;
     const description = interaction.fields.getTextInputValue('content');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
-    if (!profile || !profile?.setup?.suggest)
+    if (!profile || !profile?.setup?.suggest) {
       return await interaction.reply(
         errorEmbed({
-          desc: `This server hasn't been setup Suggest Channel. Please contact the ${cfg.adminRole}'s team`,
+          desc: `Máy chủ này chưa thiết lập kênh đề xuất. Vui lòng liên hệ đội ngũ ${cfg.adminRole} để được hỗ trợ.`,
           emoji: false,
         })
       );
+    }
 
     const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
 
+    if (!sgtChannel) {
+      return await interaction.reply(
+        client.errorEmbed({ desc: 'Kênh đề xuất không tìm thấy hoặc không hợp lệ. Vui lòng kiểm tra lại cấu hình.' })
+      );
+    }
+
+    const truncateString = (str, maxLength) => (str.length > maxLength ? `${str.slice(0, maxLength - 3)}...` : str);
+
     const embed = new EmbedBuilder()
       .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
-      .setTitle("Suggest's content:")
-      .setDescription(description.length > 4096 ? `${description.slice(0, 4093)}...` : description)
+      .setTitle('Nội dung đề xuất:')
+      .setDescription(truncateString(description, 4096))
       .setColor(Colors.DarkGold)
       .setThumbnail(cfg.suggestPNG)
       .setTimestamp()
@@ -35,8 +44,14 @@ module.exports = {
 
     const msg = await sgtChannel.send({ embeds: [embed] });
 
-    await interaction
-      .reply(errorEmbed({ desc: `Your suggestion has been sent successfully! [[Jump link](${msg.url})]`, emoji: true }))
-      .then(() => ['👍', '👎'].forEach(async (e) => await msg.react(e)));
+    await interaction.reply(
+      errorEmbed({ desc: `Đề xuất của bạn đã được gửi thành công! [[Jump link](${msg.url})]`, emoji: true })
+    );
+
+    try {
+      await Promise.all(['👍', '👎'].map((e) => msg.react(e)));
+    } catch (e) {
+      client.catchError(interaction, e, 'Lỗi khi thêm reaction vào tin nhắn đề xuất');
+    }
   },
 };

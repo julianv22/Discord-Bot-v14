@@ -1,4 +1,3 @@
-const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 

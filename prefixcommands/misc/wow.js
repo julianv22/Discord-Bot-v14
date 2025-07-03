@@ -1,4 +1,4 @@
-const { Client, Message, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'wow',
@@ -14,16 +14,16 @@ module.exports = {
     const { author } = message;
     if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
 
-    if (message.deletable)
-      await message.delete().then(async () => {
-        const embed = new EmbedBuilder()
-          .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
-          .setColor('Random')
-          .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png')
-          .setTimestamp()
-          .setFooter({ text: 'Wow! 😍' });
+    if (message.deletable) {
+      await message.delete();
+      const embed = new EmbedBuilder()
+        .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
+        .setColor('Random')
+        .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png')
+        .setTimestamp()
+        .setFooter({ text: 'Wow! 😍' });
 
-        await message.channel.send({ embeds: [embed] });
-      });
+      await message.channel.send({ embeds: [embed] });
+    }
   },
 };

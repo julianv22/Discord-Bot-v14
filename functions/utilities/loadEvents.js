@@ -1,4 +1,3 @@
-const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
 const { logAsciiTable } = require('../common/utilities');
@@ -13,7 +12,7 @@ module.exports = (client) => {
       const eventFolder = 'events';
       const eventFolders = readFiles(eventFolder, { isDir: true });
 
-      let eventArray = [];
+      const eventArray = [];
       let totalCount = 0;
       for (const folder of eventFolders) {
         const folderPath = path.join(eventFolder, folder);

@@ -1,4 +1,4 @@
-const { Client, GuildMember, EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
 // const path = require('path');
 // const Canvas = require('@napi-rs/canvas');
 // const { request } = require('undici');

@@ -1,6 +1,4 @@
 const {
-  Client,
-  ChatInputCommandInteraction,
   SlashCommandBuilder,
   ModalBuilder,
   ActionRowBuilder,

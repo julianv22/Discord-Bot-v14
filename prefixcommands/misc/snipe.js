@@ -1,5 +1,3 @@
-const { Client, Message } = require('discord.js');
-
 module.exports = {
   name: 'snipe',
   aliases: ['snp'],

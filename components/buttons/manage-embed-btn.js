@@ -1,6 +1,4 @@
 const {
-  Client,
-  ChatInputCommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ModalBuilder,
@@ -25,7 +23,9 @@ module.exports = {
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
 
-    if (!message) return await interaction.reply(errorEmbed({ desc: 'No message found' }));
+    if (!message) {
+      return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
+    }
     /** - Create Interaction Modal
      * @param {object[]} options */
     const createModal = (options) => {
@@ -42,13 +42,13 @@ module.exports = {
           createModal([
             {
               customId: 'author',
-              label: 'Embed Author, variable: {guild}, {user}',
-              placeholder: '{guild} = Server name, {user} = Username',
+              label: 'Tác giả Embed, biến: {guild}, {user}',
+              placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
             },
             {
               customId: 'authorIcon',
-              label: 'Author icon (*.webp)',
-              placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
+              label: 'Biểu tượng tác giả (*.webp)',
+              placeholder: '{avatar} = Ảnh đại diện người dùng, {iconURL} = Biểu tượng máy chủ',
             },
           ])
         );
@@ -58,8 +58,8 @@ module.exports = {
           createModal([
             {
               customId: 'title',
-              label: 'Embed Title',
-              placeholder: '{guild} = Server name, {user} = Username',
+              label: 'Tiêu đề Embed',
+              placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
               required: true,
             },
           ])
@@ -70,8 +70,8 @@ module.exports = {
           createModal([
             {
               customId: 'description',
-              label: 'Description',
-              placeholder: 'Enter the embed description\n{guild} = Server name\n{user} = Username',
+              label: 'Mô tả',
+              placeholder: 'Nhập mô tả embed\n{guild} = Tên máy chủ\n{user} = Tên người dùng',
               style: TextInputStyle.Paragraph,
               required: true,
             },
@@ -83,7 +83,7 @@ module.exports = {
           createModal([
             {
               customId: 'color',
-              label: 'Color (Empty = Random)',
+              label: 'Màu sắc (Để trống = Ngẫu nhiên)',
               placeholder: Object.keys(Colors).join(',').slice(14, 114),
             },
           ])
@@ -94,8 +94,8 @@ module.exports = {
           createModal([
             {
               customId: 'image',
-              label: 'Image (Empty = Delete)',
-              placeholder: 'Enter the image url, Empty = Delete',
+              label: 'Hình ảnh (Để trống = Xóa)',
+              placeholder: 'Nhập URL hình ảnh, Để trống = Xóa',
             },
           ])
         );
@@ -105,8 +105,8 @@ module.exports = {
           createModal([
             {
               customId: 'thumbnail',
-              label: 'Thumbnail (Empty = Delete)',
-              placeholder: 'Enter the thumbnail url, Empty = Delete',
+              label: 'Hình thu nhỏ (Để trống = Xóa)',
+              placeholder: 'Nhập URL hình thu nhỏ, Để trống = Xóa',
             },
           ])
         );
@@ -116,24 +116,25 @@ module.exports = {
           createModal([
             {
               customId: 'footer',
-              label: 'Footer (Empty = Delete)',
-              placeholder: '{guild} = Server name, {user} = Username',
+              label: 'Chân trang (Để trống = Xóa)',
+              placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
             },
             {
               customId: 'footerIcon',
-              label: 'Footer icon (*.webp)',
-              placeholder: '{avatar} = User avatar, {iconURL} = Server icon',
+              label: 'Biểu tượng chân trang (*.webp)',
+              placeholder: '{avatar} = Ảnh đại diện người dùng, {iconURL} = Biểu tượng máy chủ',
             },
           ])
         );
       },
       timestamp: async () => {
-        if (Button1.components[2].data.style === ButtonStyle.Danger) {
+        const timestampButton = Button1.components[2];
+        if (timestampButton.data.style === ButtonStyle.Danger) {
           editEmbed.setTimestamp(null);
-          Button1.components[2].setLabel('✅Timestamp').setStyle(ButtonStyle.Success);
+          timestampButton.setLabel('✅Timestamp').setStyle(ButtonStyle.Success);
         } else {
           editEmbed.setTimestamp();
-          Button1.components[2].setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
+          timestampButton.setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
         }
 
         return await interaction.update({
@@ -144,34 +145,39 @@ module.exports = {
       },
       send: async () => {
         try {
-          for (const button of [...Button0.components, ...Button1.components]) button.data.disabled = true;
+          [...Button0.components, ...Button1.components].forEach((button) => (button.data.disabled = true));
 
           if (!messageId || messageId === 'undefined') {
             await channel.send({ embeds: [editEmbed] });
             await interaction.update({ components: [Button0, Button1] });
           } else {
             const msg = await channel.messages.fetch(messageId);
-            if (!msg)
-              return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy message hoặc không ở channel này.' }));
+            if (!msg) {
+              return await interaction.reply(
+                errorEmbed({ desc: 'Không tìm thấy tin nhắn hoặc tin nhắn không ở kênh này.' })
+              );
+            }
 
             await msg.edit({ embeds: [editEmbed] }).catch(console.error);
             return await interaction.update({
               embeds: [
                 {
-                  title: '\\✅ Update successfully!',
-                  description: `Message đã được update thành công.\n\n[Jump to message](${msg.url})`,
+                  title: '\\✅ Cập nhật thành công!',
+                  description: `Tin nhắn đã được cập nhật thành công.\n\n[Chuyển đến tin nhắn](${msg.url})`,
                 },
               ],
               components: [Button0, Button1],
             });
           }
         } catch (e) {
-          catchError(interaction, e, 'Error while updating embed message');
+          catchError(interaction, e, 'Lỗi khi cập nhật tin nhắn embed');
         }
       },
     };
 
-    if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+    if (!showModal[button]) {
+      throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+    }
 
     return await showModal[button]();
   },

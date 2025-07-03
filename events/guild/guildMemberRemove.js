@@ -1,4 +1,4 @@
-const { Client, GuildMember, EmbedBuilder, Colors } = require('discord.js');
+const { EmbedBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {

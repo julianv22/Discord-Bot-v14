@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
   type: 'modals',
@@ -22,7 +22,14 @@ module.exports = {
       },
     };
 
-    if (!editEmbed[textInput]) throw new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(textInput));
+    if (!editEmbed[textInput]) {
+      client.catchError(
+        interaction,
+        new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(textInput)),
+        'Lỗi Modal Reaction'
+      );
+      return await interaction.reply(client.errorEmbed({ desc: 'Đã xảy ra lỗi khi xử lý yêu cầu của bạn.' }));
+    }
 
     await editEmbed[textInput]();
     return interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });

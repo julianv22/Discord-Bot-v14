@@ -1,9 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  ContextMenuCommandBuilder,
-  ApplicationCommandType,
-} = require('discord.js');
+const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 
 module.exports = {
   category: 'context menu',

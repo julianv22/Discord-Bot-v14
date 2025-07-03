@@ -1,4 +1,4 @@
-const { Client, Message, ChannelType } = require('discord.js');
+const { ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'messageCreate',

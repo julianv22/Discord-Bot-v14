@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -21,7 +21,7 @@ module.exports = {
       return await interaction.reply({ content: 'Please provide a prompt to chat with Gemini AI.', flags: 64 });
     }
 
-    let history = chatHistories.get(user.id) || [];
+    const history = chatHistories.get(user.id) || [];
     history.push({ role: 'user', text: prompt });
 
     if (history.length > 10) history = history.slice(history.length - 10);
