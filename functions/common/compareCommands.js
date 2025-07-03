@@ -1,4 +1,5 @@
 const _ = require('lodash');
+
 module.exports = {
   /** - So sánh hai đối tượng lệnh để kiểm tra xem chúng có giống nhau về mặt cấu trúc hay không.
    * @param {object} localCommand Lệnh được định nghĩa ở local (đã qua toJSON()).
@@ -139,7 +140,7 @@ module.exports = {
     }
     if (changedCommands.length > 0) {
       console.log(
-        chalk.yellow(`[CHANGED] Modified ${changedCommands.length} command${changedCommands.length > 1 ? 's' : ''}: `) +
+        chalk.yellow(`[MODIFIED] Updated ${changedCommands.length} command${changedCommands.length > 1 ? 's' : ''}: `) +
           chalk.green(changedCommands.join(', '))
       );
     }
