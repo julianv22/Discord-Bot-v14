@@ -1,4 +1,13 @@
-const { ModalBuilder, ActionRowBuilder, EmbedBuilder, TextInputStyle, ComponentType, Colors } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  ModalBuilder,
+  ActionRowBuilder,
+  EmbedBuilder,
+  TextInputStyle,
+  ComponentType,
+  Colors,
+} = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 const { rowComponents } = require('../../functions/common/components');
 const reactionMap = new Map();

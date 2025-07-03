@@ -1,4 +1,4 @@
-const { EmbedBuilder, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   type: 'modals',

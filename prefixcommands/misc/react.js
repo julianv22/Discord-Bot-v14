@@ -1,3 +1,5 @@
+const { Client, Message } = require('discord.js');
+
 module.exports = {
   name: 'react',
   aliases: [],
@@ -12,7 +14,7 @@ module.exports = {
     if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
 
     try {
-      let reactArray = [
+      const reactArray = [
         ['Cool!', '😎'],
         ['Greet', '👍'],
         ['Perfect', '🥳'],

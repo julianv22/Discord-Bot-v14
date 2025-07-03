@@ -1,3 +1,4 @@
+const { Client, Message } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 
 module.exports = {

@@ -1,4 +1,6 @@
 const {
+  Client,
+  ChatInputCommandInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ModalBuilder,

@@ -1,4 +1,11 @@
-const { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ComponentType,
+} = require('discord.js');
 const { rowComponents, infoButtons } = require('../../functions/common/components');
 
 module.exports = {

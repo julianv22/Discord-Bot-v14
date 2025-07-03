@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
 const { promises } = require('fs');
 const path = require('path');
 

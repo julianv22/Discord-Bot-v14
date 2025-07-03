@@ -1,4 +1,12 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  ComponentType,
+} = require('discord.js');
 const { rowComponents } = require('../../functions/common/components');
 const { toCurrency } = require('../../functions/common/utilities');
 

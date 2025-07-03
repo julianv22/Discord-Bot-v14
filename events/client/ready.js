@@ -1,3 +1,4 @@
+const { Client } = require('discord.js');
 const os = require('os');
 const pkg = require('../../package.json');
 
@@ -66,7 +67,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '00:00 - 4 tháng 7, 2025' });
+      table({ name: '📆 Last update:', value: '12:25 - 4 tháng 7, 2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

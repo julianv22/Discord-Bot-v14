@@ -1,4 +1,4 @@
-const { EmbedBuilder, Colors } = require('discord.js');
+const { Client, Message, EmbedBuilder, Colors } = require('discord.js');
 const { infoButtons } = require('../../functions/common/components');
 
 module.exports = {

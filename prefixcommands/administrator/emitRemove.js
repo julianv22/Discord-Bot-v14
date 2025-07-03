@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require('discord.js');
+const { Client, Message, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   name: 'emitRemove',

@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { Client, ChatInputCommandInteraction, Message, EmbedBuilder } = require('discord.js');
 const moment = require('moment-timezone');
 
 /** @param {Client} client Client */

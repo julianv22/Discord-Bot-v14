@@ -1,4 +1,4 @@
-const { SlashCommandSubcommandBuilder, Colors } = require('discord.js');
+const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
 

@@ -1,4 +1,12 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, Colors } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  EmbedBuilder,
+  ButtonBuilder,
+  ActionRowBuilder,
+  ButtonStyle,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { disableButtons } = require('../../functions/common/components');
 
