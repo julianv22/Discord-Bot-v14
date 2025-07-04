@@ -14,9 +14,9 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   data: new ContextMenuCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('Deny Suggest')
+    .setName('Deny Suggestion')
     .setType(ApplicationCommandType.Message),
-  /** - Deny suggestion
+  /** - Denies a suggestion.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -24,17 +24,17 @@ module.exports = {
     const { errorEmbed, catchError, users, user: bot } = client;
 
     if (msg.author.id !== cfg.clientID)
-      return await interaction.reply(errorEmbed({ desc: `This messages does not belong to ${bot}!` }));
+      return await interaction.reply(errorEmbed({ desc: `This message does not belong to ${bot}!` }));
 
     const embed = msg.embeds[0];
 
-    if (!embed) return await interaction.reply(errorEmbed({ desc: 'This is not suggest message!' }));
+    if (!embed) return await interaction.reply(errorEmbed({ desc: 'This is not a suggestion message!' }));
 
     if (embed.title !== "Suggest's content:")
-      return await interaction.reply(errorEmbed({ desc: 'This is not suggest message!' }));
+      return await interaction.reply(errorEmbed({ desc: 'This is not a suggestion message!' }));
 
     const edit = EmbedBuilder.from(embed).setColor(Colors.DarkVividPink).spliceFields(0, 1).setTimestamp().setFooter({
-      text: 'Đề xuất không được chấp nhận',
+      text: 'Suggestion denied',
       iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
     });
 
@@ -50,7 +50,7 @@ module.exports = {
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 
-    if (!author) return await interaction.followUp?.(errorEmbed({ desc: 'Không tìm thấy user để gửi DM!' }));
+    if (!author) return await interaction.followUp(errorEmbed({ desc: 'Could not find user to send DM!' }));
 
     await author
       .send({

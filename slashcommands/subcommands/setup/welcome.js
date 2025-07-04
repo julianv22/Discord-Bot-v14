@@ -12,7 +12,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('welcome'),
-  /** - Setup welcome channel with welcome message and log channel
+  /** - Sets up the welcome channel with a welcome message and a log channel.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -37,7 +37,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-      .setTitle("Welcome's setup information")
+      .setTitle('Welcome Setup Information')
       .setColor(Colors.Aqua)
       .setTimestamp()
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })

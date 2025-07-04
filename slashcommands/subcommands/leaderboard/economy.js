@@ -12,7 +12,7 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('economy'),
-  /** - Get economy leaderboard
+  /** - Displays the economy leaderboard.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -23,7 +23,7 @@ module.exports = {
     let topUsers = await economyProfile.find({ guildID: guild.id }).sort({ balance: -1 }).limit(10).lean();
 
     if (!topUsers || !topUsers.length)
-      return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild!' }));
+      return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild.' }));
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const leaderboard = topUsers

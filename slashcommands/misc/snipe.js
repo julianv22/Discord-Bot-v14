@@ -5,8 +5,10 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('snipe')
-    .setDescription('Snipe deleted messages')
-    .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna snipe')),
+    .setDescription('Retrieve recently deleted messages')
+    .addUserOption((opt) =>
+      opt.setName('target').setDescription('Provide the user whose deleted messages you want to retrieve')
+    ),
   /** - Snipe a deleted message
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

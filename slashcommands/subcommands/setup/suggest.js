@@ -6,7 +6,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('suggest'),
-  /** - Setup suggest channel
+  /** - Sets up the channel for suggestions.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -26,7 +26,7 @@ module.exports = {
     await profile.save().catch(console.error);
 
     return await interaction.reply(
-      errorEmbed({ desc: `Channel to send suggestions has been changed to ${channel}!`, emoji: true })
+      errorEmbed({ desc: `The suggestion channel has been set to ${channel}.`, emoji: true })
     );
   },
 };

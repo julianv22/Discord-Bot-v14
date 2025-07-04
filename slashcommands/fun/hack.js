@@ -5,9 +5,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('hack')
-    .setDescription('Hacking someone! J4F 😝')
+    .setDescription('Hack someone! Just for fun 😝')
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
-  /** - Hack someone! J4F 😝
+  /** - Hack someone! Just for fun 😝
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -15,14 +15,16 @@ module.exports = {
     const { errorEmbed } = client;
     const target = options.getUser('target');
 
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
     // Validate context
-    if (!target) return await interaction.reply(errorEmbed({ desc: 'Target user not found!' }));
+    if (!target) return await interaction.reply(errorEmbed({ desc: 'Target user not found.' }));
     if (!guild) return await interaction.reply(errorEmbed({ desc: 'Lệnh này chỉ dùng trong server!' }));
     if (target.id === user.id)
       return await interaction.reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }));
     if (target.id === guild.ownerId)
       return await interaction.reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá!' }));
-    if (target.id === cfg.clientID) return await interaction.reply(errorEmbed({ desc: 'Are you sure 🤔⁉️' }));
+    if (target.id === cfg.clientID) return await interaction.reply(errorEmbed({ desc: 'Are you sure? 🤔⁉️' }));
 
     const username = target.displayName || target.tag || 'Unknown',
       text = [
@@ -55,23 +57,17 @@ module.exports = {
       randomProcess3 = Math.floor(Math.random() * process3.length);
 
     await interaction.reply(text[randomText]);
-    setTimeout(async () => {
-      await interaction.editReply(process1[randomProcess1]);
-    }, 1500);
-    setTimeout(async () => {
-      await interaction.editReply(process2[randomProcess2]);
-    }, 2500);
-    setTimeout(async () => {
-      await interaction.editReply(process3[randomProcess3]);
-    }, 3500);
-    setTimeout(async () => {
-      await interaction.editReply(processEnd);
-    }, 4500);
-    setTimeout(async () => {
-      await interaction.editReply(endText);
-    }, 5500);
-    setTimeout(async () => {
-      await interaction.editReply(result);
-    }, 6000);
+    await delay(1500);
+    await interaction.editReply(process1[randomProcess1]);
+    await delay(1000); // 2500 - 1500
+    await interaction.editReply(process2[randomProcess2]);
+    await delay(1000); // 3500 - 2500
+    await interaction.editReply(process3[randomProcess3]);
+    await delay(1000); // 4500 - 3500
+    await interaction.editReply(processEnd);
+    await delay(1000); // 5500 - 4500
+    await interaction.editReply(endText);
+    await delay(500); // 6000 - 5500
+    await interaction.editReply(result);
   },
 };

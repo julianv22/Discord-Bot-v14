@@ -14,9 +14,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('virus-check')
-    .setDescription('Check a URL with VirusTotal.')
+    .setDescription('Check a URL for viruses using VirusTotal.')
     .addStringOption((option) =>
-      option.setName('url').setDescription('URL to check (example: https://example.com)').setRequired(true)
+      option.setName('url').setDescription('The URL to check (e.g., https://example.com)').setRequired(true)
     ),
   /** - Kiểm tra một URL có độc hại không bằng VirusTotal
    * @param {ChatInputCommandInteraction} interaction - Đối tượng tương tác (SlashChatInputCommandInteraction)
@@ -27,10 +27,12 @@ module.exports = {
     const inputUrl = options.getString('url');
 
     await interaction.deferReply({ flags: 64 });
+
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)
     const sendResponseEmbed = async (title, description, color = Math.floor(Math.random() * 0xffffff)) => {
       await interaction.editReply({ embeds: [{ title, description, color }] });
     };
+
     // Hàm mã hóa URL sang Base64 URL-safe (không padding)
     // Đây là định dạng mà VirusTotal cần cho endpoint GET /urls/{id}
     const encodeUrlToBase64 = (url) => {
@@ -43,6 +45,8 @@ module.exports = {
     // Kiểm tra báo cáo URL hiện có trên VirusTotal ---
     const encodedUrl = encodeUrlToBase64(inputUrl);
     let analysisReport = null;
+    let scanId = null; // Khởi tạo scanId ở đây
+
     try {
       // Cố gắng lấy báo cáo URL trực tiếp bằng hash (Base64 URL-safe)
       const getReportRes = await fetch(`${'https://www.virustotal.com/api/v3'}/urls/${encodedUrl}`, {
@@ -57,6 +61,7 @@ module.exports = {
         const reportData = await getReportRes.json();
         if (reportData.data && reportData.data.attributes) {
           analysisReport = reportData.data;
+          scanId = analysisReport.id; // Gán scanId nếu có báo cáo sẵn
         }
       } else if (getReportRes.status === 404) {
         // URL chưa có báo cáo, cần gửi để phân tích mới
@@ -68,24 +73,24 @@ module.exports = {
         // Xử lý các lỗi khác khi lấy báo cáo (ví dụ: 403 Forbidden, 429 Too Many Requests)
         const errorDetail = await getReportRes.json();
         console.error(
-          `[VIRUS-CHECK] Lỗi khi lấy báo cáo URL theo hash: ${getReportRes.status} - ${JSON.stringify(errorDetail)}`,
-          'Red'
+          chalk.red(
+            `[VIRUS-CHECK] Lỗi khi lấy báo cáo URL theo hash: ${getReportRes.status} - ${JSON.stringify(errorDetail)}`
+          )
         );
         return await interaction.editReply(
           errorEmbed({
             desc: `Không thể lấy báo cáo URL hiện có: ${
               errorDetail.error ? errorDetail.error.message : getReportRes.statusText
             }`,
-            emoji: false,
           })
         );
       }
     } catch (e) {
-      console.error('[VIRUS-CHECK] Lỗi khi cố gắng lấy báo cáo URL theo hash:', e);
+      console.error(chalk.red('[VIRUS-CHECK] Lỗi khi cố gắng lấy báo cáo URL theo hash:'), e);
       // Tiếp tục sang bước phân tích mới nếu có lỗi mạng hoặc lỗi khác
     }
+
     // Nếu chưa có báo cáo, gửi URL để phân tích mới ---
-    let scanId;
     if (!analysisReport) {
       try {
         const submitRes = await fetch(
@@ -103,14 +108,15 @@ module.exports = {
         if (!submitRes.ok) {
           const errorDetail = await submitRes.json();
           console.error(
-            `[VIRUS-CHECK] Lỗi khi gửi URL để phân tích: ${submitRes.status} - ${JSON.stringify(errorDetail)}`
+            chalk.red(
+              `[VIRUS-CHECK] Lỗi khi gửi URL để phân tích: ${submitRes.status} - ${JSON.stringify(errorDetail)}`
+            )
           );
           return await interaction.editReply(
             errorEmbed({
               desc: `Không thể gửi URL để phân tích: ${
                 errorDetail.error ? errorDetail.error.message : submitRes.statusText
               }`,
-              emoji: false,
             })
           );
         }
@@ -119,7 +125,7 @@ module.exports = {
         if (!submitData.data || !submitData.data.id) {
           return await interaction.editReply(errorEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.' }));
         }
-        scanId = submitData.data.id;
+        scanId = submitData.data.id; // Gán scanId từ kết quả submit
 
         // Chờ và lấy báo cáo phân tích mới ---
         let attempts = 0;
@@ -147,14 +153,15 @@ module.exports = {
           if (!analysisRes.ok) {
             const errorDetail = await analysisRes.json();
             console.error(
-              `[VIRUS-CHECK] Lỗi khi lấy báo cáo phân tích: ${analysisRes.status} - ${JSON.stringify(errorDetail)}`
+              chalk.red(
+                `[VIRUS-CHECK] Lỗi khi lấy báo cáo phân tích: ${analysisRes.status} - ${JSON.stringify(errorDetail)}`
+              )
             );
             return await interaction.editReply(
               errorEmbed({
                 desc: `Không thể lấy báo cáo phân tích: ${
                   errorDetail.error ? errorDetail.error.message : analysisRes.statusText
                 }`,
-                emoji: false,
               })
             );
           }
@@ -180,19 +187,13 @@ module.exports = {
 
         if (!analysisReport) {
           return await interaction.editReply(
-            errorEmbed({
-              desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.',
-              emoji: false,
-            })
+            errorEmbed({ desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.' })
           );
         }
       } catch (e) {
-        console.error('[VIRUS-CHECK] Lỗi trong quá trình gửi/phân tích URL mới:', e);
+        console.error(chalk.red('[VIRUS-CHECK] Lỗi trong quá trình gửi/phân tích URL mới:'), e);
         return await interaction.editReply(
-          errorEmbed({
-            desc: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}`,
-            emoji: false,
-          })
+          errorEmbed({ desc: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}` })
         );
       }
     }
@@ -208,8 +209,7 @@ module.exports = {
 
       const total = stats.harmless + stats.malicious + stats.suspicious + stats.undetected + (stats.timeout || 0); // timeout có thể không tồn tại
 
-      // Link chi tiết tới VirusTotal GUI
-      //   let vtGuiLink = `https://www.virustotal.com/gui/url/${encodedUrl}/detection`;
+      let vtGuiLink; // Khai báo vtGuiLink ở đây
       if (analysisReport.type === 'analysis') {
         // Đối với báo cáo phân tích mới, link sẽ khác một chút
         vtGuiLink = `https://www.virustotal.com/gui/url/${scanId}/detection`;
@@ -246,10 +246,7 @@ module.exports = {
     } else {
       // Trường hợp này chỉ xảy ra nếu có lỗi không mong muốn hoặc phân tích không bao giờ hoàn tất
       return await interaction.editReply(
-        errorEmbed({
-          desc: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.',
-          emoji: false,
-        })
+        errorEmbed({ desc: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.' })
       );
     }
   },

@@ -14,24 +14,25 @@ module.exports = {
   permissions: PermissionFlagsBits.Administrator,
   data: new ContextMenuCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setName('Accept Suggest')
+    .setName('Accept Suggestion')
     .setType(ApplicationCommandType.Message),
-  /** - Accept suggestion
+  /** - Accepts a suggestion.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;
     const { errorEmbed, catchError, users } = client;
 
-    if (msg.author.id !== cfg.clientID) return await interaction.reply(errorEmbed({ desc: 'This is not my message!' }));
+    if (msg.author.id !== cfg.clientID)
+      return await interaction.reply(errorEmbed({ desc: 'This is not a message from me!' }));
 
     const embed = msg.embeds[0];
 
     if (!embed || embed.title !== "Suggest's content:")
-      return await interaction.reply(errorEmbed({ desc: 'This is not suggest message!' }));
+      return await interaction.reply(errorEmbed({ desc: 'This is not a suggestion message!' }));
 
     const edit = EmbedBuilder.from(embed).setColor(Colors.Green).spliceFields(0, 1).setTimestamp().setFooter({
-      text: 'Đề xuất đã được chấp nhận',
+      text: 'Suggestion accepted',
       iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
     });
 
@@ -43,7 +44,7 @@ module.exports = {
 
     const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
 
-    if (!author) return interaction.followUp?.(errorEmbed({ desc: 'Không tìm thấy user để gửi DM!' }));
+    if (!author) return interaction.followUp(errorEmbed({ desc: 'Could not find user to send DM!' }));
 
     await author
       .send({

@@ -6,7 +6,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('starboard'),
-  /** - Setup starboard
+  /** - Sets up the starboard channel and star count.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -28,7 +28,7 @@ module.exports = {
     await profile.save().catch(console.error);
     return await interaction.reply(
       errorEmbed({
-        desc: `Các tin nhắn đạt được ${number}\\⭐ react sẽ được gửi tới channel ${channel}`,
+        desc: `Messages with ${number}\\⭐ reactions will be sent to ${channel}.`,
         emoji: true,
       })
     );

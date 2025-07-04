@@ -9,26 +9,26 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('read')
-    .setDescription(`Read JavaScript file content/MongoDB/Project Structure. ${cfg.adminRole} only`)
+    .setDescription(`Reads content from JavaScript files, MongoDB, or project structure. (${cfg.adminRole} only)`)
     .addSubcommand((sub) =>
       sub
         .setName('file')
-        .setDescription('Read JavaScript file content')
+        .setDescription('Reads the content of a JavaScript file.')
         .addStringOption((option) =>
           option
             .setName('filepath')
-            .setDescription('JavaScript file relative file path (ex: ./commands/ping.js)')
+            .setDescription('The relative path to the JavaScript file (e.g., ./commands/ping.js).')
             .setRequired(true)
         )
     )
     .addSubcommand((sub) =>
       sub
         .setName('database')
-        .setDescription('Read database from MongoDB (⭕wner only)')
+        .setDescription('Reads data from a MongoDB database. (⭕wner only)')
         .addStringOption((opt) =>
           opt
             .setName('profile')
-            .setDescription('Choose which profile type to query')
+            .setDescription('Choose which profile type to query from the database.')
             .setRequired(true)
             .addChoices(profiles.map((p) => ({ name: p.split('.')[0], value: p.split('.')[0] })))
             .addChoices({ name: 'reactionRole', value: 'reactionRole' })
@@ -37,10 +37,10 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('structure')
-        .setDescription('Read project structure from path')
-        .addStringOption((opt) => opt.setName('path').setDescription('Structure path'))
+        .setDescription('Reads the project structure from a specified path.')
+        .addStringOption((opt) => opt.setName('path').setDescription('The path to read the structure from.'))
     ),
-  /** - Read file content/MongoDB/Command Collection
+  /** - Reads file content, MongoDB data, or project structure
    * @param {ChatInputCommandInteraction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {},

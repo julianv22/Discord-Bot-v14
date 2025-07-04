@@ -18,14 +18,14 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('embed')
-        .setDescription('Edit embed by messageId')
-        .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true))
+        .setDescription('Edit an embed by message ID')
+        .addStringOption((opt) => opt.setName('message_id').setDescription('Message ID').setRequired(true))
     )
     .addSubcommand((sub) =>
       sub
         .setName('message')
-        .setDescription('Edit message by messageId')
-        .addStringOption((opt) => opt.setName('message_id').setDescription('Message Id').setRequired(true))
+        .setDescription('Edit a message by message ID')
+        .addStringOption((opt) => opt.setName('message_id').setDescription('Message ID').setRequired(true))
         .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true))
     ),
   /** - Create/edit embed or message
@@ -38,21 +38,21 @@ module.exports = {
       guild,
       channel: { messages },
     } = interaction;
-    const { errorEmbed, user: bot } = client;
+    const { errorEmbed } = client;
     const editType = options.getSubcommand();
     const messageId = options.getString('message_id');
     const content = options.getString('content');
     const msg = await messages.fetch(messageId).catch(async () => {
       return await interaction.reply(
         errorEmbed({
-          des: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
+          desc: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
           emoji: false,
         })
       );
     });
 
-    if (msg.author.id !== bot.id)
-      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${bot}!` }));
+    if (msg.author.id !== client.user.id)
+      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${client.user}!` }));
 
     const editMessage = {
       embed: async () => {
@@ -66,7 +66,7 @@ module.exports = {
       message: async () => {
         return await msg.edit(content).then(async () => {
           const embed = new EmbedBuilder()
-            .setAuthor({ name: guild.name, icon_url: guild.iconURL(true) })
+            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
             .setTitle('\\✅ Message edited successfully!')
             .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
             .setColor('Random')
@@ -85,6 +85,7 @@ module.exports = {
     };
 
     if (!editMessage[editType]) throw new Error(chalk.yellow('Invalid subCommand ') + chalk.green(editType));
-    else await editMessage[editType]();
+
+    await editMessage[editType]();
   },
 };

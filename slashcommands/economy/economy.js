@@ -5,8 +5,8 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('economy')
-    .setDescription('Economy system')
-    .addSubcommand((sub) => sub.setName('guide').setDescription('The economy system guide')),
+    .setDescription('Provides information and commands related to the economy system.')
+    .addSubcommand((sub) => sub.setName('guide').setDescription('Displays a guide to the economy system.')),
   /** - Get economy guide
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

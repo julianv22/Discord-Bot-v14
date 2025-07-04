@@ -12,7 +12,7 @@ module.exports = {
   scooldown: 0,
   parent: 'bank',
   data: new SlashCommandSubcommandBuilder().setName('deposit'),
-  /** - Deposit money
+  /** - Deposit money into your bank account.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

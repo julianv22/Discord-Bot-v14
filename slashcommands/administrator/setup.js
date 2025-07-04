@@ -7,54 +7,66 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
-    .setDescription(`Set up server's information. ${cfg.adminRole} only`)
-    .addSubcommand((sub) => sub.setName('info').setDescription(`Show all setup information. ${cfg.adminRole} only`))
+    .setDescription(`Configures various server settings. (${cfg.adminRole} only)`)
+    .addSubcommand((sub) =>
+      sub.setName('info').setDescription(`Displays all current server setup information. (${cfg.adminRole} only)`)
+    )
     .addSubcommand((sub) =>
       sub
         .setName('suggest')
-        .setDescription(`Set up suggestion channel. ${cfg.adminRole} only`)
+        .setDescription(`Sets up the suggestion channel. (${cfg.adminRole} only)`)
         .addChannelOption((opt) =>
-          opt.setName('suggest-channel').setDescription('Select the channel to send suggestions to').setRequired(true)
+          opt.setName('suggest-channel').setDescription('The channel where suggestions will be sent.').setRequired(true)
         )
     )
     .addSubcommand((sub) =>
       sub
         .setName('welcome')
-        .setDescription(`Set up welcome and log channels. ${cfg.adminRole} only`)
-        .addChannelOption((opt) => opt.setName('welcome').setDescription('Welcome channel').setRequired(true))
-        .addChannelOption((opt) => opt.setName('log').setDescription('Log channel').setRequired(true))
-        .addStringOption((opt) => opt.setName('message').setDescription('Welcome message content'))
+        .setDescription(`Sets up welcome and log channels. (${cfg.adminRole} only)`)
+        .addChannelOption((opt) => opt.setName('welcome').setDescription('The welcome channel.').setRequired(true))
+        .addChannelOption((opt) => opt.setName('log').setDescription('The log channel.').setRequired(true))
+        .addStringOption((opt) => opt.setName('message').setDescription('The content of the welcome message.'))
     )
     .addSubcommand((sub) =>
       sub
         .setName('starboard')
-        .setDescription(`Set up starboard system. ${cfg.adminRole} only`)
+        .setDescription(`Sets up the starboard system. (${cfg.adminRole} only)`)
         .addChannelOption((opt) =>
-          opt.setName('starboard-channel').setDescription('Select the starboard channel').setRequired(true)
+          opt.setName('starboard-channel').setDescription('The channel for starboard messages.').setRequired(true)
         )
         .addIntegerOption((opt) =>
-          opt.setName('starnum').setDescription('Number of stars').setMinValue(1).setMaxValue(20).setRequired(true)
+          opt
+            .setName('starnum')
+            .setDescription('The number of stars required for a message to appear on the starboard (1-20).')
+            .setMinValue(1)
+            .setMaxValue(20)
+            .setRequired(true)
         )
     )
-    .addSubcommand((sub) => sub.setName('disable').setDescription(`Disable server features. ${cfg.adminRole} only`))
+    .addSubcommand((sub) =>
+      sub.setName('disable').setDescription(`Disables specific server features. (${cfg.adminRole} only)`)
+    )
     .addSubcommand((sub) =>
       sub
         .setName('statistics')
-        .setDescription(`Setup server statistics. ${cfg.adminRole} only`)
+        .setDescription(`Sets up server statistics channels. (${cfg.adminRole} only)`)
         .addChannelOption((opt) =>
-          opt.setName('total-count-channel').setDescription('Total Count Channel').setRequired(true)
+          opt.setName('total-count-channel').setDescription('Channel to display total member count.').setRequired(true)
         )
         .addChannelOption((opt) =>
-          opt.setName('member-count-channel').setDescription('Members Count Channel').setRequired(true)
+          opt.setName('member-count-channel').setDescription('Channel to display human member count.').setRequired(true)
         )
         .addChannelOption((opt) =>
-          opt.setName('bot-count-channel').setDescription('Bots Count Channel').setRequired(true)
+          opt.setName('bot-count-channel').setDescription('Channel to display bot count.').setRequired(true)
         )
         .addChannelOption((opt) =>
-          opt.setName('presence-count-channel').setDescription('Presences Count Channel').setRequired(true)
+          opt
+            .setName('presence-count-channel')
+            .setDescription('Channel to display online presence count.')
+            .setRequired(true)
         )
     ),
-  /** - Setup server
+  /** - Configures various server settings
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {},

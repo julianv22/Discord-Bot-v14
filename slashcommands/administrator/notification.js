@@ -16,8 +16,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('notification')
-    .setDescription(`Send a notification. ${cfg.adminRole} only`),
-  /** - Send a notification
+    .setDescription(`Sends a notification to users. (${cfg.adminRole} only)`),
+  /** - Sends a notification to users
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -25,25 +25,29 @@ module.exports = {
     const typeInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('type')
-        .setLabel('Notify =1 / Update = 2')
+        .setLabel('Notification Type (1: Notify, 2: Update)')
         .setValue('1')
         .setRequired(true)
         .setStyle(TextInputStyle.Short)
     );
     const titleInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('title').setLabel('Title:').setRequired(true).setStyle(TextInputStyle.Short)
+      new TextInputBuilder()
+        .setCustomId('title')
+        .setLabel('Notification Title:')
+        .setRequired(true)
+        .setStyle(TextInputStyle.Short)
     );
     const descriptionInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('description')
-        .setLabel('Description:')
+        .setLabel('Notification Description:')
         .setRequired(true)
         .setStyle(TextInputStyle.Paragraph)
     );
     const imageInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('imageURL')
-        .setLabel('Image URL')
+        .setLabel('Image URL (Optional)')
         .setRequired(false)
         .setStyle(TextInputStyle.Short)
     );

@@ -11,16 +11,16 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('list-channels'),
-  /** - Get list of Youtube channels
+  /** - Lists all YouTube channels subscribed for notifications.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, guildId } = interaction;
     const { errorEmbed } = client;
 
-    /** - Get channel title
-     * @param {string} channelId - ID of the Youtube channel
-     * @param {string} apiKey - API key for Youtube */
+    /** - Gets the title of a YouTube channel.
+     * @param {string} channelId - The ID of the YouTube channel.
+     * @param {string} apiKey - The API key for YouTube. */
     const getChannelTitle = async (channelId, apiKey) => {
       try {
         const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`,
@@ -40,7 +40,7 @@ module.exports = {
     const { youtube } = profile;
 
     if (!profile || youtube.channels.length == 0)
-      return await interaction.reply(errorEmbed({ desc: 'Danh sách kênh Youtube trống!' }));
+      return await interaction.reply(errorEmbed({ desc: 'The YouTube channel list is empty.' }));
 
     const channelList = await Promise.all(
       youtube.channels.map(async (id, idx) => {
@@ -51,7 +51,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('Danh sách kênh Youtube đã đăng ký:')
+      .setTitle('Subscribed YouTube Channels:')
       .setDescription(channelList.join('\n'))
       .setColor(Colors.DarkAqua)
       .setThumbnail(cfg.youtubePNG)

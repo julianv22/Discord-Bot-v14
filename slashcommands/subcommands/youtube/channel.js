@@ -6,7 +6,7 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('channel'),
-  /** - Setup Youtube channel
+  /** - Manages YouTube channels for notifications.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -14,9 +14,9 @@ module.exports = {
     const { errorEmbed } = client;
     const yt_channel = options.getString('channel-id');
     const action = options.getString('action');
-    /** - Validate Youtube channel
-     * @param {string} channelId - ID of the Youtube channel
-     * @param {string} apiKey - API key for Youtube */
+    /** - Validates a YouTube channel.
+     * @param {string} channelId - The ID of the YouTube channel.
+     * @param {string} apiKey - The API key for YouTube. */
     const validateYoutubeChannel = async (channelId, apiKey) => {
       const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
       const res = await fetch(url);
@@ -31,7 +31,7 @@ module.exports = {
     // Xác thực channel ID và lấy tên kênh
     const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
     if (!valid) {
-      return await interaction.reply(errorEmbed({ desc: 'ID kênh Youtube không hợp lệ hoặc không tồn tại!' }));
+      return await interaction.reply(errorEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
     }
 
     if (action === 'add') {
@@ -40,7 +40,7 @@ module.exports = {
       if (existing) {
         return await interaction.reply(
           errorEmbed({
-            desc: `Kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** đã tồn tại trong danh sách theo dõi.`,
+            desc: `Channel **[${title}](https://www.youtube.com/channel/${yt_channel})** is already in the watchlist.`,
           })
         );
       }
@@ -65,7 +65,7 @@ module.exports = {
       if (!result || result.modifiedCount === 0) {
         return await interaction.reply(
           errorEmbed({
-            desc: `Kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** không có trong danh sách theo dõi.`,
+            desc: `Channel **[${title}](https://www.youtube.com/channel/${yt_channel})** is not in the watchlist.`,
           })
         );
       }
@@ -74,11 +74,11 @@ module.exports = {
     // Success message for both actions
     return await interaction.reply(
       errorEmbed({
-        desc: `Đã ${
-          action === 'add' ? 'thêm' : 'xoá'
-        } thành công kênh **[${title}](https://www.youtube.com/channel/${yt_channel})** ${
-          action === 'add' ? 'vào' : 'khỏi'
-        } danh sách theo dõi của server.`,
+        desc: `Successfully ${
+          action === 'add' ? 'added' : 'removed'
+        } channel **[${title}](https://www.youtube.com/channel/${yt_channel})** ${
+          action === 'add' ? 'to' : 'from'
+        } the server's watchlist.`,
         emoji: true,
       })
     );

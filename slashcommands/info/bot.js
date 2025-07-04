@@ -5,7 +5,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('bot')
-    .setDescription("Get bot's informations")
+    .setDescription("Get bot's information")
     .addSubcommand((sub) => sub.setName('info').setDescription('Bot info')),
   /** - Bot informations
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

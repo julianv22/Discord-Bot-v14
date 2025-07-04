@@ -8,7 +8,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('file'),
 
-  /** - Read file from project
+  /** - Reads a file from the project.
    * @param {ChatInputCommandInteraction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -22,7 +22,7 @@ module.exports = {
     await interaction.editReply(errorEmbed({ desc: `Loading file [ \`${relativeFilePath}\` ]...`, emoji: '🔃' }));
     // Kiểm tra xem file có phải là file .js không
     if (!relativeFilePath.endsWith('.js')) {
-      return interaction.editReply(errorEmbed({ desc: 'Vui lòng chỉ đọc các file JavaScript (.js)!' }));
+      return interaction.editReply(errorEmbed({ desc: 'Please only read JavaScript files (.js)!' }));
     }
 
     try {
@@ -33,7 +33,7 @@ module.exports = {
       await interaction.editReply(
         errorEmbed({
           title: '\\✅ Loaded file successfully!',
-          desc: 'Đọc nội dung file [ `' + relativeFilePath + '` ] thành công:',
+          desc: `Successfully read content of file [ \`${relativeFilePath}\` ]:`,
           color: Colors.DarkGreen,
         })
       );
@@ -50,20 +50,16 @@ module.exports = {
         // File hoặc thư mục không tồn tại
         return interaction.editReply(
           errorEmbed({
-            desc: `Không tìm thấy file [ \`${relativeFilePath}\` ]. Vui lòng kiểm tra lại đường dẫn.`,
+            desc: `File [ \`${relativeFilePath}\` ] not found. Please check the path.`,
             emoji: false,
           })
         );
       } else if (error.code === 'EISDIR') {
         // Đường dẫn trỏ đến một thư mục
-        return interaction.editReply(
-          errorEmbed({ desc: `[ \`${relativeFilePath}\` ] là một thư mục, không phải một file.` })
-        );
+        return interaction.editReply(errorEmbed({ desc: `[ \`${relativeFilePath}\` ] is a directory, not a file.` }));
       } else if (error.code === 'EACCES' || error.code === 'EPERM') {
         // Lỗi quyền truy cập
-        return interaction.editReply(
-          errorEmbed({ desc: `Không có quyền truy cập để đọc file [ \`${relativeFilePath}\` ].` })
-        );
+        return interaction.editReply(errorEmbed({ desc: `No permission to read file [ \`${relativeFilePath}\` ].` }));
       } else {
         return await catchError(interaction, error, this);
       }

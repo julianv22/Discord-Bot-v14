@@ -5,7 +5,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('server')
-    .setDescription(`Get server's informations and setup server statistics (${cfg.adminRole} only)`)
+    .setDescription(`Get server's information and set up server statistics (${cfg.adminRole} only)`)
     .addSubcommand((sub) => sub.setName('info').setDescription('Server info')),
   /** - Show bot or server information
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

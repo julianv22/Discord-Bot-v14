@@ -3,12 +3,11 @@ const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder }
 module.exports = {
   category: 'fun',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('meme').setDescription('Get random meme from Reddit'),
-  /** - Get random meme from Reddit
+  data: new SlashCommandBuilder().setName('meme').setDescription('Get a random meme from Reddit.'),
+  /** - Get a random meme from Reddit.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user } = interaction;
     const { errorEmbed } = client;
 
     await interaction.deferReply();
@@ -17,7 +16,7 @@ module.exports = {
     const data = await response.json();
 
     if (!data || !data.url) {
-      return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme, please try again later!' }));
+      return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme. Please try again later.' }));
     }
 
     const embed = new EmbedBuilder()

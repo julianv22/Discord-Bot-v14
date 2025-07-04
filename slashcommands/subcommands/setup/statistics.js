@@ -12,7 +12,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('statistics'),
-  /** - Setup server statistics
+  /** - Sets up channels for server statistics.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -54,7 +54,7 @@ module.exports = {
         { name: 'Total Count Channel:', value: `${totalChannel}` },
         { name: 'Members Count Channel:', value: `${memberChannel}` },
         { name: 'Bots Count Channel:', value: `${botChannel}` },
-        { name: 'Preseneces Count Channel:', value: `${presenceChannel}` }
+        { name: 'Presences Count Channel:', value: `${presenceChannel}` }
       );
 
     return await interaction.reply({ embeds: [embed], flags: 64 });

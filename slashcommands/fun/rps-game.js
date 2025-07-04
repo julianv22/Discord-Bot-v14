@@ -15,11 +15,16 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('rps-game')
-    .setDescription('RPS game.')
+    .setDescription('Play a Rock-Paper-Scissors game.')
     .addIntegerOption((opt) =>
-      opt.setName('bet').setDescription('Bet coins').setRequired(true).setMinValue(500).setMaxValue(1000000)
+      opt
+        .setName('bet')
+        .setDescription('Amount of coins to bet.')
+        .setRequired(true)
+        .setMinValue(500)
+        .setMaxValue(1000000)
     ),
-  /** - Play RPS game
+  /** - Play a Rock-Paper-Scissors game.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

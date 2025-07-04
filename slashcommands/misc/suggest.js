@@ -11,7 +11,7 @@ const {
 module.exports = {
   category: 'misc',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions to this server'),
+  data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions for this server'),
   /** - Send suggestions to this server
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
@@ -21,7 +21,7 @@ module.exports = {
     const contentInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('content')
-        .setLabel("Suggest's Content")
+        .setLabel('Suggestion Content')
         .setRequired(true)
         .setStyle(TextInputStyle.Paragraph)
     );

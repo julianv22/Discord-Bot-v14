@@ -7,21 +7,21 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('bulk-delete')
-    .setDescription('Bulk delete messages.')
+    .setDescription('Deletes a specified number of messages.')
     .addIntegerOption((opt) =>
       opt
         .setName('amount')
-        .setDescription('Number of messages (between 1 and 100)')
+        .setDescription('The number of messages to delete (1-100).')
         .setMinValue(1)
         .setMaxValue(100)
         .setRequired(true)
     )
-    .addUserOption((opt) => opt.setName('user').setDescription('Filter messages by user')),
-  /** - Bulk delete messages
+    .addUserOption((opt) => opt.setName('user').setDescription('Filters messages by a specific user.')),
+  /** - Deletes a specified number of messages
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { options, channel, user: author } = interaction;
+    const { options, channel } = interaction;
     const { errorEmbed, catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
@@ -30,20 +30,17 @@ module.exports = {
       const messages = await channel.messages.fetch({ limit: amount });
       const actualAmount = Math.min(messages.size, amount);
 
-      const filtered = [];
+      let messagesToDelete = actualAmount;
       if (user) {
-        let i = 0;
-        messages.filter((m) => {
-          if (author.id === user.id && amount + 1 > i) {
-            filtered.push(m);
-            i++;
-          }
-        });
+        messagesToDelete = messages.filter((m) => m.author.id === user.id);
       }
 
-      await channel.bulkDelete(user ? filtered : actualAmount, user ? null : true);
+      await channel.bulkDelete(messagesToDelete, true); // Pass true to filter out messages older than 14 days
       return await interaction.reply(
-        errorEmbed({ desc: `Deleted ${actualAmount} messages!` + (user ? ` of ${user}` : ''), emoji: true })
+        errorEmbed({
+          desc: `Successfully deleted ${actualAmount} messages${user ? ` from ${user.tag}` : ''}!`,
+          emoji: true,
+        })
       );
     } catch (e) {
       return await catchError(interaction, e, this);

@@ -16,7 +16,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('database'),
 
-  /** - Read database from MongoDB
+  /** - Reads database from MongoDB.
    * @param {ChatInputCommandInteraction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -49,7 +49,7 @@ module.exports = {
     };
 
     let profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
-    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database!' }));
+    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database found for this profile.' }));
 
     const db = JSON.stringify(profile, null, 2);
     const bin = await fetch('https://sourceb.in/api/bins', {
@@ -69,6 +69,6 @@ module.exports = {
           }
         })
         .catch(console.error);
-    } else await interaction.editReply(errorEmbed({ desc: 'Can not parse sourcebin now. Try again later!' }));
+    } else await interaction.editReply(errorEmbed({ desc: 'Could not parse sourcebin. Please try again later.' }));
   },
 };

@@ -18,16 +18,16 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('youtube')
-    .setDescription(`Set up YouTube (Add/remove follow channels, notify channel). ${cfg.adminRole} only`)
+    .setDescription(`Manages YouTube channel subscriptions and notifications. (${cfg.adminRole} only)`)
     .addSubcommand((sub) =>
       sub
         .setName('channel')
-        .setDescription(`Add or remove a YouTube channel. ${cfg.adminRole} only`)
-        .addStringOption((opt) => opt.setName('channel-id').setDescription('YouTube channel ID').setRequired(true))
+        .setDescription(`Adds or removes a YouTube channel to follow. (${cfg.adminRole} only)`)
+        .addStringOption((opt) => opt.setName('channel-id').setDescription('The YouTube channel ID.').setRequired(true))
         .addStringOption((opt) =>
           opt
             .setName('action')
-            .setDescription('Add or remove channel')
+            .setDescription('Choose to add or remove the channel.')
             .setRequired(true)
             .addChoices({ name: 'Add', value: 'add' }, { name: 'Remove', value: 'remove' })
         )
@@ -35,24 +35,26 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('notify')
-        .setDescription(`Set the notification channel for YouTube. ${cfg.adminRole} only`)
+        .setDescription(`Sets the notification channel for YouTube updates. (${cfg.adminRole} only)`)
         .addChannelOption((opt) =>
-          opt.setName('notify-channel').setDescription('Choose channel to notify').setRequired(true)
+          opt
+            .setName('notify-channel')
+            .setDescription('The channel to send YouTube notifications to.')
+            .setRequired(true)
         )
     )
     .addSubcommand((sub) =>
-      sub.setName('refresh').setDescription(`Refresh YouTube notifications. ${cfg.adminRole} only`)
+      sub.setName('refresh').setDescription(`Manually refreshes YouTube notifications. (${cfg.adminRole} only)`)
     )
     .addSubcommand((sub) =>
-      sub
-        .setName('list-channels')
-        .setDescription(`List YouTube channels that have been registered. ${cfg.adminRole} only`)
+      sub.setName('list-channels').setDescription(`Lists all registered YouTube channels. (${cfg.adminRole} only)`)
     )
     .addSubcommand(
-      (sub) => sub.setName('alerts').setDescription(`Set alert role for Youtube notifications. ${cfg.adminRole} only`)
+      (sub) =>
+        sub.setName('alerts').setDescription(`Sets the alert role for YouTube notifications. (${cfg.adminRole} only)`)
       // .addRoleOption((opt) => opt.setName('role').setDescription('Choice alert role, set empty for removing')),
     ),
-  /** - Setup YouTube
+  /** - Manages YouTube channel subscriptions and notifications
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -62,7 +64,9 @@ module.exports = {
 
     if (subcommand === 'refresh') {
       await checkVideos();
-      return await interaction.reply(errorEmbed({ desc: 'Refesh successfully!', emoji: true }));
+      return await interaction.reply(
+        errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true })
+      );
     } else if (subcommand === 'alerts') {
       let profile = await serverProfile.findOne({ guildID: guild.id });
       const { youtube } = profile;
@@ -70,8 +74,8 @@ module.exports = {
 
       const embed = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle('Role thông báo khi Youtube có video mới:')
-        .setDescription(role ? `Alert role: ${role}` : 'Chưa có YouTube alert role nào được thiết lập.')
+        .setTitle('YouTube New Video Alert Role:')
+        .setDescription(role ? `Alert Role: ${role}` : 'No YouTube alert role has been set up yet.')
         .setColor(Colors.Orange)
         .setThumbnail(cfg.youtubePNG)
         .setTimestamp();

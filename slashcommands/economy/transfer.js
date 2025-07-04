@@ -15,10 +15,12 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('transfer')
-    .setDescription('Transfer 💲 to other users')
-    .addUserOption((opt) => opt.setName('target').setDescription('Target user').setRequired(true))
+    .setDescription('Transfer 💲 to other users.')
+    .addUserOption((opt) =>
+      opt.setName('target').setDescription('The user to whom you want to transfer 💲.').setRequired(true)
+    )
     .addIntegerOption((opt) =>
-      opt.setName('amount').setMinValue(500).setDescription('Amount of 💲 to transfer').setRequired(true)
+      opt.setName('amount').setMinValue(500).setDescription('The amount of 💲 to transfer.').setRequired(true)
     ),
   /** - Transfer 💲 to other users
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
@@ -34,8 +36,8 @@ module.exports = {
       return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển \\💲 cho chính mình!' }));
 
     let [profile, targetProfile] = await Promise.all([
-      await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
-      await economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
+      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
+      economyProfile.findOne({ guildID: guild.id, userID: targetUser.id }).catch(console.error),
     ]);
 
     if (!profile || !targetProfile)
@@ -76,7 +78,7 @@ module.exports = {
       .setThumbnail(cfg.economyPNG)
       .setTimestamp()
       .setFooter({
-        text: `Requested bye ${user.displayName || user.username}`,
+        text: `Requested by ${user.displayName || user.username}`,
         iconURL: user.displayAvatarURL(true),
       });
 

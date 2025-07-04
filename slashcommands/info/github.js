@@ -5,9 +5,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('github')
-    .setDescription("Get github user's informations")
-    .addStringOption((opt) => opt.setName('username').setDescription('Github Username').setRequired(true)),
-  /** - Show Github's information
+    .setDescription("Get GitHub user's information")
+    .addStringOption((opt) => opt.setName('username').setDescription('GitHub Username').setRequired(true)),
+  /** - Show GitHub's information
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

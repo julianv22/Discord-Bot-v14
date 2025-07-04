@@ -5,15 +5,15 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('bank')
-    .setDescription('Deposit/withdraw 💲 from bank')
+    .setDescription('Deposit or withdraw 💲 from your bank account.')
     .addSubcommand((sub) =>
       sub
         .setName('deposit')
-        .setDescription('Deposit 💲 from balance to bank')
+        .setDescription('Deposit 💲 from your balance to your bank account.')
         .addIntegerOption((opt) =>
           opt
             .setName('amount')
-            .setDescription('Amount of 💲 to deposit')
+            .setDescription('The amount of 💲 to deposit.')
             .setMinValue(1000)
             .setMaxValue(1000000)
             .setRequired(true)
@@ -22,9 +22,9 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('withdraw')
-        .setDescription('Withdraw 💲 from bank to balance')
+        .setDescription('Withdraw 💲 from your bank account to your balance.')
         .addIntegerOption((opt) =>
-          opt.setName('amount').setDescription('Amount of 💲 to withdraw').setMinValue(100).setRequired(true)
+          opt.setName('amount').setDescription('The amount of 💲 to withdraw.').setMinValue(100).setRequired(true)
         )
     ),
   /** - Deposit/withdraw money from balance to bank

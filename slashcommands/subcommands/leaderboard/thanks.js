@@ -12,7 +12,7 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('thanks'),
-  /** - Get thanks leaderboard
+  /** - Displays the thanks leaderboard.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -26,7 +26,7 @@ module.exports = {
       .limit(10)
       .catch(console.error);
     if (!topUsers || !topUsers.length)
-      return await interaction.reply(errorEmbed({ desc: 'There is no thanks data in this server!' }));
+      return await interaction.reply(errorEmbed({ desc: 'No thanks data found for this server.' }));
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const thanksList = topUsers

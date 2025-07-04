@@ -12,12 +12,12 @@ module.exports = {
       sub
         .setName('members')
         .setDescription(`List members of a role. ${cfg.modRole} only`)
-        .addRoleOption((opt) =>
-          opt.setName('role').setDescription('Select the role you want to list').setRequired(true)
+        .addRoleOption((opt) => opt.setName('role').setDescription('Select the role to list').setRequired(true))
+        .addBooleanOption((opt) =>
+          opt.setName('mention').setDescription('Whether to mention members').setRequired(true)
         )
-        .addBooleanOption((opt) => opt.setName('mention').setDescription('Mentionable').setRequired(true))
-        .addStringOption((opt) => opt.setName('title').setDescription('List title'))
-        .addBooleanOption((opt) => opt.setName('inline').setDescription('Inline'))
+        .addStringOption((opt) => opt.setName('title').setDescription('Title for the list'))
+        .addBooleanOption((opt) => opt.setName('inline').setDescription('Whether to display members inline'))
     ),
   /** - List members of a role
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

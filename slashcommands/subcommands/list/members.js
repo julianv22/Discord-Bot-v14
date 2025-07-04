@@ -6,7 +6,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('members'),
 
-  /** - Get members list by role
+  /** - Lists members by role.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -31,7 +31,7 @@ module.exports = {
         ],
       });
     } else {
-      await interaction.reply(errorEmbed({ desc: 'Can not find members or role is incorrect!' }));
+      await interaction.reply(errorEmbed({ desc: 'Could not find members or the role is incorrect.' }));
     }
   },
 };

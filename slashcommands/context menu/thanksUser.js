@@ -8,8 +8,8 @@ const {
 module.exports = {
   category: 'context menu',
   scooldown: 0,
-  data: new ContextMenuCommandBuilder().setName('Thanks').setType(ApplicationCommandType.User),
-  /** - Thanks user
+  data: new ContextMenuCommandBuilder().setName('Thank User').setType(ApplicationCommandType.User),
+  /** - Thanks a target user.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {

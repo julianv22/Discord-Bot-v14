@@ -21,8 +21,7 @@ module.exports = {
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
-    if (!profile)
-      return await interaction.reply(errorEmbed({ desc: 'Hiện chưa có setup nào cho server ' + guild.name }));
+    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No setup data found for this server.' }));
 
     const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '\\⚠️ `/setup welcome`';
     const welcomeMessage = profile?.setup?.welcome?.message || '\\⚠️ `/setup welcome`';
@@ -43,7 +42,7 @@ module.exports = {
       .setColor(Colors.DarkAqua)
       .setTitle(`Setup's Information`)
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setDescription('‼️ Thông tin các thiết lập trong server')
+      .setDescription('‼️ Information about server settings')
       .setThumbnail(
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png'
       )
@@ -57,7 +56,7 @@ module.exports = {
         value: `${youtubeNotifyChannel} | Alert role: ${alertRole}`,
         inline: false,
       })
-      .addFields({ name: `Server's Status Channel`, value: serverStatus + '  `/server-stats`', inline: false })
+      .addFields({ name: `Server Status Channel`, value: serverStatus + '  `/server-stats`', inline: false })
       .addFields({ name: 'Tournament', value: `${tourName}`, inline: true })
       .setTimestamp()
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });

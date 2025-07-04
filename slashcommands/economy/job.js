@@ -5,7 +5,7 @@ const jobs = require('../../config/economy/economyJobs.json');
 module.exports = {
   category: 'economy',
   scooldown: 0,
-  data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲!'),
+  data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲.'),
   /** - Get a random job and earn 💲!
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

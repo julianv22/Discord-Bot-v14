@@ -6,7 +6,7 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('notify'),
-  /** - Setup Youtube notify channel
+  /** - Sets up the channel for YouTube video notifications.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction */
   async execute(interaction, client) {
     const { options, guild } = interaction;
@@ -26,7 +26,7 @@ module.exports = {
     await profile.save().catch(console.error);
 
     return await interaction.reply(
-      errorEmbed({ desc: `Đã thiết lập kênh thông báo video mới trên YouTube: ${notifyChannel}`, emoji: true })
+      errorEmbed({ desc: `YouTube video notification channel has been set to: ${notifyChannel}`, emoji: true })
     );
   },
 };

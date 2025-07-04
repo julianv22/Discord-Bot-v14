@@ -7,11 +7,8 @@ module.exports = {
   category: 'sub command',
   parent: 'read',
   scooldown: 0,
-  data: new SlashCommandSubcommandBuilder()
-    .setName('structure')
-    .setDescription('Show folder structure of project')
-    .addStringOption((opt) => opt.setName('path').setDescription('Structure path')),
-  /** - Project structure
+  data: new SlashCommandSubcommandBuilder().setName('structure'),
+  /** - Displays the project's folder structure.
    * @param {ChatInputCommandInteraction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {
@@ -20,29 +17,29 @@ module.exports = {
     const root = path.resolve(__dirname, '..', '..');
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
-    /** - Check if a file or folder name should be ignored.
+    /** - Checks if a file or folder name should be ignored.
      * @param {string} name The name of the file or folder.
      * @param {string[]} ignorePatterns An array of patterns to ignore. */
     const isIgnored = (name, ignorePatterns) => {
       for (const pattern of ignorePatterns) {
-        // Xử lý các trường hợp cơ bản:
-        // 1. Khớp chính xác tên
+        // Handles basic cases:
+        // 1. Exact name match
         if (name === pattern) {
           return true;
         }
-        // 2. Pattern thúc bằng '/' (chỉ áp dụng cho thư mục)
+        // 2. Pattern ending with '/' (applies only to directories)
         if (pattern.endsWith('/') && name === pattern.slice(0, -1)) {
           return true;
         }
-        // 3. Pattern có wildcard đơn giản '*' ở cuối (ví dụ: *.log)
+        // 3. Simple wildcard '*' at the end (e.g., *.log)
         if (pattern.startsWith('*.') && name.endsWith(pattern.slice(1))) {
           return true;
         }
-        // 4. Pattern có wildcard đơn giản '*' ở đầu (ví dụ: temp*)
+        // 4. Simple wildcard '*' at the beginning (e.g., temp*)
         if (pattern.endsWith('*') && name.startsWith(pattern.slice(0, -1))) {
           return true;
         }
-        // 5. Kiểm tra nếu tên thư mục/file chứa pattern (có thể không mong muốn với .gitignore)
+        // 5. Checks if the directory/file name contains the pattern (may be undesirable with .gitignore)
         // if (name.includes(pattern)) {
         //     return true;
         // }
@@ -67,7 +64,7 @@ module.exports = {
         if (file.isDirectory()) {
           structure += `${prefix}${file.name}/
 `;
-          // Gọi đệ quy cho thư mục con
+          // Recursively call for subdirectories
           structure += await directoryStructure(fullPath, indent + (isLast ? '    ' : '│   '));
         } else {
           structure += `${prefix}${file.name}

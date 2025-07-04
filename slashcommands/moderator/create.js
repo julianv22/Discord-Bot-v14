@@ -24,8 +24,8 @@ module.exports = {
     const { guild, user } = interaction;
     const [row1, row2] = embedButtons();
 
-    let guildeContent = `Danh sách màu sắc: \`\`\`fix\n${Object.keys(Colors).join(', ')}\`\`\`\n`;
-    guildeContent += `Các biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.    |    \`{guild}\`: tên guild`;
+    let guideContent = `Danh sách màu sắc: \`\`\`fix\n${Object.keys(Colors).join(', ')}\`\`\`\n`;
+    guideContent += `Các biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.    |    \`{guild}\`: tên guild`;
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -35,6 +35,6 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
 
-    await interaction.reply({ content: guildeContent, embeds: [embed], components: [row1, row2], flags: 64 });
+    await interaction.reply({ content: guideContent, embeds: [embed], components: [row1, row2], flags: 64 });
   },
 };

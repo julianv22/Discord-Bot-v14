@@ -7,12 +7,12 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('reload')
-    .setDescription(`Reload all commands, events and functions. ${cfg.adminRole} only`)
-    .addSubcommand((sub) => sub.setName('commands').setDescription(`Reload all commands. ${cfg.adminRole} only`))
-    .addSubcommand((sub) => sub.setName('events').setDescription(`Reload all events. ${cfg.adminRole} only`))
-    .addSubcommand((sub) => sub.setName('functions').setDescription(`Reload all functions. ${cfg.adminRole} only`)),
+    .setDescription(`Reloads all commands, events, and functions. (${cfg.adminRole} only)`)
+    .addSubcommand((sub) => sub.setName('commands').setDescription(`Reloads all commands. (${cfg.adminRole} only)`))
+    .addSubcommand((sub) => sub.setName('events').setDescription(`Reloads all events. (${cfg.adminRole} only)`))
+    .addSubcommand((sub) => sub.setName('functions').setDescription(`Reloads all functions. (${cfg.adminRole} only)`)),
   // ownerOnly: true,
-  /** - Reload all commands and events
+  /** - Reloads all commands, events, and functions
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -38,12 +38,10 @@ module.exports = {
 
     await CommandsType[subCommand]();
 
-    await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}, please wait...`, emoji: true }));
+    await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}... Please wait.`, emoji: true }));
 
     setTimeout(async () => {
-      await interaction.editReply(
-        errorEmbed({ desc: `Successfully reloaded application ${subCommand}!`, emoji: true })
-      );
+      await interaction.editReply(errorEmbed({ desc: `Successfully reloaded ${subCommand}!`, emoji: true }));
     }, 2500);
   },
 };

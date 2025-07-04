@@ -15,8 +15,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.ManageMessages)
     .setName('reaction')
-    .setDescription(`Create reaction role. ${cfg.modRole} only`)
-    .addSubcommand((sub) => sub.setName('role').setDescription('Reaction role')),
+    .setDescription(`Create a reaction role. ${cfg.modRole} only`)
+    .addSubcommand((sub) => sub.setName('role').setDescription('Create a reaction role')),
   /** - Execute the reaction-role command
    * @param {Client} client - The client instance
    * @param {ChatInputCommandInteraction} interaction - The Command Interaction */
@@ -29,7 +29,7 @@ module.exports = {
       .setDescription(
         'Vui lòng tạo role trước khi thêm reaction role!\n\n`🎨Color`: Đặt màu sắc cho embed\n```fix\n' +
           Object.keys(Colors).join(', ') +
-          '```\n`➕Add Role`: Thêm role vào reaction role'
+          '```\n`➕Add Role`: Thêm role vào reaction role\n\n**Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.'
       )
       .setColor('Random')
       .setTimestamp()

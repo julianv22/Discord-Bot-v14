@@ -11,7 +11,7 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('level'),
-  /** - Get level leaderboard
+  /** - Displays the level leaderboard.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -20,7 +20,7 @@ module.exports = {
     const week = options.getInteger('week');
     const imgURL = options.getString('image');
 
-    if (!imgURL.checkURL()) return await interaction.reply(errorEmbed({ desc: 'Vui lòng nhập chính xác Image URL' }));
+    if (!imgURL.checkURL()) return await interaction.reply(errorEmbed({ desc: 'Please enter a valid image URL.' }));
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })

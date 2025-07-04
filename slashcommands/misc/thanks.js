@@ -5,10 +5,8 @@ module.exports = {
   scooldown: 30,
   data: new SlashCommandBuilder()
     .setName('thanks')
-    .setDescription('Thanks someone 🤞')
-    .addUserOption((opt) =>
-      opt.setName('user').setDescription('Provide someone you would like to thank').setRequired(true)
-    ),
+    .setDescription('Thank someone')
+    .addUserOption((opt) => opt.setName('user').setDescription('The user you want to thank').setRequired(true)),
   /** - Thanks someone
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

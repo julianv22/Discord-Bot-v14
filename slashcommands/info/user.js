@@ -5,20 +5,22 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('user')
-    .setDescription("Get user's infomations (personal info, avatar)")
+    .setDescription("Get user's information (personal info, avatar)")
     .addSubcommand((sub) =>
       sub
         .setName('info')
         .setDescription("Get user's info")
-        .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get info'))
+        .addUserOption((opt) =>
+          opt.setName('target').setDescription('Provide the user you want to get information about')
+        )
     )
     .addSubcommand((sub) =>
       sub
         .setName('avatar')
         .setDescription("Get user's avatar")
-        .addUserOption((opt) => opt.setName('target').setDescription('Provide user you wanna get avatar'))
+        .addUserOption((opt) => opt.setName('target').setDescription('Provide the user you want to get the avatar of'))
     ),
-  /** - User informations
+  /** - User information
    * @param {ChatInputCommandInteraction} interaction
    * @param {Client} client */
   async execute(interaction, client) {

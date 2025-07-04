@@ -15,7 +15,7 @@ module.exports = {
   parent: 'setup',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('disable'),
-  /** - Disable features
+  /** - Disables various features on the server.
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
@@ -25,13 +25,13 @@ module.exports = {
           label: '⭐ Disable Starboard System',
           customId: 'disable-btn:starboard',
           style: ButtonStyle.Primary,
-          // 'Tắt chức năng Starboard System',
+          // Disables the Starboard System feature.
         },
         {
           label: '💡 Disable Suggest Channel',
           customId: 'disable-btn:suggest',
           style: ButtonStyle.Primary,
-          // 'Tắt chức năng Suggestion',
+          // Disables the Suggestion feature.
         },
       ],
       buttons2 = [
@@ -39,13 +39,13 @@ module.exports = {
           label: '🎬 Disable Youtube Notify',
           customId: 'disable-btn:youtube',
           style: ButtonStyle.Danger,
-          // 'Tắt thông báo video mới trên Youtube',
+          // Disables new YouTube video notifications.
         },
         {
           label: '🎉 Disable Welcome System',
           customId: 'disable-btn:welcome',
           style: ButtonStyle.Success,
-          // 'Tắt chức năng chào mừng thành viên mới',
+          // Disables the new member welcome feature.
         },
       ];
 
@@ -56,10 +56,10 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
       .addFields(
-        { name: '\\⭐ Disable Starboard System', value: '`Tắt chức năng Starboard System`' },
-        { name: '\\💡 Disable Suggest Channel', value: '`Tắt chức năng Suggestion`' },
-        { name: '\\🎬 Disable Youtube Notify', value: '`Tắt thông báo video mới trên Youtube`' },
-        { name: '\\🎉 Disable Welcome System', value: '`Tắt chức năng chào mừng thành viên mới`' }
+        { name: '\\⭐ Disable Starboard System', value: '`Disables the Starboard System feature.`' },
+        { name: '\\💡 Disable Suggest Channel', value: '`Disables the Suggestion feature.`' },
+        { name: '\\🎬 Disable Youtube Notify', value: '`Disables new YouTube video notifications.`' },
+        { name: '\\🎉 Disable Welcome System', value: '`Disables the new member welcome feature.`' }
       );
 
     await interaction.reply({
