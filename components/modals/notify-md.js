@@ -18,7 +18,7 @@ module.exports = {
 
     // Kiểm tra notifytype có hợp lệ không
     const selectedThumbnail = thumbnailOptions[notifytype - 1];
-    if (selectedThumbnail !== 1 && selectedThumbnail !== 2) {
+    if (!thumbnailOptions.includes(selectedThumbnail)) {
       return await interaction.reply(
         client.errorEmbed({ desc: 'Loại thông báo không hợp lệ. Vui lòng chọn 1 hoặc 2.' })
       );

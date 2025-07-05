@@ -11,7 +11,7 @@ module.exports = {
 
     const showContent = {
       youtube: () => {
-        return `Hãy like, share và subscrible để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`;
+        return `Hãy like, share và subscribe để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`;
       },
       server: () => {
         return `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink;
