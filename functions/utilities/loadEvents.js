@@ -7,7 +7,7 @@ const { logAsciiTable } = require('../common/utilities');
 module.exports = (client) => {
   /** @param {boolean} [reload] `false`: Logs ascii-table to terminal */
   client.loadEvents = async (reload = false) => {
-    const { envCollection, logError } = client;
+    const { compColection, logError } = client;
 
     try {
       const eventFolder = 'events';
@@ -46,13 +46,13 @@ module.exports = (client) => {
       }
 
       if (!reload) {
-        await envCollection.set(eventFolder, {
+        await compColection.set(eventFolder, {
           name: `${eventFolder.toCapitalize()} [${totalCount}]`,
           value: eventArray,
         });
 
-        const functions = envCollection.get('functions');
-        const events = envCollection.get(eventFolder);
+        const functions = compColection.get('functions');
+        const events = compColection.get(eventFolder);
 
         if (functions && events)
           logAsciiTable([functions?.value, events?.value], {

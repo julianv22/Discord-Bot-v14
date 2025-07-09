@@ -6,7 +6,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { catchError, envCollection } = client;
+    const { catchError, compColection } = client;
     const { channel, customId } = interaction;
 
     if (channel.type === ChannelType.DM) return;
@@ -21,7 +21,7 @@ module.exports = {
       else return;
       componentKey += prefix;
 
-      const component = envCollection.get(componentKey);
+      const component = compColection.get(componentKey);
       if (component) await component.execute(interaction, client);
     } catch (e) {
       return await catchError(interaction, e, `Error while executing ${chalk.green(customId)} component`);

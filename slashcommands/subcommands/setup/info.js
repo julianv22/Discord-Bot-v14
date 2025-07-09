@@ -52,8 +52,10 @@ module.exports = {
       .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount || '0'}\\⭐)`, inline: false })
       .addFields({ name: 'Suggest Channel', value: `${suggestChannel}`, inline: false })
       .addFields({
-        name: `Youtube Notify (${ytChannels || 0}) \`/youtube list-channel\``,
-        value: `${youtubeNotifyChannel} | Alert role: ${alertRole}`,
+        name: 'Youtube Notify',
+        value: `**Channels:** ${
+          ytChannels || 0
+        } \`/youtube list-channel\`\n${youtubeNotifyChannel} | **Alert role:** ${alertRole}`,
         inline: false,
       })
       .addFields({ name: `Server Status Channel`, value: serverStatus + '  `/server-stats`', inline: false })

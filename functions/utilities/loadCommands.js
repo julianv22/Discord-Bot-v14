@@ -7,7 +7,7 @@ const { compareCommands } = require('../common/compareCommands');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   client.loadCommands = async () => {
-    const { prefixCommands, slashCommands, subCommands, envCollection, logError } = client;
+    const { prefixCommands, slashCommands, subCommands, compColection, logError } = client;
 
     prefixCommands.clear();
     slashCommands.clear();
@@ -58,9 +58,9 @@ module.exports = (client) => {
       loadCommands(commandTypes.Sub),
     ]);
 
-    logAsciiTable([prefixCommands.toGroupedCountList(), envCollection.toGroupedCountList('type')], {
+    logAsciiTable([prefixCommands.toGroupedCountList(), compColection.toGroupedCountList('type')], {
       title: 'Load Prefix Commands & Components',
-      heading: [`${commandTypes.Prefix.name} [${prefixCommands.size}]`, `Components [${envCollection.size}]`],
+      heading: [`${commandTypes.Prefix.name} [${prefixCommands.size}]`, `Components [${compColection.size}]`],
     });
 
     logAsciiTable([slashCommands.toGroupedCountList(), subCommands.toGroupedCountList('parent')], {

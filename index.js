@@ -16,7 +16,7 @@ const client = new Client({
 client.prefixCommands = new Collection();
 client.slashCommands = new Collection();
 client.subCommands = new Collection();
-client.envCollection = new Collection();
+client.compColection = new Collection();
 client.snipes = new Collection();
 
 // Kiểm tra biến môi trường

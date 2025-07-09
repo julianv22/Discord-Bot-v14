@@ -2,13 +2,15 @@ const {
   Client,
   ChatInputCommandInteraction,
   SlashCommandSubcommandBuilder,
-  EmbedBuilder,
-  ActionRowBuilder,
+  TextDisplayBuilder,
+  ButtonBuilder,
+  SectionBuilder,
+  ContainerBuilder,
+  SeparatorBuilder,
   ButtonStyle,
-  ComponentType,
+  MessageFlags,
   Colors,
 } = require('discord.js');
-const { rowComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -19,56 +21,47 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user } = interaction;
-    const buttons1 = [
-        {
-          label: '⭐ Disable Starboard System',
-          customId: 'disable-btn:starboard',
-          style: ButtonStyle.Primary,
-          // Disables the Starboard System feature.
-        },
-        {
-          label: '💡 Disable Suggest Channel',
-          customId: 'disable-btn:suggest',
-          style: ButtonStyle.Primary,
-          // Disables the Suggestion feature.
-        },
-      ],
-      buttons2 = [
-        {
-          label: '🎬 Disable Youtube Notify',
-          customId: 'disable-btn:youtube',
-          style: ButtonStyle.Danger,
-          // Disables new YouTube video notifications.
-        },
-        {
-          label: '🎉 Disable Welcome System',
-          customId: 'disable-btn:welcome',
-          style: ButtonStyle.Success,
-          // Disables the new member welcome feature.
-        },
-      ];
+    /** - TextDisplayBuilder
+     * @param {string} content TextDisplay content */
+    const textDisplay = (content) => new TextDisplayBuilder().setContent(content);
+    /** - ButtonBuilder
+     * @param {string} emoji Button emoji
+     * @param {string} customId Button customId
+     * @param {ButtonStyle} style ButtonStyle */
+    const button = (customId, style) => {
+      const emojis = [, '⭐', '💡', '🎉', '🎬'];
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: 'Disable Features', iconURL: user.displayAvatarURL(true) })
-      .setColor(Colors.Orange)
-      .setThumbnail(guild.iconURL(true))
-      .setTimestamp()
-      .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
-      .addFields(
-        { name: '\\⭐ Disable Starboard System', value: '`Disables the Starboard System feature.`' },
-        { name: '\\💡 Disable Suggest Channel', value: '`Disables the Suggestion feature.`' },
-        { name: '\\🎬 Disable Youtube Notify', value: '`Disables new YouTube video notifications.`' },
-        { name: '\\🎉 Disable Welcome System', value: '`Disables the new member welcome feature.`' }
+      return new ButtonBuilder()
+        .setCustomId(`disable-btn:${customId}`)
+        .setLabel(`${emojis[style]} Disable ${customId.toCapitalize()}`)
+        .setStyle(style === 2 ? 1 : style);
+    };
+    /** - SectionBuilder
+     * @param {string} text TextDisplay content
+     * @param {string} buttonId Button customId
+     * @param {ButtonStyle} style ButtonStyle */
+    const section = (text, buttonId, style) => {
+      return new SectionBuilder()
+        .addTextDisplayComponents(textDisplay(text))
+        .setButtonAccessory(button(buttonId, style));
+    };
+
+    const container = new ContainerBuilder()
+      .setAccentColor(Colors.Orange)
+      .addTextDisplayComponents(textDisplay('### Disable Features:'))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addSectionComponents(section('\\⭐ Disable Starboard\n-# Tắt chức năng Starboard', 'starboard', 1))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addSectionComponents(section('\\💡 Disable Suggest Channel\n-# Tắt chức năng Suggestion', 'suggest', 2))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addSectionComponents(
+        section('\\🎬 Disable Youtube Notify\n-# Tắt chức năng thông báo video mới trên YouTube', 'youtube', 4)
+      )
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addSectionComponents(
+        section('\\🎉 Disable Welcome System\n-# Tắt chức năng chào mừng thành viên mới', 'welcome', 3)
       );
 
-    await interaction.reply({
-      embeds: [embed],
-      components: [
-        new ActionRowBuilder().addComponents(rowComponents(buttons1, ComponentType.Button)),
-        new ActionRowBuilder().addComponents(rowComponents(buttons2, ComponentType.Button)),
-      ],
-      flags: 64,
-    });
+    await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
   },
 };

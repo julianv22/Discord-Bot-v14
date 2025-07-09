@@ -37,7 +37,7 @@ module.exports = (client) => {
       }
 
       if (!reload)
-        await client.envCollection.set(funcFolder, {
+        await client.compColection.set(funcFolder, {
           name: `${funcFolder.toCapitalize()} [${totalCount}]`,
           value: funcArray,
         });
