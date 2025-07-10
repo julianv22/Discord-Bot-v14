@@ -17,10 +17,10 @@ module.exports = {
     const input = fields.getTextInputValue(customId);
     const welcomeMessage = components[0].components[1].components[0].data;
 
-    welcomeMessage.content = `**- Welcome message:** ${input}`;
+    welcomeMessage.content = `**- Welcome message:** ${input.slice(0, 3000)}`;
 
     await serverProfile
-      .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input } })
+      .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input.slice(0, 3000) } })
       .catch(console.error);
 
     return await interaction.update({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components });

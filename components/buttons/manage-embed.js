@@ -74,6 +74,7 @@ module.exports = {
               customId: 'description',
               label: 'Mô tả',
               placeholder: 'Nhập mô tả embed\n{guild} = Tên máy chủ\n{user} = Tên người dùng',
+              value: editEmbed.data.description,
               style: TextInputStyle.Paragraph,
               required: true,
             },

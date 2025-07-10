@@ -16,6 +16,7 @@ module.exports = {
    * @param {number} [options.style] - Component style
    * @param {string} [options.value] - Component value
    * @param {string} [options.placeholder] - Component placeholder
+   * @param {string} [options.value] - Component value
    * @param {string} [options.emoji] - Component emoji
    * @param {string} [options.url] - Component url
    * @param {boolean} [options.disabled] - Component disabled
@@ -65,6 +66,7 @@ module.exports = {
             .setStyle(opt.style || TextInputStyle.Short)
             .setRequired(opt.required ?? false);
 
+          if (opt.value) textinput.setValue(opt.value);
           if (opt.placeholder) textinput.setPlaceholder(opt.placeholder);
           if (opt.minLength) textinput.setMinLength(opt.minLength);
           if (opt.maxLength) textinput.setMaxLength(opt.maxLength);
