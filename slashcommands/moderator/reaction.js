@@ -27,9 +27,9 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('`💬Title`: Đặt tiêu đề cho reaction role')
       .setDescription(
-        'Vui lòng tạo role trước khi thêm reaction role!\n\n`🎨Color`: Đặt màu sắc cho embed\n```fix\n' +
+        '- Vui lòng tạo role trước khi thêm reaction role!\n\n`🎨Color`: Đặt màu sắc cho embed\n```fix\n' +
           Object.keys(Colors).join(', ') +
-          '```\n`➕Add Role`: Thêm role vào reaction role\n\n**Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.'
+          '```\n`➕Add Role`: Thêm role vào reaction role\n\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.'
       )
       .setColor('Random')
       .setTimestamp()

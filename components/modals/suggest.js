@@ -1,10 +1,10 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'modals',
-  data: { name: 'suggest-md' },
+  data: { name: 'suggest' },
   /** - Suggest Modal
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user } = interaction;

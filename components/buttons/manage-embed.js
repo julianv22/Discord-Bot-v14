@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  ButtonInteraction,
   EmbedBuilder,
   ActionRowBuilder,
   ModalBuilder,
@@ -13,9 +13,9 @@ const { rowComponents } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'manage-embed-btn' },
+  data: { name: 'manage-embed' },
   /** - Create/edit embed
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {ButtonInteraction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, message, channel } = interaction;
@@ -33,7 +33,7 @@ module.exports = {
     const createModal = (options) => {
       const textInputs = rowComponents(options, ComponentType.TextInput);
       const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
-      const modal = new ModalBuilder().setCustomId(`manage-embed-md:${button}`).setTitle('Embed Manager');
+      const modal = new ModalBuilder().setCustomId(`manage-embed:${button}`).setTitle('Embed Manager');
       actionRows.forEach((row) => modal.addComponents(row));
       return modal;
     };

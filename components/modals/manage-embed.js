@@ -1,11 +1,11 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
-  data: { name: 'manage-embed-md' },
+  data: { name: 'manage-embed' },
   /** - Embed Modal
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message, user, guild } = interaction;

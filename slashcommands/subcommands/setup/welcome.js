@@ -2,8 +2,20 @@ const {
   Client,
   ChatInputCommandInteraction,
   SlashCommandSubcommandBuilder,
-  EmbedBuilder,
+  ContainerBuilder,
+  TextDisplayBuilder,
+  SeparatorBuilder,
+  SectionBuilder,
+  ThumbnailBuilder,
+  ChannelSelectMenuBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ChannelType,
+  ButtonStyle,
+  MessageFlags,
   Colors,
+  TextInputBuilder,
+  TextInputStyle,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 
@@ -16,37 +28,65 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, options } = interaction;
+    const { guild } = interaction;
     const { cache: channels } = client.channels;
-    const welcomeChannel = channels.get(options.getChannel('welcome').id);
-    const logChannel = channels.get(options.getChannel('log').id);
-    const welcomeMsg = options.getString('message');
+    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
     if (!profile)
       profile = await serverProfile
         .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
         .catch(console.error);
 
     const { welcome } = profile.setup;
-    welcome.channel = welcomeChannel.id;
-    welcome.log = logChannel.id;
-    welcome.message = welcomeMsg;
+    const welcomeChannel = channels.get(welcome.channel) || '- # \\❌ Not Set';
+    const welcomeMessage = welcome.message || '- # \\❌ Not Set';
+    const logChannel = channels.get(welcome.log) || '- # \\❌ Not Set';
 
-    await profile.save().catch(console.error);
+    /** @param {string} content TextDisplay content */
+    const text = (content) => new TextDisplayBuilder().setContent(content);
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-      .setTitle('Welcome Setup Information')
-      .setColor(Colors.Aqua)
-      .setTimestamp()
-      .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
-      .addFields(
-        { name: 'Welcome channel:', value: welcomeChannel.toString(), inline: true },
-        { name: 'Log channel:', value: logChannel.toString(), inline: true },
-        { name: 'Welcome message:', value: welcomeMsg || 'None' }
+    const container = new ContainerBuilder()
+      .setAccentColor(Colors.DarkGreen)
+      .addSectionComponents(
+        new SectionBuilder()
+          .setThumbnailAccessory(new ThumbnailBuilder().setURL(guild.iconURL()))
+          .addTextDisplayComponents(text('### Welcome Information'))
+          .addTextDisplayComponents(text(`**- Welcome channel:** ${welcomeChannel}`))
+          .addTextDisplayComponents(text(`**- Log channel:** ${logChannel}`))
+      )
+      .addSectionComponents(
+        new SectionBuilder()
+          .addTextDisplayComponents(text(`**- Welcome message:** ${welcomeMessage}`))
+          .setButtonAccessory(
+            new ButtonBuilder().setCustomId('welcome-msg').setLabel('📝 Change message').setStyle(ButtonStyle.Success)
+          )
+      )
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(text('Select Welcome channel:'))
+      .addActionRowComponents(
+        new ActionRowBuilder().setComponents(
+          new ChannelSelectMenuBuilder()
+            .setCustomId('welcome-menu:channel')
+            .setChannelTypes(ChannelType.GuildText)
+            .setMinValues(1)
+            .setMaxValues(1)
+        )
+      )
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(text('Select Log channel:'))
+      .addActionRowComponents(
+        new ActionRowBuilder().setComponents(
+          new ChannelSelectMenuBuilder()
+            .setCustomId('welcome-menu:log')
+            .setChannelTypes(ChannelType.GuildText)
+            .setMinValues(1)
+            .setMaxValues(1)
+        )
       );
 
-    return await interaction.reply({ embeds: [embed], flags: 64 });
+    return await interaction.reply({
+      flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
+      components: [container],
+    });
   },
 };

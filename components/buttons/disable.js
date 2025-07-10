@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  ButtonInteraction,
   ActionRowBuilder,
   ButtonBuilder,
   TextDisplayBuilder,
@@ -12,9 +12,9 @@ const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'disable-btn' },
+  data: { name: 'disable-' },
   /** - Disable Features Button
-   * @param {ChatInputCommandInteraction} interaction Command Interaction
+   * @param {ButtonInteraction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guildId: guildID, customId } = interaction;
@@ -24,12 +24,12 @@ module.exports = {
     const confirmButtons = (disabled = false) =>
       new ActionRowBuilder().setComponents(
         new ButtonBuilder()
-          .setCustomId(`disable-btn:confirm:${feature}`)
+          .setCustomId('disable-:confirm:' + feature)
           .setLabel('✅ Confirm')
           .setStyle(ButtonStyle.Success)
           .setDisabled(disabled),
         new ButtonBuilder()
-          .setCustomId('disable-btn:cancel')
+          .setCustomId('disable-:cancel')
           .setLabel('❌ Cancel')
           .setStyle(ButtonStyle.Danger)
           .setDisabled(disabled)
@@ -37,7 +37,7 @@ module.exports = {
     /** - ContainerBuilder
      * @param {string} content TextDisplay content
      * @param {num} [accent_color] Container accent color */
-    const messageContainer = (content, accent_color = Colors.Orange) =>
+    const container = (content, accent_color = Colors.Orange) =>
       new ContainerBuilder()
         .setAccentColor(accent_color)
         .addTextDisplayComponents(new TextDisplayBuilder().setContent(content));
@@ -46,19 +46,27 @@ module.exports = {
 
     if (!profile)
       return await interaction.update({
-        components: [messageContainer('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
+        components: [container('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
       });
 
     const { starboard, suggest, youtube, welcome } = profile.setup;
 
-    const onlick = {
+    const onClick = {
       default: async () => {
         return await interaction.update({
           components: [
-            messageContainer(
+            container(
               `**Disable ${feature.toCapitalize()}**\n-# Vô hiệu hoá chức năng ${feature.toCapitalize()}\n\n-# Click \`✅ Confirm\` để xác nhận \\⤵️`
             ),
             confirmButtons(),
+          ],
+        });
+      },
+      cancel: async () => {
+        return await interaction.update({
+          components: [
+            container(`**Disable ${feature}**\n-# Click  \`Dismiss message\` to return`),
+            confirmButtons(true),
           ],
         });
       },
@@ -86,23 +94,15 @@ module.exports = {
 
         return await interaction.update({
           components: [
-            messageContainer(
+            container(
               `**\\✅ Disable ${disable.toCapitalize()} successfully!**\n-# Đã vô hiệu hoá chức năng ${disable.toCapitalize()} thành công.`,
-              Colors.DarkGreen
+              Colors.Green
             ),
-          ],
-        });
-      },
-      cancel: async () => {
-        return await interaction.update({
-          components: [
-            messageContainer(`**Disable ${feature.toCapitalize()}**\n-# Click  \`Dismiss message\` to return`),
-            confirmButtons(true),
           ],
         });
       },
     };
 
-    (onlick[feature] || onlick.default)();
+    (onClick[feature] || onClick.default)();
   },
 };

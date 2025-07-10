@@ -21,7 +21,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const modal = new ModalBuilder().setCustomId('notify-md').setTitle('Notification:');
+    const modal = new ModalBuilder().setCustomId('notify').setTitle('Notification:');
     const typeInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()
         .setCustomId('type')

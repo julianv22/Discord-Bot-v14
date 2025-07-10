@@ -16,7 +16,7 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const modal = new ModalBuilder().setCustomId('suggest-md').setTitle('Server Suggestions:');
+    const modal = new ModalBuilder().setCustomId('suggest').setTitle('Server Suggestions:');
 
     const contentInput = new ActionRowBuilder().addComponents(
       new TextInputBuilder()

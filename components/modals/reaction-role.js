@@ -1,10 +1,10 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
   type: 'modals',
-  data: { name: 'reaction-md' },
+  data: { name: 'reaction-role' },
   /** - Reaction Modal
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message } = interaction;

@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  ButtonInteraction,
   ModalBuilder,
   ActionRowBuilder,
   EmbedBuilder,
@@ -14,9 +14,9 @@ const reactionMap = new Map();
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'reaction-btn' },
+  data: { name: 'reaction-role' },
   /** - Reaction Button
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {ButtonInteraction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, guild, channel, message, user } = interaction;
@@ -31,7 +31,7 @@ module.exports = {
         ComponentType.TextInput
       );
       const actionRows = textInputs.map((textInput) => new ActionRowBuilder().addComponents(textInput));
-      const modal = new ModalBuilder().setCustomId(`reaction-md:${buttonId}`).setTitle('Quản lý Reaction Role');
+      const modal = new ModalBuilder().setCustomId(`reaction-role:${buttonId}`).setTitle('Quản lý Reaction Role');
       actionRows.forEach((row) => modal.addComponents(row));
       return modal;
     };

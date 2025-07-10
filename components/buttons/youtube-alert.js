@@ -1,11 +1,11 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder } = require('discord.js');
+const { Client, ButtonInteraction, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'ytb-alert-btn' },
+  data: { name: 'youtube-alert' },
   /** - Youtube Alert Role Button
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {ButtonInteraction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, channel, message } = interaction;

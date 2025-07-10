@@ -16,7 +16,7 @@ module.exports = {
 
       let componentKey;
       if (interaction.isButton()) componentKey = 'buttons|';
-      else if (interaction.isStringSelectMenu()) componentKey = 'menus|';
+      else if (interaction.isAnySelectMenu()) componentKey = 'menus|';
       else if (interaction.isModalSubmit()) componentKey = 'modals|';
       else return;
       componentKey += prefix;

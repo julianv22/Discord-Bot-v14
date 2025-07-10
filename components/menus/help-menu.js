@@ -1,10 +1,10 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, StringSelectMenuInteraction, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   type: 'menus',
   data: { name: 'help-menu' },
   /** - Help Menu
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {StringSelectMenuInteraction} interaction - String Select Menu Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user } = interaction;

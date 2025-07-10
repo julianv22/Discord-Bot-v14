@@ -20,12 +20,7 @@ module.exports = {
         )
     )
     .addSubcommand((sub) =>
-      sub
-        .setName('welcome')
-        .setDescription(`Sets up welcome and log channels. (${cfg.adminRole} only)`)
-        .addChannelOption((opt) => opt.setName('welcome').setDescription('The welcome channel.').setRequired(true))
-        .addChannelOption((opt) => opt.setName('log').setDescription('The log channel.').setRequired(true))
-        .addStringOption((opt) => opt.setName('message').setDescription('The content of the welcome message.'))
+      sub.setName('welcome').setDescription(`Sets up welcome and log channels. (${cfg.adminRole} only)`)
     )
     .addSubcommand((sub) =>
       sub

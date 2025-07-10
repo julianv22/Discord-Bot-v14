@@ -57,12 +57,12 @@ module.exports = {
 
     const buttons = [
       {
-        customId: `transfer-btn:${amount}:${fee}:${targetUser.id}`,
+        customId: `transfer:${amount}:${fee}:${targetUser.id}`,
         label: 'Transfer',
         style: ButtonStyle.Success,
       },
       {
-        customId: 'transfer-btn:cancel',
+        customId: 'transfer:cancel',
         label: 'Cancel',
         style: ButtonStyle.Danger,
       },

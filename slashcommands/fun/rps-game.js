@@ -33,19 +33,19 @@ module.exports = {
 
     const buttons = [
       {
-        customId: `rps-btn:0:${bet}`,
+        customId: `rps-game:0:${bet}`,
         emoji: '🔨',
         label: 'Rock',
         style: ButtonStyle.Danger,
       },
       {
-        customId: `rps-btn:1:${bet}`,
+        customId: `rps-game:1:${bet}`,
         emoji: '📄',
         label: 'Paper',
         style: ButtonStyle.Success,
       },
       {
-        customId: `rps-btn:2:${bet}`,
+        customId: `rps-game:2:${bet}`,
         emoji: '✂️',
         label: 'Scissors',
         style: ButtonStyle.Primary,
