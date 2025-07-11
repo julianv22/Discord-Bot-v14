@@ -49,7 +49,7 @@ module.exports = {
       )
       .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
       .addFields({ name: 'Log Channel', value: `${logChannel}`, inline: true })
-      .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: true })
+      .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: false })
       .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount || 0}\\⭐)`, inline: true })
       .addFields({ name: 'Suggest Channel', value: `${suggestChannel}`, inline: true })
       .addFields({

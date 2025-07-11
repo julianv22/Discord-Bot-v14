@@ -24,7 +24,7 @@ module.exports = {
     const { guild } = interaction;
     const { id: guildID, name: guildName } = guild;
 
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
     if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
