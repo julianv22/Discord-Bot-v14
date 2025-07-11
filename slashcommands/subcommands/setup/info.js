@@ -44,9 +44,7 @@ module.exports = {
       .setColor(Colors.DarkAqua)
       .setTitle(`Setup's Information`)
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setThumbnail(
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png'
-      )
+      .setThumbnail(cfg.infoPNG)
       .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
       .addFields({ name: 'Log Channel', value: `${logChannel}`, inline: true })
       .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: false })
