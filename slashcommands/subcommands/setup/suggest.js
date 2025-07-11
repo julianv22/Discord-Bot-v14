@@ -12,12 +12,13 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const channel = options.getChannel('suggest-channel');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
     if (!profile)
       profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix, setup: { suggest: channel.id } })
+        .create({ guildID, guildName, prefix, setup: { suggest: channel.id } })
         .catch(console.error);
 
     if (!profile.setup) profile.setup = {};

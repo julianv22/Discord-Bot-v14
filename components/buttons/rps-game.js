@@ -11,11 +11,12 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID } = guild;
     const [, button, betStr] = customId.split(':');
     const userMove = parseInt(button, 10);
     const bet = parseInt(betStr, 10);
 
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy
     if (!profile) return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
 

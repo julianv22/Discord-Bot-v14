@@ -10,6 +10,7 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
@@ -21,8 +22,8 @@ module.exports = {
 
     // Lấy profile của người chuyển và người nhận
     let [profile, targetProfile] = await Promise.all([
-      economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error),
-      economyProfile.findOne({ guildID: guild.id, userID: targetId }).catch(console.error),
+      economyProfile.findOne({ guildID, userID: user.id }).catch(console.error),
+      economyProfile.findOne({ guildID, userID: targetId }).catch(console.error),
     ]);
 
     // Kiểm tra lại dữ liệu
@@ -31,7 +32,7 @@ module.exports = {
 
     if (!targetProfile)
       targetProfile = await economyProfile
-        .create({ guildID: guild.id, guildName: guild.name, userID: targetId, bank: 0 })
+        .create({ guildID, guildName, userID: targetId, bank: 0 })
         .catch(console.error);
 
     if (profile.bank < total)

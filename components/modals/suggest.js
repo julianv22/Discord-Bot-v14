@@ -9,9 +9,10 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const description = interaction.fields.getTextInputValue('content');
 
-    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
     if (!profile || !profile?.setup?.suggest)
       return await interaction.reply(
         errorEmbed({
@@ -35,7 +36,7 @@ module.exports = {
       .setColor(Colors.DarkGold)
       .setThumbnail(cfg.suggestPNG)
       .setTimestamp()
-      .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+      .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
       .addFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' });
 
     const msg = await sgtChannel.send({ embeds: [embed] });

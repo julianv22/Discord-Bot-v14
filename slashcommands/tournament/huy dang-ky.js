@@ -22,6 +22,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, members, roles } = guild;
 
     // Verified
     if (!options.getBoolean('confirm'))
@@ -33,7 +34,7 @@ module.exports = {
         })
       );
 
-    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
@@ -51,7 +52,7 @@ module.exports = {
       );
 
     // Check Tournament's Status
-    const tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    const tourProfile = await tournamentProfile.findOne({ guildID, userID: user.id }).catch(console.error);
     if (!tourProfile || !tourProfile?.status)
       return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!` }));
 
@@ -60,7 +61,7 @@ module.exports = {
     if (!roleID)
       return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
 
-    const role = guild.roles.cache.get(roleID);
+    const role = roles.cache.get(roleID);
     if (!role)
       return await interaction.reply(
         errorEmbed({ desc: `Role giải đấu với ID \`${roleID}\` không tồn tại! Vui lòng liên hệ ban quản trị!` })
@@ -75,7 +76,7 @@ module.exports = {
       return await interaction.reply(errorEmbed({ desc: 'Đã xảy ra lỗi khi hủy đăng ký giải đấu. Vui lòng thử lại.' }));
 
     // Remove Role
-    const bot = guild.members.me || (await guild.members.fetch(client.user.id));
+    const bot = members.me || (await members.fetch(client.user.id));
 
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
       if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
@@ -88,7 +89,7 @@ module.exports = {
             emoji: false,
           })
         );
-    } else await guild.members.cache.get(user.id).roles.remove(role).catch(console.error);
+    } else await members.cache.get(user.id).roles.remove(role).catch(console.error);
 
     await interaction.reply(
       errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.DarkGreen })

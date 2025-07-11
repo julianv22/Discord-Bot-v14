@@ -44,14 +44,12 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const tourCommand = options.getSubcommand();
     const getRole = options.getRole('ten-giai');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    if (!profile)
-      profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
-        .catch(console.error);
+    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
     const { tournament } = profile;
     // Gom các logic xử lý vào object
@@ -115,7 +113,7 @@ module.exports = {
             errorEmbed({ desc: 'Hiện không có giải đấu nào đang diễn ra!', emoji: '🏆', color: Colors.DarkVividPink })
           );
 
-        let memberList = await tournamentProfile.find({ guildID: guild.id, status: true }).catch(console.error);
+        let memberList = await tournamentProfile.find({ guildID, status: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
           return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
@@ -174,7 +172,7 @@ module.exports = {
             })
           );
 
-        const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(console.error);
+        const tourList = await tournamentProfile.find({ guildID }).catch(console.error);
         if (!tourList || tourList.length === 0)
           return await interaction.reply(
             errorEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!', emoji: false })

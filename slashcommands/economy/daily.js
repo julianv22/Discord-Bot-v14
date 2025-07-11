@@ -12,15 +12,16 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    let profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
     if (!profile)
       profile = await economyProfile
         .create({
-          guildID: guild.id,
-          guildName: guild.name,
+          guildID,
+          guildName,
           userID: user.id,
           usertag: user.tag,
           balance: 0,
@@ -112,14 +113,12 @@ module.exports = {
     if (resetStreak)
       await user
         .send(
-          `Bạn vừa bỏ lỡ chuỗi điểm danh liên tiếp **${prevStreak.toLocaleString()} ngày**! Chuỗi đã bị reset về 1. Hãy cố gắng duy trì streak lần sau nhé!\n\nFrom: ${
-            guild.name
-          }`
+          `Bạn vừa bỏ lỡ chuỗi điểm danh liên tiếp **${prevStreak.toLocaleString()} ngày**! Chuỗi đã bị reset về 1. Hãy cố gắng duy trì streak lần sau nhé!\n\nFrom: ${guildName}`
         )
         .catch(console.error);
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
       .setTitle('Nhận \\💲 hằng ngày!')
       .setDescription(
         `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`

@@ -12,8 +12,9 @@ module.exports = {
   async execute(member, client) {
     try {
       const { guild, user } = member;
+      const { id: guildID, name: guildName } = guild;
 
-      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+      const profile = await serverProfile.findOne({ guildID }).catch(console.error);
       if (!profile || !welcome.channel || !welcome.log)
         return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
 
@@ -77,7 +78,7 @@ module.exports = {
       const welcomeEmbed = new EmbedBuilder()
         .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL(true) })
         .setTitle('Welcome 👋')
-        .setDescription(`Chào mừng ${user} tham gia server **${guild.name}!**  😍`)
+        .setDescription(`Chào mừng ${user} tham gia server **${guildName}!**  😍`)
         .addFields([
           {
             name: `Bạn là thành viên thứ ${guild.memberCount} của server`,
@@ -87,7 +88,7 @@ module.exports = {
         .setColor(0x00bce3)
         .setThumbnail(user.displayAvatarURL(true))
         .setImage(cfg.welcomePNG)
-        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
         .setTimestamp();
       if (welcome.message) welcomeEmbed.addFields([{ name: `Server's Information:`, value: welcome.message }]);
 
@@ -103,7 +104,7 @@ module.exports = {
 
       if (logChannel) {
         const logEmbed = new EmbedBuilder()
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
           .setTitle('👋 Thành viên mới tham gia!')
           .setDescription(`${user} đã tham gia server!`)
           .setColor(0x00bce3)
@@ -120,7 +121,7 @@ module.exports = {
       }
 
       client.serverStats(guild.id);
-      console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
+      console.log(chalk.yellow(user.tag + ' joined the server'), guildName);
     } catch (e) {
       client.logError({ item: this.name, desc: 'event' }, e);
     }

@@ -18,13 +18,10 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const time = options.getString('time');
 
-    let topUsers = await thanksProfile
-      .find({ guildID: guild.id })
-      .sort({ thanksCount: -1 })
-      .limit(10)
-      .catch(console.error);
+    let topUsers = await thanksProfile.find({ guildID }).sort({ thanksCount: -1 }).limit(10).catch(console.error);
     if (!topUsers || !topUsers.length)
       return await interaction.reply(errorEmbed({ desc: 'No thanks data found for this server.' }));
 

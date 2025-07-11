@@ -21,6 +21,7 @@ module.exports = {
   async execute(interaction, client) {
     const { customId, guild, channel, message, user } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const [, buttonId] = customId.split(':');
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
     /** - Tạo Modal tương tác
@@ -135,8 +136,8 @@ module.exports = {
 
         await reactionRole
           .create({
-            guildID: guild.id,
-            guildName: guild.name,
+            guildID,
+            guildName,
             channelId: channel.id,
             messageId: msg.id,
             title: reactionEmbed.data.title,

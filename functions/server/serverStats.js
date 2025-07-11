@@ -7,11 +7,13 @@ module.exports = (client) => {
    * @param {string} guildID - Guild ID */
   client.serverStats = async (guildID) => {
     const { logError, guilds } = client;
+
     try {
       // Start Server Stats
       const guild = guilds.cache.get(guildID);
+      const { id: guildID, name: guildName } = guild;
 
-      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+      const profile = await serverProfile.findOne({ guildID }).catch(console.error);
       if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
 
       const { statistics } = profile;
@@ -43,7 +45,7 @@ module.exports = (client) => {
 
         for (const channel of statsChannels) setChannelName(channel.id, channel.name);
       } catch (e) {
-        logError({ todo: 'updating server statistics channels for:', item: guild.name }, e);
+        logError({ todo: 'updating server statistics channels for:', item: guildName }, e);
       }
 
       const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];

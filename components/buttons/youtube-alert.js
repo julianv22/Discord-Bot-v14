@@ -10,6 +10,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, channel, message } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID } = guild;
     const newEmbed = EmbedBuilder.from(message.embeds[0]);
     let desc = newEmbed.data.description;
 
@@ -29,7 +30,7 @@ module.exports = {
       const input = m.content.trim();
       if (m && m.deletable) await m.delete().catch(console.error);
 
-      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+      const profile = await serverProfile.findOne({ guildID }).catch(console.error);
       if (!profile)
         return await interaction.followUp(errorEmbed({ desc: 'Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!' }));
 

@@ -9,14 +9,15 @@ module.exports = {
   async execute(member, client) {
     try {
       const { guild, user } = member;
+      const { id: guildID, name: guildName } = guild;
 
-      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+      const profile = await serverProfile.findOne({ guildID }).catch(console.error);
       if (!profile || !welcome.log) return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
 
       const { welcome } = profile.setup;
 
       const emLog = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
         .setTitle('👋 Good bye!')
         .setDescription(`${user} đã rời khỏi server!`)
         .setThumbnail(
@@ -34,7 +35,7 @@ module.exports = {
 
       client.serverStats(guild.id);
 
-      console.log(chalk.yellow(user.tag + ' left the server'), guild.name);
+      console.log(chalk.yellow(user.tag + ' left the server'), guildName);
     } catch (e) {
       client.logError({ item: this.name, desc: 'event' }, e);
     }

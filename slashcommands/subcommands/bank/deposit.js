@@ -18,11 +18,12 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
     const { errorEmbed, user: bot } = client;
+    const { id: guildID } = guild;
     const amount = options.getInteger('amount');
 
     if (amount <= 0) return await interaction.reply(errorEmbed({ desc: 'Số \\💲 gửi phải lớn hơn 0!' }));
 
-    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({

@@ -11,6 +11,7 @@ module.exports = {
 
     const { message, emoji } = reaction;
     const { guild, channel } = message;
+    const { id: guildID, name: guildName } = guild;
 
     if (!guild) return;
 
@@ -33,11 +34,7 @@ module.exports = {
     const member = await guild.members.fetch(user.id);
     const bot = guild.members.me;
     const config = await reactionRole
-      .findOne({
-        guildID: guild.id,
-        channelId: channel.id,
-        messageId: message.id,
-      })
+      .findOne({ guildID, channelId: channel.id, messageId: message.id })
       .catch(console.error); // Keep catch for findOne errors
 
     if (!config) return; // Return if config or roles is not valid or not an array
@@ -56,7 +53,7 @@ module.exports = {
             return console.error(chalk.red(`Bot can not remove role for ${user.displayName}`));
 
           if (!member.roles.cache.has(role.id)) await member.roles.add(role.id);
-        } else console.warn(chalk.yellow(`Role ID ${roleObj.roleId} is undefined in ${guild.name}`));
+        } else console.warn(chalk.yellow(`Role ID ${roleObj.roleId} is undefined in ${guildName}`));
       } catch (e) {
         console.error(chalk.red(`Error while adding role to ${member.user.tag}\n`), e);
       }

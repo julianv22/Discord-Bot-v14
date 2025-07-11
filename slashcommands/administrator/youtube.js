@@ -60,6 +60,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed, checkVideos } = client;
+    const { id: guildID, name: guildName } = guild;
     const subcommand = options.getSubcommand();
 
     if (subcommand === 'refresh') {
@@ -68,12 +69,12 @@ module.exports = {
         errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true })
       );
     } else if (subcommand === 'alerts') {
-      const profile = await serverProfile.findOne({ guildID: guild.id });
+      const profile = await serverProfile.findOne({ guildID });
       const { youtube } = profile;
       const role = guild.roles.cache.get(youtube.alert);
 
       const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
         .setTitle('YouTube New Video Alert Role:')
         .setDescription(role ? `Alert Role: ${role}` : 'No YouTube alert role has been set up yet.')
         .setColor(Colors.Orange)

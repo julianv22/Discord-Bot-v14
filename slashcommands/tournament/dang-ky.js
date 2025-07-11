@@ -15,9 +15,10 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName, members } = guild;
     const stIngame = options.getString('ingame');
 
-    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
     if (!profile)
       return await interaction.reply(
@@ -40,12 +41,12 @@ module.exports = {
       );
 
     // Add Tournament Profile
-    let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    let tourProfile = await tournamentProfile.findOne({ guildID, userID: user.id }).catch(console.error);
     if (!tourProfile)
       tourProfile = await tournamentProfile
         .create({
-          guildID: guild.id,
-          guildName: guild.name,
+          guildID,
+          guildName,
           userID: user.id,
           usertag: user.tag,
           ingame: stIngame,
@@ -54,7 +55,7 @@ module.exports = {
         })
         .catch(console.error);
     else {
-      tourProfile.guildName = guild.name;
+      tourProfile.guildName = guildName;
       tourProfile.usertag = user.tag;
       tourProfile.ingame = stIngame;
       tourProfile.decklist = '';
@@ -75,7 +76,7 @@ module.exports = {
     );
 
     // Add Role
-    const bot = guild.members.me || (await guild.members.fetch(client.user.id));
+    const bot = members.me || (await members.fetch(client.user.id));
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
       if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
         return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` }));
@@ -87,6 +88,6 @@ module.exports = {
             emoji: false,
           })
         );
-    } else await guild.members.cache.get(user.id).roles.add(role).catch(console.error);
+    } else await members.cache.get(user.id).roles.add(role).catch(console.error);
   },
 };

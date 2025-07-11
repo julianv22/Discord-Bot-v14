@@ -22,6 +22,7 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, options } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 
@@ -48,7 +49,7 @@ module.exports = {
       else await interaction.editReply({ embeds: [embed] });
     };
 
-    const profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.find({ guildID }).catch(console.error);
     if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database found for this profile.' }));
 
     const db = JSON.stringify(profile, null, 2);
@@ -56,13 +57,13 @@ module.exports = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        files: [{ content: `${guild.name} **${choice}** database:\n\n${db}` }],
+        files: [{ content: `${guildName} **${choice}** database:\n\n${db}` }],
       }),
     });
 
     if (bin.ok) {
       const { key } = await bin.json();
-      await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database successfully!`, key)
+      await sendMessage(`\\✅ Parse ${guildName} **${choice}** database successfully!`, key)
         .then(async () => {
           for (let i = 0; i < db.length; i += 2000) {
             await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });

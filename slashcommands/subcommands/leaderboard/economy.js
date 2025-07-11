@@ -18,9 +18,10 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
 
     // Lấy top 10 user theo balance
-    let topUsers = await economyProfile.find({ guildID: guild.id }).sort({ balance: -1 }).limit(10).lean();
+    let topUsers = await economyProfile.find({ guildID }).sort({ balance: -1 }).limit(10).lean();
 
     if (!topUsers || !topUsers.length)
       return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild.' }));
@@ -35,7 +36,7 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
-      .setTitle(`Top \\🔟 richest users in ${interaction.guild.name}`)
+      .setTitle(`Top \\🔟 richest users in ${guildName}`)
       .setDescription(leaderboard)
       .setColor(Colors.DarkGold)
       .setThumbnail(

@@ -11,14 +11,12 @@ module.exports = {
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const notifyChannel = options.getChannel('notify-channel');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id });
+    let profile = await serverProfile.findOne({ guildID });
 
-    if (!profile)
-      profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
-        .catch(console.error);
+    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
     if (!profile.youtube) profile.youtube = {};
 

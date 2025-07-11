@@ -12,14 +12,12 @@ module.exports = {
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const channel = options.getChannel('starboard-channel');
     const number = options.getInteger('starnum');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-    if (!profile)
-      profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
-        .catch(console.error);
+    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
     const { starboard } = profile.setup;
     starboard.channel = channel.id;

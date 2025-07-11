@@ -10,13 +10,15 @@ module.exports = (client) => {
   client.userInfo = async (target, object) => {
     const { errorEmbed, catchError } = client;
     const [guild, author] = [object.guild, object.user || object.author];
+    const { id: guildID } = guild;
+    const { id: userID } = target;
 
     try {
-      const member = guild.members.cache.get(target.id);
+      const member = guild.members.cache.get(userID);
       if (!member) return await object.reply(errorEmbed({ desc: 'User is not in this server.' }));
 
       const acknowledgements = [];
-      if (target.id === guild.ownerId) acknowledgements.push('Server Owner');
+      if (userID === guild.ownerId) acknowledgements.push('Server Owner');
       if (member.permissions.has(PermissionFlagsBits.Administrator)) acknowledgements.push('Administrator');
       if (member.permissions.has(PermissionFlagsBits.ManageMessages)) acknowledgements.push('Moderator');
       if (target.bot) acknowledgements.push('Bot');
@@ -26,10 +28,7 @@ module.exports = (client) => {
         acknowledgements.length > 0 ? `\`\`\`fix\n${acknowledgements.join(' | ')}\`\`\`` : 'None';
 
       const roles = member.roles.cache.filter((r) => r.id !== guild.id).map((r) => r);
-      const thanks = await serverThanks.findOne({
-        guildID: guild.id,
-        userID: target.id,
-      });
+      const thanks = await serverThanks.findOne({ guildID, userID });
 
       const embed = new EmbedBuilder()
         .setAuthor({
@@ -47,7 +46,7 @@ module.exports = (client) => {
         .setTimestamp()
         .addFields([
           {
-            name: `🆔: ||${target.id}||`,
+            name: `🆔: ||${userID}||`,
             value: '\u200b',
             inline: true,
           },

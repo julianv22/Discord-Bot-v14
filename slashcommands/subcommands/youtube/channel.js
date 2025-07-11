@@ -12,6 +12,7 @@ module.exports = {
   async execute(interaction, client) {
     const { options, guild } = interaction;
     const { errorEmbed } = client;
+    const { id: guildID, name: guildName } = guild;
     const yt_channel = options.getString('channel-id');
     const action = options.getString('action');
     /** - Validates a YouTube channel.
@@ -33,7 +34,7 @@ module.exports = {
 
     if (action === 'add') {
       // Check for existence first to provide a clean error message
-      const existing = await serverProfile.findOne({ guildID: guild.id, 'youtube.channels': yt_channel });
+      const existing = await serverProfile.findOne({ guildID, 'youtube.channels': yt_channel });
       if (existing)
         return await interaction.reply(
           errorEmbed({
@@ -44,17 +45,17 @@ module.exports = {
       // Use $addToSet to add the channel if it doesn't exist, and upsert to create the server profile if it doesn't exist.
       await serverProfile
         .updateOne(
-          { guildID: guild.id },
+          { guildID },
           {
             $addToSet: { 'youtube.channels': yt_channel },
-            $setOnInsert: { guildName: guild.name }, // Only sets guildName on creation
+            $setOnInsert: { guildName }, // Only sets guildName on creation
           },
           { upsert: true }
         )
         .catch(console.error);
     } else if (action === 'remove') {
       const result = await serverProfile
-        .updateOne({ guildID: guild.id }, { $pull: { 'youtube.channels': yt_channel } })
+        .updateOne({ guildID }, { $pull: { 'youtube.channels': yt_channel } })
         .catch(console.error);
 
       // If no document was modified, the channel wasn't in the list.
