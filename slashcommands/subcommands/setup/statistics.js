@@ -2,10 +2,15 @@ const {
   Client,
   ChatInputCommandInteraction,
   SlashCommandSubcommandBuilder,
-  EmbedBuilder,
+  ContainerBuilder,
+  SeparatorBuilder,
+  MessageFlags,
+  ComponentType,
+  ChannelType,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
+const { sectionComponents, channelSelectMenu, textDisplay } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -16,47 +21,47 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, options } = interaction;
-    const { serverStats } = client;
-    const totalChannel = options.getChannel('total-count-channel');
-    const memberChannel = options.getChannel('member-count-channel');
-    const botChannel = options.getChannel('bot-count-channel');
-    const presenceChannel = options.getChannel('presence-count-channel');
+    const { guild } = interaction;
+    const { id: guildID, name: guildName } = guild;
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
-    if (!profile)
-      profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
-        .catch(console.error);
+    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
-    const { statistics } = profile;
+    const { totalChannel, memberChannel, botChannel, presenceChannel } = profile.statistics;
 
-    if (!statistics) statistics = {};
+    /** @param {string} channelId */
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
-    profile.guildName = guild.name;
-    statistics.totalChannel = totalChannel.id;
-    statistics.memberChannel = memberChannel.id;
-    statistics.botChannel = botChannel.id;
-    statistics.presenceChannel = presenceChannel.id;
+    const container = new ContainerBuilder()
+      .setAccentColor(Colors.DarkGreen)
+      .addSectionComponents(
+        sectionComponents(
+          [
+            '### Setup Statistics',
+            `- Total count channel: ${channelName(totalChannel)}\n- Members count channel: ${channelName(
+              memberChannel
+            )}\n- Bots count channel: ${channelName(botChannel)}\n- Presences statistic channel: ${channelName(
+              presenceChannel
+            )}`,
+          ],
+          ComponentType.Thumbnail,
+          guild.iconURL(true)
+        )
+      )
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(textDisplay('Select Total count channel:'))
+      .addActionRowComponents(channelSelectMenu('statistic:total', ChannelType.GuildVoice))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(textDisplay('Select Members count channel:'))
+      .addActionRowComponents(channelSelectMenu('statistic:members', ChannelType.GuildVoice))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(textDisplay('Select Bots count channel:'))
+      .addActionRowComponents(channelSelectMenu('statistic:bots', ChannelType.GuildVoice))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(textDisplay('Select Presences statistic channel:'))
+      .addActionRowComponents(channelSelectMenu('statistic:presence', ChannelType.GuildVoice));
 
-    await profile.save().catch(console.error);
-
-    serverStats(guild.id);
-
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('\\✅ Server stats set up successfully!')
-      .setColor(Colors.DarkGreen)
-      .setThumbnail('https://emoji.discadia.com/emojis/5dc63f16-97b4-402e-8d1f-a76e15fdd6ab.png')
-      .setTimestamp()
-      .addFields(
-        { name: 'Total Count Channel:', value: `${totalChannel}` },
-        { name: 'Members Count Channel:', value: `${memberChannel}` },
-        { name: 'Bots Count Channel:', value: `${botChannel}` },
-        { name: 'Presences Count Channel:', value: `${presenceChannel}` }
-      );
-
-    return await interaction.reply({ embeds: [embed], flags: 64 });
+    await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
   },
 };

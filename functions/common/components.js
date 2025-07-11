@@ -3,9 +3,14 @@ const {
   ButtonBuilder,
   TextInputBuilder,
   ButtonComponent,
+  ThumbnailBuilder,
+  SectionBuilder,
+  TextDisplayBuilder,
+  ChannelSelectMenuBuilder,
   TextInputStyle,
   ComponentType,
   ButtonStyle,
+  ChannelType,
 } = require('discord.js');
 
 module.exports = {
@@ -90,7 +95,6 @@ module.exports = {
         disableRow.addComponents(btn);
       }
     }
-
     return disableRow;
   },
   /** Create info buttons */
@@ -104,4 +108,46 @@ module.exports = {
 
     return new ActionRowBuilder().addComponents(module.exports.rowComponents(buttons, ComponentType.Button));
   },
+  /** - SectionBuilder
+   * @param {string[]} textContents TextDisplay contents
+   * @param {ComponentType} accessoryType Accessory Type
+   * @param {string} [iconURL] Thumbnail url*/
+  sectionComponents: (textContents, accessoryType, iconURL) => {
+    if (textContents.length > 3) return null;
+
+    const sectionComponents = new SectionBuilder();
+
+    switch (accessoryType) {
+      case ComponentType.Thumbnail:
+        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(iconURL));
+
+        for (const content of textContents) {
+          sectionComponents.addTextDisplayComponents(module.exports.textDisplay(content));
+        }
+        break;
+
+      case ComponentType.Button:
+        sectionComponents.setButtonAccessory(
+          new ButtonBuilder().setCustomId('welcome-msg').setLabel('📝 Change message').setStyle(ButtonStyle.Success)
+        );
+
+        for (const content of textContents) {
+          sectionComponents.addTextDisplayComponents(module.exports.textDisplay(content));
+        }
+        break;
+
+      default:
+        return null;
+    }
+    return sectionComponents;
+  },
+  /** ChannelSelectMenuBuilder
+   * @param {string} customId Select Menu customId
+   * @param {ChannelType} [type] ChannelType */
+  channelSelectMenu: (customId, type = ChannelType.GuildText) =>
+    new ActionRowBuilder().setComponents(
+      new ChannelSelectMenuBuilder().setCustomId(customId).setChannelTypes(type).setMinValues(1).setMaxValues(1)
+    ),
+  /** @param {string} content TextDisplay content */
+  textDisplay: (content) => new TextDisplayBuilder().setContent(content),
 };

@@ -42,24 +42,7 @@ module.exports = {
       sub.setName('disable').setDescription(`Disables specific server features. (${cfg.adminRole} only)`)
     )
     .addSubcommand((sub) =>
-      sub
-        .setName('statistics')
-        .setDescription(`Sets up server statistics channels. (${cfg.adminRole} only)`)
-        .addChannelOption((opt) =>
-          opt.setName('total-count-channel').setDescription('Channel to display total member count.').setRequired(true)
-        )
-        .addChannelOption((opt) =>
-          opt.setName('member-count-channel').setDescription('Channel to display human member count.').setRequired(true)
-        )
-        .addChannelOption((opt) =>
-          opt.setName('bot-count-channel').setDescription('Channel to display bot count.').setRequired(true)
-        )
-        .addChannelOption((opt) =>
-          opt
-            .setName('presence-count-channel')
-            .setDescription('Channel to display online presence count.')
-            .setRequired(true)
-        )
+      sub.setName('statistics').setDescription(`Sets up server statistics channels. (${cfg.adminRole} only)`)
     ),
   /** - Configures various server settings
    * @param {ChatInputCommandInteraction} interaction - Command Interaction

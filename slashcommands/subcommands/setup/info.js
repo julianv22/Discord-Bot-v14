@@ -16,28 +16,26 @@ module.exports = {
    * @param {ChatInputCommandInteraction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user } = interaction;
-    const { errorEmbed, channels } = client;
+    const { guild, guildId: guildID, user } = interaction;
+    const { errorEmbed } = client;
+    const roles = guild.roles.cache;
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
     if (!profile) return await interaction.reply(errorEmbed({ desc: 'No setup data found for this server.' }));
 
-    const welcomeChannel = channels.cache.get(profile?.setup?.welcome?.channel) || '-# \\⚠️ /setup welcome';
+    /** @param {string} channelId */
+    const channelName = (channelId) => guild.channels.cache.get(channelId);
+
+    const welcomeChannel = channelName(profile?.setup?.welcome?.channel) || '-# \\⚠️ /setup welcome';
     const welcomeMessage = profile?.setup?.welcome?.message || '-# \\⚠️ /setup welcome';
-    const logChannel = channels.cache.get(profile?.setup?.welcome?.log) || '-# \\⚠️ Not set';
-    const starboardChannel = channels.cache.get(profile?.setup?.starboard?.channel) || '-# \\⚠️ /setup starboard';
+    const logChannel = channelName(profile?.setup?.welcome?.log) || '-# \\⚠️ Not set';
+    const starboardChannel = channelName(profile?.setup?.starboard?.channel) || '-# \\⚠️ /setup starboard';
     const channelCount = profile?.youtube?.channels?.length;
-    const notifyChannel = profile?.youtube?.notifyChannel
-      ? `${guild.channels.cache.get(profile.youtube.notifyChannel)}`
-      : '\n-# \\⚠️ /youtube notify';
-    const alertRole = profile?.youtube.alert
-      ? `${guild.roles.cache.get(profile.youtube.alert)}`
-      : '\n-# \\⚠️ /youtube alerts';
-    const suggestChannel = channels.cache.get(profile?.setup?.suggest) || '-# \\⚠️ /setup suggest';
-    const tourName = profile?.tournament?.id
-      ? `${guild.roles.cache.get(profile.tournament.id)}`
-      : '-# \\⚠️ /tournament';
+    const notifyChannel = channelName(profile?.youtube?.notifyChannel) || '\n-# \\⚠️ /youtube notify';
+    const alertRole = roles.get(profile?.youtube?.alert) || '\n-# \\⚠️ /youtube alerts';
+    const suggestChannel = channelName(profile?.setup?.suggest) || '-# \\⚠️ /setup suggest';
+    const tourName = roles.get(profile?.tournament?.id) || '-# \\⚠️ /tournament';
     const tourStatus = profile?.tournament?.status ? '\\✅ Open' : '\\❌ Closed';
     const starCount = profile?.setup?.starboard?.star;
     const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
@@ -50,8 +48,8 @@ module.exports = {
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Information.svg/2048px-Information.svg.png'
       )
       .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
-      .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: true })
       .addFields({ name: 'Log Channel', value: `${logChannel}`, inline: true })
+      .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: true })
       .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount || 0}\\⭐)`, inline: true })
       .addFields({ name: 'Suggest Channel', value: `${suggestChannel}`, inline: true })
       .addFields({

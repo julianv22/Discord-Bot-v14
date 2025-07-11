@@ -1,6 +1,5 @@
 const { Client, ChannelSelectMenuInteraction, MessageFlags } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const welcome = require('../../slashcommands/subcommands/setup/welcome');
 
 module.exports = {
   type: 'menus',
@@ -13,9 +12,10 @@ module.exports = {
       guildId: guildID,
       message: { components },
       customId,
+      values,
     } = interaction;
     const [, selected] = customId.split(':');
-    const channelId = interaction.values[0];
+    const channelId = values[0];
     const welcomeSection = components[0].components[0].components[1].data;
     const logSection = components[0].components[0].components[2].data;
 
@@ -25,12 +25,12 @@ module.exports = {
     const setupWelcome = {
       channel: () => {
         welcome.channel = channelId;
-        welcomeSection.content = `**- Welcome channel:** <#${channelId}>`;
+        welcomeSection.content = `- Welcome channel: <#${channelId}>`;
         return;
       },
       log: () => {
         welcome.log = channelId;
-        logSection.content = `**- Log channel:** <#${channelId}>`;
+        logSection.content = `- Log channel: <#${channelId}>`;
         return;
       },
     };

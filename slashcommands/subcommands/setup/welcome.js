@@ -3,21 +3,13 @@ const {
   ChatInputCommandInteraction,
   SlashCommandSubcommandBuilder,
   ContainerBuilder,
-  TextDisplayBuilder,
   SeparatorBuilder,
-  SectionBuilder,
-  ThumbnailBuilder,
-  ChannelSelectMenuBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ChannelType,
-  ButtonStyle,
+  ComponentType,
   MessageFlags,
   Colors,
-  TextInputBuilder,
-  TextInputStyle,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
+const { sectionComponents, textDisplay, channelSelectMenu } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -29,60 +21,38 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild } = interaction;
-    const { cache: channels } = client.channels;
-    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const { id: guildID, name: guildName } = guild;
 
-    if (!profile)
-      profile = await serverProfile
-        .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
-        .catch(console.error);
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+
+    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
     const { welcome } = profile.setup;
-    const welcomeChannel = channels.get(welcome.channel) || '- # \\❌ Not Set';
-    const welcomeMessage = welcome.message || '- # \\❌ Not Set';
-    const logChannel = channels.get(welcome.log) || '- # \\❌ Not Set';
+    const welcomeMessage = welcome?.message || '- # \\❌ Not Set';
 
-    /** @param {string} content TextDisplay content */
-    const text = (content) => new TextDisplayBuilder().setContent(content);
+    /** @param {string} channelId */
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '-# \\❌ Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
       .addSectionComponents(
-        new SectionBuilder()
-          .setThumbnailAccessory(new ThumbnailBuilder().setURL(guild.iconURL()))
-          .addTextDisplayComponents(text('### Welcome Information'))
-          .addTextDisplayComponents(text(`**- Welcome channel:** ${welcomeChannel}`))
-          .addTextDisplayComponents(text(`**- Log channel:** ${logChannel}`))
-      )
-      .addSectionComponents(
-        new SectionBuilder()
-          .addTextDisplayComponents(text(`**- Welcome message:** ${welcomeMessage}`))
-          .setButtonAccessory(
-            new ButtonBuilder().setCustomId('welcome-msg').setLabel('📝 Change message').setStyle(ButtonStyle.Success)
-          )
-      )
-      .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(text('Select Welcome channel:'))
-      .addActionRowComponents(
-        new ActionRowBuilder().setComponents(
-          new ChannelSelectMenuBuilder()
-            .setCustomId('welcome-menu:channel')
-            .setChannelTypes(ChannelType.GuildText)
-            .setMinValues(1)
-            .setMaxValues(1)
+        sectionComponents(
+          [
+            '### Welcome Information',
+            `- Welcome channel: ${channelName(welcome?.channel)}`,
+            `- Log channel: ${channelName(welcome?.log)}`,
+          ],
+          ComponentType.Thumbnail,
+          guild.iconURL(true)
         )
       )
+      .addSectionComponents(sectionComponents([`- Welcome message:\n${welcomeMessage}`], ComponentType.Button))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(text('Select Log channel:'))
-      .addActionRowComponents(
-        new ActionRowBuilder().setComponents(
-          new ChannelSelectMenuBuilder()
-            .setCustomId('welcome-menu:log')
-            .setChannelTypes(ChannelType.GuildText)
-            .setMinValues(1)
-            .setMaxValues(1)
-        )
-      );
+      .addTextDisplayComponents(textDisplay('Select Welcome channel:'))
+      .addActionRowComponents(channelSelectMenu('welcome-menu:channel'))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(textDisplay('Select Log channel:'))
+      .addActionRowComponents(channelSelectMenu('welcome-menu:log'));
 
     return await interaction.reply({
       flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],

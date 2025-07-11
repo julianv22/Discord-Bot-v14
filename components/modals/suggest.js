@@ -22,7 +22,7 @@ module.exports = {
       );
     }
 
-    const sgtChannel = client.channels.cache.get(profile?.setup?.suggest);
+    const sgtChannel = guild.channels.cache.get(profile?.setup?.suggest);
 
     if (!sgtChannel) {
       return await interaction.reply(

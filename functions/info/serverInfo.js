@@ -7,13 +7,16 @@ module.exports = (client) => {
    * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
   client.serverInfo = async (object) => {
     const { catchError } = client;
-    const [guild, author] = [object.guild, object.user || object.author];
+    const author = object.user || object.author;
+    const guild = object.guild;
+    const channels = guild.channels.cache;
+    const members = guild.members.cache;
 
     try {
-      const bots = guild.members.cache.filter((m) => m.user.bot).size;
-      const channels = guild.channels.cache.filter((c) => c.type === ChannelType.GuildText).size;
-      const voices = guild.channels.cache.filter((c) => c.type === ChannelType.GuildVoice).size;
-      const categories = guild.channels.cache.filter((c) => c.type === ChannelType.GuildCategory).size;
+      const bots = members.filter((m) => m.user.bot).size;
+      const textChannels = channels.filter((c) => c.type === ChannelType.GuildText).size;
+      const voicesChannels = channels.filter((c) => c.type === ChannelType.GuildVoice).size;
+      const categories = channels.filter((c) => c.type === ChannelType.GuildCategory).size;
       const owner = await guild.fetchOwner();
 
       const embed = new EmbedBuilder()
@@ -36,8 +39,8 @@ module.exports = (client) => {
             inline: true,
           },
           {
-            name: `📈 Channels [${channels + voices}]:`,
-            value: `\`${categories} 📂 | ${channels} 💬 | ${voices} 🔊\``,
+            name: `📈 Channels [${textChannels + voicesChannels}]:`,
+            value: `\`${categories} 📂 | ${textChannels} 💬 | ${voicesChannels} 🔊\``,
             inline: true,
           },
           {
