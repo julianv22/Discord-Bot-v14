@@ -31,9 +31,7 @@ module.exports = {
       const actualAmount = Math.min(messages.size, amount);
 
       let messagesToDelete = actualAmount;
-      if (user) {
-        messagesToDelete = messages.filter((m) => m.author.id === user.id);
-      }
+      if (user) messagesToDelete = messages.filter((m) => m.author.id === user.id);
 
       await channel.bulkDelete(messagesToDelete, true); // Pass true to filter out messages older than 14 days
       return await interaction.reply(

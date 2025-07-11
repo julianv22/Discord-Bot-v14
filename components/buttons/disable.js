@@ -49,7 +49,7 @@ module.exports = {
         components: [container('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
       });
 
-    const { starboard, suggest, youtube, welcome } = profile.setup;
+    const { starboard, suggest, youtube, welcome } = profile?.setup;
 
     const onClick = {
       default: async () => {

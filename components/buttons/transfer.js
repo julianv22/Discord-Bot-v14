@@ -13,9 +13,7 @@ module.exports = {
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
-    if (amountStr === 'cancel') {
-      return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
-    }
+    if (amountStr === 'cancel') return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
 
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
@@ -28,20 +26,18 @@ module.exports = {
     ]);
 
     // Kiểm tra lại dữ liệu
-    if (!profile) {
+    if (!profile)
       return await interaction.update(errorEmbed({ desc: 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!' }));
-    }
-    if (!targetProfile) {
+
+    if (!targetProfile)
       targetProfile = await economyProfile
         .create({ guildID: guild.id, guildName: guild.name, userID: targetId, bank: 0 })
         .catch(console.error);
-    }
 
-    if (profile.bank < total) {
+    if (profile.bank < total)
       return await interaction.update(
         errorEmbed({ desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile.bank.toCurrency()}` })
       );
-    }
 
     // Trừ tiền người chuyển, cộng tiền người nhận
     profile.bank -= total;
@@ -49,6 +45,7 @@ module.exports = {
 
     await profile.save().catch(console.error);
     await targetProfile.save().catch(console.error);
+
     // Tạo embed thông báo cho người chuyển
     const embedSender = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

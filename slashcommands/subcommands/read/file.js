@@ -21,9 +21,8 @@ module.exports = {
 
     await interaction.editReply(errorEmbed({ desc: `Loading file [ \`${relativeFilePath}\` ]...`, emoji: '🔃' }));
     // Kiểm tra xem file có phải là file .js không
-    if (!relativeFilePath.endsWith('.js')) {
+    if (!relativeFilePath.endsWith('.js'))
       return interaction.editReply(errorEmbed({ desc: 'Please only read JavaScript files (.js)!' }));
-    }
 
     try {
       // Đọc nội dung file
@@ -46,7 +45,7 @@ module.exports = {
       }
     } catch (error) {
       // Xử lý các lỗi khi đọc file
-      if (error.code === 'ENOENT') {
+      if (error.code === 'ENOENT')
         // File hoặc thư mục không tồn tại
         return interaction.editReply(
           errorEmbed({
@@ -54,15 +53,13 @@ module.exports = {
             emoji: false,
           })
         );
-      } else if (error.code === 'EISDIR') {
+      else if (error.code === 'EISDIR')
         // Đường dẫn trỏ đến một thư mục
         return interaction.editReply(errorEmbed({ desc: `[ \`${relativeFilePath}\` ] is a directory, not a file.` }));
-      } else if (error.code === 'EACCES' || error.code === 'EPERM') {
+      else if (error.code === 'EACCES' || error.code === 'EPERM')
         // Lỗi quyền truy cập
         return interaction.editReply(errorEmbed({ desc: `No permission to read file [ \`${relativeFilePath}\` ].` }));
-      } else {
-        return await catchError(interaction, error, this);
-      }
+      else return await catchError(interaction, error, this);
     }
   },
 };

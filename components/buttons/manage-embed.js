@@ -25,9 +25,8 @@ module.exports = {
     const Button0 = ActionRowBuilder.from(message.components[0]);
     const Button1 = ActionRowBuilder.from(message.components[1]);
 
-    if (!message) {
-      return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
-    }
+    if (!message) return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
+
     /** - Create Interaction Modal
      * @param {object[]} options */
     const createModal = (options) => {
@@ -155,11 +154,10 @@ module.exports = {
             await interaction.update({ components: [Button0, Button1] });
           } else {
             const msg = await channel.messages.fetch(messageId);
-            if (!msg) {
+            if (!msg)
               return await interaction.reply(
                 errorEmbed({ desc: 'Không tìm thấy tin nhắn hoặc tin nhắn không ở kênh này.' })
               );
-            }
 
             await msg.edit({ embeds: [editEmbed] }).catch(console.error);
             return await interaction.update({
@@ -178,9 +176,7 @@ module.exports = {
       },
     };
 
-    if (!showModal[button]) {
-      throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
-    }
+    if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
 
     return await showModal[button]();
   },

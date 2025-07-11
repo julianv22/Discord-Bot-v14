@@ -30,9 +30,7 @@ module.exports = {
 
     let reactEmoji = emoji.name;
 
-    if (emoji.id) {
-      reactEmoji = `<${emoji.animated ? 'a' : ''}:${emoji.name}:${emoji.id}>`; // Corrected emoji format
-    }
+    if (emoji.id) reactEmoji = `<${emoji.animated ? 'a' : ''}:${emoji.name}:${emoji.id}>`; // Corrected emoji format
 
     const roleObj = config.roles.find((r) => r.emoji === reactEmoji || r.emoji === emoji.id);
 

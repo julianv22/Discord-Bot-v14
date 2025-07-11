@@ -14,12 +14,12 @@ module.exports = {
     const { user, guild } = interaction;
     const { errorEmbed } = client;
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
-    if (!profile) {
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
-    }
+
     // Lấy thông tin
     const balance = (profile.balance || 0).toCurrency();
     const bank = (profile.bank || 0).toCurrency();

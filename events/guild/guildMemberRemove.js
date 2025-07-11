@@ -9,9 +9,11 @@ module.exports = {
   async execute(member, client) {
     try {
       const { guild, user } = member;
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-      const { welcome } = profile.setup;
+
+      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile || !welcome.log) return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
+
+      const { welcome } = profile.setup;
 
       const emLog = new EmbedBuilder()
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
@@ -28,9 +30,7 @@ module.exports = {
         );
 
       const logChannel = guild.channels.cache.get(welcome.log);
-      if (logChannel) {
-        await logChannel.send({ embeds: [emLog] });
-      }
+      if (logChannel) await logChannel.send({ embeds: [emLog] });
 
       client.serverStats(guild.id);
 

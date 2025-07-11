@@ -44,9 +44,8 @@ module.exports = {
         return await interaction.showModal(createModal(Object.keys(Colors).join(',').slice(14, 114)));
       },
       add: async () => {
-        if (!reactionMap.has(message.id)) {
-          reactionMap.set(message.id, []);
-        }
+        if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
+
         const emojiArray = reactionMap.get(message.id);
 
         await interaction.update({
@@ -66,9 +65,8 @@ module.exports = {
 
         collector.on('collect', async (m) => {
           const input = m.content.trim();
-          if (m && m.deletable) {
-            await m.delete().catch(console.error);
-          }
+          if (m && m.deletable) await m.delete().catch(console.error);
+
           if (input.toLowerCase() === 'done') {
             collector.stop('finish');
             reactionEmbed.setFields([]);
@@ -79,22 +77,18 @@ module.exports = {
           }
 
           const [emojiInput, roleInput] = input.split('|').map((v) => v.trim());
-          if (!emojiInput || !roleInput) {
+          if (!emojiInput || !roleInput)
             return await interaction.followUp({ content: 'Nhập sai cú pháp `emoji | @tên_role`', flags: 64 });
-          }
 
           let role;
           try {
             const roleMatch = roleInput.match(/^<@&(\d+)>$/);
             const roleId = roleMatch ? roleMatch[1] : null;
 
-            if (roleId) {
-              role = await guild.roles.cache.get(roleId);
-            } else {
-              role = await guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
-            }
+            if (roleId) role = guild.roles.cache.get(roleId);
+            else role = guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
 
-            if (!role) {
+            if (!role)
               return await interaction.followUp(
                 errorEmbed({
                   title: '\\❌ Không tìm thấy Role',
@@ -102,7 +96,6 @@ module.exports = {
                   color: Colors.DarkVividPink,
                 })
               );
-            }
           } catch (e) {
             return client.catchError(interaction, e, 'Lỗi khi tìm kiếm role');
           }
@@ -112,15 +105,13 @@ module.exports = {
           if (emojiMatch) {
             emojiReact = `<${emojiMatch[1] ? 'a' : ''}:${emojiMatch[2]}:${emojiMatch[3]}>`;
 
-            if (!client.emojis.cache.get(emojiMatch[3])) {
+            if (!client.emojis.cache.get(emojiMatch[3]))
               return interaction.followUp(errorEmbed({ desc: `Bot không truy cập được custom emoji: ${emojiInput}` }));
-            }
           }
 
           let desc = reactionEmbed.data.description || '';
-          if (desc.includes('🎨Color')) {
-            desc = '';
-          }
+          if (desc.includes('🎨Color')) desc = '';
+
           desc = desc + `\n${emojiReact} ${role}`;
 
           emojiArray.push({ emoji: emojiReact, roleId: role.id });
@@ -131,18 +122,14 @@ module.exports = {
         });
 
         collector.on('end', async (collected, reason) => {
-          if (reason === 'time') {
-            await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
-          }
+          if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
         });
         return;
       },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
 
-        if (emojiArray.length === 0) {
-          return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
-        }
+        if (emojiArray.length === 0) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
 
         const msg = await channel.send({ embeds: [reactionEmbed] });
 

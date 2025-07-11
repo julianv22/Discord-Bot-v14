@@ -73,20 +73,17 @@ module.exports = (client) => {
       const clientId = process.env.clientID || client.user.id;
       const guildId = '1388619729429598358'; // Guild ID cụ thể cho bot phụ
 
-      if (!token) {
-        logError(
+      if (!token)
+        return logError(
           { todo: 'getting bot token', item: 'token', desc: 'from environment variables' },
           new Error('Không xác định được token của bot')
         );
-        return;
-      }
-      if (!clientId) {
-        logError(
+
+      if (!clientId)
+        return logError(
           { todo: 'getting bot client ID', item: 'clientID', desc: 'from environment variables' },
           new Error('Không xác định được clientId của bot')
         );
-        return;
-      }
 
       const slashArray = [];
       try {
@@ -112,7 +109,7 @@ module.exports = (client) => {
           const data = await rest.put(commandRoute, { body: slashArray });
 
           console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
-        } else {
+        } else
           logError(
             {
               isWarn: true,
@@ -122,7 +119,6 @@ module.exports = (client) => {
             },
             slashArray
           );
-        }
       } catch (e) {
         return logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, e.stack);
       }

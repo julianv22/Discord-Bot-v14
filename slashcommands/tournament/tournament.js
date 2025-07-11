@@ -48,36 +48,24 @@ module.exports = {
     const getRole = options.getRole('ten-giai');
 
     let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-
-    if (!profile) {
+    if (!profile)
       profile = await serverProfile
         .create({ guildID: guild.id, guildName: guild.name, prefix: prefix })
         .catch(console.error);
-      if (!profile) {
-        return await interaction.reply(
-          errorEmbed({ desc: 'Đã xảy ra lỗi khi thiết lập cấu hình máy chủ. Vui lòng thử lại.' })
-        );
-      }
-    }
 
     const { tournament } = profile;
     // Gom các logic xử lý vào object
     const tourActions = {
       open: async () => {
-        if (!getRole) {
-          return await interaction.reply(errorEmbed({ desc: 'Vui lòng chọn một role giải đấu hợp lệ.' }));
-        }
-        if (tournament.status && getRole.id !== tournament.id) {
-          return await interaction.reply(
-            errorEmbed({
-              desc: `Đang có giải đấu \`${tournament.name}\` diễn ra. Vui lòng đóng giải này trước!`,
-            })
-          );
-        }
+        if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Vui lòng chọn một role giải đấu hợp lệ.' }));
 
-        if (tournament.status) {
+        if (tournament.status && getRole.id !== tournament.id)
+          return await interaction.reply(
+            errorEmbed({ desc: `Đang có giải đấu \`${tournament.name}\` diễn ra. Vui lòng đóng giải này trước!` })
+          );
+
+        if (tournament.status)
           return await interaction.reply(errorEmbed({ desc: `Giải \`${tournament.name}\` đang diễn ra rồi!` }));
-        }
 
         tournament.status = true;
         tournament.id = getRole.id;
@@ -98,48 +86,38 @@ module.exports = {
         );
       },
       close: async () => {
-        if (!getRole) {
-          return await interaction.reply(errorEmbed({ desc: 'Vui lòng chọn một role giải đấu hợp lệ.' }));
-        }
-        if (tournament.id && getRole.id !== tournament.id) {
-          return await interaction.reply(errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\`` }));
-        }
+        if (!getRole) return await interaction.reply(errorEmbed({ desc: 'Vui lòng chọn một role giải đấu hợp lệ.' }));
 
-        if (!tournament.status) {
+        if (tournament.id && getRole.id !== tournament.id)
+          return await interaction.reply(errorEmbed({ desc: `Chưa chọn đúng giải đấu: \`${tournament.name}\`` }));
+
+        if (!tournament.status)
           return await interaction.reply(
             errorEmbed({ desc: `Giải \`${tournament.name}\` đã được đóng trước đó rồi!` })
           );
-        }
 
         tournament.status = false;
         tournament.id = null;
         tournament.name = null;
         await profile.save().catch(console.error);
-        if (profile.tournament.status) {
+        if (profile.tournament.status)
           return await interaction.reply(
             errorEmbed({ desc: 'Đã xảy ra lỗi khi đóng đăng ký giải đấu. Vui lòng thử lại.' })
           );
-        }
 
         return await interaction.reply(
           errorEmbed({ desc: `Đã đóng đăng ký giải đấu ${getRole} thành công!`, emoji: '🏆', color: Colors.DarkGreen })
         );
       },
       list: async () => {
-        if (!tournament.status) {
+        if (!tournament.status)
           return await interaction.reply(
-            errorEmbed({
-              desc: 'Hiện không có giải đấu nào đang diễn ra!',
-              emoji: '🏆',
-              color: Colors.DarkVividPink,
-            })
+            errorEmbed({ desc: 'Hiện không có giải đấu nào đang diễn ra!', emoji: '🏆', color: Colors.DarkVividPink })
           );
-        }
 
         let memberList = await tournamentProfile.find({ guildID: guild.id, status: true }).catch(console.error);
-        if (!memberList || memberList.length === 0) {
+        if (!memberList || memberList.length === 0)
           return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
-        }
 
         const role = guild.roles.cache.get(tournament.id);
         const tengiai = `**Tên giải:** ${role || 'Unnamed'}`;
@@ -180,17 +158,14 @@ module.exports = {
         }
         // Gửi lần lượt các embed
         for (let i = 0; i < embeds.length; i++) {
-          if (i === 0) {
-            await interaction.reply({ embeds: [embeds[i]] });
-          } else {
-            await interaction.followUp({ embeds: [embeds[i]] });
-          }
+          if (i === 0) await interaction.reply({ embeds: [embeds[i]] });
+          else await interaction.followUp({ embeds: [embeds[i]] });
         }
         return;
       },
       'close-all': async () => {
         const verified = options.getBoolean('confirm');
-        if (!verified) {
+        if (!verified)
           return await interaction.reply(
             errorEmbed({
               desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
@@ -198,18 +173,12 @@ module.exports = {
               color: Colors.Orange,
             })
           );
-        }
 
         const tourList = await tournamentProfile.find({ guildID: guild.id }).catch(console.error);
-
-        if (!tourList || tourList.length === 0) {
+        if (!tourList || tourList.length === 0)
           return await interaction.reply(
-            errorEmbed({
-              desc: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!',
-              emoji: false,
-            })
+            errorEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký hoặc không có giải đấu nào!', emoji: false })
           );
-        }
 
         for (const tour of tourList) {
           tour.status = false;
@@ -220,11 +189,11 @@ module.exports = {
         tournament.id = null;
         tournament.name = null;
         await profile.save().catch(console.error);
-        if (profile.tournament.status) {
+
+        if (profile.tournament.status)
           return await interaction.reply(
             errorEmbed({ desc: 'Đã xảy ra lỗi khi hủy toàn bộ đăng ký giải đấu. Vui lòng thử lại.' })
           );
-        }
 
         return await interaction.reply(
           errorEmbed({

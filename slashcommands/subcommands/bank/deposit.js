@@ -22,7 +22,7 @@ module.exports = {
 
     if (amount <= 0) return await interaction.reply(errorEmbed({ desc: 'Số \\💲 gửi phải lớn hơn 0!' }));
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({

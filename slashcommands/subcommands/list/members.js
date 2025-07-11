@@ -20,7 +20,7 @@ module.exports = {
       ? role.members.map((m) => m.user)
       : role.members.map((m) => m.user.displayName || m.user.username);
 
-    if (members.length > 0) {
+    if (members.length > 0)
       await interaction.reply({
         embeds: [
           {
@@ -30,8 +30,6 @@ module.exports = {
           },
         ],
       });
-    } else {
-      await interaction.reply(errorEmbed({ desc: 'Could not find members or the role is incorrect.' }));
-    }
+    else await interaction.reply(errorEmbed({ desc: 'Could not find members or the role is incorrect.' }));
   },
 };

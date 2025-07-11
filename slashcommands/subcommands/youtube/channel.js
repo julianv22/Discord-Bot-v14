@@ -22,28 +22,24 @@ module.exports = {
       const res = await fetch(url);
       const data = await res.json();
 
-      if (data.items && data.items.length > 0) {
-        return { valid: true, title: data.items[0].snippet.title };
-      }
+      if (data.items && data.items.length > 0) return { valid: true, title: data.items[0].snippet.title };
+
       return { valid: false, title: null };
     };
 
     // Xác thực channel ID và lấy tên kênh
     const { valid, title } = await validateYoutubeChannel(yt_channel, process.env.YT_API_KEY);
-    if (!valid) {
-      return await interaction.reply(errorEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
-    }
+    if (!valid) return await interaction.reply(errorEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
 
     if (action === 'add') {
       // Check for existence first to provide a clean error message
       const existing = await serverProfile.findOne({ guildID: guild.id, 'youtube.channels': yt_channel });
-      if (existing) {
+      if (existing)
         return await interaction.reply(
           errorEmbed({
             desc: `Channel **[${title}](https://www.youtube.com/channel/${yt_channel})** is already in the watchlist.`,
           })
         );
-      }
 
       // Use $addToSet to add the channel if it doesn't exist, and upsert to create the server profile if it doesn't exist.
       await serverProfile
@@ -62,13 +58,12 @@ module.exports = {
         .catch(console.error);
 
       // If no document was modified, the channel wasn't in the list.
-      if (!result || result.modifiedCount === 0) {
+      if (!result || result.modifiedCount === 0)
         return await interaction.reply(
           errorEmbed({
             desc: `Channel **[${title}](https://www.youtube.com/channel/${yt_channel})** is not in the watchlist.`,
           })
         );
-      }
     }
 
     // Success message for both actions

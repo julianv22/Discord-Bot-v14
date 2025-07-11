@@ -21,19 +21,16 @@ module.exports = {
 
     const prompt = interaction.options.getString('prompt');
 
-    if (!prompt) {
+    if (!prompt)
       return await interaction.reply(
         errorEmbed({ desc: 'Vui lòng cung cấp một câu hỏi để trò chuyện với Gemini AI.', flags: 64 })
       );
-    }
 
     let history = chatHistories.get(user.id) || [];
     history.push({ role: 'user', parts: [{ text: prompt }] });
 
     // Giới hạn lịch sử trò chuyện để tránh quá dài
-    if (history.length > 10) {
-      history = history.slice(history.length - 10);
-    }
+    if (history.length > 10) history = history.slice(history.length - 10);
 
     await interaction.deferReply();
 
@@ -54,9 +51,7 @@ module.exports = {
     const response = await result.response;
     let reply = response.text();
 
-    if (!reply) {
-      reply = 'Không thể nhận được phản hồi từ Gemini AI.';
-    }
+    if (!reply) reply = 'Không thể nhận được phản hồi từ Gemini AI.';
 
     history.push({ role: 'model', parts: [{ text: reply }] });
     chatHistories.set(user.id, history);

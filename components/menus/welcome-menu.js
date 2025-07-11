@@ -18,7 +18,6 @@ module.exports = {
     const channelId = values[0];
     const welcomeSection = components[0].components[0].components[1].data;
     const logSection = components[0].components[0].components[2].data;
-
     const profile = await serverProfile.findOne({ guildID }).catch(console.error);
     const { welcome } = profile.setup;
 

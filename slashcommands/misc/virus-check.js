@@ -63,13 +63,13 @@ module.exports = {
           analysisReport = reportData.data;
           scanId = analysisReport.id; // Gán scanId nếu có báo cáo sẵn
         }
-      } else if (getReportRes.status === 404) {
+      } else if (getReportRes.status === 404)
         // URL chưa có báo cáo, cần gửi để phân tích mới
         await sendResponseEmbed(
           'Đang quét URL...',
           `URL '${inputUrl}' chưa có báo cáo sẵn. Đang gửi để phân tích mới. Vui lòng chờ...`
         );
-      } else {
+      else {
         // Xử lý các lỗi khác khi lấy báo cáo (ví dụ: 403 Forbidden, 429 Too Many Requests)
         const errorDetail = await getReportRes.json();
         console.error(
@@ -122,9 +122,9 @@ module.exports = {
         }
 
         const submitData = await submitRes.json();
-        if (!submitData.data || !submitData.data.id) {
+        if (!submitData.data || !submitData.data.id)
           return await interaction.editReply(errorEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.' }));
-        }
+
         scanId = submitData.data.id; // Gán scanId từ kết quả submit
 
         // Chờ và lấy báo cáo phân tích mới ---
@@ -177,19 +177,17 @@ module.exports = {
           }
 
           attempts++;
-          if (attempts < maxAttempts) {
+          if (attempts < maxAttempts)
             await sendResponseEmbed(
               'Đang phân tích...',
               `Phân tích chưa hoàn tất. Đang thử lại (${attempts}/${maxAttempts})...`
             );
-          }
         }
 
-        if (!analysisReport) {
+        if (!analysisReport)
           return await interaction.editReply(
             errorEmbed({ desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.' })
           );
-        }
       } catch (e) {
         console.error(chalk.red('[VIRUS-CHECK] Lỗi trong quá trình gửi/phân tích URL mới:'), e);
         return await interaction.editReply(
@@ -210,13 +208,12 @@ module.exports = {
       const total = stats.harmless + stats.malicious + stats.suspicious + stats.undetected + (stats.timeout || 0); // timeout có thể không tồn tại
 
       let vtGuiLink; // Khai báo vtGuiLink ở đây
-      if (analysisReport.type === 'analysis') {
+      if (analysisReport.type === 'analysis')
         // Đối với báo cáo phân tích mới, link sẽ khác một chút
         vtGuiLink = `https://www.virustotal.com/gui/url/${scanId}/detection`;
-      } else if (analysisReport.type === 'url') {
+      else if (analysisReport.type === 'url')
         // Đối với báo cáo URL có sẵn, link sẽ dùng ID của URL
         vtGuiLink = `https://www.virustotal.com/gui/url/${analysisReport.id}/detection`;
-      }
 
       const resultEmbed = new EmbedBuilder()
         .setAuthor({ name: `${guild.name}`, iconURL: guild.iconURL() })

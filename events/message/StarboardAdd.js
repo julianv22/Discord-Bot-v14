@@ -16,8 +16,9 @@ module.exports = {
 
       // Lấy cấu hình server
       const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(console.error);
-      const { starboard } = profile.setup;
       if (!profile || !starboard.channel || !starboard.star || starboard.star <= 0) return;
+
+      const { starboard } = profile.setup;
 
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name === '⭐') {
@@ -47,17 +48,16 @@ module.exports = {
 
         // Chuẩn bị embeds nếu có
         let embeds = [];
-        if (message.embeds && message.embeds.length > 0) {
+        if (message.embeds && message.embeds.length > 0)
           embeds = message.embeds.map((embed) =>
             EmbedBuilder.from(embed).setFooter({
               text: message.guild.name,
               iconURL: message.guild.iconURL(true),
             })
           );
-        }
 
         // Nếu là message thường (chỉ có content)
-        if (embeds.length === 0 && message.content) {
+        if (embeds.length === 0 && message.content)
           embeds = [
             new EmbedBuilder()
               .setColor('Random')
@@ -72,7 +72,6 @@ module.exports = {
               })
               .setTimestamp(),
           ];
-        }
 
         // Nếu có content hoặc embed
         if (embeds.length > 0) {
@@ -84,6 +83,7 @@ module.exports = {
           if (starboardData && starboardData.id) {
             // Đã có message trên starboard, luôn update số star và embed ngay lập tức
             const sentMsg = await starboardChannel.messages.fetch(starboardData.id).catch(console.error);
+
             if (sentMsg) {
               await sentMsg.edit({
                 content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
@@ -101,6 +101,7 @@ module.exports = {
                   embeds,
                   components: [jumpButton],
                 });
+
                 starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
                 await profile.save().catch(console.error);
               }
@@ -113,6 +114,7 @@ module.exports = {
                 embeds,
                 components: [jumpButton],
               });
+
               starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
               await profile.save().catch(console.error);
             }

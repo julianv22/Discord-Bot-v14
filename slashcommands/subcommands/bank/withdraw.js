@@ -20,7 +20,7 @@ module.exports = {
     const { errorEmbed, user: bot } = client;
     const amount = interaction.options.getInteger('amount');
 
-    let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({

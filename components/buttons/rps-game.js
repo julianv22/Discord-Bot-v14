@@ -17,9 +17,7 @@ module.exports = {
 
     const profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy
-    if (!profile) {
-      return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
-    }
+    if (!profile) return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
 
     // Reset count nếu sang ngày mới
     const today = new Date();
@@ -32,19 +30,17 @@ module.exports = {
     }
 
     // Kiểm tra số lần chơi trong ngày
-    if (profile.rpsCount >= 50) {
+    if (profile.rpsCount >= 50)
       return await interaction.update(errorEmbed({ desc: 'Bạn đã chơi hết 50 lần trong ngày!' }));
-    }
 
     // Kiểm tra tiền cược
-    if (profile.balance < bet) {
+    if (profile.balance < bet)
       return await interaction.update(
         errorEmbed({
           desc: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toCurrency()}`,
           emoji: false,
         })
       );
-    }
 
     // Tính kết quả
     const rps = rpsGame(userMove, profile, bet);

@@ -27,39 +27,34 @@ module.exports = {
 
     collector.on('collect', async (m) => {
       const input = m.content.trim();
-      if (m && m.deletable) {
-        await m.delete().catch(console.error);
-      }
+      if (m && m.deletable) await m.delete().catch(console.error);
 
       const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-      if (!profile) {
+      if (!profile)
         return await interaction.followUp(errorEmbed({ desc: 'Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!' }));
-      }
 
       const { youtube } = profile;
 
       if (input.toLowerCase() === 'delete') {
         if (youtube.alert) {
           await interaction.followUp(errorEmbed({ desc: `YouTube Alert Role <@&${youtube.alert}> đã được xóa` }));
+
           youtube.alert = null;
           await profile.save().catch(console.error);
+
           desc = 'Chưa có YouTube Alert Role nào được thiết lập.';
-        } else {
-          await interaction.followUp(errorEmbed({ desc: 'Không có YouTube Alert Role nào để xóa.' }));
-        }
+        } else await interaction.followUp(errorEmbed({ desc: 'Không có YouTube Alert Role nào để xóa.' }));
       } else {
         const roleIdMatch = input.match(/^<@&(\d+)>$/);
-        let role = null;
 
-        if (roleIdMatch) {
-          role = guild.roles.cache.get(roleIdMatch[1]);
-        } else {
-          role = guild.roles.cache.find((r) => r.name.toLowerCase() === input.toLowerCase());
-        }
+        let role = null;
+        if (roleIdMatch) role = guild.roles.cache.get(roleIdMatch[1]);
+        else role = guild.roles.cache.find((r) => r.name.toLowerCase() === input.toLowerCase());
 
         if (role) {
           youtube.alert = role.id;
           await profile.save().catch(console.error);
+
           desc = `Alert Role: ${role}`;
         } else {
           desc = 'Alert Role không hợp lệ hoặc role không tồn tại.';
@@ -71,9 +66,7 @@ module.exports = {
     });
 
     collector.on('end', (collected, reason) => {
-      if (reason === 'time') {
-        interaction.followUp(errorEmbed({ desc: 'Hết thời gian chờ!' }));
-      }
+      if (reason === 'time') interaction.followUp(errorEmbed({ desc: 'Hết thời gian chờ!' }));
     });
   },
 };

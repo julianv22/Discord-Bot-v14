@@ -68,7 +68,7 @@ module.exports = {
         errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true })
       );
     } else if (subcommand === 'alerts') {
-      let profile = await serverProfile.findOne({ guildID: guild.id });
+      const profile = await serverProfile.findOne({ guildID: guild.id });
       const { youtube } = profile;
       const role = guild.roles.cache.get(youtube.alert);
 

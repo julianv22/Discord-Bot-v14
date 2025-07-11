@@ -27,16 +27,14 @@ module.exports = {
           res = await fetch(url),
           data = await res.json();
 
-        if (data.items && data.items.length > 0) {
-          return data.items[0].snippet.title;
-        }
+        if (data.items && data.items.length > 0) return data.items[0].snippet.title;
       } catch (e) {
         console.error(chalk.red('Error while executing function getChannelTitle:\n'), e);
       }
       return channelId;
     };
 
-    let profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID: guildId }).catch(console.error);
     const { youtube } = profile;
 
     if (!profile || youtube.channels.length == 0)

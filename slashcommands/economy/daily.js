@@ -16,7 +16,7 @@ module.exports = {
     today.setHours(0, 0, 0, 0);
 
     let profile = await economyProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
-    if (!profile) {
+    if (!profile)
       profile = await economyProfile
         .create({
           guildID: guild.id,
@@ -35,7 +35,6 @@ module.exports = {
           createdAt: new Date(),
         })
         .catch(console.error);
-    }
 
     // Kiểm tra cooldown: chỉ cần qua 0h là nhận được
     const lastClaim = profile.dailyCooldown;

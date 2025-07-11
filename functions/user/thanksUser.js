@@ -34,37 +34,40 @@ module.exports = (client) => {
 
       if (!target) {
         const replyMessage = await object.reply(errorEmbed({ desc: 'You must mention someone!' }));
-        if (objAuthor) {
+
+        if (objAuthor)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10000);
-        }
+
         return;
       }
 
       if (target.user?.bot || target.bot) {
         const replyMessage = await object.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝' }));
-        if (objAuthor) {
+
+        if (objAuthor)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10000);
-        }
+
         return;
       }
 
       if (target.id === author.id) {
         const replyMessage = await object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅' }));
-        if (objAuthor) {
+
+        if (objAuthor)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10000);
-        }
+
         return;
       }
 
-      let thanks = await serverThanks.findOne({ guildID, userID }).catch(console.error);
       let count = 1;
-      if (!thanks) {
+      let thanks = await serverThanks.findOne({ guildID, userID }).catch(console.error);
+      if (!thanks)
         thanks = await serverThanks
           .create({
             guildID,
@@ -75,11 +78,7 @@ module.exports = (client) => {
             lastThanks: Date.now(),
           })
           .catch(console.error);
-
-        if (!thanks) return; // If creation failed, stop here
-      } else {
-        count = thanks.thanksCount + 1;
-      }
+      else count = thanks.thanksCount + 1;
 
       const lastThanks = moment(thanks.lastThanks || Date.now())
         .tz('Asia/Ho_Chi_Minh')

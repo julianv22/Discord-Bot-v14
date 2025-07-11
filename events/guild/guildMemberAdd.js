@@ -12,10 +12,12 @@ module.exports = {
   async execute(member, client) {
     try {
       const { guild, user } = member;
-      let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-      const { welcome } = profile.setup;
+
+      const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
       if (!profile || !welcome.channel || !welcome.log)
         return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
+
+      const { welcome } = profile.setup;
       // // Create Background
       // const bgUrl = path.join(__dirname, '../../config/bg.png');
       // const canvas = Canvas.createCanvas(854, 480);
@@ -94,10 +96,8 @@ module.exports = {
       // });
 
       const channel = guild.channels.cache.get(welcome.channel);
-      if (channel) {
-        await channel.send({ embeds: [welcomeEmbed] });
-        // await channel.send({ files: [attachment] });
-      }
+      if (channel) await channel.send({ embeds: [welcomeEmbed] });
+      // await channel.send({ files: [attachment] });
 
       const logChannel = guild.channels.cache.get(welcome.log);
 

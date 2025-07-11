@@ -17,11 +17,12 @@ module.exports = (client) => {
         const replyMessage = await object.reply(
           errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false })
         );
-        if (object.author) {
+
+        if (object.author)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10 * 1000);
-        }
+
         return;
       }
 

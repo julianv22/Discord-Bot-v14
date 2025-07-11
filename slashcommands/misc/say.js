@@ -23,15 +23,10 @@ module.exports = {
         setTimeout(async () => {
           return await interaction.followUp('Have a good day 🎉!');
         }, 3000);
-      } else {
-        await interaction.reply(`${target}: ${content}`);
-      }
+      } else await interaction.reply(`${target}: ${content}`);
     } else {
-      if (!content) {
-        return await interaction.reply(errorEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
-      } else {
-        await interaction.reply(content);
-      }
+      if (!content) return await interaction.reply(errorEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
+      else await interaction.reply(content);
     }
   },
 };

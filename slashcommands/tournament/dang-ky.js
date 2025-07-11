@@ -17,37 +17,31 @@ module.exports = {
     const { errorEmbed } = client;
     const stIngame = options.getString('ingame');
 
-    let profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
 
-    if (!profile) {
+    if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
-    }
 
     const register = profile.tournament.status;
 
-    if (!register) {
-      return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
-    }
+    if (!register) return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
 
     const roleID = profile?.tournament?.id;
-    if (!roleID) {
+    if (!roleID)
       return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
-    }
 
     const role = guild.roles.cache.get(roleID);
 
-    if (!role) {
+    if (!role)
       return await interaction.reply(
         errorEmbed({ desc: `Role giải đấu với ID \`${roleID}\` không tồn tại hoặc đã bị xóa.` })
       );
-    }
 
     // Add Tournament Profile
     let tourProfile = await tournamentProfile.findOne({ guildID: guild.id, userID: user.id }).catch(console.error);
-
-    if (!tourProfile) {
+    if (!tourProfile)
       tourProfile = await tournamentProfile
         .create({
           guildID: guild.id,
@@ -59,7 +53,7 @@ module.exports = {
           status: true,
         })
         .catch(console.error);
-    } else {
+    else {
       tourProfile.guildName = guild.name;
       tourProfile.usertag = user.tag;
       tourProfile.ingame = stIngame;
@@ -83,19 +77,16 @@ module.exports = {
     // Add Role
     const bot = guild.members.me || (await guild.members.fetch(client.user.id));
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
-      if (!bot.permissions.has(PermissionFlagsBits.ManageRoles)) {
+      if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
         return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` }));
-      }
-      if (bot.roles.highest.position <= role.position) {
+
+      if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
           errorEmbed({
             desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
             emoji: false,
           })
         );
-      }
-    } else {
-      await guild.members.cache.get(user.id).roles.add(role).catch(console.error);
-    }
+    } else await guild.members.cache.get(user.id).roles.add(role).catch(console.error);
   },
 };

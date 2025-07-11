@@ -24,21 +24,17 @@ module.exports = {
       for (const pattern of ignorePatterns) {
         // Handles basic cases:
         // 1. Exact name match
-        if (name === pattern) {
-          return true;
-        }
+        if (name === pattern) return true;
+
         // 2. Pattern ending with '/' (applies only to directories)
-        if (pattern.endsWith('/') && name === pattern.slice(0, -1)) {
-          return true;
-        }
+        if (pattern.endsWith('/') && name === pattern.slice(0, -1)) return true;
+
         // 3. Simple wildcard '*' at the end (e.g., *.log)
-        if (pattern.startsWith('*.') && name.endsWith(pattern.slice(1))) {
-          return true;
-        }
+        if (pattern.startsWith('*.') && name.endsWith(pattern.slice(1))) return true;
+
         // 4. Simple wildcard '*' at the beginning (e.g., temp*)
-        if (pattern.endsWith('*') && name.startsWith(pattern.slice(0, -1))) {
-          return true;
-        }
+        if (pattern.endsWith('*') && name.startsWith(pattern.slice(0, -1))) return true;
+
         // 5. Checks if the directory/file name contains the pattern (may be undesirable with .gitignore)
         // if (name.includes(pattern)) {
         //     return true;
@@ -62,14 +58,10 @@ module.exports = {
         const prefix = indent + (isLast ? '└── ' : '├── ');
 
         if (file.isDirectory()) {
-          structure += `${prefix}${file.name}/
-`;
+          structure += `${prefix}${file.name}/`;
           // Recursively call for subdirectories
           structure += await directoryStructure(fullPath, indent + (isLast ? '    ' : '│   '));
-        } else {
-          structure += `${prefix}${file.name}
-`;
-        }
+        } else structure += `${prefix}${file.name}`;
       }
       return structure;
     };
@@ -87,7 +79,7 @@ module.exports = {
 
     await interaction.editReply({ embeds: [embed], flags: 64 });
 
-    if (structure.length > 4000) {
+    if (structure.length > 4000)
       for (let i = 4000; i < structure.length; i += 4000) {
         const nextEmbed = EmbedBuilder.from(embed);
 
@@ -95,6 +87,5 @@ module.exports = {
 
         await interaction.followUp({ embeds: [nextEmbed], flags: 64 });
       }
-    }
   },
 };

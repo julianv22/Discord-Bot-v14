@@ -15,9 +15,8 @@ module.exports = {
     const response = await fetch('https://zenquotes.io/api/random');
     const data = await response.json();
 
-    if (!response.ok || !data || !data[0] || !data[0].q || !data[0].a) {
+    if (!response.ok || !data || !data[0] || !data[0].q || !data[0].a)
       throw new Error('Không thể lấy trích dẫn từ ZenQuotes.io');
-    }
 
     const quote = `❝ **${data[0].q}** ❞\n\n- ${data[0].a} -`;
 

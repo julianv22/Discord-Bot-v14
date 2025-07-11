@@ -13,7 +13,7 @@ module.exports = {
       if (!message.guildId) return;
 
       // Lấy cấu hình server
-      let profile = await serverProfile.findOne({ guildID: message.guildId }).catch(console.error);
+      const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(console.error);
       const { starboard } = profile.setup;
       if (!profile || !starboard.channel || !starboard.star || starboard.star <= 0) return;
       // Chỉ xử lý emoji "⭐"

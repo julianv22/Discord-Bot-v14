@@ -55,7 +55,7 @@ module.exports = (client) => {
               const role = guild.roles.cache.get(alert);
               const videoURL = `https://youtu.be/${latestVideoId}`;
 
-              if (channel) {
+              if (channel)
                 await channel.send({
                   content: `${role ? `${role} ` : ''}\\🎬 **[${
                     channelTitle || 'Youtube Channel'
@@ -66,7 +66,6 @@ module.exports = (client) => {
                     ),
                   ],
                 });
-              }
             }
           }
         }

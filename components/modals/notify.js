@@ -18,11 +18,10 @@ module.exports = {
 
     // Kiểm tra notifytype có hợp lệ không
     const selectedThumbnail = thumbnailOptions[notifytype - 1];
-    if (!thumbnailOptions.includes(selectedThumbnail)) {
+    if (!thumbnailOptions.includes(selectedThumbnail))
       return await interaction.reply(
         client.errorEmbed({ desc: 'Loại thông báo không hợp lệ. Vui lòng chọn 1 hoặc 2.' })
       );
-    }
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })

@@ -20,8 +20,7 @@ module.exports = {
     const { errorEmbed } = client;
     const roles = guild.roles.cache;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
-
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
     if (!profile) return await interaction.reply(errorEmbed({ desc: 'No setup data found for this server.' }));
 
     /** @param {string} channelId */

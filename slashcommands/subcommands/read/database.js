@@ -48,7 +48,7 @@ module.exports = {
       else await interaction.editReply({ embeds: [embed] });
     };
 
-    let profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
+    const profile = await serverProfile.find({ guildID: guild.id }).catch(console.error);
     if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database found for this profile.' }));
 
     const db = JSON.stringify(profile, null, 2);

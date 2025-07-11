@@ -16,14 +16,13 @@ module.exports = {
     const { errorEmbed } = client;
 
     const memberToEmit = mentions.members.first();
-
-    if (!memberToEmit) {
+    if (!memberToEmit)
       return await message.reply(
         errorEmbed({ desc: 'Vui lòng mention một thành viên để kích hoạt sự kiện `guildMemberRemove`.' })
       );
-    }
 
     client.emit('guildMemberRemove', memberToEmit);
+
     await message.reply(
       errorEmbed({ desc: `Đã kích hoạt sự kiện \`guildMemberRemove\` cho ${memberToEmit.user.tag}.`, emoji: true })
     );

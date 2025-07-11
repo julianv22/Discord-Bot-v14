@@ -21,9 +21,7 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) {
-      return await interaction.reply(client.errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
-    }
+    if (!message) return await interaction.reply(client.errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
 
     const truncateString = (str, maxLength) => (str.length > maxLength ? str.slice(0, maxLength) : str);
 

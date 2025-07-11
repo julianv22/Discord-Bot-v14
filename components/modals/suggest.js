@@ -12,23 +12,19 @@ module.exports = {
     const description = interaction.fields.getTextInputValue('content');
 
     const profile = await serverProfile.findOne({ guildID: guild.id }).catch(console.error);
-
-    if (!profile || !profile?.setup?.suggest) {
+    if (!profile || !profile?.setup?.suggest)
       return await interaction.reply(
         errorEmbed({
           desc: `Máy chủ này chưa thiết lập kênh đề xuất. Vui lòng liên hệ đội ngũ ${cfg.adminRole} để được hỗ trợ.`,
           emoji: false,
         })
       );
-    }
 
     const sgtChannel = guild.channels.cache.get(profile?.setup?.suggest);
-
-    if (!sgtChannel) {
+    if (!sgtChannel)
       return await interaction.reply(
         client.errorEmbed({ desc: 'Kênh đề xuất không tìm thấy hoặc không hợp lệ. Vui lòng kiểm tra lại cấu hình.' })
       );
-    }
 
     const truncateString = (str, maxLength) => (str.length > maxLength ? `${str.slice(0, maxLength - 3)}...` : str);
 

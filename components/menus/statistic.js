@@ -19,7 +19,6 @@ module.exports = {
     const channelId = values[0];
     const statisticInfo = components[0].components[0].components[1].data;
     const guildID = guild.id;
-
     const profile = await serverProfile.findOne({ guildID }).catch(console.error);
     const { statistics } = profile;
 
