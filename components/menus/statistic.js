@@ -45,9 +45,16 @@ module.exports = {
 
     await profile.save().catch(console.error);
 
-    serverStats(guildID);
+    await serverStats(guildID);
 
-    statisticInfo.content = `- Total count channel: <#${statistics.totalChannel}>)\n- Members count channel: <#${statistics.memberChannel}>\n- Bots count channel: <#${statistics.botChannel}>\n- Presences statistic channel: <#${statistics.presenceChannel}>`;
+    /** @param {string} channelId */
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
+
+    statisticInfo.content = `- Total count channel: ${channelName(
+      statistics.totalChannel
+    )})\n- Members count channel: ${channelName(statistics.memberChannel)}\n- Bots count channel: ${channelName(
+      statistics.botChannel
+    )}\n- Presences statistic channel: ${channelName(statistics.presenceChannel)}`;
 
     await interaction.update({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components });
   },

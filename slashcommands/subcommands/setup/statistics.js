@@ -34,7 +34,7 @@ module.exports = {
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
-      .setAccentColor(Colors.DarkGreen)
+      .setAccentColor(Colors.DarkAqua)
       .addSectionComponents(
         sectionComponents(
           [
