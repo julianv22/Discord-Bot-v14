@@ -119,7 +119,7 @@ module.exports = {
 
     switch (accessoryType) {
       case ComponentType.Thumbnail:
-        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(iconURL));
+        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(iconURL || cfg.thumbnailURL));
 
         for (const content of textContents) {
           sectionComponents.addTextDisplayComponents(module.exports.textDisplay(content));

@@ -28,7 +28,7 @@ module.exports = {
     if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
     const { welcome } = profile.setup;
-    const welcomeMessage = welcome?.message || '- # \\❌ Not Set';
+    const welcomeMessage = welcome?.message || '-# \\❌ Not Set';
 
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '-# \\❌ Not Set';
