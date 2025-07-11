@@ -36,7 +36,7 @@ module.exports = {
         statistics.botChannel = channelId;
         return;
       },
-      prepresence: () => {
+      presence: () => {
         statistics.presenceChannel = channelId;
         return;
       },
