@@ -3,8 +3,8 @@ const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'menus',
-  data: { name: 'welcome-menu' },
-  /** - Welcome channel select menu
+  data: { name: 'youtube-menu' },
+  /** - Setup YouTube notification channel and alert role
    * @param {ChannelSelectMenuInteraction} interaction Channel Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
@@ -15,25 +15,26 @@ module.exports = {
       values,
     } = interaction;
     const [, selected] = customId.split(':');
-    const channelId = values[0];
-    const welcomeSection = components[0].components[0].components[1].data;
-    const logSection = components[0].components[0].components[2].data;
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    const { welcome } = profile.setup;
+    const selectValue = values[0];
+    const notifySection = components[0].components[0].components[1].data;
+    const alertSection = components[0].components[0].components[2].data;
 
-    const setupWelcome = {
-      channel: () => {
-        welcome.channel = channelId;
-        welcomeSection.content = `- Welcome channel: <#${channelId}>`;
+    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    const { youtube } = profile;
+
+    const onClick = {
+      notify: () => {
+        youtube.notifyChannel = selectValue;
+        notifySection.content = `- Notify channel: <#${selectValue}>`;
         return;
       },
-      log: () => {
-        welcome.log = channelId;
-        logSection.content = `- Log channel: <#${channelId}>`;
+      alert: () => {
+        youtube.alert = selectValue;
+        alertSection.content = `- Alert role: <@&${selectValue}>`;
         return;
       },
     };
-    setupWelcome[selected]();
+    onClick[selected]();
 
     await profile.save().catch(console.error);
 

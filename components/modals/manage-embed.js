@@ -71,6 +71,6 @@ module.exports = {
     }
     await editEmbed[input]();
 
-    return await interaction.update({ embeds: [embed], components: [Button0, Button1] });
+    await interaction.update({ embeds: [embed], components: [Button0, Button1] });
   },
 };

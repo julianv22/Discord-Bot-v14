@@ -81,6 +81,7 @@ module.exports = {
             break;
           case 'youtube':
             youtube.notifyChannel = '';
+            youtube.alert = '';
             break;
           case 'welcome':
             welcome.channel = '';

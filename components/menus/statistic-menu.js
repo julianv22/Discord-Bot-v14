@@ -1,9 +1,9 @@
-const { Client, ChannelSelectMenuInteraction, MessageFlags } = require('discord.js');
+const { Client, ChannelSelectMenuInteraction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'menus',
-  data: { name: 'statistic' },
+  data: { name: 'statistic-menu' },
   /** - Statistics channel select menu
    * @param {ChannelSelectMenuInteraction} interaction Channel Select Menu Interaction
    * @param {Client} client Discord Client */
@@ -51,10 +51,10 @@ module.exports = {
 
     statisticInfo.content = `- Total count channel: ${channelName(
       statistics.totalChannel
-    )})\n- Members count channel: ${channelName(statistics.memberChannel)}\n- Bots count channel: ${channelName(
+    )}\n- Members count channel: ${channelName(statistics.memberChannel)}\n- Bots count channel: ${channelName(
       statistics.botChannel
     )}\n- Presences statistic channel: ${channelName(statistics.presenceChannel)}`;
 
-    await interaction.update({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components });
+    await interaction.update({ components });
   },
 };

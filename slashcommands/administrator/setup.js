@@ -1,4 +1,10 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  ChannelType,
+  PermissionFlagsBits,
+} = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -16,7 +22,11 @@ module.exports = {
         .setName('suggest')
         .setDescription(`Sets up the suggestion channel. (${cfg.adminRole} only)`)
         .addChannelOption((opt) =>
-          opt.setName('suggest-channel').setDescription('The channel where suggestions will be sent.').setRequired(true)
+          opt
+            .setName('suggest-channel')
+            .setDescription('The channel where suggestions will be sent.')
+            .addChannelTypes(ChannelType.GuildText)
+            .setRequired(true)
         )
     )
     .addSubcommand((sub) =>
@@ -27,7 +37,11 @@ module.exports = {
         .setName('starboard')
         .setDescription(`Sets up the starboard system. (${cfg.adminRole} only)`)
         .addChannelOption((opt) =>
-          opt.setName('starboard-channel').setDescription('The channel for starboard messages.').setRequired(true)
+          opt
+            .setName('starboard-channel')
+            .setDescription('The channel for starboard messages.')
+            .addChannelTypes(ChannelType.GuildText)
+            .setRequired(true)
         )
         .addIntegerOption((opt) =>
           opt

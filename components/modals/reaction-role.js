@@ -31,7 +31,8 @@ module.exports = {
       return await interaction.reply(client.errorEmbed({ desc: 'Đã xảy ra lỗi khi xử lý yêu cầu của bạn.' }));
     }
 
-    await editEmbed[textInput]();
-    return interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
+    editEmbed[textInput]();
+
+    interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
   },
 };

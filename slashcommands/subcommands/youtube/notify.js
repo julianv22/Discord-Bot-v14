@@ -1,5 +1,15 @@
-const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder } = require('discord.js');
+const {
+  Client,
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
+  SeparatorBuilder,
+  ContainerBuilder,
+  ComponentType,
+  MessageFlags,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
+const { sectionComponents, textDisplay, menuComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -7,24 +17,45 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('notify'),
   /** - Sets up the channel for YouTube video notifications.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction */
+   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Client} client  */
   async execute(interaction, client) {
-    const { options, guild } = interaction;
-    const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
-    const notifyChannel = options.getChannel('notify-channel');
+    const { guild } = interaction;
+    const { id: guildID, name: guildName, roles } = guild;
 
-    let profile = await serverProfile.findOne({ guildID });
-
+    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
     if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
 
-    if (!profile.youtube) profile.youtube = {};
+    const { youtube } = profile;
+    /** @param {string} channelId */
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '❌ Not Set';
 
-    profile.youtube.notifyChannel = notifyChannel.id;
-    await profile.save().catch(console.error);
+    const container = new ContainerBuilder()
+      .setAccentColor(Colors.DarkAqua)
+      .addSectionComponents(
+        sectionComponents(
+          [
+            '### 📢 YouTube Information',
+            `- Notification Channel: ${channelName(youtube.notifyChannel)}`,
+            `- Alert Role: ${roles.cache.get(youtube.alert) || '❌ Not Set'}`,
+          ],
+          ComponentType.Thumbnail,
+          { iconURL: guild.iconURL(true) }
+        )
+      )
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(
+        textDisplay(
+          'Select the notification channel:\n-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.'
+        )
+      )
+      .addActionRowComponents(menuComponents('youtube-menu:notify'))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(
+        textDisplay('Select the alert role:\n-# \\⚠️ This role will be mentioned in the notification.')
+      )
+      .addActionRowComponents(menuComponents('youtube-menu:alert', ComponentType.RoleSelect));
 
-    return await interaction.reply(
-      errorEmbed({ desc: `YouTube video notification channel has been set to: ${notifyChannel}`, emoji: true })
-    );
+    await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
   },
 };

@@ -23,6 +23,6 @@ module.exports = {
       .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input.slice(0, 3000) } })
       .catch(console.error);
 
-    return await interaction.update({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components });
+    await interaction.update({ components });
   },
 };

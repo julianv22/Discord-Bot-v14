@@ -33,6 +33,6 @@ module.exports = {
       .setTimestamp()
       .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) });
 
-    return await interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
   },
 };

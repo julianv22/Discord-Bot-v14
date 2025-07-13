@@ -32,7 +32,7 @@ module.exports = {
     const createModal = (options) => {
       const textInputs = rowComponents(options, ComponentType.TextInput);
       const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
-      const modal = new ModalBuilder().setCustomId(`manage-embed:${button}`).setTitle('Embed Manager');
+      const modal = new ModalBuilder().setCustomId(customId).setTitle('Embed Manager');
       actionRows.forEach((row) => modal.addComponents(row));
       return modal;
     };
@@ -42,7 +42,7 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'author',
+              customId: button,
               label: 'Tác giả Embed, biến: {guild}, {user}',
               placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
             },
@@ -58,7 +58,7 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'title',
+              customId: button,
               label: 'Tiêu đề Embed',
               placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
               required: true,
@@ -70,7 +70,7 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'description',
+              customId: button,
               label: 'Mô tả',
               placeholder: 'Nhập mô tả embed\n{guild} = Tên máy chủ\n{user} = Tên người dùng',
               value: editEmbed.data.description,
@@ -84,7 +84,7 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'color',
+              customId: button,
               label: 'Màu sắc (Để trống = Ngẫu nhiên)',
               placeholder: Object.keys(Colors).join(',').slice(14, 114),
             },
@@ -95,7 +95,7 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'image',
+              customId: button,
               label: 'Hình ảnh (Để trống = Xóa)',
               placeholder: 'Nhập URL hình ảnh, Để trống = Xóa',
             },
@@ -106,7 +106,7 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'thumbnail',
+              customId: button,
               label: 'Hình thu nhỏ (Để trống = Xóa)',
               placeholder: 'Nhập URL hình thu nhỏ, Để trống = Xóa',
             },
@@ -117,12 +117,12 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: 'footer',
+              customId: button,
               label: 'Chân trang (Để trống = Xóa)',
               placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
             },
             {
-              customId: 'footerIcon',
+              customId: button + 'Icon',
               label: 'Biểu tượng chân trang (*.webp)',
               placeholder: '{avatar} = Ảnh đại diện người dùng, {iconURL} = Biểu tượng máy chủ',
             },

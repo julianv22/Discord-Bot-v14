@@ -5,11 +5,12 @@ const {
   ContainerBuilder,
   SeparatorBuilder,
   ComponentType,
+  ButtonStyle,
   MessageFlags,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { sectionComponents, textDisplay, channelSelectMenu } = require('../../../functions/common/components');
+const { sectionComponents, textDisplay, menuComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -46,13 +47,19 @@ module.exports = {
           guild.iconURL(true)
         )
       )
-      .addSectionComponents(sectionComponents([`- Welcome message:\n${welcomeMessage}`], ComponentType.Button))
+      .addSectionComponents(
+        sectionComponents(`- Welcome message:\n${welcomeMessage}`, ComponentType.Button, {
+          customId: 'welcome-msg',
+          label: '📝 Change message',
+          style: ButtonStyle.Success,
+        })
+      )
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('Select Welcome channel:'))
-      .addActionRowComponents(channelSelectMenu('welcome-menu:channel'))
+      .addActionRowComponents(menuComponents('welcome-menu:channel'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('Select Log channel:'))
-      .addActionRowComponents(channelSelectMenu('welcome-menu:log'));
+      .addActionRowComponents(menuComponents('welcome-menu:log'));
 
     return await interaction.reply({
       flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],

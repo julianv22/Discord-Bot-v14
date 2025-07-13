@@ -10,7 +10,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { sectionComponents, channelSelectMenu, textDisplay } = require('../../../functions/common/components');
+const { sectionComponents, menuComponents, textDisplay } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -51,16 +51,16 @@ module.exports = {
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('Select Total count channel:'))
-      .addActionRowComponents(channelSelectMenu('statistic:total', ChannelType.GuildVoice))
+      .addActionRowComponents(menuComponents('statistic-menu:total', ChannelType.GuildVoice))
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('Select Members count channel:'))
-      .addActionRowComponents(channelSelectMenu('statistic:members', ChannelType.GuildVoice))
+      .addActionRowComponents(menuComponents('statistic-menu:members', ChannelType.GuildVoice))
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('Select Bots count channel:'))
-      .addActionRowComponents(channelSelectMenu('statistic:bots', ChannelType.GuildVoice))
+      .addActionRowComponents(menuComponents('statistic-menu:bots', ChannelType.GuildVoice))
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('Select Presences statistic channel:'))
-      .addActionRowComponents(channelSelectMenu('statistic:presence', ChannelType.GuildVoice));
+      .addActionRowComponents(menuComponents('statistic-menu:presence', ChannelType.GuildVoice));
 
     await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
   },

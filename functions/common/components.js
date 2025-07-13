@@ -2,11 +2,12 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   TextInputBuilder,
-  ButtonComponent,
   ThumbnailBuilder,
   SectionBuilder,
   TextDisplayBuilder,
   ChannelSelectMenuBuilder,
+  RoleSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
   TextInputStyle,
   ComponentType,
   ButtonStyle,
@@ -14,22 +15,22 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  /** - Set Row Component
-   * @param {object[]} options - Options
-   * @param {string} [options.customId] - Component customId
-   * @param {string} options.label - Component label
-   * @param {number} [options.style] - Component style
-   * @param {string} [options.value] - Component value
-   * @param {string} [options.placeholder] - Component placeholder
-   * @param {string} [options.value] - Component value
-   * @param {string} [options.emoji] - Component emoji
-   * @param {string} [options.url] - Component url
-   * @param {boolean} [options.disabled] - Component disabled
-   * @param {boolean} [options.default] - Component default
-   * @param {boolean} [options.required] - Component require
-   * @param {number} [options.minLength] - Component minLength
-   * @param {number} [options.maxLength] - Component maxLength
-   * @param {ComponentType} type - Component type (Button, StringSelect, TextInput) */
+  /** - Creates an array of components for an ActionRow.
+   * @param {object[]} options - An array of configuration objects for the components.
+   * @param {string} [options.customId] - The custom ID for the component.
+   * @param {string} options.label - The text that appears on the component.
+   * @param {number} [options.style] - The style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
+   * @param {string} [options.value] - The value for the component (used in StringSelect options and TextInput).
+   * @param {string} [options.placeholder] - Placeholder text for the component (used in TextInput).
+   * @param {string} [options.emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
+   * @param {string} [options.url] - A URL for link-style buttons.
+   * @param {boolean} [options.disabled=false] - Whether the component is disabled.
+   * @param {boolean} [options.default] - Whether this option is selected by default (used in StringSelect options).
+   * @param {boolean} [options.required=false] - Whether the component is required (used in TextInput).
+   * @param {number} [options.minLength] - The minimum input length (used in TextInput).
+   * @param {number} [options.maxLength] - The maximum input length (used in TextInput).
+   * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
+   * @returns {ButtonBuilder[]|StringSelectMenuOptionBuilder[]|TextInputBuilder[]} An array of the created components. */
   rowComponents: (options, type) => {
     const rowComponents = {
       // Return ButtonBuilder options
@@ -50,16 +51,13 @@ module.exports = {
       // Return StringSelectMenuBuilder options
       [ComponentType.StringSelect]: () => {
         return options.map((opt) => {
-          const options = {
-            label: opt.label,
-            value: opt.value,
-          };
+          const option = new StringSelectMenuOptionBuilder().setLabel(opt.label).setValue(opt.value);
 
-          if (opt.description) options.description = opt.description;
-          if (opt.emoji) options.emoji = opt.emoji;
-          if (opt.default) options.default = opt.default;
+          if (opt.description) option.setDescription(opt.description);
+          if (opt.emoji) option.setEmoji(opt.emoji);
+          if (opt.default) option.setDefault(opt.default);
 
-          return options;
+          return option;
         });
       },
       // Return TextInputBuilder options
@@ -85,19 +83,19 @@ module.exports = {
 
     return rowComponents[type]();
   },
-  /** @param {ButtonComponent} buttons Disable Buttons */
-  disableButtons: (buttons) => {
+  /** - Disables all buttons within a set of action rows, returning them in a single new action row.
+   * @param {ActionRowBuilder<ButtonBuilder>[]} actionRows - An array of action rows containing the buttons to disable. */
+  disableButtons: (actionRows) => {
     const disableRow = new ActionRowBuilder();
-    for (const button of buttons) {
-      for (const component of button.components) {
-        const btn = ButtonBuilder.from(component);
-        btn.setDisabled(true);
+    for (const row of actionRows) {
+      for (const component of row.components) {
+        const btn = ButtonBuilder.from(component).setDisabled(true);
         disableRow.addComponents(btn);
       }
     }
     return disableRow;
   },
-  /** Create info buttons */
+  /** - Creates an action row with predefined informational buttons. */
   infoButtons: () => {
     const buttons = [
       { customId: 'support:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
@@ -108,46 +106,54 @@ module.exports = {
 
     return new ActionRowBuilder().addComponents(module.exports.rowComponents(buttons, ComponentType.Button));
   },
-  /** - SectionBuilder
-   * @param {string[]} textContents TextDisplay contents
-   * @param {ComponentType} accessoryType Accessory Type
-   * @param {string} [iconURL] Thumbnail url*/
-  sectionComponents: (textContents, accessoryType, iconURL) => {
-    if (textContents.length > 3) return null;
+  /** - Creates a SectionBuilder component, typically for a StringSelectMenu.
+   * @param {string|string[]} textContents - An array of strings for the TextDisplay components within the section (max 3).
+   * @param {ComponentType.Thumbnail | ComponentType.Button} accessoryType - The type of accessory for the section.
+   * @param {string|object} [options] */
+  sectionComponents: (textContents, accessoryType, options) => {
+    const contents = Array.isArray(textContents) ? textContents : [textContents];
+    const { iconURL, customId, label, style } = options;
+
+    if (contents.length > 3) return null;
 
     const sectionComponents = new SectionBuilder();
 
     switch (accessoryType) {
       case ComponentType.Thumbnail:
         sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(iconURL || cfg.infoPNG));
-
-        for (const content of textContents) {
-          sectionComponents.addTextDisplayComponents(module.exports.textDisplay(content));
-        }
         break;
-
       case ComponentType.Button:
-        sectionComponents.setButtonAccessory(
-          new ButtonBuilder().setCustomId('welcome-msg').setLabel('📝 Change message').setStyle(ButtonStyle.Success)
-        );
-
-        for (const content of textContents) {
-          sectionComponents.addTextDisplayComponents(module.exports.textDisplay(content));
-        }
+        sectionComponents.setButtonAccessory(new ButtonBuilder().setCustomId(customId).setLabel(label).setStyle(style));
         break;
-
       default:
         return null;
     }
+
+    for (const content of contents) {
+      sectionComponents.addTextDisplayComponents(module.exports.textDisplay(content));
+    }
+
     return sectionComponents;
   },
-  /** ChannelSelectMenuBuilder
-   * @param {string} customId Select Menu customId
-   * @param {ChannelType} [type] ChannelType */
-  channelSelectMenu: (customId, type = ChannelType.GuildText) =>
-    new ActionRowBuilder().setComponents(
-      new ChannelSelectMenuBuilder().setCustomId(customId).setChannelTypes(type).setMinValues(1).setMaxValues(1)
-    ),
-  /** @param {string} content TextDisplay content */
+  /** - Creates an ActionRowBuilder containing a select menu.
+   * @param {string} customId - The custom ID for the select menu.
+   * @param {ChannelType | ChannelType[] | ComponentType.RoleSelect} [type=ChannelType.GuildText] - The type of menu. Can be a single ChannelType, an array of ChannelTypes, or ComponentType.RoleSelect. */
+  menuComponents: (customId, type = ChannelType.GuildText) => {
+    const actionRow = new ActionRowBuilder();
+
+    switch (type) {
+      case ComponentType.RoleSelect:
+        actionRow.setComponents(new RoleSelectMenuBuilder().setCustomId(customId).setMinValues(1).setMaxValues(1));
+        break;
+
+      default: // Handles single ChannelType, array of ChannelTypes, etc.
+        actionRow.setComponents(
+          new ChannelSelectMenuBuilder().setCustomId(customId).setChannelTypes(type).setMinValues(1).setMaxValues(1)
+        );
+        break;
+    }
+    return actionRow;
+  },
+  /** @param {string} content - The text content for the display component. */
   textDisplay: (content) => new TextDisplayBuilder().setContent(content),
 };
