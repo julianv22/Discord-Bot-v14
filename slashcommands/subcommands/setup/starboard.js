@@ -14,19 +14,22 @@ module.exports = {
     const { errorEmbed } = client;
     const { id: guildID, name: guildName } = guild;
     const channel = options.getChannel('starboard-channel');
-    const number = options.getInteger('starnum');
+    const starNum = options.getInteger('starnum');
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
+    if (!profile)
+      profile = await serverProfile
+        .create({ guildID, guildName, prefix, setup: { starboard: { channel: '', star: 0 } } })
+        .catch(console.error);
 
     const { starboard } = profile.setup;
     starboard.channel = channel.id;
-    starboard.star = number;
+    starboard.star = starNum;
 
     await profile.save().catch(console.error);
     return await interaction.reply(
       errorEmbed({
-        desc: `Messages with ${number}\\⭐ reactions will be sent to ${channel}.`,
+        desc: `Messages with ${starNum}\\⭐ reactions will be sent to ${channel}.`,
         emoji: true,
       })
     );

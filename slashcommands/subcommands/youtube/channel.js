@@ -11,7 +11,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { textDisplay, sectionComponents, rowComponents } = require('../../../functions/common/components');
+const { sectionComponents, rowComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -63,9 +63,7 @@ module.exports = {
             channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.',
           ],
           ComponentType.Thumbnail,
-          {
-            iconURL: guild.iconURL(true),
-          }
+          { url: guild.iconURL(true) }
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

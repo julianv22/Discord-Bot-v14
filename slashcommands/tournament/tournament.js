@@ -49,7 +49,10 @@ module.exports = {
     const getRole = options.getRole('ten-giai');
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
+    if (!profile)
+      profile = await serverProfile
+        .create({ guildID, guildName, prefix, tournament: { id: '', name: '', status: false } })
+        .catch(console.error);
 
     const { tournament } = profile;
     // Gom các logic xử lý vào object

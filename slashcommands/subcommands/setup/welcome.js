@@ -26,7 +26,10 @@ module.exports = {
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
-    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
+    if (!profile)
+      profile = await serverProfile
+        .create({ guildID, guildName, prefix, setup: { welcome: { channel: '', log: '', message: '' } } })
+        .catch(console.error);
 
     const { welcome } = profile.setup;
     const welcomeMessage = welcome?.message || '-# \\❌ Not Set';
@@ -44,7 +47,7 @@ module.exports = {
             `- Log channel: ${channelName(welcome?.log)}`,
           ],
           ComponentType.Thumbnail,
-          guild.iconURL(true)
+          { url: guild.iconURL(true) }
         )
       )
       .addSectionComponents(

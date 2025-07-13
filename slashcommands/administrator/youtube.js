@@ -28,9 +28,7 @@ module.exports = {
 
     if (subcommand === 'refresh') {
       await checkVideos();
-      return await interaction.reply(
-        errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true })
-      );
+      await interaction.reply(errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true }));
     }
   },
 };

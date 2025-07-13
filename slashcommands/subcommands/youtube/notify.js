@@ -9,7 +9,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { sectionComponents, textDisplay, menuComponents } = require('../../../functions/common/components');
+const { textDisplay, menuComponents, sectionComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -24,7 +24,10 @@ module.exports = {
     const { id: guildID, name: guildName, roles } = guild;
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
+    if (!profile)
+      profile = await serverProfile
+        .create({ guildID, guildName, prefix, youtube: { notifyChannel: '', alert: '' } })
+        .catch(console.error);
 
     const { youtube } = profile;
     /** @param {string} channelId */
@@ -40,7 +43,7 @@ module.exports = {
             `- Alert Role: ${roles.cache.get(youtube.alert) || '❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
-          { iconURL: guild.iconURL(true) }
+          { url: guild.iconURL(true) }
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

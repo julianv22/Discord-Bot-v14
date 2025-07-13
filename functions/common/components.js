@@ -112,7 +112,7 @@ module.exports = {
    * @param {string|object} [options] */
   sectionComponents: (textContents, accessoryType, options) => {
     const contents = Array.isArray(textContents) ? textContents : [textContents];
-    const { iconURL, customId, label, style } = options;
+    const { customId, label, style, url } = options;
 
     if (contents.length > 3) return null;
 
@@ -120,7 +120,7 @@ module.exports = {
 
     switch (accessoryType) {
       case ComponentType.Thumbnail:
-        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(iconURL || cfg.infoPNG));
+        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(url || cfg.infoPNG));
         break;
       case ComponentType.Button:
         sectionComponents.setButtonAccessory(new ButtonBuilder().setCustomId(customId).setLabel(label).setStyle(style));

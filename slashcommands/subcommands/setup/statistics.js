@@ -26,7 +26,15 @@ module.exports = {
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
-    if (!profile) profile = await serverProfile.create({ guildID, guildName, prefix }).catch(console.error);
+    if (!profile)
+      profile = await serverProfile
+        .create({
+          guildID,
+          guildName,
+          prefix,
+          statistics: { totalChannel: '', memberChannel: '', botChannel: '', presenceChannel: '' },
+        })
+        .catch(console.error);
 
     const { totalChannel, memberChannel, botChannel, presenceChannel } = profile.statistics;
 
@@ -46,7 +54,7 @@ module.exports = {
             )}`,
           ],
           ComponentType.Thumbnail,
-          guild.iconURL(true)
+          { url: guild.iconURL(true) }
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
