@@ -24,14 +24,14 @@ module.exports = {
         await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.channel': channelId } })
           .catch(console.error);
-        welcomeSection.content = `- Welcome channel: <#${channelId}>`;
+        welcomeSection.content = `- \\💬 Welcome channel: <#${channelId}>`;
         return true;
       },
       log: async () => {
         await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.log': channelId } })
           .catch(console.error);
-        logSection.content = `- Log channel: <#${channelId}>`;
+        logSection.content = `- \\💬 Log channel: <#${channelId}>`;
         return true;
       },
     };

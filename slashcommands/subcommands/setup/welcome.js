@@ -43,15 +43,15 @@ module.exports = {
         sectionComponents(
           [
             '### Welcome Information',
-            `- Welcome channel: ${channelName(welcome?.channel)}`,
-            `- Log channel: ${channelName(welcome?.log)}`,
+            `- \\💬 Welcome channel: ${channelName(welcome?.channel)}`,
+            `- \\💬 Log channel: ${channelName(welcome?.log)}`,
           ],
           ComponentType.Thumbnail,
           { url: guild.iconURL(true) }
         )
       )
       .addSectionComponents(
-        sectionComponents(`- Welcome message:\n${welcomeMessage}`, ComponentType.Button, {
+        sectionComponents(`- \\📝 Welcome message:\n${welcomeMessage}`, ComponentType.Button, {
           customId: 'welcome-msg',
           label: '📝 Change message',
           style: ButtonStyle.Success,

@@ -40,8 +40,8 @@ module.exports = {
         sectionComponents(
           [
             '### 📢 YouTube Information',
-            `- Notification Channel: ${channelName(youtube.notifyChannel)}`,
-            `- Alert Role: ${roles.cache.get(youtube.alert) || '\\❌ Not Set'}`,
+            `- \\💬 Notification Channel: ${channelName(youtube.notifyChannel)}`,
+            `- \\🔔 Alert Role: ${roles.cache.get(youtube.alert) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
           { url: guild.iconURL(true) }
@@ -52,7 +52,7 @@ module.exports = {
         sectionComponents(
           'Select the notification channel:\n-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.',
           ComponentType.Button,
-          { customId: 'youtube:notify', label: '❌ Remove Channel', style: ButtonStyle.Danger }
+          { customId: 'youtube:notify', label: '💬 Remove Channel', style: ButtonStyle.Danger }
         )
       )
       .addActionRowComponents(menuComponents('youtube-menu:notify'))
@@ -61,7 +61,7 @@ module.exports = {
         sectionComponents(
           'Select the alert role:\n-# \\⚠️ This role will be mentioned in the notification.',
           ComponentType.Button,
-          { customId: 'youtube:alert', label: '❌ Remove Alert', style: ButtonStyle.Danger }
+          { customId: 'youtube:alert', label: '🔔 Remove Alert', style: ButtonStyle.Danger }
         )
       )
       .addActionRowComponents(menuComponents('youtube-menu:alert', ComponentType.RoleSelect));

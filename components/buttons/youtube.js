@@ -40,12 +40,12 @@ module.exports = {
         await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'youtube.notifyChannel': '' } })
           .catch(console.error);
-        textDisplay(1).content = '- Notification Channel: \\❌ Not set';
+        textDisplay(1).content = '- \\💬 Notification Channel: \\❌ Not set';
         return await interaction.update({ components });
       },
       alert: async () => {
         await serverProfile.findOneAndUpdate({ guildID }, { $set: { 'youtube.alert': '' } }).catch(console.error);
-        textDisplay(2).content = '- Alert Role: \\❌ Not set';
+        textDisplay(2).content = '- \\🔔 Alert Role: \\❌ Not set';
         return await interaction.update({ components });
       },
     };
