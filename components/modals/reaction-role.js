@@ -32,7 +32,6 @@ module.exports = {
     }
 
     editEmbed[textInput]();
-
     interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
   },
 };

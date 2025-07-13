@@ -2,17 +2,18 @@ const {
   Client,
   ButtonInteraction,
   ActionRowBuilder,
-  ButtonBuilder,
   TextDisplayBuilder,
   ContainerBuilder,
   ButtonStyle,
+  ComponentType,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { rowComponents } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'disable-' },
+  data: { name: 'disable' },
   /** - Disable Features Button
    * @param {ButtonInteraction} interaction Button Interaction
    * @param {Client} client Discord Client */
@@ -23,16 +24,13 @@ module.exports = {
     /** @param {boolean} [disabled] Disabled buttons, `true` = disabled */
     const confirmButtons = (disabled = false) =>
       new ActionRowBuilder().setComponents(
-        new ButtonBuilder()
-          .setCustomId('disable-:confirm:' + feature)
-          .setLabel('✅ Confirm')
-          .setStyle(ButtonStyle.Success)
-          .setDisabled(disabled),
-        new ButtonBuilder()
-          .setCustomId('disable-:cancel')
-          .setLabel('❌ Cancel')
-          .setStyle(ButtonStyle.Danger)
-          .setDisabled(disabled)
+        rowComponents(
+          [
+            { customId: 'disable:confirm:' + feature, label: '✅ Confirm', style: ButtonStyle.Success, disabled },
+            { customId: 'disable:cancel', label: '❌ Cancel', style: ButtonStyle.Danger, disabled },
+          ],
+          ComponentType.Button
+        )
       );
     /** - ContainerBuilder
      * @param {string} content TextDisplay content

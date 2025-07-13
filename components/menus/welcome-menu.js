@@ -25,18 +25,18 @@ module.exports = {
       channel: () => {
         welcome.channel = channelId;
         welcomeSection.content = `- Welcome channel: <#${channelId}>`;
-        return;
+        return true;
       },
       log: () => {
         welcome.log = channelId;
         logSection.content = `- Log channel: <#${channelId}>`;
-        return;
+        return true;
       },
     };
-    setupWelcome[selected]();
+
+    if (!setupWelcome[selected]()) return;
 
     await profile.save().catch(console.error);
-
     await interaction.update({ components });
   },
 };

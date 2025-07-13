@@ -178,6 +178,6 @@ module.exports = {
 
     if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
 
-    return await showModal[button]();
+    await showModal[button]();
   },
 };

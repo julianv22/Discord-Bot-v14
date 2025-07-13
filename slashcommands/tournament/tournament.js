@@ -209,6 +209,8 @@ module.exports = {
     if (!tourActions[tourCommand]) {
       await interaction.reply(errorEmbed({ desc: `Invalid Subcommand \`${tourCommand}\`` }));
       throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
-    } else await tourActions[tourCommand]();
+    }
+
+    await tourActions[tourCommand]();
   },
 };

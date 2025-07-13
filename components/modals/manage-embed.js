@@ -61,16 +61,9 @@ module.exports = {
       },
     };
 
-    if (!editEmbed[input]) {
-      client.catchError(
-        interaction,
-        new Error(chalk.yellow("Invalid Modal's customId ") + chalk.green(input)),
-        'Lỗi Modal Embed'
-      );
-      return await interaction.reply(client.errorEmbed({ desc: 'Đã xảy ra lỗi khi xử lý yêu cầu của bạn.' }));
-    }
-    await editEmbed[input]();
+    if (!editEmbed[input]) throw new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(input));
 
+    await editEmbed[input]();
     await interaction.update({ embeds: [embed], components: [Button0, Button1] });
   },
 };

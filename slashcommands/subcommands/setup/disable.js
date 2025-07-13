@@ -28,7 +28,7 @@ module.exports = {
     const button = (customId, style) => {
       const emojis = [, '⭐', '💡', '🎉', '🎬'];
       return new ButtonBuilder()
-        .setCustomId('disable-:' + customId)
+        .setCustomId('disable:' + customId)
         .setLabel(`${emojis[style]} Disable ${customId.toCapitalize()}`)
         .setStyle(style === 2 ? 1 : style);
     };

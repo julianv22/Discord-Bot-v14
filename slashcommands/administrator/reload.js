@@ -20,23 +20,24 @@ module.exports = {
     const { loadCommands, loadComponents, loadEvents, loadFunctions, errorEmbed } = client;
     const subCommand = options.getSubcommand();
 
-    const CommandsType = {
+    const reload = {
       commands: async () => {
         await loadCommands();
         await loadComponents();
-        return;
+        return true;
       },
       events: async () => {
-        return await loadEvents(true);
+        await loadEvents(true);
+        return true;
       },
       functions: async () => {
-        return await loadFunctions(true);
+        await loadFunctions(true);
+        return true;
       },
     };
 
-    if (!CommandsType[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
-
-    await CommandsType[subCommand]();
+    if (!reload[subCommand]())
+      return await interaction.reply(errorEmbed({ desc: `Invalid subCommand ${subCommand}!` }));
 
     await interaction.reply(errorEmbed({ desc: `Reloading ${subCommand}... Please wait.`, emoji: true }));
 

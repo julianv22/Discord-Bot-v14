@@ -25,25 +25,25 @@ module.exports = {
     const onClick = {
       total: () => {
         statistics.totalChannel = channelId;
-        return;
+        return true;
       },
       members: () => {
         statistics.memberChannel = channelId;
-        return;
+        return true;
       },
       bots: () => {
         statistics.botChannel = channelId;
-        return;
+        return true;
       },
       presence: () => {
         statistics.presenceChannel = channelId;
-        return;
+        return true;
       },
     };
-    onClick[selected]();
+
+    if (!onClick[selected]()) return;
 
     await profile.save().catch(console.error);
-
     await serverStats(guildID);
 
     /** @param {string} channelId */

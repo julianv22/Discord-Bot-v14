@@ -15,7 +15,7 @@ module.exports = {
       values,
     } = interaction;
     const [, selected] = customId.split(':');
-    const selectValue = values[0];
+    const channelId = values[0];
     const notifySection = components[0].components[0].components[1].data;
     const alertSection = components[0].components[0].components[2].data;
 
@@ -24,20 +24,20 @@ module.exports = {
 
     const onClick = {
       notify: () => {
-        youtube.notifyChannel = selectValue;
-        notifySection.content = `- Notify channel: <#${selectValue}>`;
+        youtube.notifyChannel = channelId;
+        notifySection.content = `- Notify channel: <#${channelId}>`;
         return;
       },
       alert: () => {
-        youtube.alert = selectValue;
-        alertSection.content = `- Alert role: <@&${selectValue}>`;
+        youtube.alert = channelId;
+        alertSection.content = `- Alert role: <@&${channelId}>`;
         return;
       },
     };
-    onClick[selected]();
+
+    if (!onClick[selected]()) return;
 
     await profile.save().catch(console.error);
-
     await interaction.update({ components });
   },
 };
