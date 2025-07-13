@@ -7,6 +7,7 @@ const {
   ComponentType,
   MessageFlags,
   Colors,
+  ButtonStyle,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 const { textDisplay, menuComponents, sectionComponents } = require('../../../functions/common/components');
@@ -31,7 +32,7 @@ module.exports = {
 
     const { youtube } = profile;
     /** @param {string} channelId */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '❌ Not Set';
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkAqua)
@@ -40,22 +41,28 @@ module.exports = {
           [
             '### 📢 YouTube Information',
             `- Notification Channel: ${channelName(youtube.notifyChannel)}`,
-            `- Alert Role: ${roles.cache.get(youtube.alert) || '❌ Not Set'}`,
+            `- Alert Role: ${roles.cache.get(youtube.alert) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
           { url: guild.iconURL(true) }
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(
-        textDisplay(
-          'Select the notification channel:\n-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.'
+      .addSectionComponents(
+        sectionComponents(
+          'Select the notification channel:\n-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.',
+          ComponentType.Button,
+          { customId: 'youtube:notify', label: '❌ Remove Channel', style: ButtonStyle.Danger }
         )
       )
       .addActionRowComponents(menuComponents('youtube-menu:notify'))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(
-        textDisplay('Select the alert role:\n-# \\⚠️ This role will be mentioned in the notification.')
+      .addSectionComponents(
+        sectionComponents(
+          'Select the alert role:\n-# \\⚠️ This role will be mentioned in the notification.',
+          ComponentType.Button,
+          { customId: 'youtube:alert', label: '❌ Remove Alert', style: ButtonStyle.Danger }
+        )
       )
       .addActionRowComponents(menuComponents('youtube-menu:alert', ComponentType.RoleSelect));
 

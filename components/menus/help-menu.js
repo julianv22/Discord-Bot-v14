@@ -59,7 +59,7 @@ module.exports = {
             { name: '\u200b', value: 'Select Slash Command Category \\⤵️' }
           );
 
-        await interaction.update({ embeds: [embed] });
+        return await interaction.update({ embeds: [embed] });
       },
     };
 

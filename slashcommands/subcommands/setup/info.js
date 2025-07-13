@@ -30,13 +30,13 @@ module.exports = {
     const welcomeMessage = profile?.setup?.welcome?.message || '-# \\⚠️ /setup welcome';
     const logChannel = channelName(profile?.setup?.welcome?.log) || '-# \\⚠️ Not set';
     const starboardChannel = channelName(profile?.setup?.starboard?.channel) || '-# \\⚠️ /setup starboard';
-    const channelCount = profile?.youtube?.channels?.length;
-    const notifyChannel = channelName(profile?.youtube?.notifyChannel) || '\n-# \\⚠️ /youtube notify';
-    const alertRole = roles.get(profile?.youtube?.alert) || '\n-# \\⚠️ /youtube alerts';
+    const channelCount = profile?.youtube?.channels?.length || 0;
+    const notifyChannel = channelName(profile?.youtube?.notifyChannel) || '\n-# \\❌ Not set';
+    const alertRole = roles.get(profile?.youtube?.alert) || '\n-# \\❌ Not set';
     const suggestChannel = channelName(profile?.setup?.suggest) || '-# \\⚠️ /setup suggest';
     const tourName = roles.get(profile?.tournament?.id) || '-# \\⚠️ /tournament';
     const tourStatus = profile?.tournament?.status ? '\\✅ Open' : '\\❌ Closed';
-    const starCount = profile?.setup?.starboard?.star;
+    const starCount = profile?.setup?.starboard?.star || 0;
     const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
 
     const embed = new EmbedBuilder()
@@ -47,11 +47,11 @@ module.exports = {
       .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
       .addFields({ name: 'Log Channel', value: `${logChannel}`, inline: true })
       .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: false })
-      .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount || 0}\\⭐)`, inline: true })
+      .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount}\\⭐)`, inline: true })
       .addFields({ name: 'Suggest Channel', value: `${suggestChannel}`, inline: true })
       .addFields({
-        name: 'Youtube channels: ' + channelCount || 0,
-        value: `-# \\⚠️ /youtube list-channel\n- Notify channel: ${notifyChannel}\n- Alert role: ${alertRole}`,
+        name: 'Youtube subscribed channels: ' + channelCount,
+        value: `\n-# \\⚠️ /youtube channel\n- Notify channel: ${notifyChannel}\n- Alert role: ${alertRole}\n-# \\⚠️ /youtube notify`,
         inline: false,
       })
       .addFields({ name: 'Server Status Channel', value: `${serverStatus}\n-# \\⚠️ /server-stats`, inline: false })

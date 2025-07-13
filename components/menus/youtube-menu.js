@@ -19,25 +19,24 @@ module.exports = {
     const notifySection = components[0].components[0].components[1].data;
     const alertSection = components[0].components[0].components[2].data;
 
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    const { youtube } = profile;
-
     const onClick = {
-      notify: () => {
-        youtube.notifyChannel = channelId;
+      notify: async () => {
+        await serverProfile
+          .findOneAndUpdate({ guildID }, { $set: { 'youtube.notifyChannel': channelId } })
+          .catch(console.error);
         notifySection.content = `- Notify channel: <#${channelId}>`;
-        return;
+        return true;
       },
-      alert: () => {
-        youtube.alert = channelId;
+      alert: async () => {
+        await serverProfile
+          .findOneAndUpdate({ guildID }, { $set: { 'youtube.alert': channelId } })
+          .catch(console.error);
         alertSection.content = `- Alert role: <@&${channelId}>`;
-        return;
+        return true;
       },
     };
 
     if (!onClick[selected]()) return;
-
-    await profile.save().catch(console.error);
     await interaction.update({ components });
   },
 };

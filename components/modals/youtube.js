@@ -15,7 +15,7 @@ module.exports = {
       guild,
       message: { components },
     } = interaction;
-    const { errorContainer, errorEmbed } = client;
+    const { errorEmbed } = client;
     const { id: guildID, name: guildName } = guild;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);

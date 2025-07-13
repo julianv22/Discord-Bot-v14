@@ -10,6 +10,7 @@ const {
   MessageFlags,
   Colors,
 } = require('discord.js');
+const { rowComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -26,11 +27,11 @@ module.exports = {
      * @param {string} customId Button customId
      * @param {number} style Button style */
     const button = (customId, style) => {
-      const emojis = [, '⭐', '💡', '🎉', '🎬'];
+      const emojis = [, '⭐', '💡', '🎉'];
       return new ButtonBuilder()
         .setCustomId('disable:' + customId)
         .setLabel(`${emojis[style]} Disable ${customId.toCapitalize()}`)
-        .setStyle(style === 2 ? 1 : style);
+        .setStyle(style === 2 ? 4 : style);
     };
     /** - SectionBuilder
      * @param {string} text TextDisplay content
@@ -46,10 +47,6 @@ module.exports = {
       .addSectionComponents(section('\\⭐ Disable Starboard\n-# Vô hiệu hoá chức năng Starboard', 'starboard', 1))
       .addSeparatorComponents(new SeparatorBuilder())
       .addSectionComponents(section('\\💡 Disable Suggest Channel\n-# Vô hiệu hoá chức năng Suggestion', 'suggest', 2))
-      .addSeparatorComponents(new SeparatorBuilder())
-      .addSectionComponents(
-        section('\\🎬 Disable Youtube Notify\n-# Vô hiệu hoá chức năng thông báo video mới trên YouTube', 'youtube', 4)
-      )
       .addSeparatorComponents(new SeparatorBuilder())
       .addSectionComponents(
         section('\\🎉 Disable Welcome System\n-# Vô hiệu hoá chức năng chào mừng thành viên mới', 'welcome', 3)
