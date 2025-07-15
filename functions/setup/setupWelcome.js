@@ -5,7 +5,6 @@ const {
   SeparatorBuilder,
   ComponentType,
   ButtonStyle,
-  MessageFlags,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
@@ -16,10 +15,7 @@ module.exports = (client) => {
   /** - Setup welcome
    * @param {Interaction} interaction - Command Interaction. */
   client.setupWelcome = async (interaction) => {
-    const {
-      guild,
-      message: { components },
-    } = interaction;
+    const { guild } = interaction;
     const { id: guildID, name: guildName } = guild;
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);

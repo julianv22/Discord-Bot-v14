@@ -2,12 +2,11 @@ const {
   Client,
   Interaction,
   ContainerBuilder,
-  Colors,
-  ComponentType,
   SeparatorBuilder,
-  MessageFlags,
   ActionRowBuilder,
   StringSelectMenuBuilder,
+  ComponentType,
+  Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { sectionComponents, dashboardMenu, menuComponents, textDisplay } = require('../common/components');

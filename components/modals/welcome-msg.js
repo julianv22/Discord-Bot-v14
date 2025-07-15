@@ -1,4 +1,4 @@
-const { Client, Interaction, MessageFlags } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
       customId,
     } = interaction;
     const input = fields.getTextInputValue(customId);
-    const welcomeMessage = components[0].components[1].components[0].data;
+    const welcomeMessage = components[1].components[1].components[0].data;
 
     welcomeMessage.content = `- \\📝 Welcome message:\n${input.slice(0, 3000)}`;
 

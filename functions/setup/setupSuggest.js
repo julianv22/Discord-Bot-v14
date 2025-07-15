@@ -1,13 +1,4 @@
-const {
-  Client,
-  Interaction,
-  ContainerBuilder,
-  Colors,
-  MessageFlags,
-  ComponentType,
-  ButtonStyle,
-  SeparatorBuilder,
-} = require('discord.js');
+const { Client, Interaction, ContainerBuilder, SeparatorBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { textDisplay, menuComponents, dashboardMenu, sectionComponents } = require('../common/components');
 

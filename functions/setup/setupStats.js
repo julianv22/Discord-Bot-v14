@@ -3,7 +3,6 @@ const {
   Interaction,
   ContainerBuilder,
   SeparatorBuilder,
-  MessageFlags,
   ComponentType,
   ChannelType,
   Colors,
