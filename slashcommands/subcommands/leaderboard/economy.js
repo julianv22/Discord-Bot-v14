@@ -1,10 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandSubcommandBuilder,
-  EmbedBuilder,
-  Colors,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -13,7 +7,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('economy'),
   /** - Displays the economy leaderboard.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
@@ -34,17 +28,19 @@ module.exports = {
       })
       .join('\n\n');
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
-      .setTitle(`Top \\🔟 richest users in ${guildName}`)
-      .setDescription(leaderboard)
-      .setColor(Colors.DarkGold)
-      .setThumbnail(
-        'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg'
-      )
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
+        .setTitle(`Top \\🔟 richest users in ${guildName}`)
+        .setDescription(leaderboard)
+        .setColor(Colors.DarkGold)
+        .setThumbnail(
+          'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg'
+        )
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+    ];
 
-    return await interaction.reply({ embeds: [embed] });
+    return await interaction.reply({ embeds });
   },
 };

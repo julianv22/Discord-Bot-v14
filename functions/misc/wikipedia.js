@@ -4,7 +4,7 @@ const { Client, EmbedBuilder } = require('discord.js');
 module.exports = (client) => {
   /** - Search Vietnamese Wikipedia articles by keyword
    * @param {string} keyword Search keyword
-   * @param {ChatInputCommandInteraction|Message} object Interaction or Message */
+   * @param {Interaction|Message} object Interaction or Message */
   client.wikipedia = async (keyword, object) => {
     const { errorEmbed, catchError } = client;
     const author = object.user || object.author;
@@ -36,23 +36,25 @@ module.exports = (client) => {
       const page_url =
         body.content_urls?.desktop?.page || `https://vi.wikipedia.org/wiki/${encodeURIComponent(keyword)}`;
 
-      const embed = new EmbedBuilder()
-        .setAuthor({
-          name: bodyTitle,
-          iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
-          url: page_url,
-        })
-        .setTitle(title)
-        .setDescription(description)
-        .setColor('Random')
-        .setThumbnail(thumbnail)
-        .setTimestamp()
-        .setFooter({
-          text: `Requested by ${author.displayName || author.username}`,
-          iconURL: author.displayAvatarURL(true),
-        });
+      const embeds = [
+        new EmbedBuilder()
+          .setAuthor({
+            name: bodyTitle,
+            iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
+            url: page_url,
+          })
+          .setTitle(title)
+          .setDescription(description)
+          .setColor('Random')
+          .setThumbnail(thumbnail)
+          .setTimestamp()
+          .setFooter({
+            text: `Requested by ${author.displayName || author.username}`,
+            iconURL: author.displayAvatarURL(true),
+          }),
+      ];
 
-      return await object.reply({ embeds: [embed] });
+      return await object.reply({ embeds });
     } catch (e) {
       return catchError(object, e, `Error while executing ${chalk.green('wikipedia')} function`);
     }

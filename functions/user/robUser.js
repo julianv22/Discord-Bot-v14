@@ -1,11 +1,11 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
   /** - Tranfers
    * @param {GuildMember} target - Target user
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
+   * @param {Interaction} interaction - Command Interaction. */
   client.robUser = async (target, interaction) => {
     const { user, guild } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
@@ -83,30 +83,32 @@ module.exports = (client) => {
       await profile.save().catch(console.error);
       await targetProfile.save().catch(console.error);
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
-        .setColor(isSuccess ? Colors.DarkGreen : Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
-        .setFooter({
-          text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
-          iconURL: bot.displayAvatarURL(),
-        })
-        .addFields(
-          {
-            name: `Số dư của ${user.displayName || user.username}`,
-            value: profile.balance.toCurrency(),
-            inline: true,
-          },
-          {
-            name: `Số dư của ${target.displayName || target.username}`,
-            value: targetProfile.balance.toCurrency(),
-            inline: true,
-          }
-        );
+      const embeds = [
+        new EmbedBuilder()
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
+          .setColor(isSuccess ? Colors.DarkGreen : Colors.DarkGold)
+          .setThumbnail(cfg.economyPNG)
+          .setTimestamp()
+          .setFooter({
+            text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
+            iconURL: bot.displayAvatarURL(),
+          })
+          .addFields(
+            {
+              name: `Số dư của ${user.displayName || user.username}`,
+              value: profile.balance.toCurrency(),
+              inline: true,
+            },
+            {
+              name: `Số dư của ${target.displayName || target.username}`,
+              value: targetProfile.balance.toCurrency(),
+              inline: true,
+            }
+          ),
+      ];
 
-      return await interaction.reply({ embeds: [embed] });
+      return await interaction.reply({ embeds });
     } catch (e) {
       return await catchError(interaction, e, `Error while executing ${chalk.green('robUser')} function`);
     }

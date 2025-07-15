@@ -1,10 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandSubcommandBuilder,
-  EmbedBuilder,
-  Colors,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
 
 module.exports = {
@@ -13,7 +7,7 @@ module.exports = {
   parent: 'bank',
   data: new SlashCommandSubcommandBuilder().setName('deposit'),
   /** - Deposit money into your bank account.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
@@ -44,27 +38,29 @@ module.exports = {
     profile.bank += amount;
     await profile.save().catch(console.error);
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-      .setTitle('\\🏦 Deposit')
-      .setDescription(`\\✅ Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
-      .setColor(Colors.DarkGreen)
-      .setThumbnail(cfg.economyPNG)
-      .setTimestamp()
-      .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
-      .addFields(
-        {
-          name: '\\💰 Balance',
-          value: profile.balance.toCurrency(),
-          inline: true,
-        },
-        {
-          name: '\\🏦 Bank',
-          value: profile.bank.toCurrency(),
-          inline: true,
-        }
-      );
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setTitle('\\🏦 Deposit')
+        .setDescription(`\\✅ Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
+        .addFields(
+          {
+            name: '\\💰 Balance',
+            value: profile.balance.toCurrency(),
+            inline: true,
+          },
+          {
+            name: '\\🏦 Bank',
+            value: profile.bank.toCurrency(),
+            inline: true,
+          }
+        ),
+    ];
 
-    return await interaction.reply({ embeds: [embed], flags: 64 });
+    return await interaction.reply({ embeds, flags: 64 });
   },
 };

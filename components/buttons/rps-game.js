@@ -1,4 +1,4 @@
-const { Client, ButtonInteraction, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
 
@@ -6,7 +6,7 @@ module.exports = {
   type: 'buttons',
   data: { name: 'rps-game' },
   /** - RPS Game
-   * @param {ButtonInteraction} interaction - Button Interaction
+   * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
@@ -71,30 +71,32 @@ module.exports = {
     await profile.save().catch(console.error);
 
     // Trả về kết quả
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-      .setTitle('You ' + rps.result)
-      .setDescription(
-        `${rps.description}\n\n${resultMessage}\nSố lần chơi hôm nay: **${
-          profile.rpsCount
-        }/50**\nSố dư: **${profile.balance.toCurrency()}**`
-      )
-      .setColor(rps.Color)
-      .setThumbnail(user.displayAvatarURL(true))
-      .setTimestamp()
-      .addFields(
-        {
-          name: '\\💰 Tổng tiền đã nhận',
-          value: (profile.totalEarned || 0).toCurrency(),
-          inline: true,
-        },
-        {
-          name: '\\💸 Tổng tiền đã chi',
-          value: (profile.totalSpent || 0).toCurrency(),
-          inline: true,
-        }
-      );
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTitle('You ' + rps.result)
+        .setDescription(
+          `${rps.description}\n\n${resultMessage}\nSố lần chơi hôm nay: **${
+            profile.rpsCount
+          }/50**\nSố dư: **${profile.balance.toCurrency()}**`
+        )
+        .setColor(rps.Color)
+        .setThumbnail(user.displayAvatarURL(true))
+        .setTimestamp()
+        .addFields(
+          {
+            name: '\\💰 Tổng tiền đã nhận',
+            value: (profile.totalEarned || 0).toCurrency(),
+            inline: true,
+          },
+          {
+            name: '\\💸 Tổng tiền đã chi',
+            value: (profile.totalSpent || 0).toCurrency(),
+            inline: true,
+          }
+        ),
+    ];
 
-    return await interaction.update({ embeds: [embed] });
+    return await interaction.update({ embeds });
   },
 };

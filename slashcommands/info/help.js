@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -13,7 +13,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder().setName('help').setDescription('Command help'),
   /** - Command help
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { prefixCommands, slashCommands, subCommands } = client;

@@ -1,10 +1,10 @@
-const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'modals',
   data: { name: 'suggest' },
   /** - Suggest Modal
-   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user } = interaction;
@@ -29,17 +29,19 @@ module.exports = {
 
     const truncateString = (str, maxLength) => (str.length > maxLength ? `${str.slice(0, maxLength - 3)}...` : str);
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
-      .setTitle('Nội dung đề xuất:')
-      .setDescription(truncateString(description, 4096))
-      .setColor(Colors.DarkGold)
-      .setThumbnail(cfg.suggestPNG)
-      .setTimestamp()
-      .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
-      .addFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
+        .setTitle('Nội dung đề xuất:')
+        .setDescription(truncateString(description, 4096))
+        .setColor(Colors.DarkGold)
+        .setThumbnail(cfg.suggestPNG)
+        .setTimestamp()
+        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
+        .addFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' }),
+    ];
 
-    const msg = await sgtChannel.send({ embeds: [embed] });
+    const msg = await sgtChannel.send({ embeds });
 
     await interaction.reply(
       errorEmbed({ desc: `Đề xuất của bạn đã được gửi thành công! [[Jump link](${msg.url})]`, emoji: true })

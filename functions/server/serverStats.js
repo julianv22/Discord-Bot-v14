@@ -15,7 +15,7 @@ module.exports = (client) => {
       const profile = await serverProfile.findOne({ guildID }).catch(console.error);
       if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
 
-      const { statistics } = profile;
+      const { statistics } = profile || {};
       /** - Get the number of members with the given status
        * @param {string} stats - Member status */
       const getPressence = (stats) => {

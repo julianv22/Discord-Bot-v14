@@ -1,10 +1,10 @@
-const { Client, ButtonInteraction } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 
 module.exports = {
   type: 'buttons',
   data: { name: 'support' },
   /** - Support Button
-   * @param {ButtonInteraction} interaction - Button Interaction
+   * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const [, button] = interaction.customId.split(':');
@@ -18,7 +18,7 @@ module.exports = {
       },
     };
 
-    if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+    if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(button));
 
     await interaction.reply({ content: showContent[button](), flags: 64 });
   },

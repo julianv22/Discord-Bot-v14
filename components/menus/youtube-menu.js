@@ -1,11 +1,11 @@
-const { Client, ChannelSelectMenuInteraction } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'menus',
   data: { name: 'youtube-menu' },
   /** - Setup YouTube notification channel and alert role
-   * @param {ChannelSelectMenuInteraction} interaction Channel Select Menu Interaction
+   * @param {Interaction} interaction Channel Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
@@ -36,7 +36,8 @@ module.exports = {
       },
     };
 
-    if (!onClick[selected]()) return;
+    if (!onClick[selected]) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
+    await onClick[selected]();
     await interaction.update({ components });
   },
 };

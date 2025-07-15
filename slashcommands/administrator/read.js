@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { readFiles } = require('../../functions/common/initLoader');
 const profiles = readFiles('config', { filter: (file) => file.endsWith('Profile.js') });
 
@@ -41,7 +41,7 @@ module.exports = {
         .addStringOption((opt) => opt.setName('path').setDescription('The path to read the structure from.'))
     ),
   /** - Reads file content, MongoDB data, or project structure
-   * @param {ChatInputCommandInteraction} interaction Interaction
+   * @param {Interaction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {},
 };

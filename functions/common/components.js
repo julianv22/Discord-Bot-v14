@@ -1,17 +1,21 @@
 const {
+  ContainerBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   TextInputBuilder,
   ThumbnailBuilder,
   SectionBuilder,
   TextDisplayBuilder,
+  StringSelectMenuBuilder,
   ChannelSelectMenuBuilder,
   RoleSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
+  SeparatorBuilder,
   TextInputStyle,
   ComponentType,
   ButtonStyle,
   ChannelType,
+  Colors,
 } = require('discord.js');
 
 module.exports = {
@@ -37,13 +41,13 @@ module.exports = {
       [ComponentType.Button]: () => {
         return options.map((opt) => {
           const button = new ButtonBuilder()
-            .setLabel(opt.label)
-            .setStyle(opt.style)
-            .setDisabled(opt.disabled ?? false);
+            .setLabel(opt?.label)
+            .setStyle(opt?.style)
+            .setDisabled(opt?.disabled ?? false);
 
-          if (opt.emoji) button.setEmoji(opt.emoji);
-          if (opt.customId) button.setCustomId(opt.customId);
-          if (opt.url) button.setURL(opt.url);
+          if (opt?.emoji) button.setEmoji(opt?.emoji);
+          if (opt?.customId) button.setCustomId(opt?.customId);
+          if (opt?.url) button.setURL(opt?.url);
 
           return button;
         });
@@ -51,11 +55,11 @@ module.exports = {
       // Return StringSelectMenuBuilder options
       [ComponentType.StringSelect]: () => {
         return options.map((opt) => {
-          const option = new StringSelectMenuOptionBuilder().setLabel(opt.label).setValue(opt.value);
+          const option = new StringSelectMenuOptionBuilder().setLabel(opt?.label).setValue(opt?.value);
 
-          if (opt.description) option.setDescription(opt.description);
-          if (opt.emoji) option.setEmoji(opt.emoji);
-          if (opt.default) option.setDefault(opt.default);
+          if (opt?.description) option.setDescription(opt?.description);
+          if (opt?.emoji) option.setEmoji(opt?.emoji);
+          if (opt?.default) option.setDefault(opt?.default);
 
           return option;
         });
@@ -64,22 +68,22 @@ module.exports = {
       [ComponentType.TextInput]: () => {
         return options.map((opt) => {
           const textinput = new TextInputBuilder()
-            .setCustomId(opt.customId)
-            .setLabel(opt.label)
-            .setStyle(opt.style || TextInputStyle.Short)
-            .setRequired(opt.required ?? false);
+            .setCustomId(opt?.customId)
+            .setLabel(opt?.label)
+            .setStyle(opt?.style || TextInputStyle.Short)
+            .setRequired(opt?.required ?? false);
 
-          if (opt.value) textinput.setValue(opt.value);
-          if (opt.placeholder) textinput.setPlaceholder(opt.placeholder);
-          if (opt.minLength) textinput.setMinLength(opt.minLength);
-          if (opt.maxLength) textinput.setMaxLength(opt.maxLength);
+          if (opt?.value) textinput.setValue(opt?.value);
+          if (opt?.placeholder) textinput.setPlaceholder(opt?.placeholder);
+          if (opt?.minLength) textinput.setMinLength(opt?.minLength);
+          if (opt?.maxLength) textinput.setMaxLength(opt?.maxLength);
 
           return textinput;
         });
       },
     };
 
-    if (!rowComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType ') + chalk.green(type));
+    if (!rowComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
 
     return rowComponents[type]();
   },
@@ -106,13 +110,60 @@ module.exports = {
 
     return new ActionRowBuilder().addComponents(module.exports.rowComponents(buttons, ComponentType.Button));
   },
+  /** - Creates a dashboard menu for setting up various features. */
+  dashboardMenu: () => {
+    const menus = [
+      {
+        emoji: '👋',
+        label: 'Setup Welcome',
+        value: 'welcome',
+        description: 'Configures the welcome message and channel.',
+      },
+      {
+        emoji: '📊',
+        label: 'Setup Statistics',
+        value: 'statistics',
+        description: 'Configures the server statistics display.',
+      },
+      {
+        emoji: '⭐',
+        label: 'Setup Starboard',
+        value: 'starboard',
+        description: 'Configures the starboard feature for starred messages.',
+      },
+      {
+        emoji: '💡',
+        label: 'Setup Suggest',
+        value: 'suggest',
+        description: 'Configures the suggestion submission and management system.',
+      },
+      {
+        emoji: '🚫',
+        label: 'Setup Disable',
+        value: 'disable',
+        description: 'Disables specific bot features for the server.',
+      },
+    ];
+
+    return new ContainerBuilder()
+      .setAccentColor(Colors.DarkAqua)
+      .addTextDisplayComponents(module.exports.textDisplay('### \\⚒️ Setup Dashboard'))
+      .addSeparatorComponents(new SeparatorBuilder())
+      .addActionRowComponents(
+        new ActionRowBuilder().setComponents(
+          new StringSelectMenuBuilder()
+            .setCustomId('dashboard-menu')
+            .setPlaceholder('Select feature for setting')
+            .setOptions(module.exports.rowComponents(menus, ComponentType.StringSelect))
+        )
+      );
+  },
   /** - Creates a SectionBuilder component, typically for a StringSelectMenu.
    * @param {string|string[]} textContents - An array of strings for the TextDisplay components within the section (max 3).
    * @param {ComponentType.Thumbnail | ComponentType.Button} accessoryType - The type of accessory for the section.
    * @param {string|object} [options] */
   sectionComponents: (textContents, accessoryType, options) => {
     const contents = Array.isArray(textContents) ? textContents : [textContents];
-    const { customId, label, style, url } = options;
 
     if (contents.length > 3) return null;
 
@@ -120,10 +171,12 @@ module.exports = {
 
     switch (accessoryType) {
       case ComponentType.Thumbnail:
-        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(url || cfg.infoPNG));
+        sectionComponents.setThumbnailAccessory(new ThumbnailBuilder().setURL(options?.url || cfg.infoPNG));
         break;
       case ComponentType.Button:
-        sectionComponents.setButtonAccessory(new ButtonBuilder().setCustomId(customId).setLabel(label).setStyle(style));
+        sectionComponents.setButtonAccessory(
+          new ButtonBuilder().setCustomId(options?.customId).setLabel(options?.label).setStyle(options?.style)
+        );
         break;
       default:
         return null;
@@ -137,18 +190,28 @@ module.exports = {
   },
   /** - Creates an ActionRowBuilder containing a select menu.
    * @param {string} customId - The custom ID for the select menu.
+   * @param {string} [placeholder] - The placeholder for the select menu.
    * @param {ChannelType | ChannelType[] | ComponentType.RoleSelect} [type=ChannelType.GuildText] - The type of menu. Can be a single ChannelType, an array of ChannelTypes, or ComponentType.RoleSelect. */
-  menuComponents: (customId, type = ChannelType.GuildText) => {
+  menuComponents: (customId, placeholder, type = ChannelType.GuildText) => {
     const actionRow = new ActionRowBuilder();
+
+    if (!placeholder) placeholder = 'Make a section';
 
     switch (type) {
       case ComponentType.RoleSelect:
-        actionRow.setComponents(new RoleSelectMenuBuilder().setCustomId(customId).setMinValues(1).setMaxValues(1));
+        actionRow.setComponents(
+          new RoleSelectMenuBuilder().setCustomId(customId).setPlaceholder(placeholder).setMinValues(1).setMaxValues(1)
+        );
         break;
 
       default: // Handles single ChannelType, array of ChannelTypes, etc.
         actionRow.setComponents(
-          new ChannelSelectMenuBuilder().setCustomId(customId).setChannelTypes(type).setMinValues(1).setMaxValues(1)
+          new ChannelSelectMenuBuilder()
+            .setCustomId(customId)
+            .setChannelTypes(type)
+            .setPlaceholder(placeholder)
+            .setMinValues(1)
+            .setMaxValues(1)
         );
         break;
     }

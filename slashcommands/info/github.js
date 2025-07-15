@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -8,7 +8,7 @@ module.exports = {
     .setDescription("Get GitHub user's information")
     .addStringOption((opt) => opt.setName('username').setDescription('GitHub Username').setRequired(true)),
   /** - Show GitHub's information
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     await client.githubInfo(interaction.options.getString('username'), interaction);

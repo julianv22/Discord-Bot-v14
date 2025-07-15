@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -8,7 +8,7 @@ module.exports = {
     .setDescription(`Get server's information and set up server statistics (${cfg.adminRole} only)`)
     .addSubcommand((sub) => sub.setName('info').setDescription('Server info')),
   /** - Show bot or server information
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     await client.serverInfo(interaction);

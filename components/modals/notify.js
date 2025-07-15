@@ -1,10 +1,10 @@
-const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   type: 'modals',
   data: { name: 'notify' },
   /** - Notify Modal
-   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, fields } = interaction;
@@ -23,16 +23,18 @@ module.exports = {
         client.errorEmbed({ desc: 'Loại thông báo không hợp lệ. Vui lòng chọn 1 hoặc 2.' })
       );
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(truncateString(title, 256))
-      .setDescription(truncateString(description, 4096))
-      .setColor(Colors.DarkVividPink)
-      .setThumbnail(selectedThumbnail)
-      .setImage(imageURL.checkURL() ? imageURL : null)
-      .setTimestamp()
-      .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle(truncateString(title, 256))
+        .setDescription(truncateString(description, 4096))
+        .setColor(Colors.DarkVividPink)
+        .setThumbnail(selectedThumbnail)
+        .setImage(imageURL.checkURL() ? imageURL : null)
+        .setTimestamp()
+        .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) }),
+    ];
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds });
   },
 };

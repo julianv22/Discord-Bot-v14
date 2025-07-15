@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
 const { promises } = require('fs');
 const path = require('path');
 
@@ -9,7 +9,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('structure'),
   /** - Displays the project's folder structure.
-   * @param {ChatInputCommandInteraction} interaction Interaction
+   * @param {Interaction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {
     const { options, user } = interaction;
@@ -70,14 +70,16 @@ module.exports = {
 
     const structure = await directoryStructure(strPaht ? strPaht : root);
 
-    const embed = new EmbedBuilder()
-      .setColor(0xfed678)
-      .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
-      .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) });
+    const embeds = [
+      new EmbedBuilder()
+        .setColor(0xfed678)
+        .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
+        .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+    ];
 
-    await interaction.editReply({ embeds: [embed], flags: 64 });
+    await interaction.editReply({ embeds, flags: 64 });
 
     if (structure.length > 4000)
       for (let i = 4000; i < structure.length; i += 4000) {

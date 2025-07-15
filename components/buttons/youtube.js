@@ -1,4 +1,4 @@
-const { Client, ButtonInteraction, ModalBuilder, ActionRowBuilder, ComponentType } = require('discord.js');
+const { Client, Interaction, ModalBuilder, ActionRowBuilder, ComponentType } = require('discord.js');
 const { rowComponents } = require('../../functions/common/components');
 const serverProfile = require('../../config/serverProfile');
 
@@ -6,7 +6,7 @@ module.exports = {
   type: 'buttons',
   data: { name: 'youtube' },
   /** - YouTube Subscribe Channels
-   * @param {ButtonInteraction} interaction - Button Interaction
+   * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const {

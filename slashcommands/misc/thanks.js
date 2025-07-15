@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -8,7 +8,7 @@ module.exports = {
     .setDescription('Thank someone')
     .addUserOption((opt) => opt.setName('user').setDescription('The user you want to thank').setRequired(true)),
   /** - Thanks someone
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     await client.thanksUser(interaction.options.getUser('user'), interaction);

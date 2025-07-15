@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandSubcommandBuilder,
   SeparatorBuilder,
   ContainerBuilder,
@@ -18,7 +18,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('notify'),
   /** - Sets up the channel for YouTube video notifications.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client  */
   async execute(interaction, client) {
     const { guild } = interaction;
@@ -30,7 +30,7 @@ module.exports = {
         .create({ guildID, guildName, prefix, youtube: { notifyChannel: '', alert: '' } })
         .catch(console.error);
 
-    const { youtube } = profile;
+    const { youtube } = profile || {};
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
@@ -39,12 +39,12 @@ module.exports = {
       .addSectionComponents(
         sectionComponents(
           [
-            '### 📢 YouTube Information',
+            '### 📢 YouTube Notification Settings',
             `- \\💬 Notification Channel: ${channelName(youtube.notifyChannel)}`,
             `- \\🔔 Alert Role: ${roles.cache.get(youtube.alert) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
-          { url: guild.iconURL(true) }
+          { url: cfg.infoPNG }
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
@@ -64,7 +64,7 @@ module.exports = {
           { customId: 'youtube:alert', label: '🔔 Remove Alert', style: ButtonStyle.Danger }
         )
       )
-      .addActionRowComponents(menuComponents('youtube-menu:alert', ComponentType.RoleSelect));
+      .addActionRowComponents(menuComponents('youtube-menu:alert', null, ComponentType.RoleSelect));
 
     await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
   },

@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
@@ -25,7 +25,7 @@ module.exports = {
         .setMaxValue(1000000)
     ),
   /** - Play a Rock-Paper-Scissors game.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
@@ -52,22 +52,22 @@ module.exports = {
       },
     ];
 
-    const embed = new EmbedBuilder()
-      .setTitle('Rock - Paper - Scissors Game')
-      .setDescription(
-        `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
-          bet
-        )} bạn đặt cược. Tối đa 10 lần/ngày.`
-      )
-      .setColor('Random')
-      .setImage(
-        'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png'
-      );
+    const components = [new ActionRowBuilder().addComponents(rowComponents(buttons, ComponentType.Button))];
 
-    await interaction.reply({
-      embeds: [embed],
-      components: [new ActionRowBuilder().addComponents(rowComponents(buttons, ComponentType.Button))],
-      flags: 64,
-    });
+    const embeds = [
+      new EmbedBuilder()
+        .setTitle('Rock - Paper - Scissors Game')
+        .setDescription(
+          `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
+            bet
+          )} bạn đặt cược. Tối đa 10 lần/ngày.`
+        )
+        .setColor('Random')
+        .setImage(
+          'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png'
+        ),
+    ];
+
+    await interaction.reply({ embeds, components, flags: 64 });
   },
 };

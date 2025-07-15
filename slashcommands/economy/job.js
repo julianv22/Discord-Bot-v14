@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
 
@@ -7,7 +7,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder().setName('job').setDescription('Get a random job and earn 💲.'),
   /** - Get a random job and earn 💲!
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, guildId } = interaction;
@@ -51,46 +51,45 @@ module.exports = {
     // Hiển thị thời gian làm việc
     const workTimeStr =
       workMinutes >= 60
-        ? `**${Math.floor(workMinutes / 60)} giờ${workMinutes % 60 ? ` : ${workMinutes % 60} phút` : ''}**`
+        ? `**${Math.floor(workMinutes / 60)} giờ${workMinutes % 60 ? `, ${workMinutes % 60} phút` : ''}**`
         : `**${workMinutes} phút**`;
 
-    setTimeout(
-      async () => {
-        let reward = workMinutes;
-        let lucky = Math.random() < 0.25;
-        if (lucky) reward *= 2;
-        await user
-          .send(
-            `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
-              guild.name
-            }**\n\n💰 Bạn đã nhận được **${reward.toCurrency()}**${
-              lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
-            }`
-          )
-          .catch(console.error);
+    setTimeout(async () => {
+      let reward = workMinutes;
+      let lucky = Math.random() < 0.25;
+      if (lucky) reward *= 2;
+      await user
+        .send(
+          `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
+            guild.name
+          }**\n\n💰 Bạn đã nhận được **${reward.toCurrency()}**${
+            lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
+          }`
+        )
+        .catch(console.error);
 
-        let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
-        if (p) {
-          p.balance += reward;
-          p.totalEarned += reward;
-          p.lastRob = null;
-          await p.save().catch(console.error);
-        }
-      },
-      workMinutes * 60 * 1000
-    );
+      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
+      if (p) {
+        p.balance += reward;
+        p.totalEarned += reward;
+        p.lastRob = null;
+        await p.save().catch(console.error);
+      }
+    }, workMinutes * 60 * 1000);
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle('Bạn đã nhận một công việc mới!')
-      .setDescription(
-        `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toCurrency()}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
-      )
-      .setColor(Colors.DarkGreen)
-      .setThumbnail(cfg.economyPNG)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setTitle('Bạn đã nhận một công việc mới!')
+        .setDescription(
+          `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toCurrency()}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
+        )
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() }),
+    ];
 
-    return await interaction.reply({ embeds: [embed], flags: 64 });
+    return await interaction.reply({ embeds });
   },
 };

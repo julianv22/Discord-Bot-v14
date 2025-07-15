@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'economy',
@@ -28,7 +28,7 @@ module.exports = {
         )
     ),
   /** - Deposit/withdraw money from balance to bank
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {},
 };

@@ -1,10 +1,10 @@
-const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
   type: 'modals',
   data: { name: 'reaction-role' },
   /** - Reaction Modal
-   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message } = interaction;
@@ -32,6 +32,6 @@ module.exports = {
     }
 
     editEmbed[textInput]();
-    interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
+    await interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
   },
 };

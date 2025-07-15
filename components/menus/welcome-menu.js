@@ -1,11 +1,11 @@
-const { Client, ChannelSelectMenuInteraction } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'menus',
   data: { name: 'welcome-menu' },
   /** - Welcome channel select menu
-   * @param {ChannelSelectMenuInteraction} interaction Channel Select Menu Interaction
+   * @param {Interaction} interaction Channel Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
@@ -16,8 +16,8 @@ module.exports = {
     } = interaction;
     const [, selected] = customId.split(':');
     const channelId = values[0];
-    const welcomeSection = components[0].components[0].components[1].data;
-    const logSection = components[0].components[0].components[2].data;
+    const welcomeSection = components[1].components[0].components[1].data;
+    const logSection = components[1].components[0].components[2].data;
 
     const setupWelcome = {
       channel: async () => {
@@ -36,7 +36,8 @@ module.exports = {
       },
     };
 
-    if (!setupWelcome[selected]()) return;
+    if (!setupWelcome[selected]) throw new Error(chalk.yellow('Invalid channel', chalk.green(selected)));
+    await setupWelcome[selected]();
     await interaction.update({ components });
   },
 };

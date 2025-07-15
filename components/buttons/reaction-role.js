@@ -1,6 +1,6 @@
 const {
   Client,
-  ButtonInteraction,
+  Interaction,
   ModalBuilder,
   ActionRowBuilder,
   EmbedBuilder,
@@ -16,7 +16,7 @@ module.exports = {
   type: 'buttons',
   data: { name: 'reaction-role' },
   /** - Reaction Button
-   * @param {ButtonInteraction} interaction - Button Interaction
+   * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, guild, channel, message, user } = interaction;
@@ -56,13 +56,13 @@ module.exports = {
                 name: 'Vui lòng nhập **emoji và tên role** theo định dạng `emoji | @tên_role`',
                 value: 'ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`',
               },
-              { name: 'Bạn có 5 phút để nhập', value: 'Để kết thúc nhập `Done`' }
+              { name: 'Bạn có 15 phút để nhập', value: 'Để kết thúc nhập `Done`' }
             ),
           ],
         });
 
         const filter = (m) => m.author.id === user.id && m.channel.id === channel.id;
-        const collector = channel.createMessageCollector({ filter, time: 5 * 60 * 1000 });
+        const collector = channel.createMessageCollector({ filter, time: 15 * 60 * 1000 });
 
         collector.on('collect', async (m) => {
           const input = m.content.trim();
@@ -117,9 +117,9 @@ module.exports = {
 
           emojiArray.push({ emoji: emojiReact, roleId: role.id });
 
-          reactionEmbed.setDescription(desc);
+          reactionEmbed.setDescription(desc).setFields([]);
 
-          await interaction.editReply({ content: '', embeds: [reactionEmbed] });
+          await interaction.editReply({ embeds: [reactionEmbed] });
         });
 
         collector.on('end', async (collected, reason) => {
@@ -158,9 +158,7 @@ module.exports = {
       },
     };
 
-    if (!reactionButton[buttonId]) {
-      throw new Error(chalk.yellow('Invalid buttonId ') + chalk.green(buttonId));
-    }
+    if (!reactionButton[buttonId]) throw new Error(chalk.yellow('Invalid buttonId'), chalk.green(buttonId));
 
     await reactionButton[buttonId]();
   },

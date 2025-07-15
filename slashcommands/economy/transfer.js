@@ -1,14 +1,15 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
-  ButtonBuilder,
   ButtonStyle,
   Colors,
+  ComponentType,
 } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { rowComponents } = require('../../functions/common/components');
 
 module.exports = {
   category: 'economy',
@@ -23,7 +24,7 @@ module.exports = {
       opt.setName('amount').setMinValue(500).setDescription('The amount of 💲 to transfer.').setRequired(true)
     ),
   /** - Transfer 💲 to other users
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, options } = interaction;
@@ -69,30 +70,23 @@ module.exports = {
       },
     ];
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: `${guildName} Economy Transfer`, iconURL: guild.iconURL(true) })
-      .setTitle(`Hiện có ${profile.bank.toCurrency()} trong tài khoản \\🏦 của bạn`)
-      .setDescription(
-        `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${amount.toCurrency()} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${total.toCurrency()}.\n\n❗ Bạn có muốn tiếp tục?`
-      )
-      .setColor(Colors.DarkGold)
-      .setThumbnail(cfg.economyPNG)
-      .setTimestamp()
-      .setFooter({
-        text: `Requested by ${user.displayName || user.username}`,
-        iconURL: user.displayAvatarURL(true),
-      });
+    const components = [new ActionRowBuilder().setComponents(rowComponents(buttons, ComponentType.Button))];
 
-    return await interaction.reply({
-      embeds: [embed],
-      components: [
-        new ActionRowBuilder().addComponents(
-          buttons.map((data) =>
-            new ButtonBuilder().setCustomId(data.customId).setLabel(data.label).setStyle(data.style)
-          )
-        ),
-      ],
-      flags: 64,
-    });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: `${guildName} Economy Transfer`, iconURL: guild.iconURL(true) })
+        .setTitle(`Hiện có ${profile.bank.toCurrency()} trong tài khoản \\🏦 của bạn`)
+        .setDescription(
+          `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${amount.toCurrency()} từ tài khoản của bạn sang tài khoản của ${targetUser}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${total.toCurrency()}.\n\n❗ Bạn có muốn tiếp tục?`
+        )
+        .setColor(Colors.DarkGold)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({
+          text: `Requested by ${user.displayName || user.username}`,
+          iconURL: user.displayAvatarURL(true),
+        }),
+    ];
+    return await interaction.reply({ embeds, components, flags: 64 });
   },
 };

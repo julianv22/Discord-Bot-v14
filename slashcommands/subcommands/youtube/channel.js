@@ -1,17 +1,15 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandSubcommandBuilder,
-  ContainerBuilder,
-  SeparatorBuilder,
+  EmbedBuilder,
   ActionRowBuilder,
-  MessageFlags,
-  ComponentType,
   ButtonStyle,
+  ComponentType,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { sectionComponents, rowComponents } = require('../../../functions/common/components');
+const { rowComponents } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
@@ -19,10 +17,10 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('channel'),
   /** - Manages YouTube channels for notifications.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, guildId: guildID } = interaction;
+    const { guild, guildId: guildID, user } = interaction;
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -46,7 +44,7 @@ module.exports = {
         .create({ guildID, guildName, prefix, youtube: { channels: [], lastVideos: [] } })
         .catch(console.error);
 
-    const { youtube } = profile;
+    const { youtube } = profile || {};
     const channelList = await Promise.all(
       youtube.channels.map(async (id, idx) => {
         const title = await getChannelTitle(id, process.env.YT_API_KEY);
@@ -54,34 +52,28 @@ module.exports = {
       })
     );
 
-    const container = new ContainerBuilder()
-      .setAccentColor(Colors.DarkAqua)
-      .addSectionComponents(
-        sectionComponents(
-          [
-            '### 📢 Subscribed YouTube Channels',
-            channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.',
-          ],
-          ComponentType.Thumbnail,
-          { url: guild.iconURL(true) }
-        )
-      )
-      .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(
-        new ActionRowBuilder().setComponents(
-          rowComponents(
-            [
-              { customId: 'youtube:add', label: 'Add Channel', emoji: '➕', style: ButtonStyle.Success },
-              { customId: 'youtube:remove', label: 'Remove Channel', emoji: '➖', style: ButtonStyle.Danger },
-            ],
-            ComponentType.Button
-          )
-        )
-      );
+    const embeds = [
+      new EmbedBuilder()
+        .setColor(Colors.DarkAqua)
+        .setAuthor({ name: '📢 YouTube Channels Subscribed List' })
+        .setDescription(channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subscribed.')
+        .setThumbnail(cfg.youtubePNG)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+    ];
 
-    await interaction.reply({
-      flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-      components: [container],
-    });
+    const components = [
+      new ActionRowBuilder().setComponents(
+        rowComponents(
+          [
+            { customId: 'youtube:add', label: 'Add Channel', emoji: '➕', style: ButtonStyle.Success },
+            { customId: 'youtube:remove', label: 'Remove Channel', emoji: '➖', style: ButtonStyle.Danger },
+          ],
+          ComponentType.Button
+        )
+      ),
+    ];
+
+    await interaction.reply({ embeds, components, flags: 64 });
   },
 };

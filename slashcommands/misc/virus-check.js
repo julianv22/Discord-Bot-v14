@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
@@ -19,7 +19,7 @@ module.exports = {
       option.setName('url').setDescription('The URL to check (e.g., https://example.com)').setRequired(true)
     ),
   /** - Kiểm tra một URL có độc hại không bằng VirusTotal
-   * @param {ChatInputCommandInteraction} interaction - Đối tượng tương tác (SlashChatInputCommandInteraction)
+   * @param {Interaction} interaction - Đối tượng tương tác (SlashInteraction)
    * @param {Client} client - Đối tượng Client của bot */
   async execute(interaction, client) {
     const { options, user, guild } = interaction;

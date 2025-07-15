@@ -1,10 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { embedButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {
@@ -29,7 +23,7 @@ module.exports = {
         .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true))
     ),
   /** - Create/edit embed or message
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const {
@@ -67,27 +61,28 @@ module.exports = {
       },
       message: async () => {
         return await msg.edit(content).then(async () => {
-          const embed = new EmbedBuilder()
-            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-            .setTitle('\\✅ Message edited successfully!')
-            .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
-            .setColor('Random')
-            .setThumbnail(
-              'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png'
-            )
-            .setTimestamp()
-            .setFooter({
-              text: `Edited by ${user.displayName || user.username}`,
-              iconURL: user.displayAvatarURL(true),
-            });
+          const embeds = [
+            new EmbedBuilder()
+              .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+              .setTitle('\\✅ Message edited successfully!')
+              .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
+              .setColor('Random')
+              .setThumbnail(
+                'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png'
+              )
+              .setTimestamp()
+              .setFooter({
+                text: `Edited by ${user.displayName || user.username}`,
+                iconURL: user.displayAvatarURL(true),
+              }),
+          ];
 
-          await interaction.reply({ embeds: [embed], flags: 64 });
+          await interaction.reply({ embeds, flags: 64 });
         });
       },
     };
 
-    if (!editMessage[editType]) throw new Error(chalk.yellow('Invalid subCommand ') + chalk.green(editType));
-
+    if (!editMessage[editType]) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(editType));
     await editMessage[editType]();
   },
 };

@@ -1,11 +1,11 @@
-const { Client, ChannelSelectMenuInteraction } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'menus',
   data: { name: 'statistic-menu' },
   /** - Statistics channel select menu
-   * @param {ChannelSelectMenuInteraction} interaction Channel Select Menu Interaction
+   * @param {Interaction} interaction Channel Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
@@ -17,10 +17,10 @@ module.exports = {
     const { serverStats } = client;
     const [, selected] = customId.split(':');
     const channelId = values[0];
-    const statisticInfo = components[0].components[0].components[1].data;
+    const statisticInfo = components[1].components[0].components[1].data;
     const guildID = guild.id;
     const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    const { statistics } = profile;
+    const { statistics } = profile || {};
 
     const onClick = {
       total: () => {
@@ -41,7 +41,7 @@ module.exports = {
       },
     };
 
-    if (!onClick[selected]()) return;
+    if (!onClick[selected]()) throw new Error(chalk.yellow('Invalid channel', chalk.green(selected)));
 
     await profile.save().catch(console.error);
     await serverStats(guildID);

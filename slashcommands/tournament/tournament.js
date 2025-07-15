@@ -1,11 +1,4 @@
-const {
-  Client,
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-  Colors,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 
@@ -39,7 +32,7 @@ module.exports = {
         .addBooleanOption((opt) => opt.setName('confirm').setDescription('Confirm').setRequired(true))
     ),
   /** - Setup giải đấu (open/close/list ds thành viên tham gia)
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
@@ -54,7 +47,7 @@ module.exports = {
         .create({ guildID, guildName, prefix, tournament: { id: '', name: '', status: false } })
         .catch(console.error);
 
-    const { tournament } = profile;
+    const { tournament } = profile || {};
     // Gom các logic xử lý vào object
     const tourActions = {
       open: async () => {
@@ -206,11 +199,7 @@ module.exports = {
       },
     };
 
-    if (!tourActions[tourCommand]) {
-      await interaction.reply(errorEmbed({ desc: `Invalid Subcommand \`${tourCommand}\`` }));
-      throw new Error(chalk.yellow('Invalid Subcommand ') + chalk.green(tourCommand));
-    }
-
+    if (!tourActions[tourCommand]) throw new Error(chalk.yellow('Invalid Subcommand'), chalk.green(tourCommand));
     await tourActions[tourCommand]();
   },
 };

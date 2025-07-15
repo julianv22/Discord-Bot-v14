@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -18,7 +18,7 @@ module.exports = {
     )
     .addUserOption((opt) => opt.setName('user').setDescription('Filters messages by a specific user.')),
   /** - Deletes a specified number of messages
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options, channel } = interaction;

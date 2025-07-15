@@ -1,11 +1,11 @@
-const { Client, ModalMessageModalSubmitInteraction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
   data: { name: 'manage-embed' },
   /** - Embed Modal
-   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message, user, guild } = interaction;
@@ -61,8 +61,7 @@ module.exports = {
       },
     };
 
-    if (!editEmbed[input]) throw new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(input));
-
+    if (!editEmbed[input]) throw new Error(chalk.yellow("Invalid TextInput's customId"), chalk.green(input));
     await editEmbed[input]();
     await interaction.update({ embeds: [embed], components: [Button0, Button1] });
   },

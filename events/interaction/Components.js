@@ -1,9 +1,9 @@
-const { Client, ChatInputCommandInteraction, ChannelType } = require('discord.js');
+const { Client, Interaction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: 'interactionCreate',
   /** - Button Interaction Event
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { catchError, compColection } = client;

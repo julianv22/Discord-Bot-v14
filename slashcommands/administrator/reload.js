@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -13,7 +13,7 @@ module.exports = {
     .addSubcommand((sub) => sub.setName('functions').setDescription(`Reloads all functions. (${cfg.adminRole} only)`)),
   // ownerOnly: true,
   /** - Reloads all commands, events, and functions
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;

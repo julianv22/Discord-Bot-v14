@@ -14,7 +14,7 @@ module.exports = {
       const profile = await serverProfile.findOne({ guildID }).catch(console.error);
       if (!profile || !welcome.log) return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
 
-      const { welcome } = profile.setup;
+      const { welcome } = profile?.setup || {};
 
       const emLog = new EmbedBuilder()
         .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })

@@ -1,10 +1,10 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
   /** - Show slash commands list.
    * @param {string} CommandType - Command type.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction. */
+   * @param {Interaction} interaction - Command Interaction. */
   client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands } = client;
     const { guild, user } = interaction;

@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
 
@@ -9,7 +9,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('file'),
 
   /** - Reads a file from the project.
-   * @param {ChatInputCommandInteraction} interaction - Interaction
+   * @param {Interaction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { errorEmbed, catchError } = client;

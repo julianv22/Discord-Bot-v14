@@ -1,6 +1,6 @@
 const {
   Client,
-  ButtonInteraction,
+  Interaction,
   ActionRowBuilder,
   TextDisplayBuilder,
   ContainerBuilder,
@@ -9,13 +9,13 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { rowComponents } = require('../../functions/common/components');
+const { rowComponents, dashboardMenu } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
   data: { name: 'disable' },
   /** - Disable Features Button
-   * @param {ButtonInteraction} interaction Button Interaction
+   * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guildId: guildID, customId } = interaction;
@@ -35,7 +35,7 @@ module.exports = {
     /** - ContainerBuilder
      * @param {string} content TextDisplay content
      * @param {num} [accent_color] Container accent color */
-    const container = (content, accent_color = Colors.Orange) =>
+    const containerMessage = (content, accent_color = Colors.Orange) =>
       new ContainerBuilder()
         .setAccentColor(accent_color)
         .addTextDisplayComponents(new TextDisplayBuilder().setContent(content));
@@ -44,16 +44,17 @@ module.exports = {
 
     if (!profile)
       return await interaction.update({
-        components: [container('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
+        components: [containerMessage('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
       });
 
-    const { starboard, suggest, youtube, welcome } = profile?.setup;
+    const { starboard, suggest, youtube, welcome } = profile?.setup || {};
 
     const onClick = {
       default: async () => {
         return await interaction.update({
           components: [
-            container(
+            dashboardMenu(),
+            containerMessage(
               `**Disable ${feature.toCapitalize()}**\n-# Vô hiệu hoá chức năng ${feature.toCapitalize()}\n\n-# Click \`✅ Confirm\` để xác nhận \\⤵️`
             ),
             confirmButtons(),
@@ -63,7 +64,8 @@ module.exports = {
       cancel: async () => {
         return await interaction.update({
           components: [
-            container(`**Disable ${feature}**\n-# Click  \`Dismiss message\` to return`),
+            dashboardMenu(),
+            containerMessage(`\\❌ ${feature.toCapitalize()} Disable`, Colors.Red),
             confirmButtons(true),
           ],
         });
@@ -86,14 +88,15 @@ module.exports = {
             welcome.log = '';
             break;
           default:
-            throw new Error(chalk.yellow("Invalid feature's customId ") + chalk.green(disable));
+            throw new Error(chalk.yellow("Invalid feature's customId"), chalk.green(disable));
         }
 
         await profile.save().catch(console.error);
 
         return await interaction.update({
           components: [
-            container(
+            dashboardMenu(),
+            containerMessage(
               `**\\✅ Disable ${disable.toCapitalize()} successfully!**\n-# Đã vô hiệu hoá chức năng ${disable.toCapitalize()} thành công.`,
               Colors.Green
             ),

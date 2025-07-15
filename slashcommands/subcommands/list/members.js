@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
 
 module.exports = {
   category: 'sub command',
@@ -7,7 +7,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('members'),
 
   /** - Lists members by role.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;

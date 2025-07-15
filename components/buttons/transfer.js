@@ -1,11 +1,12 @@
-const { Client, ButtonInteraction, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const components = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
   data: { name: 'transfer' },
   /** - Transfer Money Button
-   * @param {ButtonInteraction} interaction - Button Interaction
+   * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, customId } = interaction;
@@ -14,7 +15,7 @@ module.exports = {
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
-    if (amountStr === 'cancel') return interaction.update({ content: '\\❌ Huỷ giao dịch!', components: [] });
+    if (amountStr === 'cancel') return interaction.update({ ...errorEmbed({ desc: 'Huỷ giao dịch' }), components: [] });
 
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
@@ -28,7 +29,10 @@ module.exports = {
 
     // Kiểm tra lại dữ liệu
     if (!profile)
-      return await interaction.update(errorEmbed({ desc: 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!' }));
+      return await interaction.update({
+        ...errorEmbed({ desc: 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!' }),
+        components: [],
+      });
 
     if (!targetProfile)
       targetProfile = await economyProfile
@@ -36,9 +40,12 @@ module.exports = {
         .catch(console.error);
 
     if (profile.bank < total)
-      return await interaction.update(
-        errorEmbed({ desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile.bank.toCurrency()}` })
-      );
+      return await interaction.update({
+        ...errorEmbed({
+          desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile.bank.toCurrency()}`,
+        }),
+        components: [],
+      });
 
     // Trừ tiền người chuyển, cộng tiền người nhận
     profile.bank -= total;

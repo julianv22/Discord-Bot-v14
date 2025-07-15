@@ -1,25 +1,24 @@
-const { Client, ModalMessageModalSubmitInteraction, ContainerBuilder, Colors, MessageFlags } = require('discord.js');
+const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { textDisplay } = require('../../functions/common/components');
 
 module.exports = {
   type: 'modals',
   data: { name: 'youtube' },
   /** - Add or remove YouTube channel subcribed
-   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
     const {
       customId,
       fields,
       guild,
-      message: { components },
+      message: { embeds },
     } = interaction;
     const { errorEmbed } = client;
     const { id: guildID, name: guildName } = guild;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);
-    const data = components[0].components[0].components[1].data;
+    const data = embeds[0].data;
 
     /** - Validates a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -95,7 +94,9 @@ module.exports = {
       },
     };
 
-    if (!(await onSubmit[action]())) return;
+    if (!onSubmit[action]) throw new Error(chalk.yellow('Invalid submit modal', chalk.green(action)));
+
+    await onSubmit[action]();
 
     const refresh = await serverProfile.findOne({ guildID });
     const channelList = await Promise.all(
@@ -105,8 +106,8 @@ module.exports = {
       })
     );
 
-    data.content = channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.';
+    data.description = channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.';
 
-    await interaction.update({ components });
+    await interaction.update({ embeds });
   },
 };

@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   SlashCommandSubcommandBuilder,
   EmbedBuilder,
   ActionRowBuilder,
@@ -17,7 +17,7 @@ module.exports = {
   data: new SlashCommandSubcommandBuilder().setName('database'),
 
   /** - Reads database from MongoDB.
-   * @param {ChatInputCommandInteraction} interaction - Interaction
+   * @param {Interaction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, options } = interaction;
@@ -32,13 +32,13 @@ module.exports = {
      * @param {string} key - Key của sourcebin
      */
     const sendMessage = async (message, key) => {
-      const embed = new EmbedBuilder().setColor(Colors.Blurple).setDescription(message);
+      const embeds = [new EmbedBuilder().setColor(Colors.Blurple).setDescription(message)];
 
       if (key)
         await interaction.editReply({
-          embeds: [embed],
+          embeds,
           components: [
-            new ActionRowBuilder().addComponents(
+            new ActionRowBuilder().setComponents(
               new ButtonBuilder()
                 .setStyle(ButtonStyle.Link)
                 .setURL(`https://sourceb.in/${key}`)
@@ -46,7 +46,7 @@ module.exports = {
             ),
           ],
         });
-      else await interaction.editReply({ embeds: [embed] });
+      else await interaction.editReply({ embeds });
     };
 
     const profile = await serverProfile.find({ guildID }).catch(console.error);

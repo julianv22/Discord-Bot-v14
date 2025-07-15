@@ -1,6 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
+  Interaction,
   ContextMenuCommandBuilder,
   EmbedBuilder,
   ApplicationCommandType,
@@ -17,7 +17,7 @@ module.exports = {
     .setName('Accept Suggestion')
     .setType(ApplicationCommandType.Message),
   /** - Accepts a suggestion.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { targetMessage: msg, user, guild } = interaction;

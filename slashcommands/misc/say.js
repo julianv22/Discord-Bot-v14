@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'misc',
@@ -9,7 +9,7 @@ module.exports = {
     .addStringOption((opt) => opt.setName('content').setDescription('The content for the bot to say'))
     .addUserOption((opt) => opt.setName('user').setDescription('Mention a user to say "Hello" to')),
   /** - Make the bot say something
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;

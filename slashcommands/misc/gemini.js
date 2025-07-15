@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 // Khởi tạo chatHistories nếu chưa có
 const chatHistories = new Map();
@@ -13,7 +13,7 @@ module.exports = {
       option.setName('prompt').setDescription('Your message to Gemini AI').setRequired(true)
     ),
   /** - Chat with Gemini AI (Google Generative AI)
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user } = interaction;

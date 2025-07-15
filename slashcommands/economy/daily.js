@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const achievementsConfig = require('../../config/economy/economyAchievements.json');
 
@@ -7,7 +7,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system.'),
   /** - Claim daily 💲 from the economy system
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
@@ -117,17 +117,19 @@ module.exports = {
         )
         .catch(console.error);
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
-      .setTitle('Nhận \\💲 hằng ngày!')
-      .setDescription(
-        `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
-      )
-      .setColor(Colors.DarkGreen)
-      .setThumbnail(cfg.economyPNG)
-      .setTimestamp()
-      .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
+        .setTitle('Nhận \\💲 hằng ngày!')
+        .setDescription(
+          `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
+        )
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() }),
+    ];
 
-    return await interaction.reply({ embeds: [embed], flags: 64 });
+    return await interaction.reply({ embeds });
   },
 };

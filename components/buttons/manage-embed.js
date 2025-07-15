@@ -1,6 +1,6 @@
 const {
   Client,
-  ButtonInteraction,
+  Interaction,
   EmbedBuilder,
   ActionRowBuilder,
   ModalBuilder,
@@ -15,7 +15,7 @@ module.exports = {
   type: 'buttons',
   data: { name: 'manage-embed' },
   /** - Create/edit embed
-   * @param {ButtonInteraction} interaction - Button Interaction
+   * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, message, channel } = interaction;
@@ -176,7 +176,7 @@ module.exports = {
       },
     };
 
-    if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId ") + chalk.green(button));
+    if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(button));
 
     await showModal[button]();
   },

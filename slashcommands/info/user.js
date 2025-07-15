@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   category: 'info',
@@ -21,7 +21,7 @@ module.exports = {
         .addUserOption((opt) => opt.setName('target').setDescription('Provide the user you want to get the avatar of'))
     ),
   /** - User information
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {Interaction} interaction
    * @param {Client} client */
   async execute(interaction, client) {
     const { user, options } = interaction;
@@ -38,8 +38,7 @@ module.exports = {
       },
     };
 
-    if (!showInfo[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand ') + chalk.green(subCommand));
-
+    if (!showInfo[subCommand]) throw new Error(chalk.yellow('Invalid SubCommand'), chalk.green(subCommand));
     await showInfo[subCommand]();
   },
 };

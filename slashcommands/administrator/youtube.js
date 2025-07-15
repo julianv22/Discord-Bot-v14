@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
   category: 'administrator',
@@ -20,7 +20,7 @@ module.exports = {
       sub.setName('refresh').setDescription(`Manually refreshes YouTube notifications. (${cfg.adminRole} only)`)
     ),
   /** - Manages YouTube channel subscriptions and notifications
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { errorEmbed, checkVideos } = client;

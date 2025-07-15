@@ -1,11 +1,11 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   category: 'fun',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('meme').setDescription('Get a random meme from Reddit.'),
   /** - Get a random meme from Reddit.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { errorEmbed } = client;
@@ -18,15 +18,17 @@ module.exports = {
     if (!data || !data.url)
       return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme. Please try again later.' }));
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: 'Meme' + (data.author && ` by ${data.author}`), url: data.postLink })
-      .setTitle(data.title || 'Meme')
-      .setColor('Random')
-      .setImage(data.url)
-      .setFooter({
-        text: `👍 Upvotes: ${data.ups.toLocaleString() ?? 0} | 🗨️ r/${data.subreddit || ''}`,
-      });
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: 'Meme' + (data.author && ` by ${data.author}`), url: data.postLink })
+        .setTitle(data.title || 'Meme')
+        .setColor('Random')
+        .setImage(data.url)
+        .setFooter({
+          text: `👍 Upvotes: ${data.ups.toLocaleString() ?? 0} | 🗨️ r/${data.subreddit || ''}`,
+        }),
+    ];
 
-    return await interaction.editReply({ embeds: [embed] });
+    return await interaction.editReply({ embeds });
   },
 };

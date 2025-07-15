@@ -1,11 +1,11 @@
-const { Client, ModalMessageModalSubmitInteraction, MessageFlags } = require('discord.js');
+const { Client, Interaction, MessageFlags } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
   type: 'modals',
   data: { name: 'welcome-msg' },
   /** - Welcome message modal
-   * @param {ModalMessageModalSubmitInteraction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
     const {

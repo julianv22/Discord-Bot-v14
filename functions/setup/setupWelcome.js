@@ -1,7 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
-  SlashCommandSubcommandBuilder,
+  Interaction,
   ContainerBuilder,
   SeparatorBuilder,
   ComponentType,
@@ -9,36 +8,34 @@ const {
   MessageFlags,
   Colors,
 } = require('discord.js');
-const serverProfile = require('../../../config/serverProfile');
-const { sectionComponents, textDisplay, menuComponents } = require('../../../functions/common/components');
+const serverProfile = require('../../config/serverProfile');
+const { sectionComponents, menuComponents, textDisplay, dashboardMenu } = require('../common/components');
 
-module.exports = {
-  category: 'sub command',
-  parent: 'setup',
-  scooldown: 0,
-  data: new SlashCommandSubcommandBuilder().setName('welcome'),
-  /** - Sets up the welcome channel with a welcome message and a log channel.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
-  async execute(interaction, client) {
-    const { guild } = interaction;
+/** @param {Client} client - Discord Client. */
+module.exports = (client) => {
+  /** - Setup welcome
+   * @param {Interaction} interaction - Command Interaction. */
+  client.setupWelcome = async (interaction) => {
+    const {
+      guild,
+      message: { components },
+    } = interaction;
     const { id: guildID, name: guildName } = guild;
 
     let profile = await serverProfile.findOne({ guildID }).catch(console.error);
-
     if (!profile)
       profile = await serverProfile
         .create({ guildID, guildName, prefix, setup: { welcome: { channel: '', log: '', message: '' } } })
         .catch(console.error);
 
-    const { welcome } = profile.setup;
+    const { welcome } = profile?.setup || {};
     const welcomeMessage = welcome?.message || '-# \\❌ Not Set';
 
     /** @param {string} channelId */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '-# \\❌ Not Set';
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
-      .setAccentColor(Colors.DarkAqua)
+      .setAccentColor(Colors.DarkGreen)
       .addSectionComponents(
         sectionComponents(
           [
@@ -58,15 +55,13 @@ module.exports = {
         })
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('Select Welcome channel:'))
-      .addActionRowComponents(menuComponents('welcome-menu:channel'))
+      .addTextDisplayComponents(textDisplay('### Select channels \\⤵️'))
+      .addActionRowComponents(menuComponents('welcome-menu:channel', 'Select Welcome channel'))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('Select Log channel:'))
-      .addActionRowComponents(menuComponents('welcome-menu:log'));
+      .addActionRowComponents(menuComponents('welcome-menu:log', 'Select Log channel'));
 
-    return await interaction.reply({
-      flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-      components: [container],
+    await interaction.editReply({
+      components: [dashboardMenu(), container],
     });
-  },
+  };
 };

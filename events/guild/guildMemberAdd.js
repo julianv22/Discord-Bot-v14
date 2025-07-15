@@ -18,7 +18,7 @@ module.exports = {
       if (!profile || !welcome.channel || !welcome.log)
         return console.log(chalk.red('No Welcome Channel or Log Channel Set'));
 
-      const { welcome } = profile.setup;
+      const { welcome } = profile?.setup || {};
       // // Create Background
       // const bgUrl = path.join(__dirname, '../../config/bg.png');
       // const canvas = Canvas.createCanvas(854, 480);

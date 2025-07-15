@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     .setName('balance')
     .setDescription('View your balance, streak, bank, inventory, and achievements.'),
   /** - View balance, streak, bank, inventory, and achievements of a user
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
+   * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild } = interaction;
@@ -33,29 +33,31 @@ module.exports = {
     const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
     const lastJob = profile.lastJob || new Date();
 
-    const embed = new EmbedBuilder()
-      .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-      .setTitle('\\💳 Economy Information')
-      .setColor(Colors.DarkGold)
-      .setThumbnail(cfg.economyPNG)
-      .setTimestamp()
-      .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
-      .addFields(
-        { name: '\\💰 Balance:', value: balance, inline: true },
-        { name: '\\🏦 Bank:', value: bank, inline: true },
-        { name: '\\🔥 Streak:', value: `${streak} / (max: ${maxStreak})`, inline: true },
-        { name: '\\💲 Tổng thu:', value: totalEarned, inline: true },
-        { name: '\\💲 Tổng chi:', value: totalSpent, inline: true },
-        {
-          name: '\u200b',
-          value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',
-          inline: false,
-        },
-        { name: '\\💼 Job:', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
-        { name: '\\📦 Inventory:', value: inventory, inline: false },
-        { name: '\\🏆 Achievements:', value: achievements, inline: false }
-      );
+    const embeds = [
+      new EmbedBuilder()
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setTitle('\\💳 Economy Information')
+        .setColor(Colors.DarkGold)
+        .setThumbnail(cfg.economyPNG)
+        .setTimestamp()
+        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
+        .addFields(
+          { name: '\\💰 Balance:', value: balance, inline: true },
+          { name: '\\🏦 Bank:', value: bank, inline: true },
+          { name: '\\🔥 Streak:', value: `${streak} / (max: ${maxStreak})`, inline: true },
+          { name: '\\💲 Tổng thu:', value: totalEarned, inline: true },
+          { name: '\\💲 Tổng chi:', value: totalSpent, inline: true },
+          {
+            name: '\u200b',
+            value: '```Số 💲 kiếm được/chi tiêu không được tính trong việc giật 💲 (/rob)```',
+            inline: false,
+          },
+          { name: '\\💼 Job:', value: `${work} -/- <t:${parseInt(lastJob / 1000)}:R>`, inline: false },
+          { name: '\\📦 Inventory:', value: inventory, inline: false },
+          { name: '\\🏆 Achievements:', value: achievements, inline: false }
+        ),
+    ];
 
-    return await interaction.reply({ embeds: [embed], flags: 64 });
+    return await interaction.reply({ embeds, flags: 64 });
   },
 };

@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, Message, EmbedBuilder, Colors } = require('discord.js');
+const { Client, Interaction, Message, EmbedBuilder, Colors } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
@@ -6,7 +6,7 @@ const moment = require('moment-timezone');
 module.exports = (client) => {
   /** - Thanks user
    * @param {GuildMember} target - Target user
-   * @param {ChatInputCommandInteraction|Message} object - Interaction or Message */
+   * @param {Interaction|Message} object - Interaction or Message */
   client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;
     const { guild, user, author: objAuthor } = object;
@@ -84,20 +84,22 @@ module.exports = (client) => {
         .tz('Asia/Ho_Chi_Minh')
         .format('HH:mm ddd, Do MMMM YYYY');
 
-      const embed = new EmbedBuilder()
-        .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
-        .setTitle('💖 Special Thanks!')
-        .setDescription(`${author} special thanks to ${target}!`)
-        .setColor(Colors.Aqua)
-        .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
-        .setTimestamp()
-        .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
-        .addFields(
-          { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
-          { name: 'Last thanks:', value: lastThanks, inline: true }
-        );
+      const embeds = [
+        new EmbedBuilder()
+          .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
+          .setTitle('💖 Special Thanks!')
+          .setDescription(`${author} special thanks to ${target}!`)
+          .setColor(Colors.Aqua)
+          .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
+          .setTimestamp()
+          .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
+          .addFields(
+            { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
+            { name: 'Last thanks:', value: lastThanks, inline: true }
+          ),
+      ];
 
-      await object.reply({ embeds: [embed] });
+      await object.reply({ embeds });
 
       // Update thanksCount
       thanks.guildName = guildName;

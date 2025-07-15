@@ -1,7 +1,6 @@
 const {
   Client,
-  ChatInputCommandInteraction,
-  SlashCommandSubcommandBuilder,
+  Interaction,
   ContainerBuilder,
   SeparatorBuilder,
   MessageFlags,
@@ -9,18 +8,14 @@ const {
   ChannelType,
   Colors,
 } = require('discord.js');
-const serverProfile = require('../../../config/serverProfile');
-const { sectionComponents, menuComponents, textDisplay } = require('../../../functions/common/components');
+const serverProfile = require('../../config/serverProfile');
+const { sectionComponents, menuComponents, textDisplay, dashboardMenu } = require('../common/components');
 
-module.exports = {
-  category: 'sub command',
-  parent: 'setup',
-  scooldown: 0,
-  data: new SlashCommandSubcommandBuilder().setName('statistics'),
-  /** - Sets up channels for server statistics.
-   * @param {ChatInputCommandInteraction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
-  async execute(interaction, client) {
+/** @param {Client} client - Discord Client. */
+module.exports = (client) => {
+  /** - Setup welcome
+   * @param {Interaction} interaction - Command Interaction. */
+  client.setupStats = async (interaction) => {
     const { guild } = interaction;
     const { id: guildID, name: guildName } = guild;
 
@@ -36,7 +31,7 @@ module.exports = {
         })
         .catch(console.error);
 
-    const { totalChannel, memberChannel, botChannel, presenceChannel } = profile.statistics;
+    const { totalChannel, memberChannel, botChannel, presenceChannel } = profile?.statistics || {};
 
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
@@ -58,18 +53,23 @@ module.exports = {
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('Select Total count channel:'))
-      .addActionRowComponents(menuComponents('statistic-menu:total', ChannelType.GuildVoice))
+      .addTextDisplayComponents(textDisplay('### Select channels \\⤵️'))
+      .addActionRowComponents(
+        menuComponents('statistic-menu:total', 'Select Total count channel', ChannelType.GuildVoice)
+      )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('Select Members count channel:'))
-      .addActionRowComponents(menuComponents('statistic-menu:members', ChannelType.GuildVoice))
+      .addActionRowComponents(
+        menuComponents('statistic-menu:members', 'Select Members count channel', ChannelType.GuildVoice)
+      )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('Select Bots count channel:'))
-      .addActionRowComponents(menuComponents('statistic-menu:bots', ChannelType.GuildVoice))
+      .addActionRowComponents(
+        menuComponents('statistic-menu:bots', 'Select Bots count channel', ChannelType.GuildVoice)
+      )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('Select Presences statistic channel:'))
-      .addActionRowComponents(menuComponents('statistic-menu:presence', ChannelType.GuildVoice));
+      .addActionRowComponents(
+        menuComponents('statistic-menu:presence', 'Select presences statistic channel', ChannelType.GuildVoice)
+      );
 
-    await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
-  },
+    await interaction.editReply({ components: [dashboardMenu(), container] });
+  };
 };

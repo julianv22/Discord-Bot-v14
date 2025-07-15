@@ -132,9 +132,7 @@ module.exports = {
         },
       };
 
-      if (!setCollection[folderName]) throw new Error(chalk.yellow('Invalid folderName ') + chalk.green(folderName));
-
-      setCollection[folderName]();
+      if (!setCollection[folderName]()) throw new Error(chalk.yellow('Invalid folderName'), chalk.green(folderName));
     } catch (e) {
       return logError({ todo: 'requiring file', item: file, desc: `in ${chalk.yellow(folder)} folder` }, e);
     }
