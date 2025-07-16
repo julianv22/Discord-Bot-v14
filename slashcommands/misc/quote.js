@@ -22,15 +22,15 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setDescription(quote)
         .setColor('Random')
         .setThumbnail(cfg.thumbnailURL)
-        .setTimestamp()
+        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setDescription(quote)
         .setFooter({
           text: `Requested by ${user.displayName || user.username}`,
           iconURL: user.displayAvatarURL(true),
-        }),
+        })
+        .setTimestamp(),
     ];
 
     await interaction.editReply({ embeds });

@@ -36,11 +36,11 @@ module.exports = (client) => {
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
-      .setAccentColor(Colors.DarkAqua)
+      .setAccentColor(Colors.DarkGreen)
       .addSectionComponents(
         sectionComponents(
           [
-            '### Setup Statistics',
+            '### 📊 Statistics Information',
             `- Total count channel: ${channelName(totalChannel)}\n- Members count channel: ${channelName(
               memberChannel
             )}\n- Bots count channel: ${channelName(botChannel)}\n- Presences statistic channel: ${channelName(

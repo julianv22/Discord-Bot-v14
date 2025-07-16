@@ -56,13 +56,11 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor('Random')
         .setTitle('Rock - Paper - Scissors Game')
         .setDescription(
-          `Choose your hand sign! \\🔨-\\📄-\\✂️\nMỗi lần chơi sẽ trừ số tiền ${toCurrency(
-            bet
-          )} bạn đặt cược. Tối đa 10 lần/ngày.`
+          `**Choose your hand sign! \\🔨-\\📄-\\✂️**\n-# Mỗi lần chơi sẽ trừ số tiền ${bet.toCurrency()} bạn đặt cược.\n-# Tối đa 10 lần/ngày.`
         )
-        .setColor('Random')
         .setImage(
           'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png'
         ),

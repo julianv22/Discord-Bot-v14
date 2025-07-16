@@ -45,14 +45,19 @@ module.exports = (client) => {
       const embeds = [
         new EmbedBuilder()
           .setColor('Random')
+          .setThumbnail(cfg.discordQR_PNG)
           .setAuthor({
             name: bot.tag + ' Information',
             iconURL: bot.displayAvatarURL(true),
           })
           .setTitle('Description:')
           .setDescription(application.description || '\u200b')
-          .setThumbnail(cfg.discordQR_PNG)
-          .addFields(
+          .setFooter({
+            text: `Requested by ${author.displayName || author.username}`,
+            iconURL: author.displayAvatarURL(true),
+          })
+          .setTimestamp()
+          .setFields(
             { name: '👤 Username:', value: `${bot}`, inline: true },
             {
               name: `🆔: ||${bot.id}||`,
@@ -112,12 +117,7 @@ module.exports = (client) => {
               name: `📦 Packages [${Object.keys(package.dependencies).length}]:`,
               value: `\`\`\`yaml\n\n${mapPackages}\`\`\``,
             }
-          )
-          .setTimestamp()
-          .setFooter({
-            text: `Requested by ${author.displayName || author.username}`,
-            iconURL: author.displayAvatarURL(true),
-          }),
+          ),
       ];
 
       return await object.reply({ embeds, components: [infoButtons()] });

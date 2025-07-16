@@ -21,16 +21,16 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-          .setTitle('⚠️ Server Info ⚠️')
           .setColor('Random')
           .setThumbnail(guild.iconURL(true))
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setTitle('⚠️ Server Info ⚠️')
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: `${author.displayAvatarURL(true)}`,
           })
           .setTimestamp()
-          .addFields([
+          .setFields(
             { name: '💎 Server Name:', value: `${guild.name}`, inline: true },
             { name: '🆔:', value: `||${guild.id}||`, inline: true },
             { name: '👑 Server Owner:', value: `${owner}` },
@@ -67,8 +67,8 @@ module.exports = (client) => {
             {
               name: `📆 Created: <t:${parseInt(guild.createdTimestamp / 1000)}:R>`,
               value: `${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
-            },
-          ]),
+            }
+          ),
       ];
 
       return await object.reply({ embeds });

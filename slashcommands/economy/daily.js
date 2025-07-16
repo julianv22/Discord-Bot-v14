@@ -119,15 +119,15 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.economyPNG)
         .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
         .setTitle('Nhận \\💲 hằng ngày!')
         .setDescription(
           `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
         )
-        .setColor(Colors.DarkGreen)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() }),
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
+        .setTimestamp(),
     ];
 
     return await interaction.reply({ embeds });

@@ -32,20 +32,20 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
+          .setColor('Random')
+          .setThumbnail(target.displayAvatarURL(true))
           .setAuthor({
             name: target.tag,
             iconURL: target.displayAvatarURL(true),
           })
           .setTitle('⚠️ Member Info ⚠️')
           .setDescription(`👤 **Username:** ${target}`)
-          .setColor('Random')
-          .setThumbnail(target.displayAvatarURL(true))
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),
           })
           .setTimestamp()
-          .addFields([
+          .setFields(
             {
               name: `🆔: ||${userID}||`,
               value: '\u200b',
@@ -69,8 +69,8 @@ module.exports = (client) => {
             {
               name: `📃 Roles [${roles.length}]:`,
               value: `${roles.join(' ') || 'No roles'}`,
-            },
-          ]),
+            }
+          ),
       ];
 
       return await object.reply({ embeds });

@@ -25,14 +25,14 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkVividPink)
+        .setThumbnail(selectedThumbnail)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(truncateString(title, 256))
         .setDescription(truncateString(description, 4096))
-        .setColor(Colors.DarkVividPink)
-        .setThumbnail(selectedThumbnail)
         .setImage(imageURL.checkURL() ? imageURL : null)
-        .setTimestamp()
-        .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) }),
+        .setFooter({ text: 'Sent by ' + (user.displayName || user.username), iconURL: user.displayAvatarURL(true) })
+        .setTimestamp(),
     ];
 
     await interaction.reply({ embeds });

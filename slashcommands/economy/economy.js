@@ -15,6 +15,8 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGold)
+        .setThumbnail(cfg.economyPNG)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('Economy System - User Guide')
         .setDescription(
@@ -22,11 +24,9 @@ module.exports = {
             user.displayName || user.username
           }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`
         )
-        .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .addFields(
+        .setTimestamp()
+        .setFields(
           { name: '/daily', value: '```Nhận 💲 miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.```' },
           { name: '/balance', value: '```Xem số dư, streak, bank, inventory, achievements.```' },
           { name: '/job', value: '```Nhận công việc ngẫu nhiên, làm việc và nhận 💲 (cooldown).```' },

@@ -62,30 +62,30 @@ module.exports = {
 
         const embed = new EmbedBuilder()
           .setColor(Colors.DarkAqua)
-          .setTitle(`Setup's Information`)
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
           .setThumbnail(cfg.infoPNG)
-          .addFields({ name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true })
-          .addFields({ name: 'Log Channel', value: `${logChannel}`, inline: true })
-          .addFields({ name: 'Welcome Message', value: `${welcomeMessage}`, inline: false })
-          .addFields({ name: 'Server Status Channel', value: `${serverStatus}`, inline: false })
-          .addFields({ name: 'Starboard Channel', value: `${starboardChannel} (${starCount}\\⭐)`, inline: true })
-          .addFields({ name: 'Suggest Channel', value: `${suggestChannel}`, inline: true })
-          .addFields({
-            name: 'Youtube subscribed channels: ' + channelCount,
-            value: `\n-# \\⚠️ /youtube channel\n- Notify channel: ${notifyChannel}\n- Alert role: ${alertRole}\n-# \\⚠️ /youtube notify`,
-            inline: false,
-          })
-          .addFields({ name: 'Tournament', value: `${tourName}`, inline: true })
-          .setTimestamp()
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setTitle(`Setup's Information`)
+          .setFields(
+            { name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true },
+            { name: 'Log Channel', value: `${logChannel}`, inline: true },
+            { name: 'Welcome Message', value: `${welcomeMessage}`, inline: false },
+            { name: 'Server Status Channel', value: `${serverStatus}`, inline: false },
+            { name: 'Starboard Channel', value: `${starboardChannel} (${starCount}\\⭐)`, inline: true },
+            { name: 'Suggest Channel', value: `${suggestChannel}`, inline: true },
+            {
+              name: 'Youtube subscribed channels: ' + channelCount,
+              value: `\n-# \\⚠️ /youtube channel\n- Notify channel: ${notifyChannel}\n- Alert role: ${alertRole}\n-# \\⚠️ /youtube notify`,
+              inline: false,
+            },
+            { name: 'Tournament', value: `${tourName}`, inline: true },
+            { name: 'Tournament Status', value: tourStatus, inline: true },
+            { name: '\u200b', value: '-# \\⚠️ **/setup dashboard** for more setting' }
+          )
           .setFooter({
             text: `Requested by ${user.displayName || user.username}`,
             iconURL: user.displayAvatarURL(true),
-          });
-
-        if (tourStatus) embed.addFields({ name: 'Tournament Status', value: tourStatus, inline: true });
-
-        embed.addFields({ name: '\u200b', value: '-# \\⚠️ **/setup dashboard** for more setting' });
+          })
+          .setTimestamp();
 
         await interaction.reply({ embeds: [embed], flags: 64 });
         break;

@@ -25,17 +25,17 @@ module.exports = (client) => {
       }
 
       const usageEmbed = new EmbedBuilder()
+        .setColor(Colors.Aqua)
+        .setThumbnail(cfg.helpPNG)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`Hướng dẫn sử dụng command [\`${prefix}${name}\`]`)
         .setDescription(desc)
-        .setColor(Colors.Aqua)
-        .setThumbnail(cfg.helpPNG)
-        .setTimestamp()
         .setFooter({
           text: `Requested by ${author.displayName || author.username}`,
           iconURL: author.displayAvatarURL(true),
         })
-        .addFields({ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` });
+        .setTimestamp()
+        .setFields({ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` });
 
       return await message.reply({ embeds: [usageEmbed] });
     } catch (e) {

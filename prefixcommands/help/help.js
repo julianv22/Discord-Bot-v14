@@ -30,16 +30,16 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.helpPNG)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle(`Danh sách Prefix Command [\`${prefix}\`]`)
         .setDescription(
           `Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`
         )
-        .setColor(Colors.DarkGreen)
-        .setThumbnail(cfg.helpPNG)
-        .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
-        .addFields(
+        .setTimestamp()
+        .setFields(
           { name: `Tổng số command: [${prefixCommands.size}]`, value: `Command prefix: [\`${prefix}\`]` },
           ...listCommands(prefixCommands),
           { name: `\u200b`, value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command` }

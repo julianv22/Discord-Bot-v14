@@ -5,9 +5,9 @@ const {
   SeparatorBuilder,
   ContainerBuilder,
   ComponentType,
+  ButtonStyle,
   MessageFlags,
   Colors,
-  ButtonStyle,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 const { textDisplay, menuComponents, sectionComponents } = require('../../../functions/common/components');

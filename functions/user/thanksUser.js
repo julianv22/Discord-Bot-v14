@@ -86,14 +86,14 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
+          .setColor(Colors.Aqua)
           .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
           .setTitle('💖 Special Thanks!')
           .setDescription(`${author} special thanks to ${target}!`)
-          .setColor(Colors.Aqua)
           .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
-          .setTimestamp()
           .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
-          .addFields(
+          .setTimestamp()
+          .setFields(
             { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
             { name: 'Last thanks:', value: lastThanks, inline: true }
           ),

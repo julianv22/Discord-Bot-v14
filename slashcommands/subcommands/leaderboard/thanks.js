@@ -31,12 +31,13 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkAqua)
+        .setThumbnail(cfg.thanksPNG)
         .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
         .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
         .setDescription(thanksList)
-        .setColor(Colors.DarkAqua)
-        .setThumbnail(cfg.thanksPNG)
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTimestamp(),
     ];
 
     return await interaction.reply({ embeds });

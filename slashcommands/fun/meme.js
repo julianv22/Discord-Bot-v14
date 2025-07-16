@@ -20,9 +20,9 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor('Random')
         .setAuthor({ name: 'Meme' + (data.author && ` by ${data.author}`), url: data.postLink })
         .setTitle(data.title || 'Meme')
-        .setColor('Random')
         .setImage(data.url)
         .setFooter({
           text: `👍 Upvotes: ${data.ups.toLocaleString() ?? 0} | 🗨️ r/${data.subreddit || ''}`,

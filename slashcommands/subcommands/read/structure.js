@@ -75,8 +75,8 @@ module.exports = {
         .setColor(0xfed678)
         .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
         .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTimestamp(),
     ];
 
     await interaction.editReply({ embeds, flags: 64 });

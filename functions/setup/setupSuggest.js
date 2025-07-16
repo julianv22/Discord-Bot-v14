@@ -19,7 +19,7 @@ module.exports = (client) => {
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
-      .addTextDisplayComponents(textDisplay(`### Suggest Channel: ${channelName(suggest)}`))
+      .addTextDisplayComponents(textDisplay(`### \\💡 Suggest Channel: ${channelName(suggest)}`))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(menuComponents('suggest-menu', 'Select Suggest Channel'));
 

@@ -40,14 +40,14 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.economyPNG)
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle('\\🏦 Deposit')
         .setDescription(`\\✅ Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
-        .setColor(Colors.DarkGreen)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
         .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
-        .addFields(
+        .setTimestamp()
+        .setFields(
           {
             name: '\\💰 Balance',
             value: profile.balance.toCurrency(),

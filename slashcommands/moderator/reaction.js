@@ -18,6 +18,7 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor('Random')
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('`💬Title`: Đặt tiêu đề cho reaction role')
         .setDescription(
@@ -25,9 +26,8 @@ module.exports = {
             Object.keys(Colors).join(', ') +
             '```\n`➕Add Role`: Thêm role vào reaction role\n\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.'
         )
-        .setColor('Random')
-        .setTimestamp()
-        .setFooter({ text: 'Select your role ⤵️' }),
+        .setFooter({ text: 'Select your role ⤵️' })
+        .setTimestamp(),
     ];
 
     await interaction.reply({ embeds, components: [reactionButtons()], flags: 64 });

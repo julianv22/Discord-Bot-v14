@@ -11,13 +11,13 @@ module.exports = (client) => {
     const commands = slashCommands.toEmbedFields(CommandType);
 
     const helpEmbed = new EmbedBuilder()
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(`\\📂 ${CommandType.toCapitalize()} Commands [${commands.length}]`)
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.slashPNG)
-      .setTimestamp()
+      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setTitle(`\\📂 ${CommandType.toCapitalize()} Commands [${commands.length}]`)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-      .addFields(commands);
+      .setTimestamp()
+      .setFields(commands);
 
     return interaction.update({ embeds: [helpEmbed] });
   };

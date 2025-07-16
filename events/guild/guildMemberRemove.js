@@ -17,15 +17,15 @@ module.exports = {
       const { welcome } = profile?.setup || {};
 
       const emLog = new EmbedBuilder()
-        .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
-        .setTitle('👋 Good bye!')
-        .setDescription(`${user} đã rời khỏi server!`)
+        .setColor(Colors.DarkVividPink)
         .setThumbnail(
           'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/name-badge_1f4db.png'
         )
-        .setColor(Colors.DarkVividPink)
+        .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
+        .setTitle('👋 Good bye!')
+        .setDescription(`${user} đã rời khỏi server!`)
         .setTimestamp()
-        .addFields(
+        .setFields(
           { name: 'UserName:', value: user.tag, inline: true },
           { name: 'UserID:', value: `||${user.id}||`, inline: true }
         );

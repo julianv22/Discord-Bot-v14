@@ -35,13 +35,13 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
-        .setTitle('\\💳 Economy Information')
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
+        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setTitle('\\💳 Economy Information')
         .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
-        .addFields(
+        .setTimestamp()
+        .setFields(
           { name: '\\💰 Balance:', value: balance, inline: true },
           { name: '\\🏦 Bank:', value: bank, inline: true },
           { name: '\\🔥 Streak:', value: `${streak} / (max: ${maxStreak})`, inline: true },

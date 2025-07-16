@@ -56,13 +56,13 @@ module.exports = {
       .send({
         embeds: [
           new EmbedBuilder()
+            .setColor(Colors.DarkVividPink)
+            .setThumbnail(user.defaultAvatarURL(true))
             .setAuthor({ name: 'Deny suggestion', iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif' })
             .setTitle(`Your suggestion has been denied by ${user.displayName || user.username}!`)
             .setDescription(`[Jump Link](${msg.url})`)
-            .setColor(Colors.DarkVividPink)
-            .setThumbnail(user.defaultAvatarURL(true))
-            .setTimestamp()
-            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),
+            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+            .setTimestamp(),
         ],
       })
       .catch((e) => {

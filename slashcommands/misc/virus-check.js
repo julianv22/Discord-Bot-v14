@@ -216,14 +216,14 @@ module.exports = {
         vtGuiLink = `https://www.virustotal.com/gui/url/${analysisReport.id}/detection`;
 
       const resultEmbed = new EmbedBuilder()
+        .setColor(stats.malicious > 0 ? Colors.Red : Colors.Green)
         .setAuthor({ name: `${guild.name}`, iconURL: guild.iconURL() })
         .setTitle(
           `Kết quả kiểm tra VirusTotal cho ${displayUrl.length > 50 ? `${displayUrl.substring(0, 47)}...` : displayUrl}`
         )
-        .setColor(stats.malicious > 0 ? Colors.Red : Colors.Green)
-        .setTimestamp()
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
-        .addFields(
+        .setTimestamp()
+        .setFields(
           { name: 'Tổng số engine', value: `${total}`, inline: true },
           { name: 'Độc hại', value: `${stats.malicious || 0}`, inline: true },
           { name: 'Nguy hiểm tiềm tàng', value: `${stats.suspicious || 0}`, inline: true },

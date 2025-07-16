@@ -85,16 +85,16 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-          .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
           .setColor(isSuccess ? Colors.DarkGreen : Colors.DarkGold)
           .setThumbnail(cfg.economyPNG)
-          .setTimestamp()
+          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
           .setFooter({
             text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,
             iconURL: bot.displayAvatarURL(),
           })
-          .addFields(
+          .setTimestamp()
+          .setFields(
             {
               name: `Số dư của ${user.displayName || user.username}`,
               value: profile.balance.toCurrency(),

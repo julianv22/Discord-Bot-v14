@@ -1,4 +1,4 @@
-const { Client, Interaction, ModalBuilder, ComponentType, TextInputStyle, ActionRowBuilder } = require('discord.js');
+const { Client, Interaction, ModalBuilder, ActionRowBuilder, ComponentType, TextInputStyle } = require('discord.js');
 const { rowComponents } = require('../../functions/common/components');
 const serverProfile = require('../../config/serverProfile');
 

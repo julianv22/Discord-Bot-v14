@@ -28,6 +28,8 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
+          .setColor(Colors.DarkVividPink)
+          .setThumbnail(author.displayAvatarURL(true))
           .setAuthor({
             name: target
               ? `${user.displayName || user.username} snipped message of ${
@@ -37,14 +39,12 @@ module.exports = (client) => {
             iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
           })
           .setDescription(`**Author:** ${author}${target ? ` -/- **Channel:** <#${snipeId}>` : ''}`)
-          .setColor(Colors.DarkVividPink)
-          .setThumbnail(author.displayAvatarURL(true))
-          .setTimestamp()
           .setFooter({
             text: `Requested by ${user.displayName || user.username}`,
             iconURL: user.displayAvatarURL(true),
           })
-          .addFields({ name: 'Content:', value: `${content}` }),
+          .setTimestamp()
+          .setFields({ name: 'Content:', value: `${content}` }),
       ];
 
       return await object.reply({ embeds });

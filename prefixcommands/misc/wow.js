@@ -18,11 +18,11 @@ module.exports = {
       await message.delete();
       const embeds = [
         new EmbedBuilder()
-          .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
           .setColor('Random')
+          .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
           .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png')
-          .setTimestamp()
-          .setFooter({ text: 'Wow! 😍' }),
+          .setFooter({ text: 'Wow! 😍' })
+          .setTimestamp(),
       ];
 
       await message.channel.send({ embeds });

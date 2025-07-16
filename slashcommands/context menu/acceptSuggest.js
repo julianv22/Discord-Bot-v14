@@ -50,16 +50,16 @@ module.exports = {
       .send({
         embeds: [
           new EmbedBuilder()
+            .setColor(Colors.Green)
+            .setThumbnail(user.displayAvatarURL(true))
             .setAuthor({
               name: 'Accept suggestion',
               iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
             })
             .setTitle(`Your suggestion has been accepted by ${user.displayName || user.username}!`)
             .setDescription(`[Jump Link](${msg.url})`)
-            .setColor(Colors.Green)
-            .setThumbnail(user.displayAvatarURL(true))
-            .setTimestamp()
-            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),
+            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+            .setTimestamp(),
         ],
       })
       .catch((e) => {

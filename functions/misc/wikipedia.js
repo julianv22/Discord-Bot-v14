@@ -38,6 +38,8 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
+          .setColor('Random')
+          .setThumbnail(thumbnail)
           .setAuthor({
             name: bodyTitle,
             iconURL: 'https://vi.wikipedia.org/static/images/icons/wikipedia.png',
@@ -45,13 +47,11 @@ module.exports = (client) => {
           })
           .setTitle(title)
           .setDescription(description)
-          .setColor('Random')
-          .setThumbnail(thumbnail)
-          .setTimestamp()
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),
-          }),
+          })
+          .setTimestamp(),
       ];
 
       return await object.reply({ embeds });

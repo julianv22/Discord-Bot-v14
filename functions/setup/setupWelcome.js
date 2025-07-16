@@ -35,7 +35,7 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           [
-            '### Welcome Information',
+            '### \\🎉 Welcome Information',
             `- \\💬 Welcome channel: ${channelName(welcome?.channel)}`,
             `- \\💬 Log channel: ${channelName(welcome?.log)}`,
           ],

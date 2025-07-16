@@ -33,16 +33,16 @@ module.exports = {
         // Thống kê tổng hợp các slash command
         const embeds = [
           new EmbedBuilder()
-            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-            .setTitle('Slash Command & Sub Command Statistics')
             .setColor(Colors.DarkGreen)
             .setThumbnail(cfg.slashPNG)
-            .setTimestamp()
+            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+            .setTitle('Slash Command & Sub Command Statistics')
             .setFooter({
               text: `Requested by ${user.displayName || user.username}`,
               iconURL: user.displayAvatarURL(true),
             })
-            .addFields(
+            .setTimestamp()
+            .setFields(
               {
                 name: `\\📂 Slash Commands\n[\`Commands: ${slashCommands.size - contextMenus.length} --- Categories: ${
                   slashCategories.length

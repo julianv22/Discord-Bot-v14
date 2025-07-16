@@ -18,16 +18,16 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkAqua)
+        .setThumbnail(cfg.thumbnailURL)
         .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })
         .setTitle('Bảng xếp hạng level tuần #' + week)
         .setDescription(
           'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)'
         )
-        .setColor(Colors.DarkAqua)
-        .setThumbnail(cfg.thumbnailURL)
         .setImage(imgURL)
-        .setTimestamp()
-        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) }),
+        .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
+        .setTimestamp(),
     ];
 
     return await interaction.reply({ embeds });

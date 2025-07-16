@@ -76,20 +76,20 @@ module.exports = {
       // ctx.fillText(`${guild.name}'s Server`, c.w / 2, c.h - 40);
 
       const welcomeEmbed = new EmbedBuilder()
+        .setColor(0x00bce3)
+        .setThumbnail(user.displayAvatarURL(true))
         .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL(true) })
         .setTitle('Welcome 👋')
         .setDescription(`Chào mừng ${user} tham gia server **${guildName}!**  😍`)
-        .addFields([
+        .setImage(cfg.welcomePNG)
+        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
+        .setTimestamp()
+        .setFields([
           {
             name: `Bạn là thành viên thứ ${guild.memberCount} của server`,
             value: 'Chúc bạn một ngày làm việc vui vẻ!',
           },
-        ])
-        .setColor(0x00bce3)
-        .setThumbnail(user.displayAvatarURL(true))
-        .setImage(cfg.welcomePNG)
-        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
-        .setTimestamp();
+        ]);
       if (welcome.message) welcomeEmbed.addFields([{ name: `Server's Information:`, value: welcome.message }]);
 
       // const attachment = new AttachmentBuilder(await canvas.encode('png'), {
@@ -104,15 +104,15 @@ module.exports = {
 
       if (logChannel) {
         const logEmbed = new EmbedBuilder()
-          .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
-          .setTitle('👋 Thành viên mới tham gia!')
-          .setDescription(`${user} đã tham gia server!`)
           .setColor(0x00bce3)
           .setThumbnail(
             'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png'
           )
+          .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
+          .setTitle('👋 Thành viên mới tham gia!')
+          .setDescription(`${user} đã tham gia server!`)
           .setTimestamp()
-          .addFields(
+          .setFields(
             { name: 'Tên người dùng:', value: user.tag, inline: true },
             { name: 'ID:', value: `||${user.id}||`, inline: true }
           );

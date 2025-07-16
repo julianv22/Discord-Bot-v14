@@ -12,14 +12,14 @@ module.exports = (client) => {
     try {
       const embeds = [
         new EmbedBuilder()
-          .setDescription(`${target}'s Avatar:`)
           .setColor('Random')
+          .setDescription(`${target}'s Avatar:`)
           .setImage(target.displayAvatarURL({ dynamic: true, size: 1024 }))
-          .setTimestamp()
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),
-          }),
+          })
+          .setTimestamp(),
       ];
 
       return await object.reply({ embeds });

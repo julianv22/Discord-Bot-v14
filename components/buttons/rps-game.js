@@ -73,6 +73,8 @@ module.exports = {
     // Trả về kết quả
     const embeds = [
       new EmbedBuilder()
+        .setColor(rps.Color)
+        .setThumbnail(user.displayAvatarURL(true))
         .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTitle('You ' + rps.result)
         .setDescription(
@@ -80,20 +82,10 @@ module.exports = {
             profile.rpsCount
           }/50**\nSố dư: **${profile.balance.toCurrency()}**`
         )
-        .setColor(rps.Color)
-        .setThumbnail(user.displayAvatarURL(true))
         .setTimestamp()
-        .addFields(
-          {
-            name: '\\💰 Tổng tiền đã nhận',
-            value: (profile.totalEarned || 0).toCurrency(),
-            inline: true,
-          },
-          {
-            name: '\\💸 Tổng tiền đã chi',
-            value: (profile.totalSpent || 0).toCurrency(),
-            inline: true,
-          }
+        .setFields(
+          { name: '\\💰 Tổng tiền đã nhận', value: (profile.totalEarned || 0).toCurrency(), inline: true },
+          { name: '\\💸 Tổng tiền đã chi', value: (profile.totalSpent || 0).toCurrency(), inline: true }
         ),
     ];
 

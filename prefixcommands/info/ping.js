@@ -19,6 +19,6 @@ module.exports = {
     const delay = Math.abs(Date.now() - message.createdTimestamp);
     const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
-    return await message.reply(errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }));
+    await message.reply(errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }));
   },
 };

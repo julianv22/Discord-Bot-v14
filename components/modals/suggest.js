@@ -31,14 +31,14 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGold)
+        .setThumbnail(cfg.suggestPNG)
         .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
         .setTitle('Nội dung đề xuất:')
         .setDescription(truncateString(description, 4096))
-        .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.suggestPNG)
-        .setTimestamp()
         .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
-        .addFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' }),
+        .setTimestamp()
+        .setFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' }),
     ];
 
     const msg = await sgtChannel.send({ embeds });

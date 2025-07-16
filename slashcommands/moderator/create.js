@@ -21,12 +21,12 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor('Random')
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('`💬Title` Enter the embed title')
         .setDescription('`💬Description` Enter the embed description\n\n`🎨Color` Enter the embed color')
-        .setColor('Random')
-        .setTimestamp()
-        .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+        .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTimestamp(),
     ];
 
     const components = embedButtons();

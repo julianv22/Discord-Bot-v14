@@ -63,18 +63,18 @@ module.exports = {
         return await msg.edit(content).then(async () => {
           const embeds = [
             new EmbedBuilder()
-              .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-              .setTitle('\\✅ Message edited successfully!')
-              .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
               .setColor('Random')
               .setThumbnail(
                 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png'
               )
-              .setTimestamp()
+              .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+              .setTitle('\\✅ Message edited successfully!')
+              .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
               .setFooter({
                 text: `Edited by ${user.displayName || user.username}`,
                 iconURL: user.displayAvatarURL(true),
-              }),
+              })
+              .setTimestamp(),
           ];
 
           await interaction.reply({ embeds, flags: 64 });

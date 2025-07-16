@@ -30,15 +30,15 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
           .setColor('Random')
           .setThumbnail(avatar_url)
-          .setTimestamp()
+          .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),
           })
-          .addFields(
+          .setTimestamp()
+          .setFields(
             { name: 'Username', value: `${login}`, inline: true },
             { name: 'ID', value: `${id}`, inline: true },
             { name: 'Bio', value: `${bio || 'No Bio Provided'}`, inline: true },

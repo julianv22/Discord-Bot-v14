@@ -38,7 +38,7 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           [
-            '### Setup Starboard',
+            '### ⭐ Starboard Information',
             `- \\💬 Starboard channel: ${channelName(starboard?.channel)}`,
             `- \\🔢 Number of stars to send message: **${starboard?.star || 0}**\\⭐`,
           ],

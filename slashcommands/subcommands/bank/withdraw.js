@@ -34,6 +34,8 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGold)
+        .setThumbnail(cfg.economyPNG)
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle('\\🏦 Withdraw')
         .setDescription(
@@ -41,11 +43,9 @@ module.exports = {
             amount - fee
           ).toCurrency()}.\n\n**Số dư hiện có:**`
         )
-        .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
         .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
-        .addFields(
+        .setTimestamp()
+        .setFields(
           {
             name: '\\💰 Balance',
             value: profile.balance.toCurrency(),

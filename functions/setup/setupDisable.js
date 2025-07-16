@@ -33,7 +33,7 @@ module.exports = (client) => {
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.Orange)
-      .addTextDisplayComponents(textDisplay('### Disable Features:'))
+      .addTextDisplayComponents(textDisplay('### 🚫 Disable Features:'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addSectionComponents(section('\\⭐ Disable Starboard\n-# Vô hiệu hoá chức năng Starboard', 'starboard', 4))
       .addSeparatorComponents(new SeparatorBuilder())

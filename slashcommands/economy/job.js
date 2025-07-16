@@ -79,15 +79,15 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
+        .setColor(Colors.DarkGreen)
+        .setThumbnail(cfg.economyPNG)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('Bạn đã nhận một công việc mới!')
         .setDescription(
           `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toCurrency()}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
         )
-        .setColor(Colors.DarkGreen)
-        .setThumbnail(cfg.economyPNG)
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() }),
+        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
+        .setTimestamp(),
     ];
 
     return await interaction.reply({ embeds });

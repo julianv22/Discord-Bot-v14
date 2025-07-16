@@ -55,11 +55,9 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
-        .setAuthor({ name: '📢 YouTube Channels Subscribed List' })
-        .setDescription(channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subscribed.')
         .setThumbnail(cfg.youtubePNG)
-        .setTimestamp()
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) }),
+        .setAuthor({ name: '📢 YouTube Channels Subscribed List' })
+        .setDescription(channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subscribed.'),
     ];
 
     const components = [

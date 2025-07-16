@@ -136,18 +136,18 @@ module.exports = {
           }
 
           const embed = new EmbedBuilder()
+            .setColor('Random')
+            .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
             .setAuthor({
               name: '🏆 Danh sách thành viên tham gia giải đấu',
               iconURL: guild.iconURL(true),
             })
-            .setColor('Random')
-            .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
-            .setTimestamp()
+            .setDescription(desc)
             .setFooter({
               text: `Trang ${++page} | Tổng số đăng ký: [${memberList.length}]`,
               iconURL: client.user.displayAvatarURL(),
             })
-            .setDescription(desc);
+            .setTimestamp();
           embeds.push(embed);
         }
         // Gửi lần lượt các embed
