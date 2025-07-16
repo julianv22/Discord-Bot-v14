@@ -43,6 +43,13 @@ module.exports = {
 
         await profile.save().catch(console.error);
         await interaction.update({ components });
+        await interaction.channel.send(
+          errorEmbed({
+            desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.id)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
+            emoji: '🏆',
+            color: Colors.DarkGreen,
+          })
+        );
       },
       close: async () => {
         if (!tournament?.status)
@@ -56,6 +63,13 @@ module.exports = {
 
         await profile.save().catch(console.error);
         await interaction.update({ components });
+        await interaction.channel.send(
+          errorEmbed({
+            desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.id)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
+            emoji: '🏆',
+            color: Colors.DarkVividPink,
+          })
+        );
       },
       close_all: async () => {
         const tournaments = await tournamentProfile.find({ guildID }).catch(console.error);
