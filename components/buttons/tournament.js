@@ -41,6 +41,7 @@ module.exports = {
         tourName.content = `- Tournament name: ${getRole(tournament?.id)}`;
         tourStatus.content = '- Status: \\✅ Open';
 
+        await profile.save().catch(console.error);
         await interaction.update({ components });
       },
       close: async () => {
@@ -53,6 +54,7 @@ module.exports = {
         tourName.content = `- Tournament name: ${getRole(tournament?.id)}`;
         tourStatus.content = '- Status: *\\❌ Closed*';
 
+        await profile.save().catch(console.error);
         await interaction.update({ components });
       },
       close_all: async () => {
@@ -71,6 +73,7 @@ module.exports = {
         tourName.content = '- Tournament name: *\\❌ Chưa có giải nào*';
         tourStatus.content = '- Status: *\\❌ Closed*';
 
+        await profile.save().catch(console.error);
         await interaction.update({ components });
       },
       list: async () => {
@@ -130,6 +133,5 @@ module.exports = {
     };
 
     if (!onClick[buttonId]()) throw new Error(chalk.yellow('Invalid buttonId'), chalk.green(buttonId));
-    await profile.save().catch(console.error);
   },
 };

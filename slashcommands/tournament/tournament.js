@@ -62,7 +62,7 @@ module.exports = {
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay(['### \\⚙️ Setup tournament', '- Đổi tên giải đấu \\⤵️']))
+      .addTextDisplayComponents(textDisplay(['### \\⚙️ Setup tournament', '- Chọn tên giải đấu \\⤵️']))
       .addActionRowComponents(
         menuComponents('tournament-menu', '🏆 Select a tournament role', ComponentType.RoleSelect)
       )
