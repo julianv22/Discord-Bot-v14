@@ -23,25 +23,13 @@ module.exports = {
     const { statistics } = profile || {};
 
     const onClick = {
-      total: () => {
-        statistics.totalChannel = channelId;
-        return true;
-      },
-      members: () => {
-        statistics.memberChannel = channelId;
-        return true;
-      },
-      bots: () => {
-        statistics.botChannel = channelId;
-        return true;
-      },
-      presence: () => {
-        statistics.presenceChannel = channelId;
-        return true;
-      },
+      total: () => (statistics.totalChannel = channelId),
+      members: () => (statistics.memberChannel = channelId),
+      bots: () => (statistics.botChannel = channelId),
+      presence: () => (statistics.presenceChannel = channelId),
     };
 
-    if (!onClick[selected]()) throw new Error(chalk.yellow('Invalid channel', chalk.green(selected)));
+    if (!onClick[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
 
     await profile.save().catch(console.error);
     await serverStats(guildID);
@@ -50,10 +38,10 @@ module.exports = {
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     statisticInfo.content = `- Total count channel: ${channelName(
-      statistics.totalChannel
-    )}\n- Members count channel: ${channelName(statistics.memberChannel)}\n- Bots count channel: ${channelName(
-      statistics.botChannel
-    )}\n- Presences statistic channel: ${channelName(statistics.presenceChannel)}`;
+      statistics?.totalChannel
+    )}\n- Members count channel: ${channelName(statistics?.memberChannel)}\n- Bots count channel: ${channelName(
+      statistics?.botChannel
+    )}\n- Presences statistic channel: ${channelName(statistics?.presenceChannel)}`;
 
     await interaction.update({ components });
   },

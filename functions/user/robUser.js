@@ -28,7 +28,6 @@ module.exports = (client) => {
         return await interaction.reply(
           errorEmbed({
             desc: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
-            emoji: false,
           })
         );
 

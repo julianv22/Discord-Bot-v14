@@ -37,10 +37,7 @@ module.exports = {
     // Kiểm tra tiền cược
     if (profile.balance < bet)
       return await interaction.update(
-        errorEmbed({
-          desc: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toCurrency()}`,
-          emoji: false,
-        })
+        errorEmbed({ desc: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toCurrency()}` })
       );
 
     // Tính kết quả

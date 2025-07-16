@@ -21,23 +21,20 @@ module.exports = {
 
     const setupWelcome = {
       channel: async () => {
-        await serverProfile
+        welcomeSection.content = `- \\💬 Welcome channel: <#${channelId}>`;
+        return await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.channel': channelId } })
           .catch(console.error);
-        welcomeSection.content = `- \\💬 Welcome channel: <#${channelId}>`;
-        return true;
       },
       log: async () => {
-        await serverProfile
+        logSection.content = `- \\📋 Log channel: <#${channelId}>`;
+        return await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.log': channelId } })
           .catch(console.error);
-        logSection.content = `- \\📋 Log channel: <#${channelId}>`;
-        return true;
       },
     };
 
-    if (!setupWelcome[selected]) throw new Error(chalk.yellow('Invalid channel', chalk.green(selected)));
-    await setupWelcome[selected]();
+    if (!setupWelcome[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
     await interaction.update({ components });
   },
 };

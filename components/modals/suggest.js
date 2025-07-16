@@ -17,7 +17,6 @@ module.exports = {
       return await interaction.reply(
         errorEmbed({
           desc: `Máy chủ này chưa thiết lập kênh đề xuất. Vui lòng liên hệ đội ngũ ${cfg.adminRole} để được hỗ trợ.`,
-          emoji: false,
         })
       );
 

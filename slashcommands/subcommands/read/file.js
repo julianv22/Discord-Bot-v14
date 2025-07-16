@@ -48,10 +48,7 @@ module.exports = {
       if (error.code === 'ENOENT')
         // File hoặc thư mục không tồn tại
         return interaction.editReply(
-          errorEmbed({
-            desc: `File [ \`${relativeFilePath}\` ] not found. Please check the path.`,
-            emoji: false,
-          })
+          errorEmbed({ desc: `File [ \`${relativeFilePath}\` ] not found. Please check the path.` })
         );
       else if (error.code === 'EISDIR')
         // Đường dẫn trỏ đến một thư mục

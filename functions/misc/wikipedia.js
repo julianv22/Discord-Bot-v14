@@ -15,7 +15,7 @@ module.exports = (client) => {
 
       if (!res.ok || body.status === 404) {
         const replyMessage = await object.reply(
-          errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!`, emoji: false })
+          errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!` })
         );
 
         if (object.author)

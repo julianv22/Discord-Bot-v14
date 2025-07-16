@@ -66,8 +66,9 @@ module.exports = {
     await interaction.reply(
       errorEmbed({
         desc: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
-        emoji: '\\🏆',
+        emoji: '🏆',
         color: Colors.DarkGreen,
+        flags: false,
       })
     );
 
@@ -83,10 +84,7 @@ module.exports = {
 
       if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
-          errorEmbed({
-            desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
-            emoji: false,
-          })
+          errorEmbed({ desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!` })
         );
     } else await members.cache.get(user.id).roles.add(role).catch(console.error);
   },

@@ -28,10 +28,7 @@ module.exports = {
       const timeleft = Math.floor(finishTime.getTime() / 1000);
 
       return await interaction.reply(
-        errorEmbed({
-          desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
-          emoji: false,
-        })
+        errorEmbed({ desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>` })
       );
     }
 

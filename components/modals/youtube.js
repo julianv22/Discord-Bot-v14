@@ -18,7 +18,6 @@ module.exports = {
     const { id: guildID, name: guildName } = guild;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);
-    const data = embeds[0].data;
 
     /** - Validates a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -52,6 +51,19 @@ module.exports = {
       return channelId;
     };
 
+    const refresh = async () => {
+      const refresh = await serverProfile.findOne({ guildID });
+      const channelList = await Promise.all(
+        refresh.youtube.channels.map(async (id, idx) => {
+          const title = await getChannelTitle(id, process.env.YT_API_KEY);
+          return `${idx + 1}. [**${title}**](https://www.youtube.com/channel/${id}) - \`${id}\``;
+        })
+      );
+
+      embeds[0].data.description =
+        channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.';
+      await interaction.update({ embeds });
+    };
     const onSubmit = {
       add: async () => {
         const existing = await serverProfile.findOne({ guildID, 'youtube.channels': input });
@@ -74,7 +86,7 @@ module.exports = {
             { upsert: true }
           )
           .catch(console.error);
-        return true;
+        return refresh();
       },
       remove: async () => {
         const result = await serverProfile
@@ -90,24 +102,10 @@ module.exports = {
           );
           return false;
         }
-        return true;
+        return refresh();
       },
     };
 
-    if (!onSubmit[action]) throw new Error(chalk.yellow('Invalid submit modal', chalk.green(action)));
-
-    await onSubmit[action]();
-
-    const refresh = await serverProfile.findOne({ guildID });
-    const channelList = await Promise.all(
-      refresh.youtube.channels.map(async (id, idx) => {
-        const title = await getChannelTitle(id, process.env.YT_API_KEY);
-        return `${idx + 1}. [${title}](https://www.youtube.com/channel/${id}) - \`${id}\``;
-      })
-    );
-
-    data.description = channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.';
-
-    await interaction.update({ embeds });
+    if (!onSubmit[action]()) throw new Error(chalk.yellow('Invalid submit modal', chalk.green(action)));
   },
 };

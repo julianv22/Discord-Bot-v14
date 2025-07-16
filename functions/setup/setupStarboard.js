@@ -38,23 +38,23 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           [
-            '### ⭐ Starboard Information',
+            '### \\⭐ Starboard Information',
             `- \\💬 Starboard channel: ${channelName(starboard?.channel)}`,
             `- \\🔢 Number of stars to send message: **${starboard?.star || 0}**\\⭐`,
           ],
           ComponentType.Thumbnail,
-          { url: cfg.infoPNG }
+          cfg.infoPNG
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('### Select options \\⤵️'))
-      .addActionRowComponents(menuComponents('starboard-menu:channel', 'Select Starboard channel'))
+      .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
+      .addActionRowComponents(menuComponents('starboard-menu:channel', '💬 Select Starboard Channel'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
         new ActionRowBuilder().setComponents(
           new StringSelectMenuBuilder()
             .setCustomId('starboard-menu:star')
-            .setPlaceholder('Select number of stars')
+            .setPlaceholder('⭐ Select number of stars')
             .setOptions(
               Array.from({ length: 20 }, (_, i) => ({
                 label: `${i + 1} ⭐`,

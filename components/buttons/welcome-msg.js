@@ -9,14 +9,13 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guildId: guildID } = interaction;
+    const { guildId: guildID, customId } = interaction;
     const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    const modal = new ModalBuilder().setCustomId('welcome-msg').setTitle('Welcome message');
     const textinput = new ActionRowBuilder().setComponents(
       rowComponents(
         [
           {
-            customId: 'welcome-msg',
+            customId,
             label: 'Enter the welcome message',
             style: TextInputStyle.Paragraph,
             value: profile?.setup?.welcome?.message || '',
@@ -26,8 +25,7 @@ module.exports = {
         ComponentType.TextInput
       )
     );
-
-    modal.setComponents(textinput);
+    const modal = new ModalBuilder().setCustomId(customId).setTitle('Welcome message').setComponents(textinput);
 
     await interaction.showModal(modal);
   },

@@ -40,7 +40,6 @@ module.exports = {
       await interaction.reply(
         errorEmbed({
           desc: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
-          emoji: false,
         })
       );
     });
@@ -58,8 +57,8 @@ module.exports = {
 
         return await interaction.reply({ embeds: [msgEmbed], components: manageEmbedButtons(messageId), flags: 64 });
       },
-      message: async () => {
-        return await msg.edit(content).then(async () => {
+      message: async () =>
+        await msg.edit(content).then(async () => {
           const embeds = [
             new EmbedBuilder()
               .setColor('Random')
@@ -77,11 +76,9 @@ module.exports = {
           ];
 
           await interaction.reply({ embeds, flags: 64 });
-        });
-      },
+        }),
     };
 
-    if (!editMessage[editType]) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(editType));
-    await editMessage[editType]();
+    if (!editMessage[editType]()) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(editType));
   },
 };

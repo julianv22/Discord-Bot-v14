@@ -7,19 +7,13 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const [, button] = interaction.customId.split(':');
+    const [, buttonId] = interaction.customId.split(':');
 
     const showContent = {
-      youtube: () => {
-        return `Hãy like, share và subscribe để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`;
-      },
-      server: () => {
-        return `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink;
-      },
+      youtube: () => `Hãy like, share và subscribe để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`,
+      server: () => `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink,
     };
 
-    if (!showContent[button]) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(button));
-
-    await interaction.reply({ content: showContent[button](), flags: 64 });
+    await interaction.reply({ content: showContent[buttonId]() || 'Nothing here!', flags: 64 });
   },
 };

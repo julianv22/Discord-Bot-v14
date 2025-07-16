@@ -21,14 +21,10 @@ module.exports = {
     const contextMenus = slashCommands.filter((cmd) => cmd.category === ignore).map((cmd) => cmd.data.name);
 
     const ShowHelp = {
-      default: async () => {
-        // Các lệnh slash command theo category
-        return await helpSlash(CommandType, interaction);
-      },
-      prefix: async () => {
-        // Các lệnh prefix command
-        return await helpPrefix(interaction);
-      },
+      // Các lệnh slash command theo category
+      default: async () => await helpSlash(CommandType, interaction),
+      // Các lệnh prefix command
+      prefix: async () => await helpPrefix(interaction),
       slash: async () => {
         // Thống kê tổng hợp các slash command
         const embeds = [
@@ -61,7 +57,7 @@ module.exports = {
             ),
         ];
 
-        return await interaction.update({ embeds });
+        await interaction.update({ embeds });
       },
     };
 

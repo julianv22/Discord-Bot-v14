@@ -10,16 +10,16 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { textDisplay, menuComponents, sectionComponents } = require('../../../functions/common/components');
+const { menuComponents, sectionComponents, textDisplay } = require('../../../functions/common/components');
 
 module.exports = {
   category: 'sub command',
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('notify'),
-  /** - Sets up the channel for YouTube video notifications.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client  */
+  /** - Sets up the channel for YouTube video notifications and alert roles.
+   * @param {Interaction} interaction - The command interaction object.
+   * @param {Client} client - The Discord client instance. */
   async execute(interaction, client) {
     const { guild } = interaction;
     const { id: guildID, name: guildName, roles } = guild;
@@ -31,7 +31,8 @@ module.exports = {
         .catch(console.error);
 
     const { youtube } = profile || {};
-    /** @param {string} channelId */
+
+    /** @param {string} channelId - The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
@@ -39,32 +40,36 @@ module.exports = {
       .addSectionComponents(
         sectionComponents(
           [
-            '### 📢 YouTube Notification Settings',
+            '### 📢 YouTube Notification Information',
             `- \\💬 Notification Channel: ${channelName(youtube.notifyChannel)}`,
             `- \\🔔 Alert Role: ${roles.cache.get(youtube.alert) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
-          { url: cfg.infoPNG }
+          cfg.infoPNG
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
+      .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
       .addSectionComponents(
         sectionComponents(
-          'Select the notification channel:\n-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.',
+          [
+            'Notification channel:',
+            '-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.',
+          ],
           ComponentType.Button,
-          { customId: 'youtube:notify', label: '💬 Remove Channel', style: ButtonStyle.Danger }
+          { customId: 'youtube:remove:notify', label: '💬 Remove Channel', style: ButtonStyle.Danger }
         )
       )
-      .addActionRowComponents(menuComponents('youtube-menu:notify'))
+      .addActionRowComponents(menuComponents('youtube-menu:notify', '💬 Select Notification Channel'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addSectionComponents(
         sectionComponents(
-          'Select the alert role:\n-# \\⚠️ This role will be mentioned in the notification.',
+          ['Alert role:', '-# \\⚠️ This role will be mentioned in the notification.'],
           ComponentType.Button,
-          { customId: 'youtube:alert', label: '🔔 Remove Alert', style: ButtonStyle.Danger }
+          { customId: 'youtube:remove:alert', label: '🔔 Remove Alert', style: ButtonStyle.Danger }
         )
       )
-      .addActionRowComponents(menuComponents('youtube-menu:alert', null, ComponentType.RoleSelect));
+      .addActionRowComponents(menuComponents('youtube-menu:alert', '🔔 Select Alert Role', ComponentType.RoleSelect));
 
     await interaction.reply({ flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral], components: [container] });
   },

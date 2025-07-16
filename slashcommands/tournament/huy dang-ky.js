@@ -11,9 +11,9 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('dang-ky')
-        .setDescription('🏆 Cancel tournament registration')
+        .setDescription('🏆 Huỷ đăng ký giải đấu')
         .addBooleanOption((option) =>
-          option.setName('confirm').setDescription('Be sure before making a decision!!').setRequired(true)
+          option.setName('confirm').setDescription('✅ Xác nhận huỷ đăng ký giải đấu').setRequired(true)
         )
     ),
   /** - Huỷ đăng ký giải
@@ -47,7 +47,7 @@ module.exports = {
         errorEmbed({
           desc: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
           emoji: '🏆',
-          color: Colors.DarkVividPink,
+          color: Colors.Red,
         })
       );
 
@@ -84,10 +84,7 @@ module.exports = {
 
       if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
-          errorEmbed({
-            desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`,
-            emoji: false,
-          })
+          errorEmbed({ desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!` })
         );
     } else await members.cache.get(user.id).roles.remove(role).catch(console.error);
 

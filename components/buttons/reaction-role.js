@@ -34,19 +34,15 @@ module.exports = {
         [{ customId: buttonId, label: `Reaction Role ${buttonId}`, style: TextInputStyle.Short, placeholder }],
         ComponentType.TextInput
       );
-      const actionRows = textInputs.map((textInput) => new ActionRowBuilder().addComponents(textInput));
+      const actionRows = textInputs.map((textInput) => new ActionRowBuilder().setComponents(textInput));
       const modal = new ModalBuilder().setCustomId(`reaction-role:${buttonId}`).setTitle('Quản lý Reaction Role');
       actionRows.forEach((row) => modal.addComponents(row));
       return modal;
     };
 
     const reactionButton = {
-      title: async () => {
-        return await interaction.showModal(createModal('Nhập tiêu đề cho reaction role'));
-      },
-      color: async () => {
-        return await interaction.showModal(createModal(Object.keys(Colors).join(',').slice(14, 114)));
-      },
+      title: async () => await interaction.showModal(createModal('Nhập tiêu đề cho reaction role')),
+      color: async () => await interaction.showModal(createModal(Object.keys(Colors).join(',').slice(14, 114))),
       add: async () => {
         if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
 
@@ -127,7 +123,6 @@ module.exports = {
         collector.on('end', async (collected, reason) => {
           if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
         });
-        return;
       },
       hide: async () => {
         if (hideButton.data.label === '⛔ Hide guide') {
@@ -145,12 +140,12 @@ module.exports = {
           );
         }
 
-        return await interaction.update({ embeds: [reactionEmbed], components: [buttons] });
+        await interaction.update({ embeds: [reactionEmbed], components: [buttons] });
       },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
 
-        if (emojiArray.length === 0) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
+        if (emojiArray.length === 0) return await interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
 
         const msg = await channel.send({ embeds: [reactionEmbed.setFields()] });
 
@@ -174,12 +169,9 @@ module.exports = {
         await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
 
         reactionMap.delete(message.id);
-        return;
       },
     };
 
-    if (!reactionButton[buttonId]) throw new Error(chalk.yellow('Invalid buttonId'), chalk.green(buttonId));
-
-    await reactionButton[buttonId]();
+    if (!reactionButton[buttonId]()) throw new Error(chalk.yellow('Invalid buttonId'), chalk.green(buttonId));
   },
 };

@@ -20,17 +20,13 @@ module.exports = {
     const profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
     if (!profile)
       return await interaction.reply(
-        errorEmbed({
-          desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁',
-          emoji: false,
-        })
+        errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
     if (amount > profile.balance)
       return await interaction.reply(
         errorEmbed({
           desc: 'Số \\💲 gửi không được lớn hơn số tiền hiện có!\n ➡ Sử dụng `/balance` để kiểm tra số 💲 hiện có',
-          emoji: false,
         })
       );
 

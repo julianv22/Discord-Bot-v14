@@ -1,6 +1,6 @@
 const { Client, Interaction, ContainerBuilder, SeparatorBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { textDisplay, menuComponents, dashboardMenu, sectionComponents } = require('../common/components');
+const { textDisplay, menuComponents, dashboardMenu } = require('../common/components');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -19,9 +19,9 @@ module.exports = (client) => {
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
-      .addTextDisplayComponents(textDisplay(`### \\💡 Suggest Channel: ${channelName(suggest)}`))
+      .addTextDisplayComponents(textDisplay(`### \\⚙️ Suggest Channel: ${channelName(suggest)}`))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(menuComponents('suggest-menu', 'Select Suggest Channel'));
+      .addActionRowComponents(menuComponents('suggest-menu', '💡 Select Suggest Channel'));
 
     await interaction.editReply({ components: [dashboardMenu(), container] });
   };

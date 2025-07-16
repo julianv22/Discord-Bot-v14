@@ -48,7 +48,6 @@ module.exports = {
           desc: !profile
             ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
             : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
-          emoji: false,
         })
       );
 

@@ -34,23 +34,12 @@ module.exports = {
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
-      title: () => {
-        if (!inputValue) return embed.setTitle(null);
-        else return embed.setTitle(truncateString(inputValue, 256));
-      },
-      description: () => {
-        return embed.setDescription(replaceVar(truncateString(inputValue, 4096), replaceKey));
-      },
-      color: () => {
-        return embed.setColor(inputValue.toEmbedColor());
-      },
-      image: () => {
-        return embed.setImage(inputValue.checkURL() ? inputValue : null);
-      },
-      thumbnail: () => {
-        return embed.setThumbnail(inputValue.checkURL() ? inputValue : null);
-      },
-      footer: async () => {
+      title: () => embed.setTitle(truncateString(inputValue, 256) || null),
+      description: () => embed.setDescription(replaceVar(truncateString(inputValue, 4096), replaceKey)),
+      color: () => embed.setColor(inputValue.toEmbedColor()),
+      image: () => embed.setImage(inputValue.checkURL() ? inputValue : null),
+      thumbnail: () => embed.setThumbnail(inputValue.checkURL() ? inputValue : null),
+      footer: () => {
         const footerIcon = fields.getTextInputValue('footerIcon');
         const iconUrl = replaceVar(footerIcon, replaceKey);
 
@@ -59,15 +48,15 @@ module.exports = {
           iconURL: iconUrl.checkURL() ? iconUrl : null,
         });
       },
-      addfield: async () => {
+      addfield: () => {
         const fieldvalue = fields.getTextInputValue('fieldvalue');
         const inline = fields.getTextInputValue('inline');
         return embed.addFields({ name: inputValue, value: fieldvalue, inline: inline === '1' ? true : false });
       },
     };
 
-    if (!onSubmit[textInputId]) throw new Error(chalk.yellow("Invalid TextInput's customId"), chalk.green(textInputId));
-    await onSubmit[textInputId]();
+    if (!onSubmit[textInputId]())
+      throw new Error(chalk.yellow("Invalid TextInput's customId"), chalk.green(textInputId));
     await interaction.update({ embeds: [embed] });
   },
 };

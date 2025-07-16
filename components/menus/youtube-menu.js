@@ -21,23 +21,20 @@ module.exports = {
 
     const onClick = {
       notify: async () => {
+        notifySection.content = `- Notify channel: <#${channelId}>`;
         await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'youtube.notifyChannel': channelId } })
           .catch(console.error);
-        notifySection.content = `- Notify channel: <#${channelId}>`;
-        return true;
       },
       alert: async () => {
+        alertSection.content = `- Alert role: <@&${channelId}>`;
         await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'youtube.alert': channelId } })
           .catch(console.error);
-        alertSection.content = `- Alert role: <@&${channelId}>`;
-        return true;
       },
     };
 
-    if (!onClick[selected]) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
-    await onClick[selected]();
+    if (!onClick[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
     await interaction.update({ components });
   },
 };

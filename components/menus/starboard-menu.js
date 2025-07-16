@@ -16,7 +16,7 @@ module.exports = {
     } = interaction;
     const [, menu] = customId.split(':');
     const value = values[0];
-    const content = (id) => components[1].components[0].components[id].data;
+    const textDisplay = (id) => components[1].components[0].components[id].data;
 
     const profile = await serverProfile.findOne({ guildID });
     const { starboard } = profile?.setup || {};
@@ -24,13 +24,11 @@ module.exports = {
     const onSelect = {
       channel: () => {
         starboard.channel = value;
-        content(1).content = `- \\💬 Starboard channel: <#${value}>`;
-        return true;
+        return (textDisplay(1).content = `- \\💬 Starboard channel: <#${value}>`);
       },
       star: () => {
         starboard.star = parseInt(value, 10);
-        content(2).content = `- \\🔢 Number of stars to send message: **${value}**\\⭐`;
-        return true;
+        return (textDisplay(2).content = `- \\🔢 Number of stars to send message: **${value}**\\⭐`);
       },
     };
 

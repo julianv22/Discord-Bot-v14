@@ -48,25 +48,25 @@ module.exports = (client) => {
             )}`,
           ],
           ComponentType.Thumbnail,
-          { url: guild.iconURL(true) }
+          cfg.infoPNG
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('### Select channels \\⤵️'))
+      .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
       .addActionRowComponents(
-        menuComponents('statistic-menu:total', 'Select Total count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:total', '🌏 Select Total count channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:members', 'Select Members count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:members', '🤵 Select Members count channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:bots', 'Select Bots count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:bots', '🎯 Select Bots count channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:presence', 'Select presences statistic channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:presence', '📊 Select presences statistic channel', ChannelType.GuildVoice)
       );
 
     await interaction.editReply({ components: [dashboardMenu(), container] });

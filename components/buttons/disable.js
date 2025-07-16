@@ -9,7 +9,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { rowComponents, dashboardMenu } = require('../../functions/common/components');
+const { rowComponents, dashboardMenu, textDisplay } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
@@ -33,12 +33,10 @@ module.exports = {
         )
       );
     /** - ContainerBuilder
-     * @param {string} content TextDisplay content
+     * @param {string|string[]} contents TextDisplay content
      * @param {num} [accent_color] Container accent color */
-    const containerMessage = (content, accent_color = Colors.Orange) =>
-      new ContainerBuilder()
-        .setAccentColor(accent_color)
-        .addTextDisplayComponents(new TextDisplayBuilder().setContent(content));
+    const containerMessage = (contents, accent_color = Colors.Orange) =>
+      new ContainerBuilder().setAccentColor(accent_color).addTextDisplayComponents(textDisplay(contents));
 
     const profile = await serverProfile.findOne({ guildID }).catch(console.error);
 
@@ -50,26 +48,26 @@ module.exports = {
     const { starboard, suggest, youtube, welcome } = profile?.setup || {};
 
     const onClick = {
-      default: async () => {
-        return await interaction.update({
+      default: async () =>
+        await interaction.update({
           components: [
             dashboardMenu(),
-            containerMessage(
-              `**Disable ${feature.toCapitalize()}**\n-# Vô hiệu hoá chức năng ${feature.toCapitalize()}\n\n-# Click \`✅ Confirm\` để xác nhận \\⤵️`
-            ),
+            containerMessage([
+              `**Disable ${feature.toCapitalize()}**`,
+              `-# Vô hiệu hoá chức năng ${feature.toCapitalize()}`,
+              '-# Click `✅ Confirm` để xác nhận \\⤵️',
+            ]),
             confirmButtons(),
           ],
-        });
-      },
-      cancel: async () => {
-        return await interaction.update({
+        }),
+      cancel: async () =>
+        await interaction.update({
           components: [
             dashboardMenu(),
             containerMessage(`\\❌ ${feature.toCapitalize()} Disable`, Colors.Red),
             confirmButtons(true),
           ],
-        });
-      },
+        }),
       confirm: async () => {
         switch (disable) {
           case 'starboard':
@@ -97,7 +95,10 @@ module.exports = {
           components: [
             dashboardMenu(),
             containerMessage(
-              `**\\✅ Disable ${disable.toCapitalize()} successfully!**\n-# Đã vô hiệu hoá chức năng ${disable.toCapitalize()} thành công.`,
+              [
+                `**\\✅ Disable ${disable.toCapitalize()} successfully!**`,
+                `-# Đã vô hiệu hoá chức năng ${disable.toCapitalize()} thành công.`,
+              ],
               Colors.Green
             ),
           ],

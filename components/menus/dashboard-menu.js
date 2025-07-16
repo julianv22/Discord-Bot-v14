@@ -11,30 +11,14 @@ module.exports = {
     const feature = interaction.values[0];
 
     const onSelect = {
-      welcome: async () => {
-        await setupWelcome(interaction);
-        return true;
-      },
-      statistics: async () => {
-        await setupStats(interaction);
-        return true;
-      },
-      starboard: async () => {
-        await setupStarboard(interaction);
-        return true;
-      },
-      suggest: async () => {
-        await setupSuggest(interaction);
-        return true;
-      },
-      disable: async () => {
-        await setupDisable(interaction);
-        return true;
-      },
+      welcome: async () => await setupWelcome(interaction),
+      statistics: async () => await setupStats(interaction),
+      starboard: async () => await setupStarboard(interaction),
+      suggest: async () => await setupSuggest(interaction),
+      disable: async () => await setupDisable(interaction),
     };
 
     await interaction.deferUpdate();
-    if (!onSelect[feature]) throw new Error(chalk.yellow('Invalid feature', chalk.green(feature)));
-    await onSelect[feature]();
+    if (!onSelect[feature]()) throw new Error(chalk.yellow('Invalid feature', chalk.green(feature)));
   },
 };

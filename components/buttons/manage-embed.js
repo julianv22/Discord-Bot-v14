@@ -23,25 +23,24 @@ module.exports = {
     const { errorEmbed, catchError } = client;
     const [, buttonId, messageId] = customId.split(':');
     const editEmbed = EmbedBuilder.from(message.embeds[0]);
-    const button1 = ActionRowBuilder.from(message.components[0]);
-    const button2 = ActionRowBuilder.from(message.components[1]);
-    const button3 = ActionRowBuilder.from(message.components[2]);
-
+    const actionRow = (id) => ActionRowBuilder.from(message.components[id]);
+    const buttons = [actionRow(0), actionRow(1), actionRow(2)];
+    // [button1, button2, button3]
     if (!message) return await interaction.reply(errorEmbed({ desc: 'Message not found!' }));
 
     /** - Creates an interaction modal.
      * @param {object[]} options - Array of options for text inputs. */
     const createModal = (options) => {
       const textInputs = rowComponents(options, ComponentType.TextInput);
-      const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
+      const actionRows = textInputs.map((textInput) => new ActionRowBuilder().addComponents(textInput));
       const modal = new ModalBuilder().setCustomId(customId).setTitle('Embed Manager');
       actionRows.forEach((row) => modal.addComponents(row));
       return modal;
     };
 
     const onClick = {
-      author: async () => {
-        return await interaction.showModal(
+      author: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -54,10 +53,9 @@ module.exports = {
               placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
             },
           ])
-        );
-      },
-      title: async () => {
-        return await interaction.showModal(
+        ),
+      title: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -66,10 +64,9 @@ module.exports = {
               placeholder: '{guild} = Server Name, {user} = User Name',
             },
           ])
-        );
-      },
-      description: async () => {
-        return await interaction.showModal(
+        ),
+      description: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -80,10 +77,9 @@ module.exports = {
               required: true,
             },
           ])
-        );
-      },
-      color: async () => {
-        return await interaction.showModal(
+        ),
+      color: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -91,10 +87,9 @@ module.exports = {
               placeholder: Object.keys(Colors).join(',').slice(14, 114),
             },
           ])
-        );
-      },
-      image: async () => {
-        return await interaction.showModal(
+        ),
+      image: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -102,10 +97,9 @@ module.exports = {
               placeholder: 'Enter image URL, Leave blank = Remove',
             },
           ])
-        );
-      },
-      thumbnail: async () => {
-        return await interaction.showModal(
+        ),
+      thumbnail: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -113,10 +107,9 @@ module.exports = {
               placeholder: 'Enter thumbnail URL, Leave blank = Remove',
             },
           ])
-        );
-      },
-      footer: async () => {
-        return await interaction.showModal(
+        ),
+      footer: async () =>
+        await interaction.showModal(
           createModal([
             {
               customId: buttonId,
@@ -129,10 +122,9 @@ module.exports = {
               placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
             },
           ])
-        );
-      },
+        ),
       timestamp: async () => {
-        const timestampButton = button2.components[0];
+        const timestampButton = buttons[1].components[0];
 
         if (timestampButton.data.style === ButtonStyle.Danger) {
           editEmbed.setTimestamp(null);
@@ -142,29 +134,30 @@ module.exports = {
           timestampButton.setLabel('⛔ Timestamp').setStyle(ButtonStyle.Danger);
         }
 
-        return await interaction.update({ embeds: [editEmbed], components: [button1, button2, button3] });
+        return await interaction.update({ embeds: [editEmbed], components: buttons });
       },
-      addfield: async () => {
-        return await interaction.showModal(
+      addfield: async () =>
+        await interaction.showModal(
           createModal([
             { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', required: true },
             { customId: 'fieldvalue', label: 'Field value', placeholder: 'Enter field value', required: true },
             { customId: 'inline', label: 'Inline (0 = false, 1 = true)', placeholder: '0 = false, 1 = true' },
           ])
-        );
-      },
-      removefields: async () => {
-        return await interaction.update({ embeds: [editEmbed.setFields()] });
-      },
+        ),
+      removefields: async () => await interaction.update({ embeds: [editEmbed.setFields()] }),
       send: async () => {
         try {
-          const buttons = [...button1.components, ...button2.components, ...button3.components];
-          for (const button of buttons) button.data.disabled = true;
+          // Disable all buttons
+          for (const button of buttons) {
+            for (const component of button.components) {
+              component.data.disabled = true;
+            }
+          }
 
           if (!messageId || messageId === 'undefined') {
             // editEmbed.setFields();
             await channel.send({ embeds: [editEmbed] });
-            return await interaction.update({ components: [button1, button2, button3] });
+            return await interaction.update({ components: buttons });
           } else {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
@@ -188,12 +181,11 @@ module.exports = {
             });
           }
         } catch (e) {
-          catchError(interaction, e, 'Error while updating embed message');
+          return catchError(interaction, e, 'Error while updating embed message');
         }
       },
     };
 
-    if (!onClick[buttonId]) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(buttonId));
-    await onClick[buttonId]();
+    if (!onClick[buttonId]()) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(buttonId));
   },
 };

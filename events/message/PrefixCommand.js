@@ -21,12 +21,7 @@ module.exports = {
 
       if (!command)
         return await message
-          .reply(
-            errorEmbed({
-              desc: `Command [\`${prefix + commandName}\`] không chính xác hoặc không tồn tại!`,
-              emoji: false,
-            })
-          )
+          .reply(errorEmbed({ desc: `Command [\`${prefix + commandName}\`] không chính xác hoặc không tồn tại!` }))
           .then((m) => {
             setTimeout(async () => {
               await m.delete().catch(console.error);
@@ -35,7 +30,7 @@ module.exports = {
       try {
         if (command.permissions && !member.permissions.has(command.permissions))
           return await message
-            .reply(errorEmbed({ desc: `Bạn không có quyền sử dụng lệnh [\`${prefix + commandName}\`]!`, emoji: false }))
+            .reply(errorEmbed({ desc: `Bạn không có quyền sử dụng lệnh [\`${prefix + commandName}\`]!` }))
             .then((m) => {
               setTimeout(async () => {
                 await m.delete().catch(console.error);

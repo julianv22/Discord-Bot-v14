@@ -48,7 +48,7 @@ module.exports = {
     const channelList = await Promise.all(
       youtube.channels.map(async (id, idx) => {
         const title = await getChannelTitle(id, process.env.YT_API_KEY);
-        return `${idx + 1}. [${title}](https://www.youtube.com/channel/${id}) - \`${id}\``;
+        return `${idx + 1}. [**${title}**](https://www.youtube.com/channel/${id}) - \`${id}\``;
       })
     );
 
@@ -64,8 +64,8 @@ module.exports = {
       new ActionRowBuilder().setComponents(
         rowComponents(
           [
-            { customId: 'youtube:add', label: 'Add Channel', emoji: '➕', style: ButtonStyle.Success },
-            { customId: 'youtube:remove', label: 'Remove Channel', emoji: '➖', style: ButtonStyle.Danger },
+            { customId: 'youtube:channel:add', label: 'Add Channel', emoji: '➕', style: ButtonStyle.Success },
+            { customId: 'youtube:channel:remove', label: 'Remove Channel', emoji: '➖', style: ButtonStyle.Danger },
           ],
           ComponentType.Button
         )

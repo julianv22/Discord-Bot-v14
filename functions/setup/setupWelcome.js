@@ -40,21 +40,21 @@ module.exports = (client) => {
             `- \\📋 Log channel: ${channelName(welcome?.log)}`,
           ],
           ComponentType.Thumbnail,
-          { url: guild.iconURL(true) }
+          cfg.infoPNG
         )
       )
       .addSectionComponents(
-        sectionComponents(`- \\🗯 Welcome message:\n${welcomeMessage}`, ComponentType.Button, {
+        sectionComponents(['- \\🗯 Welcome message', welcomeMessage], ComponentType.Button, {
           customId: 'welcome-msg',
           label: '✍ Change message',
           style: ButtonStyle.Success,
         })
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addTextDisplayComponents(textDisplay('### Select channels \\⤵️'))
-      .addActionRowComponents(menuComponents('welcome-menu:channel', 'Select Welcome channel'))
+      .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
+      .addActionRowComponents(menuComponents('welcome-menu:channel', '💬 Select Welcome Channel'))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(menuComponents('welcome-menu:log', 'Select Log channel'));
+      .addActionRowComponents(menuComponents('welcome-menu:log', '📋 Select Log Channel'));
 
     await interaction.editReply({
       components: [dashboardMenu(), container],

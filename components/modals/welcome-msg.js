@@ -14,13 +14,13 @@ module.exports = {
       fields,
       customId,
     } = interaction;
-    const input = fields.getTextInputValue(customId);
-    const welcomeMessage = components[1].components[1].components[0].data;
+    const input = fields.getTextInputValue(customId).slice(0, 3000);
+    const welcomeMessage = components[1].components[1].components[1].data;
 
-    welcomeMessage.content = `- \\🗯 Welcome message:\n${input.slice(0, 3000)}`;
+    welcomeMessage.content = input;
 
     await serverProfile
-      .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input.slice(0, 3000) } })
+      .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input } })
       .catch(console.error);
 
     await interaction.update({ components });

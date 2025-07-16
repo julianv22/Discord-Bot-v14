@@ -14,24 +14,11 @@ module.exports = {
     const reactionButton = ActionRowBuilder.from(message.components[0]);
 
     const editEmbed = {
-      title: () => {
-        return reactionEmbed.setTitle(stringInput);
-      },
-      color: () => {
-        return reactionEmbed.setColor(stringInput.toEmbedColor());
-      },
+      title: () => reactionEmbed.setTitle(stringInput),
+      color: () => reactionEmbed.setColor(stringInput.toEmbedColor()),
     };
 
-    if (!editEmbed[textInput]) {
-      client.catchError(
-        interaction,
-        new Error(chalk.yellow("Invalid TextInput's customId ") + chalk.green(textInput)),
-        'Lỗi Modal Reaction'
-      );
-      return await interaction.reply(client.errorEmbed({ desc: 'Đã xảy ra lỗi khi xử lý yêu cầu của bạn.' }));
-    }
-
-    editEmbed[textInput]();
+    if (!editEmbed[textInput]()) throw new Error(chalk.yellow("Invalid TextInput's customId "), chalk.green(textInput));
     await interaction.update({ embeds: [reactionEmbed], components: [reactionButton] });
   },
 };
