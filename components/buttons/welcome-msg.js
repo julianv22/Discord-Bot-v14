@@ -17,7 +17,7 @@ module.exports = {
         [
           {
             customId: 'welcome-msg',
-            label: 'Nhập nội dung tin nhắn chào mừng',
+            label: 'Enter the welcome message',
             style: TextInputStyle.Paragraph,
             value: profile?.setup?.welcome?.message || '',
             required: true,

@@ -17,7 +17,7 @@ module.exports = {
     const input = fields.getTextInputValue(customId);
     const welcomeMessage = components[1].components[1].components[0].data;
 
-    welcomeMessage.content = `- \\📝 Welcome message:\n${input.slice(0, 3000)}`;
+    welcomeMessage.content = `- \\🗯 Welcome message:\n${input.slice(0, 3000)}`;
 
     await serverProfile
       .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input.slice(0, 3000) } })

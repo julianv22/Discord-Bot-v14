@@ -31,7 +31,7 @@ module.exports = {
         await serverProfile
           .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.log': channelId } })
           .catch(console.error);
-        logSection.content = `- \\💬 Log channel: <#${channelId}>`;
+        logSection.content = `- \\📋 Log channel: <#${channelId}>`;
         return true;
       },
     };

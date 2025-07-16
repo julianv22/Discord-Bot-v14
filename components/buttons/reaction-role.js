@@ -7,6 +7,7 @@ const {
   TextInputStyle,
   ComponentType,
   Colors,
+  ButtonStyle,
 } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 const { rowComponents } = require('../../functions/common/components');
@@ -23,6 +24,8 @@ module.exports = {
     const { errorEmbed } = client;
     const { id: guildID, name: guildName } = guild;
     const [, buttonId] = customId.split(':');
+    const buttons = ActionRowBuilder.from(message.components[0]);
+    const hideButton = buttons.components[0];
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
     /** - Tạo Modal tương tác
      * @param {string} placeholder Placeholder cho TextInput */
@@ -48,17 +51,20 @@ module.exports = {
         if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
 
         const emojiArray = reactionMap.get(message.id);
+        reactionEmbed.setFields();
+        hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
 
         await interaction.update({
           embeds: [
             reactionEmbed.addFields(
               {
                 name: 'Vui lòng nhập **emoji và tên role** theo định dạng `emoji | @tên_role`',
-                value: 'ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`',
+                value: '-# Ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`',
               },
-              { name: 'Bạn có 15 phút để nhập', value: 'Để kết thúc nhập `Done`' }
+              { name: 'Bạn có 15 phút để nhập', value: '-# Để kết thúc nhập `Done`' }
             ),
           ],
+          components: [buttons],
         });
 
         const filter = (m) => m.author.id === user.id && m.channel.id === channel.id;
@@ -70,10 +76,8 @@ module.exports = {
 
           if (input.toLowerCase() === 'done') {
             collector.stop('finish');
-            reactionEmbed.setFields([]);
-
-            await interaction.editReply({ embeds: [reactionEmbed] });
-
+            hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
+            await interaction.editReply({ embeds: [reactionEmbed.setFields()], components: [buttons] });
             return interaction.followUp(errorEmbed({ desc: 'Kết thúc thêm reaction role!', emoji: true }));
           }
 
@@ -111,13 +115,11 @@ module.exports = {
           }
 
           let desc = reactionEmbed.data.description || '';
-          if (desc.includes('🎨Color')) desc = '';
-
           desc = desc + `\n${emojiReact} ${role}`;
 
           emojiArray.push({ emoji: emojiReact, roleId: role.id });
 
-          reactionEmbed.setDescription(desc).setFields([]);
+          reactionEmbed.setDescription(desc);
 
           await interaction.editReply({ embeds: [reactionEmbed] });
         });
@@ -127,12 +129,30 @@ module.exports = {
         });
         return;
       },
+      hide: async () => {
+        if (hideButton.data.label === '⛔ Hide guide') {
+          hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
+          reactionEmbed.setFields();
+        } else {
+          hideButton.setLabel('⛔ Hide guide').setStyle(ButtonStyle.Danger);
+          reactionEmbed.setFields(
+            { name: '\\💬 Title', value: 'Reaction role title.\n-# Vui lòng tạo role trước khi thêm reaction role.' },
+            {
+              name: '➕ Add Role',
+              value: 'Thêm role vào reaction role\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.',
+            },
+            { name: '\\🎨 Color', value: '```fix\n' + Object.keys(Colors).join(', ') + '```' }
+          );
+        }
+
+        return await interaction.update({ embeds: [reactionEmbed], components: [buttons] });
+      },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
 
         if (emojiArray.length === 0) return interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
 
-        const msg = await channel.send({ embeds: [reactionEmbed] });
+        const msg = await channel.send({ embeds: [reactionEmbed.setFields()] });
 
         await reactionRole
           .create({

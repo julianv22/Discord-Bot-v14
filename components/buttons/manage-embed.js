@@ -4,6 +4,7 @@ const {
   EmbedBuilder,
   ActionRowBuilder,
   ModalBuilder,
+  ButtonBuilder,
   ButtonStyle,
   TextInputStyle,
   ComponentType,
@@ -14,21 +15,22 @@ const { rowComponents } = require('../../functions/common/components');
 module.exports = {
   type: 'buttons',
   data: { name: 'manage-embed' },
-  /** - Create/edit embed
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - Discord Client */
+  /** - Handles the interaction for managing embeds.
+   * @param {Interaction} interaction - The button interaction.
+   * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { customId, message, channel } = interaction;
     const { errorEmbed, catchError } = client;
-    const [, button, messageId] = customId.split(':');
+    const [, buttonId, messageId] = customId.split(':');
     const editEmbed = EmbedBuilder.from(message.embeds[0]);
-    const Button0 = ActionRowBuilder.from(message.components[0]);
-    const Button1 = ActionRowBuilder.from(message.components[1]);
+    const button1 = ActionRowBuilder.from(message.components[0]);
+    const button2 = ActionRowBuilder.from(message.components[1]);
+    const button3 = ActionRowBuilder.from(message.components[2]);
 
-    if (!message) return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
+    if (!message) return await interaction.reply(errorEmbed({ desc: 'Message not found!' }));
 
-    /** - Create Interaction Modal
-     * @param {object[]} options */
+    /** - Creates an interaction modal.
+     * @param {object[]} options - Array of options for text inputs. */
     const createModal = (options) => {
       const textInputs = rowComponents(options, ComponentType.TextInput);
       const actionRows = textInputs.map((txt) => new ActionRowBuilder().addComponents(txt));
@@ -37,19 +39,19 @@ module.exports = {
       return modal;
     };
 
-    const showModal = {
+    const onClick = {
       author: async () => {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Tác giả Embed, biến: {guild}, {user}',
-              placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
+              customId: buttonId,
+              label: 'Author (Leave blank = Remove)',
+              placeholder: '{guild} = Server Name, {user} = User Name',
             },
             {
               customId: 'authorIcon',
-              label: 'Biểu tượng tác giả (*.webp)',
-              placeholder: '{avatar} = Ảnh đại diện người dùng, {iconURL} = Biểu tượng máy chủ',
+              label: 'Author Icon',
+              placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
             },
           ])
         );
@@ -58,10 +60,10 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Tiêu đề Embed',
-              placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
-              required: true,
+              customId: buttonId,
+              label: 'Embed Title (Leave blank = Remove)',
+              value: editEmbed.data.title,
+              placeholder: '{guild} = Server Name, {user} = User Name',
             },
           ])
         );
@@ -70,10 +72,10 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Mô tả',
-              placeholder: 'Nhập mô tả embed\n{guild} = Tên máy chủ\n{user} = Tên người dùng',
+              customId: buttonId,
+              label: 'Embed Description',
               value: editEmbed.data.description,
+              placeholder: 'Enter embed description\n{guild} = Server Name\n{user} = User Name',
               style: TextInputStyle.Paragraph,
               required: true,
             },
@@ -84,8 +86,8 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Màu sắc (Để trống = Ngẫu nhiên)',
+              customId: buttonId,
+              label: 'Embed Color (Leave blank = Random)',
               placeholder: Object.keys(Colors).join(',').slice(14, 114),
             },
           ])
@@ -95,9 +97,9 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Hình ảnh (Để trống = Xóa)',
-              placeholder: 'Nhập URL hình ảnh, Để trống = Xóa',
+              customId: buttonId,
+              label: 'Embed Image (Leave blank = Remove)',
+              placeholder: 'Enter image URL, Leave blank = Remove',
             },
           ])
         );
@@ -106,9 +108,9 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Hình thu nhỏ (Để trống = Xóa)',
-              placeholder: 'Nhập URL hình thu nhỏ, Để trống = Xóa',
+              customId: buttonId,
+              label: 'Embed Thumbnail (Leave blank = Remove)',
+              placeholder: 'Enter thumbnail URL, Leave blank = Remove',
             },
           ])
         );
@@ -117,67 +119,81 @@ module.exports = {
         return await interaction.showModal(
           createModal([
             {
-              customId: button,
-              label: 'Chân trang (Để trống = Xóa)',
-              placeholder: '{guild} = Tên máy chủ, {user} = Tên người dùng',
+              customId: buttonId,
+              label: 'Footer (Leave blank = Remove)',
+              placeholder: '{guild} = Server Name, {user} = User Name',
             },
             {
-              customId: button + 'Icon',
-              label: 'Biểu tượng chân trang (*.webp)',
-              placeholder: '{avatar} = Ảnh đại diện người dùng, {iconURL} = Biểu tượng máy chủ',
+              customId: buttonId + 'Icon',
+              label: 'Footer Icon',
+              placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
             },
           ])
         );
       },
       timestamp: async () => {
-        const timestampButton = Button1.components[2];
+        const timestampButton = button2.components[0];
+
         if (timestampButton.data.style === ButtonStyle.Danger) {
           editEmbed.setTimestamp(null);
-          timestampButton.setLabel('✅Timestamp').setStyle(ButtonStyle.Success);
+          timestampButton.setLabel('✅ Timestamp').setStyle(ButtonStyle.Success);
         } else {
           editEmbed.setTimestamp();
-          timestampButton.setLabel('⛔Timestamp').setStyle(ButtonStyle.Danger);
+          timestampButton.setLabel('⛔ Timestamp').setStyle(ButtonStyle.Danger);
         }
 
-        return await interaction.update({
-          embeds: [editEmbed],
-          components: [Button0, Button1],
-          flags: 64,
-        });
+        return await interaction.update({ embeds: [editEmbed], components: [button1, button2, button3] });
+      },
+      addfield: async () => {
+        return await interaction.showModal(
+          createModal([
+            { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', required: true },
+            { customId: 'fieldvalue', label: 'Field value', placeholder: 'Enter field value', required: true },
+            { customId: 'inline', label: 'Inline (0 = false, 1 = true)', placeholder: '0 = false, 1 = true' },
+          ])
+        );
+      },
+      removefields: async () => {
+        return await interaction.update({ embeds: [editEmbed.setFields()] });
       },
       send: async () => {
         try {
-          [...Button0.components, ...Button1.components].forEach((button) => (button.data.disabled = true));
+          const buttons = [...button1.components, ...button2.components, ...button3.components];
+          for (const button of buttons) button.data.disabled = true;
 
           if (!messageId || messageId === 'undefined') {
+            // editEmbed.setFields();
             await channel.send({ embeds: [editEmbed] });
-            await interaction.update({ components: [Button0, Button1] });
+            return await interaction.update({ components: [button1, button2, button3] });
           } else {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
               return await interaction.reply(
-                errorEmbed({ desc: 'Không tìm thấy tin nhắn hoặc tin nhắn không ở kênh này.' })
+                errorEmbed({ desc: 'Message not found or message is not in this channel.' })
               );
 
             await msg.edit({ embeds: [editEmbed] }).catch(console.error);
             return await interaction.update({
               embeds: [
                 {
-                  title: '\\✅ Cập nhật thành công!',
-                  description: `Tin nhắn đã được cập nhật thành công.\n\n[Chuyển đến tin nhắn](${msg.url})`,
+                  author: { name: '✅ Successfully Updated!' },
+                  description: `Message has been successfully updated.`,
                 },
               ],
-              components: [Button0, Button1],
+              components: [
+                new ActionRowBuilder().setComponents(
+                  new ButtonBuilder().setLabel('🔗 Go to message').setStyle(ButtonStyle.Link).setURL(msg.url)
+                ),
+              ],
             });
           }
         } catch (e) {
-          catchError(interaction, e, 'Lỗi khi cập nhật tin nhắn embed');
+          catchError(interaction, e, 'Error while updating embed message');
         }
       },
     };
 
-    if (!showModal[button]) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(button));
-
-    await showModal[button]();
+    if (!onClick[buttonId]) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(buttonId));
+    await onClick[buttonId]();
   },
 };

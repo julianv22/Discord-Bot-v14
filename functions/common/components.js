@@ -138,7 +138,7 @@ module.exports = {
         description: 'Configures the suggestion submission and management system.',
       },
       {
-        emoji: '🚫',
+        emoji: '⛔',
         label: 'Setup Disable',
         value: 'disable',
         description: 'Disables specific bot features for the server.',

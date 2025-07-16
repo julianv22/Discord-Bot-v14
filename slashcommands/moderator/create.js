@@ -1,5 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Colors } = require('discord.js');
-const { embedButtons } = require('../../functions/common/manage-embed');
+const { manageEmbedButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {
   category: 'moderator',
@@ -16,21 +16,21 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
 
-    let content = `Danh sách màu sắc: \`\`\`fix\n${Object.keys(Colors).join(', ')}\`\`\`\n`;
-    content += `Các biến có thể dùng: \`{user}\`: tên user.    |    \`{avatar}\`: avatar của user.    |    \`{guild}\`: tên guild`;
-
     const embeds = [
       new EmbedBuilder()
         .setColor('Random')
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle('`💬Title` Enter the embed title')
-        .setDescription('`💬Description` Enter the embed description\n\n`🎨Color` Enter the embed color')
         .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTimestamp(),
+        .setTimestamp()
+        .setFields(
+          { name: '\\💬 Title', value: '-# Enter the embed title', inline: true },
+          { name: '\\💬 Description', value: '-# Enter the embed description', inline: true },
+          { name: '\\🎨 Color', value: `\`\`\`fix\n${Object.keys(Colors).join(', ')}\`\`\`` },
+          { name: '`{user}`', value: '-# User name\n**`{avatar}`**\n-# User avatar', inline: true },
+          { name: '`{guild}`', value: '-# Guild name\n**`{iconURL}`**\n-# Guild iconURL', inline: true }
+        ),
     ];
 
-    const components = embedButtons();
-
-    await interaction.reply({ content, embeds, components, flags: 64 });
+    await interaction.reply({ embeds, components: manageEmbedButtons(), flags: 64 });
   },
 };

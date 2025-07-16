@@ -1,5 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
-const { embedButtons } = require('../../functions/common/manage-embed');
+const { manageEmbedButtons } = require('../../functions/common/manage-embed');
 
 module.exports = {
   category: 'moderator',
@@ -55,9 +55,8 @@ module.exports = {
         if (!msg.embeds.length) return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!' }));
 
         const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
-        const [row1, row2] = embedButtons(messageId);
 
-        return await interaction.reply({ embeds: [msgEmbed], components: [row1, row2], flags: 64 });
+        return await interaction.reply({ embeds: [msgEmbed], components: manageEmbedButtons(messageId), flags: 64 });
       },
       message: async () => {
         return await msg.edit(content).then(async () => {

@@ -9,11 +9,10 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message, user, guild } = interaction;
-    const [, input] = customId.split(':');
-    const strInput = fields.getTextInputValue(input);
+    const [, textInputId] = customId.split(':');
+    const inputValue = fields.getTextInputValue(textInputId);
     const embed = EmbedBuilder.from(message.embeds[0]);
-    const Button0 = ActionRowBuilder.from(message.components[0]);
-    const Button1 = ActionRowBuilder.from(message.components[1]);
+
     const replaceKey = {
       user: user.displayName || user.username,
       guild: guild.name,
@@ -25,44 +24,50 @@ module.exports = {
 
     const truncateString = (str, maxLength) => (str.length > maxLength ? str.slice(0, maxLength) : str);
 
-    const editEmbed = {
+    const onSubmit = {
       author: () => {
         const authorIcon = fields.getTextInputValue('authorIcon');
         const iconURL = replaceVar(authorIcon, replaceKey);
 
         return embed.setAuthor({
-          name: replaceVar(truncateString(strInput, 256), replaceKey) || null,
+          name: replaceVar(truncateString(inputValue, 256), replaceKey) || null,
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
       title: () => {
-        return embed.setTitle(truncateString(strInput, 256));
+        if (!inputValue) return embed.setTitle(null);
+        else return embed.setTitle(truncateString(inputValue, 256));
       },
       description: () => {
-        return embed.setDescription(replaceVar(truncateString(strInput, 4096), replaceKey));
+        return embed.setDescription(replaceVar(truncateString(inputValue, 4096), replaceKey));
       },
       color: () => {
-        return embed.setColor(strInput.toEmbedColor());
+        return embed.setColor(inputValue.toEmbedColor());
       },
       image: () => {
-        return embed.setImage(strInput && strInput.checkURL() ? strInput : null);
+        return embed.setImage(inputValue.checkURL() ? inputValue : null);
       },
       thumbnail: () => {
-        return embed.setThumbnail(strInput && strInput.checkURL() ? strInput : null);
+        return embed.setThumbnail(inputValue.checkURL() ? inputValue : null);
       },
       footer: async () => {
         const footerIcon = fields.getTextInputValue('footerIcon');
         const iconUrl = replaceVar(footerIcon, replaceKey);
 
         return embed.setFooter({
-          text: replaceVar(truncateString(strInput, 2048), replaceKey) || null,
-          iconURL: iconUrl.checkURL() ? iconUrl : 'https://www.gstatic.com/webp/gallery3/2_webp_ll.webp', // Changed to null, as a default static URL might not be desired.
+          text: replaceVar(truncateString(inputValue, 2048), replaceKey) || null,
+          iconURL: iconUrl.checkURL() ? iconUrl : null,
         });
+      },
+      addfield: async () => {
+        const fieldvalue = fields.getTextInputValue('fieldvalue');
+        const inline = fields.getTextInputValue('inline');
+        return embed.addFields({ name: inputValue, value: fieldvalue, inline: inline === '1' ? true : false });
       },
     };
 
-    if (!editEmbed[input]) throw new Error(chalk.yellow("Invalid TextInput's customId"), chalk.green(input));
-    await editEmbed[input]();
-    await interaction.update({ embeds: [embed], components: [Button0, Button1] });
+    if (!onSubmit[textInputId]) throw new Error(chalk.yellow("Invalid TextInput's customId"), chalk.green(textInputId));
+    await onSubmit[textInputId]();
+    await interaction.update({ embeds: [embed] });
   },
 };

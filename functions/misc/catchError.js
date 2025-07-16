@@ -3,10 +3,10 @@ const { Client, Interaction, Message, EmbedBuilder, ChannelType, Colors } = requ
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   const regex = /\x1b\[[0-9;]*m/g;
-  /** - Show error when catched
-   * @param {Interaction|Message} object Interaction or Message
-   * @param {Error} e Error content
-   * @param {string|Interaction} description Error description */
+  /** - Displays an error when caught.
+   * @param {Interaction|Message} object - The interaction or message object.
+   * @param {Error} e - The error content.
+   * @param {string|Interaction} description - A description of the error, or the interaction object itself. */
   client.catchError = async (object, e, description) => {
     const { errorEmbed, logError, guilds } = client;
     const user = object.user || object.author;
@@ -72,14 +72,16 @@ module.exports = (client) => {
     }
   };
 
-  /** - Send `console.error` or `console.warn`
-   * @param {object} options Log options
-   * @param {string} [options.todo]  Error when (ex: When executing)
-   * @param {string} [options.item] Highlight
-   * @param {string} [options.desc] Description
-   * @param {boolean} [options.isWarn] isWarn = false: `console.warn`, isWarn = true: `console.error`
-   * @param {Error} [e] Error message
-   * - Ex: `logError({ todo: 'realoading', item: 'application (/) commands', desc: 'to Discord API' }, e)` */
+  /** - Sends a console error or warning.
+   * @param {object} options - Log options.
+   * @param {string} [options.todo='executing'] - Describes what was being done when the error occurred (e.g., 'reloading').
+   * @param {string} [options.item=''] - The specific item related to the error (e.g., 'application (/) commands').
+   * @param {string} [options.desc=''] - Additional description for the error.
+   * @param {boolean} [options.isWarn=false] - If true, logs as a warning; otherwise, logs as an error.
+   * @param {Error} [e=null] - The error object itself.
+   * @example
+   * client.logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, errorObject);
+   */
   client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);

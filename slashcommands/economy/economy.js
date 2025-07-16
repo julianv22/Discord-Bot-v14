@@ -7,9 +7,9 @@ module.exports = {
     .setName('economy')
     .setDescription('Provides information and commands related to the economy system.')
     .addSubcommand((sub) => sub.setName('guide').setDescription('Displays a guide to the economy system.')),
-  /** - Get economy guide
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** - Provides information and commands related to the economy system.
+   * @param {Interaction} interaction - The command interaction.
+   * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { user, guild } = interaction;
 
@@ -22,20 +22,20 @@ module.exports = {
         .setDescription(
           `Hello **${
             user.displayName || user.username
-          }**!\n\nĐây là các chức năng chính của hệ thống economy trên server này:`
+          }**!\nHere are the main functions of the economy system on this server:`
         )
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp()
         .setFields(
-          { name: '/daily', value: '```Nhận 💲 miễn phí mỗi ngày. Qua 0h là có thể nhận tiếp.```' },
-          { name: '/balance', value: '```Xem số dư, streak, bank, inventory, achievements.```' },
-          { name: '/job', value: '```Nhận công việc ngẫu nhiên, làm việc và nhận 💲 (cooldown).```' },
-          { name: '/rob', value: '```Giật 💲 của người khác (có rủi ro và cooldown).```' },
-          { name: '/leaderboard', value: '```Xem bảng xếp hạng top 🔟 user giàu nhất.```' },
-          { name: '/shop', value: '```Mua vật phẩm bằng 💲.```' },
-          { name: '/inventory', value: '```Xem kho đồ vật phẩm bạn sở hữu.\n(Đang xây dựng)```' },
-          { name: '/bank', value: '```Gửi/rút 💲 vào ngân hàng.```' },
-          { name: '/transfer', value: '```Chuyển 💲 cho người khác.```' }
+          { name: '/daily', value: '-# Receive free \\💲 daily. You can claim again after 0h.', inline: true },
+          { name: '/balance', value: '-# View balance, streak, bank, inventory, achievements.', inline: true },
+          { name: '/job', value: '-# Get a random job, work and earn \\💲 (with cooldown).', inline: true },
+          { name: '/rob', value: '-# Rob \\💲 from other users (with risk and cooldown).', inline: true },
+          { name: '/leaderboard', value: '-# View the leaderboard of the top \\🔟 richest users.', inline: true },
+          { name: '/shop', value: '-# Purchase items with \\💲.\n-# (Under construction)', inline: true },
+          { name: '/inventory', value: '-# View your item inventory.\n-# (Under construction)', inline: true },
+          { name: '/bank', value: '-# Deposit/withdraw \\💲 from the bank.', inline: true },
+          { name: '/transfer', value: '-# Transfer \\💲 to other users.', inline: true }
         ),
     ];
 
