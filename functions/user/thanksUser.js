@@ -1,5 +1,5 @@
 const { Client, Interaction, Message, EmbedBuilder, Colors } = require('discord.js');
-const serverThanks = require('../../config/thanksProfile');
+const thanksProfile = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
@@ -9,12 +9,13 @@ module.exports = (client) => {
    * @param {Interaction|Message} object - Interaction or Message */
   client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;
-    const { guild, user, author: objAuthor } = object;
-    const author = user || objAuthor;
-    const guildID = guild.id;
-    const guildName = guild.name;
-    const userID = target.id;
-    const usertag = target.tag;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = object;
+    const author = object?.user || object?.author;
+    const [userId, userName] = [target.id, target.displayName || target.username];
 
     try {
       const imgURL = [
@@ -35,7 +36,7 @@ module.exports = (client) => {
       if (!target) {
         const replyMessage = await object.reply(errorEmbed({ desc: 'You must mention someone!' }));
 
-        if (objAuthor)
+        if (object?.author)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10000);
@@ -43,10 +44,10 @@ module.exports = (client) => {
         return;
       }
 
-      if (target.user?.bot || target.bot) {
+      if (target.user?.bot || target?.bot) {
         const replyMessage = await object.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝' }));
 
-        if (objAuthor)
+        if (object?.author)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10000);
@@ -57,7 +58,7 @@ module.exports = (client) => {
       if (target.id === author.id) {
         const replyMessage = await object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅' }));
 
-        if (objAuthor)
+        if (object?.author)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10000);
@@ -65,22 +66,21 @@ module.exports = (client) => {
         return;
       }
 
-      let count = 1;
-      let thanks = await serverThanks.findOne({ guildID, userID }).catch(console.error);
-      if (!thanks)
-        thanks = await serverThanks
+      let profile = await thanksProfile.findOne({ guildId, userId }).catch(console.error);
+      if (!profile)
+        profile = await thanksProfile
           .create({
-            guildID,
+            guildId,
             guildName,
-            userID,
-            usertag,
-            thanksCount: count,
+            userId,
+            userName,
+            thanksCount: 1,
             lastThanks: Date.now(),
           })
           .catch(console.error);
-      else count = thanks.thanksCount + 1;
+      else profile.thanksCount += 1;
 
-      const lastThanks = moment(thanks.lastThanks || Date.now())
+      const lastThanks = moment(profile?.lastThanks || Date.now())
         .tz('Asia/Ho_Chi_Minh')
         .format('HH:mm ddd, Do MMMM YYYY');
 
@@ -94,7 +94,7 @@ module.exports = (client) => {
           .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
           .setTimestamp()
           .setFields(
-            { name: `Thanks count: [${count}]`, value: '\u200b', inline: true },
+            { name: `Thanks count: [${profile?.thanksCount}]`, value: '\u200b', inline: true },
             { name: 'Last thanks:', value: lastThanks, inline: true }
           ),
       ];
@@ -102,13 +102,10 @@ module.exports = (client) => {
       await object.reply({ embeds });
 
       // Update thanksCount
-      thanks.guildName = guildName;
-      thanks.usertag = usertag;
-      thanks.thanksCount = count;
-      thanks.lastThanks = Date.now();
-      return await thanks
-        .save()
-        .catch((e) => client.logError({ todo: 'saving thanks profile', item: userID, desc: 'in thanksUser' }, e));
+      profile.guildName = guildName;
+      profile.userName = userName;
+      profile.lastThanks = Date.now();
+      await profile.save().catch(console.error);
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('thanksUser')} function`);
     }

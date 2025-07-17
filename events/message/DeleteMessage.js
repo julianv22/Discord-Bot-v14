@@ -7,17 +7,16 @@ module.exports = {
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
   async execute(message, client) {
-    const { guildId, channelId, id, author, content } = message;
+    const { guildId, channelId, id: messageId, author, content } = message;
     const { messageSnipes, logError } = client;
 
-    try {
-      await reactionRole
-        .findOneAndDelete({ guildID: guildId, channelId: channelId, messageId: id })
-        .catch(console.error);
+    await reactionRole.findOneAndDelete({ guildId, channelId, messageId }).catch(console.error);
 
-      if (content) {
-        await messageSnipes.set(channelId, { author, content });
-        await messageSnipes.set(guildId + author.id, { channelId, author, content });
+    try {
+      const authorId = author?.id;
+      if (content && authorId) {
+        await messageSnipes.set(channelId, { authorId, content });
+        await messageSnipes.set(guildId + authorId, { channelId, authorId, content });
       }
     } catch (e) {
       logError({ item: 'sniping delete message', desc: 'event' }, e);

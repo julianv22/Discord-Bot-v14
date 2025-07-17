@@ -9,13 +9,12 @@ module.exports = {
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
     const {
+      guildId,
       customId,
       fields,
-      guild,
       message: { embeds },
     } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);
 
@@ -52,11 +51,11 @@ module.exports = {
     };
 
     const refresh = async () => {
-      const refresh = await serverProfile.findOne({ guildID });
+      const refresh = await serverProfile.findOne({ guildId });
       const channelList = await Promise.all(
-        refresh.youtube.channels.map(async (id, idx) => {
-          const title = await getChannelTitle(id, process.env.YT_API_KEY);
-          return `${idx + 1}. [**${title}**](https://www.youtube.com/channel/${id}) - \`${id}\``;
+        refresh?.youtube?.channels.map(async (channelId, id) => {
+          const title = await getChannelTitle(channelId, process.env.YT_API_KEY);
+          return `${id + 1}. [**${title}**](https://www.youtube.com/channel/${channelId}) - \`${channelId}\``;
         })
       );
 
@@ -66,7 +65,7 @@ module.exports = {
     };
     const onSubmit = {
       add: async () => {
-        const existing = await serverProfile.findOne({ guildID, 'youtube.channels': input });
+        const existing = await serverProfile.findOne({ guildId, 'youtube.channels': input });
         if (existing) {
           await interaction.reply(
             errorEmbed({
@@ -77,20 +76,13 @@ module.exports = {
         }
 
         await serverProfile
-          .updateOne(
-            { guildID },
-            {
-              $addToSet: { 'youtube.channels': input },
-              $setOnInsert: { guildName }, // Only sets guildName on creation
-            },
-            { upsert: true }
-          )
+          .updateOne({ guildId }, { $addToSet: { 'youtube.channels': input } }, { upsert: true })
           .catch(console.error);
-        return refresh();
+        return await refresh();
       },
       remove: async () => {
         const result = await serverProfile
-          .updateOne({ guildID }, { $pull: { 'youtube.channels': input } })
+          .updateOne({ guildId }, { $pull: { 'youtube.channels': input } })
           .catch(console.error);
 
         // If no document was modified, the channel wasn't in the list.
@@ -102,7 +94,7 @@ module.exports = {
           );
           return false;
         }
-        return refresh();
+        return await refresh();
       },
     };
 

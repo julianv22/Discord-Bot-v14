@@ -30,10 +30,10 @@ module.exports = (client) => {
       let servers = await serverProfile.find({});
       for (const server of servers) {
         const {
-          youtube: { channels = [], lastVideos = [], notifyChannel, alert },
-          guildID,
+          guildId,
+          youtube: { channels = [], lastVideos = [], notifyChannelId, alertRoleId },
         } = server;
-        if (!channels.length || !notifyChannel) continue;
+        if (!channels.length || !notifyChannelId) continue;
 
         let updated = false;
         for (let i = 0; i < channels.length; i++) {
@@ -48,11 +48,11 @@ module.exports = (client) => {
             updated = true;
 
             // Gửi thông báo lên kênh
-            const guild = client.guilds.cache.get(guildID);
+            const guild = client.guilds.cache.get(guildId);
 
             if (guild) {
-              const channel = guild.channels.cache.get(notifyChannel);
-              const role = guild.roles.cache.get(alert);
+              const channel = guild.channels.cache.get(notifyChannelId);
+              const role = guild.roles.cache.get(alertRoleId);
               const videoURL = `https://youtu.be/${latestVideoId}`;
 
               if (channel)

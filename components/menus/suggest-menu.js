@@ -9,14 +9,16 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
-      guildId: guildID,
-      message: { components },
+      guildId,
       values,
+      message: { components },
     } = interaction;
     const data = components[1].components[0].data;
     data.content = `### \\💡 Suggest Channel: <#${values[0]}>`;
 
-    await serverProfile.findOneAndUpdate({ guildID }, { $set: { 'setup.suggest': values[0] } }).catch(console.error);
+    await serverProfile
+      .findOneAndUpdate({ guildId }, { $set: { 'suggest.channelId': values[0] } })
+      .catch(console.error);
     await interaction.update({ components });
   },
 };

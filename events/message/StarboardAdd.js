@@ -8,17 +8,15 @@ module.exports = {
    * @param {User} user - User object */
   async execute(reaction, user) {
     try {
-      // Bỏ qua nếu là bot
-      if (user.bot) return;
-
+      if (user.bot) return; // Bỏ qua nếu là bot
       const { message } = reaction;
-      if (!message.guildId) return;
+      if (!message.guildId) return; // Bỏ qua nếu không thấy message
+      const { guildId } = message;
 
-      // Lấy cấu hình server
-      const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(console.error);
-      if (!profile || !starboard.channel || !starboard.star || starboard.star <= 0) return;
+      const profile = await serverProfile.findOne({ guildId }).catch(console.error);
 
-      const { starboard } = profile?.setup || {};
+      const { starboard } = profile || {};
+      if (!profile || !starboard?.channelId || !starboard?.starCount || starboard?.starCount < 1) return; // Bỏ qua nếu chưa thiết lập channelId hoặc starCount
 
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name === '⭐') {
@@ -26,20 +24,14 @@ module.exports = {
         const starReaction = message.reactions.cache.get('⭐');
         const count = starReaction ? starReaction.count : 0;
 
-        // Đủ số lượng starCount mới gửi
-        if (count < starboard.star) return;
+        if (count < starboard?.starCount) return; // Đủ số lượng starCount mới gửi
+        if (message.author.id === user.id) return; // Không cho tự star chính mình
 
-        // Không cho tự star chính mình
-        if (message.author.id === user.id) return;
-
-        // Lấy channel starboard
         const guild = message.guild;
-        const starboardChannel = guild.channels.cache.get(starboard.channel);
+        const starboardChannel = guild.channels.cache.get(starboard?.channelId);
 
         if (!starboardChannel) return;
-
-        // Nếu có attachment thì bỏ qua
-        if (message.attachments && message.attachments.size > 0) return;
+        if (message.attachments && message.attachments.size > 0) return; // Nếu có attachment thì bỏ qua
 
         // Jump link button
         const jumpButton = new ActionRowBuilder().addComponents(

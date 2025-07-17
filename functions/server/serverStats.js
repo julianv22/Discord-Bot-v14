@@ -4,18 +4,19 @@ const serverProfile = require('../../config/serverProfile');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Setup server statistics command
-   * @param {string} guildID - Guild ID */
-  client.serverStats = async (guildID) => {
+   * @param {string} guildId - Guild ID */
+  client.serverStats = async (guildId) => {
     const { logError, guilds } = client;
 
     try {
       // Start Server Stats
-      const guild = guilds.cache.get(guildID);
+      const guild = guilds.cache.get(guildId);
 
-      const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-      if (!profile || !profile?.statistics?.totalChannel || !profile?.statistics?.presenceChannel) return;
+      const profile = await serverProfile.findOne({ guildId }).catch(console.error);
 
       const { statistics } = profile || {};
+      if (!profile || !statistics?.totalChannelId || !statistics?.presenceChannelId) return;
+
       /** - Get the number of members with the given status
        * @param {string} stats - Member status */
       const getPressence = (stats) => {
@@ -37,9 +38,9 @@ module.exports = (client) => {
         const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // Thống kê  số thành viên không phải là bot trong server
         const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString(); // Đếm số bot trong server
         const statsChannels = [
-          { id: statistics?.totalChannel, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
-          { id: statistics?.memberChannel, name: `🤵〔Members〕: ${memberCount}` },
-          { id: statistics?.botChannel, name: `🎯〔Bots〕: ${botCount}` },
+          { id: statistics?.totalChannelId, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
+          { id: statistics?.memberChannelId, name: `🤵〔Members〕: ${memberCount}` },
+          { id: statistics?.botChannelId, name: `🎯〔Bots〕: ${botCount}` },
         ];
 
         for (const channel of statsChannels) setChannelName(channel.id, channel.name);
@@ -51,7 +52,7 @@ module.exports = (client) => {
       let i = 0;
       ['online', 'idle', 'dnd', 'offline'].forEach((stats) => status.push(`${icon[i++]} ${getPressence(stats)}`));
 
-      setChannelName(statistics?.presenceChannel, status.join(' '));
+      setChannelName(statistics?.presenceChannelId, status.join(' '));
       // End Server Stats
     } catch (e) {
       logError({ item: 'serverStats', desc: 'function' }, e);

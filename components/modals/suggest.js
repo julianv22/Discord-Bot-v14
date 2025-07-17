@@ -7,21 +7,22 @@ module.exports = {
    * @param {Interaction} interaction Modal Message Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user } = interaction;
+    const { guild, guildId, user, fields } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
-    const description = interaction.fields.getTextInputValue('content');
+    const description = fields.getTextInputValue('content');
 
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    if (!profile || !profile?.setup?.suggest)
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
+
+    const { suggest } = profile || {};
+    if (!profile || !suggest?.channelId)
       return await interaction.reply(
         errorEmbed({
           desc: `Máy chủ này chưa thiết lập kênh đề xuất. Vui lòng liên hệ đội ngũ ${cfg.adminRole} để được hỗ trợ.`,
         })
       );
 
-    const sgtChannel = guild.channels.cache.get(profile?.setup?.suggest);
-    if (!sgtChannel)
+    const suggestChannel = guild.channels.cache.get(suggest?.channelId);
+    if (!suggestChannel)
       return await interaction.reply(
         client.errorEmbed({ desc: 'Kênh đề xuất không tìm thấy hoặc không hợp lệ. Vui lòng kiểm tra lại cấu hình.' })
       );
@@ -32,24 +33,19 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.suggestPNG)
-        .setAuthor({ name: `${user.tag}'s suggestions`, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({ name: `Đề xuất của ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTitle('Nội dung đề xuất:')
         .setDescription(truncateString(description, 4096))
-        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
+        .setFooter({ text: `${guild.name} Suggestion`, iconURL: guild.iconURL(true) })
         .setTimestamp()
         .setFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' }),
     ];
 
-    const msg = await sgtChannel.send({ embeds });
+    const msg = await suggestChannel.send({ embeds });
 
     await interaction.reply(
-      errorEmbed({ desc: `Đề xuất của bạn đã được gửi thành công! [[Jump link](${msg.url})]`, emoji: true })
+      errorEmbed({ desc: `Đề xuất của bạn đã được gửi thành công! [Jump link](${msg.url})]`, emoji: true })
     );
-
-    try {
-      await Promise.all(['👍', '👎'].map((e) => msg.react(e)));
-    } catch (e) {
-      client.catchError(interaction, e, 'Lỗi khi thêm reaction vào tin nhắn đề xuất');
-    }
+    await Promise.all(['👍', '👎'].map((emoji) => msg.react(emoji)));
   },
 };

@@ -9,7 +9,7 @@ module.exports = (client) => {
    * @param {string|Interaction} description - A description of the error, or the interaction object itself. */
   client.catchError = async (object, e, description) => {
     const { errorEmbed, logError, guilds } = client;
-    const user = object.user || object.author;
+    const user = object?.user || object?.author;
 
     const errorMessage = () => {
       if (typeof description === 'string') return description;

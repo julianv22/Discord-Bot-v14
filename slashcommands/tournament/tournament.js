@@ -10,7 +10,6 @@ const {
   MessageFlags,
   PermissionFlagsBits,
   Colors,
-  ButtonBuilder,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { sectionComponents, menuComponents, textDisplay, rowComponents } = require('../../functions/common/components');
@@ -27,14 +26,15 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild } = interaction;
-    const { id: guildID, name: guildName } = guild;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = interaction;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      profile = await serverProfile
-        .create({ guildID, guildName, prefix, tournament: { id: '', name: '', status: false } })
-        .catch(console.error);
+      profile = await serverProfile.create({ guildId, guildName, prefix, tournament: {} }).catch(console.error);
 
     const { tournament } = profile || {};
     const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
@@ -54,8 +54,8 @@ module.exports = {
         sectionComponents(
           [
             '### \\🏆 Tournament Infomation',
-            `- Tournament name: ${getRole(tournament?.id)}`,
-            `- Status: ${tournament?.status ? '\\✅ Open' : '*\\❌ Closed*'}`,
+            `- Tournament name: ${getRole(tournament?.roleId)}`,
+            `- Status: ${tournament?.isActive ? '\\✅ Open' : '*\\❌ Closed*'}`,
           ],
           ComponentType.Thumbnail,
           guild.iconURL(true)

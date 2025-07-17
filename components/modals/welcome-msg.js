@@ -9,19 +9,17 @@ module.exports = {
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
     const {
-      guildId: guildID,
-      message: { components },
-      fields,
+      guildId,
       customId,
+      fields,
+      message: { components },
     } = interaction;
-    const input = fields.getTextInputValue(customId).slice(0, 3000);
+    const message = fields.getTextInputValue(customId).slice(0, 3000);
     const welcomeMessage = components[1].components[1].components[1].data;
 
-    welcomeMessage.content = input;
+    welcomeMessage.content = message;
 
-    await serverProfile
-      .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.message': input } })
-      .catch(console.error);
+    await serverProfile.findOneAndUpdate({ guildId }, { $set: { 'welcome.message': message } }).catch(console.error);
 
     await interaction.update({ components });
   },

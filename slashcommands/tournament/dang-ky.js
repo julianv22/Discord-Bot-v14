@@ -13,53 +13,57 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user, options } = interaction;
+    const {
+      guildId,
+      guild: { name: guildName, members, roles },
+      user,
+      user: { id: userId, displayName, username },
+      options,
+    } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName, members } = guild;
+    const userName = displayName || username;
     const stIngame = options.getString('ingame');
 
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
 
     if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
 
-    const register = profile.tournament.status;
+    const { tournament } = profile || {};
 
-    if (!register) return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
+    if (!tournament?.isActive)
+      return await interaction.reply(errorEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
 
-    const roleID = profile?.tournament?.id;
-    if (!roleID)
+    if (!tournament?.roleId)
       return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
 
-    const role = guild.roles.cache.get(roleID);
+    const role = roles.cache.get(tournament?.roleId);
 
     if (!role)
       return await interaction.reply(
-        errorEmbed({ desc: `Role giải đấu với ID \`${roleID}\` không tồn tại hoặc đã bị xóa.` })
+        errorEmbed({ desc: `Role giải đấu với ID \`${tournament?.roleId}\` không tồn tại hoặc đã bị xóa.` })
       );
 
     // Add Tournament Profile
-    let tourProfile = await tournamentProfile.findOne({ guildID, userID: user.id }).catch(console.error);
+    let tourProfile = await tournamentProfile.findOne({ guildId, userId }).catch(console.error);
     if (!tourProfile)
       tourProfile = await tournamentProfile
         .create({
-          guildID,
+          guildId,
           guildName,
-          userID: user.id,
-          usertag: user.tag,
-          ingame: stIngame,
-          decklist: '',
-          status: true,
+          userId,
+          userName,
+          inGameName: stIngame,
+          registrationStatus: true,
         })
         .catch(console.error);
     else {
       tourProfile.guildName = guildName;
-      tourProfile.usertag = user.tag;
-      tourProfile.ingame = stIngame;
-      tourProfile.decklist = '';
-      tourProfile.status = true;
+      tourProfile.userName = userName;
+      tourProfile.inGameName = stIngame;
+      tourProfile.registrationStatus = true;
       await tourProfile.save().catch(console.error);
     }
 

@@ -23,8 +23,12 @@ module.exports = {
 
     client.emit('guildMemberRemove', memberToEmit);
 
-    await message.reply(
-      errorEmbed({ desc: `Đã kích hoạt sự kiện \`guildMemberRemove\` cho ${memberToEmit.user.tag}.`, emoji: true })
-    );
+    await message
+      .reply(errorEmbed({ desc: `Đã kích hoạt sự kiện \`guildMemberRemove\` cho ${memberToEmit}.`, emoji: true }))
+      .then((m) => {
+        setTimeout(() => {
+          if (m.deletable) m.delete().catch(console.error);
+        }, 5 * 1000);
+      });
   },
 };

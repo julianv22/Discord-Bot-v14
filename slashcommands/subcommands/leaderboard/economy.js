@@ -10,21 +10,20 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const { user, guild, guildId } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
 
     // Lấy top 10 user theo balance
-    let topUsers = await economyProfile.find({ guildID }).sort({ balance: -1 }).limit(10).lean();
+    const topUsers = await economyProfile.find({ guildId }).sort({ balance: -1 }).limit(10).lean();
 
     if (!topUsers || !topUsers.length)
       return await interaction.reply(errorEmbed({ desc: 'No economy data found for this guild.' }));
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const leaderboard = topUsers
-      .map((user, i) => {
-        const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
-        return `${rank} <@${user.userID}> \\💰: ${user.balance.toCurrency()} | \\🏦: ${user.bank.toCurrency()}`;
+      .map((user, id) => {
+        const rank = id < 3 ? emojis[id] : `**${id + 1}.**`;
+        return `${rank} <@${user?.userId}> \\💰: ${user?.balance.toCurrency()} | \\🏦: ${user?.bank.toCurrency()}`;
       })
       .join('\n\n');
 
@@ -35,7 +34,7 @@ module.exports = {
           'https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg'
         )
         .setAuthor({ name: '🏆 Economy Leaderboard', iconURL: guild.iconURL(true) })
-        .setTitle(`Top \\🔟 richest users in ${guildName}`)
+        .setTitle(`Top \\🔟 richest users in ${guild.name}`)
         .setDescription(leaderboard)
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp(),

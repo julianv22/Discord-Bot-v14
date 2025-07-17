@@ -11,7 +11,7 @@ module.exports = {
   async execute(interaction, client) {
     const {
       guild,
-      guildId: guildID,
+      guildId,
       customId,
       message: { components },
     } = interaction;
@@ -20,10 +20,10 @@ module.exports = {
     const tourName = components[0].components[0].components[1].data;
     const tourStatus = components[0].components[0].components[2].data;
 
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 
-    if (!tournament.id)
+    if (!tournament?.roleId)
       return await interaction.reply(
         errorEmbed({ desc: 'Chưa chọn tên role cho giải đấu!', emoji: '🏆', color: Colors.Red })
       );
@@ -32,58 +32,58 @@ module.exports = {
 
     const onClick = {
       open: async () => {
-        if (tournament?.status)
+        if (tournament?.isActive)
           return await interaction.reply(
-            errorEmbed({ desc: `Giải đấu ${getRole(tournament?.id)} đã được mở!`, emoji: '🏆', color: Colors.Red })
+            errorEmbed({ desc: `Giải đấu ${getRole(tournament?.roleId)} đã được mở!`, emoji: '🏆', color: Colors.Red })
           );
 
-        tournament.status = true;
-        tourName.content = `- Tournament name: ${getRole(tournament?.id)}`;
+        tournament.isActive = true;
+        tourName.content = `- Tournament name: ${getRole(tournament?.roleId)}`;
         tourStatus.content = '- Status: \\✅ Open';
 
         await profile.save().catch(console.error);
         await interaction.update({ components });
-        await interaction.channel.send(
-          errorEmbed({
-            desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.id)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
-            emoji: '🏆',
-            color: Colors.DarkGreen,
-          })
-        );
+        // await interaction.channel.send(
+        //   errorEmbed({
+        //     desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
+        //     emoji: '🏆',
+        //     color: Colors.DarkGreen,
+        //   })
+        // );
       },
       close: async () => {
-        if (!tournament?.status)
+        if (!tournament?.isActive)
           return await interaction.reply(
-            errorEmbed({ desc: `Giải đấu ${getRole(tournament?.id)} đã bị đóng!`, emoji: '🏆', color: Colors.Red })
+            errorEmbed({ desc: `Giải đấu ${getRole(tournament?.roleId)} đã bị đóng!`, emoji: '🏆', color: Colors.Red })
           );
 
-        tournament.status = false;
-        tourName.content = `- Tournament name: ${getRole(tournament?.id)}`;
+        tournament.isActive = false;
+        tourName.content = `- Tournament name: ${getRole(tournament?.roleId)}`;
         tourStatus.content = '- Status: *\\❌ Closed*';
 
         await profile.save().catch(console.error);
         await interaction.update({ components });
-        await interaction.channel.send(
-          errorEmbed({
-            desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.id)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
-            emoji: '🏆',
-            color: Colors.DarkVividPink,
-          })
-        );
+        // await interaction.channel.send(
+        //   errorEmbed({
+        //     desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
+        //     emoji: '🏆',
+        //     color: Colors.DarkVividPink,
+        //   })
+        // );
       },
       close_all: async () => {
-        const tournaments = await tournamentProfile.find({ guildID }).catch(console.error);
-        if (!tournaments || tournaments.length === 0)
+        const tournamentProfiles = await tournamentProfile.find({ guildId }).catch(console.error);
+        if (!tournamentProfiles || tournamentProfiles.length === 0)
           return await interaction.reply(
             errorEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!', emoji: '🏆', color: Colors.Red })
           );
 
-        for (const tournament of tournaments) tournament.status = false;
-        await tournamentProfile.bulkSave(tournaments).catch(console.error);
+        for (const profile of tournamentProfiles) profile.isActive = false;
+        await tournamentProfile.bulkSave(tournamentProfiles).catch(console.error);
 
-        tournament.status = false;
-        tournament.id = '';
-        tournament.name = '';
+        tournament.isActive = false;
+        tournament.roleId = '';
+        tournament.roleName = '';
         tourName.content = '- Tournament name: *\\❌ Chưa có giải nào*';
         tourStatus.content = '- Status: *\\❌ Closed*';
 
@@ -91,21 +91,25 @@ module.exports = {
         await interaction.update({ components });
       },
       list: async () => {
-        if (!tournament.status)
+        if (!tournament?.isActive)
           return await interaction.reply(
-            errorEmbed({ desc: `Giải đấu ${getRole(tournament.id)} chưa được mở!`, emoji: '🏆', color: Colors.Red })
+            errorEmbed({
+              desc: `Giải đấu ${getRole(tournament?.roleId)} chưa được mở!`,
+              emoji: '🏆',
+              color: Colors.Red,
+            })
           );
 
-        const memberList = await tournamentProfile.find({ guildID, status: true }).catch(console.error);
+        const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
           return await interaction.reply(
             errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: '🏆', color: Colors.Red })
           );
 
-        const tengiai = `**Tên giải:** ${getRole(tournament.id)}`;
+        const tengiai = `**Tên giải:** ${getRole(tournament?.roleId)}`;
         // Tạo danh sách thành viên, mỗi dòng 1 người
         const memberLines = memberList.map(
-          (member, idx) => `${idx + 1}. <@${member.userID}> ing: **${member.ingame}**`
+          (member, idx) => `${idx + 1}. <@${member?.userId}> --- \\🎮 Ingame: **${member?.inGameName}**`
         );
         const maxDescLength = 4000;
 

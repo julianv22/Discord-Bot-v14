@@ -10,35 +10,26 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+      user,
+      user: { id: userId },
+    } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
+    const userName = user.displayName || user.username;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
+    let profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       profile = await economyProfile
-        .create({
-          guildID,
-          guildName,
-          userID: user.id,
-          usertag: user.tag,
-          balance: 0,
-          bank: 0,
-          inventory: [],
-          achievements: [],
-          dailyCooldown: null,
-          lastWork: null,
-          lastRob: null,
-          totalEarned: 0,
-          totalSpent: 0,
-          createdAt: new Date(),
-        })
+        .create({ guildId, guildName, userId, userName, lastWork: '' })
         .catch(console.error);
 
     // Kiểm tra cooldown: chỉ cần qua 0h là nhận được
-    const lastClaim = profile.dailyCooldown;
+    const lastClaim = profile?.dailyCooldown;
     if (lastClaim && lastClaim >= today) {
       // Tính thời gian còn lại đến 0h hôm sau
       const nextDaily = new Date();
@@ -66,9 +57,9 @@ module.exports = {
     yesterday.setDate(today.getDate() - 1);
     yesterday.setHours(0, 0, 0, 0);
 
-    let streak = profile.streak || 0;
-    let maxStreak = profile.maxStreak || 0;
-    let lastDaily = profile.lastDaily ? new Date(profile.lastDaily) : null;
+    let streak = profile?.streak || 0;
+    let maxStreak = profile?.maxStreak || 0;
+    let lastDaily = profile?.lastDaily ? new Date(profile?.lastDaily) : null;
     let bonusMsg = '';
     let resetStreak = false;
     let prevStreak = streak;
@@ -96,8 +87,8 @@ module.exports = {
         profile.totalEarned += achv.reward;
         bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${achv.reward.toCurrency()}**`;
         // Thêm achievement nếu chưa có
-        if (!profile.achievements.includes(achv.name)) {
-          profile.achievements.push(achv.name);
+        if (!profile?.achievements.includes(achv.name)) {
+          profile?.achievements.push(achv.name);
           achievementMsg = `\\🏆 **Bạn vừa nhận được thành tựu mới:** __${achv.name}__!`;
         }
       }
@@ -124,7 +115,7 @@ module.exports = {
         .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
         .setTitle('Nhận \\💲 hằng ngày!')
         .setDescription(
-          `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
+          `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile?.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
         )
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
         .setTimestamp(),

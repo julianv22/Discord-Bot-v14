@@ -9,16 +9,15 @@ module.exports = (client) => {
    * @param {Interaction|Message} object - Interaction or Message */
   client.userInfo = async (target, object) => {
     const { errorEmbed, catchError } = client;
-    const [guild, author] = [object.guild, object.user || object.author];
-    const { id: guildID } = guild;
-    const { id: userID } = target;
+    const [guild, author] = [object.guild, object?.user || object?.author];
+    const [guildId, userId] = [guild.id, target.id];
 
     try {
-      const member = guild.members.cache.get(userID);
+      const member = guild.members.cache.get(userId);
       if (!member) return await object.reply(errorEmbed({ desc: 'User is not in this server.' }));
 
       const acknowledgements = [];
-      if (userID === guild.ownerId) acknowledgements.push('Server Owner');
+      if (userId === guild.ownerId) acknowledgements.push('Server Owner');
       if (member.permissions.has(PermissionFlagsBits.Administrator)) acknowledgements.push('Administrator');
       if (member.permissions.has(PermissionFlagsBits.ManageMessages)) acknowledgements.push('Moderator');
       if (target.bot) acknowledgements.push('Bot');
@@ -27,8 +26,8 @@ module.exports = (client) => {
       const acknowledgementsString =
         acknowledgements.length > 0 ? `\`\`\`fix\n${acknowledgements.join(' | ')}\`\`\`` : 'None';
 
-      const roles = member.roles.cache.filter((r) => r.id !== guild.id).map((r) => r);
-      const thanks = await serverThanks.findOne({ guildID, userID });
+      const roles = member.roles.cache.filter((role) => role.id !== guild.id).map((role) => role);
+      const profile = await serverThanks.findOne({ guildId, userId });
 
       const embeds = [
         new EmbedBuilder()
@@ -47,12 +46,12 @@ module.exports = (client) => {
           .setTimestamp()
           .setFields(
             {
-              name: `🆔: ||${userID}||`,
+              name: `🆔: ||${userId}||`,
               value: '\u200b',
               inline: true,
             },
             {
-              name: `💖 Thanks count: ${thanks?.thanksCount || 0}`,
+              name: `💖 Thanks count: ${profile?.thanksCount || 0}`,
               value: '\u200b',
               inline: true,
             },

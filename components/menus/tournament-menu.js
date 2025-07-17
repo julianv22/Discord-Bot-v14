@@ -9,18 +9,18 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
-      guild,
-      guildId: guildID,
+      guildId,
+      guild: { roles },
       message: { components },
       values,
     } = interaction;
     const tourName = components[0].components[0].components[1].data;
-    const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    const getRole = (roleId) => roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 
-    tournament.id = values[0];
-    tournament.name = getRole(values[0]).name;
+    tournament.roleId = values[0];
+    tournament.roleName = getRole(values[0]).name;
     tourName.content = `- Tournament name: ${getRole(values[0])}`;
 
     await profile.save().catch(console.error);

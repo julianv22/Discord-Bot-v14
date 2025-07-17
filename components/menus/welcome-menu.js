@@ -9,27 +9,26 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
-      guildId: guildID,
+      guildId,
       message: { components },
       customId,
       values,
     } = interaction;
     const [, selected] = customId.split(':');
-    const channelId = values[0];
     const welcomeSection = components[1].components[0].components[1].data;
     const logSection = components[1].components[0].components[2].data;
 
     const setupWelcome = {
-      channel: async () => {
-        welcomeSection.content = `- \\💬 Welcome channel: <#${channelId}>`;
-        return await serverProfile
-          .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.channel': channelId } })
+      welcomechannel: async () => {
+        welcomeSection.content = `- \\💬 Welcome channel: <#${values[0]}>`;
+        await serverProfile
+          .findOneAndUpdate({ guildId }, { $set: { 'welcome.channelId': values[0] } })
           .catch(console.error);
       },
-      log: async () => {
-        logSection.content = `- \\📋 Log channel: <#${channelId}>`;
-        return await serverProfile
-          .findOneAndUpdate({ guildID }, { $set: { 'setup.welcome.log': channelId } })
+      logchannel: async () => {
+        logSection.content = `- \\📋 Log channel: <#${values[0]}>`;
+        await serverProfile
+          .findOneAndUpdate({ guildId }, { $set: { 'welcome.logChannelId': values[0] } })
           .catch(console.error);
       },
     };

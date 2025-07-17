@@ -10,13 +10,14 @@ module.exports = {
     try {
       const { message } = reaction;
       if (user.bot) return;
-      if (!message.guildId) return;
+      if (!message) return;
+      const { guildId } = message;
 
       // Lấy cấu hình server
-      const profile = await serverProfile.findOne({ guildID: message.guildId }).catch(console.error);
-      const { starboard } = profile?.setup || {};
+      const profile = await serverProfile.findOne({ guildId }).catch(console.error);
 
-      if (!profile || !starboard.channel || !starboard.star || starboard.star <= 0) return;
+      const { starboard } = profile || {};
+      if (!profile || !starboard?.channelId || !starboard?.starCount || starboard?.starCount < 1) return;
       // Chỉ xử lý emoji "⭐"
       if (reaction.emoji.name === '⭐') {
         // Đếm lại số lượng reaction "⭐" trên message
@@ -25,9 +26,9 @@ module.exports = {
         const count = starReaction ? starReaction.count : 0;
 
         // Nếu số lượng ⭐ < starCount, xoá message trên starboard
-        if (count < starboard.star) {
+        if (count < starboard?.starCount) {
           const guild = message.guild;
-          const starboardChannel = guild.channels.cache.get(starboard.channel);
+          const starboardChannel = guild.channels.cache.get(starboard.channelId);
 
           if (!starboardChannel) return;
 

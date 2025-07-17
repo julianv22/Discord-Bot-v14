@@ -7,7 +7,7 @@ module.exports = (client) => {
    * @param {Interaction|Message} object Interaction or Message */
   client.getAvatar = async (target, object) => {
     const { catchError } = client;
-    const author = object.user || object.author;
+    const author = object?.user || object?.author;
 
     try {
       const embeds = [

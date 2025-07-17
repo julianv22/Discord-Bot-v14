@@ -20,53 +20,26 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { targetMessage: msg, user, guild } = interaction;
-    const { errorEmbed, catchError, users, user: bot } = client;
+    const { targetMessage, user, guild } = interaction;
+    const { errorEmbed, user: bot } = client;
+    const suggestEmbed = EmbedBuilder.from(targetMessage.embeds[0]);
+    const footer = suggestEmbed.data.footer.text;
 
-    if (msg.author.id !== cfg.clientID)
+    if (targetMessage.author.id !== cfg.clientID)
       return await interaction.reply(errorEmbed({ desc: `This message does not belong to ${bot}!` }));
 
-    const embed = msg.embeds[0];
+    if (!suggestEmbed) return await interaction.reply(errorEmbed({ desc: 'This message is not a suggest message!' }));
 
-    if (!embed) return await interaction.reply(errorEmbed({ desc: 'This is not a suggestion message!' }));
+    if (footer !== `${guild.name} Suggestion` && footer === 'Suggestion denied')
+      return await interaction.reply(errorEmbed({ desc: 'This suggestion has been denied!' }));
 
-    if (embed.title !== "Suggest's content:")
-      return await interaction.reply(errorEmbed({ desc: 'This is not a suggestion message!' }));
-
-    const edit = EmbedBuilder.from(embed).setColor(Colors.DarkVividPink).spliceFields(0, 1).setTimestamp().setFooter({
+    suggestEmbed.setColor(Colors.DarkRed).setFields().setTimestamp().setFooter({
       text: 'Suggestion denied',
       iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
     });
 
-    await msg.edit({ embeds: [edit] });
+    await targetMessage.edit({ embeds: [suggestEmbed] });
 
-    await interaction.reply(
-      errorEmbed({
-        desc: `Suggestion has been denied! [[Jump Link](${msg.url})]`,
-        emoji: '\\🚫',
-        color: Colors.DarkVividPink,
-      })
-    );
-
-    const author = users.cache.find((u) => u.tag === embed.author.name.split(`'s`)[0]);
-
-    if (!author) return await interaction.followUp(errorEmbed({ desc: 'Could not find user to send DM!' }));
-
-    await author
-      .send({
-        embeds: [
-          new EmbedBuilder()
-            .setColor(Colors.DarkVividPink)
-            .setThumbnail(user.defaultAvatarURL(true))
-            .setAuthor({ name: 'Deny suggestion', iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif' })
-            .setTitle(`Your suggestion has been denied by ${user.displayName || user.username}!`)
-            .setDescription(`[Jump Link](${msg.url})`)
-            .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
-            .setTimestamp(),
-        ],
-      })
-      .catch((e) => {
-        return catchError(interaction, e, this);
-      });
+    await interaction.reply(errorEmbed({ desc: `Suggestion has been denied! [[Jump Link](${targetMessage.url})]` }));
   },
 };

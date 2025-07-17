@@ -15,22 +15,18 @@ module.exports = (client) => {
   /** - Setup welcome
    * @param {Interaction} interaction - Command Interaction. */
   client.setupStats = async (interaction) => {
-    const { guild } = interaction;
-    const { id: guildID, name: guildName } = guild;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = interaction;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
 
     if (!profile)
-      profile = await serverProfile
-        .create({
-          guildID,
-          guildName,
-          prefix,
-          statistics: { totalChannel: '', memberChannel: '', botChannel: '', presenceChannel: '' },
-        })
-        .catch(console.error);
+      profile = await serverProfile.create({ guildId, guildName, prefix, statistics: {} }).catch(console.error);
 
-    const { totalChannel, memberChannel, botChannel, presenceChannel } = profile?.statistics || {};
+    const { totalChannelId, memberChannelId, botChannelId, presenceChannelId } = profile?.statistics || {};
 
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
@@ -41,10 +37,10 @@ module.exports = (client) => {
         sectionComponents(
           [
             '### 📊 Statistics Information',
-            `- Total count channel: ${channelName(totalChannel)}\n- Members count channel: ${channelName(
-              memberChannel
-            )}\n- Bots count channel: ${channelName(botChannel)}\n- Presences statistic channel: ${channelName(
-              presenceChannel
+            `- Total count channel: ${channelName(totalChannelId)}\n- Members count channel: ${channelName(
+              memberChannelId
+            )}\n- Bots count channel: ${channelName(botChannelId)}\n- Presences statistic channel: ${channelName(
+              presenceChannelId
             )}`,
           ],
           ComponentType.Thumbnail,
@@ -54,15 +50,15 @@ module.exports = (client) => {
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
       .addActionRowComponents(
-        menuComponents('statistic-menu:total', '🌏 Select Total count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:totalcount', '🌏 Select Total count channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:members', '🤵 Select Members count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:membercount', '🤵 Select Members count channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:bots', '🎯 Select Bots count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:botcount', '🎯 Select Bots count channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(

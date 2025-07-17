@@ -20,9 +20,16 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { customId, guild, channel, message, user } = interaction;
+    const {
+      customId,
+      guild,
+      guildId,
+      guild: { name: guildName },
+      channel,
+      message,
+      user,
+    } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
     const [, buttonId] = customId.split(':');
     const buttons = ActionRowBuilder.from(message.components[0]);
     const hideButton = buttons.components[0];
@@ -151,7 +158,7 @@ module.exports = {
 
         await reactionRole
           .create({
-            guildID,
+            guildId,
             guildName,
             channelId: channel.id,
             messageId: msg.id,

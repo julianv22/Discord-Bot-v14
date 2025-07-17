@@ -10,8 +10,8 @@ module.exports = {
     if (user.bot) return;
 
     const { message, emoji } = reaction;
-    const { guild, channel } = message;
-    const { id: guildID, name: guildName } = guild;
+    const { guild, channelId, id: messageId } = message;
+    const { id: guildId, name: guildName, members } = guild;
 
     if (!guild) return;
 
@@ -23,19 +23,17 @@ module.exports = {
       }
     }
 
-    if (reaction.message.partial) {
+    if (message.partial) {
       try {
-        await reaction.message.fetch();
+        await message.fetch();
       } catch (e) {
         return console.error(chalk.red('Failed to fetch partial message from reaction\n'), e);
       }
     }
 
-    const member = await guild.members.fetch(user.id);
-    const bot = guild.members.me;
-    const config = await reactionRole
-      .findOne({ guildID, channelId: channel.id, messageId: message.id })
-      .catch(console.error); // Keep catch for findOne errors
+    const member = await members.fetch(user.id);
+    const bot = members.me;
+    const config = await reactionRole.findOne({ guildId, channelId, messageId }).catch(console.error);
 
     if (!config) return; // Return if config or roles is not valid or not an array
 

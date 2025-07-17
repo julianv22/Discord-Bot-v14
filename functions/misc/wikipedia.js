@@ -7,7 +7,7 @@ module.exports = (client) => {
    * @param {Interaction|Message} object Interaction or Message */
   client.wikipedia = async (keyword, object) => {
     const { errorEmbed, catchError } = client;
-    const author = object.user || object.author;
+    const author = object?.user || object?.author;
 
     try {
       const res = await fetch(`https://vi.wikipedia.org/api/rest_v1/page/summary/${keyword}`);
@@ -18,7 +18,7 @@ module.exports = (client) => {
           errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!` })
         );
 
-        if (object.author)
+        if (object?.author)
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 10 * 1000);

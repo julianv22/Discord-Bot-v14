@@ -21,14 +21,15 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction object.
    * @param {Client} client - The Discord client instance. */
   async execute(interaction, client) {
-    const { guild } = interaction;
-    const { id: guildID, name: guildName, roles } = guild;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = interaction;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      profile = await serverProfile
-        .create({ guildID, guildName, prefix, youtube: { notifyChannel: '', alert: '' } })
-        .catch(console.error);
+      profile = await serverProfile.create({ guildId, guildName, prefix, youtube: {} }).catch(console.error);
 
     const { youtube } = profile || {};
 
@@ -41,8 +42,8 @@ module.exports = {
         sectionComponents(
           [
             '### 📢 YouTube Notification Information',
-            `- \\💬 Notification Channel: ${channelName(youtube.notifyChannel)}`,
-            `- \\🔔 Alert Role: ${roles.cache.get(youtube.alert) || '\\❌ Not Set'}`,
+            `- \\💬 Notification Channel: ${channelName(youtube?.notifyChannelId)}`,
+            `- \\🔔 Alert Role: ${guild.roles.cache.get(youtube?.alertRoleId) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
           cfg.infoPNG

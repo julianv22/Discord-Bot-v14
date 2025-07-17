@@ -20,7 +20,10 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, guildId: guildID, user } = interaction;
+    const {
+      guild: { name: guildName },
+      guildId,
+    } = interaction;
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -38,17 +41,15 @@ module.exports = {
       return channelId;
     };
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      profile = await serverProfile
-        .create({ guildID, guildName, prefix, youtube: { channels: [], lastVideos: [] } })
-        .catch(console.error);
+      profile = await serverProfile.create({ guildId, guildName, prefix, youtube: {} }).catch(console.error);
 
     const { youtube } = profile || {};
     const channelList = await Promise.all(
-      youtube.channels.map(async (id, idx) => {
-        const title = await getChannelTitle(id, process.env.YT_API_KEY);
-        return `${idx + 1}. [**${title}**](https://www.youtube.com/channel/${id}) - \`${id}\``;
+      youtube?.channels.map(async (channelId, id) => {
+        const title = await getChannelTitle(channelId, process.env.YT_API_KEY);
+        return `${id + 1}. [**${title}**](https://www.youtube.com/channel/${channelId}) - \`${channelId}\``;
       })
     );
 

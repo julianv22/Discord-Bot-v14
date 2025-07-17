@@ -7,7 +7,7 @@ module.exports = (client) => {
    * @param {Interaction|Message} object - Interaction or Message */
   client.serverInfo = async (object) => {
     const { catchError } = client;
-    const author = object.user || object.author;
+    const author = object?.user || object?.author;
     const guild = object.guild;
     const channels = guild.channels.cache;
     const members = guild.members.cache;

@@ -15,16 +15,17 @@ module.exports = (client) => {
   /** - Setup welcome
    * @param {Interaction} interaction - Command Interaction. */
   client.setupWelcome = async (interaction) => {
-    const { guild } = interaction;
-    const { id: guildID, name: guildName } = guild;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = interaction;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      profile = await serverProfile
-        .create({ guildID, guildName, prefix, setup: { welcome: { channel: '', log: '', message: '' } } })
-        .catch(console.error);
+      profile = await serverProfile.create({ guildId, guildName, prefix, welcome: {} }).catch(console.error);
 
-    const { welcome } = profile?.setup || {};
+    const { welcome } = profile || {};
     const welcomeMessage = welcome?.message || '-# \\❌ Not Set';
 
     /** @param {string} channelId */
@@ -36,8 +37,8 @@ module.exports = (client) => {
         sectionComponents(
           [
             '### \\🎉 Welcome Information',
-            `- \\💬 Welcome channel: ${channelName(welcome?.channel)}`,
-            `- \\📋 Log channel: ${channelName(welcome?.log)}`,
+            `- \\💬 Welcome channel: ${channelName(welcome?.channelId)}`,
+            `- \\📋 Log channel: ${channelName(welcome?.logChannelId)}`,
           ],
           ComponentType.Thumbnail,
           cfg.infoPNG
@@ -52,9 +53,9 @@ module.exports = (client) => {
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
-      .addActionRowComponents(menuComponents('welcome-menu:channel', '💬 Select Welcome Channel'))
+      .addActionRowComponents(menuComponents('welcome-menu:welcomechannel', '💬 Select Welcome Channel'))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(menuComponents('welcome-menu:log', '📋 Select Log Channel'));
+      .addActionRowComponents(menuComponents('welcome-menu:logchannel', '📋 Select Log Channel'));
 
     await interaction.editReply({
       components: [dashboardMenu(), container],

@@ -10,18 +10,18 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const { user, guildId } = interaction;
     const { errorEmbed, user: bot } = client;
-    const { id: guildID } = guild;
+    const userId = user.id;
     const amount = interaction.options.getInteger('amount');
 
-    const profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
-    if (amount > profile.bank)
+    if (amount > profile?.bank)
       return await interaction.reply(errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!' }));
 
     profile.bank -= amount;
@@ -45,12 +45,12 @@ module.exports = {
         .setFields(
           {
             name: '\\💰 Balance',
-            value: profile.balance.toCurrency(),
+            value: profile?.balance.toCurrency(),
             inline: true,
           },
           {
             name: '\\🏦 Bank',
-            value: profile.bank.toCurrency(),
+            value: profile?.bank.toCurrency(),
             inline: true,
           }
         ),

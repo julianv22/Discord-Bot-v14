@@ -16,19 +16,16 @@ module.exports = (client) => {
   /** - Setup welcome
    * @param {Interaction} interaction - Command Interaction. */
   client.setupStarboard = async (interaction) => {
-    const { guild } = interaction;
-    const { id: guildID, name: guildName } = guild;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = interaction;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
-    if (!profile)
-      profile = await serverProfile.create({
-        guildID,
-        guildName,
-        prefix,
-        setup: { starboard: { channel: '', star: 0 } },
-      });
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    if (!profile) profile = await serverProfile.create({ guildId, guildName, prefix, starboard: {} });
 
-    const { starboard } = profile?.setup || {};
+    const { starboard } = profile || {};
 
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
@@ -39,8 +36,8 @@ module.exports = (client) => {
         sectionComponents(
           [
             '### \\⭐ Starboard Information',
-            `- \\💬 Starboard channel: ${channelName(starboard?.channel)}`,
-            `- \\🔢 Number of stars to send message: **${starboard?.star || 0}**\\⭐`,
+            `- \\💬 Starboard channel: ${channelName(starboard?.channelId)}`,
+            `- \\🔢 Number of stars to send message: **${starboard?.starCount || 0}**\\⭐`,
           ],
           ComponentType.Thumbnail,
           cfg.infoPNG
@@ -53,7 +50,7 @@ module.exports = (client) => {
       .addActionRowComponents(
         new ActionRowBuilder().setComponents(
           new StringSelectMenuBuilder()
-            .setCustomId('starboard-menu:star')
+            .setCustomId('starboard-menu:starcount')
             .setPlaceholder('⭐ Select number of stars')
             .setOptions(
               Array.from({ length: 20 }, (_, i) => ({

@@ -9,9 +9,14 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, customId } = interaction;
+    const {
+      guild,
+      guildId,
+      guild: { name: guildName },
+      user,
+      customId,
+    } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
@@ -23,8 +28,8 @@ module.exports = {
 
     // Lấy profile của người chuyển và người nhận
     let [profile, targetProfile] = await Promise.all([
-      economyProfile.findOne({ guildID, userID: user.id }).catch(console.error),
-      economyProfile.findOne({ guildID, userID: targetId }).catch(console.error),
+      economyProfile.findOne({ guildId, userId: user.id }).catch(console.error),
+      economyProfile.findOne({ guildId, userId: targetId }).catch(console.error),
     ]);
 
     // Kiểm tra lại dữ liệu
@@ -36,13 +41,13 @@ module.exports = {
 
     if (!targetProfile)
       targetProfile = await economyProfile
-        .create({ guildID, guildName, userID: targetId, bank: 0 })
+        .create({ guildId, guildName, userId: targetId, lastWork: '' })
         .catch(console.error);
 
-    if (profile.bank < total)
+    if (profile?.bank < total)
       return await interaction.update({
         ...errorEmbed({
-          desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile.bank.toCurrency()}`,
+          desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile?.bank.toCurrency()}`,
         }),
         components: [],
       });
@@ -61,7 +66,7 @@ module.exports = {
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
       .setTitle('\\✅ Chuyển tiền thành công!')
       .setDescription(
-        `\\♻️ Bạn đã chuyển **${amount.toCurrency()}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toCurrency()}**\n\n\\💸 Tổng trừ: **${total.toCurrency()}**\n\n\\🏦 Số dư còn lại: **${profile.bank.toCurrency()}**`
+        `\\♻️ Bạn đã chuyển **${amount.toCurrency()}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toCurrency()}**\n\n\\💸 Tổng trừ: **${total.toCurrency()}**\n\n\\🏦 Số dư còn lại: **${profile?.bank.toCurrency()}**`
       )
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
@@ -75,7 +80,7 @@ module.exports = {
       .setDescription(
         `Bạn vừa nhận được **${amount.toCurrency()}** từ <@${user.id}> trong guild ${
           guild.name
-        }.\n\n\\🏦 Số dư mới: **${targetProfile.bank.toCurrency()}**`
+        }.\n\n\\🏦 Số dư mới: **${targetProfile?.bank.toCurrency()}**`
       )
       .setTimestamp()
       .setFooter({

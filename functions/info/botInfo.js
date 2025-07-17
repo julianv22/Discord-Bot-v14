@@ -20,7 +20,7 @@ module.exports = (client) => {
       application,
       channels,
     } = client;
-    const author = object.user || object.author;
+    const author = object?.user || object?.author;
 
     try {
       const guilds = client.guilds.cache.map((g) => g);

@@ -1,11 +1,18 @@
-const mongoose = require('mongoose');
-const thanksProfile = new mongoose.Schema({
-  guildID: { type: String, required: true },
-  guildName: { type: String },
-  userID: { type: String, required: true, unique: true },
-  usertag: { type: String },
-  thanksCount: { type: Number, default: 0 },
-  lastThanks: { type: Date },
-});
+const ThanksProfileSchema = new mongoose.Schema(
+  {
+    guildId: { type: String, required: true, index: true, trim: true },
+    guildName: { type: String, trim: true },
+    userId: { type: String, required: true, unique: true, index: true, trim: true },
+    userName: { type: String, trim: true },
+    thanksCount: { type: Number, default: 0, min: 0 },
+    lastThanks: { type: Date, default: null },
+  },
+  { timestamps: true } // Tự động thêm createdAt và updatedAt
+);
 
-module.exports = mongoose.model('thanksProfile', thanksProfile, `thanksProfile [${cfg.mongodb}] - ${cfg.clientID}`);
+const schemaName =
+  cfg.clientID === '986945043849945088'
+    ? `[${cfg.mongodb}]ThanksProfile:${cfg.clientID}`
+    : `Thanks[${cfg.mongodb}]:${cfg.clientID}`;
+
+module.exports = mongoose.model('ThanksProfile', ThanksProfileSchema, schemaName);

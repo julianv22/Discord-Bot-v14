@@ -24,7 +24,8 @@ module.exports = (client) => {
         return;
       }
 
-      const { author, channelId: snipeId, content } = snipe;
+      const { authorId, channelId: snipeChannelId, content } = snipe;
+      const author = await object.guild.members.fetch(authorId).catch(console.error);
 
       const embeds = [
         new EmbedBuilder()
@@ -38,7 +39,7 @@ module.exports = (client) => {
               : 'Last deleted message:',
             iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
           })
-          .setDescription(`**Author:** ${author}${target ? ` -/- **Channel:** <#${snipeId}>` : ''}`)
+          .setDescription(`**Author:** ${author}${target ? ` --- **Channel:** <#${snipeChannelId}>` : ''}`)
           .setFooter({
             text: `Requested by ${user.displayName || user.username}`,
             iconURL: user.displayAvatarURL(true),

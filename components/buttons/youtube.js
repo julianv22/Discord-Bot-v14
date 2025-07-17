@@ -11,7 +11,7 @@ module.exports = {
   async execute(interaction, client) {
     const {
       customId,
-      guildId: guildID,
+      guildId,
       message: { components },
     } = interaction;
     const [, buttonId, type] = customId.split(':');
@@ -22,12 +22,7 @@ module.exports = {
     const onClick = {
       channel: async () => {
         const textInput = [
-          {
-            customId: type,
-            label: 'YouTube ChannelID',
-            placeholder: 'Enter the YouTube ChannelID',
-            required: true,
-          },
+          { customId: type, label: 'YouTube ChannelID', placeholder: 'Enter the YouTube ChannelID', required: true },
         ];
 
         const modal = new ModalBuilder()
@@ -42,13 +37,15 @@ module.exports = {
           case 'notify':
             textDisplay(1).content = '- \\💬 Notification Channel: \\❌ Not set';
             await serverProfile
-              .findOneAndUpdate({ guildID }, { $set: { 'youtube.notifyChannel': '' } })
+              .findOneAndUpdate({ guildId }, { $set: { 'youtube.notifyChannelId': '' } })
               .catch(console.error);
             break;
 
           case 'alert':
             textDisplay(2).content = '- \\🔔 Alert Role: \\❌ Not set';
-            await serverProfile.findOneAndUpdate({ guildID }, { $set: { 'youtube.alert': '' } }).catch(console.error);
+            await serverProfile
+              .findOneAndUpdate({ guildId }, { $set: { 'youtube.alertRoleId': '' } })
+              .catch(console.error);
             break;
           default:
             throw new Error(chalk.yellow('Invalid remove type'), chalk.green(type));

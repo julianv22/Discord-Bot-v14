@@ -1,16 +1,19 @@
-const mongoose = require('mongoose');
-const tournamentProfile = new mongoose.Schema({
-  guildID: { type: String, required: true },
-  guildName: { type: String },
-  userID: { type: String, required: true, unique: true },
-  usertag: { type: String },
-  ingame: { type: String },
-  decklist: { type: String },
-  status: { type: Boolean },
-});
-
-module.exports = mongoose.model(
-  'tournamentProfile',
-  tournamentProfile,
-  `tournamentProfile [${cfg.mongodb}] - ${cfg.clientID}`
+const TournamentProfileSchema = new mongoose.Schema(
+  {
+    guildId: { type: String, required: true, index: true, trim: true },
+    guildName: { type: String, trim: true },
+    userId: { type: String, required: true, unique: true, index: true, trim: true },
+    userName: { type: String, trim: true },
+    inGameName: { type: String, trim: true },
+    deckList: { type: String, trim: true, default: null },
+    registrationStatus: { type: Boolean, default: false },
+  },
+  { timestamps: true } // Tự động thêm createdAt và updatedAt
 );
+
+const schemaName =
+  cfg.clientID === '986945043849945088'
+    ? `[${cfg.mongodb}]Tournament:${cfg.clientID}`
+    : `Tournament[${cfg.mongodb}]:${cfg.clientID}`;
+
+module.exports = mongoose.model('TournamentProfile', TournamentProfileSchema, schemaName);

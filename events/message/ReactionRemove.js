@@ -10,18 +10,16 @@ module.exports = {
     if (user.bot) return;
 
     const { message, emoji } = reaction;
-    const { guild, channel } = message;
-    const { id: guildID, name: guildName } = guild;
+    const { guild, channelId, id: messageId } = message;
+    const { id: guildId, name: guildName, members } = guild;
 
     if (!guild) return;
 
     if (reaction.partial) await reaction.fetch();
 
-    const member = await guild.members.fetch(user.id);
-    const bot = guild.members.me;
-    const config = await reactionRole
-      .findOne({ guildID, channelId: channel.id, messageId: message.id })
-      .catch(console.error); // Keep catch for findOne errors
+    const member = await members.fetch(user.id);
+    const bot = members.me;
+    const config = await reactionRole.findOne({ guildId, channelId, messageId }).catch(console.error);
 
     if (!config) return; // Return if config or roles is not valid or not an array
 

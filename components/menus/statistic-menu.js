@@ -9,39 +9,38 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
-      guild,
+      guildId,
+      guild: { channels },
       message: { components },
       customId,
       values,
     } = interaction;
     const { serverStats } = client;
     const [, selected] = customId.split(':');
-    const channelId = values[0];
     const statisticInfo = components[1].components[0].components[1].data;
-    const guildID = guild.id;
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { statistics } = profile || {};
 
-    const onClick = {
-      total: () => (statistics.totalChannel = channelId),
-      members: () => (statistics.memberChannel = channelId),
-      bots: () => (statistics.botChannel = channelId),
-      presence: () => (statistics.presenceChannel = channelId),
+    const onSelect = {
+      totalcount: () => (statistics.totalChannelId = values[0]),
+      membercount: () => (statistics.memberChannelId = values[0]),
+      botcount: () => (statistics.botChannelId = values[0]),
+      presence: () => (statistics.presenceChannelId = values[0]),
     };
 
-    if (!onClick[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
+    if (!onSelect[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
 
     await profile.save().catch(console.error);
-    await serverStats(guildID);
+    await serverStats(guildId);
 
     /** @param {string} channelId */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
+    const channelName = (channelId) => channels.cache.get(channelId) || '\\❌ Not Set';
 
     statisticInfo.content = `- Total count channel: ${channelName(
-      statistics?.totalChannel
-    )}\n- Members count channel: ${channelName(statistics?.memberChannel)}\n- Bots count channel: ${channelName(
-      statistics?.botChannel
-    )}\n- Presences statistic channel: ${channelName(statistics?.presenceChannel)}`;
+      statistics?.totalChannelId
+    )}\n- Members count channel: ${channelName(statistics?.memberChannelId)}\n- Bots count channel: ${channelName(
+      statistics?.botChannelId
+    )}\n- Presences statistic channel: ${channelName(statistics?.presenceChannelId)}`;
 
     await interaction.update({ components });
   },

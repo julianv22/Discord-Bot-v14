@@ -26,9 +26,20 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, guildId: guildID, user, options } = interaction;
+    const { guild, guildId, user, options } = interaction;
     const { errorEmbed } = client;
+    const guildName = guild.name;
     const subCommand = options.getSubcommand();
+
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No setup data found for this server.' }));
+
+    await serverProfile.findOneAndUpdate({ guildId }, { guildName, prefix }).catch(console.error);
+
+    /** @param {string} roleId  */
+    const getRole = (roleId) => guild.roles.cache.get(roleId);
+    /** @param {string} channelId */
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\n-# \\❌ Not set';
 
     switch (subCommand) {
       case 'dashboard':
@@ -39,46 +50,39 @@ module.exports = {
         break;
 
       case 'info':
-        const roles = guild.roles.cache;
-
-        const profile = await serverProfile.findOne({ guildID }).catch(console.error);
-        if (!profile) return await interaction.reply(errorEmbed({ desc: 'No setup data found for this server.' }));
-
-        /** @param {string} channelId */
-        const channelName = (channelId) => guild.channels.cache.get(channelId);
-
-        const welcomeChannel = channelName(profile?.setup?.welcome?.channel) || '\n-# \\❌ Not set';
-        const welcomeMessage = profile?.setup?.welcome?.message || '\n-# \\❌ Not set';
-        const logChannel = channelName(profile?.setup?.welcome?.log) || '-# \\⚠️ Not set';
-        const starboardChannel = channelName(profile?.setup?.starboard?.channel) || '-# \\⚠️ /setup starboard';
-        const channelCount = profile?.youtube?.channels?.length || 0;
-        const notifyChannel = channelName(profile?.youtube?.notifyChannel) || '\n-# \\❌ Not set';
-        const alertRole = roles.get(profile?.youtube?.alert) || '\n-# \\❌ Not set';
-        const suggestChannel = channelName(profile?.setup?.suggest) || '\n-# \\❌ Not set';
-        const tourName = roles.get(profile?.tournament?.id) || '-# \\⚠️ /tournament';
-        const tourStatus = profile?.tournament?.status ? '\\✅ Open' : '\\❌ Closed';
-        const starCount = profile?.setup?.starboard?.star || 0;
-        const serverStatus = profile?.statistics?.totalChannel ? '\\✅ Set' : '\\❌ Not set';
+        const { welcome, starboard, youtube, tournament, statistics, suggest } = profile;
+        const welcomeChannel = channelName(welcome?.channelId);
+        const logChannel = channelName(welcome?.logChannelId);
+        const welcomeMessage = welcome?.message || '\n-# \\❌ Not set';
+        const starboardChannel = channelName(starboard?.channelId);
+        const youtubeChannelCount = youtube?.channels?.length || 0;
+        const youtubeNotifyChannel = channelName(youtube?.notifyChannelId);
+        const youtubeAlertRole = getRole(youtube?.alertRoleId) || '\n-# \\❌ Not set';
+        const suggestChannel = channelName(suggest.channelId);
+        const tournamentName = getRole(tournament?.roleId) || '-# \\⚠️ /tournament';
+        const tournamentStatus = tournament?.isActive ? '\\✅ Open' : '\\❌ Closed';
+        const starboardStarCount = starboard?.starCount || 0;
+        const statisticsChannel = statistics?.totalChannelId ? '\\✅ Set' : '\\❌ Not set';
 
         const embed = new EmbedBuilder()
           .setColor(Colors.DarkAqua)
           .setThumbnail(cfg.infoPNG)
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setAuthor({ name: guildName, iconURL: guild.iconURL(true) })
           .setTitle(`Setup's Information`)
           .setFields(
             { name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true },
             { name: 'Log Channel', value: `${logChannel}`, inline: true },
             { name: 'Welcome Message', value: `${welcomeMessage}`, inline: false },
-            { name: 'Server Status Channel', value: `${serverStatus}`, inline: false },
-            { name: 'Starboard Channel', value: `${starboardChannel} (${starCount}\\⭐)`, inline: true },
+            { name: 'Server Statistics', value: `${statisticsChannel}`, inline: false },
+            { name: 'Starboard Channel', value: `${starboardChannel} (${starboardStarCount}\\⭐)`, inline: true },
             { name: 'Suggest Channel', value: `${suggestChannel}`, inline: true },
             {
-              name: 'Youtube subscribed channels: ' + channelCount,
-              value: `\n-# \\⚠️ /youtube channel\n- Notify channel: ${notifyChannel}\n- Alert role: ${alertRole}\n-# \\⚠️ /youtube notify`,
+              name: 'Youtube subscribed channels: ' + youtubeChannelCount,
+              value: `\n-# \\⚠️ /youtube channel\n- Notify channel: ${youtubeNotifyChannel}\n- Alert role: ${youtubeAlertRole}\n-# \\⚠️ /youtube notify`,
               inline: false,
             },
-            { name: 'Tournament', value: `${tourName}`, inline: true },
-            { name: 'Tournament Status', value: tourStatus, inline: true },
+            { name: 'Tournament', value: `${tournamentName}`, inline: true },
+            { name: 'Tournament Status', value: tournamentStatus, inline: true },
             { name: '\u200b', value: '-# \\⚠️ **/setup dashboard** for more setting' }
           )
           .setFooter({

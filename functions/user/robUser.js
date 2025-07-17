@@ -7,10 +7,8 @@ module.exports = (client) => {
    * @param {GuildMember} target - Target user
    * @param {Interaction} interaction - Command Interaction. */
   client.robUser = async (target, interaction) => {
-    const { user, guild } = interaction;
+    const { user, guild, guildId } = interaction;
     const { errorEmbed, catchError, user: bot } = client;
-    const guildID = guild.id;
-    const userID = user.id;
     const now = new Date();
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
@@ -21,8 +19,10 @@ module.exports = (client) => {
 
     try {
       // Lấy profile của user và target
-      let profile = await economyProfile.findOne({ guildID, userID }).catch(console.error);
-      let targetProfile = await economyProfile.findOne({ guildID, userID: target.id }).catch(console.error);
+      const [profile, targetProfile] = await Promise.all([
+        await economyProfile.findOne({ guildId, userId: user.id }).catch(console.error),
+        await economyProfile.findOne({ guildId, userId: target.id }).catch(console.error),
+      ]);
 
       if (!profile || !targetProfile)
         return await interaction.reply(
@@ -31,15 +31,15 @@ module.exports = (client) => {
           })
         );
 
-      if (profile.balance < 500)
+      if (profile?.balance < 500)
         return await interaction.reply(errorEmbed({ desc: 'Bạn cần ít nhất 500₫ để thực hiện giật!' }));
 
-      if (targetProfile.balance < 100)
+      if (targetProfile?.balance < 100)
         return await interaction.reply(errorEmbed({ desc: 'Người này không đủ \\💲 để bị giật!' }));
 
       // Cooldown
-      if (profile.lastRob && now - profile.lastRob < cooldownMs) {
-        const nextRob = new Date(profile.lastRob.getTime() + cooldownMs);
+      if (profile?.lastRob && now - profile?.lastRob < cooldownMs) {
+        const nextRob = new Date(profile?.lastRob.getTime() + cooldownMs);
         const timeleft = Math.floor(nextRob.getTime() / 1000);
 
         return await interaction.reply(
@@ -53,7 +53,7 @@ module.exports = (client) => {
       const guildOwnerId = guild.ownerId;
       if (target.id === guildOwnerId) successRate = 0.1;
       // Nếu target có role cao hơn
-      const member = await guild.members.fetch(userID);
+      const member = await guild.members.fetch(user.id);
       const targetMember = await guild.members.fetch(target.id);
 
       if (targetMember.roles.highest.comparePositionTo(member.roles.highest) > 0) successRate = 0.4;
@@ -96,12 +96,12 @@ module.exports = (client) => {
           .setFields(
             {
               name: `Số dư của ${user.displayName || user.username}`,
-              value: profile.balance.toCurrency(),
+              value: profile?.balance.toCurrency(),
               inline: true,
             },
             {
               name: `Số dư của ${target.displayName || target.username}`,
-              value: targetProfile.balance.toCurrency(),
+              value: targetProfile?.balance.toCurrency(),
               inline: true,
             }
           ),

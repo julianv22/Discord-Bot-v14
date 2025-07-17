@@ -9,20 +9,19 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, customId } = interaction;
+    const { user, guildId, customId } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID } = guild;
     const [, button, betStr] = customId.split(':');
     const userMove = parseInt(button, 10);
     const bet = parseInt(betStr, 10);
 
-    const profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildId, userId: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy
     if (!profile) return await interaction.update(errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
 
     // Reset count nếu sang ngày mới
     const today = new Date();
-    const lastPlay = profile.lastPlayRPS ? new Date(profile.lastPlayRPS) : null;
+    const lastPlay = profile?.lastPlayRPS ? new Date(profile?.lastPlayRPS) : null;
     const isNewDay = !lastPlay || today.toDateString() !== lastPlay.toDateString();
 
     if (isNewDay) {
@@ -31,13 +30,13 @@ module.exports = {
     }
 
     // Kiểm tra số lần chơi trong ngày
-    if (profile.rpsCount >= 50)
+    if (profile?.rpsCount >= 50)
       return await interaction.update(errorEmbed({ desc: 'Bạn đã chơi hết 50 lần trong ngày!' }));
 
     // Kiểm tra tiền cược
-    if (profile.balance < bet)
+    if (profile?.balance < bet)
       return await interaction.update(
-        errorEmbed({ desc: `Bạn không đủ tiền để cược! Số dư: ${profile.balance.toCurrency()}` })
+        errorEmbed({ desc: `Bạn không đủ tiền để cược! Số dư: ${profile?.balance.toCurrency()}` })
       );
 
     // Tính kết quả
@@ -70,19 +69,19 @@ module.exports = {
     // Trả về kết quả
     const embeds = [
       new EmbedBuilder()
-        .setColor(rps.Color)
+        .setColor(rps.color)
         .setThumbnail(user.displayAvatarURL(true))
         .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTitle('You ' + rps.result)
         .setDescription(
           `${rps.description}\n\n${resultMessage}\nSố lần chơi hôm nay: **${
-            profile.rpsCount
-          }/50**\nSố dư: **${profile.balance.toCurrency()}**`
+            profile?.rpsCount
+          }/50**\nSố dư: **${profile?.balance.toCurrency()}**`
         )
         .setTimestamp()
         .setFields(
-          { name: '\\💰 Tổng tiền đã nhận', value: (profile.totalEarned || 0).toCurrency(), inline: true },
-          { name: '\\💸 Tổng tiền đã chi', value: (profile.totalSpent || 0).toCurrency(), inline: true }
+          { name: '\\💰 Tổng tiền đã nhận', value: (profile?.totalEarned || 0).toCurrency(), inline: true },
+          { name: '\\💸 Tổng tiền đã chi', value: (profile?.totalSpent || 0).toCurrency(), inline: true }
         ),
     ];
 

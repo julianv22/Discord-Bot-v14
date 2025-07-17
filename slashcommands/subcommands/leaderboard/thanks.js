@@ -10,22 +10,21 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user, options } = interaction;
+    const { guild, guildId, user, options } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
-    const time = options.getString('time');
+    const description = options.getString('time');
 
-    let topUsers = await thanksProfile.find({ guildID }).sort({ thanksCount: -1 }).limit(10).catch(console.error);
+    const topUsers = await thanksProfile.find({ guildId }).sort({ thanksCount: -1 }).limit(10).catch(console.error);
     if (!topUsers || !topUsers.length)
       return await interaction.reply(errorEmbed({ desc: 'No thanks data found for this server.' }));
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const thanksList = topUsers
-      .map((thanks, i) => {
-        const rank = i < 3 ? emojis[i] : `**${i + 1}.**`;
-        const { thanksCount: count, userID } = thanks;
+      .map((user, id) => {
+        const rank = id < 3 ? emojis[id] : `**${id + 1}.**`;
+        const { thanksCount, userId } = user;
 
-        return rank + `<@${userID}> with ${count} thank${count > 1 ? 's' : ''}`;
+        return rank + ` <@${userId}> with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}`;
       })
       .join('\n\n');
 
@@ -34,7 +33,7 @@ module.exports = {
         .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.thanksPNG)
         .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
-        .setTitle(`Top 10 Thanks${time ? ` ${time}` : ''}:`)
+        .setTitle(`Top 10 Thanks ${description || ''}:`)
         .setDescription(thanksList)
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTimestamp(),

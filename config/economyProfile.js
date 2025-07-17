@@ -1,26 +1,37 @@
-const mongoose = require('mongoose');
+const EconomyProfileSchema = new mongoose.Schema(
+  {
+    guildId: { type: String, required: true, index: true, trim: true },
+    guildName: { type: String, trim: true },
+    userId: { type: String, required: true, unique: true, index: true, trim: true },
+    userName: { type: String, trim: true },
+    balance: { type: Number, default: 0 },
+    bank: { type: Number, default: 0 },
+    inventory: {
+      type: [{ itemId: { type: String, required: true }, quantity: { type: Number, required: true, min: 1 } }],
+      default: [],
+    },
+    achievements: {
+      type: [{ achievementId: { type: String, required: true }, unlockedAt: { type: Date, default: Date.now } }],
+      default: [],
+    },
+    dailyCooldown: { type: Date, default: null },
+    lastWork: { type: String, trim: true },
+    lastRob: { type: Date, default: null },
+    lastJob: { type: Date, default: null },
+    totalEarned: { type: Number, default: 0, min: 0 },
+    totalSpent: { type: Number, default: 0, min: 0 },
+    streak: { type: Number, default: 0, min: 0 },
+    maxStreak: { type: Number, default: 0, min: 0 },
+    lastDaily: { type: Date, default: null },
+    lastPlayRPS: { type: Date, default: null },
+    rpsCount: { type: Number, default: 0, min: 0 },
+  },
+  { timestamps: true } // Tự động thêm createdAt và updatedAt
+);
 
-const economyProfile = new mongoose.Schema({
-  guildID: { type: String, required: true },
-  guildName: { type: String },
-  userID: { type: String, required: true, unique: true },
-  usertag: { type: String },
-  balance: { type: Number, default: 0 },
-  bank: { type: Number, default: 0 },
-  inventory: { type: Array, default: [] },
-  achievements: { type: Array, default: [] },
-  dailyCooldown: { type: Date, default: null },
-  lastWork: { type: String },
-  lastRob: { type: Date, default: null },
-  lastJob: { type: Date, default: null },
-  totalEarned: { type: Number, default: 0 },
-  totalSpent: { type: Number, default: 0 },
-  streak: { type: Number, default: 0 },
-  maxStreak: { type: Number, default: 0 },
-  lastDaily: { type: Date, default: null },
-  createdAt: { type: Date, default: Date.now },
-  lastPlayRPS: { type: Date, default: null },
-  rpsCount: { type: Number, default: 0 },
-});
+const schemaName =
+  cfg.clientID === '986945043849945088'
+    ? `[${cfg.mongodb}]Economy:${cfg.clientID}`
+    : `Economy[${cfg.mongodb}]:${cfg.clientID}`;
 
-module.exports = mongoose.model('economyProfile', economyProfile, `economyProfile [${cfg.mongodb}] - ${cfg.clientID}`);
+module.exports = mongoose.model('EconomyProfile', EconomyProfileSchema, schemaName);

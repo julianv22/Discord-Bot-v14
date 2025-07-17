@@ -12,8 +12,9 @@ module.exports = {
   async execute(interaction, client) {
     const { user, guild, guildId } = interaction;
     const { errorEmbed } = client;
+    const userId = user.id;
 
-    const profile = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁' })
@@ -23,8 +24,8 @@ module.exports = {
     const now = new Date();
     const cooldownMs = 6 * 60 * 60 * 1000;
 
-    if (profile.lastJob && now - new Date(profile.lastJob) < cooldownMs) {
-      const finishTime = new Date(new Date(profile.lastJob).getTime() + cooldownMs);
+    if (profile?.lastJob && now - new Date(profile?.lastJob) < cooldownMs) {
+      const finishTime = new Date(new Date(profile?.lastJob).getTime() + cooldownMs);
       const timeleft = Math.floor(finishTime.getTime() / 1000);
 
       return await interaction.reply(
@@ -65,7 +66,7 @@ module.exports = {
         )
         .catch(console.error);
 
-      let p = await economyProfile.findOne({ guildID: guildId, userID: user.id }).catch(console.error);
+      let p = await economyProfile.findOne({ guildId, userId }).catch(console.error);
       if (p) {
         p.balance += reward;
         p.totalEarned += reward;

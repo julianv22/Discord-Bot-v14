@@ -11,27 +11,33 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const {
+      user,
+      user: { id: userId },
+      guild,
+      guildId,
+      guild: { name: guildName },
+    } = interaction;
     const { errorEmbed } = client;
-    const { id: guildID, name: guildName } = guild;
 
-    const profile = await economyProfile.findOne({ guildID, userID: user.id }).catch(console.error);
+    const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
         errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
     // Lấy thông tin
-    const balance = (profile.balance || 0).toCurrency();
-    const bank = (profile.bank || 0).toCurrency();
-    const streak = (profile.streak || 0).toLocaleString();
-    const maxStreak = (profile.maxStreak || 0).toLocaleString();
-    const totalEarned = (profile.totalEarned || 0).toCurrency();
-    const totalSpent = (profile.totalSpent || 0).toCurrency();
-    const inventory = profile.inventory && profile.inventory.length ? profile.inventory.join(', ') : '\\🚫';
-    const achievements = profile.achievements && profile.achievements.length ? profile.achievements.join(', ') : '\\🚫';
-    const work = profile.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
-    const lastJob = profile.lastJob || new Date();
+    const balance = (profile?.balance || 0).toCurrency();
+    const bank = (profile?.bank || 0).toCurrency();
+    const streak = (profile?.streak || 0).toLocaleString();
+    const maxStreak = (profile?.maxStreak || 0).toLocaleString();
+    const totalEarned = (profile?.totalEarned || 0).toCurrency();
+    const totalSpent = (profile?.totalSpent || 0).toCurrency();
+    const inventory = profile?.inventory && profile?.inventory?.length ? profile?.inventory?.join(', ') : '\\🚫';
+    const achievements =
+      profile?.achievements && profile?.achievements?.length ? profile?.achievements?.join(', ') : '\\🚫';
+    const work = profile?.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
+    const lastJob = profile?.lastJob || new Date();
 
     const embeds = [
       new EmbedBuilder()

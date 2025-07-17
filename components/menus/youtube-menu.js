@@ -9,27 +9,26 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {
-      guildId: guildID,
+      guildId,
       message: { components },
       customId,
       values,
     } = interaction;
     const [, selected] = customId.split(':');
-    const channelId = values[0];
     const notifySection = components[0].components[0].components[1].data;
     const alertSection = components[0].components[0].components[2].data;
 
     const onClick = {
       notify: async () => {
-        notifySection.content = `- Notify channel: <#${channelId}>`;
+        notifySection.content = `- Notify channel: <#${values[0]}>`;
         await serverProfile
-          .findOneAndUpdate({ guildID }, { $set: { 'youtube.notifyChannel': channelId } })
+          .findOneAndUpdate({ guildId }, { $set: { 'youtube.notifyChannelId': values[0] } })
           .catch(console.error);
       },
       alert: async () => {
-        alertSection.content = `- Alert role: <@&${channelId}>`;
+        alertSection.content = `- Alert role: <@&${values[0]}>`;
         await serverProfile
-          .findOneAndUpdate({ guildID }, { $set: { 'youtube.alert': channelId } })
+          .findOneAndUpdate({ guildId }, { $set: { 'youtube.alertRoleId': values[0] } })
           .catch(console.error);
       },
     };

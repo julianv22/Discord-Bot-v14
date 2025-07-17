@@ -18,7 +18,7 @@ module.exports = {
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    const { guildId: guildID, customId } = interaction;
+    const { guildId, customId } = interaction;
     const [, feature, disable] = customId.split(':');
 
     /** @param {boolean} [disabled] Disabled buttons, `true` = disabled */
@@ -38,14 +38,14 @@ module.exports = {
     const containerMessage = (contents, accent_color = Colors.Orange) =>
       new ContainerBuilder().setAccentColor(accent_color).addTextDisplayComponents(textDisplay(contents));
 
-    const profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
 
     if (!profile)
       return await interaction.update({
         components: [containerMessage('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
       });
 
-    const { starboard, suggest, youtube, welcome } = profile?.setup || {};
+    const { starboard, suggest, youtube, welcome } = profile || {};
 
     const onClick = {
       default: async () =>
@@ -71,19 +71,19 @@ module.exports = {
       confirm: async () => {
         switch (disable) {
           case 'starboard':
-            starboard.channel = '';
-            starboard.star = 0;
+            starboard.channelId = '';
+            starboard.starCount = 0;
             break;
           case 'suggest':
-            suggest = '';
+            suggest.channelId = '';
             break;
           case 'youtube':
-            youtube.notifyChannel = '';
-            youtube.alert = '';
+            youtube.notifyChannelId = '';
+            youtube.alertRoleId = '';
             break;
           case 'welcome':
-            welcome.channel = '';
-            welcome.log = '';
+            welcome.channelId = '';
+            welcome.logChannelId = '';
             break;
           default:
             throw new Error(chalk.yellow("Invalid feature's customId"), chalk.green(disable));

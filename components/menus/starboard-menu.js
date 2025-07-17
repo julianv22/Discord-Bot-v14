@@ -9,26 +9,25 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const {
-      guildId: guildID,
+      guildId,
       message: { components },
       customId,
       values,
     } = interaction;
     const [, menu] = customId.split(':');
-    const value = values[0];
     const textDisplay = (id) => components[1].components[0].components[id].data;
 
-    const profile = await serverProfile.findOne({ guildID });
-    const { starboard } = profile?.setup || {};
+    const profile = await serverProfile.findOne({ guildId });
+    const { starboard } = profile || {};
 
     const onSelect = {
       channel: () => {
-        starboard.channel = value;
-        return (textDisplay(1).content = `- \\💬 Starboard channel: <#${value}>`);
+        starboard.channelId = values[0];
+        return (textDisplay(1).content = `- \\💬 Starboard channel: <#${values[0]}>`);
       },
-      star: () => {
-        starboard.star = parseInt(value, 10);
-        return (textDisplay(2).content = `- \\🔢 Number of stars to send message: **${value}**\\⭐`);
+      starcount: () => {
+        starboard.starCount = parseInt(values[0], 10);
+        return (textDisplay(2).content = `- \\🔢 Number of stars to send message: **${values[0]}**\\⭐`);
       },
     };
 

@@ -7,19 +7,18 @@ module.exports = (client) => {
   /** - Setup welcome
    * @param {Interaction} interaction - Command Interaction. */
   client.setupSuggest = async (interaction) => {
-    const { id: guildID, name: guildName } = interaction.guild;
+    const { id: guildId, name: guildName } = interaction.guild;
 
-    let profile = await serverProfile.findOne({ guildID }).catch(console.error);
+    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      profile = await serverProfile.create({ guildID, guildName, prefix, setup: { suggest: '' } }).catch(console.error);
+      profile = await serverProfile.create({ guildId, guildName, prefix, suggest: {} }).catch(console.error);
 
-    const { suggest } = profile?.setup || {};
     /** @param {string} channelId */
     const channelName = (channelId) => interaction.guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
-      .addTextDisplayComponents(textDisplay(`### \\⚙️ Suggest Channel: ${channelName(suggest)}`))
+      .addTextDisplayComponents(textDisplay(`### \\⚙️ Suggest Channel: ${channelName(profile?.suggest?.channelId)}`))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(menuComponents('suggest-menu', '💡 Select Suggest Channel'));
 
