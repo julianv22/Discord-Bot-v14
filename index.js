@@ -1,8 +1,8 @@
 const { Client, Collection, Partials } = require('discord.js');
-const mongoose = require('mongoose');
 const alive = require('./alive.js'); // Keep Alive
 
 // require('dotenv').config();
+global.mongoose = require('mongoose');
 global.chalk = require('chalk');
 global.cfg = require('./config/config.json');
 global.prefix = cfg.prefix;

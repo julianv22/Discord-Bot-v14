@@ -29,7 +29,9 @@ module.exports = {
       const timeleft = Math.floor(finishTime.getTime() / 1000);
 
       return await interaction.reply(
-        errorEmbed({ desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>` })
+        errorEmbed({
+          desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
+        })
       );
     }
 
@@ -52,28 +54,31 @@ module.exports = {
         ? `**${Math.floor(workMinutes / 60)} giờ${workMinutes % 60 ? `, ${workMinutes % 60} phút` : ''}**`
         : `**${workMinutes} phút**`;
 
-    setTimeout(async () => {
-      let reward = workMinutes;
-      let lucky = Math.random() < 0.25;
-      if (lucky) reward *= 2;
-      await user
-        .send(
-          `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
-            guild.name
-          }**\n\n💰 Bạn đã nhận được **${reward.toCurrency()}**${
-            lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
-          }`
-        )
-        .catch(console.error);
+    setTimeout(
+      async () => {
+        let reward = workMinutes;
+        let lucky = Math.random() < 0.25;
+        if (lucky) reward *= 2;
+        await user
+          .send(
+            `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
+              guild.name
+            }**\n\n💰 Bạn đã nhận được **${reward.toCurrency()}**${
+              lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
+            }`
+          )
+          .catch(console.error);
 
-      let p = await economyProfile.findOne({ guildId, userId }).catch(console.error);
-      if (p) {
-        p.balance += reward;
-        p.totalEarned += reward;
-        p.lastRob = null;
-        await p.save().catch(console.error);
-      }
-    }, workMinutes * 60 * 1000);
+        let p = await economyProfile.findOne({ guildId, userId }).catch(console.error);
+        if (p) {
+          p.balance += reward;
+          p.totalEarned += reward;
+          p.lastRob = null;
+          await p.save().catch(console.error);
+        }
+      },
+      workMinutes * 60 * 1000
+    );
 
     const embeds = [
       new EmbedBuilder()
