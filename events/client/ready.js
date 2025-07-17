@@ -67,7 +67,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '3:20, 17/07/2025' });
+      table({ name: '📆 Last update:', value: '4:00, 17/07/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
@@ -83,30 +83,21 @@ module.exports = {
 
       // Lastest youtube videos
       await checkVideos();
-      setInterval(
-        () => {
-          checkVideos();
-        },
-        30 * 60 * 1000
-      );
+      setInterval(() => {
+        checkVideos();
+      }, 30 * 60 * 1000);
 
       // Set Client's Pressence
       setPresence();
-      setInterval(
-        () => {
-          setPresence();
-        },
-        5 * 60 * 1000
-      );
+      setInterval(() => {
+        setPresence();
+      }, 5 * 60 * 1000);
 
       for (const server of servers) {
         await serverStats(server.id);
-        setInterval(
-          async () => {
-            await serverStats(server.id);
-          },
-          5 * 60 * 1000
-        );
+        setInterval(async () => {
+          await serverStats(server.id);
+        }, 5 * 60 * 1000);
       }
     } catch (e) {
       logError({ todo: 'running', item: 'ready', desc: `event from ${chalk.green('client events')}` }, e);

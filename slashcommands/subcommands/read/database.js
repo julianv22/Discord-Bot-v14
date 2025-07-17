@@ -22,7 +22,8 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, guildId, options } = interaction;
     const { errorEmbed } = client;
-    const serverProfile = require(`../../../config/${options.getString('profile')}`);
+    const choice = options.getString('profile');
+    const serverProfile = require(`../../../config/${choice}`);
 
     await interaction.deferReply({ flags: 64 });
     /** - Send a message
