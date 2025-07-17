@@ -20,10 +20,13 @@ module.exports = (client) => {
       guildId,
       guild: { name: guildName },
     } = interaction;
+    const { errorEmbed } = client;
 
-    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    const profile = await serverProfile
+      .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
+      .catch(console.error);
     if (!profile)
-      profile = await serverProfile.create({ guildId, guildName, prefix, welcome: {} }).catch(console.error);
+      return await interaction.followUp(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     const { welcome } = profile || {};
     const welcomeMessage = welcome?.message || '-# \\❌ Not Set';

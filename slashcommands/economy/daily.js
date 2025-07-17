@@ -22,11 +22,19 @@ module.exports = {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
-    if (!profile)
-      profile = await economyProfile
-        .create({ guildId, guildName, userId, userName, lastWork: '' })
-        .catch(console.error);
+    let profile = await economyProfile
+      .findOneAndUpdate(
+        { guildId, userId },
+        { $setOnInsert: { guildName, userName, lastWork: '' } },
+        { upsert: true, new: true }
+      )
+      .catch(console.error);
+
+    if (!profile) {
+      return await interaction.reply(
+        errorEmbed({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo hồ sơ kinh tế của bạn. Vui lòng thử lại sau.' })
+      );
+    }
 
     // Kiểm tra cooldown: chỉ cần qua 0h là nhận được
     const lastClaim = profile?.dailyCooldown;

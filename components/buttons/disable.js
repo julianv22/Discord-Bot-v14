@@ -19,6 +19,7 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guildId, customId } = interaction;
+    const { errorEmbed } = client;
     const [, feature, disable] = customId.split(':');
 
     /** @param {boolean} [disabled] Disabled buttons, `true` = disabled */
@@ -32,18 +33,15 @@ module.exports = {
           ComponentType.Button
         )
       );
+
     /** - ContainerBuilder
      * @param {string|string[]} contents TextDisplay content
      * @param {num} [accent_color] Container accent color */
-    const containerMessage = (contents, accent_color = Colors.Orange) =>
+    const messageContainer = (contents, accent_color = Colors.Orange) =>
       new ContainerBuilder().setAccentColor(accent_color).addTextDisplayComponents(textDisplay(contents));
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
-
-    if (!profile)
-      return await interaction.update({
-        components: [containerMessage('\\❌ Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!', Colors.Red)],
-      });
+    if (!profile) return interaction.reply(errorEmbed({ desc: 'Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!' }));
 
     const { starboard, suggest, youtube, welcome } = profile || {};
 
@@ -52,7 +50,7 @@ module.exports = {
         await interaction.update({
           components: [
             dashboardMenu(),
-            containerMessage([
+            messageContainer([
               `**Disable ${feature.toCapitalize()}**`,
               `-# Vô hiệu hoá chức năng ${feature.toCapitalize()}`,
               '-# Click `✅ Confirm` để xác nhận \\⤵️',
@@ -64,7 +62,7 @@ module.exports = {
         await interaction.update({
           components: [
             dashboardMenu(),
-            containerMessage(`\\❌ ${feature.toCapitalize()} Disable`, Colors.Red),
+            messageContainer(`\\❌ ${feature.toCapitalize()} Disable`, Colors.Red),
             confirmButtons(true),
           ],
         }),
@@ -94,7 +92,7 @@ module.exports = {
         return await interaction.update({
           components: [
             dashboardMenu(),
-            containerMessage(
+            messageContainer(
               [
                 `**\\✅ Disable ${disable.toCapitalize()} successfully!**`,
                 `-# Đã vô hiệu hoá chức năng ${disable.toCapitalize()} thành công.`,

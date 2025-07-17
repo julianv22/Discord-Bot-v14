@@ -14,6 +14,7 @@ module.exports = {
       guildId,
       message: { components },
     } = interaction;
+    const { checkVideos, errorEmbed } = client;
     const [, buttonId, type] = customId.split(':');
 
     /** @param {number} id Component index. `1 = Notify channel, 2 = Alert role`*/
@@ -52,6 +53,12 @@ module.exports = {
         }
 
         return await interaction.update({ components });
+      },
+      refresh: async () => {
+        await checkVideos();
+        return await interaction.reply(
+          errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true })
+        );
       },
     };
 

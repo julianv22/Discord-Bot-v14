@@ -27,22 +27,21 @@ module.exports = {
     const total = amount + fee;
 
     // Lấy profile của người chuyển và người nhận
-    let [profile, targetProfile] = await Promise.all([
+    const [profile, targetProfile] = await Promise.all([
       economyProfile.findOne({ guildId, userId: user.id }).catch(console.error),
       economyProfile.findOne({ guildId, userId: targetId }).catch(console.error),
     ]);
 
     // Kiểm tra lại dữ liệu
-    if (!profile)
+    if (!profile || !targetProfile)
       return await interaction.update({
-        ...errorEmbed({ desc: 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!' }),
+        ...errorEmbed({
+          desc: !profile
+            ? 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!'
+            : 'Không tìm thấy tài khoản của người nhận trong cơ sở dữ liệu!',
+        }),
         components: [],
       });
-
-    if (!targetProfile)
-      targetProfile = await economyProfile
-        .create({ guildId, guildName, userId: targetId, lastWork: '' })
-        .catch(console.error);
 
     if (profile?.bank < total)
       return await interaction.update({

@@ -2,7 +2,7 @@ const ThanksProfileSchema = new mongoose.Schema(
   {
     guildId: { type: String, required: true, index: true, trim: true },
     guildName: { type: String, trim: true },
-    userId: { type: String, required: true, unique: true, index: true, trim: true },
+    userId: { type: String, required: true, index: true, trim: true },
     userName: { type: String, trim: true },
     thanksCount: { type: Number, default: 0, min: 0 },
     lastThanks: { type: Date, default: null },

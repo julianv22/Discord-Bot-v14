@@ -2,7 +2,7 @@ const EconomyProfileSchema = new mongoose.Schema(
   {
     guildId: { type: String, required: true, index: true, trim: true },
     guildName: { type: String, trim: true },
-    userId: { type: String, required: true, unique: true, index: true, trim: true },
+    userId: { type: String, required: true, index: true, trim: true },
     userName: { type: String, trim: true },
     balance: { type: Number, default: 0 },
     bank: { type: Number, default: 0 },

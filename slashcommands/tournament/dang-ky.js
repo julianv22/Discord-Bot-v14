@@ -47,25 +47,16 @@ module.exports = {
       );
 
     // Add Tournament Profile
-    let tourProfile = await tournamentProfile.findOne({ guildId, userId }).catch(console.error);
+    const tourProfile = await tournamentProfile
+      .findOneAndUpdate(
+        { guildId, userId },
+        { guildName, userName, inGameName: stIngame, registrationStatus: true },
+        { upsert: true, new: true }
+      )
+      .catch(console.error);
+
     if (!tourProfile)
-      tourProfile = await tournamentProfile
-        .create({
-          guildId,
-          guildName,
-          userId,
-          userName,
-          inGameName: stIngame,
-          registrationStatus: true,
-        })
-        .catch(console.error);
-    else {
-      tourProfile.guildName = guildName;
-      tourProfile.userName = userName;
-      tourProfile.inGameName = stIngame;
-      tourProfile.registrationStatus = true;
-      await tourProfile.save().catch(console.error);
-    }
+      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     await interaction.reply(
       errorEmbed({

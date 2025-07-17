@@ -31,10 +31,11 @@ module.exports = {
     const guildName = guild.name;
     const subCommand = options.getSubcommand();
 
-    const profile = await serverProfile.findOne({ guildId }).catch(console.error);
-    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No setup data found for this server.' }));
-
-    await serverProfile.findOneAndUpdate({ guildId }, { guildName, prefix }).catch(console.error);
+    const profile = await serverProfile
+      .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
+      .catch(console.error);
+    if (!profile)
+      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     /** @param {string} roleId  */
     const getRole = (roleId) => guild.roles.cache.get(roleId);

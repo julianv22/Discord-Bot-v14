@@ -38,7 +38,13 @@ module.exports = {
 
     const [profile, targetProfile] = await Promise.all([
       economyProfile.findOne({ guildId, userId: user.id }).catch(console.error),
-      economyProfile.findOne({ guildId, userId: target.id }).catch(console.error),
+      economyProfile
+        .findOneAndUpdate(
+          { guildId, userId: target.id },
+          { guildName: guild.name, userName: target.displayName || target.username, lastWork: '' },
+          { upsert: true, new: true }
+        )
+        .catch(console.error),
     ]);
 
     if (!profile || !targetProfile)
@@ -46,7 +52,7 @@ module.exports = {
         errorEmbed({
           desc: !profile
             ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh `/daily` để tạo tài khoản'
-            : 'Đối tượng chuyển \\💲 chưa có tài khoản Economy',
+            : 'Không tìm thấy tài khoản Economy của người nhận',
         })
       );
 
@@ -56,7 +62,11 @@ module.exports = {
     const total = amount + fee;
 
     const buttons = [
-      { customId: `transfer:${amount}:${fee}:${target.id}`, label: 'Transfer', style: ButtonStyle.Success },
+      {
+        customId: `transfer:${amount}:${fee}:${target.id}`,
+        label: 'Transfer',
+        style: ButtonStyle.Success,
+      },
       { customId: 'transfer:cancel', label: 'Cancel', style: ButtonStyle.Danger },
     ];
 

@@ -24,20 +24,15 @@ module.exports = {
       guildId,
       guild: { members, roles },
       user,
-      user: { id: userId, displayName, username },
       options,
     } = interaction;
     const { errorEmbed } = client;
-    const userName = displayName || username;
+    const userId = user.id;
 
     // Verified
     if (!options.getBoolean('confirm'))
       return await interaction.reply(
-        errorEmbed({
-          desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
-          emoji: '❗',
-          color: Colors.Orange,
-        })
+        errorEmbed({ desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '❗', color: Colors.Orange })
       );
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

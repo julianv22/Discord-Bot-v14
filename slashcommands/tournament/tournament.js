@@ -31,10 +31,16 @@ module.exports = {
       guildId,
       guild: { name: guildName },
     } = interaction;
+    const { errorEmbed } = client;
 
-    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    const profile = await serverProfile
+      .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
+      .catch(console.error);
+
     if (!profile)
-      profile = await serverProfile.create({ guildId, guildName, prefix, tournament: {} }).catch(console.error);
+      return await interaction.reply(
+        errorEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
+      );
 
     const { tournament } = profile || {};
     const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';

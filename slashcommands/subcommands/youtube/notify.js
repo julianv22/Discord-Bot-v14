@@ -26,10 +26,13 @@ module.exports = {
       guildId,
       guild: { name: guildName },
     } = interaction;
+    const { errorEmbed } = client;
 
-    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    let profile = await serverProfile
+      .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
+      .catch(console.error);
     if (!profile)
-      profile = await serverProfile.create({ guildId, guildName, prefix, youtube: {} }).catch(console.error);
+      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     const { youtube } = profile || {};
 

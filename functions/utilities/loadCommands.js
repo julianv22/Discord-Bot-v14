@@ -98,6 +98,7 @@ module.exports = (client) => {
         if (slashArray.length > 0) {
           const rest = new REST({ version: '10' }).setToken(token);
 
+          // const commandRoute = Routes.applicationCommands(clientId);
           const commandRoute =
             clientId === '995949416273940623'
               ? Routes.applicationGuildCommands(clientId, guildId)

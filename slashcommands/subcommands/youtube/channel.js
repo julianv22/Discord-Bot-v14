@@ -24,6 +24,7 @@ module.exports = {
       guild: { name: guildName },
       guildId,
     } = interaction;
+    const { errorEmbed } = client;
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -41,9 +42,11 @@ module.exports = {
       return channelId;
     };
 
-    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    let profile = await serverProfile
+      .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
+      .catch(console.error);
     if (!profile)
-      profile = await serverProfile.create({ guildId, guildName, prefix, youtube: {} }).catch(console.error);
+      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     const { youtube } = profile || {};
     const channelList = await Promise.all(
@@ -67,6 +70,7 @@ module.exports = {
           [
             { customId: 'youtube:channel:add', label: 'Add Channel', emoji: '➕', style: ButtonStyle.Success },
             { customId: 'youtube:channel:remove', label: 'Remove Channel', emoji: '➖', style: ButtonStyle.Danger },
+            { customId: 'youtube:refresh', label: 'Refesh', emoji: '🔄', style: ButtonStyle.Primary },
           ],
           ComponentType.Button
         )

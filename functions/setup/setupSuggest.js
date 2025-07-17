@@ -7,11 +7,14 @@ module.exports = (client) => {
   /** - Setup welcome
    * @param {Interaction} interaction - Command Interaction. */
   client.setupSuggest = async (interaction) => {
+    const { errorEmbed } = client;
     const { id: guildId, name: guildName } = interaction.guild;
 
-    let profile = await serverProfile.findOne({ guildId }).catch(console.error);
+    const profile = await serverProfile
+      .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
+      .catch(console.error);
     if (!profile)
-      profile = await serverProfile.create({ guildId, guildName, prefix, suggest: {} }).catch(console.error);
+      return await interaction.followUp(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     /** @param {string} channelId */
     const channelName = (channelId) => interaction.guild.channels.cache.get(channelId) || '\\❌ Not Set';

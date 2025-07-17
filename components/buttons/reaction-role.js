@@ -157,15 +157,18 @@ module.exports = {
         const msg = await channel.send({ embeds: [reactionEmbed.setFields()] });
 
         await reactionRole
-          .create({
-            guildId,
-            guildName,
-            channelId: channel.id,
-            messageId: msg.id,
-            title: reactionEmbed.data.title,
-            description: reactionEmbed.data.description,
-            roles: emojiArray,
-          })
+          .findOneAndUpdate(
+            { guildId, messageId: msg.id },
+            {
+              $setOnInsert: {
+                channelId: channel.id,
+                title: reactionEmbed.data.title,
+                description: reactionEmbed.data.description,
+                roles: emojiArray,
+              },
+            },
+            { upsert: true, new: true }
+          )
           .catch(console.error);
 
         await interaction.update({

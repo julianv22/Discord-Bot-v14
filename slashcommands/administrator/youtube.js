@@ -15,20 +15,9 @@ module.exports = {
       sub
         .setName('notify')
         .setDescription(`Sets the notification channel and alert role for YouTube updates. (${cfg.adminRole} only)`)
-    )
-    .addSubcommand((sub) =>
-      sub.setName('refresh').setDescription(`Manually refreshes YouTube notifications. (${cfg.adminRole} only)`)
     ),
   /** - Manages YouTube channel subscriptions and notifications
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
-  async execute(interaction, client) {
-    const { errorEmbed, checkVideos } = client;
-    const subcommand = interaction.options.getSubcommand();
-
-    if (subcommand === 'refresh') {
-      await checkVideos();
-      await interaction.reply(errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true }));
-    }
-  },
+  async execute(interaction, client) {},
 };

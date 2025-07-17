@@ -33,51 +33,25 @@ module.exports = (client) => {
         'https://png.pngtree.com/thumb_back/fw800/background/20201020/pngtree-rose-thank-you-background-image_425104.jpg',
       ];
 
-      if (!target) {
-        const replyMessage = await object.reply(errorEmbed({ desc: 'You must mention someone!' }));
+      /** @param {string} desc Embed Error Description */
+      const replyMessage = async (desc) => {
+        const reply = await object.reply(errorEmbed({ desc }));
 
         if (object?.author)
           setTimeout(async () => {
-            await replyMessage.delete().catch(console.error);
-          }, 10000);
+            await reply.delete().catch(console.error);
+          }, 10 * 1000);
+      };
 
-        return;
-      }
+      if (!target) return replyMessage('You must mention someone!');
+      if (target.user?.bot || target?.bot) return replyMessage('Bot do not need to be thanked! 😝');
+      if (target.id === author.id) return replyMessage('You can not thank yourself! 😅');
 
-      if (target.user?.bot || target?.bot) {
-        const replyMessage = await object.reply(errorEmbed({ desc: 'Bots do not need to be thanked! 😝' }));
+      const profile = await thanksProfile
+        .findOneAndUpdate({ guildId, userId }, { guildName, userName }, { upsert: true, new: true })
+        .catch(console.error);
 
-        if (object?.author)
-          setTimeout(async () => {
-            await replyMessage.delete().catch(console.error);
-          }, 10000);
-
-        return;
-      }
-
-      if (target.id === author.id) {
-        const replyMessage = await object.reply(errorEmbed({ desc: 'You can not thank yourself! 😅' }));
-
-        if (object?.author)
-          setTimeout(async () => {
-            await replyMessage.delete().catch(console.error);
-          }, 10000);
-
-        return;
-      }
-
-      let profile = await thanksProfile.findOne({ guildId, userId }).catch(console.error);
-      if (!profile)
-        profile = await thanksProfile
-          .create({
-            guildId,
-            guildName,
-            userId,
-            userName,
-            thanksCount: 1,
-            lastThanks: Date.now(),
-          })
-          .catch(console.error);
+      if (!profile) return replyMessage('No data found for this server. Try again later!');
       else profile.thanksCount += 1;
 
       const lastThanks = moment(profile?.lastThanks || Date.now())

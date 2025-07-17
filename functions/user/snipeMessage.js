@@ -20,7 +20,6 @@ module.exports = (client) => {
           setTimeout(async () => {
             await replyMessage.delete().catch(console.error);
           }, 5000);
-
         return;
       }
 
