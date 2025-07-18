@@ -1,9 +1,9 @@
 {
-  "prefix": "~",
-  "clientID": "986945043849945088",
-  "bugGuildId": "989460806590660629",
-  "bugChannelId": "1376588993436717238",
-  "mongodb": "Julian-V",
+  "prefix": ".",
+  "clientID": "995949416273940623",
+  "bugGuildId": "1388619729429598358",
+  "bugChannelId": "1388619731631870118",
+  "mongodb": "👑〔King of Game〕",
   "adminRole": "〔🅰️min〕",
   "modRole": "〔Ⓜ️od〕",
   "supportServer": "🦸〔J-V Bot〕 SUPPORT",
@@ -23,6 +23,6 @@
   "updatePNG": "https://blognhansu.net.vn/wp-content/uploads/2017/01/update-tai-lieu.jpg",
   "thanksPNG": "https://media.discordapp.net/attachments/976364997066231828/1014509346924793926/Top_10.png",
   "suggestPNG": "https://media.discordapp.net/attachments/976364997066231828/995628740782596127/unknown.png",
-  "economyPNG": "https://www.rbcroyalbank.com/en-ca/wp-content/uploads/sites/12/2023/09/Untitled-design-2023-07-31T120240.836-1.jpg",
+  "economyPNG": "https://media.discordapp.net/attachments/976364997066231828/1374360062063149086/Bitcoin_Digital_Currency_Logo.png",
   "discordQR_PNG": "https://media.discordapp.net/attachments/997825232205250633/1373502211438411807/discord_QR.png"
 }
