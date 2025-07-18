@@ -13,8 +13,8 @@ const { sectionComponents, dashboardMenu, menuComponents, textDisplay } = requir
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /** - Setup welcome
-   * @param {Interaction} interaction - Command Interaction. */
+  /** - Sets up the Starboard feature.
+   * @param {Interaction} interaction - The command interaction. */
   client.setupStarboard = async (interaction) => {
     const {
       guild,
@@ -27,11 +27,11 @@ module.exports = (client) => {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Please try again later!' }));
 
     const { starboard } = profile || {};
 
-    /** @param {string} channelId */
+    /** @param {string} channelId - The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
@@ -40,8 +40,8 @@ module.exports = (client) => {
         sectionComponents(
           [
             '### \\⭐ Starboard Information',
-            `- \\💬 Starboard channel: ${channelName(starboard?.channelId)}`,
-            `- \\🔢 Number of stars to send message: **${starboard?.starCount || 0}**\\⭐`,
+            `- \\💬 Starboard Channel: ${channelName(starboard?.channelId)}`,
+            `- \\🔢 Stars required to send message: **${starboard?.starCount || 0}**\\⭐`,
           ],
           ComponentType.Thumbnail,
           cfg.infoPNG

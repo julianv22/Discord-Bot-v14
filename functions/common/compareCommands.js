@@ -1,15 +1,15 @@
 const _ = require('lodash');
 
 module.exports = {
-  /** - So sánh hai đối tượng lệnh để kiểm tra xem chúng có giống nhau về mặt cấu trúc hay không.
-   * @param {object} localCommand Lệnh được định nghĩa ở local (đã qua toJSON()).
-   * @param {object} remoteCommand Lệnh được fetch từ Discord API.
-   * - Trả về true nếu các lệnh khác nhau, ngược lại trả về false. */
+  /** - Compares two command objects to check if they are structurally identical.
+   * @param {object} localCommand The command defined locally (after toJSON()).
+   * @param {object} remoteCommand The command fetched from the Discord API.
+   * - Returns true if the commands are different, otherwise returns false. */
   commandsAreDifferent: (localCommand, remoteCommand) => {
     // Helper function to normalize option properties for consistent comparison
     const normalizeOption = (opt) => {
       const normalized = {};
-      // Gán các thuộc tính theo thứ tự cố định để đảm bảo so sánh nhất quán
+      // Assign properties in a fixed order to ensure consistent comparison
       normalized.type = opt.type;
       normalized.name = opt.name;
       normalized.description = (opt.description || '').trim();
@@ -48,7 +48,7 @@ module.exports = {
 
       return normalized;
     };
-    // 1. Chuẩn hóa, sắp xếp và so sánh options
+    // 1. Normalize, sort, and compare options
     const localOptions = (localCommand.options || []).map(normalizeOption);
     const remoteOptions = (remoteCommand.options || []).map(normalizeOption);
     // Sort options by name to ensure consistent comparison order, regardless of API return order
@@ -57,8 +57,8 @@ module.exports = {
 
     if (JSON.stringify(sortedLocalOptions) !== JSON.stringify(sortedRemoteOptions)) return true;
 
-    // 2. So sánh description
-    // Nếu description chứa "only", bỏ qua so sánh này
+    // 2. Compare description
+    // If description contains "only", ignore this comparison
     const localDescription = localCommand.description || '';
     const remoteDescription = remoteCommand.description || '';
 
@@ -67,41 +67,41 @@ module.exports = {
     if (!containsOnly(localDescription) && !containsOnly(remoteDescription))
       if (localDescription !== remoteDescription) return true;
 
-    // 3. So sánh quyền hạn mặc định (chuẩn hóa về cùng kiểu string để tránh lỗi number vs string)
+    // 3. Compare default member permissions (normalize to string to avoid number vs string errors)
     const localPerms = localCommand.default_member_permissions?.toString() || null;
     const remotePerms = remoteCommand.default_member_permissions?.toString() || null;
     if (localPerms !== remotePerms) return true;
 
-    // 4. So sánh quyền sử dụng trong DM (chuẩn hóa undefined thành true)
+    // 4. Compare DM permission (normalize undefined to true)
     const localDmPermission = localCommand.dm_permission === undefined ? true : localCommand.dm_permission;
-    const remoteDmPermission = remoteCommand.dm_permission === undefined ? true : remoteCommand.dm_permission; // Đảm bảo remote cũng được chuẩn hóa
+    const remoteDmPermission = remoteCommand.dm_permission === undefined ? true : remoteCommand.dm_permission; // Ensure remote is also normalized
     if (localDmPermission !== remoteDmPermission) return true;
 
-    // 5. So sánh NSFW (chuẩn hóa undefined thành false)
+    // 5. Compare NSFW (normalize undefined to false)
     const localNsfw = localCommand.nsfw === undefined ? false : localCommand.nsfw;
     const remoteNsfw = remoteCommand.nsfw === undefined ? false : remoteCommand.nsfw;
     if (localNsfw !== remoteNsfw) return true;
 
-    // 6. So sánh category
+    // 6. Compare category
     const localCategory = localCommand.category || null;
     const remoteCategory = remoteCommand.category || null;
     if (localCategory !== remoteCategory) return true;
 
-    // 7. So sánh scooldown
+    // 7. Compare scooldown
     const localScooldown = localCommand.scooldown || null;
     const remoteScooldown = remoteCommand.scooldown || null;
     if (localScooldown !== remoteScooldown) return true;
 
-    // 8. So sánh Parent
+    // 8. Compare Parent
     const localParent = localCommand.parent || null;
     const remoteParent = remoteCommand.parent || null;
     if (localParent !== remoteParent) return true;
 
     return false;
   },
-  /** - So sánh các lệnh cục bộ với các lệnh đã đăng ký trên Discord và log ra các thay đổi.
-   * @param {Array<object>} localCommands Mảng các lệnh được định nghĩa ở local.
-   * @param {Array<object>} remoteCommands Mảng các lệnh được fetch từ Discord API. */
+  /** - Compares local commands with registered commands on Discord and logs the changes.
+   * @param {Array<object>} localCommands An array of locally defined commands.
+   * @param {Array<object>} remoteCommands An array of commands fetched from the Discord API. */
   compareCommands: (localCommands, remoteCommands) => {
     const localCommandsMap = new Map(localCommands.map((cmd) => [cmd.name, cmd]));
     const remoteCommandsMap = new Map(remoteCommands.map((cmd) => [cmd.name, cmd]));
@@ -110,7 +110,7 @@ module.exports = {
     const deletedCommands = [];
     const changedCommands = [];
 
-    // Kiểm tra các lệnh MỚI và THAY ĐỔI
+    // Check for NEW and CHANGED commands
     for (const [name, localCommand] of localCommandsMap) {
       const remoteCommand = remoteCommandsMap.get(name);
 
@@ -120,12 +120,12 @@ module.exports = {
       }
     }
 
-    // Kiểm tra các lệnh BỊ XÓA
+    // Check for DELETED commands
     for (const name of remoteCommandsMap.keys()) {
       if (!localCommandsMap.has(name)) deletedCommands.push(name);
     }
 
-    // Log kết quả
+    // Log results
     if (newCommands.length > 0) {
       console.log(
         chalk.yellow(`[NEW] Added ${newCommands.length} command${newCommands.length > 1 ? 's' : ''}: `) +

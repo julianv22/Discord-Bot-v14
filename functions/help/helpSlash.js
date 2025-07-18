@@ -3,8 +3,8 @@ const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
   /** - Show slash commands list.
-   * @param {string} CommandType - Command type.
-   * @param {Interaction} interaction - Command Interaction. */
+   * @param {string} CommandType - The type of the command.
+   * @param {Interaction} interaction - The command interaction. */
   client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands } = client;
     const { guild, user } = interaction;

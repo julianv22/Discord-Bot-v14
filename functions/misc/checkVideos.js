@@ -3,10 +3,10 @@ const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Kiểm tra video mới nhất của các kênh YouTube và gửi thông báo lên kênh thông báo */
+  /** Checks for the latest videos from YouTube channels and sends notifications to the designated channel. */
   client.checkVideos = async () => {
-    /** - Get the latest video of the YouTube channel
-     * @param {string} channelId - Channel ID  */
+    /** Gets the latest video ID and channel title from a YouTube channel's RSS feed.
+     * @param {string} channelId - The YouTube channel ID. */
     const getLatestVideoId = async (channelId) => {
       try {
         const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -16,7 +16,7 @@ module.exports = (client) => {
         const xml = await res.text();
         const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
         const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
-        // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
+        // titleMatch[1] is the latest video title, titleMatch[0] is the channel title
         // const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
         const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
 
@@ -42,12 +42,12 @@ module.exports = (client) => {
 
           if (!latestVideoId) continue;
 
-          // Nếu chưa có lastVideoIds hoặc video mới
+          // If there are no lastVideoIds or a new video is found
           if (!lastVideos[i] || lastVideos[i] !== latestVideoId) {
             lastVideos[i] = latestVideoId;
             updated = true;
 
-            // Gửi thông báo lên kênh
+            // Send notification to the channel
             const guild = client.guilds.cache.get(guildId);
 
             if (guild) {
@@ -69,7 +69,7 @@ module.exports = (client) => {
             }
           }
         }
-        // Lưu lại nếu có cập nhật
+        // Save if there are updates
         if (updated) {
           server.youtube.lastVideos = lastVideos;
           await server.save().catch(console.error);

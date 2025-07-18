@@ -4,7 +4,7 @@ const moment = require('moment-timezone');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Get Server information
-   * @param {Interaction|Message} object - Interaction or Message */
+   *  @param {Interaction|Message} object - The interaction or message object. */
   client.serverInfo = async (object) => {
     const { catchError } = client;
     const author = object?.user || object?.author;

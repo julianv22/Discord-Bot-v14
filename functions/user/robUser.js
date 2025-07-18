@@ -3,9 +3,9 @@ const economyProfile = require('../../config/economyProfile');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /** - Tranfers
-   * @param {GuildMember} target - Target user
-   * @param {Interaction} interaction - Command Interaction. */
+  /** - Robs a target user for currency.
+   * @param {GuildMember} target - The target user to rob.
+   * @param {Interaction} interaction - The command interaction. */
   client.robUser = async (target, interaction) => {
     const { user, guild, guildId } = interaction;
     const { errorEmbed, catchError, user: bot } = client;

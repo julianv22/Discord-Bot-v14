@@ -2,10 +2,12 @@ const { Client, ActivityType } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Set the presence and activity of the bot */
+  /** - Sets the presence and activity of the bot. */
   client.setPresence = async () => {
     const { guilds, user, logError } = client;
 
+    /** - Fetches the latest video ID from a YouTube channel.
+     * @param {string} channelId - The ID of the YouTube channel. */
     const lastestVideo = async (channelId) => {
       try {
         const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);

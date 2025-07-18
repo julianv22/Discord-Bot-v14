@@ -4,8 +4,8 @@ const moment = require('moment-timezone');
 /** @param {Client} client Client */
 module.exports = (client) => {
   /** - Get Github information
-   * @param {string} gitUserName Github username
-   * @param {Interaction|Message} object Interaction or Message */
+   * @param {string} gitUserName - The GitHub username.
+   * @param {Interaction|Message} object - The interaction or message object. */
   client.githubInfo = async (gitUserName, object) => {
     const { errorEmbed, catchError } = client;
     const author = object?.user || object?.author;
@@ -15,7 +15,7 @@ module.exports = (client) => {
       const body = await res.json();
 
       if (body.message === 'Not Found') {
-        const replyMessage = await object.reply(errorEmbed({ desc: 'Can not find user ' + gitUserName }));
+        const replyMessage = await object.reply(errorEmbed({ desc: 'Cannot find user ' + gitUserName }));
 
         if (object?.author)
           setTimeout(async () => {
@@ -32,7 +32,7 @@ module.exports = (client) => {
         new EmbedBuilder()
           .setColor('Random')
           .setThumbnail(avatar_url)
-          .setAuthor({ name: 'Github Information!', iconURL: avatar_url })
+          .setAuthor({ name: 'GitHub Information!', iconURL: avatar_url })
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),
@@ -42,7 +42,7 @@ module.exports = (client) => {
             { name: 'Username', value: `${login}`, inline: true },
             { name: 'ID', value: `${id}`, inline: true },
             { name: 'Bio', value: `${bio || 'No Bio Provided'}`, inline: true },
-            { name: 'Github', value: `[${name || login}](${html_url})`, inline: true },
+            { name: 'GitHub', value: `[${name || login}](${html_url})`, inline: true },
             { name: 'Public Repositories', value: `${public_repos || 'None'}`, inline: true },
             { name: 'Followers', value: `${followers}`, inline: true },
             { name: 'Following', value: `${following}`, inline: true },

@@ -149,7 +149,7 @@ module.exports = {
   /** - Creates a SectionBuilder component, typically for a StringSelectMenu.
    * @param {string|string[]} contents - An array of strings for the TextDisplay components within the section (max 3).
    * @param {ComponentType.Thumbnail | ComponentType.Button} accessoryType - The type of accessory for the section.
-   * @param {string|object} [options] string if ComponentType is Thumbnail, object if ComponentType is Button*/
+   * @param {string|object} [options] string if ComponentType is Thumbnail, object if ComponentType is Button */
   sectionComponents: (contents, accessoryType, options) => {
     const displayContents = module.exports.textDisplay(contents);
     const sectionComponents = new SectionBuilder();

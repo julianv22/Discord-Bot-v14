@@ -15,8 +15,8 @@ module.exports = {
       );
     _client.logError(...args);
   },
-  /** - Lấy video mới nhất từ các kênh Youtube
-   * @param {string} channelId - Youtube channelId */
+  /** - Gets the latest video from YouTube channels.
+   * @param {string} channelId - YouTube channel ID. */
   getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -25,7 +25,7 @@ module.exports = {
 
       const xml = await res.text();
       const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-      const titleMatch = xml.match(/<title>(.*?)<\/title>/g); // titleMatch[1] là tiêu đề video mới nhất, titleMatch[0] là tiêu đề channel
+      const titleMatch = xml.match(/<title>(.*?)<\/title>/g); // titleMatch[1] is the latest video title, titleMatch[0] is the channel title
       const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
       const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
 
@@ -34,24 +34,24 @@ module.exports = {
       return { videoId: null, channelTitle: null, videoTitle: null };
     }
   },
-  /** - Tìm kiếm và thay thế các biến trong chuỗi
-   * @param {string} stringInput String cần thay thế
-   * @param {object} replacements Object chứa các biến và giá trị tương ứng
-   * - Ví dụ: ```const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };``` */
+  /** - Searches for and replaces variables in a string.
+   * @param {string} stringInput The string to replace variables in.
+   * @param {object} replacements An object containing variables and their corresponding values.
+   * - Example: ```const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };``` */
   replaceVar: (stringInput, replacements) => {
-    // Regex sẽ khớp với bất kỳ chuỗi nào trong dạng {key}
-    // Ví dụ: {user}, {guild}, {avatar}
+    // Regex will match any string in the format {key}
+    // Example: {user}, {guild}, {avatar}
     return stringInput.replace(/\{(\w+)\}/g, (match, key) => {
-      // Nếu key tồn tại trong đối tượng replacements, trả về giá trị đó.
-      // Nếu không, trả về lại match gốc để không thay đổi phần đó.
+      // If the key exists in the replacements object, return its value.
+      // Otherwise, return the original match to keep that part unchanged.
       return replacements[key] !== undefined ? replacements[key] : match;
     });
   },
-  /** - Log 2 mảng dữ liệu ra asciiTable
-   * @param {string[]} data Mảng dữ liệu
-   * @param {object} [seting] Các thuộc tính của bảng asciiTable
-   * @param {string} [seting.title] `table.setTitle` Tiêu đề của bảng asciiTable
-   * @param {string[]} [seting.heading] `table.setHeading` Tên các cột của bảng asciiTable */
+  /** - Logs two arrays of data into an asciiTable.
+   * @param {string[]} data Array of data.
+   * @param {object} [seting] Properties for the asciiTable.
+   * @param {string} [seting.title] `table.setTitle` Title of the asciiTable.
+   * @param {string[]} [seting.heading] `table.setHeading` Column names for the asciiTable. */
   logAsciiTable: (data, seting = {}) => {
     const { title, heading } = seting;
 
@@ -77,49 +77,49 @@ module.exports = {
     }
     console.log(table.toString());
   },
-  /** - Chuyển đổi tiền tệ đơn vị tiền tệ tương ứng
-   * @param {number} balance Số tiền
-   * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */ toCurrency: (balance, userLocale) => {
+  /** - Converts currency to the corresponding unit.
+   * @param {number} balance The amount of money.
+   * @param {Locale} [userLocale] Locale code (e.g., `'en-US'`). */ toCurrency: (balance, userLocale) => {
     const CurrencyMap = {
-      'en-US': 'USD', // Tiếng Anh (Mỹ) -> Đô la Mỹ
-      'en-GB': 'VND', // Tiếng Anh (Anh) -> Đô la Mỹ
-      'vi-VN': 'VND', // Tiếng Việt -> Đồng Việt Nam
-      ja: 'JPY', // Tiếng Nhật -> Yên Nhật
-      'zh-CN': 'CNY', // Tiếng Trung giản thể (Trung Quốc) -> Nhân dân tệ
-      ko: 'KRW', // Tiếng Hàn -> Won Hàn Quốc
-      fr: 'EUR', // Tiếng Pháp (hoặc các ngôn ngữ châu Âu khác) -> Euro
-      de: 'EUR', // Tiếng Đức -> Euro
-      'es-ES': 'EUR', // Tiếng Tây Ban Nha -> Euro
+      'en-US': 'USD', // English (US) -> US Dollar
+      'en-GB': 'GBP', // English (UK) -> British Pound
+      'vi-VN': 'VND', // Vietnamese -> Vietnamese Dong
+      ja: 'JPY', // Japanese -> Japanese Yen
+      'zh-CN': 'CNY', // Simplified Chinese (China) -> Chinese Yuan
+      ko: 'KRW', // Korean -> Korean Won
+      fr: 'EUR', // French (or other European languages) -> Euro
+      de: 'EUR', // German -> Euro
+      'es-ES': 'EUR', // Spanish -> Euro
     };
 
     try {
       return balance.toLocaleString(userLocale, {
         style: 'currency',
         currency: CurrencyMap[userLocale] || 'VND',
-        minimumFractionDigits: 0, // Điều chỉnh số chữ số thập phân tối thiểu
-        maximumFractionDigits: 2, // Điều chỉnh số chữ số thập phân tối đa
+        minimumFractionDigits: 0, // Adjust minimum decimal places
+        maximumFractionDigits: 2, // Adjust maximum decimal places
       });
     } catch (e) {
-      _client.logError({ todo: 'Lỗi định dạng số tiền cho locale', item: userLocale, desc: 'và tiền tệ' }, e);
+      _client.logError({ todo: 'Error formatting currency for locale', item: userLocale, desc: 'and currency' }, e);
       return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
   },
 };
 // Start define prototype functions
-/** - Chuyển đổi số thành định dạng tiền tệ mặc định là `vi-VN, VND`
- * @param {Locale} [userLocale] Mã khu vực (vd: `'vi-VN'`) */
+/** - Converts a number to currency format, defaulting to `vi-VN, VND`.
+ * @param {Locale} [userLocale] Locale code (e.g., `'en-US'`). */
 Number.prototype.toCurrency = function (userLocale) {
   if (!userLocale) return this.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   else return module.exports.toCurrency(this, userLocale);
 };
-/** - Viết hoa chữ cái đầu */
+/** - Capitalizes the first letter of a string. */
 String.prototype.toCapitalize = function () {
-  if (!this) return ''; // Xử lý string rỗng hoặc undefined
+  if (!this) return ''; // Handle empty or undefined string
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
-/** - Convert string to EmbedColor */
+/** - Converts string to EmbedColor. */
 String.prototype.toEmbedColor = function () {
-  // Nomarlize color input
+  // Normalize color input
   const normalizedColor = this.toLowerCase().replace(/\s/g, '');
   // Check valid color name
   for (const colorName of Object.keys(Colors)) {
@@ -128,7 +128,7 @@ String.prototype.toEmbedColor = function () {
   // Return Random if invalid
   return 'Random';
 };
-/** - Check string is URL or not */
+/** - Checks if a string is a URL. */
 String.prototype.checkURL = function () {
   try {
     const res = this.match(
@@ -140,9 +140,9 @@ String.prototype.checkURL = function () {
     return null;
   }
 };
-/** - Nhóm các phần tử trong Collection theo một thuộc tính và trả về danh sách đếm được định dạng.
- * @param {string} [property] Thuộc tính để nhóm các phần tử (mặc định là 'category').
- * - Trả về một mảng các chuỗi được định dạng, ví dụ: `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]` */
+/** - Groups elements in a Collection by a property and returns a formatted count list.
+ * @param {string} [property] The property to group elements by (defaults to 'category').
+ * - Returns an array of formatted strings, e.g., `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`. */
 Collection.prototype.toGroupedCountList = function (property = 'category') {
   const groupedCounts = this.reduce((acc, item) => {
     acc[item[property]] = (acc[item[property]] || 0) + 1;
@@ -151,9 +151,9 @@ Collection.prototype.toGroupedCountList = function (property = 'category') {
 
   return Object.entries(groupedCounts).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
 };
-/** - Chuyển đổi Collection thành định dạng fields cho EmbedBuilder.
- * @param {string} categoryName - Tên category của command.
- * - Trả về một mảng các đối tượng có dạng `{ name: string, value: string }` */
+/** - Converts a Collection into fields format for EmbedBuilder.
+ * @param {string} categoryName - The category name of the command.
+ * - Returns an array of objects in the format `{ name: string, value: string }`. */
 Collection.prototype.toEmbedFields = function (categoryName) {
   return this.filter((cmd) => cmd.category === categoryName).map((cmd) => {
     const subNames = cmd?.data?.options

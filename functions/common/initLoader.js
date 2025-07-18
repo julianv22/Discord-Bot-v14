@@ -4,15 +4,15 @@ const { readdirSync, statSync } = require('fs');
 const { logError } = require('./utilities');
 
 module.exports = {
-  /** - Đọc nội dung thư mục (file và/hoặc subfolder) dựa trên các tùy chọn lọc.
-   * @param {string} folderPath Đường dẫn đến folder cần đọc.
-   * @param {object} [options] Đối tượng chứa các tùy chọn lọc cho quá trình đọc.
-   * @param {boolean} [options.all] Nếu `true`, hàm sẽ trả về **tất cả** các file và subfolder trong `folderPath`.
-   * @param {boolean} [options.isDir] Nếu `true`, hàm sẽ chỉ trả về danh sách các **subfolder** trong `folderPath`.
-   * @param {string} [options.extension] Phần mở rộng của file để lọc (ví dụ: `'.js'`, `'.json'`, `'.txt'`).
-   * @param {function(string): boolean} [options.filter] Hàm lọc tùy chỉnh bổ sung (nếu có).
-   * - Hàm này được áp dụng sau bước lọc chính (all/isDir/extension).
-   * - Returns Array chứa tên các file hoặc folder phù hợp với các điều kiện lọc. */
+  /** - Reads directory contents (files and/or subfolders) based on filtering options.
+   * @param {string} folderPath Path to the folder to read.
+   * @param {object} [options] Object containing filtering options for the reading process.
+   * @param {boolean} [options.all] If `true`, the function will return **all** files and subfolders in `folderPath`.
+   * @param {boolean} [options.isDir] If `true`, the function will only return a list of **subfolders** in `folderPath`.
+   * @param {string} [options.extension] File extension to filter by (e.g., `'.js'`, `'.json'`, `'.txt'`).
+   * @param {function(string): boolean} [options.filter] Additional custom filter function (if any).
+   * - This function is applied after the main filtering step (all/isDir/extension).
+   * - Returns an Array containing the names of files or folders that match the filtering conditions. */
   readFiles: (folderPath, options = {}) => {
     const { all = false, isDir = false, extension = '.js', filter: func } = options;
     const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
@@ -65,17 +65,17 @@ module.exports = {
       return [];
     }
   },
-  /** - Require file và thêm vào collection tương ứng
-   * @param {string} filePath Đường dẫn của file
-   * @param {string} folderName Tên folder
-   * @param {Collection<string, object>} collection Command Collection */
+  /** - Requires a file and adds it to the corresponding collection.
+   * @param {string} filePath Path to the file.
+   * @param {string} folderName Folder name.
+   * @param {Collection<string, object>} collection Command Collection. */
   requireCommands: (filePath, folderName, collection) => {
     const parts = filePath.split(path.sep);
     const file = parts.pop();
     const folder = parts.slice(-1);
-    /** - Log cảnh báo ra console khi thiếu các thuộc tính name hoặc execute...
-     * @param {string} commandType Loại command (Prefix, Slash, Sub, Component)
-     * @param {string} parts Các thuộc tính bị thiếu, phân cách bởi dấu `,` */
+    /** - Logs a warning to the console when 'name' or 'execute' properties are missing.
+     * @param {string} commandType Type of command (Prefix, Slash, Sub, Component).
+     * @param {string} parts Missing properties, separated by commas. */
     const missingWarn = (commandType, parts) => {
       let message =
         'is missing ' +
@@ -91,7 +91,7 @@ module.exports = {
     };
 
     try {
-      // Xóa cache để đảm bảo tải lại file nếu có thay đổi (hữu ích cho hot-reloading)
+      // Clear cache to ensure file reloads if changes occur (useful for hot-reloading)
       delete require.cache[require.resolve(filePath)];
       const command = require(filePath);
 

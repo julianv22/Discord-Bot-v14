@@ -4,9 +4,9 @@ const moment = require('moment-timezone');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Thanks user
-   * @param {GuildMember} target - Target user
-   * @param {Interaction|Message} object - Interaction or Message */
+  /** - Thanks a user.
+   * @param {GuildMember} target - The target user to thank.
+   * @param {Interaction|Message} object - The interaction or message object. */
   client.thanksUser = async (target, object) => {
     const { errorEmbed, catchError } = client;
     const {
@@ -33,7 +33,8 @@ module.exports = (client) => {
         'https://png.pngtree.com/thumb_back/fw800/background/20201020/pngtree-rose-thank-you-background-image_425104.jpg',
       ];
 
-      /** @param {string} desc Embed Error Description */
+      /** - Sends a reply message with an error embed.
+       * @param {string} desc - The description for the error embed. */
       const replyMessage = async (desc) => {
         const reply = await object.reply(errorEmbed({ desc }));
 
@@ -44,14 +45,14 @@ module.exports = (client) => {
       };
 
       if (!target) return replyMessage('You must mention someone!');
-      if (target.user?.bot || target?.bot) return replyMessage('Bot do not need to be thanked! 😝');
-      if (target.id === author.id) return replyMessage('You can not thank yourself! 😅');
+      if (target.user?.bot || target?.bot) return replyMessage('Bots do not need to be thanked! 😝');
+      if (target.id === author.id) return replyMessage('You cannot thank yourself! 😅');
 
       const profile = await thanksProfile
         .findOneAndUpdate({ guildId, userId }, { guildName, userName }, { upsert: true, new: true })
         .catch(console.error);
 
-      if (!profile) return replyMessage('No data found for this server. Try again later!');
+      if (!profile) return replyMessage('No data found for this server. Please try again later!');
       else profile.thanksCount += 1;
 
       const lastThanks = moment(profile?.lastThanks || Date.now())
@@ -68,8 +69,8 @@ module.exports = (client) => {
           .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
           .setTimestamp()
           .setFields(
-            { name: `Thanks count: [${profile?.thanksCount}]`, value: '\u200b', inline: true },
-            { name: 'Last thanks:', value: lastThanks, inline: true }
+            { name: `Thanks Count: [${profile?.thanksCount}]`, value: '\u200b', inline: true },
+            { name: 'Last Thanks:', value: lastThanks, inline: true }
           ),
       ];
 

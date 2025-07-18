@@ -5,7 +5,8 @@ const { logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** @param {boolean} [reload] `false`: Logs ascii-table to terminal */
+  /** - Loads all events from the 'events' folder.
+   * @param {boolean} [reload=false] - If true, events are reloaded without logging to the terminal. */
   client.loadEvents = async (reload = false) => {
     const { compColection, logError } = client;
 

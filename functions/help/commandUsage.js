@@ -3,12 +3,12 @@ const { Client, EmbedBuilder, Colors } = require('discord.js');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Command Usage
-   * @param {Message} message Message
-   * @param {object} command Prefix command's options
-   * @param {string} command.name Prefix command name
-   * @param {string[]} command.aliases Prefix command aliases
-   * @param {string} command.description Command description
-   * @param {string} [usage] Command usage */
+   * @param {Message} message - The message object.
+   * @param {object} command - The prefix command options.
+   * @param {string} command.name - The name of the prefix command.
+   * @param {string[]} command.aliases - The aliases of the prefix command.
+   * @param {string} command.description - The description of the command.
+   * @param {string} [usage] - The usage string for the command. */
   client.commandUsage = async (message, command, usage) => {
     const { catchError } = client;
     const { guild, author } = message;

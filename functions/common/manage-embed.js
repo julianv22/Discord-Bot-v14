@@ -2,8 +2,8 @@ const { ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const { rowComponents } = require('./components');
 
 module.exports = {
-  /** - Create embed buttons
-   * @param {string} messageId - Message ID if edit embed */
+  /** - Creates embed buttons.
+   * @param {string} messageId - Message ID if editing an embed. */
   manageEmbedButtons: (messageId) => {
     const button1 = [
         { customId: `manage-embed:title:${messageId}`, label: '💬 Title', style: ButtonStyle.Primary },

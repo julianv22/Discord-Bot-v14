@@ -5,8 +5,8 @@ module.exports = (client) => {
   const regex = /\x1b\[[0-9;]*m/g;
   /** - Displays an error when caught.
    * @param {Interaction|Message} object - The interaction or message object.
-   * @param {Error} e - The error content.
-   * @param {string|Interaction} description - A description of the error, or the interaction object itself. */
+   * @param {Error} e - The error object.
+   * @param {string|Interaction} description - A description of the error, or the interaction object that caused the error. */
   client.catchError = async (object, e, description) => {
     const { errorEmbed, logError, guilds } = client;
     const user = object?.user || object?.author;
@@ -73,12 +73,12 @@ module.exports = (client) => {
   };
 
   /** - Sends a console error or warning.
-   * @param {object} options - Log options.
-   * @param {string} [options.todo='executing'] - Describes what was being done when the error occurred (e.g., 'reloading').
-   * @param {string} [options.item=''] - The specific item related to the error (e.g., 'application (/) commands').
-   * @param {string} [options.desc=''] - Additional description for the error.
-   * @param {boolean} [options.isWarn=false] - If true, logs as a warning; otherwise, logs as an error.
-   * @param {Error} [e=null] - The error object itself.
+   * @param {object} options - The logging options.
+   * @param {string} [options.todo='executing'] - Describes the action being performed when the error occurred (e.g., 'reloading').
+   * @param {string} [options.item=''] - The specific item or component related to the error (e.g., 'application (/) commands').
+   * @param {string} [options.desc=''] - Additional descriptive context for the error.
+   * @param {boolean} [options.isWarn=false] - If true, the log will be a warning; otherwise, it will be an error.
+   * @param {Error} [e=null] - The error object.
    * @example
    * client.logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, errorObject);
    */

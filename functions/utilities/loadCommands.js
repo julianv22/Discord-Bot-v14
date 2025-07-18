@@ -12,28 +12,25 @@ module.exports = (client) => {
     prefixCommands.clear();
     slashCommands.clear();
     subCommands.clear();
-    /** - Command types object
-     * @typedef {Object} CommandTypeConfig Định nghĩa thuộc tính CommandTypeConfig
-     * @property {String} name Tên hiển thị của command
-     * @property {String} folder Tên thư mục chứa các command
-     * @property {Collection<string, object>} collection Collection dùng để lưu trữ các command
-     */
-    /** - Object chứa cấu hình cho các loại command khác nhau.
-     * Mỗi thuộc tính đại diện cho một loại command (Prefix, Slash, Sub) và chứa các thông tin cần thiết để tải và quản lý chúng.
+    /** - Configuration for a command type.
+     * @typedef {Object} CommandTypeConfig
+     * @property {string} name - The display name of the command type.
+     * @property {string} folder - The folder containing the commands for this type.
+     * @property {Collection<string, object>} collection - The collection used to store commands of this type. */
+    /** An object containing configurations for different command types.
+     * Each property represents a command type (Prefix, Slash, Sub) and contains necessary information for loading and managing them.
      * @type {{
      * Prefix: CommandTypeConfig,
      * Slash: CommandTypeConfig,
      * Sub: CommandTypeConfig
-     * }}
-     */
+     * }} */
     const commandTypes = {
       Prefix: { name: 'Prefix Commands', folder: 'prefixcommands', collection: prefixCommands },
       Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
       Sub: { name: 'Sub Commands', folder: path.join('slashcommands', 'subcommands'), collection: subCommands },
     };
-    /** - Load các command (Prefix, Slash, Sub)
-     * @param {CommandTypeConfig} type Loại command trong commandTypes
-     */
+    /** Loads commands (Prefix, Slash, Sub).
+     * @param {CommandTypeConfig} type - The command type configuration from `commandTypes`. */
     const loadCommands = async (type) => {
       const ignoreFolders = ['subcommands'];
       const commandFolders = readFiles(type.folder, {
@@ -71,18 +68,18 @@ module.exports = (client) => {
     (async () => {
       const token = process.env.token || client.token;
       const clientId = process.env.clientID || client.user.id;
-      const guildId = '1388619729429598358'; // Guild ID cụ thể cho bot phụ
-
+      const guildId = '1388619729429598358'; // Specific Guild ID for the secondary bot
+      //1368536666066649148
       if (!token)
         return logError(
           { todo: 'getting bot token', item: 'token', desc: 'from environment variables' },
-          new Error('Không xác định được token của bot')
+          new Error('Bot token not found')
         );
 
       if (!clientId)
         return logError(
           { todo: 'getting bot client ID', item: 'clientID', desc: 'from environment variables' },
-          new Error('Không xác định được clientId của bot')
+          new Error('Bot client ID not found')
         );
 
       const slashArray = [];

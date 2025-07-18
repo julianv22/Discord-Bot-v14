@@ -2,7 +2,7 @@ const { Client } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Convert uptime to Discord format */
+  /** Converts the bot's uptime to a human-readable format. */
   client.convertUpTime = () => {
     try {
       const { readyTimestamp } = client;

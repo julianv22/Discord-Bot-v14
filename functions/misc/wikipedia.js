@@ -1,10 +1,10 @@
 const { Client, EmbedBuilder } = require('discord.js');
 
-/** - * @param {Client} client */
+/** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Search Vietnamese Wikipedia articles by keyword
-   * @param {string} keyword Search keyword
-   * @param {Interaction|Message} object Interaction or Message */
+  /** - Searches Vietnamese Wikipedia articles by keyword.
+   * @param {string} keyword - The keyword to search for.
+   * @param {Interaction|Message} object - The interaction or message object. */
   client.wikipedia = async (keyword, object) => {
     const { errorEmbed, catchError } = client;
     const author = object?.user || object?.author;
@@ -15,7 +15,7 @@ module.exports = (client) => {
 
       if (!res.ok || body.status === 404) {
         const replyMessage = await object.reply(
-          errorEmbed({ desc: `Không tìm thấy thông tin nào với từ khóa \`${keyword}\`!` })
+          errorEmbed({ desc: `No information found for keyword \`${keyword}\`!` })
         );
 
         if (object?.author)
@@ -26,13 +26,13 @@ module.exports = (client) => {
         return;
       }
 
-      // Fallback nếu thiếu dữ liệu
+      // Fallback if data is missing
       const bodyTitle = body.title || keyword;
-      const title = body.description || 'Không có mô tả';
+      const title = body.description || 'No description';
       const thumbnail =
         body.thumbnail?.source ||
         'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Wikipedia-logo-v2-vi.svg/250px-Wikipedia-logo-v2-vi.svg.png';
-      const description = body.extract || 'Không có nội dung.';
+      const description = body.extract || 'No content.';
       const page_url =
         body.content_urls?.desktop?.page || `https://vi.wikipedia.org/wiki/${encodeURIComponent(keyword)}`;
 

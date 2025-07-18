@@ -12,8 +12,8 @@ const { sectionComponents, menuComponents, textDisplay, dashboardMenu } = requir
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /** - Setup welcome
-   * @param {Interaction} interaction - Command Interaction. */
+  /** - Sets up the server statistics channels.
+   * @param {Interaction} interaction - The command interaction. */
   client.setupStats = async (interaction) => {
     const {
       guild,
@@ -27,11 +27,11 @@ module.exports = (client) => {
       .catch(console.error);
 
     if (!profile)
-      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.reply(errorEmbed({ desc: 'No data found for this server. Please try again later!' }));
 
     const { totalChannelId, memberChannelId, botChannelId, presenceChannelId } = profile?.statistics || {};
 
-    /** @param {string} channelId */
+    /** @param {string} channelId - The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
@@ -40,9 +40,9 @@ module.exports = (client) => {
         sectionComponents(
           [
             '### 📊 Statistics Information',
-            `- Total count channel: ${channelName(totalChannelId)}\n- Members count channel: ${channelName(
+            `- Total Count Channel: ${channelName(totalChannelId)}\n- Members Count Channel: ${channelName(
               memberChannelId
-            )}\n- Bots count channel: ${channelName(botChannelId)}\n- Presences statistic channel: ${channelName(
+            )}\n- Bots Count Channel: ${channelName(botChannelId)}\n- Presences Statistic Channel: ${channelName(
               presenceChannelId
             )}`,
           ],
@@ -53,19 +53,19 @@ module.exports = (client) => {
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
       .addActionRowComponents(
-        menuComponents('statistic-menu:totalcount', '🌏 Select Total count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:totalcount', '🌏 Select Total Count Channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:membercount', '🤵 Select Members count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:membercount', '🤵 Select Members Count Channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:botcount', '🎯 Select Bots count channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:botcount', '🎯 Select Bots Count Channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:presence', '📊 Select presences statistic channel', ChannelType.GuildVoice)
+        menuComponents('statistic-menu:presence', '📊 Select Presences Statistic Channel', ChannelType.GuildVoice)
       );
 
     await interaction.editReply({ components: [dashboardMenu(), container] });

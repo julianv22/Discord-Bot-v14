@@ -3,8 +3,8 @@ const serverProfile = require('../../config/serverProfile');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Setup server statistics command
-   * @param {string} guildId - Guild ID */
+  /** - Sets up server statistics channels.
+   * @param {string} guildId - The ID of the guild. */
   client.serverStats = async (guildId) => {
     const { logError, guilds } = client;
 
@@ -17,26 +17,26 @@ module.exports = (client) => {
       const { statistics } = profile || {};
       if (!profile || !statistics?.totalChannelId || !statistics?.presenceChannelId) return;
 
-      /** - Get the number of members with the given status
-       * @param {string} stats - Member status */
+      /** - Gets the number of members with a given presence status.
+       * @param {string} stats - The member presence status (e.g., 'online', 'idle'). */
       const getPressence = (stats) => {
         return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
       };
-      /** - Set channel name
-       * @param {string} id - Channel ID
-       * @param {string} name - Channel name */
+      /** - Sets the name of a channel.
+       * @param {string} id - The ID of the channel.
+       * @param {string} name - The new name for the channel. */
       const setChannelName = async (id, name) => {
         await guild.channels.cache.get(id).setName(name).catch(console.error);
       };
 
       try {
         /*
-        const memberRole = guild.roles.cache.get(statistics?.memberRole); //Lấy role của member cần thống kê
-        const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // Thống kê số thành viên theo memberRole
-        const botRole = guild.roles.cache.get(statistics?.botRole).name; // Lấy role của bot
+        const memberRole = guild.roles.cache.get(statistics?.memberRole); // Gets the role of the member to be counted
+        const memberCount = memberRole.members.map((m) => m.user).length.toLocaleString(); // Counts members by memberRole
+        const botRole = guild.roles.cache.get(statistics?.botRole).name; // Gets the bot's role
         */
-        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // Thống kê  số thành viên không phải là bot trong server
-        const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString(); // Đếm số bot trong server
+        const memberCount = guild.members.cache.filter((m) => !m.user.bot).size.toLocaleString(); // Counts members who are not bots in the server
+        const botCount = guild.members.cache.filter((m) => m.user.bot).size.toLocaleString(); // Counts the number of bots in the server
         const statsChannels = [
           { id: statistics?.totalChannelId, name: `🌏 Total members: ${guild.memberCount.toLocaleString()}` },
           { id: statistics?.memberChannelId, name: `🤵〔Members〕: ${memberCount}` },

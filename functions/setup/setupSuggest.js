@@ -4,8 +4,8 @@ const { textDisplay, menuComponents, dashboardMenu } = require('../common/compon
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /** - Setup welcome
-   * @param {Interaction} interaction - Command Interaction. */
+  /** - Sets up the suggestion channel.
+   * @param {Interaction} interaction - The command interaction. */
   client.setupSuggest = async (interaction) => {
     const { errorEmbed } = client;
     const { id: guildId, name: guildName } = interaction.guild;
@@ -14,16 +14,16 @@ module.exports = (client) => {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.followUp(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.followUp(errorEmbed({ desc: 'No data found for this server. Please try again later!' }));
 
-    /** @param {string} channelId */
+    /** @param {string} channelId - The ID of the channel. */
     const channelName = (channelId) => interaction.guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
-      .addTextDisplayComponents(textDisplay(`### \\⚙️ Suggest Channel: ${channelName(profile?.suggest?.channelId)}`))
+      .addTextDisplayComponents(textDisplay(`### \\⚙️ Suggestion Channel: ${channelName(profile?.suggest?.channelId)}`))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(menuComponents('suggest-menu', '💡 Select Suggest Channel'));
+      .addActionRowComponents(menuComponents('suggest-menu', '💡 Select Suggestion Channel'));
 
     await interaction.editReply({ components: [dashboardMenu(), container] });
   };

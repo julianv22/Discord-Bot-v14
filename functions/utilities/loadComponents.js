@@ -4,6 +4,7 @@ const { readFiles, requireCommands } = require('../common/initLoader');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
+  /** - Loads all components (buttons, select menus, modals) from the 'components' folder. */
   client.loadComponents = async () => {
     const { compColection, logError } = client;
     const compFolder = 'components';

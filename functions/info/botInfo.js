@@ -8,7 +8,7 @@ const { infoButtons } = require('../common/components');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Get Bot information
-   * @param {Interaction|Message} object - Interaction or Message */
+   *  @param {Interaction|Message} object - The interaction or message object. */
   client.botInfo = async (object) => {
     const {
       catchError,
@@ -108,7 +108,7 @@ module.exports = (client) => {
               inline: true,
             },
             {
-              name: '🕖 Server time:',
+              name: '🕖 Server Time:',
               value: `${moment(new Date()).format('HH:mm ddd, DD/MM/YYYY')}`,
               inline: true,
             },

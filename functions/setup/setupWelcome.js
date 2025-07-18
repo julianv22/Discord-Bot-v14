@@ -12,8 +12,8 @@ const { sectionComponents, menuComponents, textDisplay, dashboardMenu } = requir
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
-  /** - Setup welcome
-   * @param {Interaction} interaction - Command Interaction. */
+  /** - Sets up the welcome system.
+   * @param {Interaction} interaction - The command interaction. */
   client.setupWelcome = async (interaction) => {
     const {
       guild,
@@ -26,12 +26,12 @@ module.exports = (client) => {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.followUp(errorEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.followUp(errorEmbed({ desc: 'No data found for this server. Please try again later!' }));
 
     const { welcome } = profile || {};
     const welcomeMessage = welcome?.message || '-# \\❌ Not Set';
 
-    /** @param {string} channelId */
+    /** @param {string} channelId - The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
     const container = new ContainerBuilder()
@@ -40,17 +40,17 @@ module.exports = (client) => {
         sectionComponents(
           [
             '### \\🎉 Welcome Information',
-            `- \\💬 Welcome channel: ${channelName(welcome?.channelId)}`,
-            `- \\📋 Log channel: ${channelName(welcome?.logChannelId)}`,
+            `- \\💬 Welcome Channel: ${channelName(welcome?.channelId)}`,
+            `- \\📋 Log Channel: ${channelName(welcome?.logChannelId)}`,
           ],
           ComponentType.Thumbnail,
           cfg.infoPNG
         )
       )
       .addSectionComponents(
-        sectionComponents(['- \\🗯 Welcome message', welcomeMessage], ComponentType.Button, {
+        sectionComponents(['- \\🗯 Welcome Message', welcomeMessage], ComponentType.Button, {
           customId: 'welcome-msg',
-          label: '✍ Change message',
+          label: '✍ Change Message',
           style: ButtonStyle.Success,
         })
       )

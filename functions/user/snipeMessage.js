@@ -2,9 +2,9 @@ const { Client, Interaction, Message, EmbedBuilder, Colors } = require('discord.
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Snipe deleted message
-   * @param {GuildMember} target - Target user
-   * @param {Interaction|Message} object - Interaction or Message */
+  /** - Retrieves and displays a recently deleted message.
+   * @param {GuildMember} target - The target user whose message was deleted.
+   * @param {Interaction|Message} object - The interaction or message object. */
   client.snipeMessage = async (target, object) => {
     const { errorEmbed, catchError, messageSnipes } = client;
     const user = object.user || object.author;

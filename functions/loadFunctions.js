@@ -4,7 +4,7 @@ const { readFiles } = require('./common/initLoader');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** @param {boolean} [reload] `false`: Logs ascii-table to terminal */
+  /** @param {boolean} [reload=false] - If true, functions are reloaded silently without logging to the terminal. */
   client.loadFunctions = async (reload = false) => {
     const { logError } = client;
 
@@ -42,7 +42,7 @@ module.exports = (client) => {
           value: funcArray,
         });
     } catch (e) {
-      return logError({ item: 'loadFunctions', desc: 'function' }, e);
+      return logError({ item: 'loadFunctions', desc: 'function loading process' }, e);
     }
   };
 };
