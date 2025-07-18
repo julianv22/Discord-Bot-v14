@@ -4,8 +4,8 @@ const { readFiles } = require('./common/initLoader');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** @param {boolean} [reload=false] - If true, functions are reloaded silently without logging to the terminal. */
-  client.loadFunctions = async (reload = false) => {
+  /** - Loads all functions from the 'functions' folder. */
+  client.loadFunctions = async () => {
     const { logError } = client;
 
     try {
@@ -36,11 +36,10 @@ module.exports = (client) => {
         }
       }
 
-      if (!reload)
-        await client.compColection.set(funcFolder, {
-          name: `${funcFolder.toCapitalize()} [${totalCount}]`,
-          value: funcArray,
-        });
+      await client.compColection.set(funcFolder, {
+        name: `${funcFolder.toCapitalize()} [${totalCount}]`,
+        value: funcArray,
+      });
     } catch (e) {
       return logError({ item: 'loadFunctions', desc: 'function loading process' }, e);
     }

@@ -5,9 +5,8 @@ const { logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Loads all events from the 'events' folder.
-   * @param {boolean} [reload=false] - If true, events are reloaded without logging to the terminal. */
-  client.loadEvents = async (reload = false) => {
+  /** - Loads all events from the 'events' folder. */
+  client.loadEvents = async () => {
     const { compColection, logError } = client;
 
     try {
@@ -46,21 +45,19 @@ module.exports = (client) => {
         }
       }
 
-      if (!reload) {
-        await compColection.set(eventFolder, {
-          name: `${eventFolder.toCapitalize()} [${totalCount}]`,
-          value: eventArray,
+      await compColection.set(eventFolder, {
+        name: `${eventFolder.toCapitalize()} [${totalCount}]`,
+        value: eventArray,
+      });
+
+      const functions = compColection.get('functions');
+      const events = compColection.get(eventFolder);
+
+      if (functions && events)
+        logAsciiTable([functions?.value, events?.value], {
+          title: 'Load Functions & Events',
+          heading: [functions?.name, events?.name],
         });
-
-        const functions = compColection.get('functions');
-        const events = compColection.get(eventFolder);
-
-        if (functions && events)
-          logAsciiTable([functions?.value, events?.value], {
-            title: 'Load Functions & Events',
-            heading: [functions?.name, events?.name],
-          });
-      }
     } catch (e) {
       return logError({ item: 'loadEvents', desc: 'function' }, e);
     }

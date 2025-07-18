@@ -6,6 +6,7 @@ const { compareCommands } = require('../common/compareCommands');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
+  /** - Loads all commands (slash commands, sub commands, prefix commands) from the 'slashcommands' and the 'prefixcommands' folder. */
   client.loadCommands = async () => {
     const { prefixCommands, slashCommands, subCommands, compColection, logError } = client;
 
