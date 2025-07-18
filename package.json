@@ -21,8 +21,18 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run init && npm run start",
-    "init": "npm i discord.js@14 mongoose chalk@4 ascii-table moment-timezone @google/genai lodash",
-    "start": "node ."
+    "init": "npm i discord.js@14 mongoose dotenv chalk@4 ascii-table moment-timezone @google/genai lodash xlsx",
+    "start": "npx nodemon ."
   },
-  "dependencies": {}
+  "dependencies": {
+    "@google/genai": "^1.10.0",
+    "ascii-table": "^0.0.9",
+    "chalk": "^4.1.2",
+    "discord.js": "^14.21.0",
+    "dotenv": "^17.2.0",
+    "lodash": "^4.17.21",
+    "moment-timezone": "^0.6.0",
+    "mongoose": "^8.16.4",
+    "xlsx": "^0.18.5"
+  }
 }
