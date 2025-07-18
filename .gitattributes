@@ -1,1 +1,3 @@
-config\config.json
+config\config.json merge=ours
+package-lock.json merge=ours
+package.json merge=ours
