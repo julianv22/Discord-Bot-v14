@@ -1,7 +1,16 @@
-const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
+const {
+  Client,
+  Interaction,
+  EmbedBuilder,
+  ContainerBuilder,
+  FileBuilder,
+  MessageFlags,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
-
+const XLSX = require('xlsx');
+const { textDisplay } = require('../../functions/common/components');
 module.exports = {
   type: 'buttons',
   data: { name: 'tournament' },
@@ -43,13 +52,13 @@ module.exports = {
 
         await profile.save().catch(console.error);
         await interaction.update({ components });
-        // await interaction.channel.send(
-        //   errorEmbed({
-        //     desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
-        //     emoji: '🏆',
-        //     color: Colors.DarkGreen,
-        //   })
-        // );
+        await interaction.channel.send(
+          errorEmbed({
+            desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
+            emoji: '🏆',
+            color: Colors.DarkGreen,
+          })
+        );
       },
       close: async () => {
         if (!tournament?.isActive)
@@ -63,13 +72,13 @@ module.exports = {
 
         await profile.save().catch(console.error);
         await interaction.update({ components });
-        // await interaction.channel.send(
-        //   errorEmbed({
-        //     desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
-        //     emoji: '🏆',
-        //     color: Colors.DarkVividPink,
-        //   })
-        // );
+        await interaction.channel.send(
+          errorEmbed({
+            desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
+            emoji: '🏆',
+            color: Colors.DarkVividPink,
+          })
+        );
       },
       close_all: async () => {
         const tournamentProfiles = await tournamentProfile.find({ guildId }).catch(console.error);
@@ -142,11 +151,44 @@ module.exports = {
             .setTimestamp();
           embeds.push(embed);
         }
+
         // Gửi lần lượt các embed
         for (let i = 0; i < embeds.length; i++) {
           if (i === 0) await interaction.reply({ embeds: [embeds[i]] });
           else await interaction.followUp({ embeds: [embeds[i]] });
         }
+      },
+      to_excel: async () => {
+        const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
+        if (!memberList || memberList.length === 0)
+          return await interaction.reply(
+            errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: '🏆', color: Colors.Red })
+          );
+
+        // Tạo dữ liệu cho Excel
+        const excelData = [['STT', 'Username', 'Ingame']];
+        memberList.forEach((member, id) => {
+          excelData.push([id + 1, member?.userName || 'Không xác định', member?.inGameName || 'Không xác định']);
+        });
+
+        // Tạo workbook và worksheet
+        const ws = XLSX.utils.aoa_to_sheet(excelData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'DanhSachThanhVien');
+
+        // Ghi workbook ra buffer
+        const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+        const container = new ContainerBuilder()
+          .setAccentColor(Colors.DarkGreen)
+          .addTextDisplayComponents(textDisplay('\\🏆 Danh sách thành viên tham gia giải đấu'))
+          .addFileComponents(new FileBuilder().setURL(`attachment://DanhSachThanhVien.xlsx`));
+
+        await interaction.reply({
+          flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
+          components: [container],
+          files: [{ attachment: buffer, name: `DanhSachThanhVien.xlsx` }],
+        });
       },
     };
 

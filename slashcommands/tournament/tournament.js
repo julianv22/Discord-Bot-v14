@@ -52,6 +52,7 @@ module.exports = {
     ];
     const manage_buttons = [
       { customId: 'tournament:list', label: '📜 Danh sách thành viên tham gia', style: ButtonStyle.Primary },
+      { customId: 'tournament:to_excel', label: '📑 Xuất DS ra Excel', style: ButtonStyle.Primary },
     ];
 
     const container = new ContainerBuilder()
