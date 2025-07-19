@@ -7,7 +7,6 @@ const {
   ActionRowBuilder,
   ComponentType,
   ButtonStyle,
-  MessageFlags,
   PermissionFlagsBits,
   Colors,
 } = require('discord.js');
@@ -21,7 +20,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('tournament')
-    .setDescription(`🏆 Set up tournament.\n${cfg.adminRole} only`),
+    .setDescription(`🏆 Setup tournament.\n${cfg.adminRole} only`),
   /** - Setup giải đấu (open/close/list ds thành viên tham gia)
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
@@ -74,15 +73,12 @@ module.exports = {
         menuComponents('tournament-menu', '🏆 Select a tournament role', ComponentType.RoleSelect)
       )
       .addActionRowComponents(
-        new ActionRowBuilder().setComponents(rowComponents(open_close_buttons, ComponentType.Button))
+        new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, open_close_buttons))
       )
       .addActionRowComponents(
-        new ActionRowBuilder().setComponents(rowComponents(manage_buttons, ComponentType.Button))
+        new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, manage_buttons))
       );
 
-    await interaction.reply({
-      flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-      components: [container],
-    });
+    await interaction.reply({ components: [container], flags: [32768, 64] });
   },
 };

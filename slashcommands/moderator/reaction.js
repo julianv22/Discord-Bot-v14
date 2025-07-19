@@ -9,7 +9,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles | PermissionFlagsBits.ManageMessages)
     .setName('reaction')
     .setDescription(`Create a reaction role. ${cfg.modRole} only`)
-    .addSubcommand((sub) => sub.setName('role').setDescription('Create a reaction role')),
+    .addSubcommand((sub) => sub.setName('role').setDescription(`Create a reaction role. ${cfg.modRole} only`)),
   /** - Execute the reaction-role command
    * @param {Client} client - The client instance
    * @param {Interaction} interaction - The Command Interaction */

@@ -235,7 +235,7 @@ module.exports = {
       return await interaction.editReply({
         embeds: [resultEmbed],
         components: [
-          new ActionRowBuilder().addComponents(
+          new ActionRowBuilder().setComponents(
             new ButtonBuilder().setLabel('🔗Xem chi tiết trên VirusTotal').setURL(vtGuiLink).setStyle(ButtonStyle.Link)
           ),
         ],

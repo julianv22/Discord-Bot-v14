@@ -2,12 +2,14 @@ const {
   Client,
   Interaction,
   SlashCommandBuilder,
-  ModalBuilder,
+  EmbedBuilder,
   ActionRowBuilder,
-  TextInputBuilder,
-  TextInputStyle,
+  ButtonStyle,
+  ComponentType,
   PermissionFlagsBits,
+  Colors,
 } = require('discord.js');
+const { rowComponents } = require('../../functions/common/components');
 
 module.exports = {
   category: 'administrator',
@@ -16,43 +18,36 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('notification')
-    .setDescription(`Sends a notification to users. (${cfg.adminRole} only)`),
+    .setDescription(`Sends a notification to users. ${cfg.adminRole} only`),
   /** - Sends a notification to users
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const modal = new ModalBuilder().setCustomId('notify').setTitle('Notification:');
-    const typeInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('type')
-        .setLabel('Notification Type (1: Notify, 2: Update)')
-        .setValue('1')
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
-    );
-    const titleInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('title')
-        .setLabel('Notification Title:')
-        .setRequired(true)
-        .setStyle(TextInputStyle.Short)
-    );
-    const descriptionInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('description')
-        .setLabel('Notification Description:')
-        .setRequired(true)
-        .setStyle(TextInputStyle.Paragraph)
-    );
-    const imageInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('imageURL')
-        .setLabel('Image URL (Optional)')
-        .setRequired(false)
-        .setStyle(TextInputStyle.Short)
-    );
+    const { guild, user } = interaction;
 
-    modal.addComponents(typeInput, titleInput, descriptionInput, imageInput);
-    await interaction.showModal(modal);
+    const embeds = [
+      new EmbedBuilder()
+        .setColor(Colors.DarkVividPink)
+        .setThumbnail(cfg.thongbaoPNG)
+        .setAuthor({ name: `📢 ${guild.name}'s Notification` })
+        .setTitle('Notification title')
+        .setDescription('Notification description')
+        .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTimestamp(),
+    ];
+
+    const button = [
+      { customId: `notification:title`, label: '💬 Title', style: ButtonStyle.Primary },
+      { customId: `notification:description`, label: '💬 Description', style: ButtonStyle.Primary },
+      { customId: `notification:image`, label: '🖼️ Image', style: ButtonStyle.Secondary },
+      { customId: `notification:thumbnail`, label: '📢 Type: Notify', style: ButtonStyle.Danger },
+      { customId: `notification:send`, label: '✅ Send Notification', style: ButtonStyle.Success },
+    ];
+
+    await interaction.reply({
+      embeds,
+      components: [new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, button))],
+      flags: 64,
+    });
   },
 };

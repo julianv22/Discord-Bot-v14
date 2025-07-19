@@ -9,7 +9,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('create')
     .setDescription(`Create embed. ${cfg.modRole} only`)
-    .addSubcommand((sub) => sub.setName('embed').setDescription('Create an embed')),
+    .addSubcommand((sub) => sub.setName('embed').setDescription(`Create embed. ${cfg.modRole} only`)),
   /** - Create a embed
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

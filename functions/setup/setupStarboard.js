@@ -4,12 +4,17 @@ const {
   ContainerBuilder,
   SeparatorBuilder,
   ActionRowBuilder,
-  StringSelectMenuBuilder,
   ComponentType,
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { sectionComponents, dashboardMenu, menuComponents, textDisplay } = require('../common/components');
+const {
+  sectionComponents,
+  dashboardMenu,
+  menuComponents,
+  textDisplay,
+  rowComponents,
+} = require('../common/components');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -34,6 +39,14 @@ module.exports = (client) => {
     /** @param {string} channelId - The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
 
+    const starCountMenu = [
+      { customId: 'starboard-menu:starcount', placeholder: '⭐ Select number of stars' },
+      ...Array.from({ length: 20 }, (_, i) => ({
+        label: `${i + 1} ⭐`,
+        value: `${i + 1}`,
+      })),
+    ];
+
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
       .addSectionComponents(
@@ -52,17 +65,7 @@ module.exports = (client) => {
       .addActionRowComponents(menuComponents('starboard-menu:channel', '💬 Select Starboard Channel'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        new ActionRowBuilder().setComponents(
-          new StringSelectMenuBuilder()
-            .setCustomId('starboard-menu:starcount')
-            .setPlaceholder('⭐ Select number of stars')
-            .setOptions(
-              Array.from({ length: 20 }, (_, i) => ({
-                label: `${i + 1} ⭐`,
-                value: `${i + 1}`,
-              }))
-            )
-        )
+        new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, starCountMenu))
       );
 
     await interaction.editReply({ components: [dashboardMenu(), container] });

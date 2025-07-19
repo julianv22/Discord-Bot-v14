@@ -4,7 +4,7 @@ module.exports = {
   type: 'menus',
   data: { name: 'help-menu' },
   /** - Help Menu
-   * @param {Interaction} interaction - String Select Menu Interaction
+   * @param {Interaction} interaction - Select Menu Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user } = interaction;
@@ -32,7 +32,7 @@ module.exports = {
             .setColor(Colors.DarkGreen)
             .setThumbnail(cfg.slashPNG)
             .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-            .setTitle('Slash Command & Sub Command Statistics')
+            .setTitle('📚 Slash Command & Sub Command Statistics')
             .setFooter({
               text: `Requested by ${user.displayName || user.username}`,
               iconURL: user.displayAvatarURL(true),

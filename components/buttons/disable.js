@@ -2,7 +2,6 @@ const {
   Client,
   Interaction,
   ActionRowBuilder,
-  TextDisplayBuilder,
   ContainerBuilder,
   ButtonStyle,
   ComponentType,
@@ -25,13 +24,10 @@ module.exports = {
     /** @param {boolean} [disabled] Disabled buttons, `true` = disabled */
     const confirmButtons = (disabled = false) =>
       new ActionRowBuilder().setComponents(
-        rowComponents(
-          [
-            { customId: 'disable:confirm:' + feature, label: '✅ Confirm', style: ButtonStyle.Success, disabled },
-            { customId: 'disable:cancel', label: '❌ Cancel', style: ButtonStyle.Danger, disabled },
-          ],
-          ComponentType.Button
-        )
+        rowComponents(ComponentType.Button, [
+          { customId: 'disable:confirm:' + feature, label: '✅ Confirm', style: ButtonStyle.Success, disabled },
+          { customId: 'disable:cancel', label: '❌ Cancel', style: ButtonStyle.Danger, disabled },
+        ])
       );
 
     /** - ContainerBuilder

@@ -4,7 +4,7 @@ module.exports = {
   type: 'menus',
   data: { name: 'dashboard-menu' },
   /** - Statistics channel select menu
-   * @param {Interaction} interaction Channel Select Menu Interaction
+   * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { setupWelcome, setupStats, setupStarboard, setupSuggest, setupDisable } = client;

@@ -7,7 +7,7 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandBuilder()
     .setName('huy')
-    .setDescription('🏆 Cancel tournament registration')
+    .setDescription('🏆 Huỷ đăng ký giải đấu')
     .addSubcommand((sub) =>
       sub
         .setName('dang-ky')

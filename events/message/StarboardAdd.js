@@ -34,7 +34,7 @@ module.exports = {
         if (message.attachments && message.attachments.size > 0) return; // Nếu có attachment thì bỏ qua
 
         // Jump link button
-        const jumpButton = new ActionRowBuilder().addComponents(
+        const jumpButton = new ActionRowBuilder().setComponents(
           new ButtonBuilder().setLabel('🔗Go to message').setStyle(ButtonStyle.Link).setURL(message.url)
         );
 

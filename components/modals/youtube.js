@@ -5,7 +5,7 @@ module.exports = {
   type: 'modals',
   data: { name: 'youtube' },
   /** - Add or remove YouTube channel subcribed
-   * @param {Interaction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
     const {

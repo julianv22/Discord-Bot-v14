@@ -1,6 +1,9 @@
 const {
+  ButtonInteraction,
+  ModalSubmitInteraction,
   ContainerBuilder,
   ActionRowBuilder,
+  ModalBuilder,
   ButtonBuilder,
   TextInputBuilder,
   ThumbnailBuilder,
@@ -19,7 +22,8 @@ const {
 } = require('discord.js');
 
 module.exports = {
-  /** - Creates an action row with predefined informational buttons. */
+  /** - Creates an action row with predefined informational buttons.
+   * @returns {ActionRowBuilder<ButtonBuilder[]>} An ActionRowBuilder containing the informational buttons. */
   infoButtons: () => {
     const buttons = [
       { customId: 'support:youtube', label: '🎬 YouTube', style: ButtonStyle.Danger },
@@ -28,11 +32,13 @@ module.exports = {
       { url: 'https://top.gg/servers/954736697453731850/vote', label: '👍 Vote!', style: ButtonStyle.Link },
     ];
 
-    return new ActionRowBuilder().setComponents(module.exports.rowComponents(buttons, ComponentType.Button));
+    return new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons));
   },
-  /** - Creates a dashboard menu for setting up various features. */
+  /** - Creates a dashboard menu for setting up various bot features.
+   * @returns {ContainerBuilder} A ContainerBuilder representing the dashboard menu. */
   dashboardMenu: () => {
     const menus = [
+      { customId: 'dashboard-menu', placeholder: '⚙️ Select feature for setting' },
       {
         emoji: '👋',
         label: 'Setup Welcome',
@@ -70,86 +76,106 @@ module.exports = {
       .addTextDisplayComponents(module.exports.textDisplay('### \\⚒️ Setup Dashboard'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        new ActionRowBuilder().setComponents(
-          new StringSelectMenuBuilder()
-            .setCustomId('dashboard-menu')
-            .setPlaceholder('⚙️ Select feature for setting')
-            .setOptions(module.exports.rowComponents(menus, ComponentType.StringSelect))
-        )
+        new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, menus))
       );
   },
-  /** - Creates an array of components for an ActionRow.
-   * @param {object[]} options - An array of configuration objects for the components.
-   * @param {string} [options.customId] - The custom ID for the component.
-   * @param {string} options.label - The text that appears on the component.
-   * @param {number} [options.style] - The style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
-   * @param {string} [options.value] - The value for the component (used in StringSelect options and TextInput).
-   * @param {string} [options.placeholder] - Placeholder text for the component (used in TextInput).
-   * @param {string} [options.emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
-   * @param {string} [options.url] - A URL for link-style buttons.
-   * @param {boolean} [options.disabled=false] - Whether the component is disabled.
-   * @param {boolean} [options.default] - Whether this option is selected by default (used in StringSelect options).
-   * @param {boolean} [options.required=false] - Whether the component is required (used in TextInput).
-   * @param {number} [options.minLength] - The minimum input length (used in TextInput).
-   * @param {number} [options.maxLength] - The maximum input length (used in TextInput).
+  /**
+   * @typedef {object} ComponentOptions - Configuration for various Discord components.
+   * @property {string} [customId] - The custom ID for the component.
+   * @property {string} label - The text displayed on the component.
+   * @property {number} [style] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
+   * @property {boolean} [disabled=false] - Whether the component is disabled.
+   * @property {string} [url] - A URL for link-style buttons.
+   * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
+   * @property {string} [description] - A description for the component (used in StringSelect options).
+   * @property {string} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
+   * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
+   * @property {string} [placeholder] - Placeholder text for input components (used in TextInput).
+   * @property {boolean} [required=false] - Whether the component is required (used in TextInput).
+   * @property {number} [min_length] - The minimum input length (used in TextInput).
+   * @property {number} [max_length] - The maximum input length (used in TextInput).
+   */
+  /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
-   * @returns {ButtonBuilder[]|StringSelectMenuOptionBuilder[]|TextInputBuilder[]} An array of the created components. */
-  rowComponents: (options, type) => {
-    const rowComponents = {
-      // Return ButtonBuilder.setComponents
+   * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
+   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]} An array of the created components, or a single StringSelectMenuBuilder. */
+  rowComponents: (type, options) => {
+    options = [].concat(options); // Convert options to an array
+
+    const setComponentOptions = {
       [ComponentType.Button]: () => {
         return options.map((opt) => {
           const button = new ButtonBuilder()
             .setLabel(opt?.label)
             .setStyle(opt?.style)
-            .setDisabled(opt?.disabled ?? false);
+            .setDisabled(opt?.disabled || false);
 
-          if (opt?.emoji) button.setEmoji(opt?.emoji);
-          if (opt?.customId) button.setCustomId(opt?.customId);
-          if (opt?.url) button.setURL(opt?.url);
+          if (opt?.emoji) button.setEmoji(opt.emoji);
+          if (opt?.customId) button.setCustomId(opt.customId);
+          if (opt?.url) button.setURL(opt.url);
 
           return button;
         });
       },
-      // Return StringSelectMenuBuilder.setOptions
       [ComponentType.StringSelect]: () => {
-        return options.map((opt) => {
-          const option = new StringSelectMenuOptionBuilder().setLabel(opt?.label).setValue(opt?.value);
+        return new StringSelectMenuBuilder()
+          .setCustomId(options[0]?.customId)
+          .setMinValues(options[0]?.min_length || 1)
+          .setMaxValues(options[0]?.max_length || 1)
+          .setPlaceholder(options[0]?.placeholder || 'Make a selection')
+          .setOptions(
+            options.slice(1).map((opt, id) => {
+              const optionBuilder = new StringSelectMenuOptionBuilder().setLabel(opt?.label).setValue(opt?.value);
 
-          if (opt?.description) option.setDescription(opt?.description);
-          if (opt?.emoji) option.setEmoji(opt?.emoji);
-          if (opt?.default) option.setDefault(opt?.default);
+              if (opt?.description) optionBuilder.setDescription(opt.description);
+              if (opt?.emoji) optionBuilder.setEmoji(opt.emoji);
+              if (opt?.default) optionBuilder.setDefault(opt.default);
 
-          return option;
-        });
+              return optionBuilder;
+            })
+          );
       },
-      // Return TextInputBuilder for ActionRowBuilder.setComponents
       [ComponentType.TextInput]: () => {
         return options.map((opt) => {
           const textinput = new TextInputBuilder()
             .setCustomId(opt?.customId)
             .setLabel(opt?.label)
             .setStyle(opt?.style || TextInputStyle.Short)
-            .setRequired(opt?.required ?? false);
+            .setRequired(opt?.required || false);
 
-          if (opt?.value) textinput.setValue(opt?.value);
-          if (opt?.placeholder) textinput.setPlaceholder(opt?.placeholder);
-          if (opt?.minLength) textinput.setMinLength(opt?.minLength);
-          if (opt?.maxLength) textinput.setMaxLength(opt?.maxLength);
+          if (opt?.value) textinput.setValue(opt.value);
+          if (opt?.placeholder) textinput.setPlaceholder(opt.placeholder);
+          if (opt?.min_length) textinput.setMinLength(opt.min_length);
+          if (opt?.max_length) textinput.setMaxLength(opt.max_length);
 
           return textinput;
         });
       },
     };
 
-    if (!rowComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
+    if (!setComponentOptions[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
 
-    return rowComponents[type]();
+    return setComponentOptions[type]();
   },
-  /** - Creates a SectionBuilder component, typically for a StringSelectMenu.
-   * @param {string|string[]} contents - An array of strings for the TextDisplay components within the section (max 3).
-   * @param {ComponentType.Thumbnail | ComponentType.Button} accessoryType - The type of accessory for the section.
-   * @param {string|object} [options] string if ComponentType is Thumbnail, object if ComponentType is Button */
+  /** - Creates and displays a Discord Modal for user input.
+   * @param {ButtonInteraction} interaction - The Discord ButtonInteraction object that triggered the modal.
+   * @param {string} customId - The custom ID for the Modal.
+   * @param {string} title - The title of the Modal.
+   * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the TextInputBuilder components for the modal.
+   * @returns {Promise<ModalSubmitInteraction>} A promise that resolves when the modal is shown. */
+  createModal: async (interaction, customId, title, options) => {
+    const textInputs = module.exports.rowComponents(ComponentType.TextInput, options);
+    const actionRows = textInputs.map((textInput) => new ActionRowBuilder().setComponents(textInput));
+    const modal = new ModalBuilder().setCustomId(customId).setTitle(title);
+
+    for (const row of actionRows) modal.addComponents(row);
+    return await interaction.showModal(modal);
+  },
+  /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
+   * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).
+   * @param {ComponentType.Thumbnail|ComponentType.Button} accessoryType - The type of accessory to include in the section.
+   * @param {string|ComponentOptions} [options] - If `accessoryType` is `ComponentType.Thumbnail`, this is a string URL for the thumbnail. If `accessoryType` is `ComponentType.Button`, this is a `ComponentOptions` object for the button.
+   * @returns {SectionBuilder} A SectionBuilder component. */
   sectionComponents: (contents, accessoryType, options) => {
     const displayContents = module.exports.textDisplay(contents);
     const sectionComponents = new SectionBuilder();
@@ -163,19 +189,18 @@ module.exports = {
       case ComponentType.Button:
         sectionComponents
           .addTextDisplayComponents(displayContents)
-          .setButtonAccessory(
-            new ButtonBuilder().setCustomId(options?.customId).setLabel(options?.label).setStyle(options?.style)
-          );
+          .setButtonAccessory(module.exports.rowComponents(accessoryType, options)[0]);
         break;
     }
 
     return sectionComponents;
   },
-  /** - Creates an ActionRowBuilder containing a select menu.
+  /** - Creates an ActionRowBuilder containing a select menu (ChannelSelectMenuBuilder or RoleSelectMenuBuilder).
    * @param {string} customId - The custom ID for the select menu.
-   * @param {string} [placeholder] - The placeholder for the select menu.
-   * @param {ChannelType | ChannelType[] | ComponentType.RoleSelect} [type] - The type of menu. Default: `ChannelType.GuildText`. */
-  menuComponents: (customId, placeholder = 'Make a section', type = ChannelType.GuildText) => {
+   * @param {string} [placeholder='Make a selection'] - The placeholder text displayed when no option is selected.
+   * @param {ChannelType|ChannelType[]|ComponentType.RoleSelect} [type=ChannelType.GuildText] - The type of select menu. Can be a single ChannelType, an array of ChannelTypes, or `ComponentType.RoleSelect`.
+   * @returns {ActionRowBuilder<ChannelSelectMenuBuilder>|ActionRowBuilder<RoleSelectMenuBuilder>} An ActionRowBuilder containing the specified select menu. */
+  menuComponents: (customId, placeholder = 'Make a selection', type = ChannelType.GuildText) => {
     const actionRow = new ActionRowBuilder();
 
     switch (type) {
@@ -199,6 +224,8 @@ module.exports = {
 
     return actionRow;
   },
-  /** @param {string|string[]} contents - The text content for the display component. */
+  /** - Creates an array of TextDisplayBuilder components from the given content.
+   * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings.
+   * @returns {TextDisplayBuilder[]} An array of TextDisplayBuilder components. */
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
 };

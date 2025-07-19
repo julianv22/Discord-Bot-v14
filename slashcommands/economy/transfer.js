@@ -70,7 +70,7 @@ module.exports = {
       { customId: 'transfer:cancel', label: 'Cancel', style: ButtonStyle.Danger },
     ];
 
-    const components = [new ActionRowBuilder().setComponents(rowComponents(buttons, ComponentType.Button))];
+    const components = [new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, buttons))];
 
     const embeds = [
       new EmbedBuilder()

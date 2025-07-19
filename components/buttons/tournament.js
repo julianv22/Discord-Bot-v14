@@ -1,12 +1,4 @@
-const {
-  Client,
-  Interaction,
-  EmbedBuilder,
-  ContainerBuilder,
-  FileBuilder,
-  MessageFlags,
-  Colors,
-} = require('discord.js');
+const { Client, Interaction, EmbedBuilder, ContainerBuilder, FileBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 const XLSX = require('xlsx');
@@ -185,9 +177,9 @@ module.exports = {
           .addFileComponents(new FileBuilder().setURL(`attachment://DanhSachThanhVien.xlsx`));
 
         await interaction.reply({
-          flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
           components: [container],
           files: [{ attachment: buffer, name: `DanhSachThanhVien.xlsx` }],
+          flags: [32768, 64],
         });
       },
     };

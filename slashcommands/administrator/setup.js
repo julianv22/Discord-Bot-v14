@@ -1,12 +1,4 @@
-const {
-  Client,
-  Interaction,
-  SlashCommandBuilder,
-  EmbedBuilder,
-  MessageFlags,
-  PermissionFlagsBits,
-  Colors,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu } = require('../../functions/common/components');
 
@@ -17,10 +9,10 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('setup')
-    .setDescription(`Configures various server settings. (${cfg.adminRole} only)`)
-    .addSubcommand((opt) => opt.setName('dashboard').setDescription('Setup dashboard. (${cfg.adminRole} only)'))
+    .setDescription(`Configures various server settings. ${cfg.adminRole} only`)
+    .addSubcommand((opt) => opt.setName('dashboard').setDescription(`Setup dashboard. ${cfg.adminRole} only`))
     .addSubcommand((sub) =>
-      sub.setName('info').setDescription(`Displays all current server setup information. (${cfg.adminRole} only)`)
+      sub.setName('info').setDescription(`Displays all current server setup information. ${cfg.adminRole} only`)
     ),
   /** - Configures various server settings
    * @param {Interaction} interaction - Command Interaction
@@ -44,10 +36,7 @@ module.exports = {
 
     switch (subCommand) {
       case 'dashboard':
-        await interaction.reply({
-          flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-          components: [dashboardMenu()],
-        });
+        await interaction.reply({ components: [dashboardMenu()], flags: [32768, 64] });
         break;
 
       case 'info':

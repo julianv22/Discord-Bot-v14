@@ -5,7 +5,7 @@ module.exports = {
   type: 'menus',
   data: { name: 'youtube-menu' },
   /** - Setup YouTube notification channel and alert role
-   * @param {Interaction} interaction Channel Select Menu Interaction
+   * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {

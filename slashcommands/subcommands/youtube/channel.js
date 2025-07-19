@@ -66,14 +66,11 @@ module.exports = {
 
     const components = [
       new ActionRowBuilder().setComponents(
-        rowComponents(
-          [
-            { customId: 'youtube:channel:add', label: 'Add Channel', emoji: '➕', style: ButtonStyle.Success },
-            { customId: 'youtube:channel:remove', label: 'Remove Channel', emoji: '➖', style: ButtonStyle.Danger },
-            { customId: 'youtube:refresh', label: 'Refesh', emoji: '🔄', style: ButtonStyle.Primary },
-          ],
-          ComponentType.Button
-        )
+        rowComponents(ComponentType.Button, [
+          { customId: 'youtube:channel:add', label: '➕ Add Channel', style: ButtonStyle.Success },
+          { customId: 'youtube:channel:remove', label: '➖ Remove Channel', style: ButtonStyle.Danger },
+          { customId: 'youtube:refresh', label: '🔄 Refesh', style: ButtonStyle.Primary },
+        ])
       ),
     ];
 

@@ -1,11 +1,11 @@
-const { Client, Interaction, EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const { replaceVar } = require('../../functions/common/utilities');
 
 module.exports = {
   type: 'modals',
   data: { name: 'manage-embed' },
-  /** - Embed Modal
-   * @param {Interaction} interaction Modal Message Modal Submit Interaction
+  /** - Embed Modal Manager
+   * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message, user, guild } = interaction;
@@ -22,20 +22,18 @@ module.exports = {
 
     if (!message) return await interaction.reply(client.errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
 
-    const truncateString = (str, maxLength) => (str.length > maxLength ? str.slice(0, maxLength) : str);
-
     const onSubmit = {
       author: () => {
         const authorIcon = fields.getTextInputValue('authorIcon');
         const iconURL = replaceVar(authorIcon, replaceKey);
 
         return embed.setAuthor({
-          name: replaceVar(truncateString(inputValue, 256), replaceKey) || null,
+          name: replaceVar(inputValue, replaceKey) || null,
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
-      title: () => embed.setTitle(truncateString(inputValue, 256) || null),
-      description: () => embed.setDescription(replaceVar(truncateString(inputValue, 4096), replaceKey)),
+      title: () => embed.setTitle(inputValue || null),
+      description: () => embed.setDescription(replaceVar(inputValue, replaceKey)),
       color: () => embed.setColor(inputValue.toEmbedColor()),
       image: () => embed.setImage(inputValue.checkURL() ? inputValue : null),
       thumbnail: () => embed.setThumbnail(inputValue.checkURL() ? inputValue : null),
@@ -44,7 +42,7 @@ module.exports = {
         const iconUrl = replaceVar(footerIcon, replaceKey);
 
         return embed.setFooter({
-          text: replaceVar(truncateString(inputValue, 2048), replaceKey) || null,
+          text: replaceVar(inputValue, replaceKey) || null,
           iconURL: iconUrl.checkURL() ? iconUrl : null,
         });
       },

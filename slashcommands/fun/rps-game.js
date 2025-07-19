@@ -8,7 +8,6 @@ const {
   ComponentType,
 } = require('discord.js');
 const { rowComponents } = require('../../functions/common/components');
-const { toCurrency } = require('../../functions/common/utilities');
 
 module.exports = {
   category: 'fun',
@@ -52,7 +51,7 @@ module.exports = {
       },
     ];
 
-    const components = [new ActionRowBuilder().addComponents(rowComponents(buttons, ComponentType.Button))];
+    const components = [new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, buttons))];
 
     const embeds = [
       new EmbedBuilder()

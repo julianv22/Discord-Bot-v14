@@ -1,5 +1,5 @@
-const { Client, Interaction, ModalBuilder, ActionRowBuilder, ComponentType, TextInputStyle } = require('discord.js');
-const { rowComponents } = require('../../functions/common/components');
+const { Client, Interaction, TextInputStyle } = require('discord.js');
+const { createModal } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
@@ -9,14 +9,12 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId } = interaction;
-    const textinput = new ActionRowBuilder().setComponents(
-      rowComponents(
-        [{ customId, label: 'Enter the welcome message', style: TextInputStyle.Paragraph, required: true }],
-        ComponentType.TextInput
-      )
-    );
-    const modal = new ModalBuilder().setCustomId(customId).setTitle('Welcome message').setComponents(textinput);
 
-    await interaction.showModal(modal);
+    createModal(interaction, customId, 'Welcome message', {
+      customId,
+      label: 'Enter the welcome message',
+      style: TextInputStyle.Paragraph,
+      required: true,
+    });
   },
 };

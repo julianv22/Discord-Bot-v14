@@ -9,7 +9,7 @@ global.prefix = cfg.prefix;
 
 const client = new Client({
   intents: 65535,
-  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, Partials.User],
 });
 
 // Commands Collection

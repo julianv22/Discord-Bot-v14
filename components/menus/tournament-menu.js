@@ -5,7 +5,7 @@ module.exports = {
   type: 'menus',
   data: { name: 'tournament-menu' },
   /** - Setup Tournament
-   * @param {Interaction} interaction Role Select Menu Interaction
+   * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const {

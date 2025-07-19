@@ -4,7 +4,7 @@ module.exports = {
   type: 'modals',
   data: { name: 'suggest' },
   /** - Suggest Modal
-   * @param {Interaction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, fields } = interaction;

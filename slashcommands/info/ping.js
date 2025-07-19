@@ -16,7 +16,7 @@ module.exports = {
     const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
     return await interaction.reply(
-      errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️', flags: false })
+      errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color, emoji: '⏱️', flags: false })
     );
   },
 };

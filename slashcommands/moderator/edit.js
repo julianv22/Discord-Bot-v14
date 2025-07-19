@@ -12,13 +12,13 @@ module.exports = {
     .addSubcommand((sub) =>
       sub
         .setName('embed')
-        .setDescription('Edit an embed by message ID')
+        .setDescription(`Edit an embed by message ID. ${cfg.modRole} only`)
         .addStringOption((opt) => opt.setName('message_id').setDescription('Message ID').setRequired(true))
     )
     .addSubcommand((sub) =>
       sub
         .setName('message')
-        .setDescription('Edit a message by message ID')
+        .setDescription(`Edit a message by message ID. ${cfg.modRole} only`)
         .addStringOption((opt) => opt.setName('message_id').setDescription('Message ID').setRequired(true))
         .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true))
     ),

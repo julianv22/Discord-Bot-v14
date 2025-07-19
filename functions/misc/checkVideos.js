@@ -61,7 +61,7 @@ module.exports = (client) => {
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:\n${videoURL}`,
                   components: [
-                    new ActionRowBuilder().addComponents(
+                    new ActionRowBuilder().setComponents(
                       new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('🔗Xem trên Youtube').setURL(videoURL)
                     ),
                   ],

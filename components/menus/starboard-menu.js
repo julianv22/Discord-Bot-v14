@@ -5,7 +5,7 @@ module.exports = {
   type: 'menus',
   data: { name: 'starboard-menu' },
   /** - Starboard Menu
-   * @param {Interaction} interaction - String Select Menu Interaction
+   * @param {Interaction} interaction - Select Menu Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const {

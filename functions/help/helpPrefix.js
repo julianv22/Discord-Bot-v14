@@ -12,7 +12,7 @@ module.exports = (client) => {
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.helpPNG)
       .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-      .setTitle(`Prefix Commands [\`${prefix}\`] List`)
+      .setTitle(`📝 Prefix Commands [\`${prefix}\`] List`)
       .setDescription(`If you need more help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp()

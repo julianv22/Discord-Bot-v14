@@ -1,12 +1,5 @@
-const {
-  Client,
-  Interaction,
-  SlashCommandBuilder,
-  ModalBuilder,
-  ActionRowBuilder,
-  TextInputBuilder,
-  TextInputStyle,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandBuilder, TextInputStyle } = require('discord.js');
+const { createModal } = require('../../functions/common/components');
 
 module.exports = {
   category: 'misc',
@@ -16,17 +9,11 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const modal = new ModalBuilder().setCustomId('suggest').setTitle('Server Suggestions:');
-
-    const contentInput = new ActionRowBuilder().addComponents(
-      new TextInputBuilder()
-        .setCustomId('content')
-        .setLabel('Suggestion Content')
-        .setRequired(true)
-        .setStyle(TextInputStyle.Paragraph)
-    );
-
-    modal.addComponents(contentInput);
-    await interaction.showModal(modal);
+    createModal(interaction, 'suggest', 'Server Suggestion', {
+      customId: 'content',
+      label: 'Suggestion Content',
+      style: TextInputStyle.Paragraph,
+      required: true,
+    });
   },
 };

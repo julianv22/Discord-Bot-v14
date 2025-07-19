@@ -1,16 +1,6 @@
-const {
-  Client,
-  Interaction,
-  ModalBuilder,
-  ActionRowBuilder,
-  EmbedBuilder,
-  TextInputStyle,
-  ComponentType,
-  Colors,
-  ButtonStyle,
-} = require('discord.js');
+const { Client, Interaction, ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
-const { rowComponents } = require('../../functions/common/components');
+const { createModal } = require('../../functions/common/components');
 const reactionMap = new Map();
 
 module.exports = {
@@ -34,22 +24,21 @@ module.exports = {
     const buttons = ActionRowBuilder.from(message.components[0]);
     const hideButton = buttons.components[0];
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
-    /** - Tạo Modal tương tác
-     * @param {string} placeholder Placeholder cho TextInput */
-    const createModal = (placeholder) => {
-      const textInputs = rowComponents(
-        [{ customId: buttonId, label: `Reaction Role ${buttonId}`, style: TextInputStyle.Short, placeholder }],
-        ComponentType.TextInput
-      );
-      const actionRows = textInputs.map((textInput) => new ActionRowBuilder().setComponents(textInput));
-      const modal = new ModalBuilder().setCustomId(`reaction-role:${buttonId}`).setTitle('Quản lý Reaction Role');
-      actionRows.forEach((row) => modal.addComponents(row));
-      return modal;
-    };
 
     const reactionButton = {
-      title: async () => await interaction.showModal(createModal('Nhập tiêu đề cho reaction role')),
-      color: async () => await interaction.showModal(createModal(Object.keys(Colors).join(',').slice(14, 114))),
+      title: async () =>
+        await createModal(interaction, `manage-embed:${buttonId}`, 'Reaction Role Manager', {
+          customId: buttonId,
+          label: `Reaction Role ${buttonId} (Leave blank = Remove)`,
+          placeholder: `Enter the Reaction Role ${buttonId}`,
+          max_length: 256,
+        }),
+      color: async () =>
+        createModal(interaction, `manage-embed:${buttonId}`, 'Reaction Role Manager', {
+          customId: buttonId,
+          label: `Reaction Role ${buttonId} (Leave blank = Random)`,
+          placeholder: Object.keys(Colors).join(',').slice(14, 114),
+        }),
       add: async () => {
         if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
 

@@ -1,5 +1,5 @@
 const { Client, Interaction, ModalBuilder, ActionRowBuilder, ComponentType } = require('discord.js');
-const { rowComponents } = require('../../functions/common/components');
+const { rowComponents, createModal } = require('../../functions/common/components');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {
@@ -22,16 +22,13 @@ module.exports = {
 
     const onClick = {
       channel: async () => {
-        const textInput = [
-          { customId: type, label: 'YouTube ChannelID', placeholder: 'Enter the YouTube ChannelID', required: true },
-        ];
-
-        const modal = new ModalBuilder()
-          .setCustomId('youtube:' + type)
-          .setTitle(`${type.toCapitalize()} YouTube Channel`)
-          .setComponents(new ActionRowBuilder().setComponents(rowComponents(textInput, ComponentType.TextInput)));
-
-        return await interaction.showModal(modal);
+        createModal(interaction, `youtube:${type}`, `${type.toCapitalize()} YouTube Channel`, {
+          customId: type,
+          label: 'YouTube ChannelID',
+          placeholder: 'Enter the YouTube ChannelID',
+          max_length: 256,
+          required: true,
+        });
       },
       remove: async () => {
         switch (type) {

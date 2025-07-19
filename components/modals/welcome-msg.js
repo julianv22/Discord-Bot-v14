@@ -5,7 +5,7 @@ module.exports = {
   type: 'modals',
   data: { name: 'welcome-msg' },
   /** - Welcome message modal
-   * @param {Interaction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
     const {

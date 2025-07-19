@@ -4,7 +4,7 @@ module.exports = {
   type: 'modals',
   data: { name: 'reaction-role' },
   /** - Reaction Modal
-   * @param {Interaction} interaction Modal Message Modal Submit Interaction
+   * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { customId, fields, message } = interaction;
