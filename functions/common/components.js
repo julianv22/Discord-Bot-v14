@@ -230,7 +230,7 @@ module.exports = {
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
   /** - Link button
    * @param {string} url - The URL of button
-   * @param {string} [label='Jump to message'] - The text displayed on the */
-  linkButton: (url, label = 'Jump to message') =>
+   * @param {string} [label='Jump to message'] - The text displayed on the button */
+  linkButton: (url, label = '🔗 Jump to message') =>
     new ActionRowBuilder().setComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)),
 };

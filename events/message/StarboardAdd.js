@@ -1,5 +1,6 @@
 const { MessageReaction, User, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { linkButton } = require('../../functions/common/components');
 
 module.exports = {
   name: 'messageReactionAdd',
@@ -32,11 +33,6 @@ module.exports = {
 
         if (!starboardChannel) return;
         if (message.attachments && message.attachments.size > 0) return; // Nếu có attachment thì bỏ qua
-
-        // Jump link button
-        const jumpButton = new ActionRowBuilder().setComponents(
-          new ButtonBuilder().setLabel('🔗Go to message').setStyle(ButtonStyle.Link).setURL(message.url)
-        );
 
         // Chuẩn bị embeds nếu có
         let embeds = [];
@@ -80,7 +76,7 @@ module.exports = {
               await sentMsg.edit({
                 content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
                 embeds,
-                components: [jumpButton],
+                components: [linkButton(message.url)],
               });
               // Cập nhật lại thời gian cuối cùng update (không cần thiết cho cooldown, nhưng có thể lưu để log)
               starboard.messages[message.id].lastTime = now;
@@ -91,7 +87,7 @@ module.exports = {
                 const newMsg = await starboardChannel.send({
                   content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
                   embeds,
-                  components: [jumpButton],
+                  components: [linkButton(message.url)],
                 });
 
                 starboard.messages[message.id] = { id: newMsg.id, lastTime: now };
@@ -104,7 +100,7 @@ module.exports = {
               const newMsg = await starboardChannel.send({
                 content: `**${count}** \\⭐ in <#${message.channel.id}>:`,
                 embeds,
-                components: [jumpButton],
+                components: [linkButton(message.url)],
               });
 
               starboard.messages[message.id] = { id: newMsg.id, lastTime: now };

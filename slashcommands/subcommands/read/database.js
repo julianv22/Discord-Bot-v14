@@ -8,6 +8,7 @@ const {
   ButtonStyle,
   Colors,
 } = require('discord.js');
+const { linkButton } = require('../../../functions/common/components');
 
 module.exports = {
   ownerOnly: true,
@@ -36,14 +37,7 @@ module.exports = {
       if (key)
         await interaction.editReply({
           embeds,
-          components: [
-            new ActionRowBuilder().setComponents(
-              new ButtonBuilder()
-                .setStyle(ButtonStyle.Link)
-                .setURL(`https://sourceb.in/${key}`)
-                .setLabel('🔗 View Database')
-            ),
-          ],
+          components: [linkButton(`https://sourceb.in/${key}`, '🔗 View Database')],
         });
       else await interaction.editReply({ embeds });
     };

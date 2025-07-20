@@ -1,5 +1,6 @@
 const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { linkButton } = require('../common/components');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -60,11 +61,7 @@ module.exports = (client) => {
                   content: `${role ? `${role} ` : ''}\\🎬 **[${
                     channelTitle || 'Youtube Channel'
                   }](https://www.youtube.com/channel/${channelId})** vừa đăng video mới:\n${videoURL}`,
-                  components: [
-                    new ActionRowBuilder().setComponents(
-                      new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('🔗Xem trên Youtube').setURL(videoURL)
-                    ),
-                  ],
+                  components: [linkButton(videoURL, '🔗 Xem trên Youtube')],
                 });
             }
           }
