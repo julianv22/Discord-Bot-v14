@@ -44,7 +44,7 @@ module.exports = {
       if (embeds.length > 0) {
         if (!starboard?.messages) starboard.messages = {};
 
-        const starboardMessage = starboard?.messages[messageId];
+        const starboardMessage = starboard?.messages?.[messageId];
 
         /** Cập nhật lại nội dung message trong starboardChannel và database */
         const sendNewMessage = async () => {
@@ -55,6 +55,7 @@ module.exports = {
           });
 
           starboard.messages[messageId] = { id: sendNew.id, lastTime: Date.now() };
+          profile.markModified('starboard.messages');
           await profile.save().catch(console.error);
         };
 
@@ -65,6 +66,7 @@ module.exports = {
           if (sentMessage) {
             await sentMessage.edit({ content: `**${count}** \\⭐ in <#${message.channel.id}>:`, embeds });
             starboard.messages[messageId].lastTime = Date.now();
+            profile.markModified('starboard.messages');
             await profile.save().catch(console.error);
           } else await sendNewMessage(); // Nếu không fetch được message trong starboardChannel, gửi message mới và lưu vào database
         } else await sendNewMessage(); // Nếu chưa tồn tại thì gửi message mới
@@ -90,20 +92,21 @@ module.exports = {
     try {
       const starReaction = (await message.fetch()).reactions.cache.get('⭐');
       count = starReaction ? starReaction.count : 0;
-      const starboardMessage = starboard?.messages[messageId];
+      const starboardMessage = starboard?.messages?.[messageId];
       const sentMessage = await starboardChannel.messages.fetch(starboardMessage?.id); // Fectch message đã gửi trong starboardChannel
 
-      if (sentMessage) {
+      if (sentMessage && sentMessage.deletable) {
         if (count < starboard?.starCount) {
           // Nếu số ⭐ nhỏ hơn starCount thì xoá message trong starboardChannel và cập nhật database
           await sentMessage.delete().catch(console.error);
           delete starboard.messages[messageId];
-          profile.markModified('starboard.messages'); // Thông báo cho Mongoose rằng trường đã được sửa đổi
+          profile.markModified('starboard.messages');
           await profile.save().catch(console.error);
         } else {
           // Nếu số ⭐ vẫn thoả mãn điều kiện starCount
           await sentMessage.edit({ content: `**${count}** \\⭐ in <#${message.channel.id}>:` });
           starboard.messages[messageId].lastTime = Date.now();
+          profile.markModified('starboard.messages');
           await profile.save().catch(console.error);
         }
       }
