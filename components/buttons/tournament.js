@@ -24,10 +24,7 @@ module.exports = {
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 
-    if (!tournament?.roleId)
-      return await interaction.reply(
-        errorEmbed({ desc: 'Chưa chọn tên role cho giải đấu!', emoji: '🏆', color: Colors.Red })
-      );
+    if (!tournament?.roleId) return await interaction.reply(errorEmbed({ desc: 'Chưa chọn tên role cho giải đấu!' }));
 
     const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
 
@@ -75,9 +72,7 @@ module.exports = {
       close_all: async () => {
         const tournamentProfiles = await tournamentProfile.find({ guildId }).catch(console.error);
         if (!tournamentProfiles || tournamentProfiles.length === 0)
-          return await interaction.reply(
-            errorEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!', emoji: '🏆', color: Colors.Red })
-          );
+          return await interaction.reply(errorEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
 
         for (const profile of tournamentProfiles) profile.isActive = false;
         await tournamentProfile.bulkSave(tournamentProfiles).catch(console.error);
@@ -103,9 +98,7 @@ module.exports = {
 
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(
-            errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: '🏆', color: Colors.Red })
-          );
+          return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         const tengiai = `**Tên giải:** ${getRole(tournament?.roleId)}`;
         // Tạo danh sách thành viên, mỗi dòng 1 người
@@ -153,9 +146,7 @@ module.exports = {
       to_excel: async () => {
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(
-            errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!', emoji: '🏆', color: Colors.Red })
-          );
+          return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         // Tạo dữ liệu cho Excel
         const excelData = [['STT', 'Username', 'Ingame']];

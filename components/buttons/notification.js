@@ -1,5 +1,5 @@
 const { Client, Interaction, EmbedBuilder, ActionRowBuilder, TextInputStyle, Colors } = require('discord.js');
-const { createModal } = require('../../functions/common/components');
+const { createModal, linkButton } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
@@ -8,13 +8,13 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const { customId, message } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { customId, message, channel } = interaction;
+    const { errorEmbed } = client;
     const [, buttonId] = customId.split(':');
     const modalId = 'manage-embed:' + buttonId;
     const placeholder = `Enter the Notification ${buttonId}`;
     const embed = EmbedBuilder.from(message.embeds[0]);
-    const buttons = ActionRowBuilder.from(message.components[0]);
+    const actionRows = ActionRowBuilder.from(message.components[0]);
 
     const onClick = {
       title: () =>
@@ -44,7 +44,7 @@ module.exports = {
           { customId: buttonId, label: 'Notification Image (Leave blank = Remove)', placeholder },
         ]),
       thumbnail: async () => {
-        const thumbnailButton = buttons.components[3];
+        const thumbnailButton = actionRows.components[3];
 
         if (thumbnailButton.data.label === '📢 Type: Notify') {
           embed.setThumbnail(cfg.updatePNG);
@@ -54,9 +54,18 @@ module.exports = {
           thumbnailButton.setLabel('📢 Type: Notify');
         }
 
-        await interaction.update({ embeds: [embed], components: [buttons] });
+        await interaction.update({ embeds: [embed], components: [actionRows] });
       },
-      send: async () => {},
+      send: async () => {
+        for (const button of actionRows.components) button.setDisabled(true);
+
+        const msg = await channel.send({ embeds: [embed] });
+
+        await interaction.update({
+          ...errorEmbed({ desc: 'Notification message has been sent', emoji: true }),
+          components: [linkButton(msg.url)],
+        });
+      },
     };
 
     if (!onClick[buttonId]()) throw new Error(chalk.yellow("Invalid button's customId"), chalk.green(buttonId));

@@ -39,7 +39,7 @@ module.exports = {
     const msg = await messages.fetch(messageId).catch(async (e) => {
       await interaction.reply(
         errorEmbed({
-          desc: `Không tìm thấy message với id: [\`${messageId}\`], hoặc message không nằm trong channel này!`,
+          desc: `Không tìm thấy message với id: [${messageId}], hoặc message không nằm trong channel này!`,
         })
       );
     });
@@ -47,7 +47,7 @@ module.exports = {
     if (!msg) return;
 
     if (msg.author.id !== client.user.id)
-      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${client.user}!` }));
+      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${client.user.tag}!` }));
 
     const editMessage = {
       embed: async () => {

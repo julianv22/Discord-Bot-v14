@@ -18,11 +18,11 @@ module.exports = {
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
-        errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng `/daily` để khởi nghiệp 😁' })
+        errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng /daily để khởi nghiệp 😁' })
       );
 
     if (amount > profile?.bank)
-      return await interaction.reply(errorEmbed({ desc: 'Số \\💲 rút không được lớn hơn số tiền hiện có!' }));
+      return await interaction.reply(errorEmbed({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
 
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01);

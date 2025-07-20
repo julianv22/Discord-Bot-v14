@@ -18,13 +18,18 @@ module.exports = {
     const memberToEmit = mentions.members.first();
     if (!memberToEmit)
       return await message.reply(
-        errorEmbed({ desc: 'Vui lòng mention một thành viên để kích hoạt sự kiện `guildMemberAdd`.' })
+        errorEmbed({ desc: 'Vui lòng mention một thành viên để kích hoạt sự kiện guildMemberAdd.' })
       );
 
     client.emit('guildMemberAdd', memberToEmit);
 
     await message
-      .reply(errorEmbed({ desc: `Đã kích hoạt sự kiện \`guildMemberAdd\` cho ${memberToEmit}.`, emoji: true }))
+      .reply(
+        errorEmbed({
+          desc: `Đã kích hoạt sự kiện guildMemberAdd cho ${memberToEmit.user.tag}.`,
+          emoji: true,
+        })
+      )
       .then((m) => {
         setTimeout(() => {
           if (m.deletable) m.delete().catch(console.error);

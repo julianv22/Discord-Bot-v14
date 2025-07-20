@@ -24,7 +24,7 @@ module.exports = {
       const hint = client.errorEmbed({
         desc: `Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
         color: 16757248,
-        emoji: '\\💡',
+        emoji: '💡',
       });
 
       if (author.bot) return;

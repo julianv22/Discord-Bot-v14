@@ -8,7 +8,7 @@ const {
   TextInputStyle,
   Colors,
 } = require('discord.js');
-const { createModal } = require('../../functions/common/components');
+const { createModal, linkButton } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
@@ -22,7 +22,7 @@ module.exports = {
     const [, buttonId, messageId] = customId.split(':');
     const editEmbed = EmbedBuilder.from(message.embeds[0]);
     const actionRow = (id) => ActionRowBuilder.from(message.components[id]);
-    const buttons = [actionRow(0), actionRow(1), actionRow(2)];
+    const actionRows = [actionRow(0), actionRow(1), actionRow(2)];
 
     if (!message) return await interaction.reply(errorEmbed({ desc: 'Message not found!' }));
 
@@ -91,7 +91,7 @@ module.exports = {
           },
         ]),
       timestamp: async () => {
-        const timestampButton = buttons[1].components[0];
+        const timestampButton = actionRows[1].components[0];
 
         if (timestampButton.data.style === ButtonStyle.Danger) {
           editEmbed.setTimestamp(null);
@@ -101,7 +101,7 @@ module.exports = {
           timestampButton.setLabel('⛔ Timestamp').setStyle(ButtonStyle.Danger);
         }
 
-        await interaction.update({ embeds: [editEmbed], components: buttons });
+        await interaction.update({ embeds: [editEmbed], components: actionRows });
       },
       addfield: () =>
         createModal(interaction, customId, 'Embed Manager', [
@@ -121,14 +121,13 @@ module.exports = {
           // If !messageId then send new embed
           if (!messageId || messageId === 'undefined') {
             // Disable all buttons
-            for (const button of buttons) {
-              for (const component of button.components) {
-                component.data.disabled = true;
-              }
+            for (const actionRow of actionRows) {
+              for (const button of actionRow.components) button.setDisabled(true);
             }
+
             // editEmbed.setFields();
             await channel.send({ embeds: [editEmbed] });
-            return await interaction.update({ components: buttons });
+            return await interaction.update({ components: actionRows });
           } else {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
@@ -140,15 +139,13 @@ module.exports = {
             return await interaction.update({
               embeds: [
                 {
-                  author: { name: '✅ Successfully Updated!' },
-                  description: `Message has been successfully updated.`,
+                  author: {
+                    name: 'Message has been updated successfully!',
+                    iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
+                  },
                 },
               ],
-              components: [
-                new ActionRowBuilder().setComponents(
-                  new ButtonBuilder().setLabel('🔗 Go to message').setStyle(ButtonStyle.Link).setURL(msg.url)
-                ),
-              ],
+              components: [linkButton(msg.url)],
             });
           }
         } catch (e) {

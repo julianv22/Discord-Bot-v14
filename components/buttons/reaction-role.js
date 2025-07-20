@@ -1,6 +1,6 @@
 const { Client, Interaction, ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
-const { createModal } = require('../../functions/common/components');
+const { createModal, linkButton } = require('../../functions/common/components');
 const reactionMap = new Map();
 
 module.exports = {
@@ -86,13 +86,7 @@ module.exports = {
             else role = guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
 
             if (!role)
-              return await interaction.followUp(
-                errorEmbed({
-                  title: '\\❌ Không tìm thấy Role',
-                  description: `Role \`${roleInput}\` không tồn tại, hãy thử lại!`,
-                  color: Colors.DarkVividPink,
-                })
-              );
+              return await interaction.followUp(errorEmbed({ desc: `Role ${roleInput} không tồn tại, hãy thử lại!` }));
           } catch (e) {
             return client.catchError(interaction, e, 'Lỗi khi tìm kiếm role');
           }
@@ -144,6 +138,12 @@ module.exports = {
         if (emojiArray.length === 0) return await interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
 
         const msg = await channel.send({ embeds: [reactionEmbed.setFields()] });
+        await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
+
+        await interaction.update({
+          ...errorEmbed({ desc: 'Reaction role đã được tạo', emoji: true }),
+          components: [linkButton(msg.url)],
+        });
 
         await reactionRole
           .findOneAndUpdate(
@@ -159,14 +159,6 @@ module.exports = {
             { upsert: true, new: true }
           )
           .catch(console.error);
-
-        await interaction.update({
-          embeds: [errorEmbed({ desc: `Reaction role đã được tạo: [Jump Link](${msg.url})`, emoji: true })],
-          components: [],
-        });
-
-        await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
-
         reactionMap.delete(message.id);
       },
     };

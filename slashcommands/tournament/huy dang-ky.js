@@ -28,6 +28,7 @@ module.exports = {
     } = interaction;
     const { errorEmbed } = client;
     const userId = user.id;
+    const userName = user.displayName || user.username;
 
     // Verified
     if (!options.getBoolean('confirm'))
@@ -55,7 +56,7 @@ module.exports = {
     // Check Tournament's Status
     const tourProfile = await tournamentProfile.findOne({ guildId, userId }).catch(console.error);
     if (!tourProfile || !tourProfile?.registrationStatus)
-      return await interaction.reply(errorEmbed({ desc: `${user} chưa đăng ký giải đấu!` }));
+      return await interaction.reply(errorEmbed({ desc: `${userName} chưa đăng ký giải đấu!` }));
 
     // Kiểm tra role giải đấu
     if (!tournament?.roleId)
@@ -65,7 +66,7 @@ module.exports = {
     if (!role)
       return await interaction.reply(
         errorEmbed({
-          desc: `Role giải đấu với ID \`${tournament?.roleId}\` không tồn tại! Vui lòng liên hệ ban quản trị!`,
+          desc: `Role giải đấu với ID ${tournament?.roleId} không tồn tại! Vui lòng liên hệ ban quản trị!`,
         })
       );
 
@@ -82,16 +83,16 @@ module.exports = {
 
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
       if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
-        return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gỡ role ${role}!` }));
+        return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền Manage Roles để gỡ role ${role.name}!` }));
 
       if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
-          errorEmbed({ desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!` })
+          errorEmbed({ desc: `Bot không thể gỡ role ${role.name} vì role này cao hơn hoặc bằng role của bot!` })
         );
     } else await members.cache.get(user.id).roles.remove(role).catch(console.error);
 
     await interaction.reply(
-      errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!!`, emoji: '🏆', color: Colors.Orange })
+      errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!`, emoji: '🏆', color: Colors.Orange })
     );
   },
 };

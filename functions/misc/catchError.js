@@ -28,21 +28,24 @@ module.exports = (client) => {
       const guild = guilds.cache.get(cfg.bugGuildId);
       const channel = guild.channels.cache.get(cfg.bugChannelId);
 
-      if (!guild) logError({ todo: 'finding error reporting guild with ID:', item: cfg.bugGuildId });
+      if (!guild) logError({ todo: 'finding error report server with ID:', item: cfg.bugGuildId });
       else if (!channel || channel.type !== ChannelType.GuildText)
-        logError({ todo: 'finding error reporting text channel with ID:', item: cfg.bugChannelId });
+        logError({ todo: 'finding error report channel with ID:', item: cfg.bugChannelId });
       else {
         const bugEmbed = new EmbedBuilder()
           .setColor(Colors.DarkVividPink)
-          .setTitle('\\❌ ' + errorMessage().replace(regex, ''))
+          .setAuthor({
+            name: errorMessage().replace(regex, ''),
+            iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
+          })
           .setDescription(
-            `**Used:** ${user.displayName || user.username} [ \`${user.id}\` ]\n\n**Guild: [${
+            `**Used:** ${user.displayName || user.username} [ \`${user.id}\` ]\n\n**Server: [${
               object.guild.name
             }](https://discord.com/channels/${object.guild.id}) \n\nChannel: [# ${
               object.channel.name
             }](https://discord.com/channels/${object.guild.id}/${object.channel.id})**`
           )
-          .setFooter({ text: 'Error reports', iconURL: object.guild.iconURL(true) })
+          .setFooter({ text: object.guild.name + ' Error Reports', iconURL: object.guild.iconURL(true) })
           .setTimestamp();
 
         if (e.stack)
@@ -57,13 +60,13 @@ module.exports = (client) => {
 
           if (object) {
             if (object?.author)
-              await object.reply(embed).then((m) =>
+              return await object.reply(embed).then((m) =>
                 setTimeout(async () => {
                   m.delete().catch(console.error);
                 }, 10 * 1000)
               );
             else if (!object.replied && !object.deferred) return await object.reply(embed);
-            else await object.editReply(embed);
+            else return await object.editReply(embed);
           }
         });
       }

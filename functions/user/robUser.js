@@ -12,10 +12,10 @@ module.exports = (client) => {
     const now = new Date();
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
-    if (target.bot) return await interaction.reply(errorEmbed({ desc: 'Bạn không thể giật \\💲 của bot!' }));
+    if (target.bot) return await interaction.reply(errorEmbed({ desc: 'Bạn không thể giật 💲 của bot!' }));
 
     if (target.id === user.id)
-      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể tự giật \\💲 của chính mình!' }));
+      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể tự giật 💲 của chính mình!' }));
 
     try {
       // Lấy profile của user và target
@@ -27,7 +27,7 @@ module.exports = (client) => {
       if (!profile || !targetProfile)
         return await interaction.reply(
           errorEmbed({
-            desc: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật \\💲 chưa có tài khoản Economy',
+            desc: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật 💲 chưa có tài khoản Economy',
           })
         );
 
@@ -35,7 +35,7 @@ module.exports = (client) => {
         return await interaction.reply(errorEmbed({ desc: 'Bạn cần ít nhất 500₫ để thực hiện giật!' }));
 
       if (targetProfile?.balance < 100)
-        return await interaction.reply(errorEmbed({ desc: 'Người này không đủ \\💲 để bị giật!' }));
+        return await interaction.reply(errorEmbed({ desc: 'Người này không đủ 💲 để bị giật!' }));
 
       // Cooldown
       if (profile?.lastRob && now - profile?.lastRob < cooldownMs) {
@@ -43,7 +43,7 @@ module.exports = (client) => {
         const timeleft = Math.floor(nextRob.getTime() / 1000);
 
         return await interaction.reply(
-          errorEmbed({ desc: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>` })
+          errorEmbed({ desc: `Bạn vừa giật \\💲 gần đây! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: '❌' })
         );
       }
 

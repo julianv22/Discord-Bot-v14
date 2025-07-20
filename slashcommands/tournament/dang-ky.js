@@ -43,7 +43,7 @@ module.exports = {
 
     if (!role)
       return await interaction.reply(
-        errorEmbed({ desc: `Role giải đấu với ID \`${tournament?.roleId}\` không tồn tại hoặc đã bị xóa.` })
+        errorEmbed({ desc: `Role giải đấu với ID [${tournament?.roleId}] không tồn tại hoặc đã bị xóa.` })
       );
 
     // Add Tournament Profile
@@ -60,7 +60,7 @@ module.exports = {
 
     await interaction.reply(
       errorEmbed({
-        desc: `${user} đăng ký giải ${role}.\n🎮 | Tên ingame: **${stIngame}**`,
+        desc: `${user} đăng ký giải ${role} --- 🎮 Tên ingame: **${stIngame}**`,
         emoji: '🏆',
         color: Colors.DarkGreen,
         flags: false,
@@ -68,18 +68,20 @@ module.exports = {
     );
 
     await interaction.followUp(
-      errorEmbed({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: true })
+      errorEmbed({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: '❌' })
     );
 
     // Add Role
     const bot = members.me || (await members.fetch(client.user.id));
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
       if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
-        return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền \`Manage Roles\` để gán role ${role}!` }));
+        return await interaction.followUp(
+          errorEmbed({ desc: `Bot cần quyền Manage Roles để gán role ${role},!`, emoji: '❌' })
+        );
 
       if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
-          errorEmbed({ desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!` })
+          errorEmbed({ desc: `Bot không thể gán role ${role.name} vì role này cao hơn hoặc bằng role của bot!` })
         );
     } else await members.cache.get(user.id).roles.add(role).catch(console.error);
   },

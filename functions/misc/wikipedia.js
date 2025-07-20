@@ -14,9 +14,7 @@ module.exports = (client) => {
       const body = await res.json();
 
       if (!res.ok || body.status === 404) {
-        const replyMessage = await object.reply(
-          errorEmbed({ desc: `No information found for keyword \`${keyword}\`!` })
-        );
+        const replyMessage = await object.reply(errorEmbed({ desc: `No information found for keyword ${keyword}!` }));
 
         if (object?.author)
           setTimeout(async () => {

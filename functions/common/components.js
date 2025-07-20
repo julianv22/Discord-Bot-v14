@@ -228,4 +228,9 @@ module.exports = {
    * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings.
    * @returns {TextDisplayBuilder[]} An array of TextDisplayBuilder components. */
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
+  /** - Link button
+   * @param {string} url - The URL of button
+   * @param {string} [label='Jump to message'] - The text displayed on the */
+  linkButton: (url, label = 'Jump to message') =>
+    new ActionRowBuilder().setComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)),
 };

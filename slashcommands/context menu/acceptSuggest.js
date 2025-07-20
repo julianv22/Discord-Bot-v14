@@ -21,12 +21,12 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { targetMessage, guild } = interaction;
-    const { errorEmbed, user: bot } = client;
+    const { errorEmbed } = client;
     const suggestEmbed = EmbedBuilder.from(targetMessage.embeds[0]);
     const footer = suggestEmbed.data.footer.text;
 
     if (targetMessage.author.id !== cfg.clientID)
-      return await interaction.reply(errorEmbed({ desc: `This message does not belong to ${bot}!` }));
+      return await interaction.reply(errorEmbed({ desc: 'This message does not belong to bot!' }));
 
     if (!suggestEmbed) return await interaction.reply(errorEmbed({ desc: 'This message is not a suggest message' }));
 
@@ -40,8 +40,6 @@ module.exports = {
 
     await targetMessage.edit({ embeds: [suggestEmbed] });
 
-    await interaction.reply(
-      errorEmbed({ desc: `Suggestion has been accepted! [[Jump Link](${targetMessage.url})]`, emoji: true })
-    );
+    await interaction.reply(errorEmbed({ desc: 'Suggestion has been accepted!', emoji: true }));
   },
 };

@@ -70,6 +70,7 @@ module.exports = {
           await interaction.reply(
             errorEmbed({
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is already in the watchlist.`,
+              emoji: '❌',
             })
           );
           return false;
@@ -90,6 +91,7 @@ module.exports = {
           await interaction.reply(
             errorEmbed({
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is not in the watchlist.`,
+              emoji: '❌',
             })
           );
           return false;

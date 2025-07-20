@@ -23,7 +23,7 @@ module.exports = {
 
     if (!prompt)
       return await interaction.reply(
-        errorEmbed({ desc: 'Vui lòng cung cấp một câu hỏi để trò chuyện với Gemini AI.', flags: 64 })
+        errorEmbed({ desc: 'Vui lòng cung cấp một câu hỏi để trò chuyện với Gemini AI.' })
       );
 
     let history = chatHistories.get(user.id) || [];

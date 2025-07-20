@@ -1,11 +1,13 @@
 const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { linkButton } = require('../../functions/common/components');
+
 module.exports = {
   type: 'modals',
   data: { name: 'suggest' },
-  /** - Suggest Modal
-   * @param {Interaction} interaction Modal Submit Interaction
-   * @param {Client} client - Discord Client */
+  /** - Suggestion Modal
+   * @param {Interaction} interaction - The modal submit interaction
+   * @param {Client} client - The Discord client */
   async execute(interaction, client) {
     const { guild, guildId, user, fields } = interaction;
     const { errorEmbed } = client;
@@ -17,15 +19,13 @@ module.exports = {
     if (!profile || !suggest?.channelId)
       return await interaction.reply(
         errorEmbed({
-          desc: `Máy chủ này chưa thiết lập kênh đề xuất. Vui lòng liên hệ đội ngũ ${cfg.adminRole} để được hỗ trợ.`,
+          desc: `This server has not set up a suggestion channel. Please contact the ${cfg.adminRole} team for assistance.`,
         })
       );
 
     const suggestChannel = guild.channels.cache.get(suggest?.channelId);
     if (!suggestChannel)
-      return await interaction.reply(
-        client.errorEmbed({ desc: 'Kênh đề xuất không tìm thấy hoặc không hợp lệ. Vui lòng kiểm tra lại cấu hình.' })
-      );
+      return await interaction.reply(client.errorEmbed({ desc: 'Suggestion channel not found or invalid.' }));
 
     const truncateString = (str, maxLength) => (str.length > maxLength ? `${str.slice(0, maxLength - 3)}...` : str);
 
@@ -33,19 +33,26 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.suggestPNG)
-        .setAuthor({ name: `Đề xuất của ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
-        .setTitle('Nội dung đề xuất:')
+        .setAuthor({
+          name: `Suggestion from ${user.displayName || user.username}`,
+          iconURL: user.displayAvatarURL(true),
+        })
+        .setTitle('Suggestion Content:')
         .setDescription(truncateString(description, 4096))
         .setFooter({ text: `${guild.name} Suggestion`, iconURL: guild.iconURL(true) })
         .setTimestamp()
-        .setFields({ name: '\u200b', value: '❗ Đề xuất sẽ được xem xét và trả lời sớm nhất!' }),
+        .setFields({
+          name: '\u200b',
+          value: '❗ The suggestion will be considered and responded to as soon as possible!',
+        }),
     ];
 
     const msg = await suggestChannel.send({ embeds });
 
-    await interaction.reply(
-      errorEmbed({ desc: `Đề xuất của bạn đã được gửi thành công! [Jump link](${msg.url})]`, emoji: true })
-    );
+    await interaction.reply({
+      ...errorEmbed({ desc: 'Your suggestion has been sent successfully!', emoji: true }),
+      components: [linkButton(msg.url)],
+    });
     await Promise.all(['👍', '👎'].map((emoji) => msg.react(emoji)));
   },
 };

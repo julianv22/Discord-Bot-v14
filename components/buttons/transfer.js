@@ -46,7 +46,7 @@ module.exports = {
     if (profile?.bank < total)
       return await interaction.update({
         ...errorEmbed({
-          desc: `Bạn không có đủ \\💲 để chuyển! Số dư ngân hàng của bạn: ${profile?.bank.toCurrency()}`,
+          desc: `Bạn không có đủ 💲 để chuyển! Số dư ngân hàng của bạn: ${profile?.bank.toCurrency()}`,
         }),
         components: [],
       });

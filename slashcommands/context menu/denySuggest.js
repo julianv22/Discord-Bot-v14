@@ -26,7 +26,7 @@ module.exports = {
     const footer = suggestEmbed.data.footer.text;
 
     if (targetMessage.author.id !== cfg.clientID)
-      return await interaction.reply(errorEmbed({ desc: `This message does not belong to ${bot}!` }));
+      return await interaction.reply(errorEmbed({ desc: 'This message does not belong to bot!' }));
 
     if (!suggestEmbed) return await interaction.reply(errorEmbed({ desc: 'This message is not a suggest message!' }));
 
@@ -40,6 +40,6 @@ module.exports = {
 
     await targetMessage.edit({ embeds: [suggestEmbed] });
 
-    await interaction.reply(errorEmbed({ desc: `Suggestion has been denied! [[Jump Link](${targetMessage.url})]` }));
+    await interaction.reply(errorEmbed({ desc: 'Suggestion has been denied!' }));
   },
 };
