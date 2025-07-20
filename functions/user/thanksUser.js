@@ -62,8 +62,11 @@ module.exports = (client) => {
       const embeds = [
         new EmbedBuilder()
           .setColor(Colors.Aqua)
-          .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
-          .setTitle('💖 Special Thanks!')
+          .setAuthor({
+            name: `Special Thanks ${target.displayName || target.username}`,
+            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f49e/512.gif',
+          })
+          .setThumbnail('https://fonts.gstatic.com/s/e/notoemoji/latest/2764_fe0f_200d_1f525/512.gif')
           .setDescription(`${author} special thanks to ${target}!`)
           .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
           .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })

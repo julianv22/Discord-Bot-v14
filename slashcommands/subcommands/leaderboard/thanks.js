@@ -32,7 +32,10 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.thanksPNG)
-        .setAuthor({ name: '🏆 Thanks Leaderboard', iconURL: guild.iconURL(true) })
+        .setAuthor({
+          name: 'Thanks Leaderboard',
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif',
+        })
         .setTitle(`Top 10 Thanks ${description || ''}:`)
         .setDescription(thanksList)
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })

@@ -31,7 +31,7 @@ module.exports = {
           new EmbedBuilder()
             .setColor(Colors.DarkGreen)
             .setThumbnail(cfg.slashPNG)
-            .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+            .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif' })
             .setTitle('📚 Slash Command & Sub Command Statistics')
             .setFooter({
               text: `Requested by ${user.displayName || user.username}`,

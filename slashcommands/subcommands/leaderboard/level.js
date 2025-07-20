@@ -20,7 +20,10 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.thumbnailURL)
-        .setAuthor({ name: '🏆 Level Leaderboard', iconURL: user.displayAvatarURL(true) })
+        .setAuthor({
+          name: 'Level Leaderboard',
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif',
+        })
         .setTitle('Bảng xếp hạng level tuần #' + week)
         .setDescription(
           'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)'

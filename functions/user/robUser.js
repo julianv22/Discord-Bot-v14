@@ -86,7 +86,7 @@ module.exports = (client) => {
         new EmbedBuilder()
           .setColor(isSuccess ? Colors.DarkGreen : Colors.DarkGold)
           .setThumbnail(cfg.economyPNG)
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+          .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif' })
           .setDescription(`**${user}** vừa giật \\💲 của **${target}**\n\n` + resultMsg)
           .setFooter({
             text: `${isSuccess ? 'Tuyệt vời! 🤗' : 'Chúc may mắn lần sau! 😞'}`,

@@ -17,11 +17,11 @@ module.exports = {
 
       const logEmbed = new EmbedBuilder()
         .setColor(Colors.DarkVividPink)
-        .setThumbnail(
-          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/name-badge_1f4db.png'
-        )
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-        .setTitle(`👋 Good bye ${user.tag}!`)
+        .setThumbnail(user.displayAvatarURL(true))
+        .setAuthor({
+          name: `Good bye ${user.tag}!`,
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f44b/512.gif',
+        })
         .setDescription(`${user} đã rời khỏi server!`)
         .setTimestamp()
         .setFields(

@@ -1,4 +1,4 @@
-const { Client, Interaction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 
 module.exports = {
   category: 'sub command',
@@ -15,21 +15,19 @@ module.exports = {
     const role = options.getRole('role');
     const title = options.getString('title') || `Danh sách thành viên ${role}`;
     const isMention = options.getBoolean('mention');
-    const inline = options.getBoolean('inline');
+    const isInline = options.getBoolean('inline');
     const members = isMention
       ? role.members.map((m) => m.user)
       : role.members.map((m) => m.user.displayName || m.user.username);
 
-    if (members.length > 0)
-      await interaction.reply({
-        embeds: [
-          {
-            description: `**${title}**:\n\n` + members.join(inline ? ' | ' : '\n'),
-            color: Colors.Blurple,
-            footer: { text: `Tổng số: [${members.length}]` },
-          },
-        ],
-      });
+    const embeds = [
+      new EmbedBuilder()
+        .setColor(Colors.Blurple)
+        .setDescription(`**${title}**:\n\n` + members.join(isInline ? ' | ' : '\n'))
+        .setFooter({ text: `Tổng số: [${members.length}]` }),
+    ];
+
+    if (members.length > 0) await interaction.reply({ embeds });
     else await interaction.reply(errorEmbed({ desc: 'Could not find members or the role is incorrect.' }));
   },
 };

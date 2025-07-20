@@ -27,9 +27,12 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setColor(Colors.DarkVividPink)
+        .setColor(Colors.Red)
         .setThumbnail(cfg.thongbaoPNG)
-        .setAuthor({ name: `📢 ${guild.name}'s Notification` })
+        .setAuthor({
+          name: `${guild.name}'s Notification`,
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a8/512.gif',
+        })
         .setTitle('Notification title')
         .setDescription('Notification description')
         .setFooter({ text: `Sent by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })

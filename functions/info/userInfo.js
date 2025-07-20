@@ -34,10 +34,9 @@ module.exports = (client) => {
           .setColor('Random')
           .setThumbnail(target.displayAvatarURL(true))
           .setAuthor({
-            name: target.tag,
-            iconURL: target.displayAvatarURL(true),
+            name: `${target.tag} Information`,
+            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/26a0_fe0f/512.gif',
           })
-          .setTitle('⚠️ Member Info ⚠️')
           .setDescription(`👤 **Username:** ${target}`)
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,

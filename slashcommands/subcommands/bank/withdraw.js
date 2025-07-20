@@ -33,7 +33,10 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.economyPNG)
-        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({
+          name: user.displayName || user.username,
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif',
+        })
         .setTitle('\\🏦 Withdraw')
         .setDescription(
           `\\✅ Rút ${amount.toCurrency()} thành công!\n\nBạn bị trừ ${fee.toCurrency()} (1%) phí rút tiền còn ${(

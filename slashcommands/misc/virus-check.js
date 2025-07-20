@@ -217,7 +217,7 @@ module.exports = {
 
       const resultEmbed = new EmbedBuilder()
         .setColor(stats.malicious > 0 ? Colors.Red : Colors.Green)
-        .setAuthor({ name: `${guild.name}`, iconURL: guild.iconURL() })
+        .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f47e/512.gif' })
         .setTitle(
           `Kết quả kiểm tra VirusTotal cho ${displayUrl.length > 50 ? `${displayUrl.substring(0, 47)}...` : displayUrl}`
         )

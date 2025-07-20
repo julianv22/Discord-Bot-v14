@@ -32,7 +32,10 @@ module.exports = (client) => {
         new EmbedBuilder()
           .setColor('Random')
           .setThumbnail(avatar_url)
-          .setAuthor({ name: 'GitHub Information!', iconURL: avatar_url })
+          .setAuthor({
+            name: 'GitHub Information!',
+            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/26a0_fe0f/512.gif',
+          })
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),

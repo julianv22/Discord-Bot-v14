@@ -13,7 +13,7 @@ module.exports = (client) => {
     const helpEmbed = new EmbedBuilder()
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.slashPNG)
-      .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+      .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif' })
       .setTitle(`\\📂 ${CommandType.toCapitalize()} Commands [${commands.length}]`)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp()

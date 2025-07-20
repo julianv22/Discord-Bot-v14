@@ -36,7 +36,7 @@ module.exports = (client) => {
                   target.displayName || target.user?.displayName || target.username
                 }`
               : 'Last deleted message:',
-            iconURL: 'https://media.discordapp.net/attachments/976364997066231828/1012217326424293416/snipe.png',
+            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif',
           })
           .setDescription(`**Author:** ${author}${target ? ` --- **Channel:** <#${snipeChannelId}>` : ''}`)
           .setFooter({

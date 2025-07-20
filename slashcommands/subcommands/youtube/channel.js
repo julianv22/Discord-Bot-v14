@@ -60,7 +60,10 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.youtubePNG)
-        .setAuthor({ name: '📢 YouTube Channels Subscribed List' })
+        .setAuthor({
+          name: 'YouTube Channels Subscribed List',
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3ac/512.gif',
+        })
         .setDescription(channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subscribed.'),
     ];
 

@@ -19,7 +19,10 @@ module.exports = {
       const welcomeEmbed = new EmbedBuilder()
         .setColor(0x00bce3)
         .setThumbnail(user.displayAvatarURL(true))
-        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({
+          name: user.displayName || user.username,
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f389/512.gif',
+        })
         .setTitle(`Welcome ${user.tag}👋`)
         .setDescription(`Chào mừng ${user} tham gia server **${guild.name}!**  😍`)
         .setImage(cfg.welcomePNG)

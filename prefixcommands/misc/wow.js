@@ -19,9 +19,12 @@ module.exports = {
       const embeds = [
         new EmbedBuilder()
           .setColor('Random')
-          .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
+          .setAuthor({
+            name: 'Wow!',
+            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/512.gif',
+          })
           .setImage('https://media.discordapp.net/attachments/976364997066231828/1368430209845432320/images.png')
-          .setFooter({ text: 'Wow! 😍' })
+          .setFooter({ text: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
           .setTimestamp(),
       ];
 

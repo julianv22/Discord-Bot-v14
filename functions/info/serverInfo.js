@@ -23,8 +23,10 @@ module.exports = (client) => {
         new EmbedBuilder()
           .setColor('Random')
           .setThumbnail(guild.iconURL(true))
-          .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-          .setTitle('⚠️ Server Info ⚠️')
+          .setAuthor({
+            name: `${guild.name} Information`,
+            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f30d/512.gif',
+          })
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: `${author.displayAvatarURL(true)}`,

@@ -14,7 +14,11 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.Navy)
         .setThumbnail('https://cdn.discordapp.com/avatars/566891661616218132/ba6efb8ea73083a217e45c977e70a921.webp')
-        .setAuthor({ name: 'Donate for Julian-V', iconURL: cfg.thumbnailURL, url: cfg.youtube })
+        .setAuthor({
+          name: 'Donate for Julian-V',
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif',
+          url: cfg.youtube,
+        })
         .setTitle('Thanks for donating!')
         .setDescription('Payment methods:')
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })

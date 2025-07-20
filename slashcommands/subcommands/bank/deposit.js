@@ -38,7 +38,10 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.economyPNG)
-        .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
+        .setAuthor({
+          name: user.displayName || user.username,
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif',
+        })
         .setTitle('\\🏦 Deposit')
         .setDescription(`\\✅ Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
         .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })

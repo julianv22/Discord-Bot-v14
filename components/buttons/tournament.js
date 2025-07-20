@@ -125,8 +125,8 @@ module.exports = {
             .setColor('Random')
             .setThumbnail('https://media.discordapp.net/attachments/976364997066231828/1001763832009596948/Cup.jpg')
             .setAuthor({
-              name: '🏆 Danh sách thành viên tham gia giải đấu',
-              iconURL: guild.iconURL(true),
+              name: 'Danh sách thành viên tham gia giải đấu',
+              iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif',
             })
             .setDescription(desc)
             .setFooter({

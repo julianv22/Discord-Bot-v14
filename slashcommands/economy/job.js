@@ -55,37 +55,34 @@ module.exports = {
         ? `**${Math.floor(workMinutes / 60)} giờ${workMinutes % 60 ? `, ${workMinutes % 60} phút` : ''}**`
         : `**${workMinutes} phút**`;
 
-    setTimeout(
-      async () => {
-        let reward = workMinutes;
-        let lucky = Math.random() < 0.25;
-        if (lucky) reward *= 2;
-        await user
-          .send(
-            `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
-              guild.name
-            }**\n\n💰 Bạn đã nhận được **${reward.toCurrency()}**${
-              lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
-            }`
-          )
-          .catch(console.error);
+    setTimeout(async () => {
+      let reward = workMinutes;
+      let lucky = Math.random() < 0.25;
+      if (lucky) reward *= 2;
+      await user
+        .send(
+          `🎉 Bạn đã hoàn thành công việc **${jobName}** tại guild **${
+            guild.name
+          }**\n\n💰 Bạn đã nhận được **${reward.toCurrency()}**${
+            lucky ? '\n\n✨ May mắn! Chủ thuê hài lòng với bạn, bạn nhận được gấp đôi tiền công!' : ''
+          }`
+        )
+        .catch(console.error);
 
-        let p = await economyProfile.findOne({ guildId, userId }).catch(console.error);
-        if (p) {
-          p.balance += reward;
-          p.totalEarned += reward;
-          p.lastRob = null;
-          await p.save().catch(console.error);
-        }
-      },
-      workMinutes * 60 * 1000
-    );
+      let p = await economyProfile.findOne({ guildId, userId }).catch(console.error);
+      if (p) {
+        p.balance += reward;
+        p.totalEarned += reward;
+        p.lastRob = null;
+        await p.save().catch(console.error);
+      }
+    }, workMinutes * 60 * 1000);
 
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.economyPNG)
-        .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
+        .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif' })
         .setTitle('Bạn đã nhận một công việc mới!')
         .setDescription(
           `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toCurrency()}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
