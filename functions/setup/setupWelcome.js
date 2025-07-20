@@ -8,7 +8,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { sectionComponents, menuComponents, textDisplay, dashboardMenu } = require('../common/components');
+const { dashboardMenu, textDisplay, sectionComponents, menuComponents } = require('../common/components');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {

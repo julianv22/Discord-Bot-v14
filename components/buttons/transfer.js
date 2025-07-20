@@ -1,6 +1,5 @@
 const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
-const components = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',

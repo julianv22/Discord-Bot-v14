@@ -1,4 +1,4 @@
-const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { linkButton } = require('../common/components');
 

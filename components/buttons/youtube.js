@@ -1,5 +1,4 @@
-const { Client, Interaction, ModalBuilder, ActionRowBuilder, ComponentType } = require('discord.js');
-const { rowComponents, createModal } = require('../../functions/common/components');
+const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {

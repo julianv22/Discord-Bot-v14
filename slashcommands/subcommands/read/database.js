@@ -1,13 +1,4 @@
-const {
-  Client,
-  Interaction,
-  SlashCommandSubcommandBuilder,
-  EmbedBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  Colors,
-} = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const { linkButton } = require('../../../functions/common/components');
 
 module.exports = {

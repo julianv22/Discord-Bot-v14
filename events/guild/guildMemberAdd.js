@@ -1,7 +1,4 @@
-const { Client, GuildMember, EmbedBuilder, AttachmentBuilder } = require('discord.js');
-// const path = require('path');
-// const Canvas = require('@napi-rs/canvas');
-// const { request } = require('undici');
+const { Client, GuildMember, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 
 module.exports = {

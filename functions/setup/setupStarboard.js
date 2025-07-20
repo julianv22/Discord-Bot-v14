@@ -9,10 +9,10 @@ const {
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const {
-  sectionComponents,
   dashboardMenu,
-  menuComponents,
   textDisplay,
+  sectionComponents,
+  menuComponents,
   rowComponents,
 } = require('../common/components');
 
