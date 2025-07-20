@@ -30,10 +30,10 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
+        .setThumbnail('https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif')
         .setAuthor({
           name: 'Economy Leaderboard',
-          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif',
+          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4af/512.gif',
         })
         .setTitle(`Top \\🔟 richest users in ${guild.name}`)
         .setDescription(leaderboard)
