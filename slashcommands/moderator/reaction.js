@@ -25,8 +25,8 @@ module.exports = {
         .setFields(
           { name: '\\💬 Title', value: 'Reaction role title.\n-# Vui lòng tạo role trước khi thêm reaction role.' },
           {
-            name: '➕ Add Role',
-            value: 'Thêm role vào reaction role\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.',
+            name: '\\➕ Add Role',
+            value: 'Add roles to the reaction role\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.',
           },
           { name: '\\🎨 Color', value: '```fix\n' + Object.keys(Colors).join(', ') + '```' }
         ),

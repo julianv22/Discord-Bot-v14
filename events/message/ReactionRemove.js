@@ -1,5 +1,6 @@
 const { MessageReaction, User } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
+const { reactionRemove } = require('../../functions/common/starboardReaction');
 
 module.exports = {
   name: 'messageReactionRemove',
@@ -16,6 +17,12 @@ module.exports = {
     if (!guild) return;
 
     if (reaction.partial) await reaction.fetch();
+
+    if (emoji.name === '⭐') {
+      const starReaction = message.reactions.cache.get('⭐');
+      const count = starReaction ? starReaction.count : 0;
+      return await reactionRemove(message, user, count);
+    }
 
     const member = await members.fetch(user.id);
     const bot = members.me;

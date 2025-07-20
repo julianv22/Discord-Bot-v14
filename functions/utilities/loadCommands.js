@@ -107,7 +107,7 @@ module.exports = (client) => {
 
           const data = await rest.put(commandRoute, { body: slashArray });
 
-          console.log(chalk.green(`\n🔃 Reloaded ${data.length} application (/) commands\n`));
+          console.log(chalk.green(`\n🔄 Reloaded ${data.length} application (/) commands\n`));
         } else
           logError(
             {

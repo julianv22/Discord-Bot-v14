@@ -6,9 +6,9 @@ const reactionMap = new Map();
 module.exports = {
   type: 'buttons',
   data: { name: 'reaction-role' },
-  /** - Reaction Button
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - Discord Client */
+  /** - Handles the reaction role button interaction.
+   * @param {Interaction} interaction - The button interaction.
+   * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const {
       customId,
@@ -50,10 +50,10 @@ module.exports = {
           embeds: [
             reactionEmbed.addFields(
               {
-                name: 'Vui lòng nhập **emoji và tên role** theo định dạng `emoji | @tên_role`',
-                value: '-# Ví dụ: `👍 | @Tên_Role` hoặc `:custom_emoji: | @Tên_Role`',
+                name: 'Please enter **emoji** and **role name** in the format `emoji | @RoleName`',
+                value: '-# Example: `👍 | @RoleName` or `:custom_emoji: | @RoleName`',
               },
-              { name: 'Bạn có 15 phút để nhập', value: '-# Để kết thúc nhập `Done`' }
+              { name: 'You have 15 minutes to enter', value: '-# To finish, type `Done`' }
             ),
           ],
           components: [buttons],
@@ -70,12 +70,12 @@ module.exports = {
             collector.stop('finish');
             hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
             await interaction.editReply({ embeds: [reactionEmbed.setFields()], components: [buttons] });
-            return interaction.followUp(errorEmbed({ desc: 'Kết thúc thêm reaction role!', emoji: true }));
+            return interaction.followUp(errorEmbed({ desc: 'Finished adding reaction roles!', emoji: true }));
           }
 
           const [emojiInput, roleInput] = input.split('|').map((v) => v.trim());
           if (!emojiInput || !roleInput)
-            return await interaction.followUp({ content: 'Nhập sai cú pháp `emoji | @tên_role`', flags: 64 });
+            return await interaction.followUp({ content: 'Incorrect format `emoji | @RoleName`', flags: 64 });
 
           let role;
           try {
@@ -86,9 +86,11 @@ module.exports = {
             else role = guild.roles.cache.find((r) => r.name.toLowerCase() === roleInput.toLowerCase());
 
             if (!role)
-              return await interaction.followUp(errorEmbed({ desc: `Role ${roleInput} không tồn tại, hãy thử lại!` }));
+              return await interaction.followUp(
+                errorEmbed({ desc: `Role ${roleInput} does not exist, please try again!` })
+              );
           } catch (e) {
-            return client.catchError(interaction, e, 'Lỗi khi tìm kiếm role');
+            return client.catchError(interaction, e, 'Error searching for role');
           }
 
           let emojiReact = emojiInput;
@@ -97,7 +99,7 @@ module.exports = {
             emojiReact = `<${emojiMatch[1] ? 'a' : ''}:${emojiMatch[2]}:${emojiMatch[3]}>`;
 
             if (!client.emojis.cache.get(emojiMatch[3]))
-              return interaction.followUp(errorEmbed({ desc: `Bot không truy cập được custom emoji: ${emojiInput}` }));
+              return interaction.followUp(errorEmbed({ desc: `Bot cannot access custom emoji: ${emojiInput}` }));
           }
 
           let desc = reactionEmbed.data.description || '';
@@ -111,7 +113,7 @@ module.exports = {
         });
 
         collector.on('end', async (collected, reason) => {
-          if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Hết thời gian nhập' }));
+          if (reason === 'time') await interaction.followUp(errorEmbed({ desc: 'Input time expired' }));
         });
       },
       hide: async () => {
@@ -123,8 +125,8 @@ module.exports = {
           reactionEmbed.setFields(
             { name: '\\💬 Title', value: 'Reaction role title.\n-# Vui lòng tạo role trước khi thêm reaction role.' },
             {
-              name: '➕ Add Role',
-              value: 'Thêm role vào reaction role\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.',
+              name: '\\➕ Add Role',
+              value: 'Add roles to the reaction role\n-# **Lưu ý:** Bạn có thể thêm nhiều role vào một reaction role.',
             },
             { name: '\\🎨 Color', value: '```fix\n' + Object.keys(Colors).join(', ') + '```' }
           );
@@ -135,13 +137,14 @@ module.exports = {
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];
 
-        if (emojiArray.length === 0) return await interaction.reply(errorEmbed({ desc: 'Thêm ít nhất một role!' }));
+        if (emojiArray.length === 0)
+          return await interaction.reply(errorEmbed({ desc: 'Please add at least one role!' }));
 
         const msg = await channel.send({ embeds: [reactionEmbed.setFields()] });
         await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
 
         await interaction.update({
-          ...errorEmbed({ desc: 'Reaction role đã được tạo', emoji: true }),
+          ...errorEmbed({ desc: 'Reaction role created successfully', emoji: true }),
           components: [linkButton(msg.url)],
         });
 
@@ -163,6 +166,6 @@ module.exports = {
       },
     };
 
-    if (!reactionButton[buttonId]()) throw new Error(chalk.yellow('Invalid buttonId'), chalk.green(buttonId));
+    if (!reactionButton[buttonId]()) throw new Error(chalk.yellow('Invalid button ID'), chalk.green(buttonId));
   },
 };

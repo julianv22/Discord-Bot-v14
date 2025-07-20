@@ -1,5 +1,6 @@
 const { MessageReaction, User } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
+const { reactionAdd } = require('../../functions/common/starboardReaction');
 
 module.exports = {
   name: 'messageReactionAdd',
@@ -29,6 +30,13 @@ module.exports = {
       } catch (e) {
         return console.error(chalk.red('Failed to fetch partial message from reaction\n'), e);
       }
+    }
+
+    if (emoji.name === '⭐') {
+      const starReaction = message.reactions.cache.get('⭐');
+      const count = starReaction ? starReaction.count : 0;
+      if (count === 0) return;
+      return await reactionAdd(message, user, count);
     }
 
     const member = await members.fetch(user.id);

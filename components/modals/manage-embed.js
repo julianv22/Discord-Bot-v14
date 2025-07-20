@@ -20,7 +20,7 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) return await interaction.reply(client.errorEmbed({ desc: 'Không tìm thấy tin nhắn!' }));
+    if (!message) return await interaction.reply(client.errorEmbed({ desc: 'Cannot find the message!' }));
 
     const onSubmit = {
       author: () => {
