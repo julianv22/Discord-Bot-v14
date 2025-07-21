@@ -31,12 +31,9 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor('Random')
+          .setColor(Math.random() * 0xffffff)
           .setThumbnail(target.displayAvatarURL(true))
-          .setAuthor({
-            name: `${target.tag} Information`,
-            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/26a0_fe0f/512.gif',
-          })
+          .setAuthor({ name: `${target.tag} Information`, iconURL: cfg.warning_gif })
           .setDescription(`👤 **Username:** ${target}`)
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
@@ -44,16 +41,8 @@ module.exports = (client) => {
           })
           .setTimestamp()
           .setFields(
-            {
-              name: `🆔: ||${userId}||`,
-              value: '\u200b',
-              inline: true,
-            },
-            {
-              name: `💖 Thanks Count: ${profile?.thanksCount || 0}`,
-              value: '\u200b',
-              inline: true,
-            },
+            { name: `🆔: ||${userId}||`, value: '\u200b', inline: true },
+            { name: `💖 Thanks Count: ${profile?.thanksCount || 0}`, value: '\u200b', inline: true },
             {
               name: `⏰ Joined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`,
               value: `${moment(member.joinedAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
@@ -64,10 +53,7 @@ module.exports = (client) => {
             },
             { name: '🎖️ Acknowledgements:', value: `${acknowledgementsString}` },
             //   {name: 'Permissions', value: `\`\`\`fix\n${msg.channel.permissionsFor(member.user.id).toArray().join(' # ')}\`\`\``},
-            {
-              name: `📃 Roles [${roles.length}]:`,
-              value: `${roles.join(' ') || 'No roles'}`,
-            }
+            { name: `📃 Roles [${roles.length}]:`, value: `${roles.join(' ') || 'No roles'}` }
           ),
       ];
 

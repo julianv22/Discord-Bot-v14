@@ -32,7 +32,7 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.helpPNG)
-        .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif' })
+        .setAuthor({ name: guild.name, iconURL: cfg.book_gif })
         .setTitle(`Danh sách Prefix Command [\`${prefix}\`]`)
         .setDescription(
           `Nếu bạn cần hỗ trợ, hãy tham gia máy chủ hỗ trợ: [\`${cfg.supportServer}\`](${cfg.supportLink})`

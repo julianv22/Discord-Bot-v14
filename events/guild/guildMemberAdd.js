@@ -38,9 +38,7 @@ module.exports = {
 
       const logEmbed = new EmbedBuilder()
         .setColor(0x00bce3)
-        .setThumbnail(
-          'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/259/new-button_1f195.png'
-        )
+        .setThumbnail('https://cdn3.emoji.gg/emojis/36383-new-green.png')
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setTitle('👋 Thành viên mới tham gia!')
         .setDescription(`${user} đã tham gia server!`)

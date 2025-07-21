@@ -42,7 +42,7 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
+        .setThumbnail(cfg.coin_gif)
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle('\\💳 Economy Information')
         .setFooter({ text: guildName, iconURL: guild.iconURL(true) })

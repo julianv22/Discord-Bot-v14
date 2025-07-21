@@ -37,10 +37,10 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
-        .setThumbnail(cfg.economyPNG)
+        .setThumbnail(cfg.coin_gif)
         .setAuthor({
           name: user.displayName || user.username,
-          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif',
+          iconURL: cfg.money_wings_gif,
         })
         .setTitle('\\🏦 Deposit')
         .setDescription(`\\✅ Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)

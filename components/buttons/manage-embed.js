@@ -140,7 +140,7 @@ module.exports = {
                 {
                   author: {
                     name: 'Message has been updated successfully!',
-                    iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
+                    iconURL: cfg.verified_gif,
                   },
                 },
               ],

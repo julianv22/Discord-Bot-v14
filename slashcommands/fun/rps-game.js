@@ -55,7 +55,8 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setColor('Random')
+        .setColor(Math.random() * 0xffffff)
+        .setThumbnail(cfg.game_gif)
         .setTitle('Rock - Paper - Scissors Game')
         .setDescription(
           `**Choose your hand sign! \\🔨-\\📄-\\✂️**\n-# Mỗi lần chơi sẽ trừ số tiền ${bet.toCurrency()} bạn đặt cược.\n-# Tối đa 10 lần/ngày.`

@@ -12,18 +12,13 @@ module.exports = (client) => {
    * @param {boolean} [options.flags=true] - Whether the message should be ephemeral. Defaults to `true`.
    * @param {(string|Colors)} [options.color] - The color of the embed. */
   client.errorEmbed = ({ title, desc, emoji = false, flags = true, color }) => {
-    const thumbnail = [
-      'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
-      'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
-    ];
-
     const embed = new EmbedBuilder().setColor(color || (emoji ? Colors.Green : Colors.Red));
 
     switch (typeof emoji) {
       case 'boolean':
         embed.setAuthor({
           name: title ? title.replace(regex, '') : desc,
-          iconURL: emoji ? thumbnail[0] : thumbnail[1],
+          iconURL: emoji ? cfg.verified_gif : cfg.x_mark_gif,
         });
 
         if (title) embed.setDescription(`\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\``);
@@ -38,17 +33,6 @@ module.exports = (client) => {
       default:
         return flags && { flags: MessageFlags.Ephemeral };
     }
-
-    return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
-
-    let prefix = '\\';
-    if (typeof emoji === 'boolean') prefix += emoji ? '✅' : '❌';
-    else prefix += emoji;
-    prefix += ' ';
-
-    if (title)
-      embed.setTitle(prefix + title.replace(regex, '')).setDescription(`\`\`\`ansi\n\x1b[33m${desc}\x1b[0m\`\`\``);
-    else embed.setDescription(prefix + desc);
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };

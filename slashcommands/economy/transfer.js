@@ -75,10 +75,10 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
+        .setThumbnail(cfg.coin_gif)
         .setAuthor({
           name: `${guild.name} Economy Transfer`,
-          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif',
+          iconURL: cfg.money_wings_gif,
         })
         .setTitle(`Hiện có ${profile?.bank.toCurrency()} trong tài khoản \\🏦 của bạn`)
         .setDescription(

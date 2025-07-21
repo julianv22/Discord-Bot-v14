@@ -30,12 +30,9 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor('Random')
+          .setColor(Math.random() * 0xffffff)
           .setThumbnail(avatar_url)
-          .setAuthor({
-            name: 'GitHub Information!',
-            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/26a0_fe0f/512.gif',
-          })
+          .setAuthor({ name: 'GitHub Information!', iconURL: cfg.warning_gif })
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
             iconURL: author.displayAvatarURL(true),

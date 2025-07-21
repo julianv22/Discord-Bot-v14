@@ -18,7 +18,7 @@ module.exports = {
       await message.delete();
       const embeds = [
         new EmbedBuilder()
-          .setColor('Random')
+          .setColor(Math.random() * 0xffffff)
           .setAuthor({
             name: 'Wow!',
             iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f60d/512.gif',

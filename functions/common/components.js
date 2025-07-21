@@ -34,8 +34,7 @@ module.exports = {
 
     return new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons));
   },
-  /** - Creates a dashboard menu for setting up various bot features.
-   * @returns {ContainerBuilder} A ContainerBuilder representing the dashboard menu. */
+  /** - Creates a dashboard menu for setting up various bot features. */
   dashboardMenu: () => {
     const menus = [
       { customId: 'dashboard-menu', placeholder: '⚙️ Select feature for setting' },
@@ -104,49 +103,49 @@ module.exports = {
 
     const setComponentOptions = {
       [ComponentType.Button]: () => {
-        return options.map((opt) => {
+        return options.map((option) => {
           const button = new ButtonBuilder()
-            .setLabel(opt?.label)
-            .setStyle(opt?.style)
-            .setDisabled(opt?.disabled || false);
+            .setLabel(option.label)
+            .setStyle(option.style)
+            .setDisabled(option?.disabled || false);
 
-          if (opt?.emoji) button.setEmoji(opt.emoji);
-          if (opt?.customId) button.setCustomId(opt.customId);
-          if (opt?.url) button.setURL(opt.url);
+          if (option?.emoji) button.setEmoji(option.emoji);
+          if (option?.customId) button.setCustomId(option.customId);
+          if (option?.url) button.setURL(option.url);
 
           return button;
         });
       },
       [ComponentType.StringSelect]: () => {
         return new StringSelectMenuBuilder()
-          .setCustomId(options[0]?.customId)
+          .setCustomId(options[0].customId)
           .setMinValues(options[0]?.min_length || 1)
           .setMaxValues(options[0]?.max_length || 1)
           .setPlaceholder(options[0]?.placeholder || 'Make a selection')
           .setOptions(
-            options.slice(1).map((opt, id) => {
-              const optionBuilder = new StringSelectMenuOptionBuilder().setLabel(opt?.label).setValue(opt?.value);
+            options.slice(1).map((option, id) => {
+              const optionBuilder = new StringSelectMenuOptionBuilder().setLabel(option.label).setValue(option.value);
 
-              if (opt?.description) optionBuilder.setDescription(opt.description);
-              if (opt?.emoji) optionBuilder.setEmoji(opt.emoji);
-              if (opt?.default) optionBuilder.setDefault(opt.default);
+              if (option?.description) optionBuilder.setDescription(option.description);
+              if (option?.emoji) optionBuilder.setEmoji(option.emoji);
+              if (option?.default) optionBuilder.setDefault(option.default);
 
               return optionBuilder;
             })
           );
       },
       [ComponentType.TextInput]: () => {
-        return options.map((opt) => {
+        return options.map((option) => {
           const textinput = new TextInputBuilder()
-            .setCustomId(opt?.customId)
-            .setLabel(opt?.label)
-            .setStyle(opt?.style || TextInputStyle.Short)
-            .setRequired(opt?.required || false);
+            .setCustomId(option.customId)
+            .setLabel(option.label)
+            .setStyle(option.style || TextInputStyle.Short)
+            .setRequired(option?.required || false);
 
-          if (opt?.value) textinput.setValue(opt.value);
-          if (opt?.placeholder) textinput.setPlaceholder(opt.placeholder);
-          if (opt?.min_length) textinput.setMinLength(opt.min_length);
-          if (opt?.max_length) textinput.setMaxLength(opt.max_length);
+          if (option?.value) textinput.setValue(option.value);
+          if (option?.placeholder) textinput.setPlaceholder(option.placeholder);
+          if (option?.min_length) textinput.setMinLength(option.min_length);
+          if (option?.max_length) textinput.setMaxLength(option.max_length);
 
           return textinput;
         });
@@ -174,8 +173,7 @@ module.exports = {
   /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
    * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).
    * @param {ComponentType.Thumbnail|ComponentType.Button} accessoryType - The type of accessory to include in the section.
-   * @param {string|ComponentOptions} [options] - If `accessoryType` is `ComponentType.Thumbnail`, this is a string URL for the thumbnail. If `accessoryType` is `ComponentType.Button`, this is a `ComponentOptions` object for the button.
-   * @returns {SectionBuilder} A SectionBuilder component. */
+   * @param {string|ComponentOptions} [options] - If `accessoryType` is `ComponentType.Thumbnail`, this is a string URL for the thumbnail. If `accessoryType` is `ComponentType.Button`, this is a `ComponentOptions` object for the button. */
   sectionComponents: (contents, accessoryType, options) => {
     const displayContents = module.exports.textDisplay(contents);
     const sectionComponents = new SectionBuilder();
@@ -225,8 +223,7 @@ module.exports = {
     return actionRow;
   },
   /** - Creates an array of TextDisplayBuilder components from the given content.
-   * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings.
-   * @returns {TextDisplayBuilder[]} An array of TextDisplayBuilder components. */
+   * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings. */
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
   /** - Link button
    * @param {string} url - The URL of button

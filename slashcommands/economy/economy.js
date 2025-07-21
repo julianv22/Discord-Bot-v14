@@ -16,8 +16,8 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.economyPNG)
-        .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif' })
+        .setThumbnail(cfg.coin_gif)
+        .setAuthor({ name: guild.name, iconURL: cfg.money_wings_gif })
         .setTitle('Economy System - User Guide')
         .setDescription(
           `Hello **${

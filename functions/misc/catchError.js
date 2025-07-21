@@ -34,10 +34,7 @@ module.exports = (client) => {
       else {
         const bugEmbed = new EmbedBuilder()
           .setColor(Colors.DarkVividPink)
-          .setAuthor({
-            name: errorMessage().replace(regex, ''),
-            iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
-          })
+          .setAuthor({ name: errorMessage().replace(regex, ''), iconURL: cfg.x_mark_gif })
           .setDescription(
             `**Used:** ${user.displayName || user.username} [ \`${user.id}\` ]\n\n**Server: [${
               object.guild.name

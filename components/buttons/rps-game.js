@@ -70,7 +70,7 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(rps.color)
-        .setThumbnail(user.displayAvatarURL(true))
+        .setThumbnail(cfg.game_gif)
         .setAuthor({ name: `Hi, ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
         .setTitle('You ' + rps.result)
         .setDescription(

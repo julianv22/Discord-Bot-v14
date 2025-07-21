@@ -57,7 +57,7 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setColor(Colors.DarkAqua)
           .setThumbnail(guild.iconURL(true))
-          .setAuthor({ name: guildName, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/26a0_fe0f/512.gif' })
+          .setAuthor({ name: guildName, iconURL: cfg.warning_gif })
           .setTitle(`Setup's Information`)
           .setFields(
             { name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true },

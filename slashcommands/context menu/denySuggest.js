@@ -35,7 +35,7 @@ module.exports = {
 
     suggestEmbed.setColor(Colors.DarkRed).setFields().setTimestamp().setFooter({
       text: 'Suggestion denied',
-      iconURL: 'https://cdn3.emoji.gg/emojis/5601-x-mark.gif',
+      iconURL: cfg.x_mark_gif,
     });
 
     await targetMessage.edit({ embeds: [suggestEmbed] });

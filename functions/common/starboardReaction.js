@@ -31,11 +31,8 @@ module.exports = {
       if (embeds.length === 0 && message.content)
         embeds = [
           new EmbedBuilder()
-            .setColor('Random')
-            .setAuthor({
-              name: author.displayName || author.username,
-              iconURL: author.displayAvatarURL(true),
-            })
+            .setColor(Math.random() * 0xffffff)
+            .setAuthor({ name: author.displayName || author.username, iconURL: author.displayAvatarURL(true) })
             .setDescription(message.content)
             .setFooter({ text: guild.name, iconURL: guild.iconURL(true) })
             .setTimestamp(),

@@ -50,7 +50,7 @@ module.exports = {
           embed.setThumbnail(cfg.updatePNG);
           thumbnailButton.setLabel('📢 Type: Update');
         } else {
-          embed.setThumbnail(cfg.thongbaoPNG);
+          embed.setThumbnail(cfg.notifyPNG);
           thumbnailButton.setLabel('📢 Type: Notify');
         }
 

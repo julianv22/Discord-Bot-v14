@@ -1,4 +1,11 @@
-const { Client, Interaction, SlashCommandBuilder, ActionRowBuilder, ComponentType } = require('discord.js');
+const {
+  Client,
+  Interaction,
+  SlashCommandBuilder,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ComponentType,
+} = require('discord.js');
 const { rowComponents, infoButtons } = require('../../functions/common/components');
 
 module.exports = {
@@ -34,10 +41,9 @@ module.exports = {
 
     await interaction.reply({
       embeds: [
-        {
-          author: { name: 'Select Command Category ⤵️', iconURL: cfg.helpPNG },
-          color: Math.floor(Math.random() * 0xffffff),
-        },
+        new EmbedBuilder()
+          .setColor(Math.random() * 0xffffff)
+          .setAuthor({ name: 'Select Command Category ⤵️', iconURL: cfg.helpPNG }),
       ],
       components: [
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, menus)),

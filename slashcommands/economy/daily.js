@@ -119,8 +119,8 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
-        .setThumbnail(cfg.economyPNG)
-        .setAuthor({ name: guildName, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif' })
+        .setThumbnail(cfg.coin_gif)
+        .setAuthor({ name: guildName, iconURL: cfg.money_wings_gif })
         .setTitle('Nhận \\💲 hằng ngày!')
         .setDescription(
           `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile?.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`

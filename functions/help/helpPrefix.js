@@ -11,21 +11,15 @@ module.exports = (client) => {
     const helpEmbed = new EmbedBuilder()
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.helpPNG)
-      .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f3af/512.gif' })
+      .setAuthor({ name: guild.name, iconURL: cfg.book_gif })
       .setTitle(`📝 Prefix Commands [\`${prefix}\`] List`)
       .setDescription(`If you need more help, join my support server: [\`${cfg.supportServer}\`](${cfg.supportLink})`)
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp()
       .setFields(
-        {
-          name: `Total commands: [${prefixCommands.size}]`,
-          value: `Command prefix: [\`${prefix}\`]`,
-        },
+        { name: `Total commands: [${prefixCommands.size}]`, value: `Command prefix: [\`${prefix}\`]` },
         ...listCommands(prefixCommands),
-        {
-          name: `\u200b`,
-          value: `\`${prefix}command ?\` to show more details`,
-        }
+        { name: `\u200b`, value: `\`${prefix}command ?\` to show more details` }
       );
 
     return await interaction.update({ embeds: [helpEmbed] });

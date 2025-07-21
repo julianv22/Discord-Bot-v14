@@ -28,7 +28,7 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.Red)
-        .setThumbnail(cfg.thongbaoPNG)
+        .setThumbnail(cfg.notifyPNG)
         .setAuthor({
           name: `${guild.name}'s Notification`,
           iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f6a8/512.gif',

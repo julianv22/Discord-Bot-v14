@@ -21,7 +21,7 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor('Random')
+          .setColor(Math.random() * 0xffffff)
           .setThumbnail(guild.iconURL(true))
           .setAuthor({
             name: `${guild.name} Information`,
@@ -46,26 +46,10 @@ module.exports = (client) => {
               value: `\`${categories} 📂 | ${textChannels} 💬 | ${voicesChannels} 🔊\``,
               inline: true,
             },
-            {
-              name: `📉 Roles [${guild.roles.cache.size}]:`,
-              value: `Highest: ${guild.roles.highest}`,
-              inline: true,
-            },
-            {
-              name: '🚀 Total Boosts:',
-              value: `${guild.premiumSubscriptionCount || 'None'}`,
-              inline: true,
-            },
-            {
-              name: '🌏 Server Region:',
-              value: `${guild.preferredLocale}`,
-              inline: true,
-            },
-            {
-              name: '☑️ Verification Level:',
-              value: `${guild.verificationLevel}`,
-              inline: true,
-            },
+            { name: `📉 Roles [${guild.roles.cache.size}]:`, value: `Highest: ${guild.roles.highest}`, inline: true },
+            { name: '🚀 Total Boosts:', value: `${guild.premiumSubscriptionCount || 'None'}`, inline: true },
+            { name: '🌏 Server Region:', value: `${guild.preferredLocale}`, inline: true },
+            { name: '☑️ Verification Level:', value: `${guild.verificationLevel}`, inline: true },
             {
               name: `📆 Created: <t:${parseInt(guild.createdTimestamp / 1000)}:R>`,
               value: `${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,

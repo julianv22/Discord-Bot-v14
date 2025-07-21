@@ -48,7 +48,7 @@ module.exports = {
             `- \\🔔 Alert Role: ${guild.roles.cache.get(youtube?.alertRoleId) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
-          cfg.infoPNG
+          cfg.youtubePNG
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

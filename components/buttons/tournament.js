@@ -122,12 +122,9 @@ module.exports = {
           }
 
           const embed = new EmbedBuilder()
-            .setColor('Random')
-            .setThumbnail('https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif')
-            .setAuthor({
-              name: 'Danh sách thành viên tham gia giải đấu',
-              iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4af/512.gif',
-            })
+            .setColor(Math.random() * 0xffffff)
+            .setThumbnail(cfg.game_gif)
+            .setAuthor({ name: 'Danh sách thành viên tham gia giải đấu', iconURL: cfg.tournament_gif })
             .setDescription(desc)
             .setFooter({
               text: `Trang ${++page} | Tổng số đăng ký: [${memberList.length}]`,

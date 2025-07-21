@@ -13,7 +13,7 @@ module.exports = {
         embeds: [
           new EmbedBuilder()
             .setColor(Colors.Orange)
-            .setThumbnail(author.displayAvatarURL(true))
+            .setThumbnail(cfg.errorPNG)
             .setAuthor({ name: `Hi, ${author.displayName}`, iconURL: author.displayAvatarURL(true) })
             .setTitle('You can not use commands here!')
             .setDescription('Please use commands in a server I have joined!'),

@@ -36,7 +36,7 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor('Random')
+          .setColor(Math.random() * 0xffffff)
           .setThumbnail(thumbnail)
           .setAuthor({
             name: bodyTitle,

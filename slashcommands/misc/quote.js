@@ -22,8 +22,8 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setColor('Random')
-        .setThumbnail(cfg.thumbnailURL)
+        .setColor(Math.random() * 0xffffff)
+        .setThumbnail(cfg.Yusei_Avatar)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setDescription(quote)
         .setFooter({

@@ -16,8 +16,8 @@ module.exports = {
         .setThumbnail('https://cdn.discordapp.com/avatars/566891661616218132/ba6efb8ea73083a217e45c977e70a921.webp')
         .setAuthor({
           name: 'Donate for Julian-V',
-          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif',
-          url: cfg.youtube,
+          iconURL: cfg.money_wings_gif,
+          url: cfg.youtubeLink,
         })
         .setTitle('Thanks for donating!')
         .setDescription('Payment methods:')

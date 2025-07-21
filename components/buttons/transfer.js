@@ -60,8 +60,8 @@ module.exports = {
     // Tạo embed thông báo cho người chuyển
     const embedSender = new EmbedBuilder()
       .setColor(Colors.DarkGreen)
-      .setThumbnail(cfg.economyPNG)
-      .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif' })
+      .setThumbnail(cfg.coin_gif)
+      .setAuthor({ name: guild.name, iconURL: cfg.money_wings_gif })
       .setTitle('\\✅ Chuyển tiền thành công!')
       .setDescription(
         `\\♻️ Bạn đã chuyển **${amount.toCurrency()}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toCurrency()}**\n\n\\💸 Tổng trừ: **${total.toCurrency()}**\n\n\\🏦 Số dư còn lại: **${profile?.bank.toCurrency()}**`
@@ -72,8 +72,8 @@ module.exports = {
     // Tạo embed thông báo cho người nhận
     const embedReceiver = new EmbedBuilder()
       .setColor(Colors.DarkGreen)
-      .setThumbnail(cfg.economyPNG)
-      .setAuthor({ name: guild.name, iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif' })
+      .setThumbnail(cfg.coin_gif)
+      .setAuthor({ name: guild.name, iconURL: cfg.money_wings_gif })
       .setTitle('Bạn vừa nhận được tiền!')
       .setDescription(
         `Bạn vừa nhận được **${amount.toCurrency()}** từ <@${user.id}> trong guild ${

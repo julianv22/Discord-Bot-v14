@@ -18,7 +18,7 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setColor('Random')
+        .setColor(Math.random() * 0xffffff)
         .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
         .setFooter({ text: 'Select your role ⤵️' })
         .setTimestamp()

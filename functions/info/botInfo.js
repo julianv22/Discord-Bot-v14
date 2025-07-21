@@ -44,12 +44,9 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor('Random')
-          .setThumbnail(cfg.discordQR_PNG)
-          .setAuthor({
-            name: bot.tag + ' Information',
-            iconURL: bot.displayAvatarURL(true),
-          })
+          .setColor(Math.random() * 0xffffff)
+          .setThumbnail(cfg.discord_QR)
+          .setAuthor({ name: bot.tag + ' Information', iconURL: bot.displayAvatarURL(true) })
           .setTitle('Description:')
           .setDescription(application.description || '\u200b')
           .setFooter({
@@ -85,11 +82,7 @@ module.exports = (client) => {
               value: `Members: ${totalmembers}\nChannels:\n\`💬 ${textChannels} | 🔊 ${voiceChannels}\``,
               inline: true,
             },
-            {
-              name: '✅ Verified:',
-              value: bot.flags & UserFlags.VerifiedBot ? '`✅ Yes`' : '`❌ No`',
-              inline: true,
-            },
+            { name: '✅ Verified:', value: bot.flags & UserFlags.VerifiedBot ? '`✅ Yes`' : '`❌ No`', inline: true },
             { name: '♻️ Version:', value: package.version, inline: true },
             { name: '📝 Node Version:', value: process.version, inline: true },
             {
@@ -97,21 +90,13 @@ module.exports = (client) => {
               value: emoji[connection.readyState] + status[connection.readyState] + `\`\nVersion: ${version}`,
               inline: true,
             },
-            {
-              name: '💻 System:',
-              value: os.cpus()[0].model,
-              inline: true,
-            },
+            { name: '💻 System:', value: os.cpus()[0].model, inline: true },
             {
               name: `💽 OS: ${process.platform} ${process.arch}`,
               value: `💾 **RSS:** ${(process.memoryUsage().rss / 1024 / 1024).toFixed(1)} MB`,
               inline: true,
             },
-            {
-              name: '🕖 Server Time:',
-              value: `${moment(new Date()).format('HH:mm ddd, DD/MM/YYYY')}`,
-              inline: true,
-            },
+            { name: '🕖 Server Time:', value: `${moment(new Date()).format('HH:mm ddd, DD/MM/YYYY')}`, inline: true },
             { name: '⏱️ Uptime', value: convertUpTime(), inline: true },
             {
               name: `📦 Packages [${Object.keys(package.dependencies).length}]:`,

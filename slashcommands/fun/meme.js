@@ -20,7 +20,7 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setColor('Random')
+        .setColor(Math.random() * 0xffffff)
         .setAuthor({ name: 'Meme' + (data.author && ` by ${data.author}`), url: data.postLink })
         .setTitle(data.title || 'Meme')
         .setImage(data.url)

@@ -64,7 +64,7 @@ module.exports = {
             `- Status: ${tournament?.isActive ? '\\✅ Open' : '*\\❌ Closed*'}`,
           ],
           ComponentType.Thumbnail,
-          guild.iconURL(true)
+          cfg.tournament_gif
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

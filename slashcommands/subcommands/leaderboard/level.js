@@ -19,10 +19,10 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
-        .setThumbnail('https://fonts.gstatic.com/s/e/notoemoji/latest/1f3c6/512.gif')
+        .setThumbnail(cfg.tournament_gif)
         .setAuthor({
           name: 'Level Leaderboard',
-          iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f4af/512.gif',
+          iconURL: cfg.onehundred_gif,
         })
         .setTitle('Bảng xếp hạng level tuần #' + week)
         .setDescription(

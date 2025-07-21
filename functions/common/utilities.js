@@ -126,7 +126,7 @@ String.prototype.toEmbedColor = function () {
     if (colorName.toLowerCase() === normalizedColor) return colorName;
   }
   // Return Random if invalid
-  return 'Random';
+  return Math.random() * 0xffffff;
 };
 /** - Checks if a string is a URL. */
 String.prototype.checkURL = function () {

@@ -32,7 +32,7 @@ module.exports = {
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
-        .setThumbnail(cfg.suggestPNG)
+        .setThumbnail(cfg.suggest_gif)
         .setAuthor({
           name: `Suggestion from ${user.displayName || user.username}`,
           iconURL: user.displayAvatarURL(true),

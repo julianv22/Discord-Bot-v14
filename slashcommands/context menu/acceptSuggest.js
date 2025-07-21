@@ -35,7 +35,7 @@ module.exports = {
 
     suggestEmbed.setColor(Colors.DarkGreen).setFields().setTimestamp().setFooter({
       text: 'Suggestion accepted',
-      iconURL: 'https://cdn3.emoji.gg/emojis/4240-verified-green-animated.gif',
+      iconURL: cfg.verified_gif,
     });
 
     await targetMessage.edit({ embeds: [suggestEmbed] });
