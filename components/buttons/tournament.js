@@ -122,7 +122,7 @@ module.exports = {
           }
 
           const embed = new EmbedBuilder()
-            .setColor(Math.random() * 0xffffff)
+            .setColor(Math.floor(Math.random() * 0xffffff))
             .setThumbnail(cfg.game_gif)
             .setAuthor({ name: 'Danh sách thành viên tham gia giải đấu', iconURL: cfg.tournament_gif })
             .setDescription(desc)

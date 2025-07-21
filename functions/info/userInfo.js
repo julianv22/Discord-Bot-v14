@@ -31,7 +31,7 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor(Math.random() * 0xffffff)
+          .setColor(Math.floor(Math.random() * 0xffffff))
           .setThumbnail(target.displayAvatarURL(true))
           .setAuthor({ name: `${target.tag} Information`, iconURL: cfg.warning_gif })
           .setDescription(`👤 **Username:** ${target}`)

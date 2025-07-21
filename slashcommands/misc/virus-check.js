@@ -29,7 +29,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)
-    const sendResponseEmbed = async (title, description, color = Math.floor(Math.random() * 0xffffff)) => {
+    const sendResponseEmbed = async (title, description, color = Math.floor(Math.floor(Math.random() * 0xffffff))) => {
       await interaction.editReply({ embeds: [{ title, description, color }] });
     };
 

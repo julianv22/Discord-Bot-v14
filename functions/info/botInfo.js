@@ -44,7 +44,7 @@ module.exports = (client) => {
 
       const embeds = [
         new EmbedBuilder()
-          .setColor(Math.random() * 0xffffff)
+          .setColor(Math.floor(Math.random() * 0xffffff))
           .setThumbnail(cfg.discord_QR)
           .setAuthor({ name: bot.tag + ' Information', iconURL: bot.displayAvatarURL(true) })
           .setTitle('Description:')

@@ -55,7 +55,7 @@ module.exports = {
 
     const embeds = [
       new EmbedBuilder()
-        .setColor(Math.random() * 0xffffff)
+        .setColor(Math.floor(Math.random() * 0xffffff))
         .setThumbnail(cfg.game_gif)
         .setTitle('Rock - Paper - Scissors Game')
         .setDescription(

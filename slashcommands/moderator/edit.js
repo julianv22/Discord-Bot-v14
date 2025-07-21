@@ -61,7 +61,7 @@ module.exports = {
         await msg.edit(content).then(async () => {
           const embeds = [
             new EmbedBuilder()
-              .setColor(Math.random() * 0xffffff)
+              .setColor(Math.floor(Math.random() * 0xffffff))
               .setThumbnail(
                 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png'
               )

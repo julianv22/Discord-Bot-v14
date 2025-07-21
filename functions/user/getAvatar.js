@@ -12,7 +12,7 @@ module.exports = (client) => {
     try {
       const embeds = [
         new EmbedBuilder()
-          .setColor(Math.random() * 0xffffff)
+          .setColor(Math.floor(Math.random() * 0xffffff))
           .setDescription(`${target}'s Avatar:`)
           .setImage(target.displayAvatarURL({ dynamic: true, size: 1024 }))
           .setFooter({

@@ -42,7 +42,7 @@ module.exports = {
     await interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setColor(Math.random() * 0xffffff)
+          .setColor(Math.floor(Math.random() * 0xffffff))
           .setAuthor({ name: 'Select Command Category ⤵️', iconURL: cfg.helpPNG }),
       ],
       components: [
