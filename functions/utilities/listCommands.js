@@ -4,7 +4,7 @@ const { Client, Collection } = require('discord.js');
 module.exports = (client) => {
   /** - Generates a list of command names, filtered by a specified property from a Command Collection.
    * @param {Collection<string, object>} commands - The Command Collection to list.
-   * @param {string} [property='category'] - The property to filter commands by (e.g., 'category'). */
+   * @param {string} [property = 'category'] - The property to filter commands by (e.g., 'category'). */
   client.listCommands = (commands, property = 'category') => {
     try {
       const commandCat = commands.reduce((acc, cmd) => {

@@ -5,18 +5,19 @@ const { logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Loads all events from the 'events' folder. */
-  client.loadEvents = async () => {
+  /** - Loads all events from the 'events' folder.
+   * @param {string} folderName - Event folder name */
+  client.loadEvents = async (folderName) => {
     const { compColection, logError } = client;
 
     try {
-      const eventFolder = 'events';
-      const eventFolders = readFiles(eventFolder, { isDir: true });
+      // const eventFolder = 'events';
+      const eventFolders = readFiles(folderName, { isDir: true });
 
       const eventArray = [];
       let totalCount = 0;
       for (const folder of eventFolders) {
-        const folderPath = path.join(eventFolder, folder);
+        const folderPath = path.join(folderName, folder);
         const eventFiles = readFiles(folderPath);
 
         eventArray.push(`📂 ${folder.toCapitalize()} [${eventFiles.length}]`);
@@ -45,13 +46,13 @@ module.exports = (client) => {
         }
       }
 
-      await compColection.set(eventFolder, {
-        name: `${eventFolder.toCapitalize()} [${totalCount}]`,
+      await compColection.set(folderName, {
+        name: `${folderName.toCapitalize()} [${totalCount}]`,
         value: eventArray,
       });
 
       const functions = compColection.get('functions');
-      const events = compColection.get(eventFolder);
+      const events = compColection.get(folderName);
 
       if (functions && events)
         logAsciiTable([functions?.value, events?.value], {

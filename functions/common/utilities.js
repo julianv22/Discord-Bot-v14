@@ -154,7 +154,7 @@ String.prototype.checkURL = function () {
   }
 };
 /** - Groups elements within a Collection by a specified property and returns a formatted list of counts. This is a prototype function for `Collection`.
- * @param {string} [property='category'] - The property by which to group the elements. Defaults to 'category'.
+ * @param {string} [property = 'category'] - The property by which to group the elements. Defaults to 'category'.
  * @returns {string[]} An array of formatted strings, e.g., `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`. */
 Collection.prototype.toGroupedCountList = function (property = 'category') {
   const groupedCounts = this.reduce((acc, item) => {

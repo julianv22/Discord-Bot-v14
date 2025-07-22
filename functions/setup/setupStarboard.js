@@ -54,7 +54,7 @@ module.exports = (client) => {
           [
             '### \\⭐ Starboard Information',
             `- \\💬 Starboard Channel: ${channelName(starboard?.channelId)}`,
-            `- \\🔢 Stars required to send message: **${starboard?.starCount || 0}**\\⭐`,
+            `- \\⭐ Stars required to send message: **${starboard?.starCount || 0}**\\⭐`,
           ],
           ComponentType.Thumbnail,
           cfg.infoPNG

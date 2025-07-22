@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { manageEmbedButtons } = require('../../functions/common/manage-embed');
+const { linkButton } = require('../../functions/common/components');
 
 module.exports = {
   category: 'moderator',
@@ -8,7 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .setName('edit')
-    .setDescription(`Edit embed or message. ${cfg.modRole} only`)
+    .setDescription(`Edit an embed or message. ${cfg.modRole} only`)
     .addSubcommand((sub) =>
       sub
         .setName('embed')
@@ -22,9 +23,9 @@ module.exports = {
         .addStringOption((opt) => opt.setName('message_id').setDescription('Message ID').setRequired(true))
         .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true))
     ),
-  /** - Create/edit embed or message
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** - Edits an embed or a message.
+   * @param {Interaction} interaction - The command interaction.
+   * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const {
       user,
@@ -32,53 +33,51 @@ module.exports = {
       guild,
       channel: { messages },
     } = interaction;
-    const { errorEmbed } = client;
+    const { errorEmbed, logError } = client;
     const editType = options.getSubcommand();
     const messageId = options.getString('message_id');
     const content = options.getString('content');
-    const msg = await messages.fetch(messageId).catch(async (e) => {
-      await interaction.reply(
+
+    const msg = await messages.fetch(messageId).catch((e) =>
+      logError(
+        {
+          todo: 'fetching message with ID:',
+          item: messageId,
+          desc: `in channel ${chalk.yellow(interaction.channel.name)}`,
+        },
+        e
+      )
+    );
+
+    if (!msg)
+      return await interaction.reply(
         errorEmbed({
-          desc: `Không tìm thấy message với id: [${messageId}], hoặc message không nằm trong channel này!`,
+          desc: `Message with ID: [${messageId}] not found, or it's not in this channel!`,
         })
       );
-    });
-
-    if (!msg) return;
 
     if (msg.author.id !== client.user.id)
-      return await interaction.reply(errorEmbed({ desc: `Message này không phải của ${client.user.tag}!` }));
+      return await interaction.reply(errorEmbed({ desc: `This message does not belong to ${client.user.tag}!` }));
 
     const editMessage = {
       embed: async () => {
-        if (!msg.embeds.length) return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!' }));
+        if (!msg.embeds.length)
+          return await interaction.reply(errorEmbed({ desc: 'This message does not contain any embeds!' }));
 
         await interaction.reply({
           embeds: [EmbedBuilder.from(msg.embeds[0])],
           components: manageEmbedButtons(messageId),
           flags: 64,
         });
-      },
+      }, //'https://images-ext-1.discordapp.net/external/OR2PWu33fjUxkLADQxGqnNDDybM3_1-e4xg8PRyQ6f8/https/maki.gg/emoji/pencil.png'
       message: async () =>
-        await msg.edit(content).then(async () => {
-          const embeds = [
-            new EmbedBuilder()
-              .setColor(Math.floor(Math.random() * 0xffffff))
-              .setThumbnail(
-                'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/154/memo_1f4dd.png'
-              )
-              .setAuthor({ name: guild.name, iconURL: guild.iconURL(true) })
-              .setTitle('\\✅ Message edited successfully!')
-              .setDescription(`**Message ID:** [\`${msg.id}\`](${msg.url})`)
-              .setFooter({
-                text: `Edited by ${user.displayName || user.username}`,
-                iconURL: user.displayAvatarURL(true),
-              })
-              .setTimestamp(),
-          ];
-
-          await interaction.reply({ embeds, flags: 64 });
-        }),
+        await msg.edit(content).then(
+          async () =>
+            await interaction.reply({
+              ...errorEmbed({ desc: 'Message has been edited successfully!', emoji: true }),
+              components: [linkButton(msg.url)],
+            })
+        ),
     };
 
     if (!editMessage[editType]()) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(editType));

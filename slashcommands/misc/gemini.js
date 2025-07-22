@@ -60,8 +60,6 @@ module.exports = {
     await interaction.editReply(`**Bạn:** ${prompt}`);
 
     // Gửi các phần còn lại của phản hồi nếu quá dài
-    for (let i = 0; i < reply.length; i += 2000) {
-      await interaction.followUp({ content: reply.slice(i, i + 2000) });
-    }
+    for (let i = 0; i < reply.length; i += 2000) await interaction.followUp({ content: reply.slice(i, i + 2000) });
   },
 };

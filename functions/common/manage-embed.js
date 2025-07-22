@@ -3,7 +3,7 @@ const { rowComponents } = require('./components');
 
 module.exports = {
   /** - Creates embed buttons.
-   * @param {string} messageId - Message ID if editing an embed. */
+   * @param {string} [messageId] - Message ID if editing an embed. */
   manageEmbedButtons: (messageId) => {
     const buttons = [
       [

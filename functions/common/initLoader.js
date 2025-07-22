@@ -6,9 +6,9 @@ const { logError } = require('./utilities');
 module.exports = {
   /** - Object containing filtering options for the reading process.
    * @typedef {object} FilterOptions
-   * @property {boolean} [all] If `true`, the function will return **all** files and subfolders in `folderPath`.
-   * @property {boolean} [isDir] If `true`, the function will only return a list of **subfolders** in `folderPath`.
-   * @property {string} [extension] File extension to filter by (e.g., `'.js'`, `'.json'`, `'.txt'`).
+   * @property {boolean} [all = false] If `true`, the function will return **all** files and subfolders in `folderPath`.
+   * @property {boolean} [isDir = false] If `true`, the function will only return a list of **subfolders** in `folderPath`.
+   * @property {string} [extension = '.js'] File extension to filter by (e.g., `'.js'`, `'.json'`, `'.txt'`).
    * @property {function(string): boolean} [filter] Additional custom filter function (if any).
    * - This function is applied after the main filtering step (all/isDir/extension).
    */

@@ -7,6 +7,7 @@ const {
   ComponentType,
   ButtonStyle,
   Colors,
+  SectionBuilder,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 const { menuComponents, sectionComponents, textDisplay } = require('../../../functions/common/components');
@@ -48,7 +49,7 @@ module.exports = {
             `- \\🔔 Alert Role: ${guild.roles.cache.get(youtube?.alertRoleId) || '\\❌ Not Set'}`,
           ],
           ComponentType.Thumbnail,
-          cfg.youtubePNG
+          cfg.youtubeIcon //'https://cdn.discordapp.com/attachments/976364997066231828/1396849360033284197/You-Tube-logo-social-media-video-sharing-transparent-PNG-image.png'
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

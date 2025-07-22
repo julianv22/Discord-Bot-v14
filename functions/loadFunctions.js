@@ -4,14 +4,14 @@ const { readFiles } = require('./common/initLoader');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Loads all functions from the 'functions' folder. */
-  client.loadFunctions = async () => {
+  /** - Loads all functions from the 'functions' folder.
+   * @param {string} folderName - Function folder name */
+  client.loadFunctions = async (folderName) => {
     const { logError } = client;
 
     try {
-      const funcFolder = 'functions';
       const ignoreFolders = ['common'];
-      const functionFolders = readFiles(funcFolder, {
+      const functionFolders = readFiles(folderName, {
         isDir: true,
         filter: (folder) => !ignoreFolders.includes(folder),
       });
@@ -19,7 +19,7 @@ module.exports = (client) => {
       const funcArray = [];
       let totalCount = 0;
       for (const folder of functionFolders) {
-        const folderPath = path.join(funcFolder, folder);
+        const folderPath = path.join(folderName, folder);
         const functionFiles = readFiles(folderPath);
 
         funcArray.push(`📂 ${folder.toCapitalize()} [${functionFiles.length}]`);
@@ -36,8 +36,8 @@ module.exports = (client) => {
         }
       }
 
-      await client.compColection.set(funcFolder, {
-        name: `${funcFolder.toCapitalize()} [${totalCount}]`,
+      await client.compColection.set(folderName, {
+        name: `${folderName.toCapitalize()} [${totalCount}]`,
         value: funcArray,
       });
     } catch (e) {

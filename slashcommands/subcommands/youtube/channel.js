@@ -62,7 +62,7 @@ module.exports = {
         .setThumbnail(cfg.youtubePNG)
         .setAuthor({
           name: 'YouTube Channels Subscribed List',
-          iconURL: 'https://cdn.discordapp.com/attachments/976364997066231828/1396849286452609024/logo.png',
+          iconURL: cfg.youtubeIcon,
         })
         .setDescription(channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subscribed.'),
     ];

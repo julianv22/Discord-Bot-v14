@@ -27,7 +27,7 @@ module.exports = {
       },
       starcount: () => {
         starboard.starCount = parseInt(values[0], 10);
-        return (textDisplay(2).content = `- \\🔢 Number of stars to send message: **${values[0]}**\\⭐`);
+        return (textDisplay(2).content = `- \\⭐ Stars required to send message: **${values[0]}**\\⭐`);
       },
     };
 

@@ -72,7 +72,7 @@ module.exports = {
 
     return new ContainerBuilder()
       .setAccentColor(Colors.DarkAqua)
-      .addTextDisplayComponents(module.exports.textDisplay('### \\⚒️ Setup Dashboard'))
+      .addTextDisplayComponents(module.exports.textDisplay('### \\🛠️ Setup Dashboard'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
         new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, menus))
@@ -83,16 +83,16 @@ module.exports = {
    * @property {string} [customId] - The custom ID for the component.
    * @property {string} label - The text displayed on the component.
    * @property {number} [style] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
-   * @property {boolean} [disabled=false] - Whether the component is disabled.
+   * @property {boolean} [disabled = false] - Whether the component is disabled.
    * @property {string} [url] - A URL for link-style buttons.
    * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
    * @property {string} [description] - A description for the component (used in StringSelect options).
    * @property {string} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
    * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
    * @property {string} [placeholder] - Placeholder text for input components (used in TextInput).
-   * @property {boolean} [required=false] - Whether the component is required (used in TextInput).
-   * @property {number} [min_length=1] - The minimum input length (used in TextInput).
-   * @property {number} [max_length=1] - The maximum input length (used in TextInput).
+   * @property {boolean} [required = false] - Whether the component is required (used in TextInput).
+   * @property {number} [min_length = 1] - The minimum input length (used in TextInput).
+   * @property {number} [max_length = 1] - The maximum input length (used in TextInput).
    */
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
@@ -192,8 +192,8 @@ module.exports = {
   },
   /** - Creates an ActionRowBuilder containing a select menu (ChannelSelectMenuBuilder or RoleSelectMenuBuilder).
    * @param {string} customId - The custom ID for the select menu.
-   * @param {string} [placeholder='Make a selection'] - The placeholder text displayed when no option is selected.
-   * @param {ChannelType|ChannelType[]|ComponentType.RoleSelect} [type=ChannelType.GuildText] - The type of select menu. Can be a single ChannelType, an array of ChannelTypes, or `ComponentType.RoleSelect`.
+   * @param {string} [placeholder = 'Make a selection'] - The placeholder text displayed when no option is selected.
+   * @param {ChannelType|ChannelType[]|ComponentType.RoleSelect} [type = ChannelType.GuildText] - The type of select menu. Can be a single ChannelType, an array of ChannelTypes, or `ComponentType.RoleSelect`.
    * @returns {ActionRowBuilder<ChannelSelectMenuBuilder>|ActionRowBuilder<RoleSelectMenuBuilder>} An ActionRowBuilder containing the specified select menu. */
   menuComponents: (customId, placeholder = 'Make a selection', type = ChannelType.GuildText) => {
     const actionRow = new ActionRowBuilder();
@@ -224,7 +224,7 @@ module.exports = {
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
   /** - Link button
    * @param {string} url - The URL of button
-   * @param {string} [label='Jump to message'] - The text displayed on the button */
+   * @param {string} [label = '🔗 Jump to message'] - The text displayed on the button */
   linkButton: (url, label = '🔗 Jump to message') =>
     new ActionRowBuilder().setComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)),
 };

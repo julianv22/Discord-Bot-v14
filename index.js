@@ -32,21 +32,19 @@ if (!process.env.token) {
 // Kết nối MongoDB
 mongoose
   .connect(process.env.mongodb)
-  .then(() => {
+  .then(async () => {
     console.log(chalk.green.bold('✅ Connected to mongodb'));
 
     require('./functions/misc/catchError')(client); // Đăng ký function catchError vào client
     require('./functions/common/utilities').init(client); // Đăng ký và truyền client vào ultilities
     require('./functions/loadFunctions')(client); // Đăng ký function loadFunctions vào client
 
-    client.loadFunctions();
-    client.loadCommands();
-    client.loadComponents();
-    client.loadEvents();
+    await client.loadFunctions('functions');
+    await client.loadEvents('events');
+    await client.loadComponents('components');
+    await client.loadEvents();
 
-    client.login(process.env.token).catch((e) => {
-      console.error(chalk.red(e));
-    });
+    client.login(process.env.token).catch(console.error);
   })
   .catch((e) => {
     console.error(chalk.red('Error while connecting to MongoDB!'), e);
