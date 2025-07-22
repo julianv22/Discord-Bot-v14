@@ -3,14 +3,14 @@ const serverProfile = require('../../config/serverProfile');
 const { linkButton } = require('./components');
 
 module.exports = {
-  /** - Send message to Starboard Channel when user reacting ⭐ emoji
+  /** - Update message or send a message to Starboard Channel when user reacting ⭐ emoji
    * @param {Message} message - Message object
    * @param {string} userId - Id of user reacted ⭐ emoji
    * @param {number} count - Count ⭐ emojis of message */
   starReactionAdd: async (message, userId, count) => {
     const { guild, guildId, id: messageId, author } = message;
 
-    if (message.author.id === userId.id) return;
+    if (message.author.id === userId) return;
     if (message.attachments && message.attachments.size > 0) return;
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

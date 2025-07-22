@@ -5,8 +5,12 @@ const path = require('path');
 let _client;
 
 module.exports = {
-  /** @param {Client} client Discord Client */
+  /** - Initializes the utility functions with the Discord client.
+   * @param {Client} client - The Discord client instance. */
   init: (client) => (_client = client),
+  /** - Logs an error message using the initialized Discord client's error logging function.
+   * - If the client is not initialized, it logs to the console.
+   * @param {...any} args - Arguments to pass to the client's logError function. */
   logError: (...args) => {
     if (!_client)
       return console.error(
@@ -15,8 +19,9 @@ module.exports = {
       );
     _client.logError(...args);
   },
-  /** - Gets the latest video from YouTube channels.
-   * @param {string} channelId - YouTube channel ID. */
+  /** - Retrieves the latest video ID and title from a given YouTube channel.
+   * @param {string} channelId - The YouTube channel ID.
+   * @returns {Promise<{videoId: string|null, channelTitle: string|null, videoTitle: string|null}>} An object containing the latest video ID, channel title, and video title, or null if not found or an error occurs. */
   getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -34,10 +39,16 @@ module.exports = {
       return { videoId: null, channelTitle: null, videoTitle: null };
     }
   },
-  /** - Searches for and replaces variables in a string.
-   * @param {string} stringInput The string to replace variables in.
-   * @param {object} replacements An object containing variables and their corresponding values.
-   * - Example: ```const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };``` */
+  /** - Searches for and replaces variables in a string using a provided replacements object.
+   * - Variables in the string should be in the format `{key}`.
+   * @param {string} stringInput - The string containing variables to be replaced.
+   * @param {object} replacements - An object where keys are variable names and values are their replacements.
+   * @example
+   * ```js
+   * const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };
+   * replaceVar("Hello, {user} from {guild}!", replaceKey);
+   * ```
+   * @returns {string} The string with variables replaced. */
   replaceVar: (stringInput, replacements) => {
     // Regex will match any string in the format {key}
     // Example: {user}, {guild}, {avatar}
@@ -47,11 +58,11 @@ module.exports = {
       return replacements[key] !== undefined ? replacements[key] : match;
     });
   },
-  /** - Logs two arrays of data into an asciiTable.
-   * @param {string[]} data Array of data.
-   * @param {object} [seting] Properties for the asciiTable.
-   * @param {string} [seting.title] `table.setTitle` Title of the asciiTable.
-   * @param {string[]} [seting.heading] `table.setHeading` Column names for the asciiTable. */
+  /** - Logs an array of data into an ASCII table format to the console. Each inner array in `data` represents a column.
+   * @param {Array<Array<string>>} data - An array of arrays, where each inner array contains data for a column.
+   * @param {object} [setting] - Optional settings for the ASCII table.
+   * @param {string} [setting.title] - The title of the ASCII table.
+   * @param {string[]} [setting.heading] - Column names for the ASCII table. */
   logAsciiTable: (data, seting = {}) => {
     const { title, heading } = seting;
 
@@ -77,9 +88,10 @@ module.exports = {
     }
     console.log(table.toString());
   },
-  /** - Converts currency to the corresponding unit.
-   * @param {number} balance The amount of money.
-   * @param {Locale} [userLocale] Locale code (e.g., `'en-US'`). */ toCurrency: (balance, userLocale) => {
+  /** - Converts a numeric balance to a localized currency string.
+   * @param {number} balance - The amount of money to format.
+   * @param {Locale} [userLocale] - The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided or invalid. */
+  toCurrency: (balance, userLocale) => {
     const CurrencyMap = {
       'en-US': 'USD', // English (US) -> US Dollar
       'en-GB': 'GBP', // English (UK) -> British Pound
@@ -106,18 +118,19 @@ module.exports = {
   },
 };
 // Start define prototype functions
-/** - Converts a number to currency format, defaulting to `vi-VN, VND`.
- * @param {Locale} [userLocale] Locale code (e.g., `'en-US'`). */
+/** - Converts the number to a currency formatted string. This is a prototype function for `Number`.
+ * @param {Locale} [userLocale] - The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided. */
 Number.prototype.toCurrency = function (userLocale) {
   if (!userLocale) return this.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   else return module.exports.toCurrency(this, userLocale);
 };
-/** - Capitalizes the first letter of a string. */
+/** - Capitalizes the first letter of the string. This is a prototype function for `String`. */
+
 String.prototype.toCapitalize = function () {
   if (!this) return ''; // Handle empty or undefined string
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
-/** - Converts string to EmbedColor. */
+/** - Converts a string to a Discord EmbedColor. This is a prototype function for `String`. */
 String.prototype.toEmbedColor = function () {
   // Normalize color input
   const normalizedColor = this.toLowerCase().replace(/\s/g, '');
@@ -126,9 +139,9 @@ String.prototype.toEmbedColor = function () {
     if (colorName.toLowerCase() === normalizedColor) return colorName;
   }
   // Return Random if invalid
-  return Math.floor(Math.random() * 0xffffff);
+  return 'Random';
 };
-/** - Checks if a string is a URL. */
+/** - Checks if the string is a valid URL. This is a prototype function for `String`. */
 String.prototype.checkURL = function () {
   try {
     const res = this.match(
@@ -137,12 +150,12 @@ String.prototype.checkURL = function () {
     return res !== null;
   } catch (e) {
     _client.logError({ item: 'checkURL', desc: 'function' }, e);
-    return null;
+    return false;
   }
 };
-/** - Groups elements in a Collection by a property and returns a formatted count list.
- * @param {string} [property] The property to group elements by (defaults to 'category').
- * - Returns an array of formatted strings, e.g., `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`. */
+/** - Groups elements within a Collection by a specified property and returns a formatted list of counts. This is a prototype function for `Collection`.
+ * @param {string} [property='category'] - The property by which to group the elements. Defaults to 'category'.
+ * @returns {string[]} An array of formatted strings, e.g., `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`. */
 Collection.prototype.toGroupedCountList = function (property = 'category') {
   const groupedCounts = this.reduce((acc, item) => {
     acc[item[property]] = (acc[item[property]] || 0) + 1;
@@ -151,9 +164,9 @@ Collection.prototype.toGroupedCountList = function (property = 'category') {
 
   return Object.entries(groupedCounts).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
 };
-/** - Converts a Collection into fields format for EmbedBuilder.
- * @param {string} categoryName - The category name of the command.
- * - Returns an array of objects in the format `{ name: string, value: string }`. */
+/** - Converts a Collection of commands into a format suitable for EmbedBuilder fields. This is a prototype function for `Collection`.
+ * @param {string} categoryName - The category name to filter commands by.
+ * @returns {Array<{name: string, value: string}>} An array of objects, each representing an embed field with command name and description, including subcommands if any. */
 Collection.prototype.toEmbedFields = function (categoryName) {
   return this.filter((cmd) => cmd.category === categoryName).map((cmd) => {
     const subNames = cmd?.data?.options

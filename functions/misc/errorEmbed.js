@@ -4,14 +4,19 @@ const { textDisplay } = require('../common/components');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   const regex = /\x1b\[[0-9;]*m/g;
+  /** - The options for creating the error embed.
+   * @typedef {object} EmbedData
+   * @property {string} [title] - The title of the embed.
+   * @property {string} desc - The detailed description of the error.
+   * @property {boolean|string} [emoji=false] - The emoji to prefix the title or description. If boolean, uses default success/error emojis.
+   * @property {boolean} [flags=true] - Whether the message should be ephemeral. Defaults to `true`.
+   * @property {string|number} [color] - The color of the embed. */
+
   /** - Creates an error message embed.
-   * @param {object} options - The options for creating the error embed.
-   * @param {string} options.title - The title of the embed.
-   * @param {string} options.desc - The detailed description of the error.
-   * @param {(boolean|string)} [options.emoji=false] - The emoji to prefix the title or description. If boolean, uses default success/error emojis.
-   * @param {boolean} [options.flags=true] - Whether the message should be ephemeral. Defaults to `true`.
-   * @param {(string|Colors)} [options.color] - The color of the embed. */
-  client.errorEmbed = ({ title, desc, emoji = false, flags = true, color }) => {
+   * @param {EmbedData} options - The options for creating the error embed. */
+  client.errorEmbed = (options) => {
+    const { title, desc, emoji = false, flags = true, color } = options;
+
     const embed = new EmbedBuilder().setColor(color || (emoji ? Colors.Green : Colors.Red));
 
     switch (typeof emoji) {
@@ -31,7 +36,7 @@ module.exports = (client) => {
         else embed.setDescription(`\\${emoji} ${desc}`);
         break;
       default:
-        return flags && { flags: MessageFlags.Ephemeral };
+        return;
     }
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };

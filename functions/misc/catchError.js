@@ -70,17 +70,22 @@ module.exports = (client) => {
     }
   };
 
+  /**
+   * @typedef {object} LogginOptions
+   * @property {boolean} [isWarn=false] - If `true`, the log will be a warning; otherwise, it will be an error.
+   * @property {string} [todo='executing'] - Describes the action being performed when the error occurred (e.g., 'reloading').
+   * @property {string} [item] - The specific item or component related to the error (e.g., 'application (/) commands').
+   * @property {string} [desc] - Additional descriptive context for the error. */
+
   /** - Sends a console error or warning.
-   * @param {object} options - The logging options.
-   * @param {string} [options.todo='executing'] - Describes the action being performed when the error occurred (e.g., 'reloading').
-   * @param {string} [options.item=''] - The specific item or component related to the error (e.g., 'application (/) commands').
-   * @param {string} [options.desc=''] - Additional descriptive context for the error.
-   * @param {boolean} [options.isWarn=false] - If true, the log will be a warning; otherwise, it will be an error.
+   * @param {LogginOptions} options - The logging options.
+   * @param {string} [options.todo='executing']
    * @param {Error} [e=null] - The error object.
    * @example
    * client.logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, errorObject);
    */
-  client.logError = ({ todo = 'executing', item = '', desc = '', isWarn = false }, e = null) => {
+  client.logError = (options, e = null) => {
+    const { todo = 'executing', item = '', desc = '', isWarn = false } = options;
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
     let second = chalk.green(item);

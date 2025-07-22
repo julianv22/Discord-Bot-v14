@@ -91,8 +91,8 @@ module.exports = {
    * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
    * @property {string} [placeholder] - Placeholder text for input components (used in TextInput).
    * @property {boolean} [required=false] - Whether the component is required (used in TextInput).
-   * @property {number} [min_length] - The minimum input length (used in TextInput).
-   * @property {number} [max_length] - The maximum input length (used in TextInput).
+   * @property {number} [min_length=1] - The minimum input length (used in TextInput).
+   * @property {number} [max_length=1] - The maximum input length (used in TextInput).
    */
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
@@ -107,9 +107,9 @@ module.exports = {
           const button = new ButtonBuilder()
             .setLabel(option.label)
             .setStyle(option.style)
-            .setDisabled(option?.disabled || false);
+            .setDisabled(option?.disabled || false)
+            .setEmoji(option?.emoji);
 
-          if (option?.emoji) button.setEmoji(option.emoji);
           if (option?.customId) button.setCustomId(option.customId);
           if (option?.url) button.setURL(option.url);
 
@@ -123,7 +123,7 @@ module.exports = {
           .setMaxValues(options[0]?.max_length || 1)
           .setPlaceholder(options[0]?.placeholder || 'Make a selection')
           .setOptions(
-            options.slice(1).map((option, id) => {
+            options.slice(1).map((option) => {
               const optionBuilder = new StringSelectMenuOptionBuilder().setLabel(option.label).setValue(option.value);
 
               if (option?.description) optionBuilder.setDescription(option.description);
@@ -175,23 +175,23 @@ module.exports = {
    * @param {ComponentType.Thumbnail|ComponentType.Button} accessoryType - The type of accessory to include in the section.
    * @param {string|ComponentOptions} [options] - If `accessoryType` is `ComponentType.Thumbnail`, this is a string URL for the thumbnail. If `accessoryType` is `ComponentType.Button`, this is a `ComponentOptions` object for the button. */
   sectionComponents: (contents, accessoryType, options) => {
-    const displayContents = module.exports.textDisplay(contents);
-    const sectionComponents = new SectionBuilder();
+    const textDisplays = module.exports.textDisplay(contents);
+    const section = new SectionBuilder();
 
     switch (accessoryType) {
       case ComponentType.Thumbnail:
-        sectionComponents
-          .addTextDisplayComponents(displayContents)
+        section
+          .addTextDisplayComponents(textDisplays)
           .setThumbnailAccessory(new ThumbnailBuilder().setURL(options || cfg.infoPNG));
         break;
       case ComponentType.Button:
-        sectionComponents
-          .addTextDisplayComponents(displayContents)
+        section
+          .addTextDisplayComponents(textDisplays)
           .setButtonAccessory(module.exports.rowComponents(accessoryType, options)[0]);
         break;
     }
 
-    return sectionComponents;
+    return section;
   },
   /** - Creates an ActionRowBuilder containing a select menu (ChannelSelectMenuBuilder or RoleSelectMenuBuilder).
    * @param {string} customId - The custom ID for the select menu.

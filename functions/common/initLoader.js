@@ -4,15 +4,18 @@ const { readdirSync, statSync } = require('fs');
 const { logError } = require('./utilities');
 
 module.exports = {
+  /** - Object containing filtering options for the reading process.
+   * @typedef {object} FilterOptions
+   * @property {boolean} [all] If `true`, the function will return **all** files and subfolders in `folderPath`.
+   * @property {boolean} [isDir] If `true`, the function will only return a list of **subfolders** in `folderPath`.
+   * @property {string} [extension] File extension to filter by (e.g., `'.js'`, `'.json'`, `'.txt'`).
+   * @property {function(string): boolean} [filter] Additional custom filter function (if any).
+   * - This function is applied after the main filtering step (all/isDir/extension).
+   */
   /** - Reads directory contents (files and/or subfolders) based on filtering options.
    * @param {string} folderPath Path to the folder to read.
-   * @param {object} [options] Object containing filtering options for the reading process.
-   * @param {boolean} [options.all] If `true`, the function will return **all** files and subfolders in `folderPath`.
-   * @param {boolean} [options.isDir] If `true`, the function will only return a list of **subfolders** in `folderPath`.
-   * @param {string} [options.extension] File extension to filter by (e.g., `'.js'`, `'.json'`, `'.txt'`).
-   * @param {function(string): boolean} [options.filter] Additional custom filter function (if any).
-   * - This function is applied after the main filtering step (all/isDir/extension).
-   * - Returns an Array containing the names of files or folders that match the filtering conditions. */
+   * @param {FilterOptions} [options]
+   * @returns {string[]} Returns an Array containing the names of files or folders that match the filtering conditions. */
   readFiles: (folderPath, options = {}) => {
     const { all = false, isDir = false, extension = '.js', filter: func } = options;
     const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
@@ -73,6 +76,7 @@ module.exports = {
     const parts = filePath.split(path.sep);
     const file = parts.pop();
     const folder = parts.slice(-1);
+
     /** - Logs a warning to the console when 'name' or 'execute' properties are missing.
      * @param {string} commandType Type of command (Prefix, Slash, Sub, Component).
      * @param {string} parts Missing properties, separated by commas. */

@@ -14,24 +14,26 @@ module.exports = (client) => {
     slashCommands.clear();
     subCommands.clear();
     /** - Configuration for a command type.
-     * @typedef {Object} CommandTypeConfig
+     * @typedef {Object} CommandTypeProperties
      * @property {string} name - The display name of the command type.
      * @property {string} folder - The folder containing the commands for this type.
      * @property {Collection<string, object>} collection - The collection used to store commands of this type. */
-    /** An object containing configurations for different command types.
-     * Each property represents a command type (Prefix, Slash, Sub) and contains necessary information for loading and managing them.
+
+    /** - An object containing configurations for different command types.
+     * - Each property represents a command type (Prefix, Slash, Sub) and contains necessary information for loading and managing them.
      * @type {{
-     * Prefix: CommandTypeConfig,
-     * Slash: CommandTypeConfig,
-     * Sub: CommandTypeConfig
-     * }} */
+     * Prefix: CommandTypeProperties,
+     * Slash: CommandTypeProperties,
+     * Sub: CommandTypeProperties
+     * }}
+     * */
     const commandTypes = {
       Prefix: { name: 'Prefix Commands', folder: 'prefixcommands', collection: prefixCommands },
       Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
       Sub: { name: 'Sub Commands', folder: path.join('slashcommands', 'subcommands'), collection: subCommands },
     };
     /** Loads commands (Prefix, Slash, Sub).
-     * @param {CommandTypeConfig} type - The command type configuration from `commandTypes`. */
+     * @param {CommandTypeProperties} type - The command type configuration from `commandTypes`. */
     const loadCommands = async (type) => {
       const ignoreFolders = ['subcommands'];
       const commandFolders = readFiles(type.folder, {

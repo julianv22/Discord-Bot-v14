@@ -19,16 +19,18 @@ module.exports = {
         prefixCommands.get(commandName) ||
         prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
-      const timeoutMessage = async (desc, seconds = 5) =>
+      /** - Set timeout for message before delete
+       * @param {string} desc Message content
+       * @param {number} [seconds=10] Timeout before delete in seconds */
+      const timeoutMessage = async (desc, seconds = 10) =>
         await message
           .reply(errorEmbed({ desc }))
           .then((m) => setTimeout(async () => await m.delete().catch(console.error), seconds * 1000));
 
-      if (!command)
-        return await timeoutMessage(`Command [${prefix + commandName}] không chính xác hoặc không tồn tại!`);
+      if (!command) return await timeoutMessage(`Command ${prefix + commandName} không chính xác hoặc không tồn tại!`);
       try {
         if (command.permissions && !member.permissions.has(command.permissions))
-          return await timeoutMessage(`Bạn không có quyền sử dụng lệnh [${prefix + commandName}]!`);
+          return await timeoutMessage(`Bạn không có quyền sử dụng lệnh ${prefix + commandName}`);
 
         await command.execute(message, args, client);
       } catch (e) {
