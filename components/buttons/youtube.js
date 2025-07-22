@@ -1,5 +1,6 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { createModal } = require('../../functions/common/components');
 
 module.exports = {
   type: 'buttons',
@@ -21,7 +22,7 @@ module.exports = {
 
     const onClick = {
       channel: async () => {
-        createModal(interaction, `youtube:${type}`, `${type.toCapitalize()} YouTube Channel`, {
+        await createModal(interaction, `youtube:${type}`, `${type.toCapitalize()} YouTube Channel`, {
           customId: type,
           label: 'YouTube ChannelID',
           placeholder: 'Enter the YouTube ChannelID',
@@ -48,13 +49,11 @@ module.exports = {
             throw new Error(chalk.yellow('Invalid remove type'), chalk.green(type));
         }
 
-        return await interaction.update({ components });
+        await interaction.update({ components });
       },
       refresh: async () => {
         await checkVideos();
-        return await interaction.reply(
-          errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true })
-        );
+        await interaction.reply(errorEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true }));
       },
     };
 

@@ -85,7 +85,7 @@ module.exports = {
 
         await profile.save().catch(console.error);
 
-        return await interaction.update({
+        await interaction.update({
           components: [
             dashboardMenu(),
             messageContainer(

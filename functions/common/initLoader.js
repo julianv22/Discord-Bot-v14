@@ -22,29 +22,25 @@ module.exports = {
 
     try {
       const readFiles = {
-        AllFiles: () => {
-          return readdirSync(folderPath);
-        },
-        folders: () => {
-          return readdirSync(folderPath).filter((folder) => {
+        AllFiles: () => readdirSync(folderPath),
+        folders: () =>
+          readdirSync(folderPath).filter((folder) => {
             try {
               return statSync(path.join(folderPath, folder)).isDirectory();
             } catch (e) {
               logError({ todo: 'reading', item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
               return false;
             }
-          });
-        },
-        default: () => {
-          return readdirSync(folderPath).filter((file) => {
+          }),
+        default: () =>
+          readdirSync(folderPath).filter((file) => {
             try {
               return statSync(path.join(folderPath, file)).isFile() && file.endsWith(extension);
             } catch (e) {
               logError({ todo: 'reading', item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
               return false;
             }
-          });
-        },
+          }),
       };
 
       let result = (readFiles[FileType] || readFiles.default)();

@@ -52,7 +52,7 @@ module.exports = (client) => {
 
       return await object.reply({ embeds });
     } catch (e) {
-      return catchError(object, e, `Error while executing ${chalk.green('wikipedia')} function`);
+      return await catchError(object, e, `Error while executing ${chalk.green('wikipedia')} function`);
     }
   };
 };

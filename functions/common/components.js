@@ -101,23 +101,22 @@ module.exports = {
   rowComponents: (type, options) => {
     options = [].concat(options); // Convert options to an array
 
-    const setComponentOptions = {
-      [ComponentType.Button]: () => {
-        return options.map((option) => {
+    const setComponents = {
+      [ComponentType.Button]: () =>
+        options.map((option) => {
           const button = new ButtonBuilder()
             .setLabel(option.label)
             .setStyle(option.style)
-            .setDisabled(option?.disabled || false)
-            .setEmoji(option?.emoji);
+            .setDisabled(option?.disabled || false);
 
           if (option?.customId) button.setCustomId(option.customId);
+          if (option?.emoji) button.setEmoji(option.emoji);
           if (option?.url) button.setURL(option.url);
 
           return button;
-        });
-      },
-      [ComponentType.StringSelect]: () => {
-        return new StringSelectMenuBuilder()
+        }),
+      [ComponentType.StringSelect]: () =>
+        new StringSelectMenuBuilder()
           .setCustomId(options[0].customId)
           .setMinValues(options[0]?.min_length || 1)
           .setMaxValues(options[0]?.max_length || 1)
@@ -132,10 +131,9 @@ module.exports = {
 
               return optionBuilder;
             })
-          );
-      },
-      [ComponentType.TextInput]: () => {
-        return options.map((option) => {
+          ),
+      [ComponentType.TextInput]: () =>
+        options.map((option) => {
           const textinput = new TextInputBuilder()
             .setCustomId(option.customId)
             .setLabel(option.label)
@@ -148,13 +146,12 @@ module.exports = {
           if (option?.max_length) textinput.setMaxLength(option.max_length);
 
           return textinput;
-        });
-      },
+        }),
     };
 
-    if (!setComponentOptions[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
+    if (!setComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
 
-    return setComponentOptions[type]();
+    return setComponents[type]();
   },
   /** - Creates and displays a Discord Modal for user input.
    * @param {ButtonInteraction} interaction - The Discord ButtonInteraction object that triggered the modal.

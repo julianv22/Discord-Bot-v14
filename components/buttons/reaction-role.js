@@ -10,15 +10,7 @@ module.exports = {
    * @param {Interaction} interaction - The button interaction.
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const {
-      customId,
-      guild,
-      guildId,
-      guild: { name: guildName },
-      channel,
-      message,
-      user,
-    } = interaction;
+    const { customId, guild, guildId, channel, message, user } = interaction;
     const { errorEmbed } = client;
     const [, buttonId] = customId.split(':');
     const buttons = ActionRowBuilder.from(message.components[0]);
@@ -34,7 +26,7 @@ module.exports = {
           max_length: 256,
         }),
       color: async () =>
-        createModal(interaction, `manage-embed:${buttonId}`, 'Reaction Role Manager', {
+        await createModal(interaction, `manage-embed:${buttonId}`, 'Reaction Role Manager', {
           customId: buttonId,
           label: `Reaction Role ${buttonId} (Leave blank = Random)`,
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
@@ -90,7 +82,7 @@ module.exports = {
                 errorEmbed({ desc: `Role ${roleInput} does not exist, please try again!` })
               );
           } catch (e) {
-            return client.catchError(interaction, e, 'Error searching for role');
+            return await client.catchError(interaction, e, 'Error searching for role');
           }
 
           let emojiReact = emojiInput;
@@ -99,7 +91,7 @@ module.exports = {
             emojiReact = `<${emojiMatch[1] ? 'a' : ''}:${emojiMatch[2]}:${emojiMatch[3]}>`;
 
             if (!client.emojis.cache.get(emojiMatch[3]))
-              return interaction.followUp(errorEmbed({ desc: `Bot cannot access custom emoji: ${emojiInput}` }));
+              return await interaction.followUp(errorEmbed({ desc: `Bot cannot access custom emoji: ${emojiInput}` }));
           }
 
           let desc = reactionEmbed.data.description || '';
@@ -162,6 +154,7 @@ module.exports = {
             { upsert: true, new: true }
           )
           .catch(console.error);
+
         reactionMap.delete(message.id);
       },
     };

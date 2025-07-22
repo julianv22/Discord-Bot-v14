@@ -34,7 +34,7 @@ module.exports = {
 
         await command.execute(message, args, client);
       } catch (e) {
-        catchError(message, e, `Error while executing prefix command [ ${chalk.green(prefix + command.name)} ]`);
+        await catchError(message, e, `Error while executing prefix command [ ${chalk.green(prefix + command.name)} ]`);
       }
     }
   },

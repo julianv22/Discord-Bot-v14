@@ -26,8 +26,8 @@ module.exports = {
     if (!message) return await interaction.reply(errorEmbed({ desc: 'Message not found!' }));
 
     const onClick = {
-      author: () =>
-        createModal(interaction, customId, 'Embed Manager', [
+      author: async () =>
+        await createModal(interaction, customId, 'Embed Manager', [
           {
             customId: buttonId,
             label: 'Author (Leave blank = Remove)',
@@ -40,16 +40,16 @@ module.exports = {
             placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
           },
         ]),
-      title: () =>
-        createModal(interaction, customId, 'Embed Manager', {
+      title: async () =>
+        await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Title (Leave blank = Remove)',
           value: editEmbed.data.title,
           max_length: 256,
           placeholder: '{guild} = Server Name, {user} = User Name',
         }),
-      description: () =>
-        createModal(interaction, customId, 'Embed Manager', {
+      description: async () =>
+        await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Description',
           value: editEmbed.data.description,
@@ -57,26 +57,26 @@ module.exports = {
           style: TextInputStyle.Paragraph,
           required: true,
         }),
-      color: () =>
-        createModal(interaction, customId, 'Embed Manager', {
+      color: async () =>
+        await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
         }),
-      image: () =>
-        createModal(interaction, customId, 'Embed Manager', {
+      image: async () =>
+        await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Image (Leave blank = Remove)',
           placeholder: 'Enter image URL, Leave blank = Remove',
         }),
-      thumbnail: () =>
-        createModal(interaction, customId, 'Embed Manager', {
+      thumbnail: async () =>
+        await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Thumbnail (Leave blank = Remove)',
           placeholder: 'Enter thumbnail URL, Leave blank = Remove',
         }),
-      footer: () =>
-        createModal(interaction, customId, 'Embed Manager', [
+      footer: async () =>
+        await createModal(interaction, customId, 'Embed Manager', [
           {
             customId: buttonId,
             label: 'Footer (Leave blank = Remove)',
@@ -102,8 +102,8 @@ module.exports = {
 
         await interaction.update({ embeds: [editEmbed], components: actionRows });
       },
-      addfield: () =>
-        createModal(interaction, customId, 'Embed Manager', [
+      addfield: async () =>
+        await createModal(interaction, customId, 'Embed Manager', [
           { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', required: true },
           {
             customId: 'fieldvalue',
@@ -126,7 +126,7 @@ module.exports = {
 
             // editEmbed.setFields();
             await channel.send({ embeds: [editEmbed] });
-            return await interaction.update({ components: actionRows });
+            await interaction.update({ components: actionRows });
           } else {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
@@ -135,7 +135,7 @@ module.exports = {
               );
 
             await msg.edit({ embeds: [editEmbed] }).catch(console.error);
-            return await interaction.update({
+            await interaction.update({
               embeds: [
                 {
                   author: {
@@ -148,7 +148,7 @@ module.exports = {
             });
           }
         } catch (e) {
-          return catchError(interaction, e, 'Error while updating embed message');
+          return await catchError(interaction, e, 'Error while updating embed message');
         }
       },
     };

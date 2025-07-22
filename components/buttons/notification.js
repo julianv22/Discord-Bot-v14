@@ -17,15 +17,15 @@ module.exports = {
     const actionRows = ActionRowBuilder.from(message.components[0]);
 
     const onClick = {
-      title: () =>
-        createModal(interaction, modalId, 'Notification Manager', {
+      title: async () =>
+        await createModal(interaction, modalId, 'Notification Manager', {
           customId: buttonId,
           label: 'Notification Title (Leave blank = Remove)',
           placeholder,
           max_length: 256,
         }),
-      description: () =>
-        createModal(interaction, modalId, 'Notification Manager', {
+      description: async () =>
+        await createModal(interaction, modalId, 'Notification Manager', {
           customId: buttonId,
           label: 'Notification Description',
           value: embed.data.description,
@@ -33,14 +33,14 @@ module.exports = {
           style: TextInputStyle.Paragraph,
           required: true,
         }),
-      color: () =>
-        createModal(interaction, modalId, 'Notification Manager', {
+      color: async () =>
+        await createModal(interaction, modalId, 'Notification Manager', {
           customId: buttonId,
           label: 'Notification Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
         }),
-      image: () =>
-        createModal(interaction, modalId, 'Notification Manager', [
+      image: async () =>
+        await createModal(interaction, modalId, 'Notification Manager', [
           { customId: buttonId, label: 'Notification Image (Leave blank = Remove)', placeholder },
         ]),
       thumbnail: async () => {

@@ -42,7 +42,7 @@ module.exports = (client) => {
 
       return await message.reply({ embeds: [usageEmbed] });
     } catch (e) {
-      catchError(message, e, `Error while executing ${chalk.green('commandUsage')} function`);
+      await catchError(message, e, `Error while executing ${chalk.green('commandUsage')} function`);
     }
   };
 };

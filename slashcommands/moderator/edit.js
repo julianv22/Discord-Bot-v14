@@ -53,9 +53,11 @@ module.exports = {
       embed: async () => {
         if (!msg.embeds.length) return await interaction.reply(errorEmbed({ desc: 'Message này không có embed!' }));
 
-        const msgEmbed = EmbedBuilder.from(msg.embeds[0]);
-
-        return await interaction.reply({ embeds: [msgEmbed], components: manageEmbedButtons(messageId), flags: 64 });
+        await interaction.reply({
+          embeds: [EmbedBuilder.from(msg.embeds[0])],
+          components: manageEmbedButtons(messageId),
+          flags: 64,
+        });
       },
       message: async () =>
         await msg.edit(content).then(async () => {

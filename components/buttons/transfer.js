@@ -91,7 +91,7 @@ module.exports = {
       const member = await guild.members.fetch(targetId);
       await member.send({ embeds: [embedReceiver] });
     } catch (e) {
-      client.catchError(interaction, e, 'Lỗi khi gửi tin nhắn cho người nhận');
+      await client.catchError(interaction, e, 'Lỗi khi gửi tin nhắn cho người nhận');
     }
 
     // Cập nhật lại interaction cho người chuyển

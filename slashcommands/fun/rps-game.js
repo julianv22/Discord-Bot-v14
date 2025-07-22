@@ -31,24 +31,9 @@ module.exports = {
     const bet = options.getInteger('bet');
 
     const buttons = [
-      {
-        customId: `rps-game:0:${bet}`,
-        emoji: '🔨',
-        label: 'Rock',
-        style: ButtonStyle.Danger,
-      },
-      {
-        customId: `rps-game:1:${bet}`,
-        emoji: '📄',
-        label: 'Paper',
-        style: ButtonStyle.Success,
-      },
-      {
-        customId: `rps-game:2:${bet}`,
-        emoji: '✂️',
-        label: 'Scissors',
-        style: ButtonStyle.Primary,
-      },
+      { customId: `rps-game:rock:${bet}`, emoji: '✊', label: 'Rock', style: ButtonStyle.Primary },
+      { customId: `rps-game:paper:${bet}`, emoji: '🖐️', label: 'Paper', style: ButtonStyle.Success },
+      { customId: `rps-game:scissors:${bet}`, emoji: '✌️', label: 'Scissors', style: ButtonStyle.Danger },
     ];
 
     const components = [new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, buttons))];
@@ -59,11 +44,9 @@ module.exports = {
         .setThumbnail(cfg.game_gif)
         .setTitle('Rock - Paper - Scissors Game')
         .setDescription(
-          `**Choose your hand sign! \\🔨-\\📄-\\✂️**\n-# Mỗi lần chơi sẽ trừ số tiền ${bet.toCurrency()} bạn đặt cược.\n-# Tối đa 10 lần/ngày.`
+          `**Choose your hand sign:** [\`✊ | 🖐️ | ✌️\`]\n- Mỗi lần chơi sẽ trừ số tiền ${bet.toCurrency()} đặt cược.\n- Tối đa 50 lần/ngày.`
         )
-        .setImage(
-          'https://cdn.discordapp.com/attachments/976364997066231828/1374106088294842449/rock-paper-scissors-icon-set-on-white-background-vector.png'
-        ),
+        .setImage(cfg.rpsPNG),
     ];
 
     await interaction.reply({ embeds, components, flags: 64 });
