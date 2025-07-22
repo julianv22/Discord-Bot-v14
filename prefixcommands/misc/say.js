@@ -14,11 +14,9 @@ module.exports = {
     const toSay = args.join(' ');
 
     if (!toSay)
-      return await message.reply(client.errorEmbed({ desc: 'Vui lòng nhập nội dung để bot nói!' })).then((m) => {
-        setTimeout(async () => {
-          await m.delete();
-        }, 10000);
-      });
+      return await message
+        .reply(client.errorEmbed({ desc: 'Vui lòng nhập nội dung để bot nói!' }))
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (toSay.trim() === '?') return await client.commandUsage(message, this);
 

@@ -21,11 +21,9 @@ module.exports = {
       );
 
     if (!args[0])
-      return await message.reply(errorEmbed({ desc: 'Hãy nhập username!' })).then((m) => {
-        setTimeout(async () => {
-          await m.delete().catch(console.error);
-        }, 10000);
-      });
+      return await message
+        .reply(errorEmbed({ desc: 'Hãy nhập username!' }))
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     await githubInfo(args[0], message);
   },

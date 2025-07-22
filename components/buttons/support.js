@@ -10,7 +10,7 @@ module.exports = {
     const [, buttonId] = interaction.customId.split(':');
 
     const showContent = {
-      youtube: () => `Hãy like, share và subscribe để ủng hộ cho [Julian-V](${cfg.youtube}) nhé! 😘`,
+      youtube: () => `Hãy like, share và subscribe để ủng hộ cho [Julian-V](${cfg.youtubeLink}) nhé! 😘`,
       server: () => `Tham gia \`${cfg.supportServer}\` để được hỗ trợ!\n` + cfg.supportLink,
     };
 

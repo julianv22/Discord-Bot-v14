@@ -26,7 +26,7 @@ module.exports = {
         }`
       );
 
-    await message.delete();
+    if (message.deletable) await message.delete();
 
     const embeds = [
       new EmbedBuilder()

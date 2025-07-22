@@ -17,10 +17,8 @@ module.exports = (client) => {
       if (body.message === 'Not Found') {
         const replyMessage = await object.reply(errorEmbed({ desc: 'Cannot find user ' + gitUserName }));
 
-        if (object?.author)
-          setTimeout(async () => {
-            await replyMessage.delete().catch(console.error);
-          }, 10 * 1000);
+        if (object?.author && replyMessage.deletable)
+          setTimeout(async () => await replyMessage.delete().catch(console.error), 10 * 1000);
 
         return;
       }

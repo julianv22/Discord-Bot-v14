@@ -30,21 +30,17 @@ module.exports = {
       if (author.bot) return;
       else {
         if (content.toLowerCase().includes('cảm ơn'))
-          return await message.reply(hint).then((m) => {
-            setTimeout(async () => {
-              await m.delete().catch(console.error);
-            }, 10000);
-          });
+          return await message
+            .reply(hint)
+            .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
         const thanks = ['thank', 'ty', 'thanks'];
 
         for (const thank of thanks) {
           if (content.toLowerCase().split(' ').includes(thank))
-            return await message.reply(hint).then((m) => {
-              setTimeout(async () => {
-                await m.delete().catch(console.error);
-              }, 10000);
-            });
+            return await message
+              .reply(hint)
+              .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
         }
       }
     }

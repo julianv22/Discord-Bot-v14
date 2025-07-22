@@ -15,8 +15,6 @@ module.exports = {
     const { errorEmbed } = client;
     const target = options.getUser('target');
 
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
     // Validate context
     if (!target) return await interaction.reply(errorEmbed({ desc: 'Target user not found.' }));
     if (!guild) return await interaction.reply(errorEmbed({ desc: 'Lệnh này chỉ dùng trong server!' }));
@@ -55,6 +53,8 @@ module.exports = {
       randomProcess1 = Math.floor(Math.random() * process1.length),
       randomProcess2 = Math.floor(Math.random() * process2.length),
       randomProcess3 = Math.floor(Math.random() * process3.length);
+
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
     await interaction.reply(text[randomText]);
     await delay(1500);

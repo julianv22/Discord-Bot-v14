@@ -36,12 +36,10 @@ module.exports = (client) => {
       /** - Sends a reply message with an error embed.
        * @param {string} desc - The description for the error embed. */
       const replyMessage = async (desc) => {
-        const reply = await object.reply(errorEmbed({ desc }));
+        const replyMessage = await object.reply(errorEmbed({ desc }));
 
-        if (object?.author)
-          setTimeout(async () => {
-            await reply.delete().catch(console.error);
-          }, 10 * 1000);
+        if (object?.author && replyMessage.deletable)
+          setTimeout(async () => await replyMessage.delete().catch(console.error), 10 * 1000);
       };
 
       if (!target) return replyMessage('You must mention someone!');

@@ -130,7 +130,7 @@ module.exports = {
         // Chờ và lấy báo cáo phân tích mới ---
         let attempts = 0;
         const maxAttempts = 5; // Số lần thử lại tối đa
-        const delayMs = 10000; // Khoảng thời gian chờ giữa các lần thử (10 giây)
+        const delayMs = 10 * 1000; // Khoảng thời gian chờ giữa các lần thử (10 giây)
 
         await sendResponseEmbed(
           'Đang phân tích...',

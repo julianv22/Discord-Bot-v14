@@ -22,11 +22,9 @@ module.exports = {
 
     const keyword = args.join(' ');
     if (!keyword)
-      return await message.reply(errorEmbed({ desc: 'Vui lòng nhập từ khóa tìm kiếm!' })).then((m) => {
-        setTimeout(async () => {
-          await m.delete().catch(console.error);
-        }, 10000);
-      });
+      return await message
+        .reply(errorEmbed({ desc: 'Vui lòng nhập từ khóa tìm kiếm!' }))
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     await wikipedia(keyword, message);
   },

@@ -57,11 +57,9 @@ module.exports = (client) => {
 
           if (object) {
             if (object?.author)
-              return await object.reply(embed).then((m) =>
-                setTimeout(async () => {
-                  m.delete().catch(console.error);
-                }, 10 * 1000)
-              );
+              return await object
+                .reply(embed)
+                .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
             else if (!object.replied && !object.deferred) return await object.reply(embed);
             else return await object.editReply(embed);
           }

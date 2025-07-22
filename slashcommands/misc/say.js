@@ -20,9 +20,7 @@ module.exports = {
     if (target) {
       if (!content) {
         await interaction.reply(`Hello ${target} 👋!`);
-        setTimeout(async () => {
-          return await interaction.followUp('Have a good day 🎉!');
-        }, 3000);
+        setTimeout(async () => await interaction.followUp('Have a good day 🎉!'), 3 * 1000);
       } else await interaction.reply(`${target}: ${content}`);
     } else {
       if (!content) return await interaction.reply(errorEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));

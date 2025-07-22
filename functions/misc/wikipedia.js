@@ -16,10 +16,8 @@ module.exports = (client) => {
       if (!res.ok || body.status === 404) {
         const replyMessage = await object.reply(errorEmbed({ desc: `No information found for keyword ${keyword}!` }));
 
-        if (object?.author)
-          setTimeout(async () => {
-            await replyMessage.delete().catch(console.error);
-          }, 10 * 1000);
+        if (object?.author && replyMessage.deletable)
+          setTimeout(async () => await replyMessage.delete().catch(console.error), 10 * 1000);
 
         return;
       }

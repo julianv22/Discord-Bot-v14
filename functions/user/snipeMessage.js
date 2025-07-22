@@ -16,10 +16,9 @@ module.exports = (client) => {
       if (!snipe) {
         const replyMessage = await object.reply(errorEmbed({ desc: `There is nothing to snipe.` }));
 
-        if (object.author)
-          setTimeout(async () => {
-            await replyMessage.delete().catch(console.error);
-          }, 5000);
+        if (object.author && replyMessage.deletable)
+          setTimeout(async () => await replyMessage.delete().catch(console.error), 5 * 1000);
+
         return;
       }
 

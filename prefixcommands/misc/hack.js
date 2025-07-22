@@ -19,22 +19,22 @@ module.exports = {
     if (!target)
       return await message
         .reply(errorEmbed({ desc: 'Phải @ đến nạn nhân để hack 🤣!' }))
-        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (target.id === author.id)
       return await message
         .reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }))
-        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (target.id === guild.ownerId)
       return await message
         .reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá! 🎭' }))
-        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (target.id === cfg.clientID)
       return await message
         .reply(errorEmbed({ desc: 'Are you sure 🤔' }))
-        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10000));
+        .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     const username = target.displayName || target.user?.tag || target.id,
       text = [
@@ -64,26 +64,22 @@ module.exports = {
       randomText = Math.floor(Math.random() * text.length),
       randomProcess1 = Math.floor(Math.random() * process1.length),
       randomProcess2 = Math.floor(Math.random() * process2.length),
-      randomProcess3 = Math.floor(Math.random() * process3.length),
-      msg = await message.reply(text[randomText]);
+      randomProcess3 = Math.floor(Math.random() * process3.length);
 
-    setTimeout(async () => {
-      await msg.edit(process1[randomProcess1]);
-    }, 1500);
-    setTimeout(async () => {
-      await msg.edit(process2[randomProcess2]);
-    }, 2500);
-    setTimeout(async () => {
-      await msg.edit(process3[randomProcess3]);
-    }, 3500);
-    setTimeout(async () => {
-      await msg.edit(processEnd);
-    }, 4500);
-    setTimeout(async () => {
-      await msg.edit(endText);
-    }, 5500);
-    setTimeout(async () => {
-      await msg.edit(result);
-    }, 6000);
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+    msg = await message.reply(text[randomText]);
+    delay(1500);
+    await msg.edit(process1[randomProcess1]);
+    delay(1000);
+    await msg.edit(process2[randomProcess2]);
+    delay(1000);
+    await msg.edit(process3[randomProcess3]);
+    delay(1000);
+    await msg.edit(processEnd);
+    delay(1000);
+    await msg.edit(endText);
+    delay(500);
+    await msg.edit(result);
   },
 };
