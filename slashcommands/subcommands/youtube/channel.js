@@ -42,7 +42,7 @@ module.exports = {
       return channelId;
     };
 
-    let profile = await serverProfile
+    const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)

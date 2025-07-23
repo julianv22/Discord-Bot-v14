@@ -48,7 +48,7 @@ module.exports = {
    * const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };
    * replaceVar("Hello, {user} from {guild}!", replaceKey);
    * ```
-   * @returns {string} The string with variables replaced. */
+   * @returns {string} - The string with variables replaced. */
   replaceVar: (stringInput, replacements) => {
     // Regex will match any string in the format {key}
     // Example: {user}, {guild}, {avatar}
@@ -60,7 +60,7 @@ module.exports = {
   },
   /** - Logs an array of data into an ASCII table format to the console. Each inner array in `data` represents a column.
    * @param {Array<Array<string>>} data - An array of arrays, where each inner array contains data for a column.
-   * @param {object} [setting] - Optional settings for the ASCII table.
+   * @param {object} [setting = {}] - Optional settings for the ASCII table.
    * @param {string} [setting.title] - The title of the ASCII table.
    * @param {string[]} [setting.heading] - Column names for the ASCII table. */
   logAsciiTable: (data, seting = {}) => {
@@ -90,8 +90,8 @@ module.exports = {
   },
   /** - Converts a numeric balance to a localized currency string.
    * @param {number} balance - The amount of money to format.
-   * @param {Locale} [userLocale] - The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided or invalid. */
-  toCurrency: (balance, userLocale) => {
+   * @param {Locale} [userLocale = 'VND'] - The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided or invalid. */
+  toCurrency: (balance, userLocale = 'VND') => {
     const CurrencyMap = {
       'en-US': 'USD', // English (US) -> US Dollar
       'en-GB': 'GBP', // English (UK) -> British Pound

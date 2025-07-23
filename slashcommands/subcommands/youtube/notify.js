@@ -28,7 +28,7 @@ module.exports = {
     } = interaction;
     const { errorEmbed } = client;
 
-    let profile = await serverProfile
+    const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)

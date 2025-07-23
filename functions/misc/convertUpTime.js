@@ -19,11 +19,12 @@ module.exports = (client) => {
       if (minutes > 0) time.push(minutes + ' minute' + (minutes > 1 ? 's' : ''));
       if (seconds > 0) time.push(seconds + ' second' + (seconds > 1 ? 's' : ''));
 
-      let stringTime = days > 0 ? `${time[0]} & ` + time.splice(1).join(', ') : time.join(', ');
+      const stringTime = days > 0 ? `${time[0]} & ` + time.splice(1).join(', ') : time.join(', ');
 
       return uptime < 60 ? `<t:${parseInt(readyTimestamp / 1000)}:R>` : stringTime;
     } catch (e) {
       client.logError({ item: 'convertUpTime', desc: 'function' }, e);
+      return '';
     }
   };
 };

@@ -28,7 +28,7 @@ module.exports = (client) => {
       }
     };
     try {
-      let servers = await serverProfile.find({});
+      const servers = await serverProfile.find({});
       for (const server of servers) {
         const {
           guildId,

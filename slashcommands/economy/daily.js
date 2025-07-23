@@ -11,7 +11,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const {
-      guild,
       guildId,
       guild: { name: guildName },
       user,
@@ -22,7 +21,7 @@ module.exports = {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    let profile = await economyProfile
+    const profile = await economyProfile
       .findOneAndUpdate(
         { guildId, userId },
         { $setOnInsert: { guildName, userName, lastWork: '' } },

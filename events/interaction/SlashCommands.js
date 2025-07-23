@@ -38,13 +38,11 @@ module.exports = {
         }
 
         const subCommandName = options.getSubcommand(false);
-        let subcommand = null;
-        if (subCommandName) {
-          const compoundKey = `${command.data.name}|${subCommandName}`;
-          subcommand = subCommands.get(compoundKey);
-        }
 
-        if (subcommand && subcommand.parent === command.data.name) await subcommand.execute(interaction, client);
+        let subCommand = null;
+        if (subCommandName) subCommand = subCommands.get(`${command.data.name}|${subCommandName}`);
+
+        if (subCommand && subCommand.parent === command.data.name) await subCommand.execute(interaction, client);
         else await command.execute(interaction, client);
       } else if (interaction.isContextMenuCommand()) {
         const context = slashCommands.get(commandName);

@@ -18,7 +18,7 @@ module.exports = (client) => {
     const [userId, userName] = [target.id, target.displayName || target.username];
 
     try {
-      const imgURL = [
+      const URLs = [
         'https://cdn.discordapp.com/attachments/976364997066231828/987822146279587850/unknown.png',
         'https://media.discordapp.net/attachments/976364997066231828/988317420106174484/unknown.png',
         'https://cdn.discordapp.com/attachments/976364997066231828/988317854610907136/unknown.png',
@@ -66,7 +66,7 @@ module.exports = (client) => {
           })
           .setThumbnail('https://fonts.gstatic.com/s/e/notoemoji/latest/2764_fe0f_200d_1f525/512.gif')
           .setDescription(`${author} special thanks to ${target}!`)
-          .setImage(imgURL[Math.floor(Math.random() * imgURL.length)])
+          .setImage(URLs[Math.floor(Math.random() * URLs.length)])
           .setFooter({ text: 'Use /thanks to thank someone.', iconURL: guild.iconURL(true) })
           .setTimestamp()
           .setFields(

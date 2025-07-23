@@ -26,28 +26,28 @@ module.exports = (client) => {
      * Slash: CommandTypeProperties,
      * Sub: CommandTypeProperties
      * }}
-     * */
+     */
     const commandTypes = {
       Prefix: { name: 'Prefix Commands', folder: 'prefixcommands', collection: prefixCommands },
       Slash: { name: 'Slash Commands', folder: 'slashcommands', collection: slashCommands },
       Sub: { name: 'Sub Commands', folder: path.join('slashcommands', 'subcommands'), collection: subCommands },
     };
     /** Loads commands (Prefix, Slash, Sub).
-     * @param {CommandTypeProperties} type - The command type configuration from `commandTypes`. */
-    const loadCommands = async (type) => {
+     * @param {CommandTypeProperties} commandType - The command type configuration from `commandTypes`. */
+    const loadCommands = async (commandType) => {
       const ignoreFolders = ['subcommands'];
-      const commandFolders = readFiles(type.folder, {
+      const commandFolders = readFiles(commandType.folder, {
         isDir: true,
         function: (folder) => !ignoreFolders.includes(folder),
       });
 
       for (const folder of commandFolders) {
-        const folderPath = path.join(type.folder, folder);
+        const folderPath = path.join(commandType.folder, folder);
         const commandFiles = readFiles(folderPath);
 
         for (const file of commandFiles) {
           const filePath = path.join(process.cwd(), folderPath, file);
-          requireCommands(filePath, type.folder, type.collection);
+          requireCommands(filePath, commandType.folder, commandType.collection);
         }
       }
     };

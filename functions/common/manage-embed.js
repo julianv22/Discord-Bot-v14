@@ -1,9 +1,10 @@
-const { ActionRowBuilder, ButtonStyle, ComponentType } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } = require('discord.js');
 const { rowComponents } = require('./components');
 
 module.exports = {
   /** - Creates embed buttons.
-   * @param {string} [messageId] - Message ID if editing an embed. */
+   * @param {string} [messageId] - Message ID if editing an embed.
+   * @returns {ActionRowBuilder<ButtonBuilder[]>} */
   manageEmbedButtons: (messageId) => {
     const buttons = [
       [
@@ -35,7 +36,8 @@ module.exports = {
 
     return [row(1), row(2), row(3)];
   },
-  /** - Create reaction buttons */
+  /** - Create reaction buttons
+   * @returns {ActionRowBuilder<ButtonBuilder[]>} */
   reactionButtons: () => {
     const button = [
       { customId: 'reaction-role:hide', label: '⛔ Hide guide', style: ButtonStyle.Danger },

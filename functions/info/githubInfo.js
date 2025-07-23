@@ -23,7 +23,7 @@ module.exports = (client) => {
         return;
       }
 
-      let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
+      const { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } =
         body;
 
       const embeds = [

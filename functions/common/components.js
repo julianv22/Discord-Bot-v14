@@ -170,7 +170,7 @@ module.exports = {
   /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
    * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).
    * @param {ComponentType.Thumbnail|ComponentType.Button} accessoryType - The type of accessory to include in the section.
-   * @param {string|ComponentOptions} [options] - If `accessoryType` is `ComponentType.Thumbnail`, this is a string URL for the thumbnail. If `accessoryType` is `ComponentType.Button`, this is a `ComponentOptions` object for the button. */
+   * @param {string|ComponentOptions} [options] - An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory. */
   sectionComponents: (contents, accessoryType, options) => {
     const textDisplays = module.exports.textDisplay(contents);
     const section = new SectionBuilder();
@@ -222,7 +222,7 @@ module.exports = {
   /** - Creates an array of TextDisplayBuilder components from the given content.
    * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings. */
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
-  /** - Link button
+  /** - Creates a Link Button from given url
    * @param {string} url - The URL of button
    * @param {string} [label = '🔗 Jump to message'] - The text displayed on the button */
   linkButton: (url, label = '🔗 Jump to message') =>

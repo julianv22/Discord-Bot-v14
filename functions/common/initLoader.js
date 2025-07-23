@@ -15,7 +15,10 @@ module.exports = {
   /** - Reads directory contents (files and/or subfolders) based on filtering options.
    * @param {string} folderPath Path to the folder to read.
    * @param {FilterOptions} [options]
-   * @returns {string[]} Returns an Array containing the names of files or folders that match the filtering conditions. */
+   * @returns {string[]} Returns an Array containing the names of files or folders that match the filtering conditions.
+   * @example
+   * readFiles('slashcommands', { isDir: true, function: (folder) => !ignoreFolders.includes(folder) });
+   */
   readFiles: (folderPath, options = {}) => {
     const { all = false, isDir = false, extension = '.js', filter: func } = options;
     const FileType = all ? 'AllFiles' : isDir ? 'folders' : `[ ${extension} ] files`;
@@ -29,7 +32,7 @@ module.exports = {
               return statSync(path.join(folderPath, folder)).isDirectory();
             } catch (e) {
               logError({ todo: 'reading', item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
-              return false;
+              return [];
             }
           }),
         default: () =>
@@ -38,7 +41,7 @@ module.exports = {
               return statSync(path.join(folderPath, file)).isFile() && file.endsWith(extension);
             } catch (e) {
               logError({ todo: 'reading', item: FileType, desc: `in ${chalk.green(folderPath)} folder` }, e);
-              return false;
+              return [];
             }
           }),
       };

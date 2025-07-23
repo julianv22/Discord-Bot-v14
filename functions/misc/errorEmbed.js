@@ -8,8 +8,8 @@ module.exports = (client) => {
    * @typedef {object} EmbedData
    * @property {string} [title] - The title of the embed.
    * @property {string} desc - The detailed description of the error.
-   * @property {boolean|string} [emoji=false] - The emoji to prefix the title or description. If boolean, uses default success/error emojis.
-   * @property {boolean} [flags=true] - Whether the message should be ephemeral. Defaults to `true`.
+   * @property {boolean|string} [emoji = false] - The emoji to prefix the title or description. If boolean, uses default success/error emojis.
+   * @property {boolean} [flags = true] - Whether the message should be ephemeral. Defaults to `true`.
    * @property {string|number} [color] - The color of the embed. */
 
   /** - Creates an error message embed.
@@ -44,9 +44,9 @@ module.exports = (client) => {
 
   /** - Creates an error message container.
    * @param {string} description - The detailed description of the error.
-   * @param {(boolean|string)} [emoji=false] - The emoji to prefix the description. If boolean, uses default success/error emojis.
+   * @param {(boolean|string)} [emoji = false] - The emoji to prefix the description. If boolean, uses default success/error emojis.
    * @param {(number)} [color] - The accent color of the container.
-   * @param {boolean} [flags=true] - Whether the message should be ephemeral. Defaults to `true`. */
+   * @param {boolean} [flags = true] - Whether the message should be ephemeral. Defaults to `true`. */
   client.errorContainer = (description, emoji = false, color, flags = true) => {
     const container = new ContainerBuilder().setAccentColor(color || (emoji ? Colors.Green : Colors.Red));
 

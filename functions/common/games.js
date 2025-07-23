@@ -3,7 +3,7 @@ const { Colors } = require('discord.js');
 module.exports = {
   /** - RPS Game
    * @param {number} userMove - The user's move.
-   * @returns {{result: string, color: number, description: string, res: number}} - Returns an object containing:
+   * @returns - Returns an object containing:
    * - result: The RPS result.
    * - color: The color for the embed.
    * - description: The description for the embed.
