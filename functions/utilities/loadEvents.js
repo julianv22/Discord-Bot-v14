@@ -5,13 +5,12 @@ const { logAsciiTable } = require('../common/utilities');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
-  /** - Loads all events from the 'events' folder.
-   * @param {string} folderName - Event folder name */
-  client.loadEvents = async (folderName) => {
+  /** - Loads all events from the 'events' folder. */
+  client.loadEvents = async (eventFolder) => {
     const { compColection, logError } = client;
 
     try {
-      // const eventFolder = 'events';
+      const folderName = 'events';
       const eventFolders = readFiles(folderName, { isDir: true });
 
       const eventArray = [];

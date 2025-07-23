@@ -39,10 +39,10 @@ mongoose
     require('./functions/common/utilities').init(client); // Đăng ký và truyền client vào ultilities
     require('./functions/loadFunctions')(client); // Đăng ký function loadFunctions vào client
 
-    await client.loadFunctions('functions');
-    await client.loadEvents('events');
-    await client.loadComponents('components');
+    await client.loadFunctions();
     await client.loadEvents();
+    await client.loadComponents();
+    await client.loadCommands();
 
     client.login(process.env.token).catch(console.error);
   })
