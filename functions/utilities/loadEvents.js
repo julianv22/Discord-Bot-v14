@@ -6,7 +6,7 @@ const { logAsciiTable } = require('../common/utilities');
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Loads all events from the 'events' folder. */
-  client.loadEvents = async (eventFolder) => {
+  client.loadEvents = async () => {
     const { compColection, logError } = client;
 
     try {
