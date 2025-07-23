@@ -24,7 +24,7 @@ module.exports = (client) => {
 
       if (!usage) {
         usage = `${prefix}${name}`;
-        if (Array.isArray(aliases)) usage += ` | ${aliases.map((a) => prefix + a).join(' | ')}`;
+        if (Array.isArray(aliases) && aliases.length > 0) usage += ` | ${aliases.map((a) => prefix + a).join(' | ')}`;
       }
 
       const usageEmbed = new EmbedBuilder()

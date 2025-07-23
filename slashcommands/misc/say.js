@@ -17,14 +17,17 @@ module.exports = {
     const content = options.getString('content');
     const target = options.getUser('user');
 
+    if (!content && !target)
+      return await interaction.reply(errorEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
+
     if (target) {
-      if (!content) {
-        await interaction.reply(`Hello ${target} 👋!`);
-        setTimeout(async () => await interaction.followUp('Have a good day 🎉!'), 3 * 1000);
-      } else await interaction.reply(`${target}: ${content}`);
-    } else {
-      if (!content) return await interaction.reply(errorEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
-      else await interaction.reply(content);
+      if (content) return await interaction.reply(`${target}: ${content}`);
+
+      await interaction.reply(`Hello ${target} 👋!`);
+
+      return setTimeout(async () => await interaction.followUp('Have a good day 🎉!'), 3 * 1000);
     }
+
+    await interaction.reply(content);
   },
 };

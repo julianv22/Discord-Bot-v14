@@ -36,6 +36,7 @@ module.exports = {
       const starReaction = message.reactions.cache.get('⭐');
       const count = starReaction ? starReaction.count : 0;
       if (count === 0) return;
+
       return await starReactionAdd(message, user.id, count);
     }
 

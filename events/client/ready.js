@@ -14,14 +14,19 @@ module.exports = {
      * @param {string} message Message content
      * @param {string} [color] Chalk color */
     const log = (message, color = 'reset') => console.log(chalk[color](message));
+
+    /** - Options Configuration
+     * @typedef {object} OptionsConfig
+     * @property {string|string[]} name - Name column
+     * @property {string|string[]} value - Value column
+     * @property {string} [nameColor = 'blueBright'] - Color of name column
+     * @property {string} [valueColor = 'cyan'] - Color of value column
+     * @property {number} [tab = 1] - Separator tab */
     /** - Print table console log with chalk options
-     * @param {object} options Table options
-     * @param {string|string[]} options.name Name column
-     * @param {string|string[]} options.value Value column
-     * @param {string} [options.nameColor] Name color column
-     * @param {string} [options.valueColor] Value color column
-     * @param {number} [options.tab] Seperator tab */
-    const table = ({ name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 }) => {
+     * @param {OptionsConfig} options - Table options */
+    const table = (options) => {
+      const { name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 } = options;
+
       if (!name || !value) return null;
 
       if (typeof name === 'string' && typeof value === 'string')
@@ -67,7 +72,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '18:35, 23/07/2025' });
+      table({ name: '📆 Last update:', value: '20:20, 23/07/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
@@ -87,7 +92,7 @@ module.exports = {
 
       // Set Client's Pressence
       setPresence();
-      setInterval(async () => await setPresence(), 5 * 60 * 1000);
+      setInterval(async () => await setPresence(), 15 * 60 * 1000);
 
       for (const server of servers) {
         await serverStats(server.id);

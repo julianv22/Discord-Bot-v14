@@ -11,18 +11,18 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const toSay = args.join(' ');
+    const content = args.join(' ');
 
-    if (!toSay)
+    if (!content)
       return await message
         .reply(client.errorEmbed({ desc: 'Vui lòng nhập nội dung để bot nói!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
-    if (toSay.trim() === '?') return await client.commandUsage(message, this);
+    if (content.trim() === '?') return await client.commandUsage(message, this);
 
     if (message.deletable) {
-      await message.delete();
-      await message.channel.send(toSay);
+      message.delete().catch(console.error);
+      await message.channel.send(content);
     }
   },
 };
