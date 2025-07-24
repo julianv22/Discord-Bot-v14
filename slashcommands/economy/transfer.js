@@ -28,13 +28,13 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, options } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const [target, amount] = [options.getUser('target'), options.getInteger('amount')];
 
-    if (target.bot) return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển 💲 cho bot!' }));
+    if (target.bot) return await interaction.reply(messageEmbed({ desc: 'Bạn không thể chuyển 💲 cho bot!' }));
 
     if (target.id === user.id)
-      return await interaction.reply(errorEmbed({ desc: 'Bạn không thể chuyển 💲 cho chính mình!' }));
+      return await interaction.reply(messageEmbed({ desc: 'Bạn không thể chuyển 💲 cho chính mình!' }));
 
     const [profile, targetProfile] = await Promise.all([
       economyProfile.findOne({ guildId, userId: user.id }).catch(console.error),
@@ -49,14 +49,14 @@ module.exports = {
 
     if (!profile || !targetProfile)
       return await interaction.reply(
-        errorEmbed({
+        messageEmbed({
           desc: !profile
             ? 'Bạn chưa có tài khoản Economy, vui lòng sử dụng lệnh /daily để tạo tài khoản'
             : 'Không tìm thấy tài khoản Economy của người nhận',
         })
       );
 
-    if (amount > profile?.bank) return await interaction.reply(errorEmbed({ desc: 'Bạn không có đủ 💲 để chuyển!' }));
+    if (amount > profile?.bank) return await interaction.reply(messageEmbed({ desc: 'Bạn không có đủ 💲 để chuyển!' }));
 
     const fee = Math.round(amount * 0.01);
     const total = amount + fee;

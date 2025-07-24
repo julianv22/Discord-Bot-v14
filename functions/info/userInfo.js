@@ -8,13 +8,13 @@ module.exports = (client) => {
    * @param {GuildMember} target - The target user.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.userInfo = async (target, object) => {
-    const { errorEmbed, catchError } = client;
+    const { messageEmbed, catchError } = client;
     const [guild, author] = [object.guild, object?.user || object?.author];
     const [guildId, userId] = [guild.id, target.id];
 
     try {
       const member = guild.members.cache.get(userId);
-      if (!member) return await object.reply(errorEmbed({ desc: 'User is not in this server.' }));
+      if (!member) return await object.reply(messageEmbed({ desc: 'User is not in this server.' }));
 
       const acknowledgements = [];
       if (userId === guild.ownerId) acknowledgements.push('Server Owner');

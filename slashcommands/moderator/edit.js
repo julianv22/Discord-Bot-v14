@@ -33,7 +33,7 @@ module.exports = {
       guild,
       channel: { messages },
     } = interaction;
-    const { errorEmbed, logError } = client;
+    const { messageEmbed, logError } = client;
     const editType = options.getSubcommand();
     const messageId = options.getString('message_id');
     const content = options.getString('content');
@@ -51,18 +51,18 @@ module.exports = {
 
     if (!msg)
       return await interaction.reply(
-        errorEmbed({
+        messageEmbed({
           desc: `Message with ID: [${messageId}] not found, or it's not in this channel!`,
         })
       );
 
     if (msg.author.id !== client.user.id)
-      return await interaction.reply(errorEmbed({ desc: `This message does not belong to ${client.user.tag}!` }));
+      return await interaction.reply(messageEmbed({ desc: `This message does not belong to bot!` }));
 
     const editMessage = {
       embed: async () => {
         if (!msg.embeds.length)
-          return await interaction.reply(errorEmbed({ desc: 'This message does not contain any embeds!' }));
+          return await interaction.reply(messageEmbed({ desc: 'This message does not contain any embeds!' }));
 
         await interaction.reply({
           embeds: [EmbedBuilder.from(msg.embeds[0])],
@@ -74,7 +74,7 @@ module.exports = {
         await msg.edit(content).then(
           async () =>
             await interaction.reply({
-              ...errorEmbed({ desc: 'Message has been edited successfully!', emoji: true }),
+              ...messageEmbed({ desc: 'Message has been edited successfully!', emoji: true }),
               components: [linkButton(msg.url)],
             })
         ),

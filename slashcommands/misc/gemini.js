@@ -17,13 +17,13 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
 
     const prompt = interaction.options.getString('prompt');
 
     if (!prompt)
       return await interaction.reply(
-        errorEmbed({ desc: 'Vui lòng cung cấp một câu hỏi để trò chuyện với Gemini AI.' })
+        messageEmbed({ desc: 'Vui lòng cung cấp một câu hỏi để trò chuyện với Gemini AI.' })
       );
 
     let history = chatHistories.get(user.id) || [];

@@ -18,7 +18,7 @@ module.exports = {
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guildId, customId } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const [, feature, disable] = customId.split(':');
 
     /** @param {boolean} [disabled = false] Disabled buttons, `true` = disabled */
@@ -37,7 +37,8 @@ module.exports = {
       new ContainerBuilder().setAccentColor(accent_color).addTextDisplayComponents(textDisplay(contents));
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
-    if (!profile) return interaction.reply(errorEmbed({ desc: 'Không tìm thấy dữ liệu máy chủ trong cơ sở dữ liệu!' }));
+    if (!profile)
+      return interaction.reply(messageEmbed({ desc: 'No data found for this server. Please try again later!' }));
 
     const { starboard, suggest, youtube, welcome } = profile || {};
 

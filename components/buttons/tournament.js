@@ -16,7 +16,7 @@ module.exports = {
       customId,
       message: { components },
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const [, buttonId] = customId.split(':');
     const tourName = components[0].components[0].components[1].data;
     const tourStatus = components[0].components[0].components[2].data;
@@ -24,7 +24,7 @@ module.exports = {
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 
-    if (!tournament?.roleId) return await interaction.reply(errorEmbed({ desc: 'Chưa chọn tên role cho giải đấu!' }));
+    if (!tournament?.roleId) return await interaction.reply(messageEmbed({ desc: 'Chưa chọn tên role cho giải đấu!' }));
 
     const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
 
@@ -32,7 +32,11 @@ module.exports = {
       open: async () => {
         if (tournament?.isActive)
           return await interaction.reply(
-            errorEmbed({ desc: `Giải đấu ${getRole(tournament?.roleId)} đã được mở!`, emoji: '🏆', color: Colors.Red })
+            messageEmbed({
+              desc: `Giải đấu ${getRole(tournament?.roleId)} đã được mở!`,
+              emoji: '🏆',
+              color: Colors.Red,
+            })
           );
 
         tournament.isActive = true;
@@ -42,17 +46,21 @@ module.exports = {
         await profile.save().catch(console.error);
         await interaction.update({ components });
         await interaction.channel.send(
-          errorEmbed({
+          messageEmbed({
             desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
             emoji: '🏆',
-            color: Colors.DarkGreen,
+            color: Colors.Green,
           })
         );
       },
       close: async () => {
         if (!tournament?.isActive)
           return await interaction.reply(
-            errorEmbed({ desc: `Giải đấu ${getRole(tournament?.roleId)} đã bị đóng!`, emoji: '🏆', color: Colors.Red })
+            messageEmbed({
+              desc: `Giải đấu ${getRole(tournament?.roleId)} đã bị đóng!`,
+              emoji: '🏆',
+              color: Colors.Red,
+            })
           );
 
         tournament.isActive = false;
@@ -62,17 +70,17 @@ module.exports = {
         await profile.save().catch(console.error);
         await interaction.update({ components });
         await interaction.channel.send(
-          errorEmbed({
+          messageEmbed({
             desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
             emoji: '🏆',
-            color: Colors.DarkVividPink,
+            color: Colors.Red,
           })
         );
       },
       close_all: async () => {
         const tournamentProfiles = await tournamentProfile.find({ guildId }).catch(console.error);
         if (!tournamentProfiles || tournamentProfiles.length === 0)
-          return await interaction.reply(errorEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
+          return await interaction.reply(messageEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
 
         for (const profile of tournamentProfiles) profile.isActive = false;
         await tournamentProfile.bulkSave(tournamentProfiles).catch(console.error);
@@ -89,7 +97,7 @@ module.exports = {
       list: async () => {
         if (!tournament?.isActive)
           return await interaction.reply(
-            errorEmbed({
+            messageEmbed({
               desc: `Giải đấu ${getRole(tournament?.roleId)} chưa được mở!`,
               emoji: '🏆',
               color: Colors.Red,
@@ -98,7 +106,7 @@ module.exports = {
 
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
+          return await interaction.reply(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         const tengiai = `**Tên giải:** ${getRole(tournament?.roleId)}`;
         // Tạo danh sách thành viên, mỗi dòng 1 người
@@ -143,7 +151,7 @@ module.exports = {
       to_excel: async () => {
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(errorEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
+          return await interaction.reply(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         // Tạo dữ liệu cho Excel
         const excelData = [['STT', 'Username', 'Ingame']];

@@ -30,7 +30,7 @@ module.exports = {
       guildId,
       guild: { name: guildName },
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
 
     const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
@@ -38,7 +38,7 @@ module.exports = {
 
     if (!profile)
       return await interaction.reply(
-        errorEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
+        messageEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
 
     const { tournament } = profile || {};

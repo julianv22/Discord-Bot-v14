@@ -17,13 +17,13 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { customId, message, channel } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { messageEmbed, catchError } = client;
     const [, buttonId, messageId] = customId.split(':');
     const editEmbed = EmbedBuilder.from(message.embeds[0]);
     const actionRow = (id) => ActionRowBuilder.from(message.components[id]);
     const actionRows = [actionRow(0), actionRow(1), actionRow(2)];
 
-    if (!message) return await interaction.reply(errorEmbed({ desc: 'Message not found!' }));
+    if (!message) return await interaction.reply(messageEmbed({ desc: 'Message not found or has been deleted!' }));
 
     const onClick = {
       author: async () =>
@@ -131,7 +131,7 @@ module.exports = {
             const msg = await channel.messages.fetch(messageId);
             if (!msg)
               return await interaction.reply(
-                errorEmbed({ desc: 'Message not found or message is not in this channel.' })
+                messageEmbed({ desc: 'Message not found or message is not in this channel.' })
               );
 
             await msg.edit({ embeds: [editEmbed] }).catch(console.error);

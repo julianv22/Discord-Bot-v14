@@ -26,46 +26,42 @@ module.exports = {
       user,
       options,
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const userId = user.id;
     const userName = user.displayName || user.username;
 
     // Verified
     if (!options.getBoolean('confirm'))
       return await interaction.reply(
-        errorEmbed({ desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '❗', color: Colors.Orange })
+        messageEmbed({ desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '❗', color: Colors.Orange })
       );
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
-        errorEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
+        messageEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
 
     const { tournament } = profile || {};
 
     if (!tournament?.isActive)
       return await interaction.reply(
-        errorEmbed({
-          desc: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!',
-          emoji: '🏆',
-          color: Colors.Red,
-        })
+        messageEmbed({ desc: 'Hiện tại đã đóng đăng ký hoặc không có giải đấu nào đang diễn ra!' })
       );
 
     // Check Tournament's Status
     const tourProfile = await tournamentProfile.findOne({ guildId, userId }).catch(console.error);
     if (!tourProfile || !tourProfile?.registrationStatus)
-      return await interaction.reply(errorEmbed({ desc: `${userName} chưa đăng ký giải đấu!` }));
+      return await interaction.reply(messageEmbed({ desc: 'Bạn chưa đăng ký giải đấu!' }));
 
     // Kiểm tra role giải đấu
     if (!tournament?.roleId)
-      return await interaction.reply(errorEmbed({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
+      return await interaction.reply(messageEmbed({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
 
     const role = roles.cache.get(tournament?.roleId);
     if (!role)
       return await interaction.reply(
-        errorEmbed({
+        messageEmbed({
           desc: `Role giải đấu với ID ${tournament?.roleId} không tồn tại! Vui lòng liên hệ ban quản trị!`,
         })
       );
@@ -76,23 +72,36 @@ module.exports = {
 
     if (tourProfile.registrationStatus)
       // Kiểm tra lại sau khi lưu
-      return await interaction.reply(errorEmbed({ desc: 'Đã xảy ra lỗi khi hủy đăng ký giải đấu. Vui lòng thử lại.' }));
+      return await interaction.reply(
+        messageEmbed({ desc: 'Đã xảy ra lỗi khi hủy đăng ký giải đấu. Vui lòng thử lại.' })
+      );
 
     // Remove Role
     const bot = members.me || (await members.fetch(client.user.id));
 
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
       if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
-        return await interaction.followUp(errorEmbed({ desc: `Bot cần quyền Manage Roles để gỡ role ${role.name}!` }));
+        return await interaction.followUp(
+          messageEmbed({ title: 'Bot không có quyền gỡ role', desc: `Bot cần quyền Manage Roles để gỡ role ${role}!` })
+        );
 
       if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
-          errorEmbed({ desc: `Bot không thể gỡ role ${role.name} vì role này cao hơn hoặc bằng role của bot!` })
+          messageEmbed({
+            title: 'Bot không đủ quyền',
+            desc: `Bot không thể gỡ role ${role} vì role này cao hơn hoặc bằng role của bot!`,
+          })
         );
     } else await members.cache.get(user.id).roles.remove(role).catch(console.error);
 
     await interaction.reply(
-      errorEmbed({ desc: `${user} huỷ đăng ký giải ${role}!`, emoji: '🏆', color: Colors.Orange })
+      messageEmbed({
+        title: 'Huỷ đăng ký giải',
+        desc: `${user} huỷ đăng ký giải ${role}!`,
+        emoji: cfg.tournament_gif,
+        color: Colors.DarkVividPink,
+        flags: false,
+      })
     );
   },
 };

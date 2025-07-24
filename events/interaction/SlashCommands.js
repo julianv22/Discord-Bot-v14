@@ -6,7 +6,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { slashCommands, subCommands, errorEmbed, catchError } = client;
+    const { slashCommands, subCommands, messageEmbed, catchError } = client;
     const { guild, user, channel, options, commandName } = interaction;
     const owner = await guild.fetchOwner();
 
@@ -14,7 +14,7 @@ module.exports = {
       if (channel.type === ChannelType.DM) return;
 
       if (!guild) {
-        const reply = errorEmbed({ desc: 'No guild found' });
+        const reply = messageEmbed({ desc: 'No guild found' });
         if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
         else await interaction.editReply(reply);
         return;
@@ -24,14 +24,14 @@ module.exports = {
         const command = slashCommands.get(commandName);
 
         if (!command) {
-          const reply = errorEmbed({ desc: `Can not find  command ${commandName}` });
+          const reply = messageEmbed({ desc: `Can not find  command ${commandName}` });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
           return;
         }
 
         if (command.ownerOnly && user.id !== owner.id && user.id !== cfg.ownerID) {
-          const reply = errorEmbed({ desc: 'You are not the owner' });
+          const reply = messageEmbed({ desc: 'You are not the owner' });
           if (!interaction.replied && !interaction.deferred) await interaction.reply(reply);
           else await interaction.editReply(reply);
           return;

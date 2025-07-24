@@ -11,7 +11,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const role = options.getRole('role');
     const title = options.getString('title') || `Danh sách thành viên ${role}`;
     const isMention = options.getBoolean('mention');
@@ -28,6 +28,6 @@ module.exports = {
     ];
 
     if (members.length > 0) await interaction.reply({ embeds });
-    else await interaction.reply(errorEmbed({ desc: 'Could not find members or the role is incorrect.' }));
+    else await interaction.reply(messageEmbed({ desc: 'Could not find members or the role is incorrect.' }));
   },
 };

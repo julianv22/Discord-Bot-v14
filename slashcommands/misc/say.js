@@ -13,12 +13,12 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const content = options.getString('content');
     const target = options.getUser('user');
 
     if (!content && !target)
-      return await interaction.reply(errorEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
+      return await interaction.reply(messageEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
 
     if (target) {
       if (content) return await interaction.reply(`${target}: ${content}`);

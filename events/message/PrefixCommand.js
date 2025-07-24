@@ -6,7 +6,7 @@ module.exports = {
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
   async execute(message, client) {
-    const { prefixCommands, errorEmbed, catchError } = client;
+    const { prefixCommands, messageEmbed, catchError } = client;
     const { content, channel, author, member } = message;
 
     if (channel.type === ChannelType.DM) return;
@@ -24,7 +24,7 @@ module.exports = {
        * @param {number} [seconds = 10] Timeout before delete in seconds */
       const timeoutMessage = async (desc, seconds = 10) =>
         await message
-          .reply(errorEmbed({ desc }))
+          .reply(messageEmbed({ desc }))
           .then((m) => setTimeout(async () => await m.delete().catch(console.error), seconds * 1000));
 
       if (!command) return await timeoutMessage(`Command ${prefix + commandName} không chính xác hoặc không tồn tại!`);

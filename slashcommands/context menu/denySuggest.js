@@ -21,17 +21,17 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { targetMessage, user, guild } = interaction;
-    const { errorEmbed, user: bot } = client;
+    const { messageEmbed, user: bot } = client;
     const suggestEmbed = EmbedBuilder.from(targetMessage.embeds[0]);
     const footer = suggestEmbed.data.footer.text;
 
     if (targetMessage.author.id !== cfg.clientID)
-      return await interaction.reply(errorEmbed({ desc: 'This message does not belong to bot!' }));
+      return await interaction.reply(messageEmbed({ desc: 'This message does not belong to bot!' }));
 
-    if (!suggestEmbed) return await interaction.reply(errorEmbed({ desc: 'This message is not a suggest message!' }));
+    if (!suggestEmbed) return await interaction.reply(messageEmbed({ desc: 'This message is not a suggest message!' }));
 
     if (footer !== `${guild.name} Suggestion` && footer === 'Suggestion denied')
-      return await interaction.reply(errorEmbed({ desc: 'This suggestion has been denied!' }));
+      return await interaction.reply(messageEmbed({ desc: 'This suggestion has been denied!' }));
 
     suggestEmbed.setColor(Colors.DarkRed).setFields().setTimestamp().setFooter({
       text: 'Suggestion denied',
@@ -40,6 +40,6 @@ module.exports = {
 
     await targetMessage.edit({ embeds: [suggestEmbed] });
 
-    await interaction.reply(errorEmbed({ desc: 'Suggestion has been denied!' }));
+    await interaction.reply(messageEmbed({ desc: 'Suggestion has been denied!' }));
   },
 };

@@ -10,11 +10,11 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const week = options.getInteger('week');
     const imgURL = options.getString('image');
 
-    if (!imgURL.checkURL()) return await interaction.reply(errorEmbed({ desc: 'Please enter a valid image URL.' }));
+    if (!imgURL.checkURL()) return await interaction.reply(messageEmbed({ desc: 'Please enter a valid image URL.' }));
 
     const embeds = [
       new EmbedBuilder()

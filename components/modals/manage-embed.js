@@ -20,7 +20,7 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) return await interaction.reply(client.errorEmbed({ desc: 'Cannot find the message!' }));
+    if (!message) return await interaction.reply(client.messageEmbed({ desc: 'Cannot find the message!' }));
 
     const onSubmit = {
       author: () => {

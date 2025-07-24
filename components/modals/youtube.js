@@ -14,7 +14,7 @@ module.exports = {
       fields,
       message: { embeds },
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);
 
@@ -32,7 +32,7 @@ module.exports = {
     };
 
     const { valid, title } = await validateYoutubeChannel(input, process.env.YT_API_KEY);
-    if (!valid) return await interaction.reply(errorEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
+    if (!valid) return await interaction.reply(messageEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -68,7 +68,7 @@ module.exports = {
         const existing = await serverProfile.findOne({ guildId, 'youtube.channels': input });
         if (existing) {
           await interaction.reply(
-            errorEmbed({
+            messageEmbed({
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is already in the watchlist.`,
               emoji: '❌',
             })
@@ -89,7 +89,7 @@ module.exports = {
         // If no document was modified, the channel wasn't in the list.
         if (!result || result.modifiedCount === 0) {
           await interaction.reply(
-            errorEmbed({
+            messageEmbed({
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is not in the watchlist.`,
               emoji: '❌',
             })

@@ -12,13 +12,20 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, errorEmbed, ws } = client;
+    const { commandUsage, messageEmbed, ws } = client;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
     const ping = ws.ping;
     const delay = Math.abs(Date.now() - message.createdTimestamp);
-    const color = ping < 101 ? Colors.Green : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
+    const color = ping < 101 ? Colors.DarkGreen : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
-    await message.reply(errorEmbed({ desc: `**Ping:** ${ping} / *${delay}ms*`, color: color, emoji: '⏱️' }));
+    await message.reply(
+      messageEmbed({
+        title: 'Bot latency:',
+        desc: `**Ping:** ${ping} / *${delay}ms*`,
+        color: color,
+        emoji: 'https://fonts.gstatic.com/s/e/notoemoji/latest/23f0/512.gif',
+      })
+    ); //'⏱️'
   },
 };

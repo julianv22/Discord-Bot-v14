@@ -8,7 +8,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
 
     await interaction.deferReply();
 
@@ -16,7 +16,7 @@ module.exports = {
     const data = await response.json();
 
     if (!data || !data.url)
-      return await interaction.editReply(errorEmbed({ desc: 'Could not fetch meme. Please try again later.' }));
+      return await interaction.editReply(messageEmbed({ desc: 'Could not fetch meme. Please try again later.' }));
 
     const embeds = [
       new EmbedBuilder()

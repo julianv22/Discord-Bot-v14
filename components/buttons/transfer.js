@@ -15,11 +15,12 @@ module.exports = {
       user,
       customId,
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
-    if (amountStr === 'cancel') return interaction.update({ ...errorEmbed({ desc: 'Huỷ giao dịch' }), components: [] });
+    if (amountStr === 'cancel')
+      return interaction.update({ ...messageEmbed({ desc: 'Huỷ giao dịch' }), components: [] });
 
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
@@ -34,7 +35,7 @@ module.exports = {
     // Kiểm tra lại dữ liệu
     if (!profile || !targetProfile)
       return await interaction.update({
-        ...errorEmbed({
+        ...messageEmbed({
           desc: !profile
             ? 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!'
             : 'Không tìm thấy tài khoản của người nhận trong cơ sở dữ liệu!',
@@ -44,7 +45,7 @@ module.exports = {
 
     if (profile?.bank < total)
       return await interaction.update({
-        ...errorEmbed({
+        ...messageEmbed({
           desc: `Bạn không có đủ 💲 để chuyển! Số dư ngân hàng của bạn: ${profile?.bank.toCurrency()}`,
         }),
         components: [],

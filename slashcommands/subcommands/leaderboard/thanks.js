@@ -11,12 +11,12 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, options } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const description = options.getString('time');
 
     const topUsers = await thanksProfile.find({ guildId }).sort({ thanksCount: -1 }).limit(10).catch(console.error);
     if (!topUsers || !topUsers.length)
-      return await interaction.reply(errorEmbed({ desc: 'No thanks data found for this server.' }));
+      return await interaction.reply(messageEmbed({ desc: 'No thanks data found for this server.' }));
 
     const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const thanksList = topUsers

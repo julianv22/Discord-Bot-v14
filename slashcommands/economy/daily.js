@@ -16,7 +16,7 @@ module.exports = {
       user,
       user: { id: userId },
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const userName = user.displayName || user.username;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -31,7 +31,7 @@ module.exports = {
 
     if (!profile) {
       return await interaction.reply(
-        errorEmbed({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo hồ sơ kinh tế của bạn. Vui lòng thử lại sau.' })
+        messageEmbed({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo hồ sơ kinh tế của bạn. Vui lòng thử lại sau.' })
       );
     }
 
@@ -44,7 +44,7 @@ module.exports = {
       const timeleft = Math.floor(nextDaily.getTime() / 1000);
 
       return await interaction.reply(
-        errorEmbed({ desc: `Bạn đã nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: '❌' })
+        messageEmbed({ title: 'Bạn đã nhận 💲 hôm nay!', desc: `↪ Hãy quay lại sau: <t:${timeleft}:R>` })
       );
     }
 
@@ -85,16 +85,17 @@ module.exports = {
     // Đọc achievements từ file JSON
     const streakMilestones = Object.keys(achievementsConfig).map(Number);
 
-    let achievementMsg = '';
     if (streakMilestones.includes(streak)) {
       const achv = achievementsConfig[streak];
       if (achv) {
         profile.balance += achv.reward;
         profile.totalEarned += achv.reward;
-        bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${achv.reward.toCurrency()}**`;
+        bonusMsg = `\n- \\🎉 Chúc mừng! Bạn đã đạt chuỗi **${streak} ngày**.\n- Nhận danh hiệu **${
+          achv.name
+        }** và nhận thêm **${achv.reward.toCurrency()}**`;
 
         const { achievements } = profile || {};
-        if (!achievements?.[streak]) achievements[streak] = { ...achievementsConfig[streak], claimAt: new Date() };
+        if (!achievements?.[streak]) achievements[streak] = { ...achv, claimAt: new Date() };
       }
     }
 
@@ -118,7 +119,7 @@ module.exports = {
         .setAuthor({ name: guildName, iconURL: cfg.money_wings_gif })
         .setTitle('Nhận \\💲 hằng ngày!')
         .setDescription(
-          `Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\nSố dư hiện tại: **${profile?.balance.toCurrency()}**.\n\n\\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}${achievementMsg}`
+          `- Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\n- Số dư hiện tại: **${profile?.balance.toCurrency()}**.\n- \\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}`
         )
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
         .setTimestamp(),

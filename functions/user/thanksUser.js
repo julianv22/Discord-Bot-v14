@@ -8,7 +8,7 @@ module.exports = (client) => {
    * @param {GuildMember} target - The target user to thank.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.thanksUser = async (target, object) => {
-    const { errorEmbed, catchError } = client;
+    const { messageEmbed, catchError } = client;
     const {
       guild,
       guildId,
@@ -36,7 +36,7 @@ module.exports = (client) => {
       /** - Sends a reply message with an error embed.
        * @param {string} desc - The description for the error embed. */
       const replyMessage = async (desc) => {
-        const replyMessage = await object.reply(errorEmbed({ desc }));
+        const replyMessage = await object.reply(messageEmbed({ desc }));
 
         if (object?.author && replyMessage.deletable)
           setTimeout(async () => await replyMessage.delete().catch(console.error), 10 * 1000);

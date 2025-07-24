@@ -13,7 +13,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, options } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 
@@ -34,7 +34,7 @@ module.exports = {
     };
 
     const profile = await serverProfile.find({ guildId }).catch(console.error);
-    if (!profile) return await interaction.reply(errorEmbed({ desc: 'No database found for this profile.' }));
+    if (!profile) return await interaction.reply(messageEmbed({ desc: 'No database found for this profile.' }));
 
     const db = JSON.stringify(profile, null, 2);
     const bin = await fetch('https://sourceb.in/api/bins', {
@@ -54,6 +54,6 @@ module.exports = {
           }
         })
         .catch(console.error);
-    } else await interaction.editReply(errorEmbed({ desc: 'Could not parse sourcebin. Please try again later.' }));
+    } else await interaction.editReply(messageEmbed({ desc: 'Could not parse sourcebin. Please try again later.' }));
   },
 };

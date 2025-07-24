@@ -6,7 +6,7 @@ module.exports = (client) => {
    * @param {GuildMember} target - The target user whose message was deleted.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.snipeMessage = async (target, object) => {
-    const { errorEmbed, catchError, messageSnipes } = client;
+    const { messageEmbed, catchError, messageSnipes } = client;
     const user = object.user || object.author;
 
     try {
@@ -14,7 +14,7 @@ module.exports = (client) => {
       const snipe = await messageSnipes.get(target ? guildId + target.id : channelId);
 
       if (!snipe) {
-        const replyMessage = await object.reply(errorEmbed({ desc: `There is nothing to snipe.` }));
+        const replyMessage = await object.reply(messageEmbed({ desc: `There is nothing to snipe.` }));
 
         if (object.author && replyMessage.deletable)
           setTimeout(async () => await replyMessage.delete().catch(console.error), 5 * 1000);

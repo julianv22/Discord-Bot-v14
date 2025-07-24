@@ -11,13 +11,13 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, guildId } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
     const userId = user.id;
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
-        errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng /daily để khởi nghiệp 😁' })
+        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
     // Cooldown cố định 6 tiếng
@@ -29,9 +29,9 @@ module.exports = {
       const timeleft = Math.floor(finishTime.getTime() / 1000);
 
       return await interaction.reply(
-        errorEmbed({
-          desc: `Bạn đang làm việc hoặc trong thời gian chờ (6h)!\n ↪ Hãy quay lại sau: <t:${timeleft}:R>`,
-          emoji: '❌',
+        messageEmbed({
+          title: 'Bạn đang làm việc hoặc trong thời gian chờ (6h)!',
+          desc: `↪ Hãy quay lại sau: <t:${timeleft}:R>`,
         })
       );
     }

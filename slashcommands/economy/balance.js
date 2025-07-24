@@ -18,12 +18,12 @@ module.exports = {
       guildId,
       guild: { name: guildName },
     } = interaction;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
-        errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng /daily để khởi nghiệp 😁' })
+        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
     // Lấy thông tin

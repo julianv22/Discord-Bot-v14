@@ -11,29 +11,29 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { errorEmbed, commandUsage } = client;
+    const { messageEmbed, commandUsage } = client;
     const { mentions, guild, author } = message;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this, prefix + this.name + ' @user');
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);
     if (!target)
       return await message
-        .reply(errorEmbed({ desc: 'Phải @ đến nạn nhân để hack 🤣!' }))
+        .reply(messageEmbed({ desc: 'Phải @ đến nạn nhân để hack 🤣!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (target.id === author.id)
       return await message
-        .reply(errorEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }))
+        .reply(messageEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (target.id === guild.ownerId)
       return await message
-        .reply(errorEmbed({ desc: 'Không động được vào thằng này đâu nhá! 🎭' }))
+        .reply(messageEmbed({ desc: 'Không động được vào thằng này đâu nhá! 🎭' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     if (target.id === cfg.clientID)
       return await message
-        .reply(errorEmbed({ desc: 'Are you sure 🤔' }))
+        .reply(messageEmbed({ desc: 'Are you sure 🤔' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     const username = target.displayName || target.user?.tag || target.id,

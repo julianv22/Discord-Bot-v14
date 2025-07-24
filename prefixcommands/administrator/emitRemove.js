@@ -13,7 +13,7 @@ module.exports = {
    * @param {Client} client - Đối tượng client */
   async execute(message, args, client) {
     const { mentions } = message;
-    const { errorEmbed } = client;
+    const { messageEmbed } = client;
 
     const memberToEmit = mentions.members.first();
 
@@ -21,7 +21,7 @@ module.exports = {
 
     if (!memberToEmit)
       return await message
-        .reply(errorEmbed({ desc: 'Vui lòng mention một thành viên để kích hoạt sự kiện guildMemberRemove.' }))
+        .reply(messageEmbed({ desc: 'Vui lòng mention một thành viên để kích hoạt sự kiện guildMemberRemove.' }))
         .then((m) => setTimeout(async () => m.delete().catch(console.error), 5 * 1000));
 
     client.emit('guildMemberRemove', memberToEmit);

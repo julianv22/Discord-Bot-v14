@@ -22,7 +22,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options, channel } = interaction;
-    const { errorEmbed, catchError } = client;
+    const { messageEmbed, catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
 
@@ -34,11 +34,10 @@ module.exports = {
       if (user) messagesToDelete = messages.filter((m) => m.author.id === user.id);
 
       await channel.bulkDelete(messagesToDelete, true); // Pass true to filter out messages older than 14 days
-      return await interaction.reply(
-        errorEmbed({
-          desc: `Successfully deleted ${actualAmount} messages${user ? ` from ${user.tag}` : ''}!`,
-          emoji: true,
-        })
+
+      const title = `Successfully deleted ${actualAmount} messages`;
+      await interaction.reply(
+        messageEmbed({ emoji: true, ...(user ? { title, desc: `From ${user}` } : { desc: title }) })
       );
     } catch (e) {
       return await catchError(interaction, e, this);

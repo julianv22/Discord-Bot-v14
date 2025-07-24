@@ -11,18 +11,18 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guildId } = interaction;
-    const { errorEmbed, user: bot } = client;
+    const { messageEmbed, user: bot } = client;
     const userId = user.id;
     const amount = interaction.options.getInteger('amount');
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.reply(
-        errorEmbed({ desc: 'Bạn chưa có tài khoản Economy!\n ➡ Sử dụng /daily để khởi nghiệp 😁' })
+        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng /daily để khởi nghiệp 😁' })
       );
 
     if (amount > profile?.bank)
-      return await interaction.reply(errorEmbed({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
+      return await interaction.reply(messageEmbed({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
 
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01);
