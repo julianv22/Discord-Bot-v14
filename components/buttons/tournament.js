@@ -47,9 +47,10 @@ module.exports = {
         await interaction.update({ components });
         await interaction.channel.send(
           messageEmbed({
-            desc: `**Đã mở đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nSử dụng \`/dang-ky\` để đăng ký giải!`,
-            emoji: '🏆',
-            color: Colors.Green,
+            title: 'Mở đăng ký giải đấu',
+            desc: `Sử dụng \`/dang-ky\` để đăng ký giải ${getRole(tournament?.roleId)}!`,
+            emoji: cfg.tournament_gif,
+            flags: false,
           })
         );
       },
@@ -71,9 +72,11 @@ module.exports = {
         await interaction.update({ components });
         await interaction.channel.send(
           messageEmbed({
-            desc: `**Đã đóng đăng ký giải đấu ${getRole(tournament?.roleId)}!**\n\nHẹn gặp lại vào giải đấu lần sau!`,
-            emoji: '🏆',
+            title: 'Đóng đăng ký giải đấu',
+            desc: `Giải đấu ${getRole(tournament?.roleId)} đã đóng.\n-# Hẹn gặp lại vào giải đấu lần sau!`,
+            emoji: cfg.tournament_gif,
             color: Colors.Red,
+            flags: false,
           })
         );
       },

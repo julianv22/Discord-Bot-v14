@@ -69,8 +69,8 @@ module.exports = {
         if (existing) {
           await interaction.reply(
             messageEmbed({
+              title: 'Duplicate channel!',
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is already in the watchlist.`,
-              emoji: '❌',
             })
           );
           return false;
@@ -90,8 +90,8 @@ module.exports = {
         if (!result || result.modifiedCount === 0) {
           await interaction.reply(
             messageEmbed({
+              title: 'No matching results found!',
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is not in the watchlist.`,
-              emoji: '❌',
             })
           );
           return false;
