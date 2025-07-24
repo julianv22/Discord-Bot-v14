@@ -25,13 +25,13 @@ module.exports = {
     const menus = [
       { customId: 'help-menu', placeholder: '📌 Select Command Type' },
       {
-        emoji: { name: '📝' },
+        emoji: '📝',
         label: `Prefix Commands [${prefixCommands.size}]`,
         value: 'prefix',
         description: `List Prefix (${prefix}) Commands`,
       },
       {
-        emoji: { name: '📚' },
+        emoji: '📚',
         label: `Slash Commands [${slashCommands.size + subCommands.size}]`,
         value: 'slash',
         description: 'List Slash (/) Commands',

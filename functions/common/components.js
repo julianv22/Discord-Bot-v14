@@ -102,50 +102,28 @@ module.exports = {
     options = [].concat(options); // Convert options to an array
 
     const setComponents = {
-      [ComponentType.Button]: () =>
-        options.map((option) => {
-          const button = new ButtonBuilder()
-            .setLabel(option.label)
-            .setStyle(option.style)
-            .setDisabled(option?.disabled || false);
-
-          if (option?.customId) button.setCustomId(option.customId);
-          if (option?.emoji) button.setEmoji(option.emoji);
-          if (option?.url) button.setURL(option.url);
-
-          return button;
-        }),
+      [ComponentType.Button]: () => options.map((option) => new ButtonBuilder(option)),
       [ComponentType.StringSelect]: () =>
         new StringSelectMenuBuilder()
           .setCustomId(options[0].customId)
           .setMinValues(options[0]?.min_length || 1)
           .setMaxValues(options[0]?.max_length || 1)
           .setPlaceholder(options[0]?.placeholder || 'Make a selection')
-          .setOptions(
-            options.slice(1).map((option) => {
-              const optionBuilder = new StringSelectMenuOptionBuilder().setLabel(option.label).setValue(option.value);
-
-              if (option?.description) optionBuilder.setDescription(option.description);
-              if (option?.emoji) optionBuilder.setEmoji(option.emoji);
-              if (option?.default) optionBuilder.setDefault(option.default);
-
-              return optionBuilder;
-            })
-          ),
+          .setOptions(options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))),
       [ComponentType.TextInput]: () =>
         options.map((option) => {
-          const textinput = new TextInputBuilder()
+          const textInput = new TextInputBuilder()
             .setCustomId(option.customId)
             .setLabel(option.label)
             .setStyle(option.style || TextInputStyle.Short)
             .setRequired(option?.required || false);
 
-          if (option?.value) textinput.setValue(option.value);
-          if (option?.placeholder) textinput.setPlaceholder(option.placeholder);
-          if (option?.min_length) textinput.setMinLength(option.min_length);
-          if (option?.max_length) textinput.setMaxLength(option.max_length);
+          if (option?.value) textInput.setValue(option.value);
+          if (option?.placeholder) textInput.setPlaceholder(option.placeholder);
+          if (option?.min_length) textInput.setMinLength(option.min_length);
+          if (option?.max_length) textInput.setMaxLength(option.max_length);
 
-          return textinput;
+          return textInput;
         }),
     };
 

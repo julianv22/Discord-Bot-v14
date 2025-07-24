@@ -71,14 +71,14 @@ module.exports = (client) => {
   };
 
   /**
-   * @typedef {object} LogginOptions
-   * @property {boolean} [isWarn=false] - If `true`, the log will be a warning; otherwise, it will be an error.
-   * @property {string} [todo='executing'] - Describes the action being performed when the error occurred (e.g., 'reloading').
+   * @typedef {object} LoggingOptions
+   * @property {boolean} [isWarn = false] - If `true`, the log will be a warning; otherwise, it will be an error.
+   * @property {string} [todo = 'executing'] - Describes the action being performed when the error occurred (e.g., 'reloading').
    * @property {string} [item] - The specific item or component related to the error (e.g., 'application (/) commands').
    * @property {string} [desc] - Additional descriptive context for the error. */
 
   /** - Sends a console error or warning.
-   * @param {LogginOptions} options - The logging options.
+   * @param {LoggingOptions} options - The logging options.
    * @param {string} [options.todo='executing']
    * @param {Error} [e=null] - The error object.
    * @example

@@ -35,7 +35,11 @@ module.exports = {
     const totalSpent = (profile?.totalSpent || 0).toCurrency();
     const inventory = profile?.inventory && profile?.inventory?.length ? profile?.inventory?.join(', ') : '\\🚫';
     const achievements =
-      profile?.achievements && profile?.achievements?.length ? profile?.achievements?.join(', ') : '\\🚫';
+      profile?.achievements && Object.keys(profile?.achievements).length
+        ? Object.values(profile.achievements)
+            .map((achv) => achv.name)
+            .join(', ')
+        : '\\🚫';
     const work = profile?.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
     const lastJob = profile?.lastJob || new Date();
 

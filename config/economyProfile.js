@@ -1,3 +1,8 @@
+const InventoryItemSchema = new mongoose.Schema({
+  itemId: { type: String, required: true },
+  quantity: { type: Number, required: true, min: 1 },
+});
+
 const EconomyProfileSchema = new mongoose.Schema(
   {
     guildId: { type: String, required: true, index: true, trim: true },
@@ -6,14 +11,8 @@ const EconomyProfileSchema = new mongoose.Schema(
     userName: { type: String, trim: true },
     balance: { type: Number, default: 0 },
     bank: { type: Number, default: 0 },
-    inventory: {
-      type: [{ itemId: { type: String, required: true }, quantity: { type: Number, required: true, min: 1 } }],
-      default: [],
-    },
-    achievements: {
-      type: [{ achievementId: { type: String, required: true }, unlockedAt: { type: Date, default: Date.now } }],
-      default: [],
-    },
+    inventory: { type: [InventoryItemSchema], default: [] }, // Sử dụng sub-schema đã định nghĩa
+    achievements: { type: Object, default: {} },
     dailyCooldown: { type: Date, default: null },
     lastWork: { type: String, trim: true },
     lastRob: { type: Date, default: null },

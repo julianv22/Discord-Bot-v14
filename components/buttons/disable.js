@@ -21,7 +21,7 @@ module.exports = {
     const { errorEmbed } = client;
     const [, feature, disable] = customId.split(':');
 
-    /** @param {boolean} [disabled] Disabled buttons, `true` = disabled */
+    /** @param {boolean} [disabled = false] Disabled buttons, `true` = disabled */
     const confirmButtons = (disabled = false) =>
       new ActionRowBuilder().setComponents(
         rowComponents(ComponentType.Button, [
@@ -32,7 +32,7 @@ module.exports = {
 
     /** - ContainerBuilder
      * @param {string|string[]} contents TextDisplay content
-     * @param {num} [accent_color] Container accent color */
+     * @param {num} [accent_color = Colors.Orange] Container accent color */
     const messageContainer = (contents, accent_color = Colors.Orange) =>
       new ContainerBuilder().setAccentColor(accent_color).addTextDisplayComponents(textDisplay(contents));
 

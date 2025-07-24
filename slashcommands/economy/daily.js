@@ -44,7 +44,7 @@ module.exports = {
       const timeleft = Math.floor(nextDaily.getTime() / 1000);
 
       return await interaction.reply(
-        errorEmbed({ desc: `Bạn vừa nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: '❌' })
+        errorEmbed({ desc: `Bạn đã nhận \\💲 hôm nay! Hãy quay lại sau: <t:${timeleft}:R>`, emoji: '❌' })
       );
     }
 
@@ -83,30 +83,26 @@ module.exports = {
     if (streak > maxStreak) maxStreak = streak;
 
     // Đọc achievements từ file JSON
-    const achvs = achievementsConfig.streak;
-    const streakMilestones = Object.keys(achvs).map(Number);
+    const streakMilestones = Object.keys(achievementsConfig).map(Number);
 
     let achievementMsg = '';
     if (streakMilestones.includes(streak)) {
-      const achv = achvs[streak];
+      const achv = achievementsConfig[streak];
       if (achv) {
         profile.balance += achv.reward;
         profile.totalEarned += achv.reward;
         bonusMsg = `\\🎉 **Chúc mừng!** Bạn đã đạt chuỗi **${streak.toLocaleString()} ngày** và nhận thêm **${achv.reward.toCurrency()}**`;
-        // Thêm achievement nếu chưa có
-        if (!profile?.achievements.includes(achv.name)) {
-          profile?.achievements.push(achv.name);
-          achievementMsg = `\\🏆 **Bạn vừa nhận được thành tựu mới:** __${achv.name}__!`;
-        }
+
+        const { achievements } = profile || {};
+        if (!achievements?.[streak]) achievements[streak] = { ...achievementsConfig[streak], claimAt: new Date() };
       }
     }
 
-    profile.streak = streak;
+    // profile.streak = streak;
     profile.maxStreak = maxStreak;
     profile.lastDaily = today;
-
+    profile.markModified('achievements');
     await profile.save().catch(console.error);
-
     // Nếu bị reset streak và streak cũ > 7, gửi DM
     if (resetStreak)
       await user

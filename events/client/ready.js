@@ -12,7 +12,7 @@ module.exports = {
     const servers = guilds.cache.map((g) => g);
     /** - Print console log with chalk options
      * @param {string} message Message content
-     * @param {string} [color] Chalk color */
+     * @param {string} [color = 'reset'] Chalk color */
     const log = (message, color = 'reset') => console.log(chalk[color](message));
 
     /** - Options Configuration
@@ -72,7 +72,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '23:15, 23/07/2025' });
+      table({ name: '📆 Last update:', value: '12:15, 24/07/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

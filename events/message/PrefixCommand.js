@@ -21,7 +21,7 @@ module.exports = {
 
       /** - Set timeout for message before delete
        * @param {string} desc Message content
-       * @param {number} [seconds=10] Timeout before delete in seconds */
+       * @param {number} [seconds = 10] Timeout before delete in seconds */
       const timeoutMessage = async (desc, seconds = 10) =>
         await message
           .reply(errorEmbed({ desc }))
