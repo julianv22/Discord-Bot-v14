@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const { replaceVar } = require('../../functions/common/utilities');
+const { linkButton } = require('../../functions/common/components');
 
 module.exports = {
   type: 'modals',
@@ -8,9 +9,23 @@ module.exports = {
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { customId, fields, message, user, guild } = interaction;
+    const { customId, fields, message, user, guild, channel } = interaction;
+    const { messageEmbed } = client;
     const [, textInputId] = customId.split(':');
+
     const inputValue = fields.getTextInputValue(textInputId);
+
+    if (textInputId.split('-')[0] === 'message') {
+      const messageId = textInputId.split('-')[1];
+      const editMsg = channel.messages.cache.get(messageId);
+
+      await editMsg.edit(inputValue);
+      return await interaction.reply({
+        ...messageEmbed({ desc: 'Message has been edited successfully!', emoji: true }),
+        components: [linkButton(editMsg.url)],
+      });
+    }
+
     const embed = EmbedBuilder.from(message.embeds[0]);
 
     const replaceKey = {
