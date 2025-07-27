@@ -8,25 +8,25 @@ module.exports = {
   manageEmbedButtons: (messageId) => {
     const buttons = [
       [
-        { customId: `manage-embed:title:${messageId}`, label: '💬 Title', style: ButtonStyle.Primary },
-        { customId: `manage-embed:description:${messageId}`, label: '💬 Description', style: ButtonStyle.Primary },
-        { customId: `manage-embed:color:${messageId}`, label: '🎨 Color', style: ButtonStyle.Primary },
-        { customId: `manage-embed:author:${messageId}`, label: '✍ Author', style: ButtonStyle.Secondary },
-        { customId: `manage-embed:footer:${messageId}`, label: '📝 Footer', style: ButtonStyle.Secondary },
+        { customId: `manage-message:title:${messageId}`, label: '💬 Title', style: ButtonStyle.Primary },
+        { customId: `manage-message:description:${messageId}`, label: '💬 Description', style: ButtonStyle.Primary },
+        { customId: `manage-message:color:${messageId}`, label: '🎨 Color', style: ButtonStyle.Primary },
+        { customId: `manage-message:author:${messageId}`, label: '✍ Author', style: ButtonStyle.Secondary },
+        { customId: `manage-message:footer:${messageId}`, label: '📝 Footer', style: ButtonStyle.Secondary },
       ],
       [
-        { customId: `manage-embed:timestamp:${messageId}`, label: '⛔ Timestamp', style: ButtonStyle.Danger },
-        { customId: `manage-embed:thumbnail:${messageId}`, label: '🖼️ Thumbnail', style: ButtonStyle.Secondary },
-        { customId: `manage-embed:image:${messageId}`, label: '🖼️ Image', style: ButtonStyle.Secondary },
+        { customId: `manage-message:timestamp:${messageId}`, label: '⛔ Timestamp', style: ButtonStyle.Danger },
+        { customId: `manage-message:thumbnail:${messageId}`, label: '🖼️ Thumbnail', style: ButtonStyle.Secondary },
+        { customId: `manage-message:image:${messageId}`, label: '🖼️ Image', style: ButtonStyle.Secondary },
       ],
       [
-        { customId: `manage-embed:addfield:${messageId}`, label: '➕ Add Field', style: ButtonStyle.Success },
+        { customId: `manage-message:addfield:${messageId}`, label: '➕ Add Field', style: ButtonStyle.Success },
         {
-          customId: `manage-embed:removefields:${messageId}`,
+          customId: `manage-message:removefields:${messageId}`,
           label: '➖ Remove all fields',
           style: ButtonStyle.Danger,
         },
-        { customId: `manage-embed:send:${messageId}`, label: '✅ Send Embed', style: ButtonStyle.Success },
+        { customId: `manage-message:send:${messageId}`, label: '✅ Send Embed', style: ButtonStyle.Success },
       ],
     ];
 

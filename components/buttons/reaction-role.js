@@ -19,14 +19,14 @@ module.exports = {
 
     const reactionButton = {
       title: async () =>
-        await createModal(interaction, `manage-embed:${buttonId}`, 'Reaction Role Manager', {
+        await createModal(interaction, `manage-message:${buttonId}`, 'Reaction Role Manager', {
           customId: buttonId,
           label: `Reaction Role ${buttonId} (Leave blank = Remove)`,
           placeholder: `Enter the Reaction Role ${buttonId}`,
           max_length: 256,
         }),
       color: async () =>
-        await createModal(interaction, `manage-embed:${buttonId}`, 'Reaction Role Manager', {
+        await createModal(interaction, `manage-message:${buttonId}`, 'Reaction Role Manager', {
           customId: buttonId,
           label: `Reaction Role ${buttonId} (Leave blank = Random)`,
           placeholder: Object.keys(Colors).join(',').slice(14, 114),

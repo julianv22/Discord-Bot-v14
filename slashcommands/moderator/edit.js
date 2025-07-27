@@ -6,7 +6,7 @@ const {
   TextInputStyle,
   PermissionFlagsBits,
 } = require('discord.js');
-const { manageEmbedButtons } = require('../../functions/common/manage-embed');
+const { manageEmbedButtons } = require('../../functions/common/manage-message');
 const { linkButton, createModal } = require('../../functions/common/components');
 
 module.exports = {
@@ -76,7 +76,7 @@ module.exports = {
         });
       }, //'https://images-ext-1.discordapp.net/external/OR2PWu33fjUxkLADQxGqnNDDybM3_1-e4xg8PRyQ6f8/https/maki.gg/emoji/pencil.png'
       message: async () =>
-        await createModal(interaction, `manage-embed:message-${messageId}`, 'Message manager', {
+        await createModal(interaction, `manage-message:message-${messageId}`, 'Message manager', {
           customId: `message-${messageId}`,
           label: 'Edit message content',
           value: msg.content,

@@ -11,7 +11,7 @@ const { createModal, linkButton } = require('../../functions/common/components')
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'manage-embed' },
+  data: { name: 'manage-message' },
   /** - Handles the interaction for managing embeds.
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - The Discord client. */

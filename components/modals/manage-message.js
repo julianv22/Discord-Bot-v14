@@ -4,7 +4,7 @@ const { linkButton } = require('../../functions/common/components');
 
 module.exports = {
   type: 'modals',
-  data: { name: 'manage-embed' },
+  data: { name: 'manage-message' },
   /** - Embed Modal Manager
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client - Discord Client */
