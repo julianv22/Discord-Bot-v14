@@ -21,15 +21,14 @@ module.exports = {
     const textDisplay = (id) => components[0].components[0].components[id].data;
 
     const onClick = {
-      channel: async () => {
+      channel: async () =>
         await createModal(interaction, `youtube:${type}`, `${type.toCapitalize()} YouTube Channel`, {
           customId: type,
           label: 'YouTube ChannelID',
           placeholder: 'Enter the YouTube ChannelID',
           max_length: 256,
           required: true,
-        });
-      },
+        }),
       remove: async () => {
         switch (type) {
           case 'notify':

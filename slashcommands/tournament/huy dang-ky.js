@@ -28,12 +28,15 @@ module.exports = {
     } = interaction;
     const { messageEmbed } = client;
     const userId = user.id;
-    const userName = user.displayName || user.username;
 
     // Verified
     if (!options.getBoolean('confirm'))
       return await interaction.reply(
-        messageEmbed({ desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!', emoji: '❗', color: Colors.Orange })
+        messageEmbed({
+          desc: 'Hãy suy nghĩ cẩn thận trước khi đưa ra quyết định!',
+          emoji: 'https://fonts.gstatic.com/s/e/notoemoji/latest/203c_fe0f/512.gif',
+          color: Colors.Orange,
+        })
       );
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

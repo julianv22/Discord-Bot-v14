@@ -14,7 +14,7 @@ const { dashboardMenu, textDisplay, sectionComponents, menuComponents } = requir
 module.exports = (client) => {
   /** - Sets up the server statistics channels.
    * @param {Interaction} interaction - The command interaction. */
-  client.setupStats = async (interaction) => {
+  client.setupStatistics = async (interaction) => {
     const {
       guild,
       guildId,

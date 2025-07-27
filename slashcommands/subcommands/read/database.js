@@ -49,9 +49,8 @@ module.exports = {
       const { key } = await bin.json();
       await sendMessage(`\\✅ Parse ${guild.name} **${choice}** database successfully!`, key)
         .then(async () => {
-          for (let i = 0; i < db.length; i += 2000) {
+          for (let i = 0; i < db.length; i += 2000)
             await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
-          }
         })
         .catch(console.error);
     } else await interaction.editReply(messageEmbed({ desc: 'Could not parse sourcebin. Please try again later.' }));

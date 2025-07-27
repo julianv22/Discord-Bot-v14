@@ -1,4 +1,4 @@
-const { Client, Interaction, SlashCommandSubcommandBuilder, Colors } = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, Colors, EmbedBuilder } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
 
@@ -27,18 +27,20 @@ module.exports = {
     try {
       // Đọc nội dung file
       const fileContent = readFileSync(absoluteFilePath, 'utf8');
-      const MAX_LENGTH = 1990;
 
       await interaction.editReply(
         messageEmbed({ desc: `Successfully read content of file [${relativeFilePath}]`, emoji: true })
       );
 
+      const MAX_LENGTH = 3990;
       for (let i = 0; i < fileContent.length; i += MAX_LENGTH) {
         await interaction.followUp({
-          content: `${i === 0 ? `**${relativeFilePath}**` : ''}\`\`\`js\n${fileContent.slice(
-            i,
-            i + MAX_LENGTH
-          )}\n\`\`\``,
+          embeds: [
+            new EmbedBuilder()
+              .setColor(Math.floor(Math.random() * 0xffffff))
+              .setAuthor({ name: i === 0 ? relativeFilePath : null, iconURL: cfg.book_gif })
+              .setDescription(`\`\`\`js\n${fileContent.slice(i, i + MAX_LENGTH)}\n\`\`\``),
+          ],
         });
       }
     } catch (error) {

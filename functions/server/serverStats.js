@@ -19,16 +19,12 @@ module.exports = (client) => {
 
       /** - Gets the number of members with a given presence status.
        * @param {string} stats - The member presence status (e.g., 'online', 'idle'). */
-      const getPressence = (stats) => {
-        return guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
-      };
+      const getPressence = (stats) =>
+        guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
       /** - Sets the name of a channel.
        * @param {string} id - The ID of the channel.
        * @param {string} name - The new name for the channel. */
-      const setChannelName = async (id, name) => {
-        await guild.channels.cache.get(id).setName(name).catch(console.error);
-      };
-
+      const setChannelName = async (id, name) => await guild.channels.cache.get(id).setName(name).catch(console.error);
       try {
         /*
         const memberRole = guild.roles.cache.get(statistics?.memberRole); // Gets the role of the member to be counted

@@ -17,7 +17,7 @@ module.exports = {
    * @param {FilterOptions} [options]
    * @returns {string[]} Returns an Array containing the names of files or folders that match the filtering conditions.
    * @example
-   * readFiles('slashcommands', { isDir: true, function: (folder) => !ignoreFolders.includes(folder) });
+   * readFiles('slashcommands', { isDir: true, filter: (folder) => !ignoreFolders.includes(folder) });
    */
   readFiles: (folderPath, options = {}) => {
     const { all = false, isDir = false, extension = '.js', filter: func } = options;

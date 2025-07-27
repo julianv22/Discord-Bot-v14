@@ -1,20 +1,16 @@
-const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const { promises } = require('fs');
 const path = require('path');
 
-/** @param {Client} client Client */
 module.exports = {
-  category: 'sub command',
-  parent: 'read',
-  scooldown: 0,
-  data: new SlashCommandSubcommandBuilder().setName('structure'),
-  /** - Displays the project's folder structure.
-   * @param {Interaction} interaction Interaction
-   * @param {Client} client Client */
+  type: 'buttons',
+  data: { name: 'structure' },
+  /** - Disable Features Button
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    const { options, user } = interaction;
-    const strPaht = options.getString('path');
-    const root = path.resolve(__dirname, '..', '..');
+    const { user, customId } = interaction;
+    const [, folder] = customId.split(':');
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
     /** - Checks if a file or folder name should be ignored.
@@ -58,36 +54,38 @@ module.exports = {
         const prefix = indent + (isLast ? '└── ' : '├── ');
 
         if (file.isDirectory()) {
-          structure += `${prefix}${file.name}/`;
+          structure += `${prefix}${file.name}/\n`;
           // Recursively call for subdirectories
           structure += await directoryStructure(fullPath, indent + (isLast ? '    ' : '│   '));
-        } else structure += `${prefix}${file.name}`;
+        } else structure += `${prefix}${file.name}\n`;
       }
       return structure;
     };
 
     await interaction.deferReply({ flags: 64 });
 
-    const structure = await directoryStructure(strPaht ? strPaht : root);
+    const structure = await directoryStructure(folder === 'root' ? process.cwd() : folder);
+    const MAX_LENGTH = 3990;
 
     const embeds = [
       new EmbedBuilder()
         .setColor(0xfed678)
-        .setTitle(`\\📁 ${strPaht ? strPaht : 'Root'}:`)
-        .setDescription(`\`\`\`\n${structure.slice(0, 4000)}\n\`\`\``)
-        .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
+        .setTitle(`\\📁 ${folder}:`)
+        .setDescription(`\`\`\`\n${structure.slice(0, MAX_LENGTH)}\n\`\`\``)
+        .setFooter({
+          text: `Requested by ${user.displayName || user.username}`,
+          iconURL: user.displayAvatarURL(true),
+        })
         .setTimestamp(),
     ];
 
     await interaction.editReply({ embeds, flags: 64 });
 
-    if (structure.length > 4000)
-      for (let i = 4000; i < structure.length; i += 4000) {
-        const nextEmbed = EmbedBuilder.from(embed);
-
-        nextEmbed.setDescription(`\`\`\`\n${structure.slice(i, i + 4000)}\n\`\`\``);
-
-        await interaction.followUp({ embeds: [nextEmbed], flags: 64 });
-      }
+    if (structure.length > MAX_LENGTH)
+      for (let i = MAX_LENGTH; i < structure.length; i += MAX_LENGTH)
+        await interaction.followUp({
+          embeds: [EmbedBuilder.from(embeds).setDescription(`\`\`\`\n${structure.slice(i, i + MAX_LENGTH)}\n\`\`\``)],
+          flags: 64,
+        });
   },
 };

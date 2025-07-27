@@ -38,7 +38,7 @@ module.exports = (client) => {
       const ignoreFolders = ['subcommands'];
       const commandFolders = readFiles(commandType.folder, {
         isDir: true,
-        function: (folder) => !ignoreFolders.includes(folder),
+        filter: (folder) => !ignoreFolders.includes(folder),
       });
 
       for (const folder of commandFolders) {

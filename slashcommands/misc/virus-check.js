@@ -29,10 +29,8 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)
-    const sendResponseEmbed = async (title, description, color = Math.floor(Math.floor(Math.random() * 0xffffff))) => {
+    const sendResponseEmbed = async (title, description, color = Math.floor(Math.floor(Math.random() * 0xffffff))) =>
       await interaction.editReply({ embeds: [{ title, description, color }] });
-    };
-
     // Hàm mã hóa URL sang Base64 URL-safe (không padding)
     // Đây là định dạng mà VirusTotal cần cho endpoint GET /urls/{id}
     const encodeUrlToBase64 = (url) => {

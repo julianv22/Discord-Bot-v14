@@ -52,9 +52,5 @@ mongoose
   });
 
 // Bắt lỗi toàn cục
-process.on('unhandledRejection', (reason, p) => {
-  console.error(chalk.red('Unhandled Rejection at:'), p, reason);
-});
-process.on('uncaughtException', (e) => {
-  console.error(chalk.red('Uncaught Exception thrown:'), e);
-});
+process.on('unhandledRejection', (reason, p) => console.error(chalk.red('Unhandled Rejection at:'), p, reason));
+process.on('uncaughtException', (e) => console.error(chalk.red('Uncaught Exception thrown:'), e));

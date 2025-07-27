@@ -52,28 +52,27 @@ module.exports = {
         const tournamentName = getRole(tournament?.roleId) || '-# \\⚠️ /tournament';
         const tournamentStatus = tournament?.isActive ? '\\✅ Open' : '\\❌ Closed';
         const starboardStarCount = starboard?.starCount || 0;
-        const statisticsChannel = statistics?.totalChannelId ? '\\✅ Set' : '\\❌ Not set';
+        const statisticsInfo = statistics?.totalChannelId ? '\\✅ Set' : '\\❌ Not set';
 
         const embed = new EmbedBuilder()
           .setColor(Colors.DarkAqua)
-          .setThumbnail(guild.iconURL(true))
-          .setAuthor({ name: guildName, iconURL: cfg.warning_gif })
-          .setTitle(`Setup's Information`)
+          .setThumbnail(cfg.Global_gif)
+          .setAuthor({ name: `${guildName} Setup Information`, iconURL: guild.iconURL(true) })
+          .setDescription('-# \\⚠️ **/setup dashboard** for more setting')
           .setFields(
             { name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true },
             { name: 'Log Channel', value: `${logChannel}`, inline: true },
-            { name: 'Welcome Message', value: `${welcomeMessage}`, inline: false },
-            { name: 'Server Statistics', value: `${statisticsChannel}`, inline: false },
+            { name: 'Welcome Message', value: welcomeMessage, inline: false },
+            { name: 'Server Statistics', value: statisticsInfo, inline: false },
             { name: 'Starboard Channel', value: `${starboardChannel} (${starboardStarCount}\\⭐)`, inline: true },
             { name: 'Suggest Channel', value: `${suggestChannel}`, inline: true },
             {
               name: 'Youtube subscribed channels: ' + youtubeChannelCount,
-              value: `\n-# \\⚠️ /youtube channel\n- Notify channel: ${youtubeNotifyChannel}\n- Alert role: ${youtubeAlertRole}\n-# \\⚠️ /youtube notify`,
+              value: `- Notify channel: ${youtubeNotifyChannel}\n-# \\⚠️ /youtube channel\n- Alert role: ${youtubeAlertRole}\n-# \\⚠️ /youtube notify`,
               inline: false,
             },
             { name: 'Tournament', value: `${tournamentName}`, inline: true },
-            { name: 'Tournament Status', value: tournamentStatus, inline: true },
-            { name: '\u200b', value: '-# \\⚠️ **/setup dashboard** for more setting' }
+            { name: 'Tournament Status', value: tournamentStatus, inline: true }
           )
           .setFooter({
             text: `Requested by ${user.displayName || user.username}`,

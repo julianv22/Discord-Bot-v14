@@ -50,6 +50,7 @@ module.exports = {
             title: 'Mở đăng ký giải đấu',
             desc: `Sử dụng \`/dang-ky\` để đăng ký giải ${getRole(tournament?.roleId)}!`,
             emoji: cfg.tournament_gif,
+            color: Colors.DarkGreen,
             flags: false,
           })
         );
@@ -75,7 +76,7 @@ module.exports = {
             title: 'Đóng đăng ký giải đấu',
             desc: `Giải đấu ${getRole(tournament?.roleId)} đã đóng.\n-# Hẹn gặp lại vào giải đấu lần sau!`,
             emoji: cfg.tournament_gif,
-            color: Colors.Red,
+            color: Colors.DarkVividPink,
             flags: false,
           })
         );
@@ -158,9 +159,9 @@ module.exports = {
 
         // Tạo dữ liệu cho Excel
         const excelData = [['STT', 'Username', 'Ingame']];
-        memberList.forEach((member, id) => {
-          excelData.push([id + 1, member?.userName || 'Không xác định', member?.inGameName || 'Không xác định']);
-        });
+        memberList.forEach((member, id) =>
+          excelData.push([id + 1, member?.userName || 'Không xác định', member?.inGameName || 'Không xác định'])
+        );
 
         // Tạo workbook và worksheet
         const ws = XLSX.utils.aoa_to_sheet(excelData);

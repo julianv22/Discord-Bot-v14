@@ -22,10 +22,10 @@ module.exports = (client) => {
       const embeds = [
         new EmbedBuilder()
           .setColor(Math.floor(Math.random() * 0xffffff))
-          .setThumbnail(guild.iconURL(true))
+          .setThumbnail(cfg.Global_gif)
           .setAuthor({
             name: `${guild.name} Information`,
-            iconURL: 'https://fonts.gstatic.com/s/e/notoemoji/latest/1f30d/512.gif',
+            iconURL: guild.iconURL(true),
           })
           .setFooter({
             text: `Requested by ${author.displayName || author.username}`,
