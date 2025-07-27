@@ -19,7 +19,7 @@ module.exports = {
       const messageId = textInputId.split('-')[1];
       const editMsg = channel.messages.cache.get(messageId);
 
-      await editMsg.edit(inputValue);
+      await editMsg.edit(inputValue.slice(0, 2000));
       return await interaction.reply({
         ...messageEmbed({ desc: 'Message has been edited successfully!', emoji: true }),
         components: [linkButton(editMsg.url)],
