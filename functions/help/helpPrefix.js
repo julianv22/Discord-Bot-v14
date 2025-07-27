@@ -6,7 +6,7 @@ module.exports = (client) => {
    *  @param {Interaction} interaction - The command interaction. */
   client.helpPrefix = async (interaction) => {
     const { guild, user } = interaction;
-    const { prefixCommands, listCommands } = client;
+    const { prefixCommands } = client;
 
     const helpEmbed = new EmbedBuilder()
       .setColor(Colors.DarkGreen)
@@ -18,7 +18,7 @@ module.exports = (client) => {
       .setTimestamp()
       .setFields(
         { name: `Total commands: [${prefixCommands.size}]`, value: `Command prefix: [\`${prefix}\`]` },
-        ...listCommands(prefixCommands),
+        ...prefixCommands.listCommands(),
         { name: `\u200b`, value: `\`${prefix}command ?\` to show more details` }
       );
 

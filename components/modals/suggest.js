@@ -27,8 +27,6 @@ module.exports = {
     if (!suggestChannel)
       return await interaction.reply(client.messageEmbed({ desc: 'Suggestion channel not found or invalid.' }));
 
-    const truncateString = (str, maxLength) => (str.length > maxLength ? `${str.slice(0, maxLength - 3)}...` : str);
-
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
@@ -38,7 +36,7 @@ module.exports = {
           iconURL: user.displayAvatarURL(true),
         })
         .setTitle('Suggestion Content:')
-        .setDescription(truncateString(description, 4096))
+        .setDescription(description)
         .setFooter({ text: `${guild.name} Suggestion`, iconURL: guild.iconURL(true) })
         .setTimestamp()
         .setFields({

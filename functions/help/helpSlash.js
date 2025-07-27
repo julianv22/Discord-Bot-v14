@@ -8,7 +8,7 @@ module.exports = (client) => {
   client.helpSlash = async (CommandType, interaction) => {
     const { slashCommands } = client;
     const { guild, user } = interaction;
-    const commands = slashCommands.toEmbedFields(CommandType);
+    const commands = slashCommands.listCommandsAndSubs(CommandType);
 
     const helpEmbed = new EmbedBuilder()
       .setColor(Colors.DarkGreen)

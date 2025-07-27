@@ -12,7 +12,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, prefixCommands, listCommands } = client;
+    const { commandUsage, prefixCommands } = client;
     const { author: user, guild } = message;
 
     if (args.join(' ').trim() === '?')
@@ -41,7 +41,7 @@ module.exports = {
         .setTimestamp()
         .setFields(
           { name: `Tổng số command: [${prefixCommands.size}]`, value: `Command prefix: [\`${prefix}\`]` },
-          ...listCommands(prefixCommands),
+          ...prefixCommands.listCommands(),
           { name: `\u200b`, value: `\`${prefix}command ?\` để xem hướng dẫn chi tiết của command` }
         ),
     ];

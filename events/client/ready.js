@@ -25,23 +25,20 @@ module.exports = {
     /** - Print table console log with chalk options
      * @param {OptionsConfig} options - Table options */
     const table = (options) => {
-      const { name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 } = options;
+      let { name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 } = options;
 
-      if (!name || !value) return null;
+      if (!name || !value) return;
 
-      if (typeof name === 'string' && typeof value === 'string')
-        return console.log(chalk[nameColor](name), ':', chalk[valueColor](value));
+      name = [].concat(name);
+      value = [].concat(value);
+      const contents = [];
 
-      if (Array.isArray(name) && Array.isArray(value)) {
-        const loop = Math.min(name.length, value.length);
-        const logs = [];
-        for (let i = 0; i < loop; i++) {
-          logs.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
-        }
-        return console.log(logs.join(tab > 0 ? '\t'.repeat(tab) : ' '));
+      const loop = Math.min(name.length, value.length);
+      for (let i = 0; i < loop; i++) {
+        contents.push(chalk[nameColor](name[i]) + ' : ' + chalk[valueColor](value[i]));
       }
 
-      return null;
+      console.log(contents.join(tab > 0 ? '\t'.repeat(tab) : ' '));
     };
 
     try {
@@ -72,7 +69,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '19:55, 27/07/2025' });
+      table({ name: '📆 Last update:', value: '23:30, 27/07/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

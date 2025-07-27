@@ -167,27 +167,58 @@ Collection.prototype.toGroupedCountList = function (property = 'category') {
 /** - Converts a Collection of commands into a format suitable for EmbedBuilder fields. This is a prototype function for `Collection`.
  * @param {string} categoryName - The category name to filter commands by.
  * @returns {Array<{name: string, value: string}>} An array of objects, each representing an embed field with command name and description, including subcommands if any. */
-Collection.prototype.toEmbedFields = function (categoryName) {
-  return this.filter((cmd) => cmd.category === categoryName).map((cmd) => {
-    const subNames = cmd?.data?.options
-      ?.filter((opt) => opt instanceof SlashCommandSubcommandBuilder)
-      .map((opt) => opt?.name);
+Collection.prototype.listCommandsAndSubs = function (categoryName) {
+  try {
+    return this.filter((cmd) => cmd.category === categoryName).map((cmd) => {
+      const subNames = cmd?.data?.options
+        ?.filter((opt) => opt instanceof SlashCommandSubcommandBuilder)
+        .map((opt) => opt?.name);
 
-    const subTree =
-      subNames.length > 0
-        ? '\n\x1b[35mSub commands:\x1b[34m\n' +
-          subNames
-            .map((subName, index, array) => {
-              const isLast = index === array.length - 1;
-              return (isLast ? '└──' : '├──') + `${cmd?.data?.name} ${subName}`;
-            })
-            .join('\n')
-        : '';
+      const subTree =
+        subNames.length > 0
+          ? '\n\x1b[35mSub commands:\x1b[34m\n' +
+            subNames
+              .map((subName, index, array) => {
+                const isLast = index === array.length - 1;
+                return (isLast ? '└──' : '├──') + `${cmd?.data?.name} ${subName}`;
+              })
+              .join('\n')
+          : '';
 
-    return {
-      name: `/${cmd?.data?.name || cmd?.name}`,
-      value: '\n```ansi\n\x1b[36m' + cmd?.data?.description + subTree + '```',
-    };
-  });
+      return {
+        name: `/${cmd?.data?.name || cmd?.name}`,
+        value: '\n```ansi\n\x1b[36m' + cmd?.data?.description + subTree + '```',
+      };
+    });
+  } catch (e) {
+    _client.logError({ item: 'listCommandAndSubs', desc: 'function' }, e);
+    return [];
+  }
+};
+/** - Converts a Collection of commands into a format suitable for EmbedBuilder fields, grouped by category. This is a prototype function for `Collection`.
+ * @param {string} [property = 'category'] - The property by which to group the commands. Defaults to 'category'.
+ * @returns {Array<{name: string, value: string}>} An array of objects, each representing an embed field with the category name and a list of commands. */
+Collection.prototype.listCommands = function (property = 'category') {
+  try {
+    const commandCat = this.reduce((acc, cmd) => {
+      acc[cmd[property]] = (acc[cmd[property]] || 0) + 1;
+      return acc;
+    }, {});
+
+    const commandFields = [];
+    for (const [prop, count] of Object.entries(commandCat)) {
+      const cmds = this.filter((cmd) => cmd[property] === prop).map((cmd) => cmd?.data?.name || cmd?.name);
+
+      commandFields.push({
+        name: `\\📂 ${prop.toCapitalize()} [${count}]`,
+        value: `\`\`\`ansi\n\x1b[36m${cmds.join(' | ')}\x1b[0m\`\`\``,
+      });
+    }
+
+    return commandFields;
+  } catch (e) {
+    _client.logError({ item: 'listCommands', desc: 'function' }, e);
+    return [];
+  }
 };
 // End define prototype functions
