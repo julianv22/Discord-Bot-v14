@@ -6,8 +6,8 @@ const {
   ContainerBuilder,
   ComponentType,
   ButtonStyle,
+  MessageFlags,
   Colors,
-  SectionBuilder,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 const { menuComponents, sectionComponents, textDisplay } = require('../../../functions/common/components');
@@ -74,6 +74,6 @@ module.exports = {
       )
       .addActionRowComponents(menuComponents('youtube-menu:alert', '🔔 Select Alert Role', ComponentType.RoleSelect));
 
-    await interaction.editReply({ components: [container], flags: 32768 });
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   },
 };

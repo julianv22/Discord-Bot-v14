@@ -1,4 +1,12 @@
-const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, Colors } = require('discord.js');
+const {
+  Client,
+  Interaction,
+  SlashCommandBuilder,
+  EmbedBuilder,
+  MessageFlags,
+  PermissionFlagsBits,
+  Colors,
+} = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu } = require('../../functions/common/components');
 
@@ -38,7 +46,7 @@ module.exports = {
 
     switch (subCommand) {
       case 'dashboard':
-        await interaction.editReply({ components: [dashboardMenu()], flags: 32768 });
+        await interaction.editReply({ components: [dashboardMenu()], flags: MessageFlags.IsComponentsV2 });
         break;
 
       case 'info':

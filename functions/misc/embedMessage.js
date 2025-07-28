@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder, ContainerBuilder, MessageFlags, Colors } = require('discord.js');
+const { Client, EmbedBuilder, MessageFlags, Colors } = require('discord.js');
 const { textDisplay } = require('../common/components');
 
 /** @param {Client} client - Discord Client */

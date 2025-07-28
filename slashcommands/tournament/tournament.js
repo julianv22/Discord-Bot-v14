@@ -7,6 +7,7 @@ const {
   ActionRowBuilder,
   ComponentType,
   ButtonStyle,
+  MessageFlags,
   PermissionFlagsBits,
   Colors,
 } = require('discord.js');
@@ -78,6 +79,6 @@ module.exports = {
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, manage_buttons))
       );
 
-    await interaction.editReply({ components: [container], flags: 32768 });
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   },
 };
