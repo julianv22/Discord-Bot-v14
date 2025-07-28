@@ -9,13 +9,13 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guildId, user, customId } = interaction;
     const { embedMessage } = client;
     const [, buttonId, betInput] = customId.split(':');
     const userMove = { rock: 0, paper: 1, scissors: 2 };
     const bet = parseInt(betInput, 10);
-
-    await interaction.deferUpdate();
 
     const profile = await economyProfile.findOne({ guildId, userId: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy

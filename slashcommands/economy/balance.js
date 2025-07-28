@@ -11,12 +11,12 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { user, guild, guildId } = interaction;
     const { embedMessage } = client;
     const { name: guildName } = guild;
     const userId = user.id;
-
-    await interaction.deferReply({ flags: 64 });
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (profile)

@@ -18,6 +18,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild, guildId, user, options } = interaction;
     const { embedMessage } = client;
     const guildName = guild.name;
@@ -27,14 +29,12 @@ module.exports = {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.reply(embedMessage({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.editReply(embedMessage({ desc: 'No data found for this server. Try again later!' }));
 
     /** @param {string} roleId  */
     const getRole = (roleId) => guild.roles.cache.get(roleId);
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\n-# \\❌ Not set';
-
-    await interaction.deferReply({ flags: 64 });
 
     switch (subCommand) {
       case 'dashboard':

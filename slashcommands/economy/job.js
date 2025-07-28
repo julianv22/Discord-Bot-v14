@@ -36,6 +36,8 @@ module.exports = {
       );
     }
 
+    await interaction.deferReply();
+
     // Random job và thời gian làm việc
     const jobKeys = Object.keys(jobs);
     const jobName = jobs[jobKeys[Math.floor(Math.random() * jobKeys.length)]];
@@ -91,6 +93,6 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    return await interaction.reply({ embeds });
+    return await interaction.editReply({ embeds });
   },
 };

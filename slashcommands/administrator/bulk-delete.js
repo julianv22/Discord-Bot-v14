@@ -21,12 +21,12 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { channel, options } = interaction;
     const { embedMessage, catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
-
-    await interaction.deferReply({ flags: 64 });
 
     try {
       const messages = await channel.messages.fetch({ limit: amount });

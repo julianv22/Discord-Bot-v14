@@ -44,6 +44,8 @@ module.exports = {
       );
     }
 
+    await interaction.deferReply();
+
     // Số \\💲 daily, random từ 500 tới 1000, ưu tiên gần 1000
     // Sử dụng phân phối bình phương để tăng xác suất số lớn
     const min = 500;
@@ -121,6 +123,6 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    return await interaction.reply({ embeds });
+    return await interaction.editReply({ embeds });
   },
 };

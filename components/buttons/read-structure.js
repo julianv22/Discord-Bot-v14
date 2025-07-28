@@ -9,11 +9,10 @@ module.exports = {
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    const { user, customId } = interaction;
-    const [, folder] = customId.split(':');
-
     await interaction.deferUpdate({ flags: 64 });
 
+    const { user, customId } = interaction;
+    const [, folder] = customId.split(':');
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
     /** - Checks if a file or folder name should be ignored.
