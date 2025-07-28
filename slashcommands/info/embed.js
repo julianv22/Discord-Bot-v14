@@ -22,13 +22,9 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction.
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const {
-      guild,
-      user,
-      channel: { messages },
-      options,
-    } = interaction;
+    const { user, channel, options } = interaction;
     const { messageEmbed, logError } = client;
+    const { messages } = channel;
     const messageId = options.getString('message_id');
 
     const targetMessage = await messages.fetch(messageId).catch((e) =>

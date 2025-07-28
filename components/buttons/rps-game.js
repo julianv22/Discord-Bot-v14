@@ -9,7 +9,7 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guildId, customId } = interaction;
+    const { guildId, user, customId } = interaction;
     const { messageEmbed } = client;
     const [, buttonId, betInput] = customId.split(':');
     const userMove = { rock: 0, paper: 1, scissors: 2 };

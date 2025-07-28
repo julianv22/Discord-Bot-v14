@@ -35,15 +35,12 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction.
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const {
-      options,
-      channel: { messages },
-    } = interaction;
-    const { messageEmbed, logError } = client;
-    const editType = options.getSubcommand();
+    const { channel, options } = interaction;
+    const { messageEmbed, logError, user: bot } = client;
+    const subCommand = options.getSubcommand();
     const messageId = options.getString('message_id');
 
-    const msg = await messages.fetch(messageId).catch((e) =>
+    const msg = await channel.messages.fetch(messageId).catch((e) =>
       logError(
         {
           todo: 'fetching message with ID:',
@@ -56,15 +53,13 @@ module.exports = {
 
     if (!msg)
       return await interaction.reply(
-        messageEmbed({
-          desc: `Message with ID: [${messageId}] not found, or it's not in this channel!`,
-        })
+        messageEmbed({ desc: `Message with ID: [${messageId}] not found, or it's not in this channel!` })
       );
 
-    if (msg.author.id !== client.user.id)
+    if (msg.author.id !== bot.id)
       return await interaction.reply(messageEmbed({ desc: `This message does not belong to bot!` }));
 
-    const editMessage = {
+    const editMethod = {
       embed: async () => {
         if (!msg.embeds.length)
           return await interaction.reply(messageEmbed({ desc: 'This message does not contain any embeds!' }));
@@ -85,6 +80,6 @@ module.exports = {
         }),
     };
 
-    if (!editMessage[editType]()) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(editType));
+    if (!editMethod[subCommand]()) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(subCommand));
   },
 };

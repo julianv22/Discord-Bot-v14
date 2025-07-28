@@ -8,12 +8,9 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    const {
-      guildId,
-      guild: { roles },
-      message: { components },
-      values,
-    } = interaction;
+    const { guild, guildId, message, values } = interaction;
+    const { components } = message;
+    const { roles } = guild;
     const tourName = components[0].components[0].components[1].data;
     const getRole = (roleId) => roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

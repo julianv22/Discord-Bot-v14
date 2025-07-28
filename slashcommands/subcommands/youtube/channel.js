@@ -20,10 +20,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      guild: { name: guildName },
-      guildId,
-    } = interaction;
+    const { guild, guildId } = interaction;
+    const { name: guildName } = guild;
     const { messageEmbed } = client;
 
     /** - Gets the title of a YouTube channel.

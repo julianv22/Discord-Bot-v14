@@ -12,7 +12,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { getAvatar, commandUsage } = client;
-    const { author, guild, mentions } = message;
+    const { guild, author, mentions } = message;
 
     if (args.join(' ').trim() === '?')
       return await commandUsage(

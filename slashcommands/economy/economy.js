@@ -11,7 +11,7 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction.
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const { user, guild } = interaction;
+    const { guild, user } = interaction;
 
     const embeds = [
       new EmbedBuilder()

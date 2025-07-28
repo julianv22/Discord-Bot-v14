@@ -8,7 +8,7 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const { customId, message, channel } = interaction;
+    const { message, channel, customId } = interaction;
     const { messageEmbed } = client;
     const [, buttonId] = customId.split(':');
     const modalId = 'manage-message:' + buttonId;

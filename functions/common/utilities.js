@@ -1,4 +1,4 @@
-const { Collection, SlashCommandSubcommandBuilder, Locale, Colors } = require('discord.js');
+const { Client, Collection, SlashCommandSubcommandBuilder, Locale, Colors } = require('discord.js');
 const asciiTable = require('ascii-table');
 const path = require('path');
 
@@ -49,15 +49,13 @@ module.exports = {
    * replaceVar("Hello, {user} from {guild}!", replaceKey);
    * ```
    * @returns {string} - The string with variables replaced. */
-  replaceVar: (stringInput, replacements) => {
+  replaceVar: (stringInput, replacements) =>
     // Regex will match any string in the format {key}
-    // Example: {user}, {guild}, {avatar}
-    return stringInput.replace(/\{(\w+)\}/g, (match, key) => {
+    stringInput.replace(/\{(\w+)\}/g, (match, key) =>
       // If the key exists in the replacements object, return its value.
       // Otherwise, return the original match to keep that part unchanged.
-      return replacements[key] !== undefined ? replacements[key] : match;
-    });
-  },
+      replacements[key] !== undefined ? replacements[key] : match
+    ),
   /** - Logs an array of data into an ASCII table format to the console. Each inner array in `data` represents a column.
    * @param {Array<Array<string>>} data - An array of arrays, where each inner array contains data for a column.
    * @param {object} [setting = {}] - Optional settings for the ASCII table.

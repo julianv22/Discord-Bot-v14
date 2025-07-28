@@ -7,7 +7,7 @@ module.exports = (client) => {
    * @param {GuildMember} target - The target user to rob.
    * @param {Interaction} interaction - The command interaction. */
   client.robUser = async (target, interaction) => {
-    const { user, guild, guildId } = interaction;
+    const { guild, guildId, user } = interaction;
     const { messageEmbed, catchError, user: bot } = client;
     const now = new Date();
     const cooldownMs = 30 * 60 * 1000; // 30 phút

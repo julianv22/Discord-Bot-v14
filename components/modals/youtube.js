@@ -8,13 +8,9 @@ module.exports = {
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
-    const {
-      guildId,
-      customId,
-      fields,
-      message: { embeds },
-    } = interaction;
+    const { guildId, message, fields, customId } = interaction;
     const { messageEmbed } = client;
+    const { embeds } = message;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);
 

@@ -8,18 +8,14 @@ module.exports = {
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
-    const {
-      guildId,
-      customId,
-      fields,
-      message: { components },
-    } = interaction;
-    const message = fields.getTextInputValue(customId).slice(0, 3000);
+    const { guildId, message, fields, customId } = interaction;
+    const { components } = message;
+    const input = fields.getTextInputValue(customId).slice(0, 3000);
     const welcomeMessage = components[1].components[1].components[1].data;
 
-    welcomeMessage.content = message;
+    welcomeMessage.content = input;
 
-    await serverProfile.findOneAndUpdate({ guildId }, { $set: { 'welcome.message': message } }).catch(console.error);
+    await serverProfile.findOneAndUpdate({ guildId }, { $set: { 'welcome.message': input } }).catch(console.error);
 
     await interaction.update({ components });
   },

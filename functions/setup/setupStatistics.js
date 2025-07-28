@@ -15,12 +15,9 @@ module.exports = (client) => {
   /** - Sets up the server statistics channels.
    * @param {Interaction} interaction - The command interaction. */
   client.setupStatistics = async (interaction) => {
-    const {
-      guild,
-      guildId,
-      guild: { name: guildName },
-    } = interaction;
+    const { guild, guildId } = interaction;
     const { messageEmbed } = client;
+    const { name: guildName } = guild;
 
     const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })

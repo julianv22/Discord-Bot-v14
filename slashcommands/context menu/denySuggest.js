@@ -20,8 +20,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { targetMessage, user, guild } = interaction;
-    const { messageEmbed, user: bot } = client;
+    const { targetMessage, guild } = interaction;
+    const { messageEmbed } = client;
     const suggestEmbed = EmbedBuilder.from(targetMessage.embeds[0]);
     const footer = suggestEmbed.data.footer.text;
 

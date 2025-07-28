@@ -20,13 +20,9 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      guildId,
-      guild: { members, roles },
-      user,
-      options,
-    } = interaction;
+    const { guild, guildId, user, options } = interaction;
     const { messageEmbed } = client;
+    const { members, roles } = guild;
     const userId = user.id;
 
     // Verified

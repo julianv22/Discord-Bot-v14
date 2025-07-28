@@ -10,7 +10,7 @@ module.exports = {
    * @param {Interaction} interaction - The button interaction.
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
-    const { customId, guild, guildId, channel, message, user } = interaction;
+    const { guild, guildId, channel, message, user, customId } = interaction;
     const { messageEmbed } = client;
     const [, buttonId] = customId.split(':');
     const buttons = ActionRowBuilder.from(message.components[0]);

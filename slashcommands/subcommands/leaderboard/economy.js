@@ -10,7 +10,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guild, guildId } = interaction;
+    const { guild, guildId, user } = interaction;
     const { messageEmbed } = client;
 
     // Lấy top 10 user theo balance
@@ -19,10 +19,9 @@ module.exports = {
     if (!topUsers || !topUsers.length)
       return await interaction.reply(messageEmbed({ desc: 'No economy data found for this guild.' }));
 
-    const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const leaderboard = topUsers
       .map((user, id) => {
-        const rank = id < 3 ? emojis[id] : `**${id + 1}.**`;
+        const rank = id < 3 ? ['1️⃣', '2️⃣', '3️⃣'][id] : `**${id + 1}.**`;
         return `${rank} <@${user?.userId}> \\💰: ${user?.balance.toCurrency()} | \\🏦: ${user?.bank.toCurrency()}`;
       })
       .join('\n\n');

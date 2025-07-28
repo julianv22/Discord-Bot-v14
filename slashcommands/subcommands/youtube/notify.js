@@ -21,12 +21,9 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction object.
    * @param {Client} client - The Discord client instance. */
   async execute(interaction, client) {
-    const {
-      guild,
-      guildId,
-      guild: { name: guildName },
-    } = interaction;
+    const { guild, guildId } = interaction;
     const { messageEmbed } = client;
+    const { name: guildName } = guild;
 
     const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })

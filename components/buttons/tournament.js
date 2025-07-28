@@ -10,13 +10,9 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      guild,
-      guildId,
-      customId,
-      message: { components },
-    } = interaction;
+    const { guild, guildId, message, customId } = interaction;
     const { messageEmbed } = client;
+    const { components } = message;
     const [, buttonId] = customId.split(':');
     const tourName = components[0].components[0].components[1].data;
     const tourStatus = components[0].components[0].components[2].data;

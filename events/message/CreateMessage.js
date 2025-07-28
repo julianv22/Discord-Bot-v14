@@ -6,7 +6,7 @@ module.exports = {
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
   async execute(message, client) {
-    const { author, channel, content } = message;
+    const { channel, author, content } = message;
 
     if (channel && channel.type === ChannelType.DM && content.includes('help'))
       return await message.reply({

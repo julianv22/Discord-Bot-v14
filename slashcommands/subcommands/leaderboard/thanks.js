@@ -10,7 +10,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, guildId, user, options } = interaction;
+    const { guildId, user, options } = interaction;
     const { messageEmbed } = client;
     const description = options.getString('time');
 
@@ -18,10 +18,9 @@ module.exports = {
     if (!topUsers || !topUsers.length)
       return await interaction.reply(messageEmbed({ desc: 'No thanks data found for this server.' }));
 
-    const emojis = ['1️⃣', '2️⃣', '3️⃣'];
     const thanksList = topUsers
       .map((user, id) => {
-        const rank = id < 3 ? emojis[id] : `**${id + 1}.**`;
+        const rank = id < 3 ? ['1️⃣', '2️⃣', '3️⃣'][id] : `**${id + 1}.**`;
         const { thanksCount, userId } = user;
 
         return rank + ` <@${userId}> with ${thanksCount} thank${thanksCount > 1 ? 's' : ''}`;

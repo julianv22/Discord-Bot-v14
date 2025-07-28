@@ -10,7 +10,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { user, guildId, options } = interaction;
+    const { guildId, user, options } = interaction;
     const { messageEmbed, user: bot } = client;
     const userId = user.id;
     const amount = options.getInteger('amount');

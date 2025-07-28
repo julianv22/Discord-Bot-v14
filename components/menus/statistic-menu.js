@@ -8,14 +8,10 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    const {
-      guildId,
-      guild: { channels },
-      message: { components },
-      customId,
-      values,
-    } = interaction;
+    const { guild, guildId, message, values, customId } = interaction;
     const { serverStats } = client;
+    const { components } = message;
+    const { channels } = guild;
     const [, selected] = customId.split(':');
     const statisticInfo = components[1].components[0].components[1].data;
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

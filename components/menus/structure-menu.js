@@ -3,11 +3,11 @@ const {
   Interaction,
   ContainerBuilder,
   ActionRowBuilder,
+  SeparatorBuilder,
   ComponentType,
   MessageFlags,
-  Colors,
   ButtonStyle,
-  SeparatorBuilder,
+  Colors,
 } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('../../functions/common/initLoader');

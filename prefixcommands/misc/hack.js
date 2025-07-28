@@ -12,7 +12,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { messageEmbed, commandUsage } = client;
-    const { mentions, guild, author } = message;
+    const { guild, author, mentions } = message;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this, prefix + this.name + ' @user');
 
     const target = mentions.members.first() || guild.members.cache.get(args[0]);

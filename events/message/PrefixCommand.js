@@ -7,7 +7,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(message, client) {
     const { prefixCommands, messageEmbed, catchError } = client;
-    const { content, channel, author, member } = message;
+    const { member, channel, author, content } = message;
 
     if (channel.type === ChannelType.DM) return;
     if (author.bot) return;

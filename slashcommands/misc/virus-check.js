@@ -22,7 +22,7 @@ module.exports = {
    * @param {Interaction} interaction - Đối tượng tương tác (SlashInteraction)
    * @param {Client} client - Đối tượng Client của bot */
   async execute(interaction, client) {
-    const { options, user, guild } = interaction;
+    const { user, guild, options } = interaction;
     const { messageEmbed } = client;
     const inputUrl = options.getString('url');
 

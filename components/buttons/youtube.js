@@ -9,12 +9,9 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      customId,
-      guildId,
-      message: { components },
-    } = interaction;
+    const { guildId, message, customId } = interaction;
     const { checkVideos, messageEmbed } = client;
+    const { components } = message;
     const [, buttonId, type] = customId.split(':');
 
     /** @param {number} id Component index. `1 = Notify channel, 2 = Alert role`*/

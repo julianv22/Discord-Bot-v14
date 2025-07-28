@@ -8,12 +8,8 @@ module.exports = {
    * @param {Interaction} interaction - Select Menu Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      guildId,
-      message: { components },
-      customId,
-      values,
-    } = interaction;
+    const { guildId, message, values, customId } = interaction;
+    const { components } = message;
     const [, menu] = customId.split(':');
     const textDisplay = (id) => components[1].components[0].components[id].data;
 

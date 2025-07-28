@@ -10,14 +10,10 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      guildId,
-      guild: { name: guildName },
-      user,
-      user: { id: userId },
-    } = interaction;
+    const { guild, guildId, user } = interaction;
     const { messageEmbed } = client;
-    const userName = user.displayName || user.username;
+    const { name: guildName } = guild;
+    const [userId, userName] = [user.id, user.displayName || user.username];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

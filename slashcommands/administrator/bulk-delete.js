@@ -21,7 +21,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { options, channel } = interaction;
+    const { channel, options } = interaction;
     const { messageEmbed, catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');

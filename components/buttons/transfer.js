@@ -8,13 +8,7 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const {
-      guild,
-      guildId,
-      guild: { name: guildName },
-      user,
-      customId,
-    } = interaction;
+    const { guild, guildId, user, customId } = interaction;
     const { messageEmbed } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');

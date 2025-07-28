@@ -8,11 +8,8 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    const {
-      guildId,
-      values,
-      message: { components },
-    } = interaction;
+    const { guildId, values, message } = interaction;
+    const { components } = message;
     const data = components[1].components[0].data;
     data.content = `### \\💡 Suggest Channel: <#${values[0]}>`;
 

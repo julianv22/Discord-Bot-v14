@@ -9,12 +9,13 @@ module.exports = {
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { customId, fields, message, user, guild, channel } = interaction;
+    const { guild, user, channel, message, fields, customId } = interaction;
     const { messageEmbed } = client;
     const [, textInputId] = customId.split(':');
 
     const inputValue = fields.getTextInputValue(textInputId);
 
+    // Handler with /edit message command
     if (textInputId.split('-')[0] === 'message') {
       const messageId = textInputId.split('-')[1];
       const editMsg = channel.messages.cache.get(messageId);
@@ -47,9 +48,9 @@ module.exports = {
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
-      title: () => embed.setTitle(inputValue || null),
+      title: () => embed.setTitle(inputValue || null), // Also work with /reaction role command
       description: () => embed.setDescription(replaceVar(inputValue, replaceKey)),
-      color: () => embed.setColor(inputValue.toEmbedColor()),
+      color: () => embed.setColor(inputValue.toEmbedColor()), // Also work with /reaction role command
       image: () => embed.setImage(inputValue.checkURL() ? inputValue : null),
       thumbnail: () => embed.setThumbnail(inputValue.checkURL() ? inputValue : null),
       footer: () => {
