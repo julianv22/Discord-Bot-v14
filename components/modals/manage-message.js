@@ -12,7 +12,6 @@ module.exports = {
     const { guild, user, channel, message, fields, customId } = interaction;
     const { messageEmbed } = client;
     const [, textInputId] = customId.split(':');
-
     const inputValue = fields.getTextInputValue(textInputId);
 
     // Handler with /edit message command
@@ -27,6 +26,8 @@ module.exports = {
       });
     }
 
+    await interaction.deferUpdate();
+
     const embed = EmbedBuilder.from(message.embeds[0]);
 
     const replaceKey = {
@@ -36,7 +37,7 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) return await interaction.reply(client.messageEmbed({ desc: 'Cannot find the message!' }));
+    if (!message) return await interaction.followUp(client.messageEmbed({ desc: 'Cannot find the message!' }));
 
     const onSubmit = {
       author: () => {
@@ -71,6 +72,6 @@ module.exports = {
 
     if (!onSubmit[textInputId]())
       throw new Error(chalk.yellow("Invalid TextInput's customId"), chalk.green(textInputId));
-    await interaction.update({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   },
 };

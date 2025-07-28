@@ -7,10 +7,11 @@ module.exports = {
    * @param {Interaction} interaction - Select Menu Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guild, user } = interaction;
     const { slashCommands, subCommands, helpSlash, helpPrefix } = client;
     const CommandType = interaction.values[0];
-
     const ignore = 'context menu';
     const slashCategories = [
       ...new Set(
@@ -57,7 +58,7 @@ module.exports = {
             ),
         ];
 
-        await interaction.update({ embeds });
+        await interaction.editReply({ embeds });
       },
     };
 

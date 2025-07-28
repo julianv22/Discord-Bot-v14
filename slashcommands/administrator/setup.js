@@ -34,9 +34,11 @@ module.exports = {
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\n-# \\❌ Not set';
 
+    await interaction.deferReply({ flags: 64 });
+
     switch (subCommand) {
       case 'dashboard':
-        await interaction.reply({ components: [dashboardMenu()], flags: [32768, 64] });
+        await interaction.editReply({ components: [dashboardMenu()], flags: 32768 });
         break;
 
       case 'info':
@@ -54,33 +56,35 @@ module.exports = {
         const starboardStarCount = starboard?.starCount || 0;
         const statisticsInfo = statistics?.totalChannelId ? '\\✅ Set' : '\\❌ Not set';
 
-        const embed = new EmbedBuilder()
-          .setColor(Colors.DarkAqua)
-          .setThumbnail(cfg.Global_gif)
-          .setAuthor({ name: `${guildName} Setup Information`, iconURL: guild.iconURL(true) })
-          .setDescription('-# \\⚠️ **/setup dashboard** for more setting')
-          .setFields(
-            { name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true },
-            { name: 'Log Channel', value: `${logChannel}`, inline: true },
-            { name: 'Welcome Message', value: welcomeMessage, inline: false },
-            { name: 'Server Statistics', value: statisticsInfo, inline: false },
-            { name: 'Starboard Channel', value: `${starboardChannel} (${starboardStarCount}\\⭐)`, inline: true },
-            { name: 'Suggest Channel', value: `${suggestChannel}`, inline: true },
-            {
-              name: 'Youtube subscribed channels: ' + youtubeChannelCount,
-              value: `- Notify channel: ${youtubeNotifyChannel}\n-# \\⚠️ /youtube channel\n- Alert role: ${youtubeAlertRole}\n-# \\⚠️ /youtube notify`,
-              inline: false,
-            },
-            { name: 'Tournament', value: `${tournamentName}`, inline: true },
-            { name: 'Tournament Status', value: tournamentStatus, inline: true }
-          )
-          .setFooter({
-            text: `Requested by ${user.displayName || user.username}`,
-            iconURL: user.displayAvatarURL(true),
-          })
-          .setTimestamp();
+        const embeds = [
+          new EmbedBuilder()
+            .setColor(Colors.DarkAqua)
+            .setThumbnail(cfg.Global_gif)
+            .setAuthor({ name: `${guildName} Setup Information`, iconURL: guild.iconURL(true) })
+            .setDescription('-# \\⚠️ **/setup dashboard** for more setting')
+            .setFields(
+              { name: 'Welcome Channel', value: `${welcomeChannel}`, inline: true },
+              { name: 'Log Channel', value: `${logChannel}`, inline: true },
+              { name: 'Welcome Message', value: welcomeMessage, inline: false },
+              { name: 'Server Statistics', value: statisticsInfo, inline: false },
+              { name: 'Starboard Channel', value: `${starboardChannel} (${starboardStarCount}\\⭐)`, inline: true },
+              { name: 'Suggest Channel', value: `${suggestChannel}`, inline: true },
+              {
+                name: 'Youtube subscribed channels: ' + youtubeChannelCount,
+                value: `- Notify channel: ${youtubeNotifyChannel}\n-# \\⚠️ /youtube channel\n- Alert role: ${youtubeAlertRole}\n-# \\⚠️ /youtube notify`,
+                inline: false,
+              },
+              { name: 'Tournament', value: `${tournamentName}`, inline: true },
+              { name: 'Tournament Status', value: tournamentStatus, inline: true }
+            )
+            .setFooter({
+              text: `Requested by ${user.displayName || user.username}`,
+              iconURL: user.displayAvatarURL(true),
+            })
+            .setTimestamp(),
+        ];
 
-        await interaction.reply({ embeds: [embed], flags: 64 });
+        await interaction.editReply({ embeds });
         break;
     }
   },

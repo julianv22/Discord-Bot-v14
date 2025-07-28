@@ -66,7 +66,7 @@ module.exports = (client) => {
         });
       }
     } catch (e) {
-      console.error(chalk.red('An error occurred while sending the report to the error channel log\n'), e);
+      return console.error(chalk.red('An error occurred while sending the report to the error channel log\n'), e);
     }
   };
 

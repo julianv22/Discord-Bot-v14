@@ -69,7 +69,7 @@ module.exports = {
         } else await sendNewMessage(); // Nếu chưa tồn tại thì gửi message mới
       }
     } catch (e) {
-      console.error(chalk.red('Error while executing Starboard reactionAdd event\n'), e);
+      return console.error(chalk.red('Error while executing Starboard reactionAdd event\n'), e);
     }
   },
   /** - Update or delete message from Starboard Channel when user removing ⭐ emoji reaction
@@ -107,7 +107,7 @@ module.exports = {
         }
       }
     } catch (e) {
-      console.error(chalk.red(`Error while executing Starboard reactionRemove event\n`), e);
+      return console.error(chalk.red(`Error while executing Starboard reactionRemove event\n`), e);
     }
   },
 };

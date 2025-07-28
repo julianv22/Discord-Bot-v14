@@ -15,9 +15,14 @@ module.exports = {
     const userMove = { rock: 0, paper: 1, scissors: 2 };
     const bet = parseInt(betInput, 10);
 
+    await interaction.deferUpdate();
+
     const profile = await economyProfile.findOne({ guildId, userId: user.id }).catch(console.error);
     // Kiểm tra tài khoản Economy
-    if (!profile) return await interaction.update(messageEmbed({ desc: 'Bạn chưa có tài khoản Economy!' }));
+    if (!profile)
+      return await interaction.followUp(
+        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
+      );
 
     // Reset count nếu sang ngày mới
     const today = new Date();
@@ -30,13 +35,8 @@ module.exports = {
     }
 
     // Kiểm tra số lần chơi trong ngày
-    if (profile?.rpsCount >= 50) {
-      await interaction.update({
-        ...messageEmbed({ desc: `Bạn đã chơi hết ${profile?.rpsCount}/50 lần trong ngày.` }),
-        components: [],
-      });
-
-      await interaction.followUp({
+    if (profile?.rpsCount >= 50)
+      return await interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setColor(Colors.DarkVividPink)
@@ -53,12 +53,9 @@ module.exports = {
         ],
       });
 
-      return;
-    }
-
     // Kiểm tra tiền cược
     if (profile?.balance < bet)
-      return await interaction.update(
+      return await interaction.followUp(
         messageEmbed({ desc: `Bạn không đủ tiền để cược! Số dư: ${profile?.balance.toCurrency()}` })
       );
 
@@ -90,7 +87,7 @@ module.exports = {
     await profile.save().catch(console.error);
 
     // Trả về kết quả
-    return await interaction.update({
+    await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setColor(rps.color)

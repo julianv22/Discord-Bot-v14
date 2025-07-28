@@ -61,15 +61,16 @@ module.exports = {
 
     const editMethod = {
       embed: async () => {
-        if (!msg.embeds.length)
-          return await interaction.reply(messageEmbed({ desc: 'This message does not contain any embeds!' }));
+        await interaction.deferReply({ flags: 64 });
 
-        await interaction.reply({
+        if (!msg.embeds.length)
+          return await interaction.editReply(messageEmbed({ desc: 'This message does not contain any embeds!' }));
+
+        await interaction.editReply({
           embeds: [EmbedBuilder.from(msg.embeds[0])],
           components: manageEmbedButtons(messageId),
-          flags: 64,
         });
-      }, //'https://images-ext-1.discordapp.net/external/OR2PWu33fjUxkLADQxGqnNDDybM3_1-e4xg8PRyQ6f8/https/maki.gg/emoji/pencil.png'
+      },
       message: async () =>
         await createModal(interaction, `manage-message:message-${messageId}`, 'Message manager', {
           customId: `message-${messageId}`,

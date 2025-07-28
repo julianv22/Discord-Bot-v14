@@ -16,9 +16,11 @@ module.exports = {
     const { name: guildName } = guild;
     const userId = user.id;
 
+    await interaction.deferReply({ flags: 64 });
+
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
-    if (!profile)
-      return await interaction.reply(
+    if (profile)
+      return await interaction.editReply(
         messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
@@ -64,6 +66,6 @@ module.exports = {
         ),
     ];
 
-    return await interaction.reply({ embeds, flags: 64 });
+    return await interaction.editReply({ embeds });
   },
 };

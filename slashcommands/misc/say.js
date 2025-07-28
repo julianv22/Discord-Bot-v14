@@ -20,14 +20,16 @@ module.exports = {
     if (!content && !target)
       return await interaction.reply(messageEmbed({ desc: 'Bạn phải cung cấp nội dung để bot nói!' }));
 
-    if (target) {
-      if (content) return await interaction.reply(`${target}: ${content}`);
+    await interaction.deferReply();
 
-      await interaction.reply(`Hello ${target} 👋!`);
+    if (target) {
+      if (content) return await interaction.editReply(`${target}: ${content}`);
+
+      await interaction.editReply(`Hello ${target} 👋!`);
 
       return setTimeout(async () => await interaction.followUp('Have a good day 🎉!'), 3 * 1000);
     }
 
-    await interaction.reply(content);
+    await interaction.editReply(content);
   },
 };

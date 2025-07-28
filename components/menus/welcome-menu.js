@@ -8,6 +8,8 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guildId, message, values, customId } = interaction;
     const { components } = message;
     const [, selected] = customId.split(':');
@@ -30,6 +32,6 @@ module.exports = {
     };
 
     if (!setupWelcome[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
-    await interaction.update({ components });
+    await interaction.editReply({ components });
   },
 };

@@ -25,6 +25,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild, guildId } = interaction;
     const { messageEmbed } = client;
     const { name: guildName } = guild;
@@ -34,7 +36,7 @@ module.exports = {
       .catch(console.error);
 
     if (!profile)
-      return await interaction.reply(
+      return await interaction.editReply(
         messageEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
 
@@ -76,6 +78,6 @@ module.exports = {
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, manage_buttons))
       );
 
-    await interaction.reply({ components: [container], flags: [32768, 64] });
+    await interaction.editReply({ components: [container], flags: 32768 });
   },
 };

@@ -22,7 +22,7 @@ module.exports = (client) => {
           .setTimestamp(),
       ];
 
-      return await object.reply({ embeds });
+      await object.reply({ embeds });
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('getAvatar')} function`);
     }

@@ -14,6 +14,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild, user } = interaction;
 
     const embeds = [
@@ -31,6 +33,6 @@ module.exports = {
         ),
     ];
 
-    await interaction.reply({ embeds, components: manageEmbedButtons(), flags: 64 });
+    await interaction.editReply({ embeds, components: manageEmbedButtons() });
   },
 };

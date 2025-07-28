@@ -14,6 +14,8 @@ module.exports = {
    * @param {Client} client - The client instance
    * @param {Interaction} interaction - The Command Interaction */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild } = interaction;
 
     const embeds = [
@@ -32,6 +34,6 @@ module.exports = {
         ),
     ];
 
-    await interaction.reply({ embeds, components: [reactionButtons()], flags: 64 });
+    await interaction.editReply({ embeds, components: [reactionButtons()] });
   },
 };

@@ -8,11 +8,12 @@ module.exports = {
    * @param {Interaction} interaction - Select Menu Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guildId, message, values, customId } = interaction;
     const { components } = message;
     const [, menu] = customId.split(':');
     const textDisplay = (id) => components[1].components[0].components[id].data;
-
     const profile = await serverProfile.findOne({ guildId });
     const { starboard } = profile || {};
 
@@ -29,6 +30,6 @@ module.exports = {
 
     if (!onSelect[menu]()) throw new Error(chalk.yellow('Invalid menu', chalk.green(menu)));
     await profile.save();
-    await interaction.update({ components });
+    await interaction.editReply({ components });
   },
 };

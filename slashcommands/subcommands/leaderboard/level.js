@@ -16,6 +16,8 @@ module.exports = {
 
     if (!imgURL.checkURL()) return await interaction.reply(messageEmbed({ desc: 'Please enter a valid image URL.' }));
 
+    await interaction.deferReply();
+
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
@@ -33,6 +35,6 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    return await interaction.reply({ embeds });
+    return await interaction.editReply({ embeds });
   },
 };

@@ -9,7 +9,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    createModal(interaction, 'suggest', 'Server Suggestion', {
+    await createModal(interaction, 'suggest', 'Server Suggestion', {
       customId: 'content',
       label: 'Suggestion Content',
       style: TextInputStyle.Paragraph,

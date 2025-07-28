@@ -45,26 +45,4 @@ module.exports = (client) => {
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   };
-
-  /** - Creates an error message container.
-   * @param {string} description - The detailed description of the error.
-   * @param {(boolean|string)} [emoji = false] - The emoji to prefix the description. If boolean, uses default success/error emojis.
-   * @param {(number)} [color] - The accent color of the container.
-   * @param {boolean} [flags = true] - Whether the message should be ephemeral. Defaults to `true`. */
-  client.errorContainer = (description, emoji = false, color, flags = true) => {
-    const container = new ContainerBuilder().setAccentColor(color || (emoji ? Colors.Green : Colors.Red));
-
-    let prefix = '\\';
-
-    if (typeof emoji === 'boolean') prefix += emoji ? '✅' : '❌';
-    else prefix += emoji;
-    prefix += ' ';
-
-    container.addTextDisplayComponents(textDisplay(prefix + description));
-
-    return {
-      flags: [MessageFlags.IsComponentsV2, flags && MessageFlags.Ephemeral],
-      components: [container],
-    };
-  };
 };

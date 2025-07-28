@@ -11,6 +11,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply();
+
     const { guild, user, options } = interaction;
     const { messageEmbed } = client;
     const target = options.getUser('target');
@@ -56,7 +58,7 @@ module.exports = {
 
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-    await interaction.reply(text[randomText]);
+    await interaction.editReply(text[randomText]);
     await delay(1500);
     await interaction.editReply(process1[randomProcess1]);
     await delay(1000); // 2500 - 1500

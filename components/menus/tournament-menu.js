@@ -8,6 +8,8 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guild, guildId, message, values } = interaction;
     const { components } = message;
     const { roles } = guild;
@@ -21,6 +23,6 @@ module.exports = {
     tourName.content = `- Tournament name: ${getRole(values[0])}`;
 
     await profile.save().catch(console.error);
-    await interaction.update({ components });
+    await interaction.editReply({ components });
   },
 };

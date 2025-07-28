@@ -57,7 +57,7 @@ module.exports = (client) => {
           ),
       ];
 
-      return await object.reply({ embeds });
+      await object.reply({ embeds });
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('serverInfo')} function`);
     }

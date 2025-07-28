@@ -16,7 +16,10 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { prefixCommands, slashCommands, subCommands } = client;
+
     const ignore = 'context menu';
     const slashCategories = new Set(
       slashCommands.filter((cmd) => !ignore.includes(cmd.category)).map((cmd) => cmd.category)
@@ -39,7 +42,7 @@ module.exports = {
       ...Array.from(slashCategories).map((value) => ({ label: `📂 ${value.toCapitalize()}`, value })),
     ];
 
-    await interaction.reply({
+    await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setColor(Math.floor(Math.random() * 0xffffff))
@@ -49,7 +52,6 @@ module.exports = {
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, menus)),
         infoButtons(),
       ],
-      flags: 64,
     });
   },
 };

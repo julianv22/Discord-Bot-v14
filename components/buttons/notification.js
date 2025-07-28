@@ -44,6 +44,7 @@ module.exports = {
           { customId: buttonId, label: 'Notification Image (Leave blank = Remove)', placeholder },
         ]),
       thumbnail: async () => {
+        await interaction.deferUpdate();
         const thumbnailButton = actionRows.components[3];
 
         if (thumbnailButton.data.label === '📢 Type: Notify') {
@@ -54,7 +55,7 @@ module.exports = {
           thumbnailButton.setLabel('📢 Type: Notify');
         }
 
-        await interaction.update({ embeds: [embed], components: [actionRows] });
+        await interaction.editReply({ embeds: [embed], components: [actionRows] });
       },
       send: async () => {
         for (const button of actionRows.components) button.setDisabled(true);

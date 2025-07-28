@@ -19,6 +19,8 @@ module.exports = {
     if (!topUsers || !topUsers.length)
       return await interaction.reply(messageEmbed({ desc: 'No economy data found for this guild.' }));
 
+    await interaction.deferReply();
+
     const leaderboard = topUsers
       .map((user, id) => {
         const rank = id < 3 ? ['1️⃣', '2️⃣', '3️⃣'][id] : `**${id + 1}.**`;
@@ -40,6 +42,6 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    return await interaction.reply({ embeds });
+    return await interaction.editReply({ embeds });
   },
 };

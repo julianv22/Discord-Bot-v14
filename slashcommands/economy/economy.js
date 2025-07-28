@@ -13,6 +13,8 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
 
+    await interaction.deferReply({ flags: 64 });
+
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
@@ -39,6 +41,6 @@ module.exports = {
         ),
     ];
 
-    return await interaction.reply({ embeds, flags: 64 });
+    return await interaction.editReply({ embeds, flags: 64 });
   },
 };

@@ -19,6 +19,6 @@ module.exports = (client) => {
       .setTimestamp()
       .setFields(commands);
 
-    return interaction.update({ embeds: [helpEmbed] });
+    await interaction.editReply({ embeds: [helpEmbed] });
   };
 };

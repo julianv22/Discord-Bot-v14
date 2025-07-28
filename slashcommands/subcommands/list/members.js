@@ -20,6 +20,11 @@ module.exports = {
       ? role.members.map((m) => m.user)
       : role.members.map((m) => m.user.displayName || m.user.username);
 
+    if (members.length === 0)
+      return await interaction.reply(messageEmbed({ desc: 'Could not find members math the role was given.' }));
+
+    await interaction.deferReply();
+
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.Blurple)
@@ -27,7 +32,6 @@ module.exports = {
         .setFooter({ text: `Tổng số: [${members.length}]` }),
     ];
 
-    if (members.length > 0) await interaction.reply({ embeds });
-    else await interaction.reply(messageEmbed({ desc: 'Could not find members or the role is incorrect.' }));
+    await interaction.editReply({ embeds });
   },
 };

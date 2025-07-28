@@ -8,6 +8,8 @@ module.exports = {
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guildId, message, fields, customId } = interaction;
     const { components } = message;
     const input = fields.getTextInputValue(customId).slice(0, 3000);
@@ -17,6 +19,6 @@ module.exports = {
 
     await serverProfile.findOneAndUpdate({ guildId }, { $set: { 'welcome.message': input } }).catch(console.error);
 
-    await interaction.update({ components });
+    await interaction.editReply({ components });
   },
 };

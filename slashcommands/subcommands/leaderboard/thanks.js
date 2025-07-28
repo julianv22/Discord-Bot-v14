@@ -18,6 +18,8 @@ module.exports = {
     if (!topUsers || !topUsers.length)
       return await interaction.reply(messageEmbed({ desc: 'No thanks data found for this server.' }));
 
+    await interaction.deferReply();
+
     const thanksList = topUsers
       .map((user, id) => {
         const rank = id < 3 ? ['1️⃣', '2️⃣', '3️⃣'][id] : `**${id + 1}.**`;
@@ -41,6 +43,6 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    return await interaction.reply({ embeds });
+    return await interaction.editReply({ embeds });
   },
 };

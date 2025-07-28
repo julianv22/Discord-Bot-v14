@@ -107,7 +107,7 @@ module.exports = (client) => {
           ),
       ];
 
-      return await interaction.reply({ embeds });
+      await interaction.reply({ embeds });
     } catch (e) {
       return await catchError(interaction, e, `Error while executing ${chalk.green('robUser')} function`);
     }

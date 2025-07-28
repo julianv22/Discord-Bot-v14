@@ -73,7 +73,7 @@ module.exports = (client) => {
         }
       }
     } catch (e) {
-      client.logError({ item: 'checkVideos', desc: 'function' }, e);
+      return client.logError({ item: 'checkVideos', desc: 'function' }, e);
     }
   };
 };

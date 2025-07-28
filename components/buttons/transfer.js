@@ -8,13 +8,15 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guild, guildId, user, customId } = interaction;
     const { messageEmbed } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
     if (amountStr === 'cancel')
-      return interaction.update({ ...messageEmbed({ desc: 'Huỷ giao dịch' }), components: [] });
+      return interaction.editReply({ ...messageEmbed({ desc: 'Huỷ giao dịch' }), components: [] });
 
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
@@ -28,7 +30,7 @@ module.exports = {
 
     // Kiểm tra lại dữ liệu
     if (!profile || !targetProfile)
-      return await interaction.update({
+      return await interaction.editReply({
         ...messageEmbed({
           desc: !profile
             ? 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!'
@@ -38,7 +40,7 @@ module.exports = {
       });
 
     if (profile?.bank < total)
-      return await interaction.update({
+      return await interaction.editReply({
         ...messageEmbed({
           desc: `Bạn không có đủ 💲 để chuyển! Số dư ngân hàng của bạn: ${profile?.bank.toCurrency()}`,
         }),
@@ -56,10 +58,9 @@ module.exports = {
     const embedSender = new EmbedBuilder()
       .setColor(Colors.DarkGreen)
       .setThumbnail(cfg.coin_gif)
-      .setAuthor({ name: guild.name, iconURL: cfg.money_wings_gif })
-      .setTitle('\\✅ Chuyển tiền thành công!')
+      .setAuthor({ name: 'Economy Transfer', iconURL: cfg.money_wings_gif })
       .setDescription(
-        `\\♻️ Bạn đã chuyển **${amount.toCurrency()}** cho <@${targetId}>.\n\n\\💵 Phí giao dịch: **${fee.toCurrency()}**\n\n\\💸 Tổng trừ: **${total.toCurrency()}**\n\n\\🏦 Số dư còn lại: **${profile?.bank.toCurrency()}**`
+        `${user} đã chuyển **${amount.toCurrency()}** cho <@${targetId}>.\n- \\💵 Phí giao dịch: **${fee.toCurrency()}**\n- \\💸 Tổng trừ: **${total.toCurrency()}**\n- \\🏦 Số dư còn lại: **${profile?.bank.toCurrency()}**`
       )
       .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })
       .setTimestamp();
@@ -86,10 +87,11 @@ module.exports = {
       const member = await guild.members.fetch(targetId);
       await member.send({ embeds: [embedReceiver] });
     } catch (e) {
-      await client.catchError(interaction, e, 'Lỗi khi gửi tin nhắn cho người nhận');
+      return await client.catchError(interaction, e, 'Lỗi khi gửi tin nhắn cho người nhận');
     }
 
     // Cập nhật lại interaction cho người chuyển
-    return await interaction.update({ embeds: [embedSender], components: [] });
+    await interaction.editReply({ ...messageEmbed({ desc: 'Chuyển tiền thành công!', emoji: true }), components: [] });
+    await interaction.channel.send({ embeds: [embedSender] });
   },
 };

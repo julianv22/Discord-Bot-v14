@@ -51,7 +51,7 @@ module.exports = (client) => {
       setChannelName(statistics?.presenceChannelId, status.join(' '));
       // End Server Stats
     } catch (e) {
-      logError({ item: 'serverStats', desc: 'function' }, e);
+      return logError({ item: 'serverStats', desc: 'function' }, e);
     }
   };
 };

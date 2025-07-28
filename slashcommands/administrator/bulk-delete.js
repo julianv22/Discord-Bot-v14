@@ -26,6 +26,8 @@ module.exports = {
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
 
+    await interaction.deferReply({ flags: 64 });
+
     try {
       const messages = await channel.messages.fetch({ limit: amount });
       const actualAmount = Math.min(messages.size, amount);
@@ -36,7 +38,7 @@ module.exports = {
       await channel.bulkDelete(messagesToDelete, true); // Pass true to filter out messages older than 14 days
 
       const title = `Successfully deleted ${actualAmount} messages`;
-      await interaction.reply(
+      await interaction.editReply(
         messageEmbed({ emoji: true, ...(user ? { title, desc: `From ${user}` } : { desc: title }) })
       );
     } catch (e) {

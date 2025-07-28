@@ -20,6 +20,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild, guildId } = interaction;
     const { name: guildName } = guild;
     const { messageEmbed } = client;
@@ -44,7 +46,7 @@ module.exports = {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.reply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.editReply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     const { youtube } = profile || {};
     const channelList = await Promise.all(
@@ -75,6 +77,6 @@ module.exports = {
       ),
     ];
 
-    await interaction.reply({ embeds, components, flags: 64 });
+    await interaction.editReply({ embeds, components });
   },
 };

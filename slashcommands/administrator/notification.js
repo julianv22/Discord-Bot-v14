@@ -25,6 +25,8 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user } = interaction;
 
+    await interaction.deferReply({ flags: 64 });
+
     const embeds = [
       new EmbedBuilder()
         .setColor(Colors.Red)
@@ -47,10 +49,9 @@ module.exports = {
       { customId: `notification:send`, label: '✅ Send Notification', style: ButtonStyle.Success },
     ];
 
-    await interaction.reply({
+    await interaction.editReply({
       embeds,
       components: [new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, button))],
-      flags: 64,
     });
   },
 };

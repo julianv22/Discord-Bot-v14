@@ -27,6 +27,8 @@ module.exports = {
           required: true,
         }),
       remove: async () => {
+        await interaction.deferUpdate();
+
         switch (type) {
           case 'notify':
             textDisplay(1).content = '- \\💬 Notification Channel: \\❌ Not set';
@@ -45,7 +47,7 @@ module.exports = {
             throw new Error(chalk.yellow('Invalid remove type'), chalk.green(type));
         }
 
-        await interaction.update({ components });
+        await interaction.editReply({ components });
       },
       refresh: async () => {
         await checkVideos();

@@ -23,7 +23,7 @@ module.exports = (client) => {
         }
       }
     } catch (e) {
-      logError({ item: 'loadComponents', desc: 'function' }, e);
+      return logError({ item: 'loadComponents', desc: 'function' }, e);
     }
   };
 };

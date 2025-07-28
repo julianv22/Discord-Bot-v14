@@ -12,12 +12,13 @@ module.exports = {
    * @param {Interaction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild, guildId, options } = interaction;
     const { messageEmbed } = client;
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 
-    await interaction.deferReply({ flags: 64 });
     /** - Send a message
      * @param {string} message - Nội dung message
      * @param {string} key - Key của sourcebin

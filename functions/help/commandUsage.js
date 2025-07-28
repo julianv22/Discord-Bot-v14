@@ -40,7 +40,7 @@ module.exports = (client) => {
         .setTimestamp()
         .setFields({ name: 'Cách dùng:', value: `\`\`\`fix\n${usage}\`\`\`` });
 
-      return await message.reply({ embeds: [usageEmbed] });
+      await message.reply({ embeds: [usageEmbed] });
     } catch (e) {
       await catchError(message, e, `Error while executing ${chalk.green('commandUsage')} function`);
     }

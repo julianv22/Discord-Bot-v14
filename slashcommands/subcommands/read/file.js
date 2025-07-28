@@ -12,8 +12,10 @@ module.exports = {
    * @param {Interaction} interaction - Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { messageEmbed, catchError } = client;
     await interaction.deferReply({ flags: 64 });
+
+    const { messageEmbed, catchError } = client;
+
     // Lấy đường dẫn file từ tùy chọn của lệnh
     const relativeFilePath = interaction.options.getString('filepath');
     // Tạo đường dẫn tuyệt đối cho file.

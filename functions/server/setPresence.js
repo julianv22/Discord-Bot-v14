@@ -48,7 +48,7 @@ module.exports = (client) => {
 
       user.setPresence({ activities: [activities], status: status[statsIdx] });
     } catch (e) {
-      logError({ item: 'setPresence', desc: 'function' }, e);
+      return logError({ item: 'setPresence', desc: 'function' }, e);
     }
   };
 };

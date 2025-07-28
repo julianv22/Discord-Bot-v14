@@ -90,6 +90,7 @@ module.exports = {
           },
         ]),
       timestamp: async () => {
+        await interaction.deferUpdate();
         const timestampButton = actionRows[1].components[0];
 
         if (timestampButton.data.style === ButtonStyle.Danger) {
@@ -100,7 +101,7 @@ module.exports = {
           timestampButton.setLabel('⛔ Timestamp').setStyle(ButtonStyle.Danger);
         }
 
-        await interaction.update({ embeds: [editEmbed], components: actionRows });
+        await interaction.editReply({ embeds: [editEmbed], components: actionRows });
       },
       addfield: async () =>
         await createModal(interaction, customId, 'Embed Manager', [
@@ -114,7 +115,10 @@ module.exports = {
           },
           { customId: 'inline', label: 'Inline (0 = false, 1 = true)', placeholder: '0 = false, 1 = true' },
         ]),
-      removefields: async () => await interaction.update({ embeds: [editEmbed.setFields()] }),
+      removefields: async () => {
+        await interaction.deferUpdate();
+        await interaction.editReply({ embeds: [editEmbed.setFields()] });
+      },
       send: async () => {
         try {
           // If !messageId then send new embed

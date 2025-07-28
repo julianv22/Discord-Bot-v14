@@ -20,9 +20,13 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { values } = interaction;
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
+
     const mainFolders = readFiles(process.cwd(), { isDir: true, filter: (folder) => !ignorePatterns.includes(folder) });
+
     const subFolders =
       values[0] !== process.cwd()
         ? readFiles(values[0], { isDir: true, filter: (folder) => !ignorePatterns.includes(folder) })
@@ -64,13 +68,13 @@ module.exports = {
     const folderName = values[0] === process.cwd() ? 'root' : values[0];
     container.addSeparatorComponents(new SeparatorBuilder()).addSectionComponents(
       sectionComponents(`### \\📂 ${folderName}`, ComponentType.Button, {
-        customId: `structure:${folderName}`,
+        customId: `read-structure:${folderName}`,
         label: 'Read Structure',
         style: ButtonStyle.Primary,
       })
     );
 
-    await interaction.update({
+    await interaction.editReply({
       flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
       components: [container],
     });

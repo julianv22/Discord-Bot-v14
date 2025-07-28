@@ -4,13 +4,16 @@ const path = require('path');
 
 module.exports = {
   type: 'buttons',
-  data: { name: 'structure' },
+  data: { name: 'read-structure' },
   /** - Disable Features Button
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { user, customId } = interaction;
     const [, folder] = customId.split(':');
+
+    await interaction.deferUpdate({ flags: 64 });
+
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
     /** - Checks if a file or folder name should be ignored.
@@ -62,15 +65,16 @@ module.exports = {
       return structure;
     };
 
-    await interaction.deferReply({ flags: 64 });
-
     const structure = await directoryStructure(folder === 'root' ? process.cwd() : folder);
     const MAX_LENGTH = 3990;
 
     const embeds = [
       new EmbedBuilder()
         .setColor(0xfed678)
-        .setTitle(`\\📁 ${folder}:`)
+        .setAuthor({
+          name: `${folder}:`,
+          iconURL: 'https://cdn.discordapp.com/attachments/976364997066231828/1399347124445118464/FolderAnimation.gif',
+        })
         .setDescription(`\`\`\`\n${structure.slice(0, MAX_LENGTH)}\n\`\`\``)
         .setFooter({
           text: `Requested by ${user.displayName || user.username}`,
@@ -79,13 +83,12 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    await interaction.editReply({ embeds, flags: 64 });
+    await interaction.editReply({ embeds });
 
     if (structure.length > MAX_LENGTH)
       for (let i = MAX_LENGTH; i < structure.length; i += MAX_LENGTH)
         await interaction.followUp({
           embeds: [EmbedBuilder.from(embeds).setDescription(`\`\`\`\n${structure.slice(i, i + MAX_LENGTH)}\n\`\`\``)],
-          flags: 64,
         });
   },
 };

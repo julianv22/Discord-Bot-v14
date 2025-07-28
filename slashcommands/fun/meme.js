@@ -8,10 +8,9 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { messageEmbed } = client;
-
     await interaction.deferReply();
 
+    const { messageEmbed } = client;
     const response = await fetch('https://meme-api.com/gimme');
     const data = await response.json();
 

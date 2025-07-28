@@ -7,6 +7,8 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { setupWelcome, setupStatistics, setupStarboard, setupSuggest, setupDisable } = client;
     const feature = interaction.values[0];
 
@@ -18,7 +20,6 @@ module.exports = {
       disable: async () => await setupDisable(interaction),
     };
 
-    await interaction.deferUpdate();
     if (!onSelect[feature]()) throw new Error(chalk.yellow('Invalid feature', chalk.green(feature)));
   },
 };

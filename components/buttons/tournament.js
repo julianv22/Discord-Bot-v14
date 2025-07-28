@@ -10,13 +10,14 @@ module.exports = {
    * @param {Interaction} interaction - Button Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guild, guildId, message, customId } = interaction;
     const { messageEmbed } = client;
     const { components } = message;
     const [, buttonId] = customId.split(':');
     const tourName = components[0].components[0].components[1].data;
     const tourStatus = components[0].components[0].components[2].data;
-
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 
@@ -27,7 +28,7 @@ module.exports = {
     const onClick = {
       open: async () => {
         if (tournament?.isActive)
-          return await interaction.reply(
+          return await interaction.followUp(
             messageEmbed({
               desc: `Giải đấu ${getRole(tournament?.roleId)} đã được mở!`,
               emoji: '🏆',
@@ -40,7 +41,7 @@ module.exports = {
         tourStatus.content = '- Status: \\✅ Open';
 
         await profile.save().catch(console.error);
-        await interaction.update({ components });
+        await interaction.editReply({ components });
         await interaction.channel.send(
           messageEmbed({
             title: 'Mở đăng ký giải đấu',
@@ -53,7 +54,7 @@ module.exports = {
       },
       close: async () => {
         if (!tournament?.isActive)
-          return await interaction.reply(
+          return await interaction.followUp(
             messageEmbed({
               desc: `Giải đấu ${getRole(tournament?.roleId)} đã bị đóng!`,
               emoji: '🏆',
@@ -66,7 +67,7 @@ module.exports = {
         tourStatus.content = '- Status: *\\❌ Closed*';
 
         await profile.save().catch(console.error);
-        await interaction.update({ components });
+        await interaction.editReply({ components });
         await interaction.channel.send(
           messageEmbed({
             title: 'Đóng đăng ký giải đấu',
@@ -80,7 +81,7 @@ module.exports = {
       close_all: async () => {
         const tournamentProfiles = await tournamentProfile.find({ guildId }).catch(console.error);
         if (!tournamentProfiles || tournamentProfiles.length === 0)
-          return await interaction.reply(messageEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
+          return await interaction.followUp(messageEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
 
         for (const profile of tournamentProfiles) profile.isActive = false;
         await tournamentProfile.bulkSave(tournamentProfiles).catch(console.error);
@@ -92,11 +93,11 @@ module.exports = {
         tourStatus.content = '- Status: *\\❌ Closed*';
 
         await profile.save().catch(console.error);
-        await interaction.update({ components });
+        await interaction.editReply({ components });
       },
       list: async () => {
         if (!tournament?.isActive)
-          return await interaction.reply(
+          return await interaction.followUp(
             messageEmbed({
               desc: `Giải đấu ${getRole(tournament?.roleId)} chưa được mở!`,
               emoji: '🏆',
@@ -106,7 +107,7 @@ module.exports = {
 
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
+          return await interaction.followUp(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         const tengiai = `**Tên giải:** ${getRole(tournament?.roleId)}`;
         // Tạo danh sách thành viên, mỗi dòng 1 người
@@ -144,14 +145,14 @@ module.exports = {
 
         // Gửi lần lượt các embed
         for (let i = 0; i < embeds.length; i++) {
-          if (i === 0) await interaction.reply({ embeds: [embeds[i]] });
+          if (i === 0) await interaction.followUp({ embeds: [embeds[i]] });
           else await interaction.followUp({ embeds: [embeds[i]] });
         }
       },
       to_excel: async () => {
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.reply(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
+          return await interaction.followUp(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         // Tạo dữ liệu cho Excel
         const excelData = [['STT', 'Username', 'Ingame']];
@@ -172,7 +173,7 @@ module.exports = {
           .addTextDisplayComponents(textDisplay('\\🏆 Danh sách thành viên tham gia giải đấu'))
           .addFileComponents(new FileBuilder().setURL(`attachment://DanhSachThanhVien.xlsx`));
 
-        await interaction.reply({
+        await interaction.followUp({
           components: [container],
           files: [{ attachment: buffer, name: `DanhSachThanhVien.xlsx` }],
           flags: [32768, 64],

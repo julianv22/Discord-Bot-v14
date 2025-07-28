@@ -46,7 +46,7 @@ module.exports = (client) => {
           .setFields({ name: 'Content:', value: `${content}` }),
       ];
 
-      return await object.reply({ embeds });
+      await object.reply({ embeds });
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('snipeMessage')} function`);
     }

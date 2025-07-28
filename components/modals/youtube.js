@@ -8,6 +8,8 @@ module.exports = {
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guildId, message, fields, customId } = interaction;
     const { messageEmbed } = client;
     const { embeds } = message;
@@ -28,7 +30,8 @@ module.exports = {
     };
 
     const { valid, title } = await validateYoutubeChannel(input, process.env.YT_API_KEY);
-    if (!valid) return await interaction.reply(messageEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
+    if (!valid)
+      return await interaction.followUp(messageEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -57,13 +60,13 @@ module.exports = {
 
       embeds[0].data.description =
         channelList.length > 0 ? channelList.join('\n') : '-# No channel has been subcribed.';
-      await interaction.update({ embeds });
+      await interaction.editReply({ embeds });
     };
     const onSubmit = {
       add: async () => {
         const existing = await serverProfile.findOne({ guildId, 'youtube.channels': input });
         if (existing) {
-          await interaction.reply(
+          await interaction.followUp(
             messageEmbed({
               title: 'Duplicate channel!',
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is already in the watchlist.`,
@@ -84,7 +87,7 @@ module.exports = {
 
         // If no document was modified, the channel wasn't in the list.
         if (!result || result.modifiedCount === 0) {
-          await interaction.reply(
+          await interaction.followUp(
             messageEmbed({
               title: 'No matching results found!',
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is not in the watchlist.`,

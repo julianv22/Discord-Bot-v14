@@ -22,6 +22,6 @@ module.exports = (client) => {
         { name: `\u200b`, value: `\`${prefix}command ?\` to show more details` }
       );
 
-    return await interaction.update({ embeds: [helpEmbed] });
+    await interaction.editReply({ embeds: [helpEmbed] });
   };
 };

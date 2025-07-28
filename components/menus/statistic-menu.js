@@ -8,6 +8,8 @@ module.exports = {
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guild, guildId, message, values, customId } = interaction;
     const { serverStats } = client;
     const { components } = message;
@@ -38,6 +40,6 @@ module.exports = {
       statistics?.botChannelId
     )}\n- Presences statistic channel: ${channelName(statistics?.presenceChannelId)}`;
 
-    await interaction.update({ components });
+    await interaction.editReply({ components });
   },
 };

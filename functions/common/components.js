@@ -143,7 +143,7 @@ module.exports = {
     const modal = new ModalBuilder().setCustomId(customId).setTitle(title);
 
     for (const row of actionRows) modal.addComponents(row);
-    return await interaction.showModal(modal);
+    await interaction.showModal(modal);
   },
   /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
    * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).

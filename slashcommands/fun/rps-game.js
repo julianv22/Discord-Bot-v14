@@ -27,6 +27,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { options } = interaction;
     const bet = options.getInteger('bet');
 
@@ -49,6 +51,6 @@ module.exports = {
         .setImage(cfg.rpsPNG),
     ];
 
-    await interaction.reply({ embeds, components, flags: 64 });
+    await interaction.editReply({ embeds, components, flags: 64 });
   },
 };

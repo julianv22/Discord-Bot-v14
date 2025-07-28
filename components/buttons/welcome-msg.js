@@ -10,7 +10,7 @@ module.exports = {
   async execute(interaction, client) {
     const { customId } = interaction;
 
-    createModal(interaction, customId, 'Welcome message', {
+    await createModal(interaction, customId, 'Welcome message', {
       customId,
       label: 'Enter the welcome message',
       style: TextInputStyle.Paragraph,

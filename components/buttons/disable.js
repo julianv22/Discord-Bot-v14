@@ -17,6 +17,8 @@ module.exports = {
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
+    await interaction.deferUpdate();
+
     const { guildId, customId } = interaction;
     const { messageEmbed } = client;
     const [, feature, disable] = customId.split(':');
@@ -38,13 +40,13 @@ module.exports = {
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      return interaction.reply(messageEmbed({ desc: 'No data found for this server. Please try again later!' }));
+      return interaction.followUp(messageEmbed({ desc: 'No data found for this server. Please try again later!' }));
 
     const { starboard, suggest, youtube, welcome } = profile || {};
 
     const onClick = {
       default: async () =>
-        await interaction.update({
+        await interaction.editReply({
           components: [
             dashboardMenu(),
             messageContainer([
@@ -56,7 +58,7 @@ module.exports = {
           ],
         }),
       cancel: async () =>
-        await interaction.update({
+        await interaction.editReply({
           components: [
             dashboardMenu(),
             messageContainer(`\\❌ ${feature.toCapitalize()} Disable`, Colors.Red),
@@ -86,7 +88,7 @@ module.exports = {
 
         await profile.save().catch(console.error);
 
-        await interaction.update({
+        await interaction.editReply({
           components: [
             dashboardMenu(),
             messageContainer(

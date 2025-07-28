@@ -14,7 +14,6 @@ module.exports = {
     const { messageEmbed } = client;
     const [, buttonId] = customId.split(':');
     const buttons = ActionRowBuilder.from(message.components[0]);
-    const hideButton = buttons.components[0];
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
 
     const reactionButton = {
@@ -32,13 +31,15 @@ module.exports = {
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
         }),
       add: async () => {
+        await interaction.deferUpdate();
+
         if (!reactionMap.has(message.id)) reactionMap.set(message.id, []);
 
         const emojiArray = reactionMap.get(message.id);
         reactionEmbed.setFields();
         hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
 
-        await interaction.update({
+        await interaction.editReply({
           embeds: [
             reactionEmbed.addFields(
               {
@@ -111,6 +112,9 @@ module.exports = {
         });
       },
       hide: async () => {
+        await interaction.deferUpdate();
+        const hideButton = buttons.components[0];
+
         if (hideButton.data.label === '⛔ Hide guide') {
           hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
           reactionEmbed.setFields();
@@ -126,7 +130,7 @@ module.exports = {
           );
         }
 
-        await interaction.update({ embeds: [reactionEmbed], components: [buttons] });
+        await interaction.editReply({ embeds: [reactionEmbed], components: [buttons] });
       },
       finish: async () => {
         const emojiArray = reactionMap.get(message.id) || [];

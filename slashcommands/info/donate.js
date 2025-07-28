@@ -8,6 +8,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply();
+
     const { user } = interaction;
 
     const embeds = [
@@ -42,6 +44,6 @@ module.exports = {
         ),
     ];
 
-    return await interaction.reply({ embeds });
+    return await interaction.editReply({ embeds });
   },
 };

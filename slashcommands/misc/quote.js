@@ -8,10 +8,9 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { guild, user } = interaction;
-
     await interaction.deferReply();
 
+    const { guild, user } = interaction;
     const response = await fetch('https://zenquotes.io/api/random');
     const data = await response.json();
 

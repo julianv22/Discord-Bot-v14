@@ -105,7 +105,7 @@ module.exports = (client) => {
           ),
       ];
 
-      return await object.reply({ embeds, components: [infoButtons()] });
+      await object.reply({ embeds, components: [infoButtons()] });
     } catch (e) {
       return await catchError(object, e, `Error while executing ${chalk.green('botInfo')} function`);
     }

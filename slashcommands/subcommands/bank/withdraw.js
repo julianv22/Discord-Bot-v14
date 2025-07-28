@@ -10,6 +10,8 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { user, guildId } = interaction;
     const { messageEmbed, user: bot } = client;
     const userId = user.id;
@@ -17,12 +19,12 @@ module.exports = {
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
-      return await interaction.reply(
+      return await interaction.editReply(
         messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng /daily để khởi nghiệp 😁' })
       );
 
     if (amount > profile?.bank)
-      return await interaction.reply(messageEmbed({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
+      return await interaction.editReply(messageEmbed({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
 
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01);
@@ -59,6 +61,6 @@ module.exports = {
         ),
     ];
 
-    return await interaction.reply({ embeds, flags: 64 });
+    return await interaction.editReply({ embeds });
   },
 };

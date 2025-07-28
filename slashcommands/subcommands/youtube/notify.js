@@ -21,6 +21,8 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction object.
    * @param {Client} client - The Discord client instance. */
   async execute(interaction, client) {
+    await interaction.deferReply({ flags: 64 });
+
     const { guild, guildId } = interaction;
     const { messageEmbed } = client;
     const { name: guildName } = guild;
@@ -29,7 +31,7 @@ module.exports = {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.reply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.editReply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
 
     const { youtube } = profile || {};
 
@@ -72,6 +74,6 @@ module.exports = {
       )
       .addActionRowComponents(menuComponents('youtube-menu:alert', '🔔 Select Alert Role', ComponentType.RoleSelect));
 
-    await interaction.reply({ components: [container], flags: [32768, 64] });
+    await interaction.editReply({ components: [container], flags: 32768 });
   },
 };
