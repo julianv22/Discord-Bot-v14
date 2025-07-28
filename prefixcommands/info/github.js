@@ -11,7 +11,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { messageEmbed, commandUsage, githubInfo } = client;
+    const { embedMessage, commandUsage, githubInfo } = client;
 
     if (args.join(' ').trim() === '?')
       return await commandUsage(
@@ -22,7 +22,7 @@ module.exports = {
 
     if (!args[0])
       return await message
-        .reply(messageEmbed({ desc: 'Hãy nhập username!' }))
+        .reply(embedMessage({ desc: 'Hãy nhập username!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     await githubInfo(args[0], message);

@@ -22,14 +22,14 @@ module.exports = (client) => {
    * @param {Interaction} interaction - The command interaction. */
   client.setupStarboard = async (interaction) => {
     const { guild, guildId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { name: guildName } = guild;
 
     const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.reply(messageEmbed({ desc: 'No data found for this server. Please try again later!' }));
+      return await interaction.reply(embedMessage({ desc: 'No data found for this server. Please try again later!' }));
 
     const { starboard } = profile || {};
 

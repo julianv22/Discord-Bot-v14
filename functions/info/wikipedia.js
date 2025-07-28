@@ -6,7 +6,7 @@ module.exports = (client) => {
    * @param {string} keyword - The keyword to search for.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.wikipedia = async (keyword, object) => {
-    const { messageEmbed, catchError } = client;
+    const { embedMessage, catchError } = client;
     const author = object?.user || object?.author;
 
     try {
@@ -14,7 +14,7 @@ module.exports = (client) => {
       const body = await res.json();
 
       if (!res.ok || body.status === 404) {
-        const replyMessage = await object.reply(messageEmbed({ desc: `No information found for keyword ${keyword}!` }));
+        const replyMessage = await object.reply(embedMessage({ desc: `No information found for keyword ${keyword}!` }));
 
         if (object?.author && replyMessage.deletable)
           setTimeout(async () => await replyMessage.delete().catch(console.error), 10 * 1000);

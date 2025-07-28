@@ -14,7 +14,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { name: guildName, members, roles } = guild;
     const { id: userId, displayName, username } = user;
     const userName = displayName || username;
@@ -24,22 +24,22 @@ module.exports = {
 
     if (!profile)
       return await interaction.reply(
-        messageEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
+        embedMessage({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
 
     const { tournament } = profile || {};
 
     if (!tournament?.isActive)
-      return await interaction.reply(messageEmbed({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
+      return await interaction.reply(embedMessage({ desc: 'Hiện không có giải đấu nào diễn ra!' }));
 
     if (!tournament?.roleId)
-      return await interaction.reply(messageEmbed({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
+      return await interaction.reply(embedMessage({ desc: 'Không tìm thấy ID role giải đấu trong cấu hình máy chủ.' }));
 
     const role = roles.cache.get(tournament?.roleId);
 
     if (!role)
       return await interaction.reply(
-        messageEmbed({ desc: `Role giải đấu với ID [${tournament?.roleId}] không tồn tại hoặc đã bị xóa.` })
+        embedMessage({ desc: `Role giải đấu với ID [${tournament?.roleId}] không tồn tại hoặc đã bị xóa.` })
       );
 
     // Add Tournament Profile
@@ -52,10 +52,10 @@ module.exports = {
       .catch(console.error);
 
     if (!tourProfile)
-      return await interaction.reply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.reply(embedMessage({ desc: 'No data found for this server. Try again later!' }));
 
     await interaction.reply(
-      messageEmbed({
+      embedMessage({
         title: 'Đăng ký giải đấu',
         desc: `${user} đăng ký giải ${role} --- 🎮 Tên ingame: **${stIngame}**`,
         emoji: cfg.tournament_gif,
@@ -65,7 +65,7 @@ module.exports = {
     );
 
     await interaction.followUp(
-      messageEmbed({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: '🏆' })
+      embedMessage({ desc: `Chúc mừng ${user} đã đăng kí thành công giải ${role}!`, emoji: '🏆' })
     );
 
     // Add Role
@@ -73,7 +73,7 @@ module.exports = {
     if (!bot.permissions.has(PermissionFlagsBits.Administrator)) {
       if (!bot.permissions.has(PermissionFlagsBits.ManageRoles))
         return await interaction.followUp(
-          messageEmbed({
+          embedMessage({
             title: 'Bot không có quyền gỡ role',
             desc: `Bot cần quyền Manage Roles để gán role ${role},!`,
           })
@@ -81,7 +81,7 @@ module.exports = {
 
       if (bot.roles.highest.position <= role.position)
         return await interaction.followUp(
-          messageEmbed({
+          embedMessage({
             title: 'Bot không đủ quyền',
             desc: `Bot không thể gán role ${role} vì role này cao hơn hoặc bằng role của bot!`,
           })

@@ -24,7 +24,7 @@ module.exports = {
 
     const { guild, guildId } = interaction;
     const { name: guildName } = guild;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -46,7 +46,7 @@ module.exports = {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.editReply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.editReply(embedMessage({ desc: 'No data found for this server. Try again later!' }));
 
     const { youtube } = profile || {};
     const channelList = await Promise.all(

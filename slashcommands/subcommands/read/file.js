@@ -14,24 +14,24 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 
-    const { messageEmbed, catchError } = client;
+    const { embedMessage, catchError } = client;
 
     // Lấy đường dẫn file từ tùy chọn của lệnh
     const relativeFilePath = interaction.options.getString('filepath');
     // Tạo đường dẫn tuyệt đối cho file.
     const absoluteFilePath = path.join(process.cwd(), relativeFilePath);
 
-    await interaction.editReply(messageEmbed({ desc: `Loading file [\`${relativeFilePath}\`]...`, emoji: '🔄' }));
+    await interaction.editReply(embedMessage({ desc: `Loading file [\`${relativeFilePath}\`]...`, emoji: '🔄' }));
     // Kiểm tra xem file có phải là file .js không
     if (!relativeFilePath.endsWith('.js'))
-      return interaction.editReply(messageEmbed({ desc: 'Please only read JavaScript files (.js)!' }));
+      return interaction.editReply(embedMessage({ desc: 'Please only read JavaScript files (.js)!' }));
 
     try {
       // Đọc nội dung file
       const fileContent = readFileSync(absoluteFilePath, 'utf8');
 
       await interaction.editReply(
-        messageEmbed({ desc: `Successfully read content of file [${relativeFilePath}]`, emoji: true })
+        embedMessage({ desc: `Successfully read content of file [${relativeFilePath}]`, emoji: true })
       );
 
       const MAX_LENGTH = 3990;
@@ -50,14 +50,14 @@ module.exports = {
       if (error.code === 'ENOENT')
         // File hoặc thư mục không tồn tại
         return interaction.editReply(
-          messageEmbed({ desc: `File [${relativeFilePath}] not found. Please check the path.` })
+          embedMessage({ desc: `File [${relativeFilePath}] not found. Please check the path.` })
         );
       else if (error.code === 'EISDIR')
         // Đường dẫn trỏ đến một thư mục
-        return interaction.editReply(messageEmbed({ desc: `[${relativeFilePath}] is a directory, not a file.` }));
+        return interaction.editReply(embedMessage({ desc: `[${relativeFilePath}] is a directory, not a file.` }));
       else if (error.code === 'EACCES' || error.code === 'EPERM')
         // Lỗi quyền truy cập
-        return interaction.editReply(messageEmbed({ desc: `No permission to read file [${relativeFilePath}].` }));
+        return interaction.editReply(embedMessage({ desc: `No permission to read file [${relativeFilePath}].` }));
       else return await catchError(interaction, error, this);
     }
   },

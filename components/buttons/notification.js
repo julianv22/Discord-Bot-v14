@@ -9,7 +9,7 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { message, channel, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const [, buttonId] = customId.split(':');
     const modalId = 'manage-message:' + buttonId;
     const placeholder = `Enter the Notification ${buttonId}`;
@@ -63,7 +63,7 @@ module.exports = {
         const msg = await channel.send({ embeds: [embed] });
 
         await interaction.update({
-          ...messageEmbed({ desc: 'Notification message has been sent', emoji: true }),
+          ...embedMessage({ desc: 'Notification message has been sent', emoji: true }),
           components: [linkButton(msg.url)],
         });
       },

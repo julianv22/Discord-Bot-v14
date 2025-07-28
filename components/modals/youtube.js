@@ -11,7 +11,7 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guildId, message, fields, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { embeds } = message;
     const [, action] = customId.split(':');
     const input = fields.getTextInputValue(action);
@@ -31,7 +31,7 @@ module.exports = {
 
     const { valid, title } = await validateYoutubeChannel(input, process.env.YT_API_KEY);
     if (!valid)
-      return await interaction.followUp(messageEmbed({ desc: 'Invalid or non-existent YouTube channel ID!' }));
+      return await interaction.followUp(embedMessage({ desc: 'Invalid or non-existent YouTube channel ID!' }));
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -67,7 +67,7 @@ module.exports = {
         const existing = await serverProfile.findOne({ guildId, 'youtube.channels': input });
         if (existing) {
           await interaction.followUp(
-            messageEmbed({
+            embedMessage({
               title: 'Duplicate channel!',
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is already in the watchlist.`,
             })
@@ -88,7 +88,7 @@ module.exports = {
         // If no document was modified, the channel wasn't in the list.
         if (!result || result.modifiedCount === 0) {
           await interaction.followUp(
-            messageEmbed({
+            embedMessage({
               title: 'No matching results found!',
               desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is not in the watchlist.`,
             })

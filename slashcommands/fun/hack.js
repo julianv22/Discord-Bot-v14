@@ -14,17 +14,17 @@ module.exports = {
     await interaction.deferReply();
 
     const { guild, user, options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const target = options.getUser('target');
 
     // Validate context
-    if (!target) return await interaction.reply(messageEmbed({ desc: 'Target user not found.' }));
-    if (!guild) return await interaction.reply(messageEmbed({ desc: 'Lệnh này chỉ dùng trong server!' }));
+    if (!target) return await interaction.reply(embedMessage({ desc: 'Target user not found.' }));
+    if (!guild) return await interaction.reply(embedMessage({ desc: 'Lệnh này chỉ dùng trong server!' }));
     if (target.id === user.id)
-      return await interaction.reply(messageEmbed({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }));
+      return await interaction.reply(embedMessage({ desc: 'Ngu dốt! Không thể hack chính mình 😅!' }));
     if (target.id === guild.ownerId)
-      return await interaction.reply(messageEmbed({ desc: 'Không động được vào thằng này đâu nhá!' }));
-    if (target.id === cfg.clientID) return await interaction.reply(messageEmbed({ desc: 'Are you sure? 🤔⁉️' }));
+      return await interaction.reply(embedMessage({ desc: 'Không động được vào thằng này đâu nhá!' }));
+    if (target.id === cfg.clientID) return await interaction.reply(embedMessage({ desc: 'Are you sure? 🤔⁉️' }));
 
     const username = target.displayName || target.tag || 'Unknown',
       text = [

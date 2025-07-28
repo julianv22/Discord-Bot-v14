@@ -10,7 +10,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, channel, message, fields, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const [, textInputId] = customId.split(':');
     const inputValue = fields.getTextInputValue(textInputId);
 
@@ -21,7 +21,7 @@ module.exports = {
 
       await editMsg.edit(inputValue.slice(0, 2000));
       return await interaction.reply({
-        ...messageEmbed({ desc: 'Message has been edited successfully!', emoji: true }),
+        ...embedMessage({ desc: 'Message has been edited successfully!', emoji: true }),
         components: [linkButton(editMsg.url)],
       });
     }
@@ -37,7 +37,7 @@ module.exports = {
       avatar: user.avatarURL(),
     };
 
-    if (!message) return await interaction.followUp(client.messageEmbed({ desc: 'Cannot find the message!' }));
+    if (!message) return await interaction.followUp(client.embedMessage({ desc: 'Cannot find the message!' }));
 
     const onSubmit = {
       author: () => {

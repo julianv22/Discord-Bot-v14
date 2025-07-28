@@ -11,7 +11,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, messageEmbed, wikipedia } = client;
+    const { commandUsage, embedMessage, wikipedia } = client;
 
     if (args.join(' ').trim() === '?')
       return await commandUsage(
@@ -23,7 +23,7 @@ module.exports = {
     const keyword = args.join(' ');
     if (!keyword)
       return await message
-        .reply(messageEmbed({ desc: 'Vui lòng nhập từ khóa tìm kiếm!' }))
+        .reply(embedMessage({ desc: 'Vui lòng nhập từ khóa tìm kiếm!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
     await wikipedia(keyword, message);

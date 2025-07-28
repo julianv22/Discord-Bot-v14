@@ -22,7 +22,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { channel, options } = interaction;
-    const { messageEmbed, catchError } = client;
+    const { embedMessage, catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
 
@@ -39,7 +39,7 @@ module.exports = {
 
       const title = `Successfully deleted ${actualAmount} messages`;
       await interaction.editReply(
-        messageEmbed({ emoji: true, ...(user ? { title, desc: `From ${user}` } : { desc: title }) })
+        embedMessage({ emoji: true, ...(user ? { title, desc: `From ${user}` } : { desc: title }) })
       );
     } catch (e) {
       return await catchError(interaction, e, this);

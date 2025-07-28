@@ -36,7 +36,7 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { channel, options } = interaction;
-    const { messageEmbed, logError, user: bot } = client;
+    const { embedMessage, logError, user: bot } = client;
     const subCommand = options.getSubcommand();
     const messageId = options.getString('message_id');
 
@@ -53,18 +53,18 @@ module.exports = {
 
     if (!msg)
       return await interaction.reply(
-        messageEmbed({ desc: `Message with ID: [${messageId}] not found, or it's not in this channel!` })
+        embedMessage({ desc: `Message with ID: [${messageId}] not found, or it's not in this channel!` })
       );
 
     if (msg.author.id !== bot.id)
-      return await interaction.reply(messageEmbed({ desc: `This message does not belong to bot!` }));
+      return await interaction.reply(embedMessage({ desc: `This message does not belong to bot!` }));
 
     const editMethod = {
       embed: async () => {
         await interaction.deferReply({ flags: 64 });
 
         if (!msg.embeds.length)
-          return await interaction.editReply(messageEmbed({ desc: 'This message does not contain any embeds!' }));
+          return await interaction.editReply(embedMessage({ desc: 'This message does not contain any embeds!' }));
 
         await interaction.editReply({
           embeds: [EmbedBuilder.from(msg.embeds[0])],

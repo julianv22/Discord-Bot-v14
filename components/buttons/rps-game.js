@@ -10,7 +10,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guildId, user, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const [, buttonId, betInput] = customId.split(':');
     const userMove = { rock: 0, paper: 1, scissors: 2 };
     const bet = parseInt(betInput, 10);
@@ -21,7 +21,7 @@ module.exports = {
     // Kiểm tra tài khoản Economy
     if (!profile)
       return await interaction.followUp(
-        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
+        embedMessage({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
     // Reset count nếu sang ngày mới
@@ -56,7 +56,7 @@ module.exports = {
     // Kiểm tra tiền cược
     if (profile?.balance < bet)
       return await interaction.followUp(
-        messageEmbed({ desc: `Bạn không đủ tiền để cược! Số dư: ${profile?.balance.toCurrency()}` })
+        embedMessage({ desc: `Bạn không đủ tiền để cược! Số dư: ${profile?.balance.toCurrency()}` })
       );
 
     // Tính kết quả bằng function rpsGame

@@ -25,7 +25,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, channel, options } = interaction;
-    const { messageEmbed, logError } = client;
+    const { embedMessage, logError } = client;
     const { messages } = channel;
     const messageId = options.getString('message_id');
 
@@ -42,17 +42,17 @@ module.exports = {
 
     if (!targetMessage)
       return await interaction.editReply(
-        messageEmbed({
+        embedMessage({
           desc: `Message with ID: [${messageId}] not found, or it's not in this channel!`,
         })
       );
 
     if (targetMessage.author.id !== client.user.id)
-      return await interaction.editReply(messageEmbed({ desc: `This message does not belong to bot!` }));
+      return await interaction.editReply(embedMessage({ desc: `This message does not belong to bot!` }));
 
     const embedsSource = EmbedBuilder.from(targetMessage.embeds[0]);
     if (!embedsSource)
-      return interaction.editReply(messageEmbed({ desc: 'This message does not contain any embeds!' }));
+      return interaction.editReply(embedMessage({ desc: 'This message does not contain any embeds!' }));
 
     const jsonSource = JSON.stringify(embedsSource, null, 2);
     if (jsonSource.length > 4000) jsonSource.slice(0, 3995) + '...';

@@ -19,7 +19,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const guildName = guild.name;
     const subCommand = options.getSubcommand();
 
@@ -27,7 +27,7 @@ module.exports = {
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.reply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.reply(embedMessage({ desc: 'No data found for this server. Try again later!' }));
 
     /** @param {string} roleId  */
     const getRole = (roleId) => guild.roles.cache.get(roleId);

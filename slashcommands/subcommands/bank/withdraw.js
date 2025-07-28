@@ -13,18 +13,18 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, guildId } = interaction;
-    const { messageEmbed, user: bot } = client;
+    const { embedMessage, user: bot } = client;
     const userId = user.id;
     const amount = interaction.options.getInteger('amount');
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (!profile)
       return await interaction.editReply(
-        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng /daily để khởi nghiệp 😁' })
+        embedMessage({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng /daily để khởi nghiệp 😁' })
       );
 
     if (amount > profile?.bank)
-      return await interaction.editReply(messageEmbed({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
+      return await interaction.editReply(embedMessage({ desc: 'Số 💲 rút không được lớn hơn số tiền hiện có!' }));
 
     profile.bank -= amount;
     const fee = Math.floor(amount * 0.01);

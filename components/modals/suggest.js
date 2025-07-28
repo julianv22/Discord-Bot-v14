@@ -10,7 +10,7 @@ module.exports = {
    * @param {Client} client - The Discord client */
   async execute(interaction, client) {
     const { guild, guildId, user, fields } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const description = fields.getTextInputValue('content');
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
@@ -18,14 +18,14 @@ module.exports = {
     const { suggest } = profile || {};
     if (!profile || !suggest?.channelId)
       return await interaction.reply(
-        messageEmbed({
+        embedMessage({
           desc: `This server has not set up a suggestion channel. Please contact the ${cfg.adminRole} team for assistance.`,
         })
       );
 
     const suggestChannel = guild.channels.cache.get(suggest?.channelId);
     if (!suggestChannel)
-      return await interaction.reply(client.messageEmbed({ desc: 'Suggestion channel not found or invalid.' }));
+      return await interaction.reply(client.embedMessage({ desc: 'Suggestion channel not found or invalid.' }));
 
     const embeds = [
       new EmbedBuilder()
@@ -48,7 +48,7 @@ module.exports = {
     const msg = await suggestChannel.send({ embeds });
 
     await interaction.reply({
-      ...messageEmbed({ desc: 'Your suggestion has been sent successfully!', emoji: true }),
+      ...embedMessage({ desc: 'Your suggestion has been sent successfully!', emoji: true }),
       components: [linkButton(msg.url)],
     });
     await Promise.all(['👍', '👎'].map((emoji) => msg.react(emoji)));

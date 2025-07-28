@@ -8,14 +8,14 @@ module.exports = (client) => {
    * @param {Interaction} interaction - The command interaction. */
   client.robUser = async (target, interaction) => {
     const { guild, guildId, user } = interaction;
-    const { messageEmbed, catchError, user: bot } = client;
+    const { embedMessage, catchError, user: bot } = client;
     const now = new Date();
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 
-    if (target.bot) return await interaction.reply(messageEmbed({ desc: 'Bạn không thể giật 💲 của bot!' }));
+    if (target.bot) return await interaction.reply(embedMessage({ desc: 'Bạn không thể giật 💲 của bot!' }));
 
     if (target.id === user.id)
-      return await interaction.reply(messageEmbed({ desc: 'Bạn không thể tự giật 💲 của chính mình!' }));
+      return await interaction.reply(embedMessage({ desc: 'Bạn không thể tự giật 💲 của chính mình!' }));
 
     try {
       // Lấy profile của user và target
@@ -26,16 +26,16 @@ module.exports = (client) => {
 
       if (!profile || !targetProfile)
         return await interaction.reply(
-          messageEmbed({
+          embedMessage({
             desc: !profile ? 'Bạn chưa có tài khoản Economy' : 'Đối tượng giật 💲 chưa có tài khoản Economy',
           })
         );
 
       if (profile?.balance < 500)
-        return await interaction.reply(messageEmbed({ desc: 'Bạn cần ít nhất 500₫ để thực hiện giật!' }));
+        return await interaction.reply(embedMessage({ desc: 'Bạn cần ít nhất 500₫ để thực hiện giật!' }));
 
       if (targetProfile?.balance < 100)
-        return await interaction.reply(messageEmbed({ desc: 'Người này không đủ 💲 để bị giật!' }));
+        return await interaction.reply(embedMessage({ desc: 'Người này không đủ 💲 để bị giật!' }));
 
       // Cooldown
       if (profile?.lastRob && now - profile?.lastRob < cooldownMs) {
@@ -43,7 +43,7 @@ module.exports = (client) => {
         const timeleft = Math.floor(nextRob.getTime() / 1000);
 
         return await interaction.reply(
-          messageEmbed({ title: 'Bạn vừa giật 💲 gần đây!', desc: `↪ Hãy quay lại sau: <t:${timeleft}:R>` })
+          embedMessage({ title: 'Bạn vừa giật 💲 gần đây!', desc: `↪ Hãy quay lại sau: <t:${timeleft}:R>` })
         );
       }
 

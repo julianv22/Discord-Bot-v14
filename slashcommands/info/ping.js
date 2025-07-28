@@ -10,14 +10,14 @@ module.exports = {
   async execute(interaction, client) {
     const sent = await interaction.deferReply();
 
-    const { ws, messageEmbed } = client;
+    const { ws, embedMessage } = client;
     const ping = ws.ping;
     // const delay = sent.createdTimestamp - interaction.createdTimestamp;
     const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
     const color = ping < 101 ? Colors.DarkGreen : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
     return await interaction.editReply(
-      messageEmbed({
+      embedMessage({
         title: 'Bot latency:',
         desc: `**Ping:** ${ping} / *${delay}ms*`,
         color: color,

@@ -15,7 +15,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { guild, guildId, options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 
@@ -35,7 +35,7 @@ module.exports = {
     };
 
     const profile = await serverProfile.find({ guildId }).catch(console.error);
-    if (!profile) return await interaction.reply(messageEmbed({ desc: 'No database found for this profile.' }));
+    if (!profile) return await interaction.reply(embedMessage({ desc: 'No database found for this profile.' }));
 
     const db = JSON.stringify(profile, null, 2);
     const bin = await fetch('https://sourceb.in/api/bins', {
@@ -54,6 +54,6 @@ module.exports = {
             await interaction.followUp?.({ content: `\`\`\`json\n${db.slice(i, i + 2000)}\`\`\``, flags: 64 });
         })
         .catch(console.error);
-    } else await interaction.editReply(messageEmbed({ desc: 'Could not parse sourcebin. Please try again later.' }));
+    } else await interaction.editReply(embedMessage({ desc: 'Could not parse sourcebin. Please try again later.' }));
   },
 };

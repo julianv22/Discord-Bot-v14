@@ -11,7 +11,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const role = options.getRole('role');
     const title = options.getString('title') || `Danh sách thành viên ${role}`;
     const isMention = options.getBoolean('mention');
@@ -21,7 +21,7 @@ module.exports = {
       : role.members.map((m) => m.user.displayName || m.user.username);
 
     if (members.length === 0)
-      return await interaction.reply(messageEmbed({ desc: 'Could not find members math the role was given.' }));
+      return await interaction.reply(embedMessage({ desc: 'Could not find members math the role was given.' }));
 
     await interaction.deferReply();
 

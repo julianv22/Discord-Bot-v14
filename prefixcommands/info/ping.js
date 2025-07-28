@@ -12,7 +12,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, messageEmbed, ws } = client;
+    const { commandUsage, embedMessage, ws } = client;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
     const ping = ws.ping;
@@ -20,7 +20,7 @@ module.exports = {
     const color = ping < 101 ? Colors.DarkGreen : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
     await message.reply(
-      messageEmbed({
+      embedMessage({
         title: 'Bot latency:',
         desc: `**Ping:** ${ping} / *${delay}ms*`,
         color: color,

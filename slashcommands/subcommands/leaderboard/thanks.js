@@ -11,12 +11,12 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guildId, user, options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const description = options.getString('time');
 
     const topUsers = await thanksProfile.find({ guildId }).sort({ thanksCount: -1 }).limit(10).catch(console.error);
     if (!topUsers || !topUsers.length)
-      return await interaction.reply(messageEmbed({ desc: 'No thanks data found for this server.' }));
+      return await interaction.reply(embedMessage({ desc: 'No thanks data found for this server.' }));
 
     await interaction.deferReply();
 

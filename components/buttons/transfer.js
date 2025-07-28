@@ -11,12 +11,12 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guild, guildId, user, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 
     if (amountStr === 'cancel')
-      return interaction.editReply({ ...messageEmbed({ desc: 'Huỷ giao dịch' }), components: [] });
+      return interaction.editReply({ ...embedMessage({ desc: 'Huỷ giao dịch' }), components: [] });
 
     const amount = parseInt(amountStr, 10);
     const fee = parseInt(feeStr, 10);
@@ -31,7 +31,7 @@ module.exports = {
     // Kiểm tra lại dữ liệu
     if (!profile || !targetProfile)
       return await interaction.editReply({
-        ...messageEmbed({
+        ...embedMessage({
           desc: !profile
             ? 'Không tìm thấy tài khoản của bạn trong cơ sở dữ liệu!'
             : 'Không tìm thấy tài khoản của người nhận trong cơ sở dữ liệu!',
@@ -41,7 +41,7 @@ module.exports = {
 
     if (profile?.bank < total)
       return await interaction.editReply({
-        ...messageEmbed({
+        ...embedMessage({
           desc: `Bạn không có đủ 💲 để chuyển! Số dư ngân hàng của bạn: ${profile?.bank.toCurrency()}`,
         }),
         components: [],
@@ -91,7 +91,7 @@ module.exports = {
     }
 
     // Cập nhật lại interaction cho người chuyển
-    await interaction.editReply({ ...messageEmbed({ desc: 'Chuyển tiền thành công!', emoji: true }), components: [] });
+    await interaction.editReply({ ...embedMessage({ desc: 'Chuyển tiền thành công!', emoji: true }), components: [] });
     await interaction.channel.send({ embeds: [embedSender] });
   },
 };

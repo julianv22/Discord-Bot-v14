@@ -8,7 +8,7 @@ module.exports = (client) => {
    * @param {Error} e - The error object.
    * @param {string|Interaction} description - A description of the error, or the interaction object that caused the error. */
   client.catchError = async (object, e, description) => {
-    const { messageEmbed, logError, guilds } = client;
+    const { embedMessage, logError, guilds } = client;
     const user = object?.user || object?.author;
 
     const errorMessage = () => {
@@ -53,7 +53,7 @@ module.exports = (client) => {
           bugEmbed.addFields({ name: 'Cause:', value: '```ansi\n\x1b[36m' + (e.cause || 'undefined') + '\x1b[0m```' });
 
         await channel.send({ embeds: [bugEmbed] }).then(async () => {
-          const embed = messageEmbed({ title: errorMessage(), desc: `\`\`\`ansi\n\x1b[33m${e}\x1b[0m\`\`\`` });
+          const embed = embedMessage({ title: errorMessage(), desc: `\`\`\`ansi\n\x1b[33m${e}\x1b[0m\`\`\`` });
 
           if (object) {
             if (object?.author)

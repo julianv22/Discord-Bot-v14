@@ -25,7 +25,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, guild, options } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const inputUrl = options.getString('url');
 
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)
@@ -76,7 +76,7 @@ module.exports = {
           )
         );
         return await interaction.editReply(
-          messageEmbed({
+          embedMessage({
             desc: `Không thể lấy báo cáo URL hiện có: ${
               errorDetail.error ? errorDetail.error.message : getReportRes.statusText
             }`,
@@ -111,7 +111,7 @@ module.exports = {
             )
           );
           return await interaction.editReply(
-            messageEmbed({
+            embedMessage({
               desc: `Không thể gửi URL để phân tích: ${
                 errorDetail.error ? errorDetail.error.message : submitRes.statusText
               }`,
@@ -121,7 +121,7 @@ module.exports = {
 
         const submitData = await submitRes.json();
         if (!submitData.data || !submitData.data.id)
-          return await interaction.editReply(messageEmbed({ desc: 'Không nhận được ID phân tích từ VirusTotal.' }));
+          return await interaction.editReply(embedMessage({ desc: 'Không nhận được ID phân tích từ VirusTotal.' }));
 
         scanId = submitData.data.id; // Gán scanId từ kết quả submit
 
@@ -156,7 +156,7 @@ module.exports = {
               )
             );
             return await interaction.editReply(
-              messageEmbed({
+              embedMessage({
                 desc: `Không thể lấy báo cáo phân tích: ${
                   errorDetail.error ? errorDetail.error.message : analysisRes.statusText
                 }`,
@@ -184,12 +184,12 @@ module.exports = {
 
         if (!analysisReport)
           return await interaction.editReply(
-            messageEmbed({ desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.' })
+            embedMessage({ desc: 'VirusTotal chưa hoàn tất phân tích sau nhiều lần thử. Vui lòng thử lại sau.' })
           );
       } catch (e) {
         console.error(chalk.red('[VIRUS-CHECK] Lỗi trong quá trình gửi/phân tích URL mới:'), e);
         return await interaction.editReply(
-          messageEmbed({ desc: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}` })
+          embedMessage({ desc: `Đã xảy ra lỗi trong quá trình gửi hoặc phân tích URL: ${e.message}` })
         );
       }
     }
@@ -241,7 +241,7 @@ module.exports = {
     } else {
       // Trường hợp này chỉ xảy ra nếu có lỗi không mong muốn hoặc phân tích không bao giờ hoàn tất
       return await interaction.editReply(
-        messageEmbed({ desc: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.' })
+        embedMessage({ desc: 'Không thể lấy kết quả phân tích cuối cùng từ VirusTotal. Vui lòng thử lại sau.' })
       );
     }
   },

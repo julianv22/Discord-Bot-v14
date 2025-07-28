@@ -15,7 +15,7 @@ module.exports = (client) => {
 
   /** - Creates an error message embed.
    * @param {EmbedData} options - The options for creating the error embed. */
-  client.messageEmbed = (options) => {
+  client.embedMessage = (options) => {
     const { title, color, flags = true } = options;
     let { desc, emoji = false } = options;
 

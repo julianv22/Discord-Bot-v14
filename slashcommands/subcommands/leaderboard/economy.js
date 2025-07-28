@@ -11,13 +11,13 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
 
     // Lấy top 10 user theo balance
     const topUsers = await economyProfile.find({ guildId }).sort({ balance: -1 }).limit(10).lean();
 
     if (!topUsers || !topUsers.length)
-      return await interaction.reply(messageEmbed({ desc: 'No economy data found for this guild.' }));
+      return await interaction.reply(embedMessage({ desc: 'No economy data found for this guild.' }));
 
     await interaction.deferReply();
 

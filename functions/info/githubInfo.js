@@ -7,7 +7,7 @@ module.exports = (client) => {
    * @param {string} gitUserName - The GitHub username.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.githubInfo = async (gitUserName, object) => {
-    const { messageEmbed, catchError } = client;
+    const { embedMessage, catchError } = client;
     const author = object?.user || object?.author;
 
     try {
@@ -15,7 +15,7 @@ module.exports = (client) => {
       const body = await res.json();
 
       if (body.message === 'Not Found') {
-        const replyMessage = await object.reply(messageEmbed({ desc: 'Cannot find user ' + gitUserName }));
+        const replyMessage = await object.reply(embedMessage({ desc: 'Cannot find user ' + gitUserName }));
 
         if (object?.author && replyMessage.deletable)
           setTimeout(async () => await replyMessage.delete().catch(console.error), 10 * 1000);

@@ -21,7 +21,7 @@ module.exports = {
       });
 
     if (!content.startsWith(prefix)) {
-      const hint = client.messageEmbed({
+      const hint = client.embedMessage({
         desc: `Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
         color: 16757248,
         emoji: '💡',

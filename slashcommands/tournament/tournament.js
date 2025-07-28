@@ -28,7 +28,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { guild, guildId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { name: guildName } = guild;
 
     const profile = await serverProfile
@@ -37,7 +37,7 @@ module.exports = {
 
     if (!profile)
       return await interaction.editReply(
-        messageEmbed({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
+        embedMessage({ desc: 'Không tìm thấy cấu hình máy chủ. Vui lòng thiết lập lại bot.' })
       );
 
     const { tournament } = profile || {};

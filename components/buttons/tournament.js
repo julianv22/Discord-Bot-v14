@@ -13,7 +13,7 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guild, guildId, message, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { components } = message;
     const [, buttonId] = customId.split(':');
     const tourName = components[0].components[0].components[1].data;
@@ -21,7 +21,7 @@ module.exports = {
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 
-    if (!tournament?.roleId) return await interaction.reply(messageEmbed({ desc: 'Chưa chọn tên role cho giải đấu!' }));
+    if (!tournament?.roleId) return await interaction.reply(embedMessage({ desc: 'Chưa chọn tên role cho giải đấu!' }));
 
     const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
 
@@ -29,7 +29,7 @@ module.exports = {
       open: async () => {
         if (tournament?.isActive)
           return await interaction.followUp(
-            messageEmbed({
+            embedMessage({
               desc: `Giải đấu ${getRole(tournament?.roleId)} đã được mở!`,
               emoji: '🏆',
               color: Colors.Red,
@@ -43,7 +43,7 @@ module.exports = {
         await profile.save().catch(console.error);
         await interaction.editReply({ components });
         await interaction.channel.send(
-          messageEmbed({
+          embedMessage({
             title: 'Mở đăng ký giải đấu',
             desc: `Sử dụng \`/dang-ky\` để đăng ký giải ${getRole(tournament?.roleId)}!`,
             emoji: cfg.tournament_gif,
@@ -55,7 +55,7 @@ module.exports = {
       close: async () => {
         if (!tournament?.isActive)
           return await interaction.followUp(
-            messageEmbed({
+            embedMessage({
               desc: `Giải đấu ${getRole(tournament?.roleId)} đã bị đóng!`,
               emoji: '🏆',
               color: Colors.Red,
@@ -69,7 +69,7 @@ module.exports = {
         await profile.save().catch(console.error);
         await interaction.editReply({ components });
         await interaction.channel.send(
-          messageEmbed({
+          embedMessage({
             title: 'Đóng đăng ký giải đấu',
             desc: `Giải đấu ${getRole(tournament?.roleId)} đã đóng.\n-# Hẹn gặp lại vào giải đấu lần sau!`,
             emoji: cfg.tournament_gif,
@@ -81,7 +81,7 @@ module.exports = {
       close_all: async () => {
         const tournamentProfiles = await tournamentProfile.find({ guildId }).catch(console.error);
         if (!tournamentProfiles || tournamentProfiles.length === 0)
-          return await interaction.followUp(messageEmbed({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
+          return await interaction.followUp(embedMessage({ desc: 'Hiện tại chưa có thành viên nào đăng ký!' }));
 
         for (const profile of tournamentProfiles) profile.isActive = false;
         await tournamentProfile.bulkSave(tournamentProfiles).catch(console.error);
@@ -98,7 +98,7 @@ module.exports = {
       list: async () => {
         if (!tournament?.isActive)
           return await interaction.followUp(
-            messageEmbed({
+            embedMessage({
               desc: `Giải đấu ${getRole(tournament?.roleId)} chưa được mở!`,
               emoji: '🏆',
               color: Colors.Red,
@@ -107,7 +107,7 @@ module.exports = {
 
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.followUp(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
+          return await interaction.followUp(embedMessage({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         const tengiai = `**Tên giải:** ${getRole(tournament?.roleId)}`;
         // Tạo danh sách thành viên, mỗi dòng 1 người
@@ -152,7 +152,7 @@ module.exports = {
       to_excel: async () => {
         const memberList = await tournamentProfile.find({ guildId, registrationStatus: true }).catch(console.error);
         if (!memberList || memberList.length === 0)
-          return await interaction.followUp(messageEmbed({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
+          return await interaction.followUp(embedMessage({ desc: 'Chưa có thành viên nào đăng kí giải!' }));
 
         // Tạo dữ liệu cho Excel
         const excelData = [['STT', 'Username', 'Ingame']];

@@ -20,7 +20,7 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guildId, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const [, feature, disable] = customId.split(':');
 
     /** @param {boolean} [disabled = false] Disabled buttons, `true` = disabled */
@@ -40,7 +40,7 @@ module.exports = {
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     if (!profile)
-      return interaction.followUp(messageEmbed({ desc: 'No data found for this server. Please try again later!' }));
+      return interaction.followUp(embedMessage({ desc: 'No data found for this server. Please try again later!' }));
 
     const { starboard, suggest, youtube, welcome } = profile || {};
 

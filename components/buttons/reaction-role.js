@@ -11,7 +11,7 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { guild, guildId, channel, message, user, customId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const [, buttonId] = customId.split(':');
     const buttons = ActionRowBuilder.from(message.components[0]);
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);
@@ -63,12 +63,12 @@ module.exports = {
             collector.stop('finish');
             hideButton.setLabel('✅ Show guide').setStyle(ButtonStyle.Primary);
             await interaction.editReply({ embeds: [reactionEmbed.setFields()], components: [buttons] });
-            return interaction.followUp(messageEmbed({ desc: 'Finished adding reaction roles!', emoji: true }));
+            return interaction.followUp(embedMessage({ desc: 'Finished adding reaction roles!', emoji: true }));
           }
 
           const [emojiInput, roleInput] = input.split('|').map((v) => v.trim());
           if (!emojiInput || !roleInput)
-            return await interaction.followUp(messageEmbed({ title: 'Incorrect format', desc: '`emoji | @RoleName`' }));
+            return await interaction.followUp(embedMessage({ title: 'Incorrect format', desc: '`emoji | @RoleName`' }));
 
           let role;
           try {
@@ -80,7 +80,7 @@ module.exports = {
 
             if (!role)
               return await interaction.followUp(
-                messageEmbed({ desc: `Role ${roleInput} does not exist, please try again!` })
+                embedMessage({ desc: `Role ${roleInput} does not exist, please try again!` })
               );
           } catch (e) {
             return await client.catchError(interaction, e, 'Error searching for role');
@@ -93,7 +93,7 @@ module.exports = {
 
             if (!client.emojis.cache.get(emojiMatch[3]))
               return await interaction.followUp(
-                messageEmbed({ desc: `Bot cannot access custom emoji: ${emojiInput}` })
+                embedMessage({ desc: `Bot cannot access custom emoji: ${emojiInput}` })
               );
           }
 
@@ -108,7 +108,7 @@ module.exports = {
         });
 
         collector.on('end', async (collected, reason) => {
-          if (reason === 'time') await interaction.followUp(messageEmbed({ desc: 'Input time expired' }));
+          if (reason === 'time') await interaction.followUp(embedMessage({ desc: 'Input time expired' }));
         });
       },
       hide: async () => {
@@ -136,13 +136,13 @@ module.exports = {
         const emojiArray = reactionMap.get(message.id) || [];
 
         if (emojiArray.length === 0)
-          return await interaction.reply(messageEmbed({ desc: 'Please add at least one role!' }));
+          return await interaction.reply(embedMessage({ desc: 'Please add at least one role!' }));
 
         const msg = await channel.send({ embeds: [reactionEmbed.setFields()] });
         await Promise.all(emojiArray.map(async (e) => await msg.react(e.emoji))).catch(console.error);
 
         await interaction.update({
-          ...messageEmbed({ desc: 'Reaction role created successfully', emoji: true }),
+          ...embedMessage({ desc: 'Reaction role created successfully', emoji: true }),
           components: [linkButton(msg.url)],
         });
 

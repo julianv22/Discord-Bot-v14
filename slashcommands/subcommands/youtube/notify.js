@@ -24,14 +24,14 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { guild, guildId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { name: guildName } = guild;
 
     const profile = await serverProfile
       .findOneAndUpdate({ guildId }, { guildName, prefix }, { upsert: true, new: true })
       .catch(console.error);
     if (!profile)
-      return await interaction.editReply(messageEmbed({ desc: 'No data found for this server. Try again later!' }));
+      return await interaction.editReply(embedMessage({ desc: 'No data found for this server. Try again later!' }));
 
     const { youtube } = profile || {};
 

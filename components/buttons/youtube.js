@@ -10,7 +10,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guildId, message, customId } = interaction;
-    const { checkVideos, messageEmbed } = client;
+    const { checkVideos, embedMessage } = client;
     const { components } = message;
     const [, buttonId, type] = customId.split(':');
 
@@ -51,7 +51,7 @@ module.exports = {
       },
       refresh: async () => {
         await checkVideos();
-        await interaction.reply(messageEmbed({ desc: 'Successfully refreshed YouTube notifications!', emoji: true }));
+        await interaction.reply(embedMessage({ desc: 'Successfully refreshed YouTube notifications!', emoji: true }));
       },
     };
 

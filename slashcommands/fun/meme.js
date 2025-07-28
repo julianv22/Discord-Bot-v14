@@ -10,12 +10,12 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply();
 
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const response = await fetch('https://meme-api.com/gimme');
     const data = await response.json();
 
     if (!data || !data.url)
-      return await interaction.editReply(messageEmbed({ desc: 'Could not fetch meme. Please try again later.' }));
+      return await interaction.editReply(embedMessage({ desc: 'Could not fetch meme. Please try again later.' }));
 
     const embeds = [
       new EmbedBuilder()

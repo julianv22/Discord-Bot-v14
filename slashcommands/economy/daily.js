@@ -11,7 +11,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { name: guildName } = guild;
     const [userId, userName] = [user.id, user.displayName || user.username];
     const today = new Date();
@@ -27,7 +27,7 @@ module.exports = {
 
     if (!profile) {
       return await interaction.reply(
-        messageEmbed({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo hồ sơ kinh tế của bạn. Vui lòng thử lại sau.' })
+        embedMessage({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo hồ sơ kinh tế của bạn. Vui lòng thử lại sau.' })
       );
     }
 
@@ -40,7 +40,7 @@ module.exports = {
       const timeleft = Math.floor(nextDaily.getTime() / 1000);
 
       return await interaction.reply(
-        messageEmbed({ title: 'Bạn đã nhận 💲 hôm nay!', desc: `↪ Hãy quay lại sau: <t:${timeleft}:R>` })
+        embedMessage({ title: 'Bạn đã nhận 💲 hôm nay!', desc: `↪ Hãy quay lại sau: <t:${timeleft}:R>` })
       );
     }
 

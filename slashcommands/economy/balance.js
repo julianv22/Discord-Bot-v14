@@ -12,7 +12,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user, guild, guildId } = interaction;
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { name: guildName } = guild;
     const userId = user.id;
 
@@ -21,7 +21,7 @@ module.exports = {
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
     if (profile)
       return await interaction.editReply(
-        messageEmbed({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
+        embedMessage({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );
 
     // Lấy thông tin

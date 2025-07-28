@@ -7,7 +7,7 @@ module.exports = (client) => {
   /** - Sets up the suggestion channel.
    * @param {Interaction} interaction - The command interaction. */
   client.setupSuggest = async (interaction) => {
-    const { messageEmbed } = client;
+    const { embedMessage } = client;
     const { id: guildId, name: guildName } = interaction.guild;
 
     const profile = await serverProfile
@@ -15,7 +15,7 @@ module.exports = (client) => {
       .catch(console.error);
     if (!profile)
       return await interaction.followUp(
-        messageEmbed({ desc: 'No data found for this server. Please try again later!' })
+        embedMessage({ desc: 'No data found for this server. Please try again later!' })
       );
 
     /** @param {string} channelId - The ID of the channel. */
