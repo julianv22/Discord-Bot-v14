@@ -31,14 +31,14 @@ module.exports = {
 
         switch (type) {
           case 'notify':
-            textDisplay(1).content = '- \\💬 Notification Channel: \\❌ Not set';
+            textDisplay(1).content = '- \\💬 Notification Channel: \u274C\uFE0F Not set';
             await serverProfile
               .findOneAndUpdate({ guildId }, { $set: { 'youtube.notifyChannelId': '' } })
               .catch(console.error);
             break;
 
           case 'alert':
-            textDisplay(2).content = '- \\🔔 Alert Role: \\❌ Not set';
+            textDisplay(2).content = '- \\🔔 Alert Role: \u274C\uFE0F Not set';
             await serverProfile
               .findOneAndUpdate({ guildId }, { $set: { 'youtube.alertRoleId': '' } })
               .catch(console.error);

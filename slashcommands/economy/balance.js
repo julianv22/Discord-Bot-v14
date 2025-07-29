@@ -38,7 +38,7 @@ module.exports = {
             .map((achv) => achv.name)
             .join(', ')
         : '\\🚫';
-    const work = profile?.lastWork || '\\❌ Chưa nhận (`/job` để nhận)';
+    const work = profile?.lastWork || '\u274C\uFE0F Chưa nhận (`/job` để nhận)';
     const lastJob = profile?.lastJob || new Date();
 
     const embeds = [

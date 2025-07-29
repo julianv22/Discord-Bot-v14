@@ -14,7 +14,7 @@ module.exports = {
     const { components } = message;
     const { roles } = guild;
     const tourName = components[0].components[0].components[1].data;
-    const getRole = (roleId) => roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
+    const getRole = (roleId) => roles.cache.get(roleId) || '*\u274C\uFE0F Chưa có giải nào*';
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);
     const { tournament } = profile || {};
 

@@ -32,7 +32,7 @@ module.exports = {
     await serverStats(guildId);
 
     /** @param {string} channelId */
-    const channelName = (channelId) => channels.cache.get(channelId) || '\\❌ Not Set';
+    const channelName = (channelId) => channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     statisticInfo.content = `- Total count channel: ${channelName(
       statistics?.totalChannelId

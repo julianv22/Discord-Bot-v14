@@ -42,7 +42,7 @@ module.exports = {
     /** @param {string} roleId  */
     const getRole = (roleId) => guild.roles.cache.get(roleId);
     /** @param {string} channelId */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\n-# \\❌ Not set';
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\n-# \u274C\uFE0F Not set';
 
     switch (subCommand) {
       case 'dashboard':
@@ -53,16 +53,16 @@ module.exports = {
         const { welcome, starboard, youtube, tournament, statistics, suggest } = profile;
         const welcomeChannel = channelName(welcome?.channelId);
         const logChannel = channelName(welcome?.logChannelId);
-        const welcomeMessage = welcome?.message || '\n-# \\❌ Not set';
+        const welcomeMessage = welcome?.message || '\n-# \u274C\uFE0F Not set';
         const starboardChannel = channelName(starboard?.channelId);
         const youtubeChannelCount = youtube?.channels?.length || 0;
         const youtubeNotifyChannel = channelName(youtube?.notifyChannelId);
-        const youtubeAlertRole = getRole(youtube?.alertRoleId) || '\n-# \\❌ Not set';
+        const youtubeAlertRole = getRole(youtube?.alertRoleId) || '\n-# \u274C\uFE0F Not set';
         const suggestChannel = channelName(suggest.channelId);
         const tournamentName = getRole(tournament?.roleId) || '-# \\⚠️ /tournament';
-        const tournamentStatus = tournament?.isActive ? '\\✅ Open' : '\\❌ Closed';
+        const tournamentStatus = tournament?.isActive ? '\u2705\uFE0F Open' : '\u274C\uFE0F Closed';
         const starboardStarCount = starboard?.starCount || 0;
-        const statisticsInfo = statistics?.totalChannelId ? '\\✅ Set' : '\\❌ Not set';
+        const statisticsInfo = statistics?.totalChannelId ? '\u2705\uFE0F Set' : '\u274C\uFE0F Not set';
 
         const embeds = [
           new EmbedBuilder()

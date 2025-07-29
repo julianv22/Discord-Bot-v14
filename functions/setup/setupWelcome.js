@@ -28,10 +28,10 @@ module.exports = (client) => {
       );
 
     const { welcome } = profile || {};
-    const welcomeMessage = welcome?.message || '-# \\❌ Not Set';
+    const welcomeMessage = welcome?.message || '-# \u274C\uFE0F Not Set';
 
     /** @param {string} channelId - The ID of the channel. */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)

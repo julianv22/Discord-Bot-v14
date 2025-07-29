@@ -46,7 +46,7 @@ module.exports = {
           iconURL: cfg.money_wings_gif,
         })
         .setTitle('\\🏦 Deposit')
-        .setDescription(`\\✅ Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
+        .setDescription(`\u2705\uFE0F Gửi ${amount.toCurrency()} vào ngân hàng thành công!\n\n**Số dư hiện có:**`)
         .setFooter({ text: 'Rất hân hạn được phục vụ bạn!', iconURL: bot.displayAvatarURL(true) })
         .setTimestamp()
         .setFields(

@@ -42,7 +42,7 @@ module.exports = {
       );
 
     const { tournament } = profile || {};
-    const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
+    const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\u274C\uFE0F Chưa có giải nào*';
 
     const open_close_buttons = [
       { customId: 'tournament:open', label: '✅ Mở đăng ký', style: ButtonStyle.Success },
@@ -61,7 +61,7 @@ module.exports = {
           [
             '### \\🏆 Tournament Infomation',
             `- Tournament name: ${getRole(tournament?.roleId)}`,
-            `- Status: ${tournament?.isActive ? '\\✅ Open' : '*\\❌ Closed*'}`,
+            `- Status: ${tournament?.isActive ? '\u2705\uFE0F Open' : '*\u274C\uFE0F Closed*'}`,
           ],
           ComponentType.Thumbnail,
           cfg.tournament_gif

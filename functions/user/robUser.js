@@ -73,7 +73,7 @@ module.exports = (client) => {
         amount = Math.min(amount, profile.balance); // Không bị trừ quá số \\💲 mình có
         profile.balance -= amount;
         targetProfile.balance += Math.round(amount / 2);
-        resultMsg = `\\❌ Thất bại và bị mất **${amount.toCurrency()}**, đối phương nhận được **${Math.round(
+        resultMsg = `\u274C\uFE0F Thất bại và bị mất **${amount.toCurrency()}**, đối phương nhận được **${Math.round(
           amount / 2
         ).toCurrency()}**`;
       }

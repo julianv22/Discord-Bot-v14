@@ -61,7 +61,7 @@ module.exports = {
         await interaction.editReply({
           components: [
             dashboardMenu(),
-            messageContainer(`\\❌ ${feature.toCapitalize()} Disable`, Colors.Red),
+            messageContainer(`\u274C\uFE0F ${feature.toCapitalize()} Disable`, Colors.Red),
             confirmButtons(true),
           ],
         }),
@@ -93,7 +93,7 @@ module.exports = {
             dashboardMenu(),
             messageContainer(
               [
-                `**\\✅ Disable ${disable.toCapitalize()} successfully!**`,
+                `**\u2705\uFE0F Disable ${disable.toCapitalize()} successfully!**`,
                 `-# Đã vô hiệu hoá chức năng ${disable.toCapitalize()} thành công.`,
               ],
               Colors.Green

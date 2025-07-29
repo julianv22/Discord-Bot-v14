@@ -41,7 +41,7 @@ module.exports = {
         })
         .setTitle('\\🏦 Withdraw')
         .setDescription(
-          `\\✅ Rút ${amount.toCurrency()} thành công!\n\nBạn bị trừ ${fee.toCurrency()} (1%) phí rút tiền còn ${(
+          `\u2705\uFE0F Rút ${amount.toCurrency()} thành công!\n\nBạn bị trừ ${fee.toCurrency()} (1%) phí rút tiền còn ${(
             amount - fee
           ).toCurrency()}.\n\n**Số dư hiện có:**`
         )

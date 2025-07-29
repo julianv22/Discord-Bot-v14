@@ -19,7 +19,7 @@ module.exports = (client) => {
       );
 
     /** @param {string} channelId - The ID of the channel. */
-    const channelName = (channelId) => interaction.guild.channels.cache.get(channelId) || '\\❌ Not Set';
+    const channelName = (channelId) => interaction.guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)

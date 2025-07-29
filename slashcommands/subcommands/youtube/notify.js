@@ -36,7 +36,7 @@ module.exports = {
     const { youtube } = profile || {};
 
     /** @param {string} channelId - The ID of the channel. */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkAqua)
@@ -45,7 +45,7 @@ module.exports = {
           [
             '### 📢 YouTube Notification Information',
             `- \\💬 Notification Channel: ${channelName(youtube?.notifyChannelId)}`,
-            `- \\🔔 Alert Role: ${guild.roles.cache.get(youtube?.alertRoleId) || '\\❌ Not Set'}`,
+            `- \\🔔 Alert Role: ${guild.roles.cache.get(youtube?.alertRoleId) || '\u274C\uFE0F Not Set'}`,
           ],
           ComponentType.Thumbnail,
           cfg.youtubeIcon //'https://cdn.discordapp.com/attachments/976364997066231828/1396849360033284197/You-Tube-logo-social-media-video-sharing-transparent-PNG-image.png'

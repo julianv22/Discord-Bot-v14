@@ -34,7 +34,7 @@ module.exports = (client) => {
     const { starboard } = profile || {};
 
     /** @param {string} channelId - The ID of the channel. */
-    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\\❌ Not Set';
+    const channelName = (channelId) => guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const starCountMenu = [
       { customId: 'starboard-menu:starcount', placeholder: '⭐ Select number of stars' },

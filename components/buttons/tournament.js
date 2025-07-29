@@ -31,7 +31,7 @@ module.exports = {
 
     if (!tournament?.roleId) return await interaction.reply(embedMessage({ desc: 'Chưa chọn tên role cho giải đấu!' }));
 
-    const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\\❌ Chưa có giải nào*';
+    const getRole = (roleId) => guild.roles.cache.get(roleId) || '*\u274C\uFE0F Chưa có giải nào*';
 
     const onClick = {
       open: async () => {
@@ -46,7 +46,7 @@ module.exports = {
 
         tournament.isActive = true;
         tourName.content = `- Tournament name: ${getRole(tournament?.roleId)}`;
-        tourStatus.content = '- Status: \\✅ Open';
+        tourStatus.content = '- Status: \u2705\uFE0F Open';
 
         await profile.save().catch(console.error);
         await interaction.editReply({ components });
@@ -72,7 +72,7 @@ module.exports = {
 
         tournament.isActive = false;
         tourName.content = `- Tournament name: ${getRole(tournament?.roleId)}`;
-        tourStatus.content = '- Status: *\\❌ Closed*';
+        tourStatus.content = '- Status: *\u274C\uFE0F Closed*';
 
         await profile.save().catch(console.error);
         await interaction.editReply({ components });
@@ -97,8 +97,8 @@ module.exports = {
         tournament.isActive = false;
         tournament.roleId = '';
         tournament.roleName = '';
-        tourName.content = '- Tournament name: *\\❌ Chưa có giải nào*';
-        tourStatus.content = '- Status: *\\❌ Closed*';
+        tourName.content = '- Tournament name: *\u274C\uFE0F Chưa có giải nào*';
+        tourStatus.content = '- Status: *\u274C\uFE0F Closed*';
 
         await profile.save().catch(console.error);
         await interaction.editReply({ components });
