@@ -74,9 +74,6 @@ module.exports = {
       })
     );
 
-    await interaction.editReply({
-      flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-      components: [container],
-    });
+    await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   },
 };

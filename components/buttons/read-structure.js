@@ -9,7 +9,7 @@ module.exports = {
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
-    await interaction.deferUpdate({ flags: 64 });
+    await interaction.deferUpdate();
 
     const { user, customId } = interaction;
     const [, folder] = customId.split(':');
@@ -82,12 +82,13 @@ module.exports = {
         .setTimestamp(),
     ];
 
-    await interaction.editReply({ embeds });
+    await interaction.followUp({ embeds, flags: 64 });
 
     if (structure.length > MAX_LENGTH)
       for (let i = MAX_LENGTH; i < structure.length; i += MAX_LENGTH)
         await interaction.followUp({
           embeds: [EmbedBuilder.from(embeds).setDescription(`\`\`\`\n${structure.slice(i, i + MAX_LENGTH)}\n\`\`\``)],
+          flags: 64,
         });
   },
 };

@@ -58,7 +58,7 @@ module.exports = {
     const subCommand = options.getSubcommand();
 
     if (subCommand === 'structure') {
-      await interaction.deferReply({ flags: 64 });
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
       const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
       const srcFolders = readFiles(process.cwd(), {
@@ -77,10 +77,7 @@ module.exports = {
         .addTextDisplayComponents(textDisplay("### \\📂 Displays the project's folder structure."))
         .addActionRowComponents(new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, menus)));
 
-      await interaction.editReply({
-        flags: [MessageFlags.IsComponentsV2, MessageFlags.Ephemeral],
-        components: [container],
-      });
+      await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
     }
   },
 };
