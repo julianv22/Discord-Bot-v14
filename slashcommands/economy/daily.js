@@ -114,10 +114,9 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.coin_gif)
-        .setAuthor({ name: guildName, iconURL: cfg.money_wings_gif })
-        .setTitle('Nhận \\💲 hằng ngày!')
+        .setAuthor({ name: guildName + ' Daily Economy', iconURL: cfg.money_wings_gif })
         .setDescription(
-          `- Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\n- Số dư hiện tại: **${profile?.balance.toCurrency()}**.\n- \\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}`
+          `### ${user} đã nhận \\💲 hằng ngày!\n- Bạn đã nhận thành công **${dailyAmount.toCurrency()}** ngày hôm nay!\n- Số dư hiện tại: **${profile?.balance.toCurrency()}**.\n- \\🔥 Chuỗi ngày nhận liên tiếp: **${streak.toLocaleString()}** (Kỷ lục: ${maxStreak.toLocaleString()})${bonusMsg}`
         )
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
         .setTimestamp(),

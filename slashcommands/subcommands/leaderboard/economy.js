@@ -32,10 +32,7 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.tournament_gif)
-        .setAuthor({
-          name: 'Economy Leaderboard',
-          iconURL: cfg.onehundred_gif,
-        })
+        .setAuthor({ name: guild.name + ' Economy Leaderboard', iconURL: cfg.onehundred_gif })
         .setTitle(`Top \\🔟 richest users in ${guild.name}`)
         .setDescription(leaderboard)
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL(true) })

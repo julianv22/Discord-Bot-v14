@@ -22,10 +22,7 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkAqua)
         .setThumbnail(cfg.tournament_gif)
-        .setAuthor({
-          name: 'Level Leaderboard',
-          iconURL: cfg.onehundred_gif,
-        })
+        .setAuthor({ name: guild.name + ' Level Leaderboard', iconURL: cfg.onehundred_gif })
         .setTitle('Bảng xếp hạng level tuần #' + week)
         .setDescription(
           'Xem bảng xếp hạng trên 10? [View top 100](https://arcane.bot/leaderboard/954736697453731850)\n\nXem [Rank List](https://discord.com/channels/954736697453731850/954737311843770440/994328694522921030)'

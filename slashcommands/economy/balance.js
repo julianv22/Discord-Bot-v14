@@ -47,7 +47,7 @@ module.exports = {
         .setThumbnail(cfg.coin_gif)
         .setAuthor({ name: user.displayName || user.username, iconURL: user.displayAvatarURL(true) })
         .setTitle('\\💳 Economy Information')
-        .setFooter({ text: guildName, iconURL: guild.iconURL(true) })
+        .setFooter({ text: guildName + ' Economy Balance', iconURL: guild.iconURL(true) })
         .setTimestamp()
         .setFields(
           { name: '\\💰 Balance:', value: balance, inline: true },

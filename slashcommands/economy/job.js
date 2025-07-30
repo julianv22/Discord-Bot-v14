@@ -84,10 +84,9 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGreen)
         .setThumbnail(cfg.coin_gif)
-        .setAuthor({ name: guild.name, iconURL: cfg.money_wings_gif })
-        .setTitle('Bạn đã nhận một công việc mới!')
+        .setAuthor({ name: guild.name + ' Job Economy', iconURL: cfg.money_wings_gif })
         .setDescription(
-          `\\👷‍♀️ Công việc: **${jobName}**\n\n\\⏳ Thời gian làm việc: ${workTimeStr}\n\n\\💡 Sau khi hoàn thành, bạn sẽ nhận được **${workMinutes.toCurrency()}**\n\nBạn sẽ nhận được thông báo khi hoàn thành công việc.`
+          `### ${user} đã nhận một công việc mới!\n- \\👷‍♀️ Công việc: **${jobName}**\n- \\⏳ Thời gian làm việc: ${workTimeStr}\n- \\💡 Sau khi hoàn thành, sẽ nhận được **${workMinutes.toCurrency()}**\n- \\⚠️ Bạn sẽ nhận được thông báo khi hoàn thành công việc.`
         )
         .setFooter({ text: `Requested by ${user.displayName || user.username}`, iconURL: user.displayAvatarURL() })
         .setTimestamp(),

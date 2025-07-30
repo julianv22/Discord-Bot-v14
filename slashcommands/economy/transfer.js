@@ -79,10 +79,7 @@ module.exports = {
       new EmbedBuilder()
         .setColor(Colors.DarkGold)
         .setThumbnail(cfg.coin_gif)
-        .setAuthor({
-          name: `${guild.name} Economy Transfer`,
-          iconURL: cfg.money_wings_gif,
-        })
+        .setAuthor({ name: `${guild.name} Economy Transfer`, iconURL: cfg.money_wings_gif })
         .setTitle(`Hiện có ${profile?.bank.toCurrency()} trong tài khoản \\🏦 của bạn`)
         .setDescription(
           `❗Thao tác này sẽ thực hiện với tài khoản bank\\🏦 của bạn chứ không phải tài khoản trong túi tiền\\💰.\n\n❗ Chuyển ${amount.toCurrency()} từ tài khoản của bạn sang tài khoản của ${target}.\n\n❗ Hệ thống sẽ tính phí 1% với số tiền cần chuyển, bạn sẽ phải trả số tiền là ${total.toCurrency()}.\n\n❗ Bạn có muốn tiếp tục?`
