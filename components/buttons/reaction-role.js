@@ -151,7 +151,9 @@ module.exports = {
             { guildId, messageId: msg.id },
             {
               $setOnInsert: {
+                guildName: guild.name,
                 channelId: channel.id,
+                channelName: channel.name,
                 title: reactionEmbed.data.title,
                 description: reactionEmbed.data.description,
                 roles: emojiArray,
