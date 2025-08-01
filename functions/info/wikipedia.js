@@ -1,4 +1,4 @@
-const { Client, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, Message, EmbedBuilder } = require('discord.js');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {

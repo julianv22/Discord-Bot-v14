@@ -7,7 +7,7 @@ const {
   PermissionFlagsBits,
 } = require('discord.js');
 const { manageEmbedButtons } = require('../../functions/common/manage-message');
-const { linkButton, createModal } = require('../../functions/common/components');
+const { createModal } = require('../../functions/common/components');
 
 module.exports = {
   category: 'moderator',

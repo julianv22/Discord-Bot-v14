@@ -6,8 +6,8 @@ const {
   ActionRowBuilder,
   ComponentType,
   MessageFlags,
-  Colors,
   PermissionFlagsBits,
+  Colors,
 } = require('discord.js');
 const { readFiles } = require('../../functions/common/initLoader');
 const { textDisplay, rowComponents } = require('../../functions/common/components');

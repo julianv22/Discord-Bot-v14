@@ -82,7 +82,7 @@ module.exports = {
    * @typedef {object} ComponentOptions - Configuration for various Discord components.
    * @property {string} [customId] - The custom ID for the component.
    * @property {string} label - The text displayed on the component.
-   * @property {number} [style] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
+   * @property {number} [style = TextInputStyle.Short] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
    * @property {boolean} [disabled = false] - Whether the component is disabled.
    * @property {string} [url] - A URL for link-style buttons.
    * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
@@ -97,7 +97,7 @@ module.exports = {
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
-   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]} An array of the created components, or a single StringSelectMenuBuilder. */
+   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]} An array of the ButtonBuilder components or TextInputBuilder options, or a single StringSelectMenuBuilder. */
   rowComponents: (type, options) => {
     options = [].concat(options); // Convert options to an array
 
@@ -111,20 +111,7 @@ module.exports = {
           .setPlaceholder(options[0]?.placeholder || 'Make a selection')
           .setOptions(options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))),
       [ComponentType.TextInput]: () =>
-        options.map((option) => {
-          const textInput = new TextInputBuilder()
-            .setCustomId(option.customId)
-            .setLabel(option.label)
-            .setStyle(option.style || TextInputStyle.Short)
-            .setRequired(option?.required || false);
-
-          if (option?.value) textInput.setValue(option.value);
-          if (option?.placeholder) textInput.setPlaceholder(option.placeholder);
-          if (option?.min_length) textInput.setMinLength(option.min_length);
-          if (option?.max_length) textInput.setMaxLength(option.max_length);
-
-          return textInput;
-        }),
+        options.map((option) => new TextInputBuilder({ style: TextInputStyle.Short, ...option })),
     };
 
     if (!setComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));

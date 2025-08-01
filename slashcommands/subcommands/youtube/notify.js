@@ -21,7 +21,7 @@ module.exports = {
    * @param {Interaction} interaction - The command interaction object.
    * @param {Client} client - The Discord client instance. */
   async execute(interaction, client) {
-    await interaction.deferReply({ flags: 64 });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const { guild, guildId } = interaction;
     const { embedMessage } = client;

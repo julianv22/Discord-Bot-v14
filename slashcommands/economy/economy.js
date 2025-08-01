@@ -41,6 +41,6 @@ module.exports = {
         ),
     ];
 
-    return await interaction.editReply({ embeds, flags: 64 });
+    return await interaction.editReply({ embeds });
   },
 };

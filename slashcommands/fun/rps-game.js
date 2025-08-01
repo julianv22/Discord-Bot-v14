@@ -51,6 +51,6 @@ module.exports = {
         .setImage(cfg.rpsPNG),
     ];
 
-    await interaction.editReply({ embeds, components, flags: 64 });
+    await interaction.editReply({ embeds, components });
   },
 };

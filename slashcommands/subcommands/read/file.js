@@ -1,4 +1,4 @@
-const { Client, Interaction, SlashCommandSubcommandBuilder, Colors, EmbedBuilder } = require('discord.js');
+const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
 

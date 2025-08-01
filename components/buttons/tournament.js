@@ -11,6 +11,7 @@ const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 const XLSX = require('xlsx');
 const { textDisplay } = require('../../functions/common/components');
+
 module.exports = {
   type: 'buttons',
   data: { name: 'tournament' },
