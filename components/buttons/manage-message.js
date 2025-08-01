@@ -32,7 +32,7 @@ module.exports = {
             customId: buttonId,
             label: 'Author (Leave blank = Remove)',
             placeholder: '{guild} = Server Name, {user} = User Name',
-            max_length: 256,
+            maxLength: 256,
           },
           {
             customId: 'authorIcon',
@@ -45,7 +45,7 @@ module.exports = {
           customId: buttonId,
           label: 'Embed Title (Leave blank = Remove)',
           value: editEmbed.data.title,
-          max_length: 256,
+          maxLength: 256,
           placeholder: '{guild} = Server Name, {user} = User Name',
         }),
       description: async () =>
@@ -81,7 +81,7 @@ module.exports = {
             customId: buttonId,
             label: 'Footer (Leave blank = Remove)',
             placeholder: '{guild} = Server Name, {user} = User Name',
-            max_length: 2000,
+            maxLength: 2000,
           },
           {
             customId: buttonId + 'Icon',
@@ -110,7 +110,7 @@ module.exports = {
             customId: 'fieldvalue',
             label: 'Field value',
             placeholder: 'Enter field value',
-            max_length: 1024,
+            maxLength: 1024,
             required: true,
           },
           { customId: 'inline', label: 'Inline (0 = false, 1 = true)', placeholder: '0 = false, 1 = true' },

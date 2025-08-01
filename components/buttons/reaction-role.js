@@ -22,7 +22,7 @@ module.exports = {
           customId: buttonId,
           label: `Reaction Role ${buttonId} (Leave blank = Remove)`,
           placeholder: `Enter the Reaction Role ${buttonId}`,
-          max_length: 256,
+          maxLength: 256,
         }),
       color: async () =>
         await createModal(interaction, `manage-message:${buttonId}`, 'Reaction Role Manager', {

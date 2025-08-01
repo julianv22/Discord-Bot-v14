@@ -23,7 +23,7 @@ module.exports = {
           customId: type,
           label: 'YouTube ChannelID',
           placeholder: 'Enter the YouTube ChannelID',
-          max_length: 256,
+          maxLength: 256,
           required: true,
         }),
       remove: async () => {

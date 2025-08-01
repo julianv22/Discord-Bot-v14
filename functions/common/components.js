@@ -14,6 +14,7 @@ const {
   RoleSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
   SeparatorBuilder,
+  APIMessageComponentEmoji,
   TextInputStyle,
   ComponentType,
   ButtonStyle,
@@ -81,19 +82,22 @@ module.exports = {
   /**
    * @typedef {object} ComponentOptions - Configuration for various Discord components.
    * @property {string} [customId] - The custom ID for the component.
-   * @property {string} label - The text displayed on the component.
-   * @property {number} [style = TextInputStyle.Short] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
    * @property {boolean} [disabled = false] - Whether the component is disabled.
    * @property {string} [url] - A URL for link-style buttons.
+   * @property {number} [style = TextInputStyle.Short] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
+   * @property {string} label - The text displayed on the component.
    * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
+   * @property {string|APIMessageComponentEmoji} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
    * @property {string} [description] - A description for the component (used in StringSelect options).
-   * @property {string} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
    * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
-   * @property {string} [placeholder] - Placeholder text for input components (used in TextInput).
+   * @property {string} [placeholder] - Placeholder text for TextInput components, or StringSelect options.
    * @property {boolean} [required = false] - Whether the component is required (used in TextInput).
-   * @property {number} [min_length = 1] - The minimum input length (used in TextInput).
-   * @property {number} [max_length = 1] - The maximum input length (used in TextInput).
+   * @property {number} [maxValues = 1] - The maximum amount of options that can be selected (used in StringSelect options).
+   * @property {number} [minValues = 1] - The minimum amount of options that must be selected (used in StringSelect options).
+   * @property {number} [maxLength = 1] - The minimum input length (used in TextInput).
+   * @property {number} [minLength = 1] - The maximum input length (used in TextInput).
    */
+
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
@@ -106,8 +110,8 @@ module.exports = {
       [ComponentType.StringSelect]: () =>
         new StringSelectMenuBuilder()
           .setCustomId(options[0].customId)
-          .setMinValues(options[0]?.min_length || 1)
-          .setMaxValues(options[0]?.max_length || 1)
+          .setMinValues(options[0]?.minValues || 1)
+          .setMaxValues(options[0]?.maxValues || 1)
           .setPlaceholder(options[0]?.placeholder || 'Make a selection')
           .setOptions(options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))),
       [ComponentType.TextInput]: () =>

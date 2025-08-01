@@ -22,7 +22,7 @@ module.exports = {
           customId: buttonId,
           label: 'Notification Title (Leave blank = Remove)',
           placeholder,
-          max_length: 256,
+          maxLength: 256,
         }),
       description: async () =>
         await createModal(interaction, modalId, 'Notification Manager', {
