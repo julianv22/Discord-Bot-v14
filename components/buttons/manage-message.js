@@ -38,6 +38,7 @@ module.exports = {
             customId: 'authorIcon',
             label: 'Author Icon',
             placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
+            maxLength: 256,
           },
         ]),
       title: async () =>
@@ -45,8 +46,8 @@ module.exports = {
           customId: buttonId,
           label: 'Embed Title (Leave blank = Remove)',
           value: editEmbed.data.title,
-          maxLength: 256,
           placeholder: '{guild} = Server Name, {user} = User Name',
+          maxLength: 256,
         }),
       description: async () =>
         await createModal(interaction, customId, 'Embed Manager', {
@@ -62,18 +63,21 @@ module.exports = {
           customId: buttonId,
           label: 'Embed Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
+          maxLength: 256,
         }),
       image: async () =>
         await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Image (Leave blank = Remove)',
           placeholder: 'Enter image URL, Leave blank = Remove',
+          maxLength: 256,
         }),
       thumbnail: async () =>
         await createModal(interaction, customId, 'Embed Manager', {
           customId: buttonId,
           label: 'Embed Thumbnail (Leave blank = Remove)',
           placeholder: 'Enter thumbnail URL, Leave blank = Remove',
+          maxLength: 256,
         }),
       footer: async () =>
         await createModal(interaction, customId, 'Embed Manager', [
@@ -81,12 +85,13 @@ module.exports = {
             customId: buttonId,
             label: 'Footer (Leave blank = Remove)',
             placeholder: '{guild} = Server Name, {user} = User Name',
-            maxLength: 2000,
+            maxLength: 2048,
           },
           {
             customId: buttonId + 'Icon',
             label: 'Footer Icon',
             placeholder: '{avatar} = User Avatar, {iconURL} = Server Icon',
+            maxLength: 256,
           },
         ]),
       timestamp: async () => {
@@ -105,7 +110,7 @@ module.exports = {
       },
       addfield: async () =>
         await createModal(interaction, customId, 'Embed Manager', [
-          { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', required: true },
+          { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', maxLength: 256, required: true },
           {
             customId: 'fieldvalue',
             label: 'Field value',
@@ -113,7 +118,12 @@ module.exports = {
             maxLength: 1024,
             required: true,
           },
-          { customId: 'inline', label: 'Inline (0 = false, 1 = true)', placeholder: '0 = false, 1 = true' },
+          {
+            customId: 'inline',
+            label: 'Inline (0 = false, 1 = true)',
+            placeholder: '0 = false, 1 = true',
+            maxLength: 1,
+          },
         ]),
       removefields: async () => {
         await interaction.deferUpdate();

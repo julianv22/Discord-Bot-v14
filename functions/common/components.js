@@ -89,13 +89,11 @@ module.exports = {
    * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
    * @property {string|APIMessageComponentEmoji} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
    * @property {string} [description] - A description for the component (used in StringSelect options).
+   * @property {string} [placeholder] - Placeholder text for components (used in StringSelect options and TextInput).
    * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
-   * @property {string} [placeholder] - Placeholder text for TextInput components, or StringSelect options.
    * @property {boolean} [required = false] - Whether the component is required (used in TextInput).
    * @property {number} [maxValues = 1] - The maximum amount of options that can be selected (used in StringSelect options).
    * @property {number} [minValues = 1] - The minimum amount of options that must be selected (used in StringSelect options).
-   * @property {number} [maxLength = 1] - The minimum input length (used in TextInput).
-   * @property {number} [minLength = 1] - The maximum input length (used in TextInput).
    */
 
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
@@ -115,7 +113,7 @@ module.exports = {
           .setPlaceholder(options[0]?.placeholder || 'Make a selection')
           .setOptions(options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))),
       [ComponentType.TextInput]: () =>
-        options.map((option) => new TextInputBuilder({ style: TextInputStyle.Short, ...option })),
+        options.map((option) => new TextInputBuilder({ style: TextInputStyle.Short, required: false, ...option })),
     };
 
     if (!setComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));

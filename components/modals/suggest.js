@@ -36,7 +36,7 @@ module.exports = {
           iconURL: user.displayAvatarURL(true),
         })
         .setTitle('Suggestion Content:')
-        .setDescription(description)
+        .setDescription(description.slice(0, 4096))
         .setFooter({ text: `${guild.name} Suggestion`, iconURL: guild.iconURL(true) })
         .setTimestamp()
         .setFields({

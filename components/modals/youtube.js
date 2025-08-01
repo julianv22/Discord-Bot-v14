@@ -14,7 +14,7 @@ module.exports = {
     const { embedMessage } = client;
     const { embeds } = message;
     const [, action] = customId.split(':');
-    const input = fields.getTextInputValue(action);
+    const channelId = fields.getTextInputValue(action);
 
     /** - Validates a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.
@@ -29,7 +29,7 @@ module.exports = {
       return { valid: false, title: null };
     };
 
-    const { valid, title } = await validateYoutubeChannel(input, process.env.YT_API_KEY);
+    const { valid, title } = await validateYoutubeChannel(channelId, process.env.YT_API_KEY);
     if (!valid)
       return await interaction.followUp(embedMessage({ desc: 'Invalid or non-existent YouTube channel ID!' }));
 
@@ -64,25 +64,25 @@ module.exports = {
     };
     const onSubmit = {
       add: async () => {
-        const existing = await serverProfile.findOne({ guildId, 'youtube.channels': input });
+        const existing = await serverProfile.findOne({ guildId, 'youtube.channels': channelId });
         if (existing) {
           await interaction.followUp(
             embedMessage({
               title: 'Duplicate channel!',
-              desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is already in the watchlist.`,
+              desc: `Channel **[${title}](https://www.youtube.com/channel/${channelId})** is already in the watchlist.`,
             })
           );
           return false;
         }
 
         await serverProfile
-          .updateOne({ guildId }, { $addToSet: { 'youtube.channels': input } }, { upsert: true })
+          .updateOne({ guildId }, { $addToSet: { 'youtube.channels': channelId } }, { upsert: true })
           .catch(console.error);
         return await refresh();
       },
       remove: async () => {
         const result = await serverProfile
-          .updateOne({ guildId }, { $pull: { 'youtube.channels': input } })
+          .updateOne({ guildId }, { $pull: { 'youtube.channels': channelId } })
           .catch(console.error);
 
         // If no document was modified, the channel wasn't in the list.
@@ -90,7 +90,7 @@ module.exports = {
           await interaction.followUp(
             embedMessage({
               title: 'No matching results found!',
-              desc: `Channel **[${title}](https://www.youtube.com/channel/${input})** is not in the watchlist.`,
+              desc: `Channel **[${title}](https://www.youtube.com/channel/${channelId})** is not in the watchlist.`,
             })
           );
           return false;

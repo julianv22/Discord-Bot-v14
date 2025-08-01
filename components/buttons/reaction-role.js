@@ -29,6 +29,7 @@ module.exports = {
           customId: buttonId,
           label: `Reaction Role ${buttonId} (Leave blank = Random)`,
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
+          maxLength: 256,
         }),
       add: async () => {
         await interaction.deferUpdate();

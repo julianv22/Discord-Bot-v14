@@ -45,12 +45,12 @@ module.exports = {
         const iconURL = replaceVar(authorIcon, replaceKey);
 
         return embed.setAuthor({
-          name: replaceVar(inputValue, replaceKey) || null,
+          name: replaceVar(inputValue, replaceKey).slice(0, 256) || null,
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
-      title: () => embed.setTitle(inputValue || null), // Also work with /reaction role command
-      description: () => embed.setDescription(replaceVar(inputValue, replaceKey)),
+      title: () => embed.setTitle(inputValue.slice(0, 256) || null), // Also work with /reaction role command
+      description: () => embed.setDescription(replaceVar(inputValue, replaceKey).slice(0, 4096)),
       color: () => embed.setColor(inputValue.toEmbedColor()), // Also work with /reaction role command
       image: () => embed.setImage(inputValue.checkURL() ? inputValue : null),
       thumbnail: () => embed.setThumbnail(inputValue.checkURL() ? inputValue : null),
@@ -59,14 +59,18 @@ module.exports = {
         const iconUrl = replaceVar(footerIcon, replaceKey);
 
         return embed.setFooter({
-          text: replaceVar(inputValue, replaceKey) || null,
+          text: replaceVar(inputValue, replaceKey).slice(0, 2048) || null,
           iconURL: iconUrl.checkURL() ? iconUrl : null,
         });
       },
       addfield: () => {
         const fieldvalue = fields.getTextInputValue('fieldvalue');
         const inline = fields.getTextInputValue('inline');
-        return embed.addFields({ name: inputValue, value: fieldvalue, inline: inline === '1' ? true : false });
+        return embed.addFields({
+          name: inputValue.slice(0, 256),
+          value: fieldvalue.slice(0, 1024),
+          inline: inline === '1' ? true : false,
+        });
       },
     };
 

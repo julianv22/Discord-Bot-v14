@@ -12,12 +12,12 @@ module.exports = {
 
     const { guildId, message, fields, customId } = interaction;
     const { components } = message;
-    const input = fields.getTextInputValue(customId).slice(0, 3000);
+    const inputValue = fields.getTextInputValue(customId);
     const welcomeMessage = components[1].components[1].components[1].data;
 
-    welcomeMessage.content = input;
+    welcomeMessage.content = inputValue;
 
-    await serverProfile.findOneAndUpdate({ guildId }, { $set: { 'welcome.message': input } }).catch(console.error);
+    await serverProfile.findOneAndUpdate({ guildId }, { $set: { 'welcome.message': inputValue } }).catch(console.error);
 
     await interaction.editReply({ components });
   },

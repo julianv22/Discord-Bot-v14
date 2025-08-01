@@ -38,10 +38,11 @@ module.exports = {
           customId: buttonId,
           label: 'Notification Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
+          maxLength: 256,
         }),
       image: async () =>
         await createModal(interaction, modalId, 'Notification Manager', [
-          { customId: buttonId, label: 'Notification Image (Leave blank = Remove)', placeholder },
+          { customId: buttonId, label: 'Notification Image (Leave blank = Remove)', maxLength: 256, placeholder },
         ]),
       thumbnail: async () => {
         await interaction.deferUpdate();

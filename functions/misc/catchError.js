@@ -46,14 +46,23 @@ module.exports = (client) => {
           .setTimestamp();
 
         if (e.stack)
-          bugEmbed.addFields({ name: 'Stack:', value: '```ansi\n\x1b[33m' + (e.stack || 'undefined') + '\x1b[0m```' });
-        else bugEmbed.addFields({ name: 'Error Message:', value: `\`${e.message}\`` });
+          bugEmbed.addFields({
+            name: 'Stack:',
+            value: '```ansi\n\x1b[33m' + (e.stack || 'undefined').slice(0, 1024) + '\x1b[0m```',
+          });
+        else bugEmbed.addFields({ name: 'Error Message:', value: `\`${e.message.slice(0, 1024)}\`` });
 
         if (e.cause)
-          bugEmbed.addFields({ name: 'Cause:', value: '```ansi\n\x1b[36m' + (e.cause || 'undefined') + '\x1b[0m```' });
+          bugEmbed.addFields({
+            name: 'Cause:',
+            value: '```ansi\n\x1b[36m' + (e.cause || 'undefined').slice(0, 1024) + '\x1b[0m```',
+          });
 
         await channel.send({ embeds: [bugEmbed] }).then(async () => {
-          const embed = embedMessage({ title: errorMessage(), desc: `\`\`\`ansi\n\x1b[33m${e}\x1b[0m\`\`\`` });
+          const embed = embedMessage({
+            title: errorMessage(),
+            desc: `\`\`\`ansi\n\x1b[33m${String(e).slice(0, 1024)}\x1b[0m\`\`\``,
+          });
 
           if (object) {
             if (object?.author)
