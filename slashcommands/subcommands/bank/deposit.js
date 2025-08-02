@@ -29,7 +29,7 @@ module.exports = {
       return await interaction.editReply(
         embedMessage({
           title: 'Số 💲 gửi không được lớn hơn số tiền hiện có!',
-          desc: '➡ Sử dụng /balance để kiểm tra số 💲 hiện có',
+          desc: '➡ Sử dụng /balance để kiểm tra số \\💲 hiện có',
         })
       );
 

@@ -19,7 +19,7 @@ module.exports = {
     const userId = user.id;
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);
-    if (profile)
+    if (!profile)
       return await interaction.editReply(
         embedMessage({ title: 'Bạn chưa có tài khoản Economy!', desc: '➡ Sử dụng `/daily` để khởi nghiệp 😁' })
       );

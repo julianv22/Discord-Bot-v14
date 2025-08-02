@@ -18,26 +18,25 @@ module.exports = (client) => {
   client.embedMessage = (options) => {
     const { title, color, flags = true } = options;
     let { desc, emoji = false } = options;
+    const author = title?.replace(regex, '') || desc;
 
     const embed = new EmbedBuilder().setColor(color || (emoji ? Colors.Green : Colors.Red));
 
     switch (typeof emoji) {
       case 'boolean':
-        embed.setAuthor({ name: title.replace(regex, '') || desc, iconURL: emoji ? cfg.verified_gif : cfg.x_mark_gif });
-        if (title) embed.setDescription(desc);
-
+        embed
+          .setAuthor({ name: author, iconURL: emoji ? cfg.verified_gif : cfg.x_mark_gif })
+          .setDescription(title ? desc : null);
         break;
+
       case 'string':
-        if (emoji.checkURL()) {
-          embed.setAuthor({ name: title.replace(regex, '') || desc, iconURL: emoji });
-          if (title) embed.setDescription(desc);
-        } else {
+        if (emoji.checkURL()) embed.setAuthor({ name: author, iconURL: emoji }).setDescription(title ? desc : null);
+        else {
           emoji = `\\${emoji} `;
-          embed.setDescription((title ? '' : emoji) + desc);
-          if (title) embed.setTitle(emoji + title);
+          embed.setTitle(title ? emoji + author : null).setDescription((title ? '' : emoji) + desc);
         }
-
         break;
+
       default:
         break;
     }

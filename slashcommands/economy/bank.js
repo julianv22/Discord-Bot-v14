@@ -14,8 +14,8 @@ module.exports = {
           opt
             .setName('amount')
             .setDescription('The amount of 💲 to deposit.')
-            .setMinValue(1000)
-            .setMaxValue(1000000)
+            .setMinValue(1_000)
+            .setMaxValue(99_999_999)
             .setRequired(true)
         )
     )

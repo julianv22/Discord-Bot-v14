@@ -21,8 +21,8 @@ module.exports = {
         title: 'Bot latency:',
         desc: `**Ping:** ${ping} / *${delay}ms*`,
         color: color,
-        emoji: 'https://fonts.gstatic.com/s/e/notoemoji/latest/23f0/512.gif',
+        emoji: 'https://fonts.gstatic.com/s/e/notoemoji/latest/23f0/512.gif', //'⏱️'
       })
-    ); //'⏱️'
+    );
   },
 };

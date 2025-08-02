@@ -27,7 +27,7 @@ module.exports = {
 
     if (!profile) {
       return await interaction.reply(
-        embedMessage({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo hồ sơ kinh tế của bạn. Vui lòng thử lại sau.' })
+        embedMessage({ desc: 'Đã xảy ra lỗi khi truy cập hoặc tạo Economy profile của bạn. Vui lòng thử lại sau.' })
       );
     }
 
