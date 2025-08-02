@@ -1,6 +1,7 @@
 const { Client, Interaction, EmbedBuilder } = require('discord.js');
 const { replaceVar } = require('../../functions/common/utilities');
 const { linkButton } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'modals',
@@ -10,7 +11,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, user, channel, message, fields, customId } = interaction;
-    const { embedMessage } = client;
     const [, textInputId] = customId.split(':');
     const inputValue = fields.getTextInputValue(textInputId);
 

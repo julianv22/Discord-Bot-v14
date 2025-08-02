@@ -1,4 +1,5 @@
 const { Client, Message, PermissionFlagsBits } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'emitRemove',
@@ -13,7 +14,6 @@ module.exports = {
    * @param {Client} client - Đối tượng client */
   async execute(message, args, client) {
     const { mentions } = message;
-    const { embedMessage } = client;
 
     const memberToEmit = mentions.members.first();
 

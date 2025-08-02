@@ -1,5 +1,6 @@
 const { Client, Message } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
+const { logError } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'messageDelete',
@@ -8,7 +9,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(message, client) {
     const { guildId, channelId, id: messageId, author, content } = message;
-    const { messageSnipes, logError } = client;
+    const { messageSnipes } = client;
 
     await reactionRole.findOneAndDelete({ guildId, channelId, messageId }).catch(console.error);
 

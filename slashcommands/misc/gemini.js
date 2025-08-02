@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 // Khởi tạo chatHistories nếu chưa có
 const chatHistories = new Map();
@@ -17,7 +18,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { user } = interaction;
-    const { embedMessage } = client;
 
     const prompt = interaction.options.getString('prompt');
 

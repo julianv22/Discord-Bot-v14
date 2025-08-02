@@ -1,4 +1,5 @@
 const { Client, Message, EmbedBuilder } = require('discord.js');
+const { commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'wow',
@@ -12,7 +13,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
     const { author } = message;
-    if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
+    if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
     if (message.deletable) {
       await message.delete();

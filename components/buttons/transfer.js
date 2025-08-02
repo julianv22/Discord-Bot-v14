@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -11,7 +12,6 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guild, guildId, user, customId } = interaction;
-    const { embedMessage } = client;
     // Tách customId lấy amount, fee, targetId
     const [, amountStr, feeStr, targetId] = customId.split(':');
 

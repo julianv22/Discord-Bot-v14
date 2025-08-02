@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -13,7 +14,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, guildId } = interaction;
-    const { embedMessage, user: bot } = client;
+    const { user: bot } = client;
     const userId = user.id;
     const amount = interaction.options.getInteger('amount');
 

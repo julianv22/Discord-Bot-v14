@@ -1,5 +1,6 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'modals',
@@ -11,7 +12,6 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guildId, message, fields, customId } = interaction;
-    const { embedMessage } = client;
     const { embeds } = message;
     const [, action] = customId.split(':');
     const channelId = fields.getTextInputValue(action);

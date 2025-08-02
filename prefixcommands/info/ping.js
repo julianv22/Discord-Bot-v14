@@ -1,4 +1,5 @@
 const { Client, Message, Colors } = require('discord.js');
+const { embedMessage, commandUsage } = require('../../functions/common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = {
@@ -12,10 +13,9 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, embedMessage, ws } = client;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
-    const ping = ws.ping;
+    const ping = client.ws.ping;
     const delay = Math.abs(Date.now() - message.createdTimestamp);
     const color = ping < 101 ? Colors.DarkGreen : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 

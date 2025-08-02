@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'misc',
@@ -13,7 +14,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
-    const { embedMessage } = client;
     const content = options.getString('content');
     const target = options.getUser('user');
 

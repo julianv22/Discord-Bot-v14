@@ -35,14 +35,15 @@ mongoose
   .then(async () => {
     console.log(chalk.green.bold('✅ Connected to mongodb'));
 
-    require('./functions/misc/catchError')(client); // Đăng ký function catchError vào client
-    require('./functions/common/utilities').init(client); // Đăng ký và truyền client vào ultilities
-    require('./functions/loadFunctions')(client); // Đăng ký function loadFunctions vào client
+    require('./functions/common/utilities'); // Đăng ký function ultilities
+    require('./functions/utilities/loadFunctions')(client); // Đăng ký function loadFunctions vào client
 
-    await client.loadFunctions();
-    await client.loadEvents();
-    await client.loadComponents();
-    await client.loadCommands();
+    await Promise.all([
+      await client.loadFunctions(),
+      await client.loadEvents(),
+      await client.loadComponents(),
+      await client.loadCommands(),
+    ]);
 
     client.login(process.env.token).catch(console.error);
   })

@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'fun',
@@ -10,7 +11,6 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply();
 
-    const { embedMessage } = client;
     const response = await fetch('https://meme-api.com/gimme');
     const data = await response.json();
 

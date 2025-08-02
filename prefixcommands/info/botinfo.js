@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'botinfo',
@@ -11,7 +12,7 @@ module.exports = {
    * @param {string[]} args Array of arguments
    * @param {Client} client Client */
   async execute(message, args, client) {
-    const { commandUsage, botInfo } = client;
+    const { botInfo } = client;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
     await botInfo(message);

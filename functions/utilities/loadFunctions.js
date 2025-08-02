@@ -1,13 +1,12 @@
 const { Client } = require('discord.js');
 const path = require('path');
-const { readFiles } = require('./common/initLoader');
+const { readFiles } = require('../common/initLoader');
+const { logError } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Loads all functions from the 'functions' folder. */
   client.loadFunctions = async () => {
-    const { logError } = client;
-
     try {
       const folderName = 'functions';
       const ignoreFolders = ['common'];
@@ -20,7 +19,7 @@ module.exports = (client) => {
       let totalCount = 0;
       for (const folder of functionFolders) {
         const folderPath = path.join(folderName, folder);
-        const functionFiles = readFiles(folderPath);
+        const functionFiles = readFiles(folderPath, { filter: (file) => file !== 'loadFunctions.js' });
 
         funcArray.push(`📂 ${folder.toCapitalize()} [${functionFiles.length}]`);
         totalCount += functionFiles.length;

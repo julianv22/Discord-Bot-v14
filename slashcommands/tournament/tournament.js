@@ -13,6 +13,7 @@ const {
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { sectionComponents, menuComponents, textDisplay, rowComponents } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'tournament',
@@ -29,7 +30,6 @@ module.exports = {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const { guild, guildId } = interaction;
-    const { embedMessage } = client;
     const { name: guildName } = guild;
 
     const profile = await serverProfile

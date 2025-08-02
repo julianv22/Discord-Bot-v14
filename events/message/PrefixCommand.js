@@ -1,4 +1,5 @@
 const { Client, Message, ChannelType } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'messageCreate',
@@ -6,7 +7,7 @@ module.exports = {
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
   async execute(message, client) {
-    const { prefixCommands, embedMessage, catchError } = client;
+    const { prefixCommands, catchError } = client;
     const { member, channel, author, content } = message;
 
     if (channel.type === ChannelType.DM) return;

@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder, ActionRowBuilder, TextInputStyle, Colors } = require('discord.js');
 const { createModal, linkButton } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -9,7 +10,6 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { message, channel, customId } = interaction;
-    const { embedMessage } = client;
     const [, buttonId] = customId.split(':');
     const modalId = 'manage-message:' + buttonId;
     const placeholder = `Enter the Notification ${buttonId}`;

@@ -1,4 +1,5 @@
 const { Client, Message, EmbedBuilder, ChannelType, Colors } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'messageCreate',
@@ -21,7 +22,7 @@ module.exports = {
       });
 
     if (!content.startsWith(prefix)) {
-      const hint = client.embedMessage({
+      const hint = embedMessage({
         desc: `Hint: sử dụng \`${prefix}thanks\` | \`${prefix}ty\` | \`/thanks\` để cảm ơn người khác!`,
         color: 16757248,
         emoji: '💡',

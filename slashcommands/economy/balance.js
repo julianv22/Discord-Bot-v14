@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'economy',
@@ -14,7 +15,6 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, guild, guildId } = interaction;
-    const { embedMessage } = client;
     const { name: guildName } = guild;
     const userId = user.id;
 

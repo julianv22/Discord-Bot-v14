@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { logError } = require('./logging');
 
 module.exports = {
   /** - Compares two command objects to check if they are structurally identical.
@@ -110,43 +111,49 @@ module.exports = {
     const deletedCommands = [];
     const changedCommands = [];
 
-    // Check for NEW and CHANGED commands
-    for (const [name, localCommand] of localCommandsMap) {
-      const remoteCommand = remoteCommandsMap.get(name);
+    try {
+      // Check for NEW and CHANGED commands
+      for (const [name, localCommand] of localCommandsMap) {
+        const remoteCommand = remoteCommandsMap.get(name);
 
-      if (!remoteCommand) newCommands.push(name);
-      else {
-        if (module.exports.commandsAreDifferent(localCommand, remoteCommand)) changedCommands.push(name);
+        if (!remoteCommand) newCommands.push(name);
+        else {
+          if (module.exports.commandsAreDifferent(localCommand, remoteCommand)) changedCommands.push(name);
+        }
       }
-    }
 
-    // Check for DELETED commands
-    for (const name of remoteCommandsMap.keys()) {
-      if (!localCommandsMap.has(name)) deletedCommands.push(name);
-    }
+      // Check for DELETED commands
+      for (const name of remoteCommandsMap.keys()) {
+        if (!localCommandsMap.has(name)) deletedCommands.push(name);
+      }
 
-    // Log results
-    if (newCommands.length > 0) {
-      console.log(
-        chalk.yellow(`[NEW] Added ${newCommands.length} command${newCommands.length > 1 ? 's' : ''}: `) +
-          chalk.green(newCommands.join(', '))
-      );
-    }
-    if (deletedCommands.length > 0) {
-      console.log(
-        chalk.yellow(`[DELETED] Removed ${deletedCommands.length} command${deletedCommands.length > 1 ? 's' : ''}: `) +
-          chalk.green(deletedCommands.join(', '))
-      );
-    }
-    if (changedCommands.length > 0) {
-      console.log(
-        chalk.yellow(`[MODIFIED] Updated ${changedCommands.length} command${changedCommands.length > 1 ? 's' : ''}: `) +
-          chalk.green(changedCommands.join(', '))
-      );
-    }
+      // Log results
+      if (newCommands.length > 0) {
+        console.log(
+          chalk.yellow(`[NEW] Added ${newCommands.length} command${newCommands.length > 1 ? 's' : ''}: `) +
+            chalk.green(newCommands.join(', '))
+        );
+      }
+      if (deletedCommands.length > 0) {
+        console.log(
+          chalk.yellow(
+            `[DELETED] Removed ${deletedCommands.length} command${deletedCommands.length > 1 ? 's' : ''}: `
+          ) + chalk.green(deletedCommands.join(', '))
+        );
+      }
+      if (changedCommands.length > 0) {
+        console.log(
+          chalk.yellow(
+            `[MODIFIED] Updated ${changedCommands.length} command${changedCommands.length > 1 ? 's' : ''}: `
+          ) + chalk.green(changedCommands.join(', '))
+        );
+      }
 
-    // if (!newCommands.length && !deletedCommands.length && !changedCommands.length) {
-    //   console.log('No changes detected between local and remote commands.');
-    // }
+      // if (!newCommands.length && !deletedCommands.length && !changedCommands.length) {
+      //   console.log('No changes detected between local and remote commands.');
+      // }
+    } catch (e) {
+      logError({ item: 'compareCommands', desc: 'function' }, e);
+    }
   },
 };

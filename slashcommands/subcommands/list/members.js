@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -11,7 +12,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
-    const { embedMessage } = client;
     const role = options.getRole('role');
     const title = options.getString('title') || `Danh sách thành viên ${role}`;
     const isMention = options.getBoolean('mention');

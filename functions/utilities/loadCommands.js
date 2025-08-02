@@ -3,12 +3,13 @@ const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { logAsciiTable } = require('../common/utilities');
 const { compareCommands } = require('../common/compareCommands');
+const { logError } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Loads all commands (slash commands, sub commands, prefix commands) from the 'slashcommands' and the 'prefixcommands' folder. */
   client.loadCommands = async () => {
-    const { prefixCommands, slashCommands, subCommands, compColection, logError } = client;
+    const { prefixCommands, slashCommands, subCommands, compColection } = client;
 
     prefixCommands.clear();
     slashCommands.clear();

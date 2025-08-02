@@ -1,4 +1,5 @@
 const { Client, Interaction, ChannelType } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'interactionCreate',
@@ -6,7 +7,7 @@ module.exports = {
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
-    const { slashCommands, subCommands, embedMessage, catchError } = client;
+    const { slashCommands, subCommands, catchError } = client;
     const { guild, user, channel, options, commandName } = interaction;
     const owner = await guild.fetchOwner();
 

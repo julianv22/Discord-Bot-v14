@@ -1,6 +1,7 @@
 const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder } = require('discord.js');
 const { readFileSync } = require('fs');
 const path = require('path');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -14,7 +15,7 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 
-    const { embedMessage, catchError } = client;
+    const { catchError } = client;
 
     // Lấy đường dẫn file từ tùy chọn của lệnh
     const relativeFilePath = interaction.options.getString('filepath');

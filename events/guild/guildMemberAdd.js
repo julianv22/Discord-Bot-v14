@@ -1,5 +1,6 @@
 const { Client, GuildMember, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { logError } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'guildMemberAdd',
@@ -57,7 +58,7 @@ module.exports = {
       client.serverStats(guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
     } catch (e) {
-      client.logError({ item: this.name, desc: 'event' }, e);
+      logError({ item: this.name, desc: 'event' }, e);
     }
   },
 };

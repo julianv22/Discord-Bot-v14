@@ -2,12 +2,13 @@ const { Client } = require('discord.js');
 const path = require('path');
 const { readFiles } = require('../common/initLoader');
 const { logAsciiTable } = require('../common/utilities');
+const { logError } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Loads all events from the 'events' folder. */
   client.loadEvents = async () => {
-    const { compColection, logError } = client;
+    const { compColection } = client;
 
     try {
       const folderName = 'events';

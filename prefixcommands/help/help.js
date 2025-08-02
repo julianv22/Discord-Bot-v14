@@ -1,5 +1,6 @@
 const { Client, Message, EmbedBuilder, Colors } = require('discord.js');
 const { infoButtons } = require('../../functions/common/components');
+const { commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'help',
@@ -12,7 +13,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, prefixCommands } = client;
+    const { prefixCommands } = client;
     const { author: user, guild } = message;
 
     if (args.join(' ').trim() === '?')

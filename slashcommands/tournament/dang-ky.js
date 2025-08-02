@@ -1,6 +1,7 @@
 const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'tournament',
@@ -14,7 +15,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, options } = interaction;
-    const { embedMessage } = client;
     const { name: guildName, members, roles } = guild;
     const { id: userId, displayName, username } = user;
     const userName = displayName || username;

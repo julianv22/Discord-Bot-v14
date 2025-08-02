@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { embedMessage, commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'say',
@@ -15,10 +16,10 @@ module.exports = {
 
     if (!content)
       return await message
-        .reply(client.embedMessage({ desc: 'Vui lòng nhập nội dung để bot nói!' }))
+        .reply(embedMessage({ desc: 'Vui lòng nhập nội dung để bot nói!' }))
         .then((m) => setTimeout(async () => await m.delete().catch(console.error), 10 * 1000));
 
-    if (content.trim() === '?') return await client.commandUsage(message, this);
+    if (content.trim() === '?') return await commandUsage(message, this);
 
     if (message.deletable) {
       message.delete().catch(console.error);

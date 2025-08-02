@@ -1,6 +1,7 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const jobs = require('../../config/economy/economyJobs.json');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'economy',
@@ -11,7 +12,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user } = interaction;
-    const { embedMessage } = client;
     const userId = user.id;
 
     const profile = await economyProfile.findOne({ guildId, userId }).catch(console.error);

@@ -10,6 +10,7 @@ const {
 } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rowComponents } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'economy',
@@ -30,7 +31,6 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { guild, guildId, user, options } = interaction;
-    const { embedMessage } = client;
     const [target, amount] = [options.getUser('target'), options.getInteger('amount')];
 
     if (target.bot) return await interaction.editReply(embedMessage({ desc: 'Bạn không thể chuyển 💲 cho bot!' }));

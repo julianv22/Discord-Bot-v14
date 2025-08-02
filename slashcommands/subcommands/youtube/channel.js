@@ -10,6 +10,7 @@ const {
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 const { rowComponents } = require('../../../functions/common/components');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -24,7 +25,6 @@ module.exports = {
 
     const { guild, guildId } = interaction;
     const { name: guildName } = guild;
-    const { embedMessage } = client;
 
     /** - Gets the title of a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel.

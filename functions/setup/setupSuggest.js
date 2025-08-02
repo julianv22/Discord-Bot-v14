@@ -1,13 +1,13 @@
 const { Client, Interaction, ContainerBuilder, SeparatorBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu, textDisplay, menuComponents } = require('../common/components');
+const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
   /** - Sets up the suggestion channel.
    * @param {Interaction} interaction - The command interaction. */
   client.setupSuggest = async (interaction) => {
-    const { embedMessage } = client;
     const { id: guildId, name: guildName } = interaction.guild;
 
     const profile = await serverProfile

@@ -21,6 +21,7 @@ const {
   ChannelType,
   Colors,
 } = require('discord.js');
+const { logError } = require('./logging');
 
 module.exports = {
   /** - Creates an action row with predefined informational buttons.
@@ -82,6 +83,40 @@ module.exports = {
         new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, menus))
       );
   },
+  /** - Creates embed buttons.
+   * @param {string} [messageId] - Message ID if editing an embed.
+   * @returns {ActionRowBuilder<ButtonBuilder[]>} */
+  manageEmbedButtons: (messageId) => {
+    const buttons = [
+      [
+        { customId: `manage-message:title:${messageId}`, label: '💬 Title', style: ButtonStyle.Primary },
+        { customId: `manage-message:description:${messageId}`, label: '💬 Description', style: ButtonStyle.Primary },
+        { customId: `manage-message:color:${messageId}`, label: '🎨 Color', style: ButtonStyle.Primary },
+        { customId: `manage-message:author:${messageId}`, label: '✍ Author', style: ButtonStyle.Secondary },
+        { customId: `manage-message:footer:${messageId}`, label: '📝 Footer', style: ButtonStyle.Secondary },
+      ],
+      [
+        { customId: `manage-message:timestamp:${messageId}`, label: '⛔ Timestamp', style: ButtonStyle.Danger },
+        { customId: `manage-message:thumbnail:${messageId}`, label: '🖼️ Thumbnail', style: ButtonStyle.Secondary },
+        { customId: `manage-message:image:${messageId}`, label: '🖼️ Image', style: ButtonStyle.Secondary },
+      ],
+      [
+        { customId: `manage-message:addfield:${messageId}`, label: '➕ Add Field', style: ButtonStyle.Success },
+        {
+          customId: `manage-message:removefields:${messageId}`,
+          label: '➖ Remove all fields',
+          style: ButtonStyle.Danger,
+        },
+        { customId: `manage-message:send:${messageId}`, label: '✅ Send Embed', style: ButtonStyle.Success },
+      ],
+    ];
+
+    /** @param {number} index - Index of buttons */
+    const row = (index) =>
+      new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons[index - 1]));
+
+    return [row(1), row(2), row(3)];
+  },
   /**
    * @typedef {object} ComponentOptions - Configuration for various Discord components.
    * @property {string} [customId] - The custom ID for the component.
@@ -132,12 +167,16 @@ module.exports = {
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the TextInputBuilder components for the modal.
    * @returns {Promise<ModalSubmitInteraction>} A promise that resolves when the modal is shown. */
   createModal: async (interaction, customId, title, options) => {
-    const textInputs = module.exports.rowComponents(ComponentType.TextInput, options);
-    const actionRows = textInputs.map((textInput) => new ActionRowBuilder().setComponents(textInput));
-    const modal = new ModalBuilder().setCustomId(customId).setTitle(title);
+    try {
+      const textInputs = module.exports.rowComponents(ComponentType.TextInput, options);
+      const actionRows = textInputs.map((textInput) => new ActionRowBuilder().setComponents(textInput));
+      const modal = new ModalBuilder().setCustomId(customId).setTitle(title);
 
-    for (const row of actionRows) modal.addComponents(row);
-    await interaction.showModal(modal);
+      for (const row of actionRows) modal.addComponents(row);
+      await interaction.showModal(modal);
+    } catch (e) {
+      logError({ item: 'createModal', desc: 'function' }, e);
+    }
   },
   /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
    * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).

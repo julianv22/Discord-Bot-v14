@@ -9,6 +9,7 @@ const {
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'administrator',
@@ -29,7 +30,6 @@ module.exports = {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const { guild, guildId, user, options } = interaction;
-    const { embedMessage } = client;
     const guildName = guild.name;
     const subCommand = options.getSubcommand();
 

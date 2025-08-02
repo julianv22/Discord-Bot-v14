@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'avatar',
@@ -11,7 +12,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { getAvatar, commandUsage } = client;
+    const { getAvatar } = client;
     const { guild, author, mentions } = message;
 
     if (args.join(' ').trim() === '?')

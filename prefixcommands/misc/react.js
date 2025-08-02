@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'react',
@@ -11,7 +12,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    if (args.join(' ').trim() === '?') return await client.commandUsage(message, this);
+    if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 
     try {
       const reactArray = [

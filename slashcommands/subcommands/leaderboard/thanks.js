@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const thanksProfile = require('../../../config/thanksProfile');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -11,7 +12,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guildId, user, options } = interaction;
-    const { embedMessage } = client;
     const description = options.getString('time');
 
     const topUsers = await thanksProfile.find({ guildId }).sort({ thanksCount: -1 }).limit(10).catch(console.error);

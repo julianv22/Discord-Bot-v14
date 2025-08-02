@@ -1,6 +1,7 @@
 const { Message, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { linkButton } = require('./components');
+const { logError } = require('./logging');
 
 module.exports = {
   /** - Update message or send a message to Starboard Channel when user reacting ⭐ emoji
@@ -69,7 +70,7 @@ module.exports = {
         } else await sendNewMessage(); // Nếu chưa tồn tại thì gửi message mới
       }
     } catch (e) {
-      return console.error(chalk.red('Error while executing Starboard reactionAdd event\n'), e);
+      return logError({ item: 'Starboard reactionAdd', desc: 'event' }, e);
     }
   },
   /** - Update or delete message from Starboard Channel when user removing ⭐ emoji reaction
@@ -107,7 +108,7 @@ module.exports = {
         }
       }
     } catch (e) {
-      return console.error(chalk.red(`Error while executing Starboard reactionRemove event\n`), e);
+      return logError({ item: 'Starboard reactionRemove', desc: 'event' }, e);
     }
   },
 };

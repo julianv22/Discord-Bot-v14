@@ -7,6 +7,7 @@ const {
   PermissionFlagsBits,
   Colors,
 } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'context menu',
@@ -21,7 +22,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { targetMessage, guild } = interaction;
-    const { embedMessage } = client;
     const suggestEmbed = EmbedBuilder.from(targetMessage.embeds[0]);
     const footer = suggestEmbed.data.footer.text;
 

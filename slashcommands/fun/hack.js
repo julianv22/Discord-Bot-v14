@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'fun',
@@ -14,7 +15,6 @@ module.exports = {
     await interaction.deferReply();
 
     const { guild, user, options } = interaction;
-    const { embedMessage } = client;
     const target = options.getUser('target');
 
     // Validate context

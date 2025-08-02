@@ -1,6 +1,7 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { createModal } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -10,7 +11,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guildId, message, customId } = interaction;
-    const { checkVideos, embedMessage } = client;
+    const { checkVideos } = client;
     const { components } = message;
     const [, buttonId, type] = customId.split(':');
 

@@ -1,10 +1,11 @@
 const { Client, ActivityType } = require('discord.js');
+const { logError } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Sets the presence and activity of the bot. */
   client.setPresence = async () => {
-    const { guilds, user, logError } = client;
+    const { guilds, user } = client;
 
     /** - Fetches the latest video ID from a YouTube channel.
      * @param {string} channelId - The ID of the YouTube channel. */

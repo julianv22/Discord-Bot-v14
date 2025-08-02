@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const { linkButton } = require('../../../functions/common/components');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   ownerOnly: true,
@@ -15,7 +16,6 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { guild, guildId, options } = interaction;
-    const { embedMessage } = client;
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 

@@ -8,6 +8,7 @@ const {
   ButtonStyle,
   Colors,
 } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'misc',
@@ -25,7 +26,6 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, guild, options } = interaction;
-    const { embedMessage } = client;
     const inputUrl = options.getString('url');
 
     // Hàm helper để gửi embed (sử dụng editReply vì đã defer)

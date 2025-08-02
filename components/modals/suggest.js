@@ -1,6 +1,7 @@
 const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { linkButton } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'modals',
@@ -10,7 +11,6 @@ module.exports = {
    * @param {Client} client - The Discord client */
   async execute(interaction, client) {
     const { guild, guildId, user, fields } = interaction;
-    const { embedMessage } = client;
     const description = fields.getTextInputValue('content');
 
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

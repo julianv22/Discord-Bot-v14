@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { embedMessage, commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'wikipedia',
@@ -11,7 +12,7 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { commandUsage, embedMessage, wikipedia } = client;
+    const { wikipedia } = client;
 
     if (args.join(' ').trim() === '?')
       return await commandUsage(

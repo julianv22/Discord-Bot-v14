@@ -1,6 +1,7 @@
 const { Client, Interaction, ActionRowBuilder, EmbedBuilder, ButtonStyle, Colors } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 const { createModal, linkButton } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 const reactionMap = new Map();
 
 module.exports = {
@@ -11,7 +12,6 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { guild, guildId, channel, message, user, customId } = interaction;
-    const { embedMessage } = client;
     const [, buttonId] = customId.split(':');
     const buttons = ActionRowBuilder.from(message.components[0]);
     const reactionEmbed = EmbedBuilder.from(message.embeds[0]);

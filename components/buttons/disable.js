@@ -9,6 +9,7 @@ const {
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { rowComponents, dashboardMenu, textDisplay } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -20,7 +21,6 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guildId, customId } = interaction;
-    const { embedMessage } = client;
     const [, feature, disable] = customId.split(':');
 
     /** @param {boolean} [disabled = false] Disabled buttons, `true` = disabled */

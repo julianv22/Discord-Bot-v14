@@ -11,6 +11,7 @@ const {
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
 const { menuComponents, sectionComponents, textDisplay } = require('../../../functions/common/components');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -24,7 +25,6 @@ module.exports = {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const { guild, guildId } = interaction;
-    const { embedMessage } = client;
     const { name: guildName } = guild;
 
     const profile = await serverProfile

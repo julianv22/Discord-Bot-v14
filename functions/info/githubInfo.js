@@ -1,5 +1,6 @@
 const { Client, Interaction, Message, EmbedBuilder } = require('discord.js');
 const moment = require('moment-timezone');
+const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client Client */
 module.exports = (client) => {
@@ -7,7 +8,7 @@ module.exports = (client) => {
    * @param {string} gitUserName - The GitHub username.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.githubInfo = async (gitUserName, object) => {
-    const { embedMessage, catchError } = client;
+    const { catchError } = client;
     const author = object?.user || object?.author;
 
     try {

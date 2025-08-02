@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandSubcommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../../config/economyProfile');
+const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
   category: 'sub command',
@@ -11,7 +12,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user } = interaction;
-    const { embedMessage } = client;
 
     // Lấy top 10 user theo balance
     const topUsers = await economyProfile.find({ guildId }).sort({ balance: -1 }).limit(10).lean();

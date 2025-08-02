@@ -6,8 +6,8 @@ const {
   TextInputStyle,
   PermissionFlagsBits,
 } = require('discord.js');
-const { manageEmbedButtons } = require('../../functions/common/manage-message');
-const { createModal } = require('../../functions/common/components');
+const { createModal, manageEmbedButtons } = require('../../functions/common/components');
+const { logError, embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'moderator',
@@ -36,7 +36,7 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { channel, options } = interaction;
-    const { embedMessage, logError, user: bot } = client;
+    const { user: bot } = client;
     const subCommand = options.getSubcommand();
     const messageId = options.getString('message_id');
 

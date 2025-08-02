@@ -1,6 +1,7 @@
 const { Client, Interaction, Message, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const serverThanks = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
+const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -8,7 +9,7 @@ module.exports = (client) => {
    * @param {GuildMember} target - The target user.
    * @param {Interaction|Message} object - The interaction or message object. */
   client.userInfo = async (target, object) => {
-    const { embedMessage, catchError } = client;
+    const { catchError } = client;
     const [guild, author] = [object.guild, object?.user || object?.author];
     const [guildId, userId] = [guild.id, target.id];
 

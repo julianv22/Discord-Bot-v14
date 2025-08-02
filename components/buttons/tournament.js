@@ -11,6 +11,7 @@ const serverProfile = require('../../config/serverProfile');
 const tournamentProfile = require('../../config/tournamentProfile');
 const XLSX = require('xlsx');
 const { textDisplay } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -22,7 +23,6 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guild, guildId, message, customId } = interaction;
-    const { embedMessage } = client;
     const { components } = message;
     const [, buttonId] = customId.split(':');
     const tourName = components[0].components[0].components[1].data;

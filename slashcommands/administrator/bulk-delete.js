@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'administrator',
@@ -24,7 +25,7 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { channel, options } = interaction;
-    const { embedMessage, catchError } = client;
+    const { catchError } = client;
     const amount = options.getInteger('amount');
     const user = options.getUser('user');
 

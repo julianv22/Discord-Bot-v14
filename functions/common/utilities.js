@@ -1,24 +1,8 @@
-const { Client, Collection, SlashCommandSubcommandBuilder, Locale, Colors } = require('discord.js');
+const { Collection, SlashCommandSubcommandBuilder, Locale, Colors } = require('discord.js');
 const asciiTable = require('ascii-table');
-const path = require('path');
-
-let _client;
+const { logError } = require('./logging');
 
 module.exports = {
-  /** - Initializes the utility functions with the Discord client.
-   * @param {Client} client - The Discord client instance. */
-  init: (client) => (_client = client),
-  /** - Logs an error message using the initialized Discord client's error logging function.
-   * - If the client is not initialized, it logs to the console.
-   * @param {...any} args - Arguments to pass to the client's logError function. */
-  logError: (...args) => {
-    if (!_client)
-      return console.error(
-        chalk.red('Client not initialized for'),
-        chalk.green(path.join('functions', 'common', 'utilities.js'))
-      );
-    _client.logError(...args);
-  },
   /** - Retrieves the latest video ID and title from a given YouTube channel.
    * @param {string} channelId - The YouTube channel ID.
    * @returns {Promise<{videoId: string|null, channelTitle: string|null, videoTitle: string|null}>} An object containing the latest video ID, channel title, and video title, or null if not found or an error occurs. */
@@ -65,7 +49,7 @@ module.exports = {
     const { title, heading } = seting;
 
     if (!Array.isArray(data))
-      return _client.logError({
+      return logError({
         isWarn: true,
         todo: `Type of 'data' is not an array:`,
         item: typeof data,
@@ -73,7 +57,7 @@ module.exports = {
 
     for (const dat of data) {
       if (!dat || !Array.isArray(dat))
-        return _client.logError({ isWarn: true, todo: `Empty 'data' or type of an item is:`, item: typeof dat });
+        return logError({ isWarn: true, todo: `Empty 'data' or type of an item is:`, item: typeof dat });
     }
 
     const table = new asciiTable().setBorder('│', '─', '✧', '✧');
@@ -110,7 +94,7 @@ module.exports = {
         maximumFractionDigits: 2, // Adjust maximum decimal places
       });
     } catch (e) {
-      _client.logError({ todo: 'Error formatting currency for locale', item: userLocale, desc: 'and currency' }, e);
+      logError({ todo: 'Error formatting currency for locale', item: userLocale, desc: 'and currency' }, e);
       return balance.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
   },
@@ -147,7 +131,7 @@ String.prototype.checkURL = function () {
     );
     return res !== null;
   } catch (e) {
-    _client.logError({ item: 'checkURL', desc: 'function' }, e);
+    logError({ item: 'checkURL', desc: 'function' }, e);
     return false;
   }
 };
@@ -189,7 +173,7 @@ Collection.prototype.listCommandsAndSubs = function (categoryName) {
       };
     });
   } catch (e) {
-    _client.logError({ item: 'listCommandAndSubs', desc: 'function' }, e);
+    logError({ item: 'listCommandAndSubs', desc: 'function' }, e);
     return [];
   }
 };
@@ -215,7 +199,7 @@ Collection.prototype.listCommands = function (property = 'category') {
 
     return commandFields;
   } catch (e) {
-    _client.logError({ item: 'listCommands', desc: 'function' }, e);
+    logError({ item: 'listCommands', desc: 'function' }, e);
     return [];
   }
 };

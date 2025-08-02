@@ -1,5 +1,6 @@
 const { Client, Interaction, SlashCommandBuilder, EmbedBuilder, Colors } = require('discord.js');
 const { linkButton } = require('../../functions/common/components');
+const { logError, embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'info',
@@ -25,7 +26,6 @@ module.exports = {
     await interaction.deferReply({ flags: 64 });
 
     const { user, channel, options } = interaction;
-    const { embedMessage, logError } = client;
     const { messages } = channel;
     const messageId = options.getString('message_id');
 

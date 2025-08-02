@@ -1,4 +1,5 @@
 const { Client, Interaction, Message, EmbedBuilder, ChannelType, Colors } = require('discord.js');
+const { logError, embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -8,7 +9,7 @@ module.exports = (client) => {
    * @param {Error} e - The error object.
    * @param {string|Interaction} description - A description of the error, or the interaction object that caused the error. */
   client.catchError = async (object, e, description) => {
-    const { embedMessage, logError, guilds } = client;
+    const { guilds } = client;
     const user = object?.user || object?.author;
 
     const errorMessage = () => {
@@ -30,7 +31,7 @@ module.exports = (client) => {
 
       if (!guild) logError({ todo: 'finding error report server with ID:', item: cfg.bugGuildId });
       else if (!channel || channel.type !== ChannelType.GuildText)
-        logError({ todo: 'finding error report channel with ID:', item: cfg.bugChannelId });
+        logging({ todo: 'finding error report channel with ID:', item: cfg.bugChannelId });
       else {
         const bugEmbed = new EmbedBuilder()
           .setColor(Colors.DarkVividPink)
@@ -75,32 +76,7 @@ module.exports = (client) => {
         });
       }
     } catch (e) {
-      return console.error(chalk.red('An error occurred while sending the report to the error channel log\n'), e);
+      return logError({ todo: 'sending', item: 'the report', desc: 'to the error channel log' }, e);
     }
-  };
-
-  /**
-   * @typedef {object} LoggingOptions
-   * @property {boolean} [isWarn = false] - If `true`, the log will be a warning; otherwise, it will be an error.
-   * @property {string} [todo = 'executing'] - Describes the action being performed when the error occurred (e.g., 'reloading').
-   * @property {string} [item] - The specific item or component related to the error (e.g., 'application (/) commands').
-   * @property {string} [desc] - Additional descriptive context for the error. */
-
-  /** - Sends a console error or warning.
-   * @param {LoggingOptions} options - The logging options.
-   * @param {string} [options.todo='executing']
-   * @param {Error} [e=null] - The error object.
-   * @example
-   * client.logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, errorObject);
-   */
-  client.logError = (options, e = null) => {
-    const { todo = 'executing', item = '', desc = '', isWarn = false } = options;
-    const color = isWarn ? 'yellow' : 'red';
-    const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
-    let second = chalk.green(item);
-    second += (item && ' ') + chalk[color](desc);
-
-    const func = isWarn ? console.warn : console.error;
-    func(first, second, e ? '\n' + e : '');
   };
 };

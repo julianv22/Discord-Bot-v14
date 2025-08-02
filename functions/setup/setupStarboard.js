@@ -15,6 +15,7 @@ const {
   menuComponents,
   rowComponents,
 } = require('../common/components');
+const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -22,7 +23,6 @@ module.exports = (client) => {
    * @param {Interaction} interaction - The command interaction. */
   client.setupStarboard = async (interaction) => {
     const { guild, guildId } = interaction;
-    const { embedMessage } = client;
     const { name: guildName } = guild;
 
     const profile = await serverProfile

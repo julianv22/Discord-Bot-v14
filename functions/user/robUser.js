@@ -1,5 +1,6 @@
 const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
+const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -8,7 +9,7 @@ module.exports = (client) => {
    * @param {Interaction} interaction - The command interaction. */
   client.robUser = async (target, interaction) => {
     const { guild, guildId, user } = interaction;
-    const { embedMessage, catchError, user: bot } = client;
+    const { catchError, user: bot } = client;
     const now = new Date();
     const cooldownMs = 30 * 60 * 1000; // 30 phút
 

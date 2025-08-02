@@ -8,6 +8,7 @@ const {
   Colors,
 } = require('discord.js');
 const { createModal, linkButton } = require('../../functions/common/components');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -17,7 +18,7 @@ module.exports = {
    * @param {Client} client - The Discord client. */
   async execute(interaction, client) {
     const { message, channel, customId } = interaction;
-    const { embedMessage, catchError } = client;
+    const { catchError } = client;
     const [, buttonId, messageId] = customId.split(':');
     const editEmbed = EmbedBuilder.from(message.embeds[0]);
     const actionRow = (id) => ActionRowBuilder.from(message.components[id]);

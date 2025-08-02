@@ -1,12 +1,13 @@
 const { Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { logError } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   /** - Sets up server statistics channels.
    * @param {string} guildId - The ID of the guild. */
   client.serverStats = async (guildId) => {
-    const { logError, guilds } = client;
+    const { guilds } = client;
 
     try {
       // Start Server Stats

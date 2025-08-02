@@ -1,6 +1,7 @@
 const { Client } = require('discord.js');
 const os = require('os');
 const pkg = require('../../package.json');
+const { logError } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'ready',
@@ -8,7 +9,7 @@ module.exports = {
   /** - Bot ready event
    * @param {Client} client - Discord Client */
   async execute(client) {
-    const { setPresence, serverStats, checkVideos, logError, user, guilds, channels } = client;
+    const { setPresence, serverStats, checkVideos, user, guilds, channels } = client;
     const servers = guilds.cache.map((g) => g);
     /** - Print console log with chalk options
      * @param {string} message Message content
@@ -69,7 +70,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '15:45, 02/08/2025' });
+      table({ name: '📆 Last update:', value: '17:15, 02/08/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

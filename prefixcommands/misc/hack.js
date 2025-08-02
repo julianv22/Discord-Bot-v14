@@ -1,4 +1,5 @@
 const { Client, Message } = require('discord.js');
+const { embedMessage, commandUsage } = require('../../functions/common/logging');
 
 module.exports = {
   name: 'hack',
@@ -11,7 +12,6 @@ module.exports = {
    * @param {string[]} args - Array of arguments
    * @param {Client} client - Discord Client */
   async execute(message, args, client) {
-    const { embedMessage, commandUsage } = client;
     const { guild, author, mentions } = message;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this, prefix + this.name + ' @user');
 

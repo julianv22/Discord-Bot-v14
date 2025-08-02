@@ -1,6 +1,7 @@
 const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { rpsGame } = require('../../functions/common/games');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   type: 'buttons',
@@ -12,7 +13,6 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guildId, user, customId } = interaction;
-    const { embedMessage } = client;
     const [, buttonId, betInput] = customId.split(':');
     const userMove = { rock: 0, paper: 1, scissors: 2 };
     const bet = parseInt(betInput, 10);

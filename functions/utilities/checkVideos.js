@@ -1,6 +1,7 @@
 const { Client } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { linkButton } = require('../common/components');
+const { logError } = require('../common/logging');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
@@ -23,7 +24,7 @@ module.exports = (client) => {
 
         return { videoId: match ? match[1] : null, channelTitle };
       } catch (error) {
-        client.logError({ todo: 'fetching YouTube feed', item: channelId, desc: 'in getLatestVideoId' }, error);
+        logError({ todo: 'fetching YouTube feed', item: channelId, desc: 'in getLatestVideoId' }, error);
         return { videoId: null, channelTitle: null };
       }
     };
@@ -73,7 +74,7 @@ module.exports = (client) => {
         }
       }
     } catch (e) {
-      return client.logError({ item: 'checkVideos', desc: 'function' }, e);
+      return logError({ item: 'checkVideos', desc: 'function' }, e);
     }
   };
 };

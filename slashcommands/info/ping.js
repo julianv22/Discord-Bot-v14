@@ -1,4 +1,5 @@
 const { Client, Interaction, SlashCommandBuilder, Colors } = require('discord.js');
+const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   category: 'info',
@@ -9,9 +10,7 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const sent = await interaction.deferReply();
-
-    const { ws, embedMessage } = client;
-    const ping = ws.ping;
+    const ping = client.ws.ping;
     // const delay = sent.createdTimestamp - interaction.createdTimestamp;
     const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
     const color = ping < 101 ? Colors.DarkGreen : ping > 300 ? Colors.DarkVividPink : Colors.Orange;

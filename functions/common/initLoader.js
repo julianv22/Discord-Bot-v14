@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
 const path = require('path');
 const { readdirSync, statSync } = require('fs');
-const { logError } = require('./utilities');
+const { logError } = require('./logging');
 
 module.exports = {
   /** - Object containing filtering options for the reading process.
