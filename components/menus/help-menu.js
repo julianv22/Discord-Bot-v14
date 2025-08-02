@@ -15,10 +15,7 @@ module.exports = {
     const { components } = message;
     const menuOptions = components[0].components[0].options;
 
-    menuOptions.map((option) => {
-      if (option.value === selectedCommand) option.default = true;
-      else option.default = false;
-    });
+    menuOptions.map((option) => (option.default = option.value === selectedCommand));
 
     /** - Generates an embed for displaying help information based on the selected command type. */
     const ShowHelp = () => {

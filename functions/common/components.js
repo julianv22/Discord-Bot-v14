@@ -36,7 +36,7 @@ module.exports = {
     return new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons));
   },
   /** - Creates a dashboard menu for setting up various bot features.
-   * @param {string} selected - Selected menu */
+   * @param {string} selected - Selected menu value */
   dashboardMenu: (selected) => {
     const menus = [
       { customId: 'dashboard-menu', placeholder: '⚙️ Select feature for setting' },
@@ -72,18 +72,14 @@ module.exports = {
       },
     ];
 
-    const updatedMenus = menus.map((menu) => {
-      if (menu.value && menu.value === selected) return { ...menu, default: true };
-
-      return menu;
-    });
+    menus.map((menu) => (menu.default = menu.value === selected));
 
     return new ContainerBuilder()
       .setAccentColor(Colors.DarkAqua)
       .addTextDisplayComponents(module.exports.textDisplay('### \\🛠️ Setup Dashboard'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, updatedMenus))
+        new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, menus))
       );
   },
   /**

@@ -17,7 +17,6 @@ module.exports = (client) => {
    * @param {EmbedData} options - The options for creating the error embed. */
   client.embedMessage = (options) => {
     const { title, color, flags = true } = options;
-    console.log('🚀 ~ title:', title);
     let { desc, emoji = false } = options;
 
     const embed = new EmbedBuilder().setColor(color || (emoji ? Colors.Green : Colors.Red));

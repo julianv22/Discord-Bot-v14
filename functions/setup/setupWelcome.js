@@ -6,9 +6,10 @@ const {
   ComponentType,
   ButtonStyle,
   Colors,
+  TextInputStyle, // Thêm TextInputStyle
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { dashboardMenu, textDisplay, sectionComponents, menuComponents } = require('../common/components');
+const { dashboardMenu, createModal, textDisplay, sectionComponents, menuComponents } = require('../common/components');
 
 /** @param {Client} client - Discord Client. */
 module.exports = (client) => {
@@ -63,4 +64,20 @@ module.exports = (client) => {
       components: [dashboardMenu('welcome'), container],
     });
   };
+
+  // Thêm hàm xử lý nút welcome-msg
+  client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isButton()) return;
+
+    const { customId } = interaction;
+
+    if (customId === 'welcome-msg') {
+      await createModal(interaction, customId, 'Welcome message', {
+        customId,
+        label: 'Enter the welcome message',
+        style: TextInputStyle.Paragraph,
+        required: true,
+      });
+    }
+  });
 };
