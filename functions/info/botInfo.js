@@ -24,7 +24,7 @@ module.exports = (client) => {
         .size.toLocaleString();
       const [status, emoji] = [
         ['Disconnected', 'Connected', 'Connecting', 'Disconnecting'],
-        ['`❌', '`✅', '`🔄', '`🆘'],
+        ['\u274C\uFE0F', '\u2705\uFE0F', '🔄', '🆘'],
       ];
       const mapPackages = Object.entries(package.dependencies)
         .map(([a, b]) => `${a}: ${b}`)
@@ -69,42 +69,46 @@ module.exports = (client) => {
             { name: '👤 Username:', value: `${bot}`, inline: true },
             {
               name: `🆔: ||${bot.id}||`,
-              value: `**📆 Created:** <t:${parseInt(bot.createdTimestamp / 1000)}:R>`,
+              value: `**👑 Owner:**  ${
+                application.owner ? `<@${application.owner.ownerId || application.owner.id}>` : 'Unknown'
+              }`,
               inline: true,
             },
             {
-              name: '👑 Owner:',
-              value: application.owner ? `<@${application.owner.ownerId || application.owner.id}>` : 'Unknown',
-              inline: false,
+              name: `📆 Created: <t:${parseInt(bot.createdTimestamp / 1000)}:R>`,
+              value: `- ${moment(bot.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
             },
+
             {
               name: `Slash Commands [${slashCommands.size + subCommands.size}]:`,
-              value: `Slash commands: ${slashCommands.size}\nSub commands: ${subCommands.size}`,
+              value: `- Slash commands: ${slashCommands.size}\n- Sub commands: ${subCommands.size}`,
               inline: true,
             },
             {
               name: `Prefix Commands [${prefixCommands.size}]:`,
-              value: `Prefix: \`${prefix}\`\n[\`${prefix}help | /help\`]`,
+              value: `- Prefix: \`${prefix}\`\n[\`${prefix}help | /help\`]`,
               inline: true,
             },
-
             {
               name: `💎 Server(s) [${guilds.length}]:`,
-              value: `Members: ${totalmembers}\nChannels:\n\`💬 ${textChannels} | 🔊 ${voiceChannels}\``,
+              value: `- \\🤵 Members: ${totalmembers} --- \\🌏 Channels: \`💬 ${textChannels} | 🔊 ${voiceChannels}\``,
+            },
+            {
+              name: '✅ Verified:',
+              value: bot.flags & UserFlags.VerifiedBot ? '- \u2705\uFE0F Yes' : '- \u274C\uFE0F No',
               inline: true,
             },
-            { name: '✅ Verified:', value: bot.flags & UserFlags.VerifiedBot ? '`✅ Yes`' : '`❌ No`', inline: true },
-            { name: '♻️ Version:', value: package.version, inline: true },
-            { name: '📝 Node Version:', value: process.version, inline: true },
+            { name: '♻️ Version:', value: `- ${package.version}`, inline: true },
+            { name: '📝 Node Version:', value: `- ${process.version}`, inline: true },
             {
               name: '📚 Database:',
-              value: emoji[connection.readyState] + status[connection.readyState] + `\`\nVersion: ${version}`,
+              value: '- ' + emoji[connection.readyState] + status[connection.readyState] + `\n- Version: ${version}`,
               inline: true,
             },
-            { name: '💻 System:', value: os.cpus()[0].model, inline: true },
+            { name: '💻 System:', value: `- ${os.cpus()[0].model}`, inline: true },
             {
               name: `💽 OS: ${process.platform} ${process.arch}`,
-              value: `💾 **RSS:** ${(process.memoryUsage().rss / 1024 / 1024).toFixed(1)} MB`,
+              value: `- 💾 **RSS:** ${(process.memoryUsage().rss / 1024 / 1024).toFixed(1)} MB`,
               inline: true,
             },
             { name: '🕖 Server Time:', value: `${moment(new Date()).format('HH:mm ddd, DD/MM/YYYY')}`, inline: true },

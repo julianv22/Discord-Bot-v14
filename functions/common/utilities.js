@@ -112,16 +112,17 @@ String.prototype.toCapitalize = function () {
   if (!this) return ''; // Handle empty or undefined string
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
-/** - Converts a string to a Discord EmbedColor. This is a prototype function for `String`. */
+/** - Converts a string to a Discord EmbedColor. This is a prototype function for `String`.
+ * @returns {number} Color of the embed */
 String.prototype.toEmbedColor = function () {
   // Normalize color input
   const normalizedColor = this.toLowerCase().replace(/\s/g, '');
   // Check valid color name
   for (const colorName of Object.keys(Colors)) {
-    if (colorName.toLowerCase() === normalizedColor) return colorName;
+    if (colorName.toLowerCase() === normalizedColor) return Colors[colorName];
   }
   // Return Random if invalid
-  return 'Random';
+  return Math.floor(Math.random() * 0xffffff);
 };
 /** - Checks if the string is a valid URL. This is a prototype function for `String`. */
 String.prototype.checkURL = function () {

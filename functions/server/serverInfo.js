@@ -33,27 +33,26 @@ module.exports = (client) => {
           })
           .setTimestamp()
           .setFields(
-            { name: '💎 Server Name:', value: `${guild.name}`, inline: true },
-            { name: '🆔:', value: `||${guild.id}||`, inline: true },
-            { name: '👑 Server Owner:', value: `${owner}` },
+            { name: '💎 Server Name:', value: guild.name, inline: true },
+            { name: `🆔: ||${guild.id}||`, value: `**👑 Server Owner:** ${owner}`, inline: true },
+            {
+              name: `📆 Created: <t:${parseInt(guild.createdTimestamp / 1000)}:R>`,
+              value: `- ${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
+            },
             {
               name: `📊 Members [${guild.memberCount.toLocaleString()}]:`,
-              value: `${(guild.memberCount - bots).toLocaleString()} Members\n${bots} Bots`,
+              value: `- ${(guild.memberCount - bots).toLocaleString()} Members\n- ${bots} Bots`,
               inline: true,
             },
             {
               name: `📈 Channels [${textChannels + voicesChannels}]:`,
-              value: `\`${categories} 📂 | ${textChannels} 💬 | ${voicesChannels} 🔊\``,
+              value: `- Catagories: \`${categories} 📂\`\n- \`💬 ${textChannels} | 🔊 ${voicesChannels}\``,
               inline: true,
             },
             { name: `📉 Roles [${guild.roles.cache.size}]:`, value: `Highest: ${guild.roles.highest}`, inline: true },
             { name: '🚀 Total Boosts:', value: `${guild.premiumSubscriptionCount || 'None'}`, inline: true },
-            { name: '🌏 Server Region:', value: `${guild.preferredLocale}`, inline: true },
-            { name: '☑️ Verification Level:', value: `${guild.verificationLevel}`, inline: true },
-            {
-              name: `📆 Created: <t:${parseInt(guild.createdTimestamp / 1000)}:R>`,
-              value: `${moment(guild.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
-            }
+            { name: '🌏 Server Region:', value: guild.preferredLocale, inline: true },
+            { name: '☑️ Verification Level:', value: `${guild.verificationLevel}`, inline: true }
           ),
       ];
 

@@ -42,15 +42,17 @@ module.exports = (client) => {
           })
           .setTimestamp()
           .setFields(
-            { name: `🆔: ||${userId}||`, value: '\u200b', inline: true },
-            { name: `💖 Thanks Count: ${profile?.thanksCount || 0}`, value: '\u200b', inline: true },
+            { name: `🆔: ||${userId}||`, value: '\u200b' },
+            { name: `💖 Thanks Count: ${profile?.thanksCount || 0}`, value: '\u200b' },
             {
               name: `⏰ Joined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`,
               value: `${moment(member.joinedAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
+              inline: true,
             },
             {
               name: `📆 Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>`,
               value: `${moment(member.user.createdAt).tz('Asia/Ho_Chi_Minh').format('HH:mm ddd, Do MMMM YYYY')}`,
+              inline: true,
             },
             { name: '🎖️ Acknowledgements:', value: `${acknowledgementsString}` },
             //   {name: 'Permissions', value: `\`\`\`fix\n${msg.channel.permissionsFor(member.user.id).toArray().join(' # ')}\`\`\``},
