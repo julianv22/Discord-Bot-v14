@@ -65,6 +65,6 @@ module.exports = (client) => {
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, starCountMenu))
       );
 
-    await interaction.editReply({ components: [dashboardMenu(), container] });
+    await interaction.editReply({ components: [dashboardMenu('starboard'), container] });
   };
 };

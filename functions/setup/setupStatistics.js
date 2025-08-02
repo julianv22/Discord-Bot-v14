@@ -50,21 +50,21 @@ module.exports = (client) => {
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
       .addActionRowComponents(
-        menuComponents('statistic-menu:totalcount', '🌏 Select Total Count Channel', ChannelType.GuildVoice)
+        menuComponents('statistics-menu:totalcount', '🌏 Select Total Count Channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:membercount', '🤵 Select Members Count Channel', ChannelType.GuildVoice)
+        menuComponents('statistics-menu:membercount', '🤵 Select Members Count Channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:botcount', '🎯 Select Bots Count Channel', ChannelType.GuildVoice)
+        menuComponents('statistics-menu:botcount', '🎯 Select Bots Count Channel', ChannelType.GuildVoice)
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistic-menu:presence', '📊 Select Presences Statistic Channel', ChannelType.GuildVoice)
+        menuComponents('statistics-menu:presence', '📊 Select Presences Statistic Channel', ChannelType.GuildVoice)
       );
 
-    await interaction.editReply({ components: [dashboardMenu(), container] });
+    await interaction.editReply({ components: [dashboardMenu('statistics'), container] });
   };
 };

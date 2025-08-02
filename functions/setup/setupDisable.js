@@ -50,6 +50,6 @@ module.exports = (client) => {
         )
       );
 
-    await interaction.editReply({ components: [dashboardMenu(), container] });
+    await interaction.editReply({ components: [dashboardMenu('disable'), container] });
   };
 };

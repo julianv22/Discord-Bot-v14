@@ -60,7 +60,7 @@ module.exports = (client) => {
       .addActionRowComponents(menuComponents('welcome-menu:logchannel', '📋 Select Log Channel'));
 
     await interaction.editReply({
-      components: [dashboardMenu(), container],
+      components: [dashboardMenu('welcome'), container],
     });
   };
 };

@@ -1,9 +1,9 @@
 const { Client, EmbedBuilder, MessageFlags, Colors } = require('discord.js');
-const { textDisplay } = require('../common/components');
 
 /** @param {Client} client - Discord Client */
 module.exports = (client) => {
   const regex = /\x1b\[[0-9;]*m/g;
+
   /** - The options for creating the error embed.
    * @typedef {object} EmbedData
    * @property {string} [title] - The title of the embed.
@@ -17,20 +17,20 @@ module.exports = (client) => {
    * @param {EmbedData} options - The options for creating the error embed. */
   client.embedMessage = (options) => {
     const { title, color, flags = true } = options;
+    console.log('🚀 ~ title:', title);
     let { desc, emoji = false } = options;
 
-    title?.replace(regex, '');
     const embed = new EmbedBuilder().setColor(color || (emoji ? Colors.Green : Colors.Red));
 
     switch (typeof emoji) {
       case 'boolean':
-        embed.setAuthor({ name: title || desc, iconURL: emoji ? cfg.verified_gif : cfg.x_mark_gif });
+        embed.setAuthor({ name: title.replace(regex, '') || desc, iconURL: emoji ? cfg.verified_gif : cfg.x_mark_gif });
         if (title) embed.setDescription(desc);
 
         break;
       case 'string':
         if (emoji.checkURL()) {
-          embed.setAuthor({ name: title || desc, iconURL: emoji });
+          embed.setAuthor({ name: title.replace(regex, '') || desc, iconURL: emoji });
           if (title) embed.setDescription(desc);
         } else {
           emoji = `\\${emoji} `;

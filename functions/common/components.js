@@ -35,8 +35,9 @@ module.exports = {
 
     return new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons));
   },
-  /** - Creates a dashboard menu for setting up various bot features. */
-  dashboardMenu: () => {
+  /** - Creates a dashboard menu for setting up various bot features.
+   * @param {string} selected - Selected menu */
+  dashboardMenu: (selected) => {
     const menus = [
       { customId: 'dashboard-menu', placeholder: '⚙️ Select feature for setting' },
       {
@@ -71,12 +72,18 @@ module.exports = {
       },
     ];
 
+    const updatedMenus = menus.map((menu) => {
+      if (menu.value && menu.value === selected) return { ...menu, default: true };
+
+      return menu;
+    });
+
     return new ContainerBuilder()
       .setAccentColor(Colors.DarkAqua)
       .addTextDisplayComponents(module.exports.textDisplay('### \\🛠️ Setup Dashboard'))
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, menus))
+        new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, updatedMenus))
       );
   },
   /**
@@ -92,6 +99,8 @@ module.exports = {
    * @property {string} [placeholder] - Placeholder text for components (used in StringSelect options and TextInput).
    * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
    * @property {boolean} [required = false] - Whether the component is required (used in TextInput).
+   * @property {number} [maxLength] - The maximum number of characters that can be entered (used in TextInput).
+   * @property {number} [minLength] - The minimum number of characters that can be entered (used in TextInput).
    * @property {number} [maxValues = 1] - The maximum amount of options that can be selected (used in StringSelect options).
    * @property {number} [minValues = 1] - The minimum amount of options that must be selected (used in StringSelect options).
    */

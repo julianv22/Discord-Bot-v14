@@ -27,6 +27,6 @@ module.exports = (client) => {
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(menuComponents('suggest-menu', '💡 Select Suggestion Channel'));
 
-    await interaction.editReply({ components: [dashboardMenu(), container] });
+    await interaction.editReply({ components: [dashboardMenu('suggest'), container] });
   };
 };
