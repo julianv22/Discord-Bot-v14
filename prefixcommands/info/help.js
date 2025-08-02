@@ -6,7 +6,7 @@ module.exports = {
   name: 'help',
   aliases: ['h'],
   description: 'Đọc kỹ hướng dẫn SD trước khi dùng!',
-  category: 'help',
+  category: 'info',
   cooldown: 0,
   /** - Help prefix command
    * @param {Message} message - Message

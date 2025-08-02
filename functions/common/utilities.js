@@ -3,26 +3,6 @@ const asciiTable = require('ascii-table');
 const { logError } = require('./logging');
 
 module.exports = {
-  /** - Retrieves the latest video ID and title from a given YouTube channel.
-   * @param {string} channelId - The YouTube channel ID.
-   * @returns {Promise<{videoId: string|null, channelTitle: string|null, videoTitle: string|null}>} An object containing the latest video ID, channel title, and video title, or null if not found or an error occurs. */
-  getLatestVideoId: async (channelId) => {
-    try {
-      const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
-
-      if (!res.ok) return { videoId: null, title: null };
-
-      const xml = await res.text();
-      const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-      const titleMatch = xml.match(/<title>(.*?)<\/title>/g); // titleMatch[1] is the latest video title, titleMatch[0] is the channel title
-      const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
-      const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
-
-      return { videoId: match ? match[1] : null, channelTitle, videoTitle };
-    } catch {
-      return { videoId: null, channelTitle: null, videoTitle: null };
-    }
-  },
   /** - Searches for and replaces variables in a string using a provided replacements object.
    * - Variables in the string should be in the format `{key}`.
    * @param {string} stringInput - The string containing variables to be replaced.

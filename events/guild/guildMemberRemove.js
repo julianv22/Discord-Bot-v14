@@ -33,7 +33,6 @@ module.exports = {
       const logChannel = guild.channels.cache.get(welcome?.logChannelId);
       if (logChannel) await logChannel.send({ embeds: [logEmbed] });
 
-      client.serverStats(guild.id);
       console.log(chalk.yellow(user.tag + ' left the server'), guild.name);
     } catch (e) {
       logError({ item: this.name, desc: 'event' }, e);

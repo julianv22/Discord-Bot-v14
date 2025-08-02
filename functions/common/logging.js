@@ -13,8 +13,8 @@ module.exports = {
   /** - Creates an embed object.
    * @param {EmbedData} options - The options for creating the embed. */
   embedMessage: (options) => {
-    const { title, color, flags = true } = options;
-    let { desc, emoji = false } = options;
+    const { title, desc, color, flags = true } = options;
+    let { emoji = false } = options;
     const regex = /\x1b\[[0-9;]*m/g;
     const author = title?.replace(regex, '') || desc;
 
@@ -41,7 +41,6 @@ module.exports = {
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   },
-
   /** - Prefix Command Options Configuration
    * @typedef {object} CommandOptions
    * @property {string} name - The name of the prefix command.
@@ -84,7 +83,6 @@ module.exports = {
       module.exports.logError({ item: 'commandUsage', desc: 'function' }, e);
     }
   },
-
   /** - LoggingOptions Configuration
    * @typedef {object} LoggingOptions
    * @property {boolean} [isWarn = false] - If `true`, the log will be a warning; otherwise, it will be an error.
@@ -99,7 +97,7 @@ module.exports = {
    * client.logError({ todo: 'reloading', item: 'application (/) commands', desc: 'to Discord API' }, errorObject);
    */
   logError: (options, e = null) => {
-    const { todo = 'executing', item = '', desc = '', isWarn = false } = options;
+    const { todo = 'executing', item, desc, isWarn = false } = options;
     const color = isWarn ? 'yellow' : 'red';
     const first = chalk[color](isWarn ? `[Warn] ${todo}` : `Error while ${todo}`);
     let second = chalk.green(item);

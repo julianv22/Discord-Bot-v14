@@ -2,6 +2,7 @@ const { Client } = require('discord.js');
 const os = require('os');
 const pkg = require('../../package.json');
 const { logError } = require('../../functions/common/logging');
+const { setStatistics, setPresence, checkVideos } = require('../../functions/common/serverSetup');
 
 module.exports = {
   name: 'ready',
@@ -9,7 +10,7 @@ module.exports = {
   /** - Bot ready event
    * @param {Client} client - Discord Client */
   async execute(client) {
-    const { setPresence, serverStats, checkVideos, user, guilds, channels } = client;
+    const { user, guilds, channels } = client;
     const servers = guilds.cache.map((g) => g);
     /** - Print console log with chalk options
      * @param {string} message Message content
@@ -70,7 +71,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '18:40, 02/08/2025' });
+      table({ name: '📆 Last update:', value: '0:40, 03/08/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
@@ -85,16 +86,16 @@ module.exports = {
       );
 
       // Lastest youtube videos
-      await checkVideos();
-      setInterval(async () => await checkVideos(), 30 * 60 * 1000);
+      await checkVideos(client);
+      setInterval(async () => await checkVideos(client), 30 * 60 * 1000);
 
       // Set Client's Pressence
-      setPresence();
-      setInterval(async () => await setPresence(), 15 * 60 * 1000);
+      setPresence(client);
+      setInterval(async () => await setPresence(client), 15 * 60 * 1000);
 
       for (const server of servers) {
-        await serverStats(server.id);
-        setInterval(async () => await serverStats(server.id), 5 * 60 * 1000);
+        await setStatistics(server);
+        setInterval(async () => await setStatistics(server), 5 * 60 * 1000);
       }
     } catch (e) {
       logError({ todo: 'running', item: 'ready', desc: `event from ${chalk.green('client events')}` }, e);

@@ -1,5 +1,6 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
+const { setStatistics } = require('../../functions/common/serverSetup');
 
 module.exports = {
   type: 'menus',
@@ -11,7 +12,6 @@ module.exports = {
     await interaction.deferUpdate();
 
     const { guild, guildId, message, values, customId } = interaction;
-    const { serverStats } = client;
     const { components } = message;
     const { channels } = guild;
     const [, selected] = customId.split(':');
@@ -29,7 +29,7 @@ module.exports = {
     if (!onSelect[selected]()) throw new Error(chalk.yellow('Invalid selected', chalk.green(selected)));
 
     await profile.save().catch(console.error);
-    await serverStats(guildId);
+    await setStatistics(guild);
 
     /** @param {string} channelId */
     const channelName = (channelId) => channels.cache.get(channelId) || '\u274C\uFE0F Not Set';

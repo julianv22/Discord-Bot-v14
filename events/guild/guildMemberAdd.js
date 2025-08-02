@@ -55,7 +55,6 @@ module.exports = {
       if (welcomeChannel) await welcomeChannel.send({ embeds: [welcomeEmbed] });
       if (logChannel) await logChannel.send({ embeds: [logEmbed] });
 
-      client.serverStats(guild.id);
       console.log(chalk.yellow(user.tag + ' joined the server'), guild.name);
     } catch (e) {
       logError({ item: this.name, desc: 'event' }, e);

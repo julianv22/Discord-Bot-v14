@@ -2,6 +2,7 @@ const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { createModal } = require('../../functions/common/components');
 const { embedMessage } = require('../../functions/common/logging');
+const { checkVideos } = require('../../functions/common/serverSetup');
 
 module.exports = {
   type: 'buttons',
@@ -11,7 +12,6 @@ module.exports = {
    * @param {Client} client - Discord Client */
   async execute(interaction, client) {
     const { guildId, message, customId } = interaction;
-    const { checkVideos } = client;
     const { components } = message;
     const [, buttonId, type] = customId.split(':');
 
@@ -51,7 +51,7 @@ module.exports = {
         await interaction.editReply({ components });
       },
       refresh: async () => {
-        await checkVideos();
+        await checkVideos(client);
         await interaction.reply(embedMessage({ desc: 'Successfully refreshed YouTube notifications!', emoji: true }));
       },
     };
