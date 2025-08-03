@@ -1,8 +1,8 @@
-const { Client, Interaction, ChannelType } = require('discord.js');
+const { Client, Events, Interaction, Events, ChannelType } = require('discord.js');
 const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
-  name: 'interactionCreate',
+  name: Events.InteractionCreate,
   /** - Slash Command Interaction Event
    * @param {Interaction} interaction - Command Interaction
    * @param {Client} client - Discord Client */

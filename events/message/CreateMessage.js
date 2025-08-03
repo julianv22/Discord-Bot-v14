@@ -1,8 +1,8 @@
-const { Client, Message, EmbedBuilder, ChannelType, Colors } = require('discord.js');
+const { Client, Events, Message, EmbedBuilder, ChannelType, Colors } = require('discord.js');
 const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
-  name: 'messageCreate',
+  name: Events.MessageCreate,
   /** - Message Content Event
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */

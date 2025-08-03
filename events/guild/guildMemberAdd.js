@@ -1,9 +1,9 @@
-const { Client, GuildMember, EmbedBuilder } = require('discord.js');
+const { Client, Events, GuildMember, EmbedBuilder } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { logError } = require('../../functions/common/logging');
 
 module.exports = {
-  name: 'guildMemberAdd',
+  name: Events.GuildMemberAdd,
   /** - Guild Member Add Event
    * @param {GuildMember} member - Guild Member object
    * @param {Client} client - Discord Client */

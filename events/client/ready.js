@@ -1,11 +1,11 @@
-const { Client } = require('discord.js');
+const { Client, Events } = require('discord.js');
 const os = require('os');
 const pkg = require('../../package.json');
 const { logError } = require('../../functions/common/logging');
 const { setStatistics, setPresence, checkVideos } = require('../../functions/common/serverSetup');
 
 module.exports = {
-  name: 'ready',
+  name: Events.ClientReady,
   once: true,
   /** - Bot ready event
    * @param {Client} client - Discord Client */
@@ -71,7 +71,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '22:35, 03/08/2025' });
+      table({ name: '📆 Last update:', value: '00:05, 04/08/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

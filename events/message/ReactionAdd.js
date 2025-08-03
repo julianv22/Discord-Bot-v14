@@ -1,9 +1,9 @@
-const { MessageReaction, User } = require('discord.js');
+const { Events, MessageReaction, User } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 const { starReactionAdd } = require('../../functions/common/starboardReaction');
 
 module.exports = {
-  name: 'messageReactionAdd',
+  name: Events.MessageReactionAdd,
   /** - MessageReaction Add Event
    * @param {MessageReaction} reaction - Message Reaction object
    * @param {User} user - User object */

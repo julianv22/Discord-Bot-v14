@@ -1,9 +1,9 @@
-const { Client, Message } = require('discord.js');
+const { Client, Events, Message } = require('discord.js');
 const reactionRole = require('../../config/reactionRole');
 const { logError } = require('../../functions/common/logging');
 
 module.exports = {
-  name: 'messageDelete',
+  name: Events.MessageDelete,
   /** - Delete message event
    * @param {Message} message - Message
    * @param {Client} client - Discord Client */
