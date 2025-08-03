@@ -1,4 +1,4 @@
-const { Client, Events, Interaction, Events, ChannelType } = require('discord.js');
+const { Client, Events, Interaction, ChannelType } = require('discord.js');
 const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
