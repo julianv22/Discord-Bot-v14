@@ -44,12 +44,9 @@ module.exports = {
     /** @param {string} channelId */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\n-# \u274C\uFE0F Not set';
 
-    switch (subCommand) {
-      case 'dashboard':
-        await interaction.editReply({ components: [dashboardMenu()], flags: MessageFlags.IsComponentsV2 });
-        break;
-
-      case 'info':
+    const showSetup = {
+      dashboard: () => ({ components: [dashboardMenu()], flags: MessageFlags.IsComponentsV2 }),
+      info: () => {
         const { welcome, starboard, youtube, tournament, statistics, suggest } = profile;
         const welcomeChannel = channelName(welcome?.channelId);
         const logChannel = channelName(welcome?.logChannelId);
@@ -92,8 +89,12 @@ module.exports = {
             .setTimestamp(),
         ];
 
-        await interaction.editReply({ embeds });
-        break;
-    }
+        return { embeds };
+      },
+    };
+
+    if (!showSetup[subCommand]) throw new Error(chalk.yellow('Invalid subCommand'), chalk.green(subCommand));
+
+    await interaction.editReply(showSetup[subCommand]());
   },
 };

@@ -112,10 +112,10 @@ module.exports = {
     ];
 
     /** @param {number} index - Index of buttons */
-    const row = (index) =>
+    const actionRow = (index) =>
       new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons[index - 1]));
 
-    return [row(1), row(2), row(3)];
+    return [actionRow(1), actionRow(2), actionRow(3)];
   },
   /**
    * @typedef {object} ComponentOptions - Configuration for various Discord components.
@@ -184,58 +184,48 @@ module.exports = {
    * @param {string|ComponentOptions} [options] - An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory. */
   sectionComponents: (contents, accessoryType, options) => {
     const textDisplays = module.exports.textDisplay(contents);
-    const section = new SectionBuilder();
 
-    switch (accessoryType) {
-      case ComponentType.Thumbnail:
-        section
+    const setAccessory = {
+      [ComponentType.Thumbnail]: () =>
+        new SectionBuilder()
           .addTextDisplayComponents(textDisplays)
-          .setThumbnailAccessory(new ThumbnailBuilder().setURL(options || cfg.infoPNG));
-        break;
-      case ComponentType.Button:
-        section
+          .setThumbnailAccessory(new ThumbnailBuilder().setURL(options || cfg.infoPNG)),
+      [ComponentType.Button]: () =>
+        new SectionBuilder()
           .addTextDisplayComponents(textDisplays)
-          .setButtonAccessory(module.exports.rowComponents(accessoryType, options)[0]);
-        break;
-    }
+          .setButtonAccessory(module.exports.rowComponents(accessoryType, options)[0]),
+    };
 
-    return section;
+    if (!setAccessory[accessoryType])
+      throw new Error(chalk.yellow('Invalid AccessoryType'), chalk.green(accessoryType));
+
+    return setAccessory[accessoryType]();
   },
   /** - Creates an ActionRowBuilder containing a select menu (ChannelSelectMenuBuilder or RoleSelectMenuBuilder).
    * @param {string} customId - The custom ID for the select menu.
    * @param {string} [placeholder = 'Make a selection'] - The placeholder text displayed when no option is selected.
-   * @param {ChannelType|ChannelType[]|ComponentType.RoleSelect} [type = ChannelType.GuildText] - The type of select menu. Can be a single ChannelType, an array of ChannelTypes, or `ComponentType.RoleSelect`.
-   * @returns {ActionRowBuilder<ChannelSelectMenuBuilder>|ActionRowBuilder<RoleSelectMenuBuilder>} An ActionRowBuilder containing the specified select menu. */
+   * @param {ChannelType|ChannelType[]|ComponentType.RoleSelect} [type = ChannelType.GuildText] - The type of select menu. Can be a single ChannelType, an array of ChannelTypes, or `ComponentType.RoleSelect`. */
   menuComponents: (customId, placeholder = 'Make a selection', type = ChannelType.GuildText) => {
-    const actionRow = new ActionRowBuilder();
+    const SelectMenu = {
+      default: () =>
+        new ChannelSelectMenuBuilder()
+          .setCustomId(customId)
+          .addChannelTypes(type)
+          .setPlaceholder(placeholder)
+          .setMinValues(1)
+          .setMaxValues(1),
+      [ComponentType.RoleSelect]: () =>
+        new RoleSelectMenuBuilder().setCustomId(customId).setPlaceholder(placeholder).setMinValues(1).setMaxValues(1),
+    };
 
-    switch (type) {
-      case ComponentType.RoleSelect:
-        actionRow.setComponents(
-          new RoleSelectMenuBuilder().setCustomId(customId).setPlaceholder(placeholder).setMinValues(1).setMaxValues(1)
-        );
-        break;
-
-      default: // Handles single ChannelType, array of ChannelTypes, etc.
-        actionRow.setComponents(
-          new ChannelSelectMenuBuilder()
-            .setCustomId(customId)
-            .setChannelTypes(type)
-            .setPlaceholder(placeholder)
-            .setMinValues(1)
-            .setMaxValues(1)
-        );
-        break;
-    }
-
-    return actionRow;
+    return new ActionRowBuilder().setComponents((SelectMenu[type] || SelectMenu.default)());
   },
   /** - Creates an array of TextDisplayBuilder components from the given content.
    * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings. */
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
   /** - Creates a Link Button from given url
-   * @param {string} url - The URL of button
-   * @param {string} [label = '🔗 Jump to message'] - The text displayed on the button */
+   * @param {string} url - The URL of button.
+   * @param {string} [label = '🔗 Jump to message'] - The text displayed on the button. */
   linkButton: (url, label = '🔗 Jump to message') =>
     new ActionRowBuilder().setComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)),
 };

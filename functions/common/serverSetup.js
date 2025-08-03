@@ -137,15 +137,33 @@ module.exports = {
       if (!res.ok) return { videoId: null, channelTitle: null };
 
       const xml = await res.text();
-      const match = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
-      const titleMatch = xml.match(/<title>(.*?)<\/title>/g); // titleMatch[1] is the latest video title, titleMatch[0] is the channel title
+      const videoIdMatch = xml.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+      const titleMatch = xml.match(/<title>(.*?)<\/title>/g);
+      // titleMatch[1] is the latest video title, titleMatch[0] is the channel title
       // const videoTitle = titleMatch && titleMatch[1] ? titleMatch[1].replace(/<\/?title>/g, '') : null;
       const channelTitle = titleMatch && titleMatch[0] ? titleMatch[0].replace(/<\/?title>/g, '') : null;
 
-      return { videoId: match ? match[1] : null, channelTitle };
+      return { videoId: videoIdMatch ? videoIdMatch[1] : null, channelTitle };
     } catch (error) {
       logError({ todo: 'getting lastest video from YouTube Channel:', item: channelId }, error);
       return { videoId: null, channelTitle: null };
+    }
+  },
+  /** - Gets the title of a YouTube channel.
+   * @param {string} channelId - The ID of the YouTube channel.
+   * @param {string} apiKey - The API key for YouTube. */
+  getChannelTitle: async (channelId, apiKey) => {
+    try {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`
+      );
+      const data = await res.json();
+
+      if (data.items && data.items.length > 0) return data.items[0].snippet.title;
+      else return channelId;
+    } catch (e) {
+      logError({ item: 'getChannelTitle', desc: 'function' }, e);
+      return channelId;
     }
   },
 };

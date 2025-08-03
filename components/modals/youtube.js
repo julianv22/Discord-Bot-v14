@@ -1,6 +1,7 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { embedMessage } = require('../../functions/common/logging');
+const { getChannelTitle } = require('../../functions/common/serverSetup');
 
 module.exports = {
   type: 'modals',
@@ -33,26 +34,10 @@ module.exports = {
     if (!valid)
       return await interaction.followUp(embedMessage({ desc: 'Invalid or non-existent YouTube channel ID!' }));
 
-    /** - Gets the title of a YouTube channel.
-     * @param {string} channelId - The ID of the YouTube channel.
-     * @param {string} apiKey - The API key for YouTube. */
-    const getChannelTitle = async (channelId, apiKey) => {
-      try {
-        const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`,
-          res = await fetch(url),
-          data = await res.json();
-
-        if (data.items && data.items.length > 0) return data.items[0].snippet.title;
-      } catch (e) {
-        console.error(chalk.red('Error while executing function getChannelTitle:\n'), e);
-      }
-      return channelId;
-    };
-
     const refresh = async () => {
       const refresh = await serverProfile.findOne({ guildId });
       const channelList = await Promise.all(
-        refresh?.youtube?.channels.map(async (channelId, id) => {
+        refresh?.youtube?.channels?.map(async (channelId, id) => {
           const title = await getChannelTitle(channelId, process.env.YT_API_KEY);
           return `${id + 1}. [**${title}**](https://www.youtube.com/channel/${channelId}) - \`${channelId}\``;
         })
