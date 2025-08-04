@@ -5,39 +5,43 @@ module.exports = {
    * @typedef {object} EmbedData
    * @property {string} [title] - The title of the embed.
    * @property {string} desc - The detailed description of the embed.
-   * @property {boolean|string} [emoji = false] - The emoji to prefix the title or description. If boolean, uses default success/error emojis.
-   * @property {boolean} [flags = true] - Whether the message should be ephemeral. Defaults to `true`.
    * @property {string|number} [color] - The color of the embed.
-   * @property {boolean} [isError = false] - */
+   * @property {boolean|string} [emoji = false] - The emoji to prefix the title or description. If boolean, uses default success/error emojis.
+   * @property {boolean} [flags = true] - Whether the message should be ephemeral. Defaults to `true`. */
 
   /** - Creates an embed object.
    * @param {EmbedData} options - The options for creating the embed. */
   embedMessage: (options) => {
-    const { title, desc, color, flags = true } = options;
-    let { emoji = false } = options;
+    const { title, desc, color, flags = true } = options || {};
+    let { emoji = false } = options || {};
     const regex = /\x1b\[[0-9;]*m/g;
     const author = title?.replace(regex, '') || desc;
 
     const embed = new EmbedBuilder().setColor(color || (emoji ? Colors.Green : Colors.Red));
 
-    switch (typeof emoji) {
-      case 'boolean':
+    if (!desc)
+      return {
+        embeds: [embed.setAuthor({ name: 'Missing embed description!', iconURL: cfg.x_mark_gif })],
+        flags: MessageFlags.Ephemeral,
+      };
+
+    const setEmbedData = {
+      boolean: () =>
         embed
           .setAuthor({ name: author, iconURL: emoji ? cfg.verified_gif : cfg.x_mark_gif })
-          .setDescription(title ? desc : null);
-        break;
-
-      case 'string':
-        if (emoji.checkURL()) embed.setAuthor({ name: author, iconURL: emoji }).setDescription(title ? desc : null);
+          .setDescription(title ? desc : null),
+      string: () => {
+        if (emoji.checkURL())
+          return embed.setAuthor({ name: author, iconURL: emoji }).setDescription(title ? desc : null);
         else {
           emoji = `\\${emoji} `;
-          embed.setTitle(title ? emoji + author : null).setDescription((title ? '' : emoji) + desc);
+          return embed.setTitle(title ? emoji + author : null).setDescription((title ? '' : emoji) + desc);
         }
-        break;
+      },
+      default: () => embed.setTitle(title ? title : null).setDescription(desc),
+    };
 
-      default:
-        break;
-    }
+    (setEmbedData[typeof emoji] || setEmbedData.default)();
 
     return { embeds: [embed], ...(flags && { flags: MessageFlags.Ephemeral }) };
   },

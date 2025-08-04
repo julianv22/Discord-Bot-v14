@@ -71,28 +71,26 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '00:15, 04/08/2025' });
+      table({ name: '📆 Last update:', value: '20:45, 04/08/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(
         chalk.magenta.bold('Working in'),
         servers.length,
         chalk.magenta.bold(`server${servers.length > 1 ? 's' : ''}:`),
-        servers.reduce((servers, g) => {
-          servers[g.name] = g.id;
-          return servers;
+        servers.reduce((list, server) => {
+          list[server.name] = server.id;
+          return list;
         }, {})
-        // guilds.map((g) => ({ [g.name]: g.id })),
       );
 
-      // Lastest youtube videos
+      // Update lastest YouTube videos
       await checkVideos(client);
       setInterval(async () => await checkVideos(client), 30 * 60 * 1000);
-
-      // Set Client's Pressence
+      // Set client pressence
       setPresence(client);
       setInterval(async () => await setPresence(client), 15 * 60 * 1000);
-
+      // Set server statistics
       for (const server of servers) {
         await setStatistics(server);
         setInterval(async () => await setStatistics(server), 5 * 60 * 1000);
