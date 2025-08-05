@@ -1,6 +1,6 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { setStatistics } = require('../../functions/common/serverSetup');
+const { setStatistics } = require('../../functions/common/serverAnalyst');
 
 module.exports = {
   type: 'menus',

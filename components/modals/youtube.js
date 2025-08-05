@@ -1,7 +1,7 @@
 const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { embedMessage } = require('../../functions/common/logging');
-const { getChannelTitle } = require('../../functions/common/serverSetup');
+const { getChannelTitle } = require('../../functions/common/serverAnalyst');
 
 module.exports = {
   type: 'modals',

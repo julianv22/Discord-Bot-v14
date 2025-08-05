@@ -11,7 +11,7 @@ const {
 const serverProfile = require('../../../config/serverProfile');
 const { rowComponents } = require('../../../functions/common/components');
 const { embedMessage } = require('../../../functions/common/logging');
-const { getChannelTitle } = require('../../../functions/common/serverSetup');
+const { getChannelTitle } = require('../../../functions/common/serverAnalyst');
 
 module.exports = {
   category: 'sub command',

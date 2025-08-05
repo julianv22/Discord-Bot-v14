@@ -2,7 +2,7 @@ const { Client, Interaction } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
 const { createModal } = require('../../functions/common/components');
 const { embedMessage } = require('../../functions/common/logging');
-const { checkVideos } = require('../../functions/common/serverSetup');
+const { checkVideos } = require('../../functions/common/serverAnalyst');
 
 module.exports = {
   type: 'buttons',

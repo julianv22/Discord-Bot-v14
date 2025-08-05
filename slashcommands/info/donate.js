@@ -44,6 +44,6 @@ module.exports = {
         ),
     ];
 
-    return await interaction.editReply({ embeds });
+    await interaction.editReply({ embeds });
   },
 };

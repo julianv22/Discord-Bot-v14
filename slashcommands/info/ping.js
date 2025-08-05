@@ -15,7 +15,7 @@ module.exports = {
     const delay = Math.abs(Date.now()) - interaction.createdTimestamp;
     const color = ping < 101 ? Colors.DarkGreen : ping > 300 ? Colors.DarkVividPink : Colors.Orange;
 
-    return await interaction.editReply(
+    await interaction.editReply(
       embedMessage({
         title: 'Bot latency:',
         desc: `**Ping:** ${ping} / *${delay}ms*`,
