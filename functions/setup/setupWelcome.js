@@ -9,7 +9,7 @@ const {
   TextInputStyle, // Thêm TextInputStyle
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { dashboardMenu, createModal, textDisplay, sectionComponents, menuComponents } = require('../common/components');
+const { dashboardMenu, createModal, textDisplay, sectionComponents, rowComponents } = require('../common/components');
 const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client. */
@@ -56,9 +56,19 @@ module.exports = (client) => {
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
-      .addActionRowComponents(menuComponents('welcome-menu:welcomechannel', '💬 Select Welcome Channel'))
+      .addActionRowComponents(
+        rowComponents(ComponentType.ChannelSelect, {
+          customId: 'welcome-menu:welcomechannel',
+          placeholder: '💬 Select Welcome Channel',
+        })
+      )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(menuComponents('welcome-menu:logchannel', '📋 Select Log Channel'));
+      .addActionRowComponents(
+        rowComponents(ComponentType.ChannelSelect, {
+          customId: 'welcome-menu:logchannel',
+          placeholder: '📋 Select Log Channel',
+        })
+      );
 
     await interaction.editReply({
       components: [dashboardMenu('welcome'), container],

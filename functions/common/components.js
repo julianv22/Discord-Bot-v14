@@ -111,11 +111,9 @@ module.exports = {
       ],
     ];
 
-    /** @param {number} index - Index of buttons */
-    const actionRow = (index) =>
-      new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons[index - 1]));
-
-    return [actionRow(1), actionRow(2), actionRow(3)];
+    return buttons.map((button) =>
+      new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, button))
+    );
   },
   /**
    * @typedef {object} ComponentOptions - Configuration for various Discord components.
@@ -133,27 +131,32 @@ module.exports = {
    * @property {number} [maxLength] - The maximum number of characters that can be entered (used in TextInput).
    * @property {number} [minLength] - The minimum number of characters that can be entered (used in TextInput).
    * @property {number} [maxValues = 1] - The maximum amount of options that can be selected (used in StringSelect options).
-   * @property {number} [minValues = 1] - The minimum amount of options that must be selected (used in StringSelect options).
-   */
+   * @property {number} [minValues = 1] - The minimum amount of options that must be selected (used in StringSelect options). */
 
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
-   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]} An array of the ButtonBuilder components or TextInputBuilder options, or a single StringSelectMenuBuilder. */
-  rowComponents: (type, options) => {
+   * @param {ChannelType} [channelType] - The type of channel to filter by (used in ChannelSelect).
+   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]|ActionRowBuilder<RoleSelectMenuBuilder[]>|ActionRowBuilder<ChannelSelectMenuBuilder[]>} */
+  rowComponents: (type, options, channelType) => {
     options = [].concat(options); // Convert options to an array
 
     const setComponents = {
       [ComponentType.Button]: () => options.map((option) => new ButtonBuilder(option)),
       [ComponentType.StringSelect]: () =>
-        new StringSelectMenuBuilder()
-          .setCustomId(options[0].customId)
-          .setMinValues(options[0]?.minValues || 1)
-          .setMaxValues(options[0]?.maxValues || 1)
-          .setPlaceholder(options[0]?.placeholder || 'Make a selection')
-          .setOptions(options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))),
+        new StringSelectMenuBuilder(options[0]).setOptions(
+          options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))
+        ),
       [ComponentType.TextInput]: () =>
         options.map((option) => new TextInputBuilder({ style: TextInputStyle.Short, required: false, ...option })),
+      [ComponentType.RoleSelect]: () =>
+        new ActionRowBuilder().addComponents(options.map((option) => new RoleSelectMenuBuilder(option))),
+      [ComponentType.ChannelSelect]: () =>
+        new ActionRowBuilder().addComponents(
+          options.map((option) =>
+            new ChannelSelectMenuBuilder(option).addChannelTypes(channelType || ChannelType.GuildText)
+          )
+        ),
     };
 
     if (!setComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
@@ -200,25 +203,6 @@ module.exports = {
       throw new Error(chalk.yellow('Invalid AccessoryType'), chalk.green(accessoryType));
 
     return setAccessory[accessoryType]();
-  },
-  /** - Creates an ActionRowBuilder containing a select menu (ChannelSelectMenuBuilder or RoleSelectMenuBuilder).
-   * @param {string} customId - The custom ID for the select menu.
-   * @param {string} [placeholder = 'Make a selection'] - The placeholder text displayed when no option is selected.
-   * @param {ChannelType|ChannelType[]|ComponentType.RoleSelect} [type = ChannelType.GuildText] - The type of select menu. Can be a single ChannelType, an array of ChannelTypes, or `ComponentType.RoleSelect`. */
-  menuComponents: (customId, placeholder = 'Make a selection', type = ChannelType.GuildText) => {
-    const SelectMenu = {
-      default: () =>
-        new ChannelSelectMenuBuilder()
-          .setCustomId(customId)
-          .addChannelTypes(type)
-          .setPlaceholder(placeholder)
-          .setMinValues(1)
-          .setMaxValues(1),
-      [ComponentType.RoleSelect]: () =>
-        new RoleSelectMenuBuilder().setCustomId(customId).setPlaceholder(placeholder).setMinValues(1).setMaxValues(1),
-    };
-
-    return new ActionRowBuilder().setComponents((SelectMenu[type] || SelectMenu.default)());
   },
   /** - Creates an array of TextDisplayBuilder components from the given content.
    * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings. */

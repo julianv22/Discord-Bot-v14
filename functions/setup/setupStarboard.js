@@ -8,13 +8,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const {
-  dashboardMenu,
-  textDisplay,
-  sectionComponents,
-  menuComponents,
-  rowComponents,
-} = require('../common/components');
+const { dashboardMenu, textDisplay, sectionComponents, rowComponents } = require('../common/components');
 const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client. */
@@ -59,7 +53,12 @@ module.exports = (client) => {
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
-      .addActionRowComponents(menuComponents('starboard-menu:channel', '💬 Select Starboard Channel'))
+      .addActionRowComponents(
+        rowComponents(ComponentType.ChannelSelect, {
+          customId: 'starboard-menu:channel',
+          placeholder: '💬 Select Starboard Channel',
+        })
+      )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, starCountMenu))

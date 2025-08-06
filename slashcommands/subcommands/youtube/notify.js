@@ -10,7 +10,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../../config/serverProfile');
-const { menuComponents, sectionComponents, textDisplay } = require('../../../functions/common/components');
+const { sectionComponents, textDisplay, rowComponents } = require('../../../functions/common/components');
 const { embedMessage } = require('../../../functions/common/logging');
 
 module.exports = {
@@ -63,7 +63,12 @@ module.exports = {
           { customId: 'youtube:remove:notify', label: '💬 Remove Channel', style: ButtonStyle.Danger }
         )
       )
-      .addActionRowComponents(menuComponents('youtube-menu:notify', '💬 Select Notification Channel'))
+      .addActionRowComponents(
+        rowComponents(ComponentType.ChannelSelect, {
+          customId: 'youtube-menu:notify',
+          placeholder: '💬 Select Notification Channel',
+        })
+      )
       .addSeparatorComponents(new SeparatorBuilder())
       .addSectionComponents(
         sectionComponents(
@@ -72,7 +77,9 @@ module.exports = {
           { customId: 'youtube:remove:alert', label: '🔔 Remove Alert', style: ButtonStyle.Danger }
         )
       )
-      .addActionRowComponents(menuComponents('youtube-menu:alert', '🔔 Select Alert Role', ComponentType.RoleSelect));
+      .addActionRowComponents(
+        rowComponents(ComponentType.RoleSelect, { customId: 'youtube-menu:alert', placeholder: '🔔 Select Alert Role' })
+      );
 
     await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
   },

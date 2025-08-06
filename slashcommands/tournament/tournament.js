@@ -12,7 +12,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { sectionComponents, menuComponents, textDisplay, rowComponents } = require('../../functions/common/components');
+const { sectionComponents, textDisplay, rowComponents } = require('../../functions/common/components');
 const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
@@ -70,7 +70,10 @@ module.exports = {
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay(['### \\⚙️ Setup tournament', '- Chọn tên giải đấu \\⤵️']))
       .addActionRowComponents(
-        menuComponents('tournament-menu', '🏆 Select a tournament role', ComponentType.RoleSelect)
+        rowComponents(ComponentType.RoleSelect, {
+          customId: 'tournament-menu',
+          placeholder: '🏆 Select a tournament role',
+        })
       )
       .addActionRowComponents(
         new ActionRowBuilder().setComponents(rowComponents(ComponentType.Button, open_close_buttons))

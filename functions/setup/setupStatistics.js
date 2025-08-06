@@ -8,7 +8,7 @@ const {
   Colors,
 } = require('discord.js');
 const serverProfile = require('../../config/serverProfile');
-const { dashboardMenu, textDisplay, sectionComponents, menuComponents } = require('../common/components');
+const { dashboardMenu, textDisplay, sectionComponents, rowComponents } = require('../common/components');
 const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client - Discord Client. */
@@ -50,19 +50,47 @@ module.exports = (client) => {
       .addSeparatorComponents(new SeparatorBuilder())
       .addTextDisplayComponents(textDisplay('### \\⚙️ Setup \\⤵️'))
       .addActionRowComponents(
-        menuComponents('statistics-menu:totalcount', '🌏 Select Total Count Channel', ChannelType.GuildVoice)
+        rowComponents(
+          ComponentType.ChannelSelect,
+          {
+            customId: 'statistics-menu:totalcount',
+            placeholder: '🌏 Select Total Count Channel',
+          },
+          ChannelType.GuildVoice
+        )
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistics-menu:membercount', '🤵 Select Members Count Channel', ChannelType.GuildVoice)
+        rowComponents(
+          ComponentType.ChannelSelect,
+          {
+            customId: 'statistics-menu:membercount',
+            placeholder: '🌏 Select Members Count Channel',
+          },
+          ChannelType.GuildVoice
+        )
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistics-menu:botcount', '🎯 Select Bots Count Channel', ChannelType.GuildVoice)
+        rowComponents(
+          ComponentType.ChannelSelect,
+          {
+            customId: 'statistics-menu:botcount',
+            placeholder: '🌏 Select Bots Count Channel',
+          },
+          ChannelType.GuildVoice
+        )
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(
-        menuComponents('statistics-menu:presence', '📊 Select Presences Statistic Channel', ChannelType.GuildVoice)
+        rowComponents(
+          ComponentType.ChannelSelect,
+          {
+            customId: 'statistics-menu:presence',
+            placeholder: '🌏 Select Presences Statistic Channel',
+          },
+          ChannelType.GuildVoice
+        )
       );
 
     await interaction.editReply({ components: [dashboardMenu('statistics'), container] });
