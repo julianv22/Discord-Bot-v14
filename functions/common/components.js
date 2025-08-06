@@ -137,7 +137,7 @@ module.exports = {
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
    * @param {ChannelType} [channelType] - The type of channel to filter by (used in ChannelSelect).
-   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]|ActionRowBuilder<RoleSelectMenuBuilder[]>|ActionRowBuilder<ChannelSelectMenuBuilder[]>} */
+   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]|ActionRowBuilder<RoleSelectMenuBuilder>|ActionRowBuilder<ChannelSelectMenuBuilder>} */
   rowComponents: (type, options, channelType) => {
     options = [].concat(options); // Convert options to an array
 

@@ -26,9 +26,12 @@ module.exports = {
 
     if (!message) return await interaction.reply(embedMessage({ desc: 'Message not found or has been deleted!' }));
 
+    /** @param {object|object[]} options */
+    const showModal = async (options) => await createModal(interaction, customId, 'Embed Manager', options);
+
     const onClick = {
       author: async () =>
-        await createModal(interaction, customId, 'Embed Manager', [
+        showModal([
           {
             customId: buttonId,
             label: 'Author (Leave blank = Remove)',
@@ -43,7 +46,7 @@ module.exports = {
           },
         ]),
       title: async () =>
-        await createModal(interaction, customId, 'Embed Manager', {
+        showModal({
           customId: buttonId,
           label: 'Embed Title (Leave blank = Remove)',
           value: editEmbed.data.title,
@@ -51,7 +54,7 @@ module.exports = {
           maxLength: 256,
         }),
       description: async () =>
-        await createModal(interaction, customId, 'Embed Manager', {
+        showModal({
           customId: buttonId,
           label: 'Embed Description',
           value: editEmbed.data.description,
@@ -60,28 +63,28 @@ module.exports = {
           required: true,
         }),
       color: async () =>
-        await createModal(interaction, customId, 'Embed Manager', {
+        showModal({
           customId: buttonId,
           label: 'Embed Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
           maxLength: 256,
         }),
       image: async () =>
-        await createModal(interaction, customId, 'Embed Manager', {
+        showModal({
           customId: buttonId,
           label: 'Embed Image (Leave blank = Remove)',
           placeholder: 'Enter image URL, Leave blank = Remove',
           maxLength: 256,
         }),
       thumbnail: async () =>
-        await createModal(interaction, customId, 'Embed Manager', {
+        showModal({
           customId: buttonId,
           label: 'Embed Thumbnail (Leave blank = Remove)',
           placeholder: 'Enter thumbnail URL, Leave blank = Remove',
           maxLength: 256,
         }),
       footer: async () =>
-        await createModal(interaction, customId, 'Embed Manager', [
+        showModal([
           {
             customId: buttonId,
             label: 'Footer (Leave blank = Remove)',
@@ -110,7 +113,7 @@ module.exports = {
         await interaction.editReply({ embeds: [editEmbed], components: actionRows });
       },
       addfield: async () =>
-        await createModal(interaction, customId, 'Embed Manager', [
+        showModal([
           { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', maxLength: 256, required: true },
           {
             customId: 'fieldvalue',
