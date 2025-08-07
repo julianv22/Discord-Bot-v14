@@ -63,8 +63,8 @@ module.exports = {
             `- Tournament name: ${getRole(tournament?.roleId)}`,
             `- Status: ${tournament?.isActive ? '\u2705\uFE0F Open' : '*\u274C\uFE0F Closed*'}`,
           ],
-          ComponentType.Thumbnail,
-          cfg.tournament_gif
+          cfg.tournament_gif,
+          ComponentType.Thumbnail
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

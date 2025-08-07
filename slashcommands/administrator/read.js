@@ -75,7 +75,7 @@ module.exports = {
       const container = new ContainerBuilder()
         .setAccentColor(Colors.DarkGreen)
         .addTextDisplayComponents(textDisplay("### \\📂 Displays the project's folder structure."))
-        .addActionRowComponents(new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, menus)));
+        .addActionRowComponents(rowComponents(ComponentType.StringSelect, menus));
 
       await interaction.editReply({ components: [container], flags: MessageFlags.IsComponentsV2 });
     }

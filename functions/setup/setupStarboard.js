@@ -43,12 +43,12 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           [
-            '### \u2B50 Starboard Information',
+            '### ⭐ Starboard Information',
             `- \\💬 Starboard Channel: ${channelName(starboard?.channelId)}`,
             `- \\⭐ Stars required to send message: **${starboard?.starCount || 0}**\\⭐`,
           ],
-          ComponentType.Thumbnail,
-          cfg.infoPNG
+          cfg.infoPNG,
+          ComponentType.Thumbnail
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
@@ -60,9 +60,7 @@ module.exports = (client) => {
         })
       )
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(
-        new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, starCountMenu))
-      );
+      .addActionRowComponents(rowComponents(ComponentType.StringSelect, starCountMenu));
 
     await interaction.editReply({ components: [dashboardMenu('starboard'), container] });
   };

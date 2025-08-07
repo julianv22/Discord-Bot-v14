@@ -31,13 +31,13 @@ module.exports = {
       for (const channel of statsChannels) setChannelName(channel.id, channel.name);
 
       /** - Gets the number of members with a given presence status.
-       * @param {string} stats - The member presence status (e.g., 'online', 'idle'). */
-      const getPressence = (stats) =>
-        guild.members.cache.filter((m) => m.presence?.status === stats).size.toLocaleString();
+       * @param {string} status - The member presence status (e.g., 'online', 'idle'). */
+      const getPressence = (status) =>
+        guild.members.cache.filter((m) => m.presence?.status === status).size.toLocaleString();
 
       const [icon, status] = [['🟢', '🌙', '⛔', '⚫'], []];
       let i = 0;
-      ['online', 'idle', 'dnd', 'offline'].forEach((stats) => status.push(`${icon[i++]} ${getPressence(stats)}`));
+      ['online', 'idle', 'dnd', 'offline'].forEach((presence) => status.push(`${icon[i++]} ${getPressence(presence)}`));
 
       setChannelName(statistics?.presenceChannelId, status.join(' '));
     } catch (e) {

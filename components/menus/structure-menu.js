@@ -56,18 +56,13 @@ module.exports = {
     const container = new ContainerBuilder()
       .setAccentColor(Colors.DarkGreen)
       .addTextDisplayComponents(textDisplay("### \\📂 Displays the project's folder structure."))
-      .addActionRowComponents(
-        new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, mainMenu))
-      );
+      .addActionRowComponents(rowComponents(ComponentType.StringSelect, mainMenu));
 
-    if (subFolders.length > 1)
-      container.addActionRowComponents(
-        new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, subMenu))
-      );
+    if (subFolders.length > 1) container.addActionRowComponents(rowComponents(ComponentType.StringSelect, subMenu));
 
     const folderName = values[0] === process.cwd() ? 'root' : values[0];
     container.addSeparatorComponents(new SeparatorBuilder()).addSectionComponents(
-      sectionComponents(`### \\📂 ${folderName}`, ComponentType.Button, {
+      sectionComponents(`### \\📂 ${folderName}`, {
         customId: `read-structure:${folderName}`,
         label: 'Read Structure',
         style: ButtonStyle.Primary,

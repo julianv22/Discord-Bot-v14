@@ -43,8 +43,8 @@ module.exports = (client) => {
               presenceChannelId
             )}`,
           ],
-          ComponentType.Thumbnail,
-          cfg.infoPNG
+          cfg.infoPNG,
+          ComponentType.Thumbnail
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())

@@ -12,7 +12,7 @@ module.exports = {
 
     const { guildId, message, fields, customId } = interaction;
     const { components } = message;
-    const inputValue = fields.getTextInputValue(customId);
+    const inputValue = fields.getTextInputValue(customId).slice(0, 3000);
     const welcomeMessage = components[1].components[1].components[1].data;
 
     welcomeMessage.content = inputValue;

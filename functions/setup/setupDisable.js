@@ -29,7 +29,6 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           ['\\⭐ Disable Starboard', '-# Vô hiệu hoá chức năng Starboard'],
-          ComponentType.Button,
           button('starboard', ButtonStyle.Danger)
         )
       )
@@ -37,7 +36,6 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           ['\\💡 Disable Suggest', '-# Vô hiệu hoá chức năng Suggestion'],
-          ComponentType.Button,
           button('suggest', ButtonStyle.Primary)
         )
       )
@@ -45,7 +43,6 @@ module.exports = (client) => {
       .addSectionComponents(
         sectionComponents(
           ['\\🎉 Disable Welcome System', '-# Vô hiệu hoá chức năng chào mừng thành viên mới'],
-          ComponentType.Button,
           button('welcome', ButtonStyle.Success)
         )
       );

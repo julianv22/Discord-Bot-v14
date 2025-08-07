@@ -26,11 +26,11 @@ module.exports = {
 
     if (!message) return await interaction.reply(embedMessage({ desc: 'Message not found or has been deleted!' }));
 
-    /** @param {object|object[]} options */
+    /** @param {object|object[]} options - TextInputBuilder options */
     const showModal = async (options) => await createModal(interaction, customId, 'Embed Manager', options);
 
     const onClick = {
-      author: async () =>
+      author: () =>
         showModal([
           {
             customId: buttonId,
@@ -45,7 +45,7 @@ module.exports = {
             maxLength: 256,
           },
         ]),
-      title: async () =>
+      title: () =>
         showModal({
           customId: buttonId,
           label: 'Embed Title (Leave blank = Remove)',
@@ -53,7 +53,7 @@ module.exports = {
           placeholder: '{guild} = Server Name, {user} = User Name',
           maxLength: 256,
         }),
-      description: async () =>
+      description: () =>
         showModal({
           customId: buttonId,
           label: 'Embed Description',
@@ -62,28 +62,28 @@ module.exports = {
           style: TextInputStyle.Paragraph,
           required: true,
         }),
-      color: async () =>
+      color: () =>
         showModal({
           customId: buttonId,
           label: 'Embed Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
           maxLength: 256,
         }),
-      image: async () =>
+      image: () =>
         showModal({
           customId: buttonId,
           label: 'Embed Image (Leave blank = Remove)',
           placeholder: 'Enter image URL, Leave blank = Remove',
           maxLength: 256,
         }),
-      thumbnail: async () =>
+      thumbnail: () =>
         showModal({
           customId: buttonId,
           label: 'Embed Thumbnail (Leave blank = Remove)',
           placeholder: 'Enter thumbnail URL, Leave blank = Remove',
           maxLength: 256,
         }),
-      footer: async () =>
+      footer: () =>
         showModal([
           {
             customId: buttonId,
@@ -112,7 +112,7 @@ module.exports = {
 
         await interaction.editReply({ embeds: [editEmbed], components: actionRows });
       },
-      addfield: async () =>
+      addfield: () =>
         showModal([
           { customId: buttonId, label: 'Field name', placeholder: 'Enter field name', maxLength: 256, required: true },
           {

@@ -11,23 +11,24 @@ module.exports = {
   async execute(interaction, client) {
     const { message, channel, customId } = interaction;
     const [, buttonId] = customId.split(':');
-    const placeholder = `Enter the Notification ${buttonId}`;
     const embed = EmbedBuilder.from(message.embeds[0]);
     const actionRows = ActionRowBuilder.from(message.components[0]);
 
-    /** @param {object|object[]} options */
+    /** @param {object|object[]} options - TextInputBuilder options */
     const showModal = async (options) =>
       await createModal(interaction, `manage-message:${buttonId}`, 'Notification Manager', options);
 
+    const placeholder = `Enter the Notification ${buttonId}`;
+
     const onClick = {
-      title: async () =>
+      title: () =>
         showModal({
           customId: buttonId,
           label: 'Notification Title (Leave blank = Remove)',
           placeholder,
           maxLength: 256,
         }),
-      description: async () =>
+      description: () =>
         showModal({
           customId: buttonId,
           label: 'Notification Description',
@@ -36,14 +37,14 @@ module.exports = {
           style: TextInputStyle.Paragraph,
           required: true,
         }),
-      color: async () =>
+      color: () =>
         showModal({
           customId: buttonId,
           label: 'Notification Color (Leave blank = Random)',
           placeholder: Object.keys(Colors).join(',').slice(14, 114),
           maxLength: 256,
         }),
-      image: async () =>
+      image: () =>
         showModal([
           { customId: buttonId, label: 'Notification Image (Leave blank = Remove)', maxLength: 256, placeholder },
         ]),

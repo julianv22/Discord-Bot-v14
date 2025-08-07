@@ -43,12 +43,12 @@ module.exports = (client) => {
             `- \\💬 Welcome Channel: ${channelName(welcome?.channelId)}`,
             `- \\📋 Log Channel: ${channelName(welcome?.logChannelId)}`,
           ],
-          ComponentType.Thumbnail,
-          cfg.infoPNG
+          cfg.infoPNG,
+          ComponentType.Thumbnail
         )
       )
       .addSectionComponents(
-        sectionComponents(['- \\🗯 Welcome Message', welcomeMessage], ComponentType.Button, {
+        sectionComponents(['- \\🗯 Welcome Message', welcomeMessage], {
           customId: 'welcome-msg',
           label: '✍ Change Message',
           style: ButtonStyle.Success,

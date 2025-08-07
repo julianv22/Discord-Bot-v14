@@ -48,10 +48,7 @@ module.exports = {
           .setColor(Math.floor(Math.random() * 0xffffff))
           .setAuthor({ name: 'Select Command Category ⤵️', iconURL: cfg.helpPNG }),
       ],
-      components: [
-        new ActionRowBuilder().setComponents(rowComponents(ComponentType.StringSelect, menus)),
-        infoButtons(),
-      ],
+      components: [rowComponents(ComponentType.StringSelect, menus), infoButtons()],
     });
   },
 };

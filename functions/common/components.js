@@ -12,7 +12,6 @@ const {
   StringSelectMenuBuilder,
   ChannelSelectMenuBuilder,
   RoleSelectMenuBuilder,
-  StringSelectMenuOptionBuilder,
   SeparatorBuilder,
   APIMessageComponentEmoji,
   TextInputStyle,
@@ -79,9 +78,7 @@ module.exports = {
       .setAccentColor(Colors.DarkAqua)
       .addTextDisplayComponents(module.exports.textDisplay('### \\🛠️ Setup Dashboard'))
       .addSeparatorComponents(new SeparatorBuilder())
-      .addActionRowComponents(
-        new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.StringSelect, menus))
-      );
+      .addActionRowComponents(module.exports.rowComponents(ComponentType.StringSelect, menus));
   },
   /** - Creates embed buttons.
    * @param {string} [messageId] - Message ID if editing an embed.
@@ -136,26 +133,22 @@ module.exports = {
   /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
-   * @param {ChannelType} [channelType] - The type of channel to filter by (used in ChannelSelect).
-   * @returns {ButtonBuilder[]|StringSelectMenuBuilder|TextInputBuilder[]|ActionRowBuilder<RoleSelectMenuBuilder>|ActionRowBuilder<ChannelSelectMenuBuilder>} */
-  rowComponents: (type, options, channelType) => {
+   * @param {ChannelType} [channelType =  ChannelType.GuildText] - The type of channel to filter by (used in ChannelSelect).
+   * @returns {ActionRowBuilder|ButtonBuilder[]|TextInputBuilder[]} */
+  rowComponents: (type, options, channelType = ChannelType.GuildText) => {
     options = [].concat(options); // Convert options to an array
 
     const setComponents = {
       [ComponentType.Button]: () => options.map((option) => new ButtonBuilder(option)),
-      [ComponentType.StringSelect]: () =>
-        new StringSelectMenuBuilder(options[0]).setOptions(
-          options.slice(1).map((option) => new StringSelectMenuOptionBuilder(option))
-        ),
       [ComponentType.TextInput]: () =>
         options.map((option) => new TextInputBuilder({ style: TextInputStyle.Short, required: false, ...option })),
+      [ComponentType.StringSelect]: () =>
+        new ActionRowBuilder().setComponents(new StringSelectMenuBuilder(options[0]).setOptions(options.slice(1))),
       [ComponentType.RoleSelect]: () =>
         new ActionRowBuilder().addComponents(options.map((option) => new RoleSelectMenuBuilder(option))),
       [ComponentType.ChannelSelect]: () =>
         new ActionRowBuilder().addComponents(
-          options.map((option) =>
-            new ChannelSelectMenuBuilder(option).addChannelTypes(channelType || ChannelType.GuildText)
-          )
+          options.map((option) => new ChannelSelectMenuBuilder(option).addChannelTypes(channelType))
         ),
     };
 
@@ -167,8 +160,7 @@ module.exports = {
    * @param {ButtonInteraction} interaction - The Discord ButtonInteraction object that triggered the modal.
    * @param {string} customId - The custom ID for the Modal.
    * @param {string} title - The title of the Modal.
-   * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the TextInputBuilder components for the modal.
-   * @returns {Promise<ModalSubmitInteraction>} A promise that resolves when the modal is shown. */
+   * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the TextInputBuilder components for the modal. */
   createModal: async (interaction, customId, title, options) => {
     try {
       const textInputs = module.exports.rowComponents(ComponentType.TextInput, options);
@@ -183,20 +175,20 @@ module.exports = {
   },
   /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
    * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).
-   * @param {ComponentType.Thumbnail|ComponentType.Button} accessoryType - The type of accessory to include in the section.
-   * @param {string|ComponentOptions} [options] - An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory. */
-  sectionComponents: (contents, accessoryType, options) => {
+   * @param {string|ComponentOptions} option - An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory.
+   * @param {ComponentType} [accessoryType = ComponentType.Button] - The type of accessory to include in the section.*/
+  sectionComponents: (contents, option, accessoryType = ComponentType.Button) => {
     const textDisplays = module.exports.textDisplay(contents);
 
     const setAccessory = {
-      [ComponentType.Thumbnail]: () =>
-        new SectionBuilder()
-          .addTextDisplayComponents(textDisplays)
-          .setThumbnailAccessory(new ThumbnailBuilder().setURL(options || cfg.infoPNG)),
       [ComponentType.Button]: () =>
         new SectionBuilder()
           .addTextDisplayComponents(textDisplays)
-          .setButtonAccessory(module.exports.rowComponents(accessoryType, options)[0]),
+          .setButtonAccessory(module.exports.rowComponents(ComponentType.Button, option)[0]),
+      [ComponentType.Thumbnail]: () =>
+        new SectionBuilder()
+          .addTextDisplayComponents(textDisplays)
+          .setThumbnailAccessory(new ThumbnailBuilder().setURL(option.checkURL() ? option : cfg.infoPNG)),
     };
 
     if (!setAccessory[accessoryType])

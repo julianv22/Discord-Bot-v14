@@ -47,8 +47,8 @@ module.exports = {
             `- \\💬 Notification Channel: ${channelName(youtube?.notifyChannelId)}`,
             `- \\🔔 Alert Role: ${guild.roles.cache.get(youtube?.alertRoleId) || '\u274C\uFE0F Not Set'}`,
           ],
-          ComponentType.Thumbnail,
-          cfg.youtubeIcon //'https://cdn.discordapp.com/attachments/976364997066231828/1396849360033284197/You-Tube-logo-social-media-video-sharing-transparent-PNG-image.png'
+          cfg.youtubeIcon, //'https://cdn.discordapp.com/attachments/976364997066231828/1396849360033284197/You-Tube-logo-social-media-video-sharing-transparent-PNG-image.png'
+          ComponentType.Thumbnail
         )
       )
       .addSeparatorComponents(new SeparatorBuilder())
@@ -59,7 +59,6 @@ module.exports = {
             'Notification channel:',
             '-# \\⚠️ This channel will be used to send notifications when a new video is uploaded.',
           ],
-          ComponentType.Button,
           { customId: 'youtube:remove:notify', label: '💬 Remove Channel', style: ButtonStyle.Danger }
         )
       )
@@ -71,11 +70,11 @@ module.exports = {
       )
       .addSeparatorComponents(new SeparatorBuilder())
       .addSectionComponents(
-        sectionComponents(
-          ['Alert role:', '-# \\⚠️ This role will be mentioned in the notification.'],
-          ComponentType.Button,
-          { customId: 'youtube:remove:alert', label: '🔔 Remove Alert', style: ButtonStyle.Danger }
-        )
+        sectionComponents(['Alert role:', '-# \\⚠️ This role will be mentioned in the notification.'], {
+          customId: 'youtube:remove:alert',
+          label: '🔔 Remove Alert',
+          style: ButtonStyle.Danger,
+        })
       )
       .addActionRowComponents(
         rowComponents(ComponentType.RoleSelect, { customId: 'youtube-menu:alert', placeholder: '🔔 Select Alert Role' })

@@ -12,7 +12,15 @@ module.exports = {
   async execute(interaction, client) {
     const { guild, user, channel, message, fields, customId } = interaction;
     const [, textInputId] = customId.split(':');
-    const inputValue = fields.getTextInputValue(textInputId);
+
+    const replaceKey = {
+      user: user.displayName || user.username,
+      guild: guild.name,
+      iconURL: guild.iconURL(),
+      avatar: user.avatarURL(),
+    };
+
+    const inputValue = replaceVar(fields.getTextInputValue(textInputId), replaceKey);
 
     // Handler with /edit message command
     if (textInputId.split('-')[0] === 'message') {
@@ -26,18 +34,11 @@ module.exports = {
       });
     }
 
+    if (!message) return await interaction.reply(embedMessage({ desc: 'Cannot find the message!' }));
+
     await interaction.deferUpdate();
 
     const embed = EmbedBuilder.from(message.embeds[0]);
-
-    const replaceKey = {
-      user: user.displayName || user.username,
-      guild: guild.name,
-      iconURL: guild.iconURL(),
-      avatar: user.avatarURL(),
-    };
-
-    if (!message) return await interaction.followUp(client.embedMessage({ desc: 'Cannot find the message!' }));
 
     const onSubmit = {
       author: () => {
@@ -45,12 +46,12 @@ module.exports = {
         const iconURL = replaceVar(authorIcon, replaceKey);
 
         return embed.setAuthor({
-          name: replaceVar(inputValue, replaceKey).slice(0, 256) || null,
+          name: inputValue.slice(0, 256) || null,
           iconURL: iconURL.checkURL() ? iconURL : null,
         });
       },
       title: () => embed.setTitle(inputValue.slice(0, 256) || null), // Also work with /reaction role command
-      description: () => embed.setDescription(replaceVar(inputValue, replaceKey).slice(0, 4096)),
+      description: () => embed.setDescription(inputValue.slice(0, 4096)),
       color: () => embed.setColor(inputValue.toEmbedColor()), // Also work with /reaction role command
       image: () => embed.setImage(inputValue.checkURL() ? inputValue : null),
       thumbnail: () => embed.setThumbnail(inputValue.checkURL() ? inputValue : null),
@@ -59,7 +60,7 @@ module.exports = {
         const iconUrl = replaceVar(footerIcon, replaceKey);
 
         return embed.setFooter({
-          text: replaceVar(inputValue, replaceKey).slice(0, 2048) || null,
+          text: inputValue.slice(0, 2048) || null,
           iconURL: iconUrl.checkURL() ? iconUrl : null,
         });
       },
