@@ -1,6 +1,5 @@
 const {
   ButtonInteraction,
-  ModalSubmitInteraction,
   ContainerBuilder,
   ActionRowBuilder,
   ModalBuilder,
@@ -13,7 +12,6 @@ const {
   ChannelSelectMenuBuilder,
   RoleSelectMenuBuilder,
   SeparatorBuilder,
-  APIMessageComponentEmoji,
   TextInputStyle,
   ComponentType,
   ButtonStyle,
@@ -82,7 +80,7 @@ module.exports = {
   },
   /** - Creates embed buttons.
    * @param {string} [messageId] - Message ID if editing an embed.
-   * @returns {ActionRowBuilder<ButtonBuilder[]>} */
+   * @returns {ActionRowBuilder<ButtonBuilder[]>[]} */
   manageEmbedButtons: (messageId) => {
     const buttons = [
       [
@@ -120,7 +118,7 @@ module.exports = {
    * @property {number} [style = TextInputStyle.Short] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
    * @property {string} label - The text displayed on the component.
    * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
-   * @property {string|APIMessageComponentEmoji} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
+   * @property {string} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
    * @property {string} [description] - A description for the component (used in StringSelect options).
    * @property {string} [placeholder] - Placeholder text for components (used in StringSelect options and TextInput).
    * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
@@ -134,7 +132,7 @@ module.exports = {
    * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
    * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
    * @param {ChannelType} [channelType =  ChannelType.GuildText] - The type of channel to filter by (used in ChannelSelect).
-   * @returns {ActionRowBuilder|ButtonBuilder[]|TextInputBuilder[]} */
+   * @returns {ButtonBuilder[]|TextInputBuilder[]|ActionRowBuilder} */
   rowComponents: (type, options, channelType = ChannelType.GuildText) => {
     options = [].concat(options); // Convert options to an array
 
@@ -142,14 +140,14 @@ module.exports = {
       [ComponentType.Button]: () => options.map((option) => new ButtonBuilder(option)),
       [ComponentType.TextInput]: () =>
         options.map((option) => new TextInputBuilder({ style: TextInputStyle.Short, required: false, ...option })),
-      [ComponentType.StringSelect]: () =>
-        new ActionRowBuilder().setComponents(new StringSelectMenuBuilder(options[0]).setOptions(options.slice(1))),
       [ComponentType.RoleSelect]: () =>
-        new ActionRowBuilder().addComponents(options.map((option) => new RoleSelectMenuBuilder(option))),
+        new ActionRowBuilder().setComponents(options.map((option) => new RoleSelectMenuBuilder(option))),
       [ComponentType.ChannelSelect]: () =>
-        new ActionRowBuilder().addComponents(
+        new ActionRowBuilder().setComponents(
           options.map((option) => new ChannelSelectMenuBuilder(option).addChannelTypes(channelType))
         ),
+      [ComponentType.StringSelect]: () =>
+        new ActionRowBuilder().setComponents(new StringSelectMenuBuilder(options[0]).setOptions(options.slice(1))),
     };
 
     if (!setComponents[type]) throw new Error(chalk.yellow('Invalid ComponentType'), chalk.green(type));
@@ -173,10 +171,11 @@ module.exports = {
       logError({ item: 'createModal', desc: 'function' }, e);
     }
   },
-  /** - Creates a SectionBuilder component, typically used within a StringSelectMenu or similar composite components.
+  /** - Creates a SectionBuilder component.
    * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).
    * @param {string|ComponentOptions} option - An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory.
-   * @param {ComponentType} [accessoryType = ComponentType.Button] - The type of accessory to include in the section.*/
+   * @param {ComponentType} [accessoryType = ComponentType.Button] - The type of accessory to include in the section.
+   * @returns {SectionBuilder} A SectionBuilder include Thumbnail or Button accessory */
   sectionComponents: (contents, option, accessoryType = ComponentType.Button) => {
     const textDisplays = module.exports.textDisplay(contents);
 
