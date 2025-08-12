@@ -6,9 +6,9 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'modals',
   data: { name: 'suggest' },
-  /** - Suggestion Modal
-   * @param {Interaction} interaction - The modal submit interaction
-   * @param {Client} client - The Discord client */
+  /** Suggestion Modal
+   * @param {Interaction} interaction The modal submit interaction
+   * @param {Client} client The Discord client */
   async execute(interaction, client) {
     const { guild, guildId, user, fields } = interaction;
     const description = fields.getTextInputValue('content');

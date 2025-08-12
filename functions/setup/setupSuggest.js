@@ -3,10 +3,10 @@ const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu, textDisplay, rowComponents } = require('../common/components');
 const { embedMessage } = require('../common/logging');
 
-/** @param {Client} client - Discord Client. */
+/** @param {Client} client Discord Client. */
 module.exports = (client) => {
-  /** - Sets up the suggestion channel.
-   * @param {Interaction} interaction - The command interaction. */
+  /** Sets up the suggestion channel.
+   * @param {Interaction} interaction The command interaction. */
   client.setupSuggest = async (interaction) => {
     const { id: guildId, name: guildName } = interaction.guild;
 
@@ -18,7 +18,7 @@ module.exports = (client) => {
         embedMessage({ desc: 'No data found for this server. Please try again later!' })
       );
 
-    /** @param {string} channelId - The ID of the channel. */
+    /** @param {string} channelId The ID of the channel. */
     const channelName = (channelId) => interaction.guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const container = new ContainerBuilder()

@@ -4,7 +4,7 @@ const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'menus',
   data: { name: 'tournament-menu' },
-  /** - Setup Tournament
+  /** Setup Tournament
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {

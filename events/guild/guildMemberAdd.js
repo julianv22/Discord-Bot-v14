@@ -4,9 +4,9 @@ const { logError } = require('../../functions/common/logging');
 
 module.exports = {
   name: Events.GuildMemberAdd,
-  /** - Guild Member Add Event
-   * @param {GuildMember} member - Guild Member object
-   * @param {Client} client - Discord Client */
+  /** Guild Member Add Event
+   * @param {GuildMember} member Guild Member object
+   * @param {Client} client Discord Client */
   async execute(member, client) {
     try {
       const { guild, user } = member;

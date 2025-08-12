@@ -16,8 +16,8 @@ module.exports = {
         .setName('notify')
         .setDescription(`Sets the notification channel and alert role for YouTube updates. ${cfg.adminRole} only`)
     ),
-  /** - Manages YouTube channel subscriptions and notifications
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Manages YouTube channel subscriptions and notifications
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {},
 };

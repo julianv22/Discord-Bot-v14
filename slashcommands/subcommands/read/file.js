@@ -9,9 +9,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('file'),
 
-  /** - Reads a file from the project.
-   * @param {Interaction} interaction - Interaction
-   * @param {Client} client - Discord Client */
+  /** Reads a file from the project.
+   * @param {Interaction} interaction Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

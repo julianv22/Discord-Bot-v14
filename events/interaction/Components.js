@@ -2,9 +2,9 @@ const { Client, Events, Interaction, ChannelType } = require('discord.js');
 
 module.exports = {
   name: Events.InteractionCreate,
-  /** - Button Interaction Event
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Button Interaction Event
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { catchError, compColection } = client;
     const { channel, customId } = interaction;

@@ -1,11 +1,11 @@
 const { Client, Interaction, Message, EmbedBuilder } = require('discord.js');
 const { embedMessage } = require('../common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
-  /** - Searches Vietnamese Wikipedia articles by keyword.
-   * @param {string} keyword - The keyword to search for.
-   * @param {Interaction|Message} object - The interaction or message object. */
+  /** Searches Vietnamese Wikipedia articles by keyword.
+   * @param {string} keyword The keyword to search for.
+   * @param {Interaction|Message} object The interaction or message object. */
   client.wikipedia = async (keyword, object) => {
     const { catchError } = client;
     const author = object?.user || object?.author;

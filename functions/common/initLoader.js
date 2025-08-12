@@ -4,15 +4,15 @@ const { readdirSync, statSync } = require('fs');
 const { logError } = require('./logging');
 
 module.exports = {
-  /** - Object containing filtering options for the reading process.
+  /** Object containing filtering options for the reading process.
    * @typedef {object} FilterOptions
    * @property {boolean} [all = false] If `true`, the function will return **all** files and subfolders in `folderPath`.
    * @property {boolean} [isDir = false] If `true`, the function will only return a list of **subfolders** in `folderPath`.
    * @property {string} [extension = '.js'] File extension to filter by (e.g., `'.js'`, `'.json'`, `'.txt'`).
    * @property {function(string): boolean} [filter] Additional custom filter function (if any).
-   * - This function is applied after the main filtering step (all/isDir/extension).
+   * This function is applied after the main filtering step (all/isDir/extension).
    */
-  /** - Reads directory contents (files and/or subfolders) based on filtering options.
+  /** Reads directory contents (files and/or subfolders) based on filtering options.
    * @param {string} folderPath Path to the folder to read.
    * @param {FilterOptions} [options]
    * @returns {string[]} Returns an Array containing the names of files or folders that match the filtering conditions.
@@ -67,7 +67,7 @@ module.exports = {
       return [];
     }
   },
-  /** - Requires a file and adds it to the corresponding collection.
+  /** Requires a file and adds it to the corresponding collection.
    * @param {string} filePath Path to the file.
    * @param {string} folderName Folder name.
    * @param {Collection<string, object>} collection Command Collection. */
@@ -76,7 +76,7 @@ module.exports = {
     const file = parts.pop();
     const folder = parts.slice(-1);
 
-    /** - Logs a warning to the console when 'name' or 'execute' properties are missing.
+    /** Logs a warning to the console when 'name' or 'execute' properties are missing.
      * @param {string} commandType Type of command (Prefix, Slash, Sub, Component).
      * @param {string} parts Missing properties, separated by commas. */
     const missingWarn = (commandType, parts) => {

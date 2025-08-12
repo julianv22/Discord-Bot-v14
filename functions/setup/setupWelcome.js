@@ -12,10 +12,10 @@ const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu, createModal, textDisplay, sectionComponents, rowComponents } = require('../common/components');
 const { embedMessage } = require('../common/logging');
 
-/** @param {Client} client - Discord Client. */
+/** @param {Client} client Discord Client. */
 module.exports = (client) => {
-  /** - Sets up the welcome system.
-   * @param {Interaction} interaction - The command interaction. */
+  /** Sets up the welcome system.
+   * @param {Interaction} interaction The command interaction. */
   client.setupWelcome = async (interaction) => {
     const { guild, guildId } = interaction;
     const { name: guildName } = guild;
@@ -31,7 +31,7 @@ module.exports = (client) => {
     const { welcome } = profile || {};
     const welcomeMessage = welcome?.message || '-# \u274C\uFE0F Not Set';
 
-    /** @param {string} channelId - The ID of the channel. */
+    /** @param {string} channelId The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const container = new ContainerBuilder()

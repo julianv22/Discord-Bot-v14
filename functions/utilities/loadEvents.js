@@ -4,9 +4,9 @@ const { readFiles } = require('../common/initLoader');
 const { logAsciiTable } = require('../common/utilities');
 const { logError } = require('../common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
-  /** - Loads all events from the 'events' folder. */
+  /** Loads all events from the 'events' folder. */
   client.loadEvents = async () => {
     const { compColection } = client;
 

@@ -7,9 +7,9 @@ module.exports = {
   category: 'economy',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('daily').setDescription('Claim your daily 💲 from the economy system.'),
-  /** - Claim daily 💲 from the economy system
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Claim daily 💲 from the economy system
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user } = interaction;
     const { name: guildName } = guild;
@@ -97,7 +97,7 @@ module.exports = {
       }
     }
 
-    // profile.streak = streak;
+    profile.streak = streak;
     profile.maxStreak = maxStreak;
     profile.lastDaily = today;
     profile.markModified('achievements');

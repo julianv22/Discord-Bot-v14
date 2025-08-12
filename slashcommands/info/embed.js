@@ -19,9 +19,9 @@ module.exports = {
             .setRequired(true)
         )
     ),
-  /** - Fetches the JSON source of an embed message.
-   * @param {Interaction} interaction - The command interaction.
-   * @param {Client} client - The Discord client. */
+  /** Fetches the JSON source of an embed message.
+   * @param {Interaction} interaction The command interaction.
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

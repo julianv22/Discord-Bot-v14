@@ -16,9 +16,9 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'buttons',
   data: { name: 'tournament' },
-  /** - Support Button
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - Discord Client */
+  /** Support Button
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferUpdate();
 

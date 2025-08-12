@@ -8,10 +8,10 @@ module.exports = {
   description: 'Đọc kỹ hướng dẫn SD trước khi dùng!',
   category: 'info',
   cooldown: 0,
-  /** - Help prefix command
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Help prefix command
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const { prefixCommands } = client;
     const { author: user, guild } = message;

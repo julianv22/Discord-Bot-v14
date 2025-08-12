@@ -2,10 +2,10 @@ const _ = require('lodash');
 const { logError } = require('./logging');
 
 module.exports = {
-  /** - Compares two command objects to check if they are structurally identical.
+  /** Compares two command objects to check if they are structurally identical.
    * @param {object} localCommand The command defined locally (after toJSON()).
    * @param {object} remoteCommand The command fetched from the Discord API.
-   * - Returns true if the commands are different, otherwise returns false. */
+   * Returns true if the commands are different, otherwise returns false. */
   commandsAreDifferent: (localCommand, remoteCommand) => {
     // Helper function to normalize option properties for consistent comparison
     const normalizeOption = (opt) => {
@@ -100,7 +100,7 @@ module.exports = {
 
     return false;
   },
-  /** - Compares local commands with registered commands on Discord and logs the changes.
+  /** Compares local commands with registered commands on Discord and logs the changes.
    * @param {Array<object>} localCommands An array of locally defined commands.
    * @param {Array<object>} remoteCommands An array of commands fetched from the Discord API. */
   compareCommands: (localCommands, remoteCommands) => {

@@ -5,9 +5,9 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'buttons',
   data: { name: 'transfer' },
-  /** - Transfer Money Button
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - Discord Client */
+  /** Transfer Money Button
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferUpdate();
 

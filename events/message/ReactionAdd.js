@@ -4,9 +4,9 @@ const { starReactionAdd } = require('../../functions/common/starboardReaction');
 
 module.exports = {
   name: Events.MessageReactionAdd,
-  /** - MessageReaction Add Event
-   * @param {MessageReaction} reaction - Message Reaction object
-   * @param {User} user - User object */
+  /** MessageReaction Add Event
+   * @param {MessageReaction} reaction Message Reaction object
+   * @param {User} user User object */
   async execute(reaction, user) {
     if (user.bot) return;
 

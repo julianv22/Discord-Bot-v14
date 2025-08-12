@@ -3,9 +3,9 @@ const path = require('path');
 const { readFiles } = require('../common/initLoader');
 const { logError } = require('../common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
-  /** - Loads all functions from the 'functions' folder. */
+  /** Loads all functions from the 'functions' folder. */
   client.loadFunctions = async () => {
     try {
       const folderName = 'functions';

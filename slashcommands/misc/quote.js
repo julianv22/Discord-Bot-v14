@@ -4,9 +4,9 @@ module.exports = {
   category: 'misc',
   scooldown: 10,
   data: new SlashCommandBuilder().setName('quote').setDescription('Get a random quote from ZenQuotes.io'),
-  /** - Get a random quote from ZenQuotes
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Get a random quote from ZenQuotes
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply();
 

@@ -7,9 +7,9 @@ const reactionMap = new Map();
 module.exports = {
   type: 'buttons',
   data: { name: 'reaction-role' },
-  /** - Handles the reaction role button interaction.
-   * @param {Interaction} interaction - The button interaction.
-   * @param {Client} client - The Discord client. */
+  /** Handles the reaction role button interaction.
+   * @param {Interaction} interaction The button interaction.
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     const { guild, guildId, channel, message, user, customId } = interaction;
     const [, buttonId] = customId.split(':');

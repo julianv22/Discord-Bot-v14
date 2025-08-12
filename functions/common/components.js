@@ -21,7 +21,7 @@ const {
 const { logError } = require('./logging');
 
 module.exports = {
-  /** - Creates an action row with predefined informational buttons.
+  /** Creates an action row with predefined informational buttons.
    * @returns {ActionRowBuilder<ButtonBuilder[]>} An ActionRowBuilder containing the informational buttons. */
   infoButtons: () => {
     const buttons = [
@@ -33,8 +33,8 @@ module.exports = {
 
     return new ActionRowBuilder().setComponents(module.exports.rowComponents(ComponentType.Button, buttons));
   },
-  /** - Creates a dashboard menu for setting up various bot features.
-   * @param {string} selected - Selected menu value */
+  /** Creates a dashboard menu for setting up various bot features.
+   * @param {string} selected Selected menu value */
   dashboardMenu: (selected) => {
     const menus = [
       { customId: 'dashboard-menu', placeholder: '⚙️ Select feature for setting' },
@@ -78,8 +78,8 @@ module.exports = {
       .addSeparatorComponents(new SeparatorBuilder())
       .addActionRowComponents(module.exports.rowComponents(ComponentType.StringSelect, menus));
   },
-  /** - Creates embed buttons.
-   * @param {string} [messageId] - Message ID if editing an embed.
+  /** Creates embed buttons.
+   * @param {string} [messageId] Message ID if editing an embed.
    * @returns {ActionRowBuilder<ButtonBuilder[]>[]} */
   manageEmbedButtons: (messageId) => {
     const buttons = [
@@ -111,27 +111,27 @@ module.exports = {
     );
   },
   /**
-   * @typedef {object} ComponentOptions - Configuration for various Discord components.
-   * @property {string} [customId] - The custom ID for the component.
-   * @property {boolean} [disabled = false] - Whether the component is disabled.
-   * @property {string} [url] - A URL for link-style buttons.
-   * @property {number} [style = TextInputStyle.Short] - The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
-   * @property {string} label - The text displayed on the component.
-   * @property {string} [value] - The value associated with the component (used in StringSelect options and TextInput).
-   * @property {string} [emoji] - An emoji to display on the component (used in Buttons and StringSelect options).
-   * @property {string} [description] - A description for the component (used in StringSelect options).
-   * @property {string} [placeholder] - Placeholder text for components (used in StringSelect options and TextInput).
-   * @property {boolean} [default] - Whether this option is selected by default (used in StringSelect options).
-   * @property {boolean} [required = false] - Whether the component is required (used in TextInput).
-   * @property {number} [maxLength] - The maximum number of characters that can be entered (used in TextInput).
-   * @property {number} [minLength] - The minimum number of characters that can be entered (used in TextInput).
-   * @property {number} [maxValues = 1] - The maximum amount of options that can be selected (used in StringSelect options).
-   * @property {number} [minValues = 1] - The minimum amount of options that must be selected (used in StringSelect options). */
+   * @typedef {object} ComponentOptions Configuration for various Discord components.
+   * @property {string} [customId] The custom ID for the component.
+   * @property {boolean} [disabled = false] Whether the component is disabled.
+   * @property {string} [url] A URL for link-style buttons.
+   * @property {number} [style = TextInputStyle.Short] The visual style of the component (e.g., ButtonStyle.Primary, TextInputStyle.Short).
+   * @property {string} label The text displayed on the component.
+   * @property {string} [value] The value associated with the component (used in StringSelect options and TextInput).
+   * @property {string} [emoji] An emoji to display on the component (used in Buttons and StringSelect options).
+   * @property {string} [description] A description for the component (used in StringSelect options).
+   * @property {string} [placeholder] Placeholder text for components (used in StringSelect options and TextInput).
+   * @property {boolean} [default] Whether this option is selected by default (used in StringSelect options).
+   * @property {boolean} [required = false] Whether the component is required (used in TextInput).
+   * @property {number} [maxLength] The maximum number of characters that can be entered (used in TextInput).
+   * @property {number} [minLength] The minimum number of characters that can be entered (used in TextInput).
+   * @property {number} [maxValues = 1] The maximum amount of options that can be selected (used in StringSelect options).
+   * @property {number} [minValues = 1] The minimum amount of options that must be selected (used in StringSelect options). */
 
-  /** - Creates an array of components suitable for an ActionRow based on the specified type and options.
-   * @param {ComponentType} type - The type of component to create (Button, StringSelect, TextInput).
-   * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the component properties.
-   * @param {ChannelType} [channelType =  ChannelType.GuildText] - The type of channel to filter by (used in ChannelSelect).
+  /** Creates an array of components suitable for an ActionRow based on the specified type and options.
+   * @param {ComponentType} type The type of component to create (Button, StringSelect, TextInput).
+   * @param {ComponentOptions|ComponentOptions[]} options An object or array of objects defining the component properties.
+   * @param {ChannelType} [channelType =  ChannelType.GuildText] The type of channel to filter by (used in ChannelSelect).
    * @returns {ButtonBuilder[]|TextInputBuilder[]|ActionRowBuilder} */
   rowComponents: (type, options, channelType = ChannelType.GuildText) => {
     options = [].concat(options); // Convert options to an array
@@ -154,11 +154,11 @@ module.exports = {
 
     return setComponents[type]();
   },
-  /** - Creates and displays a Discord Modal for user input.
-   * @param {ButtonInteraction} interaction - The Discord ButtonInteraction object that triggered the modal.
-   * @param {string} customId - The custom ID for the Modal.
-   * @param {string} title - The title of the Modal.
-   * @param {ComponentOptions|ComponentOptions[]} options - An object or array of objects defining the TextInputBuilder components for the modal. */
+  /** Creates and displays a Discord Modal for user input.
+   * @param {ButtonInteraction} interaction The Discord ButtonInteraction object that triggered the modal.
+   * @param {string} customId The custom ID for the Modal.
+   * @param {string} title The title of the Modal.
+   * @param {ComponentOptions|ComponentOptions[]} options An object or array of objects defining the TextInputBuilder components for the modal. */
   createModal: async (interaction, customId, title, options) => {
     try {
       const textInputs = module.exports.rowComponents(ComponentType.TextInput, options);
@@ -171,10 +171,10 @@ module.exports = {
       logError({ item: 'createModal', desc: 'function' }, e);
     }
   },
-  /** - Creates a SectionBuilder component.
-   * @param {string|string[]} contents - The text content for the TextDisplay components within the section (maximum 3).
-   * @param {string|ComponentOptions} option - An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory.
-   * @param {ComponentType} [accessoryType = ComponentType.Button] - The type of accessory to include in the section.
+  /** Creates a SectionBuilder component.
+   * @param {string|string[]} contents The text content for the TextDisplay components within the section (maximum 3).
+   * @param {string|ComponentOptions} option An URL string for Thumbnail Accessory or ComponentOptions for Button Accessory.
+   * @param {ComponentType} [accessoryType = ComponentType.Button] The type of accessory to include in the section.
    * @returns {SectionBuilder} A SectionBuilder include Thumbnail or Button accessory */
   sectionComponents: (contents, option, accessoryType = ComponentType.Button) => {
     const textDisplays = module.exports.textDisplay(contents);
@@ -195,12 +195,12 @@ module.exports = {
 
     return setAccessory[accessoryType]();
   },
-  /** - Creates an array of TextDisplayBuilder components from the given content.
-   * @param {string|string[]} contents - The text content for the display component(s). Can be a single string or an array of strings. */
+  /** Creates an array of TextDisplayBuilder components from the given content.
+   * @param {string|string[]} contents The text content for the display component(s). Can be a single string or an array of strings. */
   textDisplay: (contents) => [].concat(contents).map((content) => new TextDisplayBuilder().setContent(content)),
-  /** - Creates a Link Button from given url
-   * @param {string} url - The URL of button.
-   * @param {string} [label = '🔗 Jump to message'] - The text displayed on the button. */
+  /** Creates a Link Button from given url
+   * @param {string} url The URL of button.
+   * @param {string} [label = '🔗 Jump to message'] The text displayed on the button. */
   linkButton: (url, label = '🔗 Jump to message') =>
     new ActionRowBuilder().setComponents(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(label).setURL(url)),
 };

@@ -10,9 +10,9 @@ module.exports = {
     .setName('create')
     .setDescription(`Create embed. ${cfg.modRole} only`)
     .addSubcommand((sub) => sub.setName('embed').setDescription(`Create embed. ${cfg.modRole} only`)),
-  /** - Create a embed
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Create a embed
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

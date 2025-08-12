@@ -13,9 +13,9 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'buttons',
   data: { name: 'manage-message' },
-  /** - Handles the interaction for managing embeds.
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - The Discord client. */
+  /** Handles the interaction for managing embeds.
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     const { message, channel, customId } = interaction;
     const { catchError } = client;
@@ -26,7 +26,7 @@ module.exports = {
 
     if (!message) return await interaction.reply(embedMessage({ desc: 'Message not found or has been deleted!' }));
 
-    /** @param {object|object[]} options - TextInputBuilder options */
+    /** @param {object|object[]} options TextInputBuilder options */
     const showModal = async (options) => await createModal(interaction, customId, 'Embed Manager', options);
 
     const onClick = {

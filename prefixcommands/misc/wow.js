@@ -7,10 +7,10 @@ module.exports = {
   description: 'Wow! 😍',
   category: 'misc',
   cooldown: 0,
-  /** - Wow! 😍
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Wow! 😍
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const { author } = message;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);

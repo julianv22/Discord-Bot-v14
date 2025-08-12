@@ -4,9 +4,9 @@ const serverProfile = require('../../config/serverProfile');
 module.exports = {
   type: 'menus',
   data: { name: 'starboard-menu' },
-  /** - Starboard Menu
-   * @param {Interaction} interaction - Select Menu Interaction
-   * @param {Client} client - Discord Client */
+  /** Starboard Menu
+   * @param {Interaction} interaction Select Menu Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferUpdate();
 

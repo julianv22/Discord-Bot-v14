@@ -1,17 +1,17 @@
 const { Client, Message, Colors } = require('discord.js');
 const { embedMessage, commandUsage } = require('../../functions/common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = {
   name: 'ping',
   aliases: [],
   description: 'Kiểm tra độ trễ của bot',
   category: 'info',
   cooldown: 0,
-  /** - Check bot latency
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Check bot latency
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     if (args.join(' ').trim() === '?') return await commandUsage(message, this);
 

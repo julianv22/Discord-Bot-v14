@@ -23,9 +23,9 @@ module.exports = {
     .addSubcommand((sub) =>
       sub.setName('info').setDescription(`Displays all current server setup information. ${cfg.adminRole} only`)
     ),
-  /** - Configures various server settings
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Configures various server settings
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 

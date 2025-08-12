@@ -30,8 +30,8 @@ module.exports = {
         .setName('economy')
         .setDescription(`Displays the economy leaderboard (top balance, streak, max streak). ${cfg.adminRole} only`)
     ),
-  /** - Displays various leaderboards (level/thanks/economy)
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Displays various leaderboards (level/thanks/economy)
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {},
 };

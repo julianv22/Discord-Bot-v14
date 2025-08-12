@@ -18,9 +18,9 @@ module.exports = {
         .setRequired(true)
     )
     .addUserOption((opt) => opt.setName('user').setDescription('Filters messages by a specific user.')),
-  /** - Deletes a specified number of messages
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Deletes a specified number of messages
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

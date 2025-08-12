@@ -2,13 +2,13 @@ const { Client, Interaction, Message, EmbedBuilder, ChannelType, Colors } = requ
 const { logError, embedMessage } = require('../common/logging');
 const chalk = require('chalk');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
   const regex = /\x1b\[[0-9;]*m/g;
-  /** - Displays an error when caught.
-   * @param {Interaction|Message} object - The interaction or message object.
-   * @param {Error} e - The error object.
-   * @param {string|Interaction} description - A description of the error, or the interaction object that caused the error. */
+  /** Displays an error when caught.
+   * @param {Interaction|Message} object The interaction or message object.
+   * @param {Error} e The error object.
+   * @param {string|Interaction} description A description of the error, or the interaction object that caused the error. */
   client.catchError = async (object, e, description) => {
     const { guilds } = client;
     const user = object?.user || object?.author;

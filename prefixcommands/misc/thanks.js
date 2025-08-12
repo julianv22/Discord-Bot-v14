@@ -7,10 +7,10 @@ module.exports = {
   description: 'Gửi lời cảm ơn tới một ai đó.',
   category: 'misc',
   cooldown: 30,
-  /** - Send a thank you message to someone
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Send a thank you message to someone
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const { thanksUser } = client;
     const { guild, mentions } = message;

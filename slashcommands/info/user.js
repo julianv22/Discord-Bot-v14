@@ -20,7 +20,7 @@ module.exports = {
         .setDescription("Get user's avatar")
         .addUserOption((opt) => opt.setName('target').setDescription('Provide the user you want to get the avatar of'))
     ),
-  /** - User information
+  /** User information
    * @param {Interaction} interaction
    * @param {Client} client */
   async execute(interaction, client) {

@@ -3,16 +3,16 @@ const asciiTable = require('ascii-table');
 const { logError } = require('./logging');
 
 module.exports = {
-  /** - Searches for and replaces variables in a string using a provided replacements object.
-   * - Variables in the string should be in the format `{key}`.
-   * @param {string} stringInput - The string containing variables to be replaced.
-   * @param {object} replacements - An object where keys are variable names and values are their replacements.
+  /** Searches for and replaces variables in a string using a provided replacements object.
+   * Variables in the string should be in the format `{key}`.
+   * @param {string} stringInput The string containing variables to be replaced.
+   * @param {object} replacements An object where keys are variable names and values are their replacements.
    * @example
    * ```js
    * const replaceKey = { user: user.displayName || user.username, guild: guild.name, iconURL: guild.iconURL(), avatar: user.avatarURL() };
    * replaceVar("Hello, {user} from {guild}!", replaceKey);
    * ```
-   * @returns {string} - The string with variables replaced. */
+   * @returns {string} The string with variables replaced. */
   replaceVar: (stringInput, replacements) =>
     // Regex will match any string in the format {key}
     stringInput.replace(/\{(\w+)\}/g, (match, key) =>
@@ -20,11 +20,11 @@ module.exports = {
       // Otherwise, return the original match to keep that part unchanged.
       replacements[key] !== undefined ? replacements[key] : match
     ),
-  /** - Logs an array of data into an ASCII table format to the console. Each inner array in `data` represents a column.
-   * @param {Array<Array<string>>} data - An array of arrays, where each inner array contains data for a column.
-   * @param {object} [setting = {}] - Optional settings for the ASCII table.
-   * @param {string} [setting.title] - The title of the ASCII table.
-   * @param {string[]} [setting.heading] - Column names for the ASCII table. */
+  /** Logs an array of data into an ASCII table format to the console. Each inner array in `data` represents a column.
+   * @param {Array<Array<string>>} data An array of arrays, where each inner array contains data for a column.
+   * @param {object} [setting = {}] Optional settings for the ASCII table.
+   * @param {string} [setting.title] The title of the ASCII table.
+   * @param {string[]} [setting.heading] Column names for the ASCII table. */
   logAsciiTable: (data, seting = {}) => {
     const { title, heading } = seting;
 
@@ -50,9 +50,9 @@ module.exports = {
     }
     console.log(table.toString());
   },
-  /** - Converts a numeric balance to a localized currency string.
-   * @param {number} balance - The amount of money to format.
-   * @param {Locale} [userLocale = 'VND'] - The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided or invalid. */
+  /** Converts a numeric balance to a localized currency string.
+   * @param {number} balance The amount of money to format.
+   * @param {Locale} [userLocale = 'VND'] The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided or invalid. */
   toCurrency: (balance, userLocale = 'VND') => {
     const CurrencyMap = {
       'en-US': 'USD', // English (US) -> US Dollar
@@ -80,19 +80,19 @@ module.exports = {
   },
 };
 // Start define prototype functions
-/** - Converts the number to a currency formatted string. This is a prototype function for `Number`.
- * @param {Locale} [userLocale] - The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided. */
+/** Converts the number to a currency formatted string. This is a prototype function for `Number`.
+ * @param {Locale} [userLocale] The locale code (e.g., `'en-US'`) to use for formatting. Defaults to `'vi-VN'` if not provided. */
 Number.prototype.toCurrency = function (userLocale) {
   if (!userLocale) return this.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   else return module.exports.toCurrency(this, userLocale);
 };
-/** - Capitalizes the first letter of the string. This is a prototype function for `String`. */
+/** Capitalizes the first letter of the string. This is a prototype function for `String`. */
 
 String.prototype.toCapitalize = function () {
   if (!this) return ''; // Handle empty or undefined string
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
-/** - Converts a string to a Discord EmbedColor. This is a prototype function for `String`.
+/** Converts a string to a Discord EmbedColor. This is a prototype function for `String`.
  * @returns {number} Color of the embed */
 String.prototype.toEmbedColor = function () {
   // Normalize color input
@@ -104,7 +104,7 @@ String.prototype.toEmbedColor = function () {
   // Return Random if invalid
   return Math.floor(Math.random() * 0xffffff);
 };
-/** - Checks if the string is a valid URL. This is a prototype function for `String`. */
+/** Checks if the string is a valid URL. This is a prototype function for `String`. */
 String.prototype.checkURL = function () {
   try {
     const res = this.match(
@@ -116,8 +116,8 @@ String.prototype.checkURL = function () {
     return false;
   }
 };
-/** - Groups elements within a Collection by a specified property and returns a formatted list of counts. This is a prototype function for `Collection`.
- * @param {string} [property = 'category'] - The property by which to group the elements. Defaults to 'category'.
+/** Groups elements within a Collection by a specified property and returns a formatted list of counts. This is a prototype function for `Collection`.
+ * @param {string} [property = 'category'] The property by which to group the elements. Defaults to 'category'.
  * @returns {string[]} An array of formatted strings, e.g., `[ '📂 Buttons [7]', '📂 Menus [1]', '📂 Modals [4]' ]`. */
 Collection.prototype.toGroupedCountList = function (property = 'category') {
   const groupedCounts = this.reduce((acc, item) => {
@@ -127,8 +127,8 @@ Collection.prototype.toGroupedCountList = function (property = 'category') {
 
   return Object.entries(groupedCounts).map(([name, count]) => `📂 ${name.toCapitalize()} [${count}]`);
 };
-/** - Converts a Collection of commands into a format suitable for EmbedBuilder fields. This is a prototype function for `Collection`.
- * @param {string} categoryName - The category name to filter commands by.
+/** Converts a Collection of commands into a format suitable for EmbedBuilder fields. This is a prototype function for `Collection`.
+ * @param {string} categoryName The category name to filter commands by.
  * @returns {Array<{name: string, value: string}>} An array of objects, each representing an embed field with command name and description, including subcommands if any. */
 Collection.prototype.listCommandsAndSubs = function (categoryName) {
   try {
@@ -158,8 +158,8 @@ Collection.prototype.listCommandsAndSubs = function (categoryName) {
     return [];
   }
 };
-/** - Converts a Collection of commands into a format suitable for EmbedBuilder fields, grouped by category. This is a prototype function for `Collection`.
- * @param {string} [property = 'category'] - The property by which to group the commands. Defaults to 'category'.
+/** Converts a Collection of commands into a format suitable for EmbedBuilder fields, grouped by category. This is a prototype function for `Collection`.
+ * @param {string} [property = 'category'] The property by which to group the commands. Defaults to 'category'.
  * @returns {Array<{name: string, value: string}>} An array of objects, each representing an embed field with the category name and a list of commands. */
 Collection.prototype.listCommands = function (property = 'category') {
   try {

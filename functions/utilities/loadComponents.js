@@ -3,9 +3,9 @@ const path = require('path');
 const { readFiles, requireCommands } = require('../common/initLoader');
 const { logError } = require('../common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
-  /** - Loads all components (buttons, select menus, modals) from the 'components' folder. */
+  /** Loads all components (buttons, select menus, modals) from the 'components' folder. */
   client.loadComponents = async () => {
     const { compColection } = client;
     compColection.clear();

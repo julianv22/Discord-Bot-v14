@@ -24,9 +24,9 @@ module.exports = {
     .addIntegerOption((opt) =>
       opt.setName('amount').setMinValue(500).setDescription('The amount of 💲 to transfer.').setRequired(true)
     ),
-  /** - Transfer 💲 to other users
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Transfer 💲 to other users
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

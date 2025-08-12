@@ -2,9 +2,9 @@ const { Client, Interaction, Message, GuildMember, EmbedBuilder } = require('dis
 
 /** @param {Client} client Client*/
 module.exports = (client) => {
-  /** - Gets a user's avatar.
-   * @param {GuildMember} target - The target user.
-   * @param {Interaction|Message} object - The interaction or message object. */
+  /** Gets a user's avatar.
+   * @param {GuildMember} target The target user.
+   * @param {Interaction|Message} object The interaction or message object. */
   client.getAvatar = async (target, object) => {
     const { catchError } = client;
     const author = object?.user || object?.author;

@@ -3,7 +3,7 @@ const { Client, Interaction } = require('discord.js');
 module.exports = {
   type: 'menus',
   data: { name: 'dashboard-menu' },
-  /** - Statistics channel select menu
+  /** Statistics channel select menu
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {

@@ -4,9 +4,9 @@ const { logError } = require('../../functions/common/logging');
 
 module.exports = {
   name: Events.MessageDelete,
-  /** - Delete message event
-   * @param {Message} message - Message
-   * @param {Client} client - Discord Client */
+  /** Delete message event
+   * @param {Message} message Message
+   * @param {Client} client Discord Client */
   async execute(message, client) {
     const { guildId, channelId, id: messageId, author, content } = message;
     const { messageSnipes } = client;

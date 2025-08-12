@@ -7,10 +7,10 @@ module.exports = {
   description: 'Tìm kiếm thông tin trên wikipedia',
   category: 'info',
   cooldown: 0,
-  /** - Search Vietnamese Wikipedia articles by keyword
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Search Vietnamese Wikipedia articles by keyword
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const { wikipedia } = client;
 

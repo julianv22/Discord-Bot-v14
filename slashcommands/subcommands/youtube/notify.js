@@ -18,9 +18,9 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('notify'),
-  /** - Sets up the channel for YouTube video notifications and alert roles.
-   * @param {Interaction} interaction - The command interaction object.
-   * @param {Client} client - The Discord client instance. */
+  /** Sets up the channel for YouTube video notifications and alert roles.
+   * @param {Interaction} interaction The command interaction object.
+   * @param {Client} client The Discord client instance. */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
@@ -35,7 +35,7 @@ module.exports = {
 
     const { youtube } = profile || {};
 
-    /** @param {string} channelId - The ID of the channel. */
+    /** @param {string} channelId The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const container = new ContainerBuilder()

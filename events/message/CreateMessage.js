@@ -3,9 +3,9 @@ const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   name: Events.MessageCreate,
-  /** - Message Content Event
-   * @param {Message} message - Message
-   * @param {Client} client - Discord Client */
+  /** Message Content Event
+   * @param {Message} message Message
+   * @param {Client} client Discord Client */
   async execute(message, client) {
     const { channel, author, content } = message;
 

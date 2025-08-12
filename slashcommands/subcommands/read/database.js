@@ -9,9 +9,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('database'),
 
-  /** - Reads database from MongoDB.
-   * @param {Interaction} interaction - Interaction
-   * @param {Client} client - Discord Client */
+  /** Reads database from MongoDB.
+   * @param {Interaction} interaction Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 
@@ -19,9 +19,9 @@ module.exports = {
     const choice = options.getString('profile');
     const serverProfile = require(`../../../config/${choice}`);
 
-    /** - Send a message
-     * @param {string} message - Nội dung message
-     * @param {string} key - Key của sourcebin
+    /** Send a message
+     * @param {string} message Nội dung message
+     * @param {string} key Key của sourcebin
      */
     const sendMessage = async (message, key) => {
       const embeds = [new EmbedBuilder().setColor(Colors.Blurple).setDescription(message)];

@@ -7,9 +7,9 @@ const { checkVideos } = require('../../functions/common/serverAnalyst');
 module.exports = {
   type: 'buttons',
   data: { name: 'youtube' },
-  /** - YouTube Subscribe Channels
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - Discord Client */
+  /** YouTube Subscribe Channels
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guildId, message, customId } = interaction;
     const { components } = message;

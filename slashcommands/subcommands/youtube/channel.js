@@ -18,9 +18,9 @@ module.exports = {
   parent: 'youtube',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('channel'),
-  /** - Manages YouTube channels for notifications.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Manages YouTube channels for notifications.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

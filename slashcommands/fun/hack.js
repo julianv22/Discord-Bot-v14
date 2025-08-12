@@ -8,9 +8,9 @@ module.exports = {
     .setName('hack')
     .setDescription('Hack someone! Just for fun 😝')
     .addUserOption((opt) => opt.setName('target').setDescription('Đối tượng muốn hack!').setRequired(true)),
-  /** - Hack someone! Just for fun 😝
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Hack someone! Just for fun 😝
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply();
 

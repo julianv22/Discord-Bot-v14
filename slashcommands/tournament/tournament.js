@@ -23,9 +23,9 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('tournament')
     .setDescription(`🏆 Setup tournament.\n${cfg.adminRole} only`),
-  /** - Setup giải đấu (open/close/list ds thành viên tham gia)
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Setup giải đấu (open/close/list ds thành viên tham gia)
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 

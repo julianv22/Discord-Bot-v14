@@ -5,16 +5,16 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'buttons',
   data: { name: 'notification' },
-  /** - Handles the interaction for managing embeds.
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - The Discord client. */
+  /** Handles the interaction for managing embeds.
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     const { message, channel, customId } = interaction;
     const [, buttonId] = customId.split(':');
     const embed = EmbedBuilder.from(message.embeds[0]);
     const actionRows = ActionRowBuilder.from(message.components[0]);
 
-    /** @param {object|object[]} options - TextInputBuilder options */
+    /** @param {object|object[]} options TextInputBuilder options */
     const showModal = async (options) =>
       await createModal(interaction, `manage-message:${buttonId}`, 'Notification Manager', options);
 

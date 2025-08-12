@@ -5,23 +5,23 @@ const { logAsciiTable } = require('../common/utilities');
 const { compareCommands } = require('../common/compareCommands');
 const { logError } = require('../common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
-  /** - Loads all commands (slash commands, sub commands, prefix commands) from the 'slashcommands' and the 'prefixcommands' folder. */
+  /** Loads all commands (slash commands, sub commands, prefix commands) from the 'slashcommands' and the 'prefixcommands' folder. */
   client.loadCommands = async () => {
     const { prefixCommands, slashCommands, subCommands, compColection } = client;
 
     prefixCommands.clear();
     slashCommands.clear();
     subCommands.clear();
-    /** - Configuration for a command type.
+    /** Configuration for a command type.
      * @typedef {Object} CommandTypeProperties
-     * @property {string} name - The display name of the command type.
-     * @property {string} folder - The folder containing the commands for this type.
-     * @property {Collection<string, object>} collection - The collection used to store commands of this type. */
+     * @property {string} name The display name of the command type.
+     * @property {string} folder The folder containing the commands for this type.
+     * @property {Collection<string, object>} collection The collection used to store commands of this type. */
 
-    /** - An object containing configurations for different command types.
-     * - Each property represents a command type (Prefix, Slash, Sub) and contains necessary information for loading and managing them.
+    /** An object containing configurations for different command types.
+     * Each property represents a command type (Prefix, Slash, Sub) and contains necessary information for loading and managing them.
      * @type {{
      * Prefix: CommandTypeProperties,
      * Slash: CommandTypeProperties,
@@ -34,7 +34,7 @@ module.exports = (client) => {
       Sub: { name: 'Sub Commands', folder: path.join('slashcommands', 'subcommands'), collection: subCommands },
     };
     /** Loads commands (Prefix, Slash, Sub).
-     * @param {CommandTypeProperties} commandType - The command type configuration from `commandTypes`. */
+     * @param {CommandTypeProperties} commandType The command type configuration from `commandTypes`. */
     const loadCommands = async (commandType) => {
       const ignoreFolders = ['subcommands'];
       const commandFolders = readFiles(commandType.folder, {

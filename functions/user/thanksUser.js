@@ -3,11 +3,11 @@ const thanksProfile = require('../../config/thanksProfile');
 const moment = require('moment-timezone');
 const { embedMessage } = require('../common/logging');
 
-/** @param {Client} client - Discord Client */
+/** @param {Client} client Discord Client */
 module.exports = (client) => {
-  /** - Thanks a user.
-   * @param {GuildMember} target - The target user to thank.
-   * @param {Interaction|Message} object - The interaction or message object. */
+  /** Thanks a user.
+   * @param {GuildMember} target The target user to thank.
+   * @param {Interaction|Message} object The interaction or message object. */
   client.thanksUser = async (target, object) => {
     const { catchError } = client;
     const {
@@ -34,8 +34,8 @@ module.exports = (client) => {
         'https://png.pngtree.com/thumb_back/fw800/background/20201020/pngtree-rose-thank-you-background-image_425104.jpg',
       ];
 
-      /** - Sends a reply message with an error embed.
-       * @param {string} desc - The description for the error embed. */
+      /** Sends a reply message with an error embed.
+       * @param {string} desc The description for the error embed. */
       const replyMessage = async (desc) => {
         const replyMessage = await object.reply(embedMessage({ desc }));
 

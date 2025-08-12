@@ -7,10 +7,10 @@ module.exports = {
   description: 'Bot nói gì đó 🗣️',
   category: 'misc',
   cooldown: 0,
-  /** - Send a message to the bot
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Send a message to the bot
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const content = args.join(' ');
 

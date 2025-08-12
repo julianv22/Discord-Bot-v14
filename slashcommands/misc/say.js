@@ -9,9 +9,9 @@ module.exports = {
     .setDescription('Make the bot say something')
     .addStringOption((opt) => opt.setName('content').setDescription('The content for the bot to say'))
     .addUserOption((opt) => opt.setName('user').setDescription('Mention a user to say "Hello" to')),
-  /** - Make the bot say something
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Make the bot say something
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
     const content = options.getString('content');

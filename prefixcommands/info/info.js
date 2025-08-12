@@ -7,10 +7,10 @@ module.exports = {
   description: 'Xem thông tin server/thành viên',
   category: 'info',
   cooldown: 0,
-  /** - Get server/member information
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Get server/member information
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const { userInfo, serverInfo } = client;
     const { guild } = message;

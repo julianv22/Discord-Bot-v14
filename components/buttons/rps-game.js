@@ -6,9 +6,9 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'buttons',
   data: { name: 'rps-game' },
-  /** - RPS Game
-   * @param {Interaction} interaction - Button Interaction
-   * @param {Client} client - Discord Client */
+  /** RPS Game
+   * @param {Interaction} interaction Button Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferUpdate();
 

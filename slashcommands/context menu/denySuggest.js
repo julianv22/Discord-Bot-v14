@@ -17,9 +17,9 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setName('Deny Suggestion')
     .setType(ApplicationCommandType.Message),
-  /** - Denies a suggestion.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Denies a suggestion.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { targetMessage, guild } = interaction;
     const suggestEmbed = EmbedBuilder.from(targetMessage.embeds[0]);

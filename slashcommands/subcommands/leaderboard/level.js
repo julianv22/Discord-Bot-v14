@@ -6,9 +6,9 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('level'),
-  /** - Displays the level leaderboard.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Displays the level leaderboard.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guild, user, options } = interaction;
     const week = options.getInteger('week');

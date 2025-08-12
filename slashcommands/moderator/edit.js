@@ -31,9 +31,9 @@ module.exports = {
           .addStringOption((opt) => opt.setName('message_id').setDescription('Message ID').setRequired(true))
       // .addStringOption((opt) => opt.setName('content').setDescription('Content').setRequired(true))
     ),
-  /** - Edits an embed or a message.
-   * @param {Interaction} interaction - The command interaction.
-   * @param {Client} client - The Discord client. */
+  /** Edits an embed or a message.
+   * @param {Interaction} interaction The command interaction.
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     const { channel, options } = interaction;
     const { user: bot } = client;

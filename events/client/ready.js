@@ -7,25 +7,25 @@ const { setStatistics, setPresence, checkVideos } = require('../../functions/com
 module.exports = {
   name: Events.ClientReady,
   once: true,
-  /** - Bot ready event
-   * @param {Client} client - Discord Client */
+  /** Bot ready event
+   * @param {Client} client Discord Client */
   async execute(client) {
     const { user, guilds, channels } = client;
     const servers = guilds.cache.map((g) => g);
-    /** - Print console log with chalk options
+    /** Print console log with chalk options
      * @param {string} message Message content
      * @param {string} [color = 'reset'] Chalk color */
     const log = (message, color = 'reset') => console.log(chalk[color](message));
 
-    /** - Options Configuration
+    /** Options Configuration
      * @typedef {object} OptionsConfig
-     * @property {string|string[]} name - Name column
-     * @property {string|string[]} value - Value column
-     * @property {string} [nameColor = 'blueBright'] - Color of name column
-     * @property {string} [valueColor = 'cyan'] - Color of value column
-     * @property {number} [tab = 1] - Separator tab */
-    /** - Print table console log with chalk options
-     * @param {OptionsConfig} options - Table options */
+     * @property {string|string[]} name Name column
+     * @property {string|string[]} value Value column
+     * @property {string} [nameColor = 'blueBright'] Color of name column
+     * @property {string} [valueColor = 'cyan'] Color of value column
+     * @property {number} [tab = 1] Separator tab */
+    /** Print table console log with chalk options
+     * @param {OptionsConfig} options Table options */
     const table = (options) => {
       let { name, value, nameColor = 'blueBright', valueColor = 'cyan', tab = 1 } = options;
 
@@ -71,7 +71,7 @@ module.exports = {
           (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(1) + ' MB',
         ],
       });
-      table({ name: '📆 Last update:', value: '23:30, 06/08/2025' });
+      table({ name: '📆 Last update:', value: '20:00, 06/08/2025' });
       log(`\n${'-'.repeat(12)}[ ✅ Client is ready ]${'-'.repeat(12)}`, 'green');
 
       console.log(

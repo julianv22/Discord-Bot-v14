@@ -3,9 +3,9 @@ const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 module.exports = {
   type: 'menus',
   data: { name: 'help-menu' },
-  /** - Help Menu
-   * @param {Interaction} interaction - The select menu interaction.
-   * @param {Client} client - The Discord client. */
+  /** Help Menu
+   * @param {Interaction} interaction The select menu interaction.
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     await interaction.deferUpdate();
 

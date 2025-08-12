@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = {
   type: 'buttons',
   data: { name: 'read-structure' },
-  /** - Disable Features Button
+  /** Disable Features Button
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
@@ -15,7 +15,7 @@ module.exports = {
     const [, folder] = customId.split(':');
     const ignorePatterns = ['node_modules', '.git', '.gitignore', '.env', 'package-lock.json'];
 
-    /** - Checks if a file or folder name should be ignored.
+    /** Checks if a file or folder name should be ignored.
      * @param {string} name The name of the file or folder.
      * @param {string[]} ignorePatterns An array of patterns to ignore. */
     const isIgnored = (name, ignorePatterns) => {
@@ -41,7 +41,7 @@ module.exports = {
       return false;
     };
 
-    /** - Recursively builds a string representing the directory structure.
+    /** Recursively builds a string representing the directory structure.
      * @param {string} dirPath The path to the directory.
      * @param {string} [indent=''] The indentation to use for the current level. */
     const directoryStructure = async (dirPath, indent = '') => {

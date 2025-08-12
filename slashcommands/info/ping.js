@@ -5,9 +5,9 @@ module.exports = {
   category: 'info',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('ping').setDescription('Get bot latency.'),
-  /** - Get bot latency
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Get bot latency
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const sent = await interaction.deferReply();
     const ping = client.ws.ping;

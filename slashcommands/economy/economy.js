@@ -7,9 +7,9 @@ module.exports = {
     .setName('economy')
     .setDescription('Provides information and commands related to the economy system.')
     .addSubcommand((sub) => sub.setName('guide').setDescription('Displays a guide to the economy system.')),
-  /** - Provides information and commands related to the economy system.
-   * @param {Interaction} interaction - The command interaction.
-   * @param {Client} client - The Discord client. */
+  /** Provides information and commands related to the economy system.
+   * @param {Interaction} interaction The command interaction.
+   * @param {Client} client The Discord client. */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

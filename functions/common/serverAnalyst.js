@@ -4,8 +4,8 @@ const { logError } = require('./logging');
 const { linkButton } = require('./components');
 
 module.exports = {
-  /** - Sets up server statistics channels.
-   * @param {Guild} guild - Guild object */
+  /** Sets up server statistics channels.
+   * @param {Guild} guild Guild object */
   setStatistics: async (guild) => {
     const profile = await serverProfile.findOne({ guildId: guild.id }).catch(console.error);
 
@@ -13,9 +13,9 @@ module.exports = {
     if (!profile || !statistics?.totalChannelId || !statistics?.presenceChannelId) return;
 
     try {
-      /** - Sets the name of a channel.
-       * @param {string} channelId - The ID of the channel.
-       * @param {string} channelName - The new name for the channel. */
+      /** Sets the name of a channel.
+       * @param {string} channelId The ID of the channel.
+       * @param {string} channelName The new name for the channel. */
       const setChannelName = async (channelId, channelName) =>
         await guild.channels.cache.get(channelId).setName(channelName).catch(console.error);
 
@@ -30,8 +30,8 @@ module.exports = {
 
       for (const channel of statsChannels) setChannelName(channel.id, channel.name);
 
-      /** - Gets the number of members with a given presence status.
-       * @param {string} status - The member presence status (e.g., 'online', 'idle'). */
+      /** Gets the number of members with a given presence status.
+       * @param {string} status The member presence status (e.g., 'online', 'idle'). */
       const getPressence = (status) =>
         guild.members.cache.filter((m) => m.presence?.status === status).size.toLocaleString();
 
@@ -44,8 +44,8 @@ module.exports = {
       return logError({ item: 'setStatistics', desc: 'function' }, e);
     }
   },
-  /** - Sets the presence and activity of the bot.
-   * @param {Client} client - Discord Client */
+  /** Sets the presence and activity of the bot.
+   * @param {Client} client Discord Client */
   setPresence: async (client) => {
     const { guilds, user } = client;
 
@@ -77,7 +77,7 @@ module.exports = {
     }
   },
   /** Checks for the latest videos from YouTube channels and sends notifications to the designated channel.
-   * @param {Client} client - Discord Client */
+   * @param {Client} client Discord Client */
   checkVideos: async (client) => {
     try {
       const servers = await serverProfile.find({});
@@ -128,8 +128,8 @@ module.exports = {
       return logError({ item: 'checkVideos', desc: 'function' }, e);
     }
   },
-  /** - Retrieves the latest video ID and title from a given YouTube channel.
-   * @param {string} channelId - The YouTube channel ID. */
+  /** Retrieves the latest video ID and title from a given YouTube channel.
+   * @param {string} channelId The YouTube channel ID. */
   getLatestVideoId: async (channelId) => {
     try {
       const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
@@ -149,9 +149,9 @@ module.exports = {
       return { videoId: null, channelTitle: null };
     }
   },
-  /** - Gets the title of a YouTube channel.
-   * @param {string} channelId - The ID of the YouTube channel.
-   * @param {string} apiKey - The API key for YouTube. */
+  /** Gets the title of a YouTube channel.
+   * @param {string} channelId The ID of the YouTube channel.
+   * @param {string} apiKey The API key for YouTube. */
   getChannelTitle: async (channelId, apiKey) => {
     try {
       const res = await fetch(

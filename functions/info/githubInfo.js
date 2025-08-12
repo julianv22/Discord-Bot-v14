@@ -4,9 +4,9 @@ const { embedMessage } = require('../common/logging');
 
 /** @param {Client} client Client */
 module.exports = (client) => {
-  /** - Get Github information
-   * @param {string} gitUserName - The GitHub username.
-   * @param {Interaction|Message} object - The interaction or message object. */
+  /** Get Github information
+   * @param {string} gitUserName The GitHub username.
+   * @param {Interaction|Message} object The interaction or message object. */
   client.githubInfo = async (gitUserName, object) => {
     const { catchError } = client;
     const author = object?.user || object?.author;

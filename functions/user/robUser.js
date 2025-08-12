@@ -2,11 +2,11 @@ const { Client, Interaction, EmbedBuilder, Colors } = require('discord.js');
 const economyProfile = require('../../config/economyProfile');
 const { embedMessage } = require('../common/logging');
 
-/** @param {Client} client - Discord Client. */
+/** @param {Client} client Discord Client. */
 module.exports = (client) => {
-  /** - Robs a target user for currency.
-   * @param {GuildMember} target - The target user to rob.
-   * @param {Interaction} interaction - The command interaction. */
+  /** Robs a target user for currency.
+   * @param {GuildMember} target The target user to rob.
+   * @param {Interaction} interaction The command interaction. */
   client.robUser = async (target, interaction) => {
     const { guild, guildId, user } = interaction;
     const { catchError, user: bot } = client;

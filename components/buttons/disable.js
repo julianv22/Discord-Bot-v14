@@ -14,7 +14,7 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'buttons',
   data: { name: 'disable' },
-  /** - Disable Features Button
+  /** Disable Features Button
    * @param {Interaction} interaction Button Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {
@@ -32,7 +32,7 @@ module.exports = {
         ])
       );
 
-    /** - ContainerBuilder
+    /** ContainerBuilder
      * @param {string|string[]} contents TextDisplay content
      * @param {num} [accent_color = Colors.Orange] Container accent color */
     const messageContainer = (contents, accent_color = Colors.Orange) =>

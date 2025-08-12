@@ -7,9 +7,9 @@ module.exports = {
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('members'),
 
-  /** - Lists members by role.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Lists members by role.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { options } = interaction;
     const role = options.getRole('role');

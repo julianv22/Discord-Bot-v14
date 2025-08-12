@@ -50,7 +50,7 @@ module.exports = {
         .setName('structure')
         .setDescription(`Reads the project structure from a specified path. ${cfg.adminRole} only`)
     ),
-  /** - Reads file content, MongoDB data, or project structure
+  /** Reads file content, MongoDB data, or project structure
    * @param {Interaction} interaction Interaction
    * @param {Client} client Client */
   async execute(interaction, client) {

@@ -19,9 +19,9 @@ module.exports = {
     .addStringOption((option) =>
       option.setName('url').setDescription('The URL to check (e.g., https://example.com)').setRequired(true)
     ),
-  /** - Kiểm tra một URL có độc hại không bằng VirusTotal
-   * @param {Interaction} interaction - Đối tượng tương tác (SlashInteraction)
-   * @param {Client} client - Đối tượng Client của bot */
+  /** Kiểm tra một URL có độc hại không bằng VirusTotal
+   * @param {Interaction} interaction Đối tượng tương tác (SlashInteraction)
+   * @param {Client} client Đối tượng Client của bot */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

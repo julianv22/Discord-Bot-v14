@@ -9,9 +9,9 @@ module.exports = {
     .addUserOption((opt) =>
       opt.setName('target').setDescription('Provide the user whose deleted messages you want to retrieve')
     ),
-  /** - Snipe a deleted message
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Snipe a deleted message
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await client.snipeMessage(interaction.options.getUser('target'), interaction);
   },

@@ -20,9 +20,9 @@ module.exports = {
     .setName('reaction')
     .setDescription(`Create a reaction role. ${cfg.modRole} only`)
     .addSubcommand((sub) => sub.setName('role').setDescription(`Create a reaction role. ${cfg.modRole} only`)),
-  /** - Execute the reaction-role command
-   * @param {Client} client - The client instance
-   * @param {Interaction} interaction - The Command Interaction */
+  /** Execute the reaction-role command
+   * @param {Client} client The client instance
+   * @param {Interaction} interaction The Command Interaction */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

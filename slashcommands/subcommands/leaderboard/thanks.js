@@ -7,9 +7,9 @@ module.exports = {
   parent: 'leaderboard',
   scooldown: 0,
   data: new SlashCommandSubcommandBuilder().setName('thanks'),
-  /** - Displays the thanks leaderboard.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Displays the thanks leaderboard.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guildId, user, options } = interaction;
     const description = options.getString('time');

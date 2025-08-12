@@ -9,14 +9,14 @@ const {
 } = require('discord.js');
 const { dashboardMenu, textDisplay, sectionComponents } = require('../common/components');
 
-/** @param {Client} client - Discord Client. */
+/** @param {Client} client Discord Client. */
 module.exports = (client) => {
-  /** - Sets up the disable features menu.
-   * @param {Interaction} interaction - The command interaction. */
+  /** Sets up the disable features menu.
+   * @param {Interaction} interaction The command interaction. */
   client.setupDisable = async (interaction) => {
-    /** - Creates a button component for disabling features.
-     * @param {string} customId - The custom ID for the button.
-     * @param {ButtonStyle} style - The style of the button. */
+    /** Creates a button component for disabling features.
+     * @param {string} customId The custom ID for the button.
+     * @param {ButtonStyle} style The style of the button. */
     const button = (customId, style) => {
       const emojis = [, '💡', , '🎉', '⭐'];
       return { customId: 'disable:' + customId, label: `${emojis[style]} Disable ${customId.toCapitalize()}`, style };

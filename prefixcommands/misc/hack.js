@@ -7,10 +7,10 @@ module.exports = {
   description: 'Hack ai đó! J4F 😝',
   category: 'misc',
   cooldown: 0,
-  /** - Hack someone
-   * @param {Message} message - Message
-   * @param {string[]} args - Array of arguments
-   * @param {Client} client - Discord Client */
+  /** Hack someone
+   * @param {Message} message Message
+   * @param {string[]} args Array of arguments
+   * @param {Client} client Discord Client */
   async execute(message, args, client) {
     const { guild, author, mentions } = message;
     if (args.join(' ').trim() === '?') return await commandUsage(message, this, prefix + this.name + ' @user');

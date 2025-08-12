@@ -23,9 +23,9 @@ module.exports = {
         .setMinValue(500)
         .setMaxValue(1000000)
     ),
-  /** - Play a Rock-Paper-Scissors game.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Play a Rock-Paper-Scissors game.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

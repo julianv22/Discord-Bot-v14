@@ -11,10 +11,10 @@ const serverProfile = require('../../config/serverProfile');
 const { dashboardMenu, textDisplay, sectionComponents, rowComponents } = require('../common/components');
 const { embedMessage } = require('../common/logging');
 
-/** @param {Client} client - Discord Client. */
+/** @param {Client} client Discord Client. */
 module.exports = (client) => {
-  /** - Sets up the Starboard feature.
-   * @param {Interaction} interaction - The command interaction. */
+  /** Sets up the Starboard feature.
+   * @param {Interaction} interaction The command interaction. */
   client.setupStarboard = async (interaction) => {
     const { guild, guildId } = interaction;
     const { name: guildName } = guild;
@@ -27,7 +27,7 @@ module.exports = (client) => {
 
     const { starboard } = profile || {};
 
-    /** @param {string} channelId - The ID of the channel. */
+    /** @param {string} channelId The ID of the channel. */
     const channelName = (channelId) => guild.channels.cache.get(channelId) || '\u274C\uFE0F Not Set';
 
     const starCountMenu = [

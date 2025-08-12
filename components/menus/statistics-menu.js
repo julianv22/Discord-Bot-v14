@@ -5,7 +5,7 @@ const { setStatistics } = require('../../functions/common/serverAnalyst');
 module.exports = {
   type: 'menus',
   data: { name: 'statistics-menu' },
-  /** - Statistics channel select menu
+  /** Statistics channel select menu
    * @param {Interaction} interaction Select Menu Interaction
    * @param {Client} client Discord Client */
   async execute(interaction, client) {

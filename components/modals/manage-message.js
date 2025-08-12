@@ -6,9 +6,9 @@ const { embedMessage } = require('../../functions/common/logging');
 module.exports = {
   type: 'modals',
   data: { name: 'manage-message' },
-  /** - Embed Modal Manager
+  /** Embed Modal Manager
    * @param {Interaction} interaction Modal Submit Interaction
-   * @param {Client} client - Discord Client */
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guild, user, channel, message, fields, customId } = interaction;
     const [, textInputId] = customId.split(':');

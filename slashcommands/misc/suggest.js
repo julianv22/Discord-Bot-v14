@@ -5,9 +5,9 @@ module.exports = {
   category: 'misc',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('suggest').setDescription('Send your suggestions for this server'),
-  /** - Send suggestions to this server
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Send suggestions to this server
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await createModal(interaction, 'suggest', 'Server Suggestion', {
       customId: 'content',

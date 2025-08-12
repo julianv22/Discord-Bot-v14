@@ -17,9 +17,9 @@ module.exports = {
           option.setName('confirm').setDescription('✅ Xác nhận huỷ đăng ký giải đấu').setRequired(true)
         )
     ),
-  /** - Huỷ đăng ký giải
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Huỷ đăng ký giải
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     const { guild, guildId, user, options } = interaction;
     const { members, roles } = guild;

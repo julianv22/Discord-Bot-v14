@@ -4,10 +4,10 @@ const { linkButton } = require('./components');
 const { logError } = require('./logging');
 
 module.exports = {
-  /** - Update message or send a message to Starboard Channel when user reacting ⭐ emoji
-   * @param {Message} message - Message object
-   * @param {string} userId - Id of user reacted ⭐ emoji
-   * @param {number} count - Count ⭐ emojis of message */
+  /** Update message or send a message to Starboard Channel when user reacting ⭐ emoji
+   * @param {Message} message Message object
+   * @param {string} userId Id of user reacted ⭐ emoji
+   * @param {number} count Count ⭐ emojis of message */
   starReactionAdd: async (message, userId, count) => {
     const { guild, guildId, id: messageId, author } = message;
 
@@ -73,9 +73,9 @@ module.exports = {
       return logError({ item: 'Starboard reactionAdd', desc: 'event' }, e);
     }
   },
-  /** - Update or delete message from Starboard Channel when user removing ⭐ emoji reaction
-   * @param {Message} message - Message object
-   * @param {number} count - Emojis count of message */
+  /** Update or delete message from Starboard Channel when user removing ⭐ emoji reaction
+   * @param {Message} message Message object
+   * @param {number} count Emojis count of message */
   starReactionRemove: async (message, count) => {
     const { guild, guildId, id: messageId } = message;
     const profile = await serverProfile.findOne({ guildId }).catch(console.error);

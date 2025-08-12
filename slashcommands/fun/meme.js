@@ -5,9 +5,9 @@ module.exports = {
   category: 'fun',
   scooldown: 0,
   data: new SlashCommandBuilder().setName('meme').setDescription('Get a random meme from Reddit.'),
-  /** - Get a random meme from Reddit.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Get a random meme from Reddit.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply();
 

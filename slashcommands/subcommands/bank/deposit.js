@@ -7,9 +7,9 @@ module.exports = {
   scooldown: 0,
   parent: 'bank',
   data: new SlashCommandSubcommandBuilder().setName('deposit'),
-  /** - Deposit money into your bank account.
-   * @param {Interaction} interaction - Command Interaction
-   * @param {Client} client - Discord Client */
+  /** Deposit money into your bank account.
+   * @param {Interaction} interaction Command Interaction
+   * @param {Client} client Discord Client */
   async execute(interaction, client) {
     await interaction.deferReply({ flags: 64 });
 

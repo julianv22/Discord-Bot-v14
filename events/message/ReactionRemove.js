@@ -4,7 +4,7 @@ const { starReactionRemove } = require('../../functions/common/starboardReaction
 
 module.exports = {
   name: Events.MessageReactionRemove,
-  /** - MessageReaction Remove Event
+  /** MessageReaction Remove Event
    * @param {MessageReaction} reaction
    * @param {User} user */
   async execute(reaction, user) {

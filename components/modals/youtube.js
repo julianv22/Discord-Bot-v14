@@ -6,7 +6,7 @@ const { getChannelTitle } = require('../../functions/common/serverAnalyst');
 module.exports = {
   type: 'modals',
   data: { name: 'youtube' },
-  /** - Add or remove YouTube channel subcribed
+  /** Add or remove YouTube channel subcribed
    * @param {Interaction} interaction Modal Submit Interaction
    * @param {Client} client Discord Client*/
   async execute(interaction, client) {
@@ -17,9 +17,9 @@ module.exports = {
     const [, action] = customId.split(':');
     const channelId = fields.getTextInputValue(action);
 
-    /** - Validates a YouTube channel.
-     * @param {string} channelId - The ID of the YouTube channel.
-     * @param {string} apiKey - The API key for YouTube. */
+    /** Validates a YouTube channel.
+     * @param {string} channelId The ID of the YouTube channel.
+     * @param {string} apiKey The API key for YouTube. */
     const validateYoutubeChannel = async (channelId, apiKey) => {
       const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${apiKey}`;
       const res = await fetch(url);

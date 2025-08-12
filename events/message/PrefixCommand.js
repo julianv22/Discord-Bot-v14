@@ -3,9 +3,9 @@ const { embedMessage } = require('../../functions/common/logging');
 
 module.exports = {
   name: Events.MessageCreate,
-  /** - Message PrefixCommand Event
-   * @param {Message} message - Message
-   * @param {Client} client - Discord Client */
+  /** Message PrefixCommand Event
+   * @param {Message} message Message
+   * @param {Client} client Discord Client */
   async execute(message, client) {
     const { prefixCommands, catchError } = client;
     const { member, channel, author, content } = message;
@@ -20,7 +20,7 @@ module.exports = {
         prefixCommands.get(commandName) ||
         prefixCommands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
-      /** - Set timeout for message before delete
+      /** Set timeout for message before delete
        * @param {string} desc Message content
        * @param {number} [seconds = 10] Timeout before delete in seconds */
       const timeoutMessage = async (desc, seconds = 10) =>
