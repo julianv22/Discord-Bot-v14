@@ -72,8 +72,7 @@ module.exports = (client) => {
     (async () => {
       const token = process.env.token || client.token;
       const clientId = process.env.clientID || client.user.id;
-      const guildId = '1388619729429598358'; // Specific Guild ID for the secondary bot
-      //1368536666066649148
+
       if (!token)
         return logError(
           { todo: 'getting bot token', item: 'token', desc: 'from environment variables' },
@@ -99,7 +98,7 @@ module.exports = (client) => {
         if (slashArray.length > 0) {
           const rest = new REST({ version: '10' }).setToken(token);
 
-          // const commandRoute = Routes.applicationCommands(clientId);
+          const guildId = '1388619729429598358'; // Specific Guild ID for the secondary bot `995949416273940623`
           const commandRoute =
             clientId === '995949416273940623'
               ? Routes.applicationGuildCommands(clientId, guildId)
